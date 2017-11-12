@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="andGateButton" Collapsed="true">
+    <Position X="15.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAIAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="orGateButton" Collapsed="true">
+    <Position X="15.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAQAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="notGateButton" Collapsed="true">
+    <Position X="17" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAABAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="xOrGateButton" Collapsed="true">
+    <Position X="18.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="splitterGateButton" Collapsed="true">
+    <Position X="18.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="inputGateButton" Collapsed="true">
+    <Position X="18.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIIAAAAAAAAAAAAIACABAgAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="outputGateButton" Collapsed="true">
+    <Position X="20.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIACABAgAAAAAAAEAAAAAIABAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="pulseEmitterGateButton" Collapsed="true">
+    <Position X="15.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAACAIACABAgAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="fourBitMemoryGateButton" Collapsed="true">
+    <Position X="17" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAYAAgAMgAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="boolReaderGateButton" Collapsed="true">
+    <Position X="17" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIACAAMgAAABAAAAAAAAAAABAA=</HashCode>
+      <FileName>allGateButtons.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="andGate" Collapsed="true">
+    <Position X="15.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>allGates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="notGate" Collapsed="true">
+    <Position X="17.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIBAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>allGates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="orGate" Collapsed="true">
+    <Position X="15.25" Y="13.75" Width="1.5" />
+    <InheritanceLine Type="gate" ManuallyRouted="true">
+      <Path>
+        <Point X="23" Y="6.82" />
+        <Point X="23" Y="12.495" />
+        <Point X="17.011" Y="12.495" />
+        <Point X="17.011" Y="13.498" />
+        <Point X="16" Y="13.498" />
+        <Point X="16" Y="13.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQIAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>allGates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="xOrGate" Collapsed="true">
+    <Position X="15.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIABAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>allGates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="splitterGate" Collapsed="true">
+    <Position X="19.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>allGates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="attacher" Collapsed="true">
+    <Position X="15.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAABAAIAAAIAAAAAAAIAAACAAAAAIAAAAAA=</HashCode>
+      <FileName>attachers.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="inputAttacher" Collapsed="true">
+    <Position X="15.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>attachers.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="outputAttacher" Collapsed="true">
+    <Position X="17" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>attachers.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="box" Collapsed="true">
+    <Position X="15.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAgAAAAAAAACAAAAAAAAABAA=</HashCode>
+      <FileName>box.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="button" Collapsed="true">
+    <Position X="23.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIAAgBAAAAAAAAAAAIAAAAAAAAAAAAAAAQACAAIBAA=</HashCode>
+      <FileName>button.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="hitBox" Collapsed="true">
+    <Position X="24" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>gameObjectFunctions.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="clickable" Collapsed="true">
+    <Position X="17.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAkAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>gameObjectFunctions.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="dragable" Collapsed="true">
+    <Position X="19.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>gameObjectFunctions.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="rotation" Collapsed="true">
+    <Position X="22.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>gameObjectFunctions.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="gate" Collapsed="true">
+    <Position X="22.25" Y="6" Width="1.5" />
+    <InheritanceLine Type="image" ManuallyRouted="true">
+      <Path>
+        <Point X="25" Y="2.812" />
+        <Point X="25" Y="5.384" />
+        <Point X="23" Y="5.384" />
+        <Point X="23" Y="6" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AkAAAQEAgAKAAAAAAAIAAEACAAAAACIIAAAAAABABAA=</HashCode>
+      <FileName>gate.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="gateButton" Collapsed="true">
+    <Position X="19.75" Y="6" Width="1.5" />
+    <InheritanceLine Type="clickable" ManuallyRouted="true">
+      <Path>
+        <Point X="18.25" Y="2.941" />
+        <Point X="18.25" Y="5.607" />
+        <Point X="20.5" Y="5.607" />
+        <Point X="20.5" Y="6" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="image" ManuallyRouted="true">
+      <Path>
+        <Point X="25" Y="2.812" />
+        <Point X="25" Y="4.279" />
+        <Point X="23.083" Y="4.279" Type="JumpStart" />
+        <Point X="22.917" Y="4.279" Type="JumpEnd" />
+        <Point X="20.5" Y="4.279" />
+        <Point X="20.5" Y="6" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAgAAAAAAIIAIAAAAAAAAAAAKAQAABCAQAAAA=</HashCode>
+      <FileName>gateButton.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="image" Collapsed="true">
+    <Position X="24.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAABAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>image.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="instructionWindow" Collapsed="true">
+    <Position X="24" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIAgAAAAABADAEgACAAAAEQIAAAgAgIDAAAAIAAAIQ=</HashCode>
+      <FileName>Instructions.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IOgate" Collapsed="true">
+    <Position X="19.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAIAAAAAAAAAAAIAAAAAIAAIAAA=</HashCode>
+      <FileName>IOgates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="inputGate" Collapsed="true">
+    <Position X="19.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IOgates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="outputGate" Collapsed="true">
+    <Position X="19.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAIAAAAAAAAAAAAQAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>IOgates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="pulseEmitter" Collapsed="true">
+    <Position X="21.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAIAAAIAAAAAAAAAAAAAAAAAAAAAAAACIAAAAAA=</HashCode>
+      <FileName>IOgates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="link" Collapsed="true">
+    <Position X="24" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAQAEAgAIAAAAAAgIAAAAAAAAAAAAAAAAAAAAEAEA=</HashCode>
+      <FileName>link.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="location" Collapsed="true">
+    <Position X="15.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>location.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="readDevice" Collapsed="true">
+    <Position X="17.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAMQAgUAQiAAAAIAEIBIAGIUgAAAAAATDIg=</HashCode>
+      <FileName>memory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="boolReader" Collapsed="true">
+    <Position X="17.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgRAAAIKAAAAAAAIAAABAAAIQAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>memory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="fourBitMemory" Collapsed="true">
+    <Position X="17.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgRAAAIKAAAAACAIAAABAAAIAAAAIAAAAAIAAAAA=</HashCode>
+      <FileName>memory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="simulator" Collapsed="true">
+    <Position X="24" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCCCABIIgeTAygopJMmAIAAABAIIAIrgABAAQMRtECg=</HashCode>
+      <FileName>Simulator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="starterScreen" Collapsed="true">
+    <Position X="24" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCIAAABAAEEAAAIwCBAAAoAIAABAQAAAAAABCEgAAAg=</HashCode>
+      <FileName>starterScreen.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

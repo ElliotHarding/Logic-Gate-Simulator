@@ -1,0 +1,3 @@
+Four-Bit-Memory: 235,270 1
+Input-Gate: 368,236 1
+Or-Gate: 350,350 2

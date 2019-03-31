@@ -26,10 +26,49 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    starterScreen.cpp \
+    Simulator.cpp \
+    memory.cpp \
+    mainwindow.cpp \
+    link.cpp \
+    IOgates.cpp \
+    Instructions.cpp \
+    image.cpp \
+    gateButton.cpp \
+    gate.cpp \
+    gameObjectFunctions.cpp \
+    Button.cpp \
+    attachers.cpp \
+    allGates.cpp \
+    allGateButtons.cpp \
+    gate.cpp \
+    gateand.cpp \
+    gatenot.cpp \
+    gateor.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    allGateButtons.h \
+    allGates.h \
+    attachers.h \
+    gameObjectFunctions.h \
+    gate.h \
+    gateButton.h \
+    identifiers.h \
+    image.h \
+    Instructions.h \
+    IOgates.h \
+    link.h \
+    location.h \
+    mainwindow.h \
+    memory.h \
+    Simulator.h \
+    starterScreen.h \
+    gate.h \
+    gateand.h \
+    gatenot.h \
+    gateor.h
 
 FORMS += \
         mainwindow.ui

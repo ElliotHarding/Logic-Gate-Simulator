@@ -1,7 +1,7 @@
 #include "gatenot.h"
 
-GateNot::GateNot(int posX, int posY) :
-    Gate::Gate("iconLocation",posX,posY,10,10),
+GateNot::GateNot() :
+    Gate::Gate("iconLocation",10,10),
     input(this),
     output(this)
 {
@@ -19,6 +19,15 @@ void GateNot::UpdateOutput()
         linkedNode->value = newVal;
         linkedNode->GetParent()->UpdateOutput();
     }
+
+    Gate::UpdateOutput();
+}
+
+void GateNot::UpdateDrag(int clickX, int clickY)
+{
+    Gate::UpdateDrag(clickX, clickY);
+
+    //todo node positions
 }
 
 void GateNot::UpdatePositions(int clickX, int clickY)

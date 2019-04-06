@@ -1,17 +1,16 @@
 #include "gameobject.h"
 
-GameObject::GameObject(char* iconLocation, int posX_, int posY_, int height_, int width_)
+GameObject::GameObject(char* iconLocation, int height_, int width_)
 {
     m_icon = QIcon(iconLocation);
-    posX = posX_;
-    posY = posY_;
     height = height_;
     width = width_;
 }
 
-void GameObject::UpdatePositions(int clickX, int clickY)
+bool GameObject::UpdateClicked(int clickX, int clickY)
 {
-
+    beingClicked = pointInside(clickX,clickY);
+    return beingClicked;
 }
 
 bool GameObject::pointInside(int x, int y)
@@ -24,4 +23,19 @@ bool GameObject::pointInside(int x, int y)
         }
     }
     return false;
+}
+
+DragableGameObject::DragableGameObject(char *iconLocation, int height, int width) :
+    GameObject::GameObject (iconLocation, height, width)
+{
+}
+
+void DragableGameObject::UpdateDrag(int clickX, int clickY)
+{
+    //Drag
+    if(pointInside(clickX,clickY))
+    {
+        posX = clickX;
+        posY = clickY;
+    }
 }

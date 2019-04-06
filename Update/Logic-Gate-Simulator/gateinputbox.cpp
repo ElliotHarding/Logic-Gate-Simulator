@@ -8,26 +8,28 @@ GateInputBox::GateInputBox(int posX, int posY) :
 
 void GateInputBox::UpdateOutput()
 {
-    //if output linked to node, update it and its gate
-    if(output.GetLinkedNode())
+    //if new click
+    if(m_previouslyReleased && beingClicked)
     {
-        output.GetLinkedNode()->value = output.value;
-        output.GetLinkedNode()->GetParent()->UpdateOutput();
+        output.value = !output.value;
+
+        //if output linked to node, update it and its gate
+        if(output.GetLinkedNode())
+        {
+            output.GetLinkedNode()->value = output.value;
+            output.GetLinkedNode()->GetParent()->UpdateOutput();
+        }
     }
+
+    m_previouslyReleased = !beingClicked;
 
     Gate::UpdateOutput();
 }
 
-void GateInputBox::UpdatePositions(int clickX, int clickY)
+void GateInputBox::UpdateDrag(int clickX, int clickY)
 {
-    //if new click
-    if(m_previouslyReleased && pointInside(clickX,clickY))
-    {
-        output.value = !output.value;
-        UpdateOutput();
-    }
+    Gate::UpdateDrag(clickX, clickY);
 
-    m_previouslyReleased = !pointInside(clickX,clickY);
-
-     Gate::UpdatePositions(clickX,clickY);
+    //todo node positions
 }
+

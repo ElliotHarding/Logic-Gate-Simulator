@@ -1,7 +1,7 @@
 #include "gateand.h"
 
-GateAnd::GateAnd(int posX, int posY) :
-    Gate::Gate("iconLocation",posX,posY,10,10),
+GateAnd::GateAnd() :
+    Gate::Gate("iconLocation",10,10),
     inputA(this),
     inputB(this),
     output(this)
@@ -26,9 +26,13 @@ void GateAnd::UpdateOutput()
         //update the gate owner of the linked node
         linkedNode->GetParent()->UpdateOutput();
     }
+
+    Gate::UpdateOutput();
 }
 
-void GateAnd::UpdatePositions(int clickX, int clickY)
+void GateAnd::UpdateDrag(int clickX, int clickY)
 {
-    Gate::UpdatePositions(clickX,clickY);
+    Gate::UpdateDrag(clickX, clickY);
+
+    //todo node positions
 }

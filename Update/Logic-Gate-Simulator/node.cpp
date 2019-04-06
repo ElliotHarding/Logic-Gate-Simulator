@@ -1,20 +1,19 @@
 #include "node.h"
 
-Node::Node(Gate* parent)
+Node::Node(Gate* parent) :
+     GameObject::GameObject("iconLocation",5,5)
 {
     m_parent = parent;
     value = 0;
 }
 Node::~Node()
 {
+    m_linkedNode->DetachNode();
+
     delete m_parent;
     delete m_linkedNode;
 }
 
-void Node::UpdatePositions(int clickX, int clickY)
-{
-    GameObject::UpdatePositions(clickX,clickY);
-}
 void Node::LinkNode(Node* n)
 {
     m_linkedNode = n;
@@ -22,18 +21,6 @@ void Node::LinkNode(Node* n)
 Gate* Node::GetParent()
 {
     return m_parent;
-}
-
-void Node::updateClicked(int x, int y)
-{
-    if(pointInside(x,y))
-    {
-        beingClicked = true;
-    }
-    else
-    {
-        beingClicked = false;
-    }
 }
 
 Node *Node::GetLinkedNode()

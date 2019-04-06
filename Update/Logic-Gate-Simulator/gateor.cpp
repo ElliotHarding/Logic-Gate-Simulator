@@ -1,7 +1,7 @@
 #include "gateor.h"
 
-GateOr::GateOr(int posX, int posY) :
-    Gate::Gate("iconLocation",posX,posY,10,10),
+GateOr::GateOr() :
+    Gate::Gate("iconLocation",10,10),
     inputA(this),
     inputB(this),
     output(this)
@@ -25,9 +25,13 @@ void GateOr::UpdateOutput()
         //update the gate owner of the linked node
         linkedNode->GetParent()->UpdateOutput();
     }
+
+    Gate::UpdateOutput();
 }
 
-void GateOr::UpdatePositions(int clickX, int clickY)
+void GateOr::UpdateDrag(int clickX, int clickY)
 {
-     Gate::UpdatePositions(clickX,clickY);
+    Gate::UpdateDrag(clickX, clickY);
+
+    //todo node positions
 }

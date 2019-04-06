@@ -4,13 +4,13 @@
 #include "gate.h"
 #include "node.h"
 
-class GateAnd : Gate
+class GateAnd : public Gate
 {
 public:
-    GateAnd(int posX, int posY);
+    GateAnd();
 
     virtual void UpdateOutput();
-    virtual void UpdatePositions(int clickX, int clickY);
+    virtual void UpdateDrag(int clickX, int clickY);
 
     Node inputA;
     Node inputB;

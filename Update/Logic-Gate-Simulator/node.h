@@ -4,24 +4,19 @@
 #include "gate.h"
 #include "gameobject.h"
 
-class Node : GameObject
+class Node : public GameObject
 {
 public:
     Node(Gate* parent);
     ~Node();
-
-    virtual void UpdatePositions(int clickX, int clickY);
 
     //Linked node
     void LinkNode(Node* n);
     void DetachNode();
     Node* GetLinkedNode();
 
+    //returns Gate that node is attached to
     Gate* GetParent();
-
-    //Clicking
-    void updateClicked(int x, int y);
-    bool beingClicked = false;
 
     //Stored value
     bool value;

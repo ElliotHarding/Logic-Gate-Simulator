@@ -3,16 +3,13 @@
 
 #include "gameobject.h"
 
-class Gate : GameObject
+class Gate : public DragableGameObject
 {
 public:
-    Gate(char* iconLocation, int posX, int posY, int height, int width);
+    Gate(char* iconLocation, int height, int width);
 
-    virtual void UpdatePositions(int clickX, int clickY);
+    virtual void UpdateDrag(int clickX, int clickY);
     virtual void UpdateOutput();
-
-protected:
-    using GameObject::pointInside;
 };
 
 #endif // GATE_H

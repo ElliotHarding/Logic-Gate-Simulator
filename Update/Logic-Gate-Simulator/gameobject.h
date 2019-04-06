@@ -7,13 +7,19 @@
 class GameObject : QObject
 {
 public:
-    GameObject(char* iconLocation, int posX, int posY, int height, int width);
+    GameObject(char* iconLocation, int height, int width);
 
-    virtual void UpdatePositions(int clickX, int clickY);
+    //Clicking
+    virtual bool UpdateClicked(int clickX, int clickY);
+    bool beingClicked = false;
+
     int posX;
     int posY;
 
 protected:
+
+    bool pointInside(int x, int y);
+
     int m_hitboxX = 0;
     int m_hitboxY = 0;
 
@@ -21,8 +27,14 @@ protected:
     int width;
 
     QIcon m_icon;
+};
 
-    bool pointInside(int x, int y);
+class DragableGameObject : public GameObject
+{
+public:
+    DragableGameObject(char* iconLocation, int height, int width);
+
+    virtual void UpdateDrag(int clickX, int clickY);
 };
 
 #endif // GAMEOBJECT_H

@@ -49,7 +49,8 @@ SOURCES += \
     node.cpp \
     gateinputbox.cpp \
     gameobject.cpp \
-    gameobjectpool.cpp
+    gameobjectpool.cpp \
+    dlg_home.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -76,10 +77,13 @@ HEADERS += \
     node.h \
     gateinputbox.h \
     gameobject.h \
-    gameobjectpool.h
+    gameobjectpool.h \
+    dlg_home.h \
+    clickmode.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    dlg_home.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

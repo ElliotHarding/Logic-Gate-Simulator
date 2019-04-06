@@ -45,7 +45,10 @@ SOURCES += \
     gate.cpp \
     gateand.cpp \
     gatenot.cpp \
-    gateor.cpp
+    gateor.cpp \
+    node.cpp \
+    gateinputbox.cpp \
+    gameobject.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -68,7 +71,10 @@ HEADERS += \
     gate.h \
     gateand.h \
     gatenot.h \
-    gateor.h
+    gateor.h \
+    node.h \
+    gateinputbox.h \
+    gameobject.h
 
 FORMS += \
         mainwindow.ui

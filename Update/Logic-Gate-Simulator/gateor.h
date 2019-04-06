@@ -1,16 +1,20 @@
 #ifndef GATEOR_H
 #define GATEOR_H
+
 #include "gate.h"
+#include "node.h"
 
 class GateOr : Gate
 {
 public:
-    GateOr();
-    void update(int clickX, int clickY);
+    GateOr(int posX, int posY);
 
-    bool inputA;
-    bool inputB;
-    bool* output = nullptr;
+    virtual void UpdateOutput();
+    virtual void UpdatePositions(int clickX, int clickY);
+
+    Node inputA;
+    Node inputB;
+    Node output;
 };
 
 #endif // GATEOR_H

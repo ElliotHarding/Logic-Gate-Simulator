@@ -1,16 +1,19 @@
 #ifndef GATENOT_H
 #define GATENOT_H
+
 #include "gate.h"
+#include "node.h"
 
 class GateNot : Gate
 {
 public:
-    GateNot();
-    void update(int clickX, int clickY);
+    GateNot(int posX, int posY);
 
-    bool inputA;
-    bool inputB;
-    bool* output = nullptr;
+    virtual void UpdateOutput();
+    virtual void UpdatePositions(int clickX, int clickY);
+
+    Node input;
+    Node output;
 };
 
 #endif // GATENOT_H

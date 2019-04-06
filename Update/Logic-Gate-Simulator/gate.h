@@ -1,26 +1,18 @@
 #ifndef GATE_H
 #define GATE_H
 
-#include <qobject.h>
+#include "gameobject.h"
 
-class Gate : QObject
+class Gate : GameObject
 {
 public:
-    Gate();
+    Gate(char* iconLocation, int posX, int posY, int height, int width);
 
-    virtual void Update(int clickX, int clickY);
+    virtual void UpdatePositions(int clickX, int clickY);
+    virtual void UpdateOutput();
 
-    int posX;
-    int posY;
-
-    int height;
-    int width;
-
-private:
-    const int hitboxX = 5;
-    const int hitboxY = 5;
-
-    bool pointInside(int x, int y);
+protected:
+    using GameObject::pointInside;
 };
 
 #endif // GATE_H

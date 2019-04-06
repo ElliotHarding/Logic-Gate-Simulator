@@ -1,27 +1,26 @@
 #include "gate.h"
 
-Gate::Gate()
+Gate::Gate(char* iconLocation, int posX, int posY, int height, int width) :
+    GameObject::GameObject(iconLocation,posX,posY,height,width)
 {
 
 }
 
-void Gate::Update(int clickX, int clickY)
+//ONLY ONE THING CAN BE CLICKED AT A TIME AND NODE SHOULD GO FIRST
+
+void Gate::UpdatePositions(int clickX, int clickY)
 {
+    //Drag
     if(pointInside(clickX,clickY))
     {
         posX = clickX;
         posY = clickY;
     }
+
+    GameObject::UpdatePositions(clickX,clickY);
 }
 
-bool Gate::pointInside(int x, int y)
+void Gate::UpdateOutput()
 {
-    if(x > posX - hitboxX && x < posX + hitboxX)
-    {
-        if(x > posX - hitboxY && x < posX + hitboxY)
-        {
-            return true;
-        }
-    }
-    return false;
+
 }

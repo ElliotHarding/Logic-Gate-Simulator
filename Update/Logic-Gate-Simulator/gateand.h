@@ -2,16 +2,19 @@
 #define GATEAND_H
 
 #include "gate.h"
+#include "node.h"
 
 class GateAnd : Gate
 {
 public:
-    GateAnd();
-    void update(int clickX, int clickY);
+    GateAnd(int posX, int posY);
 
-    bool inputA;
-    bool inputB;
-    bool* output = nullptr;
+    virtual void UpdateOutput();
+    virtual void UpdatePositions(int clickX, int clickY);
+
+    Node inputA;
+    Node inputB;
+    Node output;
 };
 
 #endif // GATEAND_H

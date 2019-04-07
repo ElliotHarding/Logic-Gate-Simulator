@@ -6,7 +6,7 @@
 class Gate : public DragableGameObject
 {
 public:
-    Gate(char* iconLocation, int height, int width);
+    Gate(const char* iconLocation, int height, int width);
 
     virtual void UpdateDrag(int clickX, int clickY);
     virtual void UpdateOutput();

@@ -1,6 +1,6 @@
 #include "gameobject.h"
 
-GameObject::GameObject(char* iconLocation, int height_, int width_)
+GameObject::GameObject(const char* iconLocation, int height_, int width_)
 {
     m_icon = QIcon(iconLocation);
     height = height_;
@@ -25,7 +25,7 @@ bool GameObject::pointInside(int x, int y)
     return false;
 }
 
-DragableGameObject::DragableGameObject(char *iconLocation, int height, int width) :
+DragableGameObject::DragableGameObject(const char *iconLocation, int height, int width) :
     GameObject::GameObject (iconLocation, height, width)
 {
 }

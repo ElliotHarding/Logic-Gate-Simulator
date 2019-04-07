@@ -7,7 +7,7 @@
 class GameObject : QObject
 {
 public:
-    GameObject(char* iconLocation, int height, int width);
+    GameObject(const char* iconLocation, int height, int width);
 
     //Clicking
     virtual bool UpdateClicked(int clickX, int clickY);
@@ -32,7 +32,7 @@ protected:
 class DragableGameObject : public GameObject
 {
 public:
-    DragableGameObject(char* iconLocation, int height, int width);
+    DragableGameObject(const char* iconLocation, int height, int width);
 
     virtual void UpdateDrag(int clickX, int clickY);
 };

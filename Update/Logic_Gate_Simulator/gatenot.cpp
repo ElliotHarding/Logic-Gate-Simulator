@@ -1,7 +1,7 @@
 #include "gatenot.h"
 
 GateNot::GateNot() :
-    Gate::Gate("iconLocation",10,10),
+    Gate::Gate(std::string("aaa").c_str(),10,10),
     input(this),
     output(this)
 {
@@ -28,9 +28,4 @@ void GateNot::UpdateDrag(int clickX, int clickY)
     Gate::UpdateDrag(clickX, clickY);
 
     //todo node positions
-}
-
-void GateNot::UpdatePositions(int clickX, int clickY)
-{
-     Gate::UpdatePositions(clickX,clickY);
 }

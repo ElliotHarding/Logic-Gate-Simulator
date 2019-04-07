@@ -1,6 +1,6 @@
 #include "gate.h"
 
-Gate::Gate(char* iconLocation, int height, int width) :
+Gate::Gate(const char* iconLocation, int height, int width) :
     DragableGameObject::DragableGameObject(iconLocation,height,width)
 {
 }

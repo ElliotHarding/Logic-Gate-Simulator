@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QMouseEvent>
 #include "gameobjectpool.h"
-#include "clickmode.h"
 
 class QMouseEvent;
 

@@ -33,6 +33,7 @@ private slots:
     void on_btn_Drag_clicked();
     void on_btn_Delete_clicked();
     void on_btn_link_clicked();
+    void on_btn_newPage_clicked();
 };
 
 #endif // DLG_HOME_H

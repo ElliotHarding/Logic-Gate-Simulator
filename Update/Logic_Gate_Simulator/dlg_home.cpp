@@ -41,3 +41,8 @@ void DLG_Home::on_btn_link_clicked()
     m_currentClickMode = CLICK_LINK_NODES;
     ui->lbl_clickMode->setText("Click Mode : Link");
 }
+
+void DLG_Home::on_btn_newPage_clicked()
+{
+    //todo
+}

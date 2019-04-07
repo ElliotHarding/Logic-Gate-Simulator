@@ -2,10 +2,9 @@
 #define DLG_HOME_H
 
 #include <QMainWindow>
-
+#include <QMouseEvent>
 #include "gameobjectpool.h"
 #include "clickmode.h"
-#include <QMouseEvent>
 
 class QMouseEvent;
 

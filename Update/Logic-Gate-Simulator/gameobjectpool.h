@@ -3,7 +3,7 @@
 
 #include "gameobject.h"
 #include "node.h"
-#include "enums.h"
+#include "clickmode.h"
 
 class GameObjectPool
 {

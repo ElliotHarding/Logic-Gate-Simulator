@@ -29,6 +29,8 @@ private:
 
     ClickMode m_currentClickMode = CLICK_DRAG;
 
+    int m_pageNumber = 2;
+
 private slots:
     void on_btn_Drag_clicked();
     void on_btn_Delete_clicked();

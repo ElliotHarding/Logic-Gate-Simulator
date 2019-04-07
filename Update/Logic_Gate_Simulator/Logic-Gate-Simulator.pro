@@ -35,7 +35,18 @@ SOURCES += \
         gameobject.cpp \
         gameobjectpool.cpp \
         dlg_home.cpp \
-    main.cpp
+    main.cpp \
+    dlg_home.cpp \
+    gameobject.cpp \
+    gameobjectpool.cpp \
+    gate.cpp \
+    gateand.cpp \
+    gateinputbox.cpp \
+    gatenot.cpp \
+    gateor.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    node.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +59,18 @@ HEADERS += \
         gameobject.h \
         gameobjectpool.h \
         dlg_home.h \
-        clickmode.h
+        clickmode.h \
+    clickmode.h \
+    dlg_home.h \
+    gameobject.h \
+    gameobjectpool.h \
+    gate.h \
+    gateand.h \
+    gateinputbox.h \
+    gatenot.h \
+    gateor.h \
+    mainwindow.h \
+    node.h
 
 FORMS += \
         mainwindow.ui \
@@ -58,3 +80,8 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    Resources/gate-and.png \
+    Resources/gate-not.png \
+    Resources/gate-or.png

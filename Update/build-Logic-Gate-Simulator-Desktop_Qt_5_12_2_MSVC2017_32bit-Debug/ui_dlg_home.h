@@ -10,6 +10,7 @@
 #define UI_DLG_HOME_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QLabel>
@@ -33,6 +34,9 @@ public:
     QPushButton *btn_link;
     QLabel *lbl_clickMode;
     QPushButton *btn_newPage;
+    QPushButton *btn_orGate;
+    QPushButton *btn_notGate;
+    QPushButton *btn_andGate;
 
     void setupUi(QMainWindow *DLG_Home)
     {
@@ -72,11 +76,54 @@ public:
         btn_newPage = new QPushButton(centralwidget);
         btn_newPage->setObjectName(QString::fromUtf8("btn_newPage"));
         btn_newPage->setGeometry(QRect(690, 20, 101, 41));
+        btn_orGate = new QPushButton(centralwidget);
+        btn_orGate->setObjectName(QString::fromUtf8("btn_orGate"));
+        btn_orGate->setGeometry(QRect(110, 530, 75, 61));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8("Resources/gate-or.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8("Resources/gate-or.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon.addFile(QString::fromUtf8("Resources/gate-or.png"), QSize(), QIcon::Disabled, QIcon::Off);
+        icon.addFile(QString::fromUtf8("Resources/gate-or.png"), QSize(), QIcon::Disabled, QIcon::On);
+        icon.addFile(QString::fromUtf8("Resources/gate-or.png"), QSize(), QIcon::Active, QIcon::Off);
+        icon.addFile(QString::fromUtf8("Resources/gate-or.png"), QSize(), QIcon::Active, QIcon::On);
+        icon.addFile(QString::fromUtf8("Resources/gate-or.png"), QSize(), QIcon::Selected, QIcon::Off);
+        icon.addFile(QString::fromUtf8("Resources/gate-or.png"), QSize(), QIcon::Selected, QIcon::On);
+        btn_orGate->setIcon(icon);
+        btn_orGate->setIconSize(QSize(64, 64));
+        btn_notGate = new QPushButton(centralwidget);
+        btn_notGate->setObjectName(QString::fromUtf8("btn_notGate"));
+        btn_notGate->setGeometry(QRect(200, 530, 75, 61));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8("Resources/gate-not.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8("Resources/gate-not.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon1.addFile(QString::fromUtf8("Resources/gate-not.png"), QSize(), QIcon::Disabled, QIcon::Off);
+        icon1.addFile(QString::fromUtf8("Resources/gate-not.png"), QSize(), QIcon::Disabled, QIcon::On);
+        icon1.addFile(QString::fromUtf8("Resources/gate-not.png"), QSize(), QIcon::Active, QIcon::Off);
+        icon1.addFile(QString::fromUtf8("Resources/gate-not.png"), QSize(), QIcon::Active, QIcon::On);
+        icon1.addFile(QString::fromUtf8("Resources/gate-not.png"), QSize(), QIcon::Selected, QIcon::Off);
+        icon1.addFile(QString::fromUtf8("Resources/gate-not.png"), QSize(), QIcon::Selected, QIcon::On);
+        btn_notGate->setIcon(icon1);
+        btn_notGate->setIconSize(QSize(64, 64));
+        btn_andGate = new QPushButton(centralwidget);
+        btn_andGate->setObjectName(QString::fromUtf8("btn_andGate"));
+        btn_andGate->setGeometry(QRect(20, 530, 75, 61));
+        btn_andGate->setAutoFillBackground(false);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Disabled, QIcon::Off);
+        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Disabled, QIcon::On);
+        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Active, QIcon::Off);
+        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Active, QIcon::On);
+        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Selected, QIcon::Off);
+        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Selected, QIcon::On);
+        btn_andGate->setIcon(icon2);
+        btn_andGate->setIconSize(QSize(70, 64));
         DLG_Home->setCentralWidget(centralwidget);
 
         retranslateUi(DLG_Home);
 
-        PlayField->setCurrentIndex(0);
+        PlayField->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(DLG_Home);
@@ -86,13 +133,16 @@ public:
     {
         DLG_Home->setWindowTitle(QApplication::translate("DLG_Home", "MainWindow", nullptr));
         actionNew_page->setText(QApplication::translate("DLG_Home", "New page", nullptr));
-        PlayField->setTabText(PlayField->indexOf(tab), QApplication::translate("DLG_Home", "Tab 1", nullptr));
-        PlayField->setTabText(PlayField->indexOf(tab2), QApplication::translate("DLG_Home", "Tab 2", nullptr));
+        PlayField->setTabText(PlayField->indexOf(tab), QApplication::translate("DLG_Home", "Page 1", nullptr));
+        PlayField->setTabText(PlayField->indexOf(tab2), QApplication::translate("DLG_Home", "Page 2", nullptr));
         btn_Drag->setText(QApplication::translate("DLG_Home", "Drag", nullptr));
         btn_Delete->setText(QApplication::translate("DLG_Home", "Delete", nullptr));
         btn_link->setText(QApplication::translate("DLG_Home", "Link", nullptr));
         lbl_clickMode->setText(QApplication::translate("DLG_Home", "Click Mode : Drag", nullptr));
         btn_newPage->setText(QApplication::translate("DLG_Home", "New Page", nullptr));
+        btn_orGate->setText(QString());
+        btn_notGate->setText(QApplication::translate("DLG_Home", "Not Gate", nullptr));
+        btn_andGate->setText(QString());
     } // retranslateUi
 
 };

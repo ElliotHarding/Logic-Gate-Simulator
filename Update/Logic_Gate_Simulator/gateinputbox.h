@@ -7,7 +7,7 @@
 class GateInputBox : public Gate
 {
 public:
-    GateInputBox(int posX, int posY);
+    GateInputBox();
 
     virtual void UpdateOutput();
     virtual void UpdateDrag(int clickX, int clickY);

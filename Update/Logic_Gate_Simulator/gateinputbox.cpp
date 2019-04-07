@@ -1,7 +1,7 @@
 #include "gateinputbox.h"
 
-GateInputBox::GateInputBox(int posX, int posY) :
-    Gate::Gate("iconLocation",posX,posY,10,10),
+GateInputBox::GateInputBox() :
+    Gate::Gate(std::string("iconLocation").c_str(),10,10),
     output(this)
 {
 }

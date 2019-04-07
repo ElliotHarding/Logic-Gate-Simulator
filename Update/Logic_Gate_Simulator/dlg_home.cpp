@@ -44,5 +44,6 @@ void DLG_Home::on_btn_link_clicked()
 
 void DLG_Home::on_btn_newPage_clicked()
 {
-    //todo
+    const std::string pageName = "Page " + std::to_string(++m_pageNumber);
+    ui->PlayField->addTab(new QWidget(),tr(pageName.c_str()));
 }

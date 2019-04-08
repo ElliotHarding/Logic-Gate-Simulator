@@ -4,6 +4,10 @@
 #include <QMainWindow>
 #include <QMouseEvent>
 #include "gameobjectpool.h"
+#include "gateand.h"
+#include "gateinputbox.h"
+#include "gatenot.h"
+#include "gateor.h"
 
 class QMouseEvent;
 
@@ -36,6 +40,10 @@ private slots:
     void on_btn_Delete_clicked();
     void on_btn_link_clicked();
     void on_btn_newPage_clicked();
+    void on_btn_sourceGate_clicked();
+    void on_btn_notGate_clicked();
+    void on_btn_orGate_clicked();
+    void on_btn_andGate_clicked();
 };
 
 #endif // DLG_HOME_H

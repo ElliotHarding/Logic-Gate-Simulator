@@ -1,37 +1,52 @@
 #include "gateor.h"
 
 GateOr::GateOr() :
-    Gate::Gate(std::string("aaa").c_str(),10,10),
-    inputA(this),
-    inputB(this),
-    output(this)
+    Gate::Gate(std::string("Resources/gate-or.png").c_str(),10,10),
+    m_inputA(this),
+    m_inputB(this),
+    m_output(this)
 {
 }
 
 void GateOr::UpdateOutput()
 {
-    const bool newVal = inputA.value | inputB.value;
+    const bool newVal = m_inputA.value | m_inputB.value;
 
     //set output node value
-    output.value = newVal;
+    m_output.value = newVal;
 
-    //if output linked to node, update it and its gate
-    Node* linkedNode = output.GetLinkedNode();
+    //if output linked to node:
+    //- set value of node linked to output node
+    //- update the gate owner of the linked node
+    Node* linkedNode = m_output.GetLinkedNode();
     if(linkedNode)
-    {
-        //set value of node linked to output node
-        linkedNode->value = newVal;
-
-        //update the gate owner of the linked node
+    {        
+        linkedNode->value = newVal;        
         linkedNode->GetParent()->UpdateOutput();
     }
 
     Gate::UpdateOutput();
 }
 
-void GateOr::UpdateDrag(int clickX, int clickY)
+bool GateOr::UpdateDrag(int clickX, int clickY)
 {
-    Gate::UpdateDrag(clickX, clickY);
+    bool returnVal = Gate::UpdateDrag(clickX, clickY);
 
     //todo node positions
+
+    return returnVal;
+}
+
+Node *GateOr::GetClickedNode(int clickX, int clickY)
+{
+    if( m_inputA.UpdateClicked(clickX, clickY))
+        return &m_inputA;
+
+    if( m_inputB.UpdateClicked(clickX, clickY))
+        return &m_inputB;
+
+    if( m_output.UpdateClicked(clickX, clickY))
+        return &m_output;
+
+    return nullptr;
 }

@@ -1,8 +1,8 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include "gate.h"
 #include "gameobject.h"
+#include "gate.h"
 
 class Node : public GameObject
 {

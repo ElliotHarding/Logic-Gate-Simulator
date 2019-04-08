@@ -5,9 +5,9 @@ Gate::Gate(const char* iconLocation, int height, int width) :
 {
 }
 
-void Gate::UpdateDrag(int clickX, int clickY)
+bool Gate::UpdateDrag(int clickX, int clickY)
 {
-    DragableGameObject::UpdateDrag(clickX, clickY);
+    return DragableGameObject::UpdateDrag(clickX, clickY);
 }
 
 void Gate::UpdateOutput()

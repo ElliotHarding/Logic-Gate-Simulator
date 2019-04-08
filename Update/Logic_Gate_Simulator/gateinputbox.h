@@ -2,7 +2,6 @@
 #define GATEINPUTBOX_H
 
 #include "gate.h"
-#include "node.h"
 
 class GateInputBox : public Gate
 {
@@ -10,9 +9,11 @@ public:
     GateInputBox();
 
     virtual void UpdateOutput();
-    virtual void UpdateDrag(int clickX, int clickY);
+    virtual bool UpdateDrag(int clickX, int clickY);
 
-    Node output;
+    virtual Node* GetClickedNode(int clickX, int clickY);
+
+    Node m_output;
 
 protected:
     bool m_previouslyReleased = true;

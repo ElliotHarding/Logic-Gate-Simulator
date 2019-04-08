@@ -16,6 +16,10 @@ GameObjectPool::~GameObjectPool()
 
 void GameObjectPool::addGameObject(GameObject* go)
 {
+    //Todo positions when added to page
+    go->posX = 5;
+    go->posY = 5;
+
     allGameObjects.push_back(go);
 }
 
@@ -80,18 +84,26 @@ void GameObjectPool::linkNodesClick(int clickX, int clickY)
         }
     }
 }
+
 void GameObjectPool::dragClick(int clickX, int clickY)
 {
+    //Loop through all dragable gameobjects
     for (size_t index = 0; index < allGameObjects.size(); index++)
     {
         if(dynamic_cast<DragableGameObject*>(allGameObjects[index]))
         {
-            dynamic_cast<DragableGameObject*>(allGameObjects[index])->UpdateDrag(clickX, clickY);
+            //If found an object to drag, exit out of for loop
+            //so we don't drag multiple objects
+            if(dynamic_cast<DragableGameObject*>(allGameObjects[index])->
+                    UpdateDrag(clickX, clickY))
+            {
+                return;
+            }
         }
     }
 }
 
-//Option --> Delete the first gate clicked on
+
 void GameObjectPool::deleteClick(int clickX, int clickY)
 {
     for (size_t index = 0; index < allGameObjects.size(); index++)
@@ -101,6 +113,8 @@ void GameObjectPool::deleteClick(int clickX, int clickY)
             GameObject* gObject = allGameObjects[index];
             allGameObjects.erase(allGameObjects.begin() + index);
             delete gObject;
+
+            //Exit out of for so we dont delete more than one gameobject
             return;
         }
     }

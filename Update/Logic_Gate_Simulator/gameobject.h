@@ -34,7 +34,7 @@ class DragableGameObject : public GameObject
 public:
     DragableGameObject(const char* iconLocation, int height, int width);
 
-    virtual void UpdateDrag(int clickX, int clickY);
+    virtual bool UpdateDrag(int clickX, int clickY);
 };
 
 #endif // GAMEOBJECT_H

@@ -30,12 +30,14 @@ DragableGameObject::DragableGameObject(const char *iconLocation, int height, int
 {
 }
 
-void DragableGameObject::UpdateDrag(int clickX, int clickY)
+bool DragableGameObject::UpdateDrag(int clickX, int clickY)
 {
     //Drag
     if(pointInside(clickX,clickY))
     {
         posX = clickX;
         posY = clickY;
+        return true;
     }
+    return false;
 }

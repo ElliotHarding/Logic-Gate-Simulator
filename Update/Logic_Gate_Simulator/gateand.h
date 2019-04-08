@@ -2,7 +2,6 @@
 #define GATEAND_H
 
 #include "gate.h"
-#include "node.h"
 
 class GateAnd : public Gate
 {
@@ -10,11 +9,13 @@ public:
     GateAnd();
 
     virtual void UpdateOutput();
-    virtual void UpdateDrag(int clickX, int clickY);
+    virtual bool UpdateDrag(int clickX, int clickY);
 
-    Node inputA;
-    Node inputB;
-    Node output;
+    virtual Node* GetClickedNode(int clickX, int clickY);
+
+    Node m_inputA;
+    Node m_inputB;
+    Node m_output;
 };
 
 #endif // GATEAND_H

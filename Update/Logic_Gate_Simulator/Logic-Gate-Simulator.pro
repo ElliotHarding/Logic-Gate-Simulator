@@ -31,7 +31,6 @@ SOURCES += \
         gateand.cpp \
         gatenot.cpp \
         gateor.cpp \
-        node.cpp \
         gameobject.cpp \
         gameobjectpool.cpp \
         dlg_home.cpp \
@@ -45,8 +44,7 @@ SOURCES += \
     gatenot.cpp \
     gateor.cpp \
     main.cpp \
-    mainwindow.cpp \
-    node.cpp
+    mainwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -55,7 +53,6 @@ HEADERS += \
         gateand.h \
         gatenot.h \
         gateor.h \
-        node.h \
         gameobject.h \
         gameobjectpool.h \
         dlg_home.h \
@@ -69,8 +66,7 @@ HEADERS += \
     gateinputbox.h \
     gatenot.h \
     gateor.h \
-    mainwindow.h \
-    node.h
+    mainwindow.h
 
 FORMS += \
         mainwindow.ui \

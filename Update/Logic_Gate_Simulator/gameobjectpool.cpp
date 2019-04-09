@@ -59,14 +59,12 @@ void GameObjectPool::linkNodesClick(int clickX, int clickY)
 {
     for (size_t index = 0; index < allGameObjects.size(); index++)
     {
-        if(dynamic_cast<Node* >(allGameObjects[index]))
+        if(dynamic_cast<Gate*>(allGameObjects[index]))
         {
-            Node* node = dynamic_cast<Node* >(allGameObjects[index]);
-
-            //check if clicked
-            if(node->UpdateClicked(clickX,clickY))
+            //Check if iterated gate has any clicked nodes
+            Node* node = dynamic_cast<Gate*>(allGameObjects[index])->GetClickedNode(clickX,clickY);
+            if(node != nullptr)
             {
-
                 //If m_linkNodeA is a null pointer then its the first node to be clicked
                 if(m_linkNodeA != nullptr)
                 {
@@ -80,6 +78,8 @@ void GameObjectPool::linkNodesClick(int clickX, int clickY)
                     node->LinkNode(m_linkNodeA);
                     m_linkNodeA = nullptr;
                 }
+
+                return; //so that we dont acidentally get more than one clicked node
             }
         }
     }

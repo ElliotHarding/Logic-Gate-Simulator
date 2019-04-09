@@ -1,8 +1,7 @@
 #ifndef GAMEOBJECTPOOL_H
 #define GAMEOBJECTPOOL_H
 
-#include "gameobject.h"
-#include "node.h"
+#include "gate.h"
 #include "clickmode.h"
 
 class GameObjectPool

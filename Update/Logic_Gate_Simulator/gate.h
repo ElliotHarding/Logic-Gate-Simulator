@@ -2,7 +2,8 @@
 #define GATE_H
 
 #include "gameobject.h"
-#include "node.h"
+
+class Node;
 
 class Gate : public DragableGameObject
 {
@@ -12,7 +13,30 @@ public:
     virtual bool UpdateDrag(int clickX, int clickY);
     virtual void UpdateOutput();
 
-    virtual Node* GetClickNode(int clickX, int clickY) = 0;
+    virtual Node* GetClickedNode(int clickX, int clickY) = 0;
 };
+
+class Node : public GameObject
+{
+public:
+    Node(Gate* parent);
+    ~Node();
+
+    //Linked node
+    void LinkNode(Node* n);
+    void DetachNode();
+    Node* GetLinkedNode();
+
+    //returns Gate that node is attached to
+    Gate* GetParent();
+
+    //Stored value
+    bool value;
+
+private:
+    Node* m_linkedNode = nullptr;
+    Gate* m_parent = nullptr;
+};
+
 
 #endif // GATE_H

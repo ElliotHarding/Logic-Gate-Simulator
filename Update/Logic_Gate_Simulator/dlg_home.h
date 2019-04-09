@@ -3,11 +3,11 @@
 
 #include <QMainWindow>
 #include <QMouseEvent>
-#include "gameobjectpool.h"
 #include "gateand.h"
 #include "gateinputbox.h"
 #include "gatenot.h"
 #include "gateor.h"
+#include "gatefield.h"
 
 class QMouseEvent;
 
@@ -23,17 +23,14 @@ public:
     explicit DLG_Home(QWidget *parent = nullptr);
     ~DLG_Home();
 
-protected:
-    void mousePressEvent(QMouseEvent* mouseEvent) override;
-
 private:
     Ui::DLG_Home *ui;
-
-    GameObjectPool m_gameObjectController;
 
     ClickMode m_currentClickMode = CLICK_DRAG;
 
     int m_pageNumber = 2;
+
+    GateField* m_currentGateField;
 
 private slots:
     void on_btn_Drag_clicked();

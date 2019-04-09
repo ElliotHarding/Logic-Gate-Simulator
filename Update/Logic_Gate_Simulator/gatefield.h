@@ -1,14 +1,18 @@
-#ifndef GAMEOBJECTPOOL_H
-#define GAMEOBJECTPOOL_H
+#ifndef GATEFIELD_H
+#define GATEFIELD_H
 
-#include "gate.h"
+#include <QWidget>
 #include "clickmode.h"
+#include "gate.h"
+#include "QMouseEvent"
 
-class GameObjectPool
+class GateField : public QWidget
 {
+    Q_OBJECT
 public:
-    GameObjectPool();
-    ~GameObjectPool();
+    explicit GateField(QWidget *parent = nullptr);
+    ~GateField() override;
+    void paintEvent(QPaintEvent* paintEvent) override;
 
     void addGameObject(Gate* go);
 
@@ -16,7 +20,12 @@ public:
 
     void runGates();
 
-    void draw();
+signals:
+
+public slots:
+
+protected:
+    void mousePressEvent(QMouseEvent* mouseEvent) override;
 
 private:
     std::vector<Gate*> m_allGates;
@@ -28,9 +37,11 @@ private:
 
     Node* m_linkNodeA = nullptr;
 
+    ClickMode m_currentClickMode = CLICK_DRAG;
+
     //Coords of newly spawned gate
     const int SPAWN_X = 50;
     const int SPAWN_Y = 50;
 };
 
-#endif // GAMEOBJECTPOOL_H
+#endif // GATEFIELD_H

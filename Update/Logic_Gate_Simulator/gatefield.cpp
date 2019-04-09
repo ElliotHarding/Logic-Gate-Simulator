@@ -1,20 +1,31 @@
-#include "gameobjectpool.h"
+#include "gatefield.h"
 
-
-GameObjectPool::GameObjectPool()
+GateField::GateField(QWidget *parent) : QWidget(parent)
 {
 
 }
 
-GameObjectPool::~GameObjectPool()
+GateField::~GateField()
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         delete m_allGates[index];
     }
+
+    QWidget::~QWidget();
 }
 
-void GameObjectPool::addGameObject(Gate* go)
+void GateField::paintEvent(QPaintEvent *paintEvent)
+{
+    //Draw all gates
+    for (size_t index = 0; index < m_allGates.size(); index++)
+    {
+        m_allGates[index]->UpdateGraphics();
+    }
+    //Draw lines between the nodes
+}
+
+void GateField::addGameObject(Gate* go)
 {
     //Todo positions when added to page
     go->posX = SPAWN_X;
@@ -23,7 +34,7 @@ void GameObjectPool::addGameObject(Gate* go)
     m_allGates.push_back(go);
 }
 
-void GameObjectPool::handleInput(int clickX, int clickY, ClickMode clickMode)
+void GateField::handleInput(int clickX, int clickY, ClickMode clickMode)
 {
     switch (clickMode)
     {
@@ -37,7 +48,7 @@ void GameObjectPool::handleInput(int clickX, int clickY, ClickMode clickMode)
     }
 }
 
-void GameObjectPool::runGates()
+void GateField::runGates()
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
@@ -45,14 +56,14 @@ void GameObjectPool::runGates()
     }
 }
 
-void GameObjectPool::draw()
+void GateField::mousePressEvent(QMouseEvent *click)
 {
-    //Draw lines between the nodes
+    handleInput(click->x(),click->y(), m_currentClickMode);
 
-    //Draw gates
+    QWidget::mousePressEvent(click);
 }
 
-void GameObjectPool::linkNodesClick(int clickX, int clickY)
+void GateField::linkNodesClick(int clickX, int clickY)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
@@ -79,7 +90,7 @@ void GameObjectPool::linkNodesClick(int clickX, int clickY)
     }
 }
 
-void GameObjectPool::dragClick(int clickX, int clickY)
+void GateField::dragClick(int clickX, int clickY)
 {
     //Loop through all dragable gameobjects
     for (size_t index = 0; index < m_allGates.size(); index++)
@@ -94,7 +105,7 @@ void GameObjectPool::dragClick(int clickX, int clickY)
 }
 
 
-void GameObjectPool::deleteClick(int clickX, int clickY)
+void GateField::deleteClick(int clickX, int clickY)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
@@ -109,7 +120,7 @@ void GameObjectPool::deleteClick(int clickX, int clickY)
         }
     }
 }
-void GameObjectPool::defaultClick(int clickX, int clickY)
+void GateField::defaultClick(int clickX, int clickY)
 {
 
 }

@@ -14,16 +14,6 @@ DLG_Home::~DLG_Home()
     delete ui;
 }
 
-void DLG_Home::mousePressEvent(QMouseEvent* click)
-{
-    const int clickX = click->x();
-    const int clickY = click->y();
-
-    m_gameObjectController.handleInput(clickX,clickY, m_currentClickMode);
-
-    QMainWindow::mousePressEvent(click);
-}
-
 // -- BUTTON HANDLERS FOR CLICK MODES --
 
 void DLG_Home::on_btn_Drag_clicked()
@@ -47,19 +37,19 @@ void DLG_Home::on_btn_link_clicked()
 
 void DLG_Home::on_btn_sourceGate_clicked()
 {
-    m_gameObjectController.addGameObject(new GateInputBox());
+    m_currentGateField->addGameObject(new GateInputBox());
 }
 void DLG_Home::on_btn_notGate_clicked()
 {
-    m_gameObjectController.addGameObject(new GateNot());
+    m_currentGateField->addGameObject(new GateNot());
 }
 void DLG_Home::on_btn_orGate_clicked()
 {
-    m_gameObjectController.addGameObject(new GateOr());
+    m_currentGateField->addGameObject(new GateOr());
 }
 void DLG_Home::on_btn_andGate_clicked()
 {
-    m_gameObjectController.addGameObject(new GateAnd());
+    m_currentGateField->addGameObject(new GateAnd());
 }
 
 

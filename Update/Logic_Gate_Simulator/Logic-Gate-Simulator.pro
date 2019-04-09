@@ -32,19 +32,18 @@ SOURCES += \
         gatenot.cpp \
         gateor.cpp \
         gameobject.cpp \
-        gameobjectpool.cpp \
         dlg_home.cpp \
     main.cpp \
     dlg_home.cpp \
     gameobject.cpp \
-    gameobjectpool.cpp \
     gate.cpp \
     gateand.cpp \
     gateinputbox.cpp \
     gatenot.cpp \
     gateor.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    gatefield.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -54,19 +53,18 @@ HEADERS += \
         gatenot.h \
         gateor.h \
         gameobject.h \
-        gameobjectpool.h \
         dlg_home.h \
         clickmode.h \
     clickmode.h \
     dlg_home.h \
     gameobject.h \
-    gameobjectpool.h \
     gate.h \
     gateand.h \
     gateinputbox.h \
     gatenot.h \
     gateor.h \
-    mainwindow.h
+    mainwindow.h \
+    gatefield.h
 
 FORMS += \
         mainwindow.ui \

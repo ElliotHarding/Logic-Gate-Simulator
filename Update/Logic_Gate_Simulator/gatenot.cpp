@@ -44,3 +44,8 @@ Node *GateNot::GetClickedNode(int clickX, int clickY)
 
     return nullptr;
 }
+
+void GateNot::DrawNodes()
+{
+
+}

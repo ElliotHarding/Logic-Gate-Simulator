@@ -51,3 +51,8 @@ Node *GateAnd::GetClickedNode(int clickX, int clickY)
 
     return nullptr;
 }
+
+void GateAnd::DrawNodes()
+{
+
+}

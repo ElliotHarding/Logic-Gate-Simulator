@@ -45,3 +45,8 @@ Node *GateInputBox::GetClickedNode(int clickX, int clickY)
     return nullptr;
 }
 
+void GateInputBox::DrawNodes()
+{
+
+}
+

@@ -17,7 +17,7 @@ public:
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
 
 protected:
-    virtual void DrawNodes();
+    virtual void DrawNodes() = 0;
 };
 
 class Node : public GameObject

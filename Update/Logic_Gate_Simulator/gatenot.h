@@ -15,6 +15,8 @@ public:
 
     Node m_input;
     Node m_output;
+protected:
+    virtual void DrawNodes();
 };
 
 #endif // GATENOT_H

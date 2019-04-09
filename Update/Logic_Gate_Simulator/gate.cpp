@@ -15,6 +15,11 @@ void Gate::UpdateOutput()
 
 }
 
+void Gate::UpdateGraphics()
+{
+    DrawNodes();
+}
+
 //
 // -- NODE IMPLEMENTATION --
 //

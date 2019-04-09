@@ -10,10 +10,14 @@ class Gate : public DragableGameObject
 public:
     Gate(const char* iconLocation, int height, int width);
 
-    virtual bool UpdateDrag(int clickX, int clickY);
-    virtual void UpdateOutput();
+    virtual bool    UpdateDrag(int clickX, int clickY);
+    virtual void    UpdateOutput();
+    void            UpdateGraphics();
 
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
+
+protected:
+    virtual void DrawNodes();
 };
 
 class Node : public GameObject

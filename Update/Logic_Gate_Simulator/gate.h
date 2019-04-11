@@ -10,9 +10,9 @@ class Gate : public DragableGameObject
 public:
     Gate(const char* iconLocation, int height, int width);
 
-    virtual bool    UpdateDrag(int clickX, int clickY);
+    virtual bool    UpdateDrag(int clickX, int clickY) override;
     virtual void    UpdateOutput();
-    void            UpdateGraphics();
+    virtual void    UpdateGraphics(QPainter* painter) override;
 
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
 

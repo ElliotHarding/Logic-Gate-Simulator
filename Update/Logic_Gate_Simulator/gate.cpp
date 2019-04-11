@@ -15,8 +15,10 @@ void Gate::UpdateOutput()
 
 }
 
-void Gate::UpdateGraphics()
+void Gate::UpdateGraphics(QPainter* painter)
 {
+    GameObject::UpdateGraphics(painter);
+
     DrawNodes();
 }
 
@@ -25,15 +27,13 @@ void Gate::UpdateGraphics()
 //
 
 Node::Node(Gate* parent) :
-     GameObject::GameObject("iconLocation",5,5)
+     GameObject::GameObject("Resources/circle.png",5,5)
 {
     m_parent = parent;
     value = 0;
 }
 Node::~Node()
 {
-    m_linkedNode->DetachNode();
-
     delete m_parent;
     delete m_linkedNode;
 }

@@ -7,6 +7,8 @@ DLG_Home::DLG_Home(QWidget *parent) :
 {
     ui->setupUi(this);
     setMouseTracking(true);
+    ui->PlayField->clear();
+    on_btn_newPage_clicked();
 }
 
 DLG_Home::~DLG_Home()

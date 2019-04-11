@@ -2,9 +2,25 @@
 
 GameObject::GameObject(const char* iconLocation, int height_, int width_)
 {
-    m_icon = QIcon(iconLocation);
-    height = height_;
-    width = width_;
+    m_image = QImage(iconLocation);
+    m_height = height_;
+    m_width = width_;
+}
+
+GameObject::~GameObject()
+{
+
+}
+
+void GameObject::UpdateGraphics(QPainter *painter)
+{
+    QRect rect;
+    rect.setX(this->posX);
+    rect.setY(this->posY);
+    rect.setWidth(m_width);
+    rect.setHeight(m_height);
+
+    painter->drawImage(rect,m_image);
 }
 
 bool GameObject::UpdateClicked(int clickX, int clickY)

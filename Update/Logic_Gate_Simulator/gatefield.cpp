@@ -18,15 +18,15 @@ GateField::~GateField()
 
 void GateField::paintEvent(QPaintEvent *paintEvent)
 {
-    QWidget::paintEvent(paintEvent);
+    QPainter painter(this);
 
     //Draw all gates
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
-        m_allGates[index]->UpdateGraphics();
+        m_allGates[index]->UpdateGraphics(&painter);
     }
-    //Draw lines between the nodes
 
+    //Draw lines between the nodes
 
 }
 

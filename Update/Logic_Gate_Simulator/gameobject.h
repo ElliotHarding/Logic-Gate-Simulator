@@ -2,12 +2,16 @@
 #define GAMEOBJECT_H
 
 #include <QObject>
-#include <QIcon>
+#include <QImage>
+#include <QPainter>
 
-class GameObject : QObject
+class GameObject
 {
 public:
     GameObject(const char* iconLocation, int height, int width);
+    virtual ~GameObject();
+
+    virtual void UpdateGraphics(QPainter* painter);
 
     //Clicking
     virtual bool UpdateClicked(int clickX, int clickY);
@@ -23,10 +27,10 @@ protected:
     int m_hitboxX = 0;
     int m_hitboxY = 0;
 
-    int height;
-    int width;
+    int m_height;
+    int m_width;
 
-    QIcon m_icon;
+    QImage m_image;
 };
 
 class DragableGameObject : public GameObject

@@ -14,7 +14,6 @@ GateField::~GateField()
 
     delete m_linkNodeA;
 
-    QWidget::~QWidget();
 }
 
 void GateField::paintEvent(QPaintEvent *paintEvent)
@@ -124,6 +123,8 @@ void GateField::deleteClick(int clickX, int clickY)
         }
     }
 }
+
+
 void GateField::defaultClick(int clickX, int clickY)
 {
 

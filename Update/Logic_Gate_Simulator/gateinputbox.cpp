@@ -1,7 +1,7 @@
 #include "gateinputbox.h"
 
 GateInputBox::GateInputBox() :
-    Gate::Gate(std::string("Resources/box.png").c_str(),10,10),
+    Gate::Gate(std::string(":/Resources/box.png").c_str(),10,10),
     m_output(this)
 {
 }

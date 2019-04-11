@@ -75,7 +75,13 @@ OBJECTS       = debug/main.o \
 
 DIST          = Resources/gate-and.png \
 		Resources/gate-not.png \
-		Resources/gate-or.png ..\Logic_Gate_Simulator\mainwindow.h \
+		Resources/gate-or.png \
+		Resources/box.png \
+		Resources/circle.png \
+		box.png \
+		circle.png \
+		gate-and.png \
+		gate-not.png ..\Logic_Gate_Simulator\mainwindow.h \
 		..\Logic_Gate_Simulator\gate.h \
 		..\Logic_Gate_Simulator\mainwindow.h \
 		..\Logic_Gate_Simulator\gateand.h \
@@ -479,7 +485,11 @@ debug/moc_dlg_home.cpp: ../Logic_Gate_Simulator/dlg_home.h \
 		../Logic_Gate_Simulator/gate.h \
 		../Logic_Gate_Simulator/gameobject.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/QObject \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
 		../Logic_Gate_Simulator/gateinputbox.h \
 		../Logic_Gate_Simulator/gatenot.h \
 		../Logic_Gate_Simulator/gateor.h \
@@ -598,8 +608,11 @@ debug/moc_gatefield.cpp: ../Logic_Gate_Simulator/gatefield.h \
 		../Logic_Gate_Simulator/gate.h \
 		../Logic_Gate_Simulator/gameobject.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/QObject \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qicon.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/QMouseEvent \
 		debug/moc_predefs.h \
 		C:/Qt/5.12.2/mingw73_32/bin/moc.exe
@@ -745,7 +758,11 @@ debug/main.o: ../Logic_Gate_Simulator/main.cpp ../Logic_Gate_Simulator/mainwindo
 		../Logic_Gate_Simulator/gate.h \
 		../Logic_Gate_Simulator/gameobject.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/QObject \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
 		../Logic_Gate_Simulator/gateinputbox.h \
 		../Logic_Gate_Simulator/gatenot.h \
 		../Logic_Gate_Simulator/gateor.h \
@@ -869,18 +886,39 @@ debug/mainwindow.o: ../Logic_Gate_Simulator/mainwindow.cpp ../Logic_Gate_Simulat
 		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qtabwidget.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qicon.h \
 		ui_mainwindow.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/QVariant \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QApplication \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qapplication.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qeventloop.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qguiapplication.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qinputmethod.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QMenuBar \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qmenubar.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qmenu.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qaction.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QStatusBar \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qstatusbar.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QToolBar \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qtoolbar.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QWidget \
 		../Logic_Gate_Simulator/dlg_home.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/QMouseEvent \
 		../Logic_Gate_Simulator/gateand.h \
 		../Logic_Gate_Simulator/gate.h \
 		../Logic_Gate_Simulator/gameobject.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/QObject \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
 		../Logic_Gate_Simulator/gateinputbox.h \
 		../Logic_Gate_Simulator/gatenot.h \
 		../Logic_Gate_Simulator/gateor.h \
 		../Logic_Gate_Simulator/gatefield.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QWidget \
 		../Logic_Gate_Simulator/clickmode.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\Logic_Gate_Simulator\mainwindow.cpp
 
@@ -936,26 +974,20 @@ debug/gate.o: ../Logic_Gate_Simulator/gate.cpp ../Logic_Gate_Simulator/gate.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qvarlengtharray.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qobject_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qicon.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtguiglobal.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtgui-config.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qrect.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qmargins.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qpoint.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixelformat.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtransform.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qmatrix.h \
@@ -965,7 +997,20 @@ debug/gate.o: ../Logic_Gate_Simulator/gate.cpp ../Logic_Gate_Simulator/gate.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qdatastream.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qiodevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qline.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qbrush.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfont.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontmetrics.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\gate.o ..\Logic_Gate_Simulator\gate.cpp
 
 debug/gateand.o: ../Logic_Gate_Simulator/gateand.cpp ../Logic_Gate_Simulator/gateand.h \
@@ -1021,26 +1066,20 @@ debug/gateand.o: ../Logic_Gate_Simulator/gateand.cpp ../Logic_Gate_Simulator/gat
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qvarlengtharray.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qobject_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qicon.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtguiglobal.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtgui-config.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qrect.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qmargins.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qpoint.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixelformat.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtransform.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qmatrix.h \
@@ -1050,7 +1089,20 @@ debug/gateand.o: ../Logic_Gate_Simulator/gateand.cpp ../Logic_Gate_Simulator/gat
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qdatastream.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qiodevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qline.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qbrush.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfont.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontmetrics.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\gateand.o ..\Logic_Gate_Simulator\gateand.cpp
 
 debug/gatenot.o: ../Logic_Gate_Simulator/gatenot.cpp ../Logic_Gate_Simulator/gatenot.h \
@@ -1106,26 +1158,20 @@ debug/gatenot.o: ../Logic_Gate_Simulator/gatenot.cpp ../Logic_Gate_Simulator/gat
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qvarlengtharray.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qobject_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qicon.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtguiglobal.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtgui-config.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qrect.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qmargins.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qpoint.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixelformat.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtransform.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qmatrix.h \
@@ -1135,7 +1181,20 @@ debug/gatenot.o: ../Logic_Gate_Simulator/gatenot.cpp ../Logic_Gate_Simulator/gat
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qdatastream.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qiodevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qline.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qbrush.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfont.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontmetrics.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\gatenot.o ..\Logic_Gate_Simulator\gatenot.cpp
 
 debug/gateor.o: ../Logic_Gate_Simulator/gateor.cpp ../Logic_Gate_Simulator/gateor.h \
@@ -1191,26 +1250,20 @@ debug/gateor.o: ../Logic_Gate_Simulator/gateor.cpp ../Logic_Gate_Simulator/gateo
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qvarlengtharray.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qobject_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qicon.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtguiglobal.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtgui-config.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qrect.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qmargins.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qpoint.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixelformat.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtransform.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qmatrix.h \
@@ -1220,7 +1273,20 @@ debug/gateor.o: ../Logic_Gate_Simulator/gateor.cpp ../Logic_Gate_Simulator/gateo
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qdatastream.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qiodevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qline.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qbrush.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfont.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontmetrics.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\gateor.o ..\Logic_Gate_Simulator\gateor.cpp
 
 debug/gameobject.o: ../Logic_Gate_Simulator/gameobject.cpp ../Logic_Gate_Simulator/gameobject.h \
@@ -1274,26 +1340,20 @@ debug/gameobject.o: ../Logic_Gate_Simulator/gameobject.cpp ../Logic_Gate_Simulat
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qvarlengtharray.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qobject_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qicon.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtguiglobal.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtgui-config.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qrect.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qmargins.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qpoint.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixelformat.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtransform.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qmatrix.h \
@@ -1303,7 +1363,20 @@ debug/gameobject.o: ../Logic_Gate_Simulator/gameobject.cpp ../Logic_Gate_Simulat
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qdatastream.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qiodevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qline.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qbrush.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfont.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontmetrics.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\gameobject.o ..\Logic_Gate_Simulator\gameobject.cpp
 
 debug/dlg_home.o: ../Logic_Gate_Simulator/dlg_home.cpp ../Logic_Gate_Simulator/dlg_home.h \
@@ -1418,14 +1491,37 @@ debug/dlg_home.o: ../Logic_Gate_Simulator/dlg_home.cpp ../Logic_Gate_Simulator/d
 		../Logic_Gate_Simulator/gate.h \
 		../Logic_Gate_Simulator/gameobject.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/QObject \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
 		../Logic_Gate_Simulator/gateinputbox.h \
 		../Logic_Gate_Simulator/gatenot.h \
 		../Logic_Gate_Simulator/gateor.h \
 		../Logic_Gate_Simulator/gatefield.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QWidget \
 		../Logic_Gate_Simulator/clickmode.h \
-		ui_dlg_home.h
+		ui_dlg_home.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/QVariant \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QAction \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qaction.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QApplication \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qapplication.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qeventloop.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qguiapplication.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qinputmethod.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QLabel \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qlabel.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qframe.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QPushButton \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtWidgets/QTabWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\dlg_home.o ..\Logic_Gate_Simulator\dlg_home.cpp
 
 debug/gateinputbox.o: ../Logic_Gate_Simulator/gateinputbox.cpp ../Logic_Gate_Simulator/gateinputbox.h \
@@ -1481,26 +1577,20 @@ debug/gateinputbox.o: ../Logic_Gate_Simulator/gateinputbox.cpp ../Logic_Gate_Sim
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qvarlengtharray.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qobject_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qicon.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtguiglobal.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtgui-config.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qrect.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qmargins.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsize.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qpoint.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qcolor.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgb.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qrgba64.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qimage.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixelformat.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtransform.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/qmatrix.h \
@@ -1510,7 +1600,20 @@ debug/gateinputbox.o: ../Logic_Gate_Simulator/gateinputbox.cpp ../Logic_Gate_Sim
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qdatastream.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qiodevice.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/qline.h \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qhash.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qbrush.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfont.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qfontmetrics.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\gateinputbox.o ..\Logic_Gate_Simulator\gateinputbox.cpp
 
 debug/gatefield.o: ../Logic_Gate_Simulator/gatefield.cpp ../Logic_Gate_Simulator/gatefield.h \
@@ -1621,8 +1724,11 @@ debug/gatefield.o: ../Logic_Gate_Simulator/gatefield.cpp ../Logic_Gate_Simulator
 		../Logic_Gate_Simulator/gate.h \
 		../Logic_Gate_Simulator/gameobject.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtCore/QObject \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/QIcon \
-		C:/Qt/5.12.2/mingw73_32/include/QtGui/qicon.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QImage \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/QPainter \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpainter.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qtextoption.h \
+		C:/Qt/5.12.2/mingw73_32/include/QtGui/qpen.h \
 		C:/Qt/5.12.2/mingw73_32/include/QtGui/QMouseEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\gatefield.o ..\Logic_Gate_Simulator\gatefield.cpp
 

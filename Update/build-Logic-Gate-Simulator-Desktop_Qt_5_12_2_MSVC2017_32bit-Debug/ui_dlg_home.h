@@ -116,13 +116,6 @@ public:
         btn_andGate->setAutoFillBackground(false);
         QIcon icon2;
         icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Normal, QIcon::Off);
-        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Normal, QIcon::On);
-        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Disabled, QIcon::Off);
-        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Disabled, QIcon::On);
-        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Active, QIcon::Off);
-        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Active, QIcon::On);
-        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Selected, QIcon::Off);
-        icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Selected, QIcon::On);
         btn_andGate->setIcon(icon2);
         btn_andGate->setIconSize(QSize(70, 64));
         btn_sourceGate = new QPushButton(centralwidget);

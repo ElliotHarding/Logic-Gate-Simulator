@@ -42,8 +42,8 @@ private:
     void defaultClick(int clickX, int clickY);
 
     //Coords of newly spawned gate
-    const int SPAWN_X = 50;
-    const int SPAWN_Y = 50;
+    const int SPAWN_X = 1;
+    const int SPAWN_Y = 1;
 };
 
 #endif // GATEFIELD_H

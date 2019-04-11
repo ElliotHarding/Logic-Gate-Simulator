@@ -41,7 +41,7 @@
     <property name="tabBarAutoHide">
      <bool>false</bool>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="widget">
      <attribute name="title">
       <string>Page</string>
      </attribute>
@@ -138,15 +138,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>Resources/gate-or.png</normaloff>
-      <normalon>Resources/gate-or.png</normalon>
-      <disabledoff>Resources/gate-or.png</disabledoff>
-      <disabledon>Resources/gate-or.png</disabledon>
-      <activeoff>Resources/gate-or.png</activeoff>
-      <activeon>Resources/gate-or.png</activeon>
-      <selectedoff>Resources/gate-or.png</selectedoff>
-      <selectedon>Resources/gate-or.png</selectedon>Resources/gate-or.png</iconset>
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/gate-or.png</normaloff>:/Resources/Resources/gate-or.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -168,15 +161,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>Resources/gate-not.png</normaloff>
-      <normalon>Resources/gate-not.png</normalon>
-      <disabledoff>Resources/gate-not.png</disabledoff>
-      <disabledon>Resources/gate-not.png</disabledon>
-      <activeoff>Resources/gate-not.png</activeoff>
-      <activeon>Resources/gate-not.png</activeon>
-      <selectedoff>Resources/gate-not.png</selectedoff>
-      <selectedon>Resources/gate-not.png</selectedon>Resources/gate-not.png</iconset>
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/gate-not.png</normaloff>:/Resources/Resources/gate-not.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -201,15 +187,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>Resources/gate-and.png</normaloff>
-      <normalon>Resources/gate-and.png</normalon>
-      <disabledoff>Resources/gate-and.png</disabledoff>
-      <disabledon>Resources/gate-and.png</disabledon>
-      <activeoff>Resources/gate-and.png</activeoff>
-      <activeon>Resources/gate-and.png</activeon>
-      <selectedoff>Resources/gate-and.png</selectedoff>
-      <selectedon>Resources/gate-and.png</selectedon>Resources/gate-and.png</iconset>
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/gate-and.png</normaloff>:/Resources/Resources/gate-and.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -231,8 +210,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>Resources/box.png</normaloff>Resources/box.png</iconset>
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/box.png</normaloff>:/Resources/Resources/box.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -248,6 +227,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resouces.qrc"/>
+ </resources>
  <connections/>
 </ui>

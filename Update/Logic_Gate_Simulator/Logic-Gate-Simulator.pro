@@ -59,6 +59,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    Resources/gate-and.png \
-    Resources/gate-not.png \
-    Resources/gate-or.png
+
+RESOURCES += \
+    resouces.qrc

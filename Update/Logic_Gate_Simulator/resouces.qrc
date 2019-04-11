@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/Resources">
+        <file>Resources/gate-and.png</file>
+        <file>Resources/gate-or.png</file>
+        <file>Resources/gate-not.png</file>
+        <file>Resources/circle.png</file>
+        <file>Resources/box.png</file>
+    </qresource>
+</RCC>

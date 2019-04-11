@@ -26,8 +26,6 @@ public:
 private:
     Ui::DLG_Home *ui;
 
-    ClickMode m_currentClickMode = CLICK_DRAG;
-
     int m_pageNumber = 2;
 
     GateField* m_currentGateField;
@@ -41,6 +39,8 @@ private slots:
     void on_btn_notGate_clicked();
     void on_btn_orGate_clicked();
     void on_btn_andGate_clicked();
+    void on_PlayField_tabCloseRequested(int index);
+    void on_PlayField_currentChanged(int index);
 };
 
 #endif // DLG_HOME_H

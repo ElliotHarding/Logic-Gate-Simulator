@@ -27,6 +27,7 @@ public:
     QAction *actionNew_page;
     QWidget *centralwidget;
     QTabWidget *PlayField;
+    QWidget *widget;
     QWidget *tab;
     QWidget *tab2;
     QPushButton *btn_Drag;
@@ -37,6 +38,7 @@ public:
     QPushButton *btn_orGate;
     QPushButton *btn_notGate;
     QPushButton *btn_andGate;
+    QPushButton *btn_sourceGate;
 
     void setupUi(QMainWindow *DLG_Home)
     {
@@ -50,10 +52,14 @@ public:
         PlayField = new QTabWidget(centralwidget);
         PlayField->setObjectName(QString::fromUtf8("PlayField"));
         PlayField->setGeometry(QRect(0, 0, 681, 521));
-        PlayField->setElideMode(Qt::ElideNone);
+        PlayField->setElideMode(Qt::ElideMiddle);
+        PlayField->setUsesScrollButtons(false);
         PlayField->setDocumentMode(false);
         PlayField->setTabsClosable(true);
         PlayField->setTabBarAutoHide(false);
+        widget = new QWidget();
+        widget->setObjectName(QString::fromUtf8("widget"));
+        PlayField->addTab(widget, QString());
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         PlayField->addTab(tab, QString());
@@ -119,11 +125,18 @@ public:
         icon2.addFile(QString::fromUtf8("Resources/gate-and.png"), QSize(), QIcon::Selected, QIcon::On);
         btn_andGate->setIcon(icon2);
         btn_andGate->setIconSize(QSize(70, 64));
+        btn_sourceGate = new QPushButton(centralwidget);
+        btn_sourceGate->setObjectName(QString::fromUtf8("btn_sourceGate"));
+        btn_sourceGate->setGeometry(QRect(290, 530, 75, 61));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8("Resources/box.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btn_sourceGate->setIcon(icon3);
+        btn_sourceGate->setIconSize(QSize(64, 64));
         DLG_Home->setCentralWidget(centralwidget);
 
         retranslateUi(DLG_Home);
 
-        PlayField->setCurrentIndex(1);
+        PlayField->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(DLG_Home);
@@ -133,6 +146,7 @@ public:
     {
         DLG_Home->setWindowTitle(QApplication::translate("DLG_Home", "MainWindow", nullptr));
         actionNew_page->setText(QApplication::translate("DLG_Home", "New page", nullptr));
+        PlayField->setTabText(PlayField->indexOf(widget), QApplication::translate("DLG_Home", "Page", nullptr));
         PlayField->setTabText(PlayField->indexOf(tab), QApplication::translate("DLG_Home", "Page 1", nullptr));
         PlayField->setTabText(PlayField->indexOf(tab2), QApplication::translate("DLG_Home", "Page 2", nullptr));
         btn_Drag->setText(QApplication::translate("DLG_Home", "Drag", nullptr));
@@ -141,8 +155,9 @@ public:
         lbl_clickMode->setText(QApplication::translate("DLG_Home", "Click Mode : Drag", nullptr));
         btn_newPage->setText(QApplication::translate("DLG_Home", "New Page", nullptr));
         btn_orGate->setText(QString());
-        btn_notGate->setText(QApplication::translate("DLG_Home", "Not Gate", nullptr));
+        btn_notGate->setText(QString());
         btn_andGate->setText(QString());
+        btn_sourceGate->setText(QString());
     } // retranslateUi
 
 };

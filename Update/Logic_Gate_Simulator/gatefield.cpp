@@ -12,17 +12,23 @@ GateField::~GateField()
         delete m_allGates[index];
     }
 
+    delete m_linkNodeA;
+
     QWidget::~QWidget();
 }
 
 void GateField::paintEvent(QPaintEvent *paintEvent)
 {
+    QWidget::paintEvent(paintEvent);
+
     //Draw all gates
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         m_allGates[index]->UpdateGraphics();
     }
     //Draw lines between the nodes
+
+
 }
 
 void GateField::addGameObject(Gate* go)
@@ -32,20 +38,6 @@ void GateField::addGameObject(Gate* go)
     go->posY = SPAWN_Y;
 
     m_allGates.push_back(go);
-}
-
-void GateField::handleInput(int clickX, int clickY, ClickMode clickMode)
-{
-    switch (clickMode)
-    {
-    case CLICK_DRAG:        dragClick(clickX,clickY);  break;
-
-    case CLICK_LINK_NODES:  linkNodesClick(clickX,clickY); break;
-
-    case CLICK_DELETE_GATE: deleteClick(clickX,clickY);  break;
-
-    case CLICK_NONE:        defaultClick(clickX,clickY);  break;
-    }
 }
 
 void GateField::runGates()
@@ -58,7 +50,19 @@ void GateField::runGates()
 
 void GateField::mousePressEvent(QMouseEvent *click)
 {
-    handleInput(click->x(),click->y(), m_currentClickMode);
+    const int clickX = click->x();
+    const int clickY = click->y();
+
+    switch (m_currentClickMode)
+    {
+    case CLICK_DRAG:        dragClick(clickX,clickY);  break;
+
+    case CLICK_LINK_NODES:  linkNodesClick(clickX,clickY); break;
+
+    case CLICK_DELETE_GATE: deleteClick(clickX,clickY);  break;
+
+    case CLICK_NONE:        defaultClick(clickX,clickY);  break;
+    }
 
     QWidget::mousePressEvent(click);
 }

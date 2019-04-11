@@ -24,10 +24,13 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="elideMode">
-     <enum>Qt::ElideNone</enum>
+     <enum>Qt::ElideMiddle</enum>
+    </property>
+    <property name="usesScrollButtons">
+     <bool>false</bool>
     </property>
     <property name="documentMode">
      <bool>false</bool>
@@ -38,6 +41,11 @@
     <property name="tabBarAutoHide">
      <bool>false</bool>
     </property>
+    <widget class="QWidget" name="">
+     <attribute name="title">
+      <string>Page</string>
+     </attribute>
+    </widget>
     <widget class="QWidget" name="tab">
      <attribute name="title">
       <string>Page 1</string>

@@ -12,32 +12,34 @@ class GateField : public QWidget
 public:
     explicit GateField(QWidget *parent = nullptr);
     ~GateField() override;
-    void paintEvent(QPaintEvent* paintEvent) override;
 
     void addGameObject(Gate* go);
 
-    void handleInput(int clickX, int clickY, ClickMode clickMode);
-
-    void runGates();
+    //Comes from DLG_Home...
+    void setCurrentClickMode(ClickMode clickMode) {m_currentClickMode = clickMode;}
 
 signals:
 
 public slots:
 
 protected:
-    void mousePressEvent(QMouseEvent* mouseEvent) override;
 
 private:
-    std::vector<Gate*> m_allGates;
 
+    void mousePressEvent(QMouseEvent* mouseEvent) override;
+    void paintEvent(QPaintEvent* paintEvent) override;
+
+    std::vector<Gate*> m_allGates;
+    void runGates();
+
+    Node* m_linkNodeA = nullptr;
+
+    //Clicking
+    ClickMode m_currentClickMode = CLICK_DRAG;
     void linkNodesClick(int clickX, int clickY);
     void dragClick(int clickX, int clickY);
     void deleteClick(int clickX, int clickY);
     void defaultClick(int clickX, int clickY);
-
-    Node* m_linkNodeA = nullptr;
-
-    ClickMode m_currentClickMode = CLICK_DRAG;
 
     //Coords of newly spawned gate
     const int SPAWN_X = 50;

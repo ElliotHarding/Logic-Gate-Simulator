@@ -1,0 +1,13 @@
+debug/main.o
+debug/mainwindow.o
+debug/gate.o
+debug/gateand.o
+debug/gatenot.o
+debug/gateor.o
+debug/gameobject.o
+debug/dlg_home.o
+debug/gateinputbox.o
+debug/gatefield.o
+debug/moc_mainwindow.o
+debug/moc_dlg_home.o
+debug/moc_gatefield.o

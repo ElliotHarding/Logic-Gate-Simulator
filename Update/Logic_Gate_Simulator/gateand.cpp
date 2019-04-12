@@ -1,7 +1,7 @@
 #include "gateand.h"
 
 GateAnd::GateAnd() :
-    Gate::Gate(std::string(":/Resources/gate-and.png").c_str(),50,50),
+    Gate::Gate(std::string(":/Resources/Resources/gate-and.png").c_str(),100,50),
     m_inputA(this),
     m_inputB(this),
     m_output(this)

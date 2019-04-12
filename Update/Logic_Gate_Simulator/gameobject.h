@@ -8,7 +8,7 @@
 class GameObject
 {
 public:
-    GameObject(const char* iconLocation, int height, int width);
+    GameObject(const char* iconLocation, int width, int height);
     virtual ~GameObject();
 
     virtual void UpdateGraphics(QPainter* painter);
@@ -17,26 +17,23 @@ public:
     virtual bool UpdateClicked(int clickX, int clickY);
     bool beingClicked = false;
 
-    int posX;
-    int posY;
+    void setPosition(int x, int y);
 
 protected:
 
-    bool pointInside(int x, int y);
-
-    int m_hitboxX = 0;
-    int m_hitboxY = 0;
-
-    int m_height;
-    int m_width;
+    bool pointInside(int x, int y);    
 
     QImage m_image;
+
+    QRect m_layout;
+    int m_width;
+    int m_height;
 };
 
 class DragableGameObject : public GameObject
 {
 public:
-    DragableGameObject(const char* iconLocation, int height, int width);
+    DragableGameObject(const char* iconLocation, int width, int height);
 
     virtual bool UpdateDrag(int clickX, int clickY);
 };

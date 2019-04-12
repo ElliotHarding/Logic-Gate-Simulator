@@ -5,6 +5,7 @@
 #include "clickmode.h"
 #include "gate.h"
 #include "QMouseEvent"
+#include <QDragMoveEvent>
 
 class GateField : public QWidget
 {
@@ -25,7 +26,8 @@ public slots:
 protected:
 
 private:
-
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent* mouseEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
@@ -37,13 +39,12 @@ private:
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
     void linkNodesClick(int clickX, int clickY);
-    void dragClick(int clickX, int clickY);
     void deleteClick(int clickX, int clickY);
     void defaultClick(int clickX, int clickY);
 
     //Coords of newly spawned gate
-    const int SPAWN_X = 1;
-    const int SPAWN_Y = 1;
+    const int SPAWN_X = 5;
+    const int SPAWN_Y = 5;
 };
 
 #endif // GATEFIELD_H

@@ -1,8 +1,9 @@
 #include "gatefield.h"
+#include <QApplication>
 
 GateField::GateField(QWidget *parent) : QWidget(parent)
 {
-
+setAcceptDrops(true);
 }
 
 GateField::~GateField()
@@ -28,15 +29,38 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
 
     //Draw lines between the nodes
 
+    update();
+    qApp->processEvents();
 }
 
 void GateField::addGameObject(Gate* go)
 {
-    //Todo positions when added to page
-    go->posX = SPAWN_X;
-    go->posY = SPAWN_Y;
+    //Set spawn position
+    go->setPosition(SPAWN_X,SPAWN_Y);
 
     m_allGates.push_back(go);
+}
+
+void GateField::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void GateField::dragMoveEvent(QDragMoveEvent *mouseEvent)
+{
+    if (m_currentClickMode != CLICK_DRAG)
+        return;
+
+    //Loop through all dragable gameobjects
+    for (size_t index = 0; index < m_allGates.size(); index++)
+    {
+        //If found an object to drag, exit out of for loop
+        //so we don't drag multiple objects
+        if(m_allGates[index]->UpdateDrag(mouseEvent->pos().x(), mouseEvent->pos().y()))
+        {
+            return;
+        }
+    }
 }
 
 void GateField::runGates()
@@ -54,13 +78,13 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     switch (m_currentClickMode)
     {
-    case CLICK_DRAG:        dragClick(clickX,clickY);  break;
-
     case CLICK_LINK_NODES:  linkNodesClick(clickX,clickY); break;
 
     case CLICK_DELETE_GATE: deleteClick(clickX,clickY);  break;
 
     case CLICK_NONE:        defaultClick(clickX,clickY);  break;
+
+    //case CLICK_DRAG: handeled by GateField::dragMoveEvent
     }
 
     QWidget::mousePressEvent(click);
@@ -92,21 +116,6 @@ void GateField::linkNodesClick(int clickX, int clickY)
         }
     }
 }
-
-void GateField::dragClick(int clickX, int clickY)
-{
-    //Loop through all dragable gameobjects
-    for (size_t index = 0; index < m_allGates.size(); index++)
-    {
-        //If found an object to drag, exit out of for loop
-        //so we don't drag multiple objects
-        if(m_allGates[index]->UpdateDrag(clickX, clickY))
-        {
-            return;
-        }
-    }
-}
-
 
 void GateField::deleteClick(int clickX, int clickY)
 {

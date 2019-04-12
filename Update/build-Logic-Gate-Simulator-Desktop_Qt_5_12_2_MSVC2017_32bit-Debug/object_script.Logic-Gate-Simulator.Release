@@ -8,6 +8,7 @@ release/gameobject.o
 release/dlg_home.o
 release/gateinputbox.o
 release/gatefield.o
+release/qrc_resouces.o
 release/moc_mainwindow.o
 release/moc_dlg_home.o
 release/moc_gatefield.o

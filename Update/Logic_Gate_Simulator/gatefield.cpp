@@ -31,7 +31,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     //Draw lines between the nodes
 
 
-    updateFunction();
+    //updateFunction();
 
     update();
     qApp->processEvents();
@@ -78,6 +78,8 @@ void GateField::mousePressEvent(QMouseEvent *click)
         dragClick(clickX,clickY);
         break;
     }
+
+    updateFunction();
 
     QWidget::mousePressEvent(click);
 }
@@ -141,7 +143,10 @@ void GateField::deleteClick(int clickX, int clickY)
 
 void GateField::defaultClick(int clickX, int clickY)
 {
-
+    for (size_t index = 0; index < m_allGates.size(); index++)
+    {
+        m_allGates[index]->UpdateClicked(clickX,clickY);
+    }
 }
 
 void GateField::dragClick(int clickX, int clickY)

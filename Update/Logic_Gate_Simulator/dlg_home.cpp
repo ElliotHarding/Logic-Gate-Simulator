@@ -50,22 +50,34 @@ void DLG_Home::on_btn_link_clicked()
 void DLG_Home::on_btn_sourceGate_clicked()
 {
     if(m_currentGateField)
+    {
         m_currentGateField->addGameObject(new GateInputBox());
+        on_btn_Drag_clicked();
+    }
 }
 void DLG_Home::on_btn_notGate_clicked()
 {
     if(m_currentGateField)
+    {
         m_currentGateField->addGameObject(new GateNot());
+        on_btn_Drag_clicked();
+    }
 }
 void DLG_Home::on_btn_orGate_clicked()
 {
     if(m_currentGateField)
+    {
         m_currentGateField->addGameObject(new GateOr());
+        on_btn_Drag_clicked();
+    }
 }
 void DLG_Home::on_btn_andGate_clicked()
 {
     if(m_currentGateField)
+    {
         m_currentGateField->addGameObject(new GateAnd());
+        on_btn_Drag_clicked();
+    }
 }
 
 

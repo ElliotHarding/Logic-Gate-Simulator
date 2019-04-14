@@ -22,6 +22,11 @@ void Gate::UpdateGraphics(QPainter* painter)
     DrawNodes();
 }
 
+void Gate::drawNode(QPoint position, QPainter *painter)
+{
+    //todo
+}
+
 //
 // -- NODE IMPLEMENTATION --
 //

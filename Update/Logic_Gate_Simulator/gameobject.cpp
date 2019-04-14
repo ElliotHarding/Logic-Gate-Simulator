@@ -52,7 +52,7 @@ DragableGameObject::DragableGameObject(const char *iconLocation, int height, int
 bool DragableGameObject::UpdateDrag(int clickX, int clickY)
 {
     //Drag
-    if(pointInside(clickX,clickY))
+    if(UpdateClicked(clickX, clickY))
     {
         setPosition(clickX - m_width/2,clickY - m_height/2);
         return true;

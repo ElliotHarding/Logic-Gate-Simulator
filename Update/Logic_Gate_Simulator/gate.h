@@ -18,6 +18,8 @@ public:
 
 protected:
     virtual void DrawNodes() = 0;
+
+    void drawNode(QPoint position, QPainter* painter);
 };
 
 class Node : public GameObject

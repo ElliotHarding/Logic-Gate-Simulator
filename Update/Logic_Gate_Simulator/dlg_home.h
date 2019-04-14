@@ -26,7 +26,7 @@ public:
 private:
     Ui::DLG_Home *ui;
 
-    int m_pageNumber = 2;
+    int m_pageNumber = 0;
 
     GateField* m_currentGateField;
 

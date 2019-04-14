@@ -31,7 +31,7 @@ void DLG_Home::on_btn_Delete_clicked()
 {
     if(m_currentGateField)
     {
-        m_currentGateField->setCurrentClickMode(CLICK_DRAG);
+        m_currentGateField->setCurrentClickMode(CLICK_DELETE_GATE);
     }
     ui->lbl_clickMode->setText("Click Mode : Delete");
 }
@@ -39,7 +39,7 @@ void DLG_Home::on_btn_link_clicked()
 {
     if(m_currentGateField)
     {
-        m_currentGateField->setCurrentClickMode(CLICK_DRAG);
+        m_currentGateField->setCurrentClickMode(CLICK_LINK_NODES);
     }
     ui->lbl_clickMode->setText("Click Mode : Link");
 }

@@ -26,21 +26,25 @@ public slots:
 protected:
 
 private:
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dragMoveEvent(QDragMoveEvent* mouseEvent) override;
+    void mouseReleaseEvent(QMouseEvent *releaseEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
+    void updateFunction();
+
+    //Gates
     std::vector<Gate*> m_allGates;
-    void runGates();
 
     Node* m_linkNodeA = nullptr;
 
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
+    bool m_bMouseDragging = false;
     void linkNodesClick(int clickX, int clickY);
     void deleteClick(int clickX, int clickY);
     void defaultClick(int clickX, int clickY);
+    void dragClick(int clickX, int clickY);
 
     //Coords of newly spawned gate
     const int SPAWN_X = 5;

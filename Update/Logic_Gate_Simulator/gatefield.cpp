@@ -3,7 +3,8 @@
 
 GateField::GateField(QWidget *parent) : QWidget(parent)
 {
-setAcceptDrops(true);
+    setAcceptDrops(true);
+    setMouseTracking(true);
 }
 
 GateField::~GateField()
@@ -29,8 +30,19 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
 
     //Draw lines between the nodes
 
+
+    updateFunction();
+
     update();
     qApp->processEvents();
+}
+
+void GateField::updateFunction()
+{
+    for (size_t index = 0; index < m_allGates.size(); index++)
+    {
+        m_allGates[index]->UpdateOutput();
+    }
 }
 
 void GateField::addGameObject(Gate* go)
@@ -41,36 +53,6 @@ void GateField::addGameObject(Gate* go)
     m_allGates.push_back(go);
 }
 
-void GateField::dragEnterEvent(QDragEnterEvent *event)
-{
-    event->acceptProposedAction();
-}
-
-void GateField::dragMoveEvent(QDragMoveEvent *mouseEvent)
-{
-    if (m_currentClickMode != CLICK_DRAG)
-        return;
-
-    //Loop through all dragable gameobjects
-    for (size_t index = 0; index < m_allGates.size(); index++)
-    {
-        //If found an object to drag, exit out of for loop
-        //so we don't drag multiple objects
-        if(m_allGates[index]->UpdateDrag(mouseEvent->pos().x(), mouseEvent->pos().y()))
-        {
-            return;
-        }
-    }
-}
-
-void GateField::runGates()
-{
-    for (size_t index = 0; index < m_allGates.size(); index++)
-    {
-        m_allGates[index]->UpdateOutput();
-    }
-}
-
 void GateField::mousePressEvent(QMouseEvent *click)
 {
     const int clickX = click->x();
@@ -78,16 +60,39 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     switch (m_currentClickMode)
     {
-    case CLICK_LINK_NODES:  linkNodesClick(clickX,clickY); break;
+    case CLICK_LINK_NODES:
+        linkNodesClick(clickX,clickY);
+        break;
 
-    case CLICK_DELETE_GATE: deleteClick(clickX,clickY);  break;
+    case CLICK_DELETE_GATE:
+        deleteClick(clickX,clickY);
+        break;
 
-    case CLICK_NONE:        defaultClick(clickX,clickY);  break;
+    case CLICK_NONE:
+        defaultClick(clickX,clickY);
+        break;
 
-    //case CLICK_DRAG: handeled by GateField::dragMoveEvent
+    //rest of dragging handeled in mouseMoveEvent
+    case CLICK_DRAG:
+        m_bMouseDragging = true;
+        dragClick(clickX,clickY);
+        break;
     }
 
     QWidget::mousePressEvent(click);
+}
+
+void GateField::mouseMoveEvent(QMouseEvent *click)
+{
+    if(m_bMouseDragging)
+    {
+        dragClick(click->x(),click->y());
+    }
+}
+
+void GateField::mouseReleaseEvent(QMouseEvent *click)
+{
+    m_bMouseDragging = false;
 }
 
 void GateField::linkNodesClick(int clickX, int clickY)
@@ -137,4 +142,18 @@ void GateField::deleteClick(int clickX, int clickY)
 void GateField::defaultClick(int clickX, int clickY)
 {
 
+}
+
+void GateField::dragClick(int clickX, int clickY)
+{
+    //Loop through all dragable gameobjects
+    for (size_t index = 0; index < m_allGates.size(); index++)
+    {
+        //If found an object to drag, exit out of for loop
+        //so we don't drag multiple objects
+        if(m_allGates[index]->UpdateDrag(clickX, clickY))
+        {
+            return;
+        }
+    }
 }

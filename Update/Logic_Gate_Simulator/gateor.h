@@ -3,6 +3,9 @@
 
 #include "gate.h"
 
+#define GateOrWidth 100
+#define GateOrHeight 50
+
 class GateOr : public Gate
 {
 public:
@@ -15,16 +18,16 @@ public:
 protected:
     virtual void DrawNodes(QPainter *painter) override;
 
-    const int M_INPUTa_OFFSET_X = 0;
-    const int M_INPUTa_OFFSET_Y = 0;
+    const int M_INPUTa_OFFSET_X = -10;
+    const int M_INPUTa_OFFSET_Y = GateOrHeight/2 + 10;
     Node m_inputA;
 
-    const int M_INPUTb_OFFSET_X = 0;
-    const int M_INPUTb_OFFSET_Y = 0;
+    const int M_INPUTb_OFFSET_X = -10;
+    const int M_INPUTb_OFFSET_Y = GateOrHeight/2 - 10;
     Node m_inputB;
 
-    const int M_OUTPUT_OFFSET_X = 0;
-    const int M_OUTPUT_OFFSET_Y = 0;
+    const int M_OUTPUT_OFFSET_X = GateOrWidth + 10;
+    const int M_OUTPUT_OFFSET_Y = GateOrHeight/2;
     Node m_output;
 };
 

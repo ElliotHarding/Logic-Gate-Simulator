@@ -15,7 +15,6 @@ GateField::~GateField()
     }
 
     delete m_linkNodeA;
-
 }
 
 void GateField::paintEvent(QPaintEvent *paintEvent)

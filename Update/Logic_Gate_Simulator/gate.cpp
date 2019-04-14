@@ -19,13 +19,9 @@ void Gate::UpdateGraphics(QPainter* painter)
 {
     GameObject::UpdateGraphics(painter);
 
-    DrawNodes();
+    DrawNodes(painter);
 }
 
-void Gate::drawNode(QPoint position, QPainter *painter)
-{
-    //todo
-}
 
 //
 // -- NODE IMPLEMENTATION --
@@ -53,6 +49,18 @@ void Node::LinkNode(Node* n)
 Gate* Node::GetParent()
 {
     return m_parent;
+}
+
+void Node::UpdateGraphics(QPainter* painter)
+{
+    //Paiting variables to be used
+    QPainterPath path;
+    QPen pen(Qt::black, 10);
+
+    //Draw node
+    painter->setPen(pen);
+    QPoint position(m_layout.x(),m_layout.y());
+    painter->drawEllipse(position,10,10);
 }
 
 Node *Node::GetLinkedNode()

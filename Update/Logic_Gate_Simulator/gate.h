@@ -17,16 +17,14 @@ public:
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
 
 protected:
-    virtual void DrawNodes() = 0;
-
-    void drawNode(QPoint position, QPainter* painter);
+    virtual void DrawNodes(QPainter *painter) = 0;
 };
 
 class Node : public GameObject
 {
 public:
     Node(Gate* parent);
-    ~Node();
+    ~Node() override;
 
     //Linked node
     void LinkNode(Node* n);
@@ -38,6 +36,8 @@ public:
 
     //Stored value
     bool value;
+
+    virtual void UpdateGraphics(QPainter* painter) override;
 
 private:
     Node* m_linkedNode = nullptr;

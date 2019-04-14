@@ -29,15 +29,6 @@ void GateAnd::UpdateOutput()
     Gate::UpdateOutput();
 }
 
-bool GateAnd::UpdateDrag(int clickX, int clickY)
-{
-    bool returnVal = Gate::UpdateDrag(clickX, clickY);
-
-    //todo node positions
-
-    return returnVal;
-}
-
 Node *GateAnd::GetClickedNode(int clickX, int clickY)
 {
     if( m_inputA.UpdateClicked(clickX, clickY))
@@ -52,7 +43,13 @@ Node *GateAnd::GetClickedNode(int clickX, int clickY)
     return nullptr;
 }
 
-void GateAnd::DrawNodes()
+void GateAnd::DrawNodes(QPainter *painter)
 {
+    m_inputA.setPosition(m_layout.x() + M_INPUTa_OFFSET_X, m_layout.y() + M_INPUTa_OFFSET_Y);
+    m_inputB.setPosition(m_layout.x() + M_INPUTb_OFFSET_X, m_layout.y() + M_INPUTb_OFFSET_Y);
+    m_output.setPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
 
+    m_inputA.UpdateGraphics(painter);
+    m_inputB.UpdateGraphics(painter);
+    m_output.UpdateGraphics(painter);
 }

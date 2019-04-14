@@ -9,7 +9,6 @@ public:
     GateInputBox();
 
     virtual void UpdateOutput() override;
-    virtual bool UpdateDrag(int clickX, int clickY) override;
     virtual void UpdateGraphics(QPainter* painter) override;
 
     virtual Node* GetClickedNode(int clickX, int clickY) override;
@@ -25,7 +24,7 @@ protected:
     QImage m_imageActive;
 
 
-    virtual void DrawNodes() override;
+    virtual void DrawNodes(QPainter *painter) override;
 };
 
 #endif // GATEINPUTBOX_H

@@ -43,7 +43,6 @@ void GateInputBox::UpdateGraphics(QPainter *painter)
 DrawNodes(painter);
 //not the best fix... should have a differnet class structure
 
-
     //Paiting variables to be used
     QPainterPath path;
     QPen pen(Qt::black, 10);

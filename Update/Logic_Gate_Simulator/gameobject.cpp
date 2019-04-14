@@ -26,22 +26,31 @@ bool GameObject::UpdateClicked(int clickX, int clickY)
 
 void GameObject::setPosition(int x, int y)
 {
-    m_layout.setLeft(x);
-    m_layout.setTop(y);
-    m_layout.setRight(x + m_width);
-    m_layout.setBottom(y + m_height);
+    m_layout.setLeft(x - m_width/2);
+    m_layout.setTop(y - m_height/2);
+    m_layout.setRight(x + m_width/2);
+    m_layout.setBottom(y + m_height/2);
 }
 
 bool GameObject::pointInside(int x, int y)
 {
-    if(x > m_layout.x() && x < m_layout.x() + m_layout.width())
+    if(x > m_layout.left() && x < m_layout.right())
+    {
+        if(y > m_layout.top() && y < m_layout.bottom())
+        {
+            return true;
+        }
+    }
+    return false;
+
+    /*if(x > m_layout.x() && x < m_layout.x() + m_layout.width())
     {
         if(y > m_layout.y() && y < m_layout.y() + m_layout.height())
         {
             return true;
         }
     }
-    return false;
+    return false;*/
 }
 
 DragableGameObject::DragableGameObject(const char *iconLocation, int height, int width) :
@@ -54,7 +63,7 @@ bool DragableGameObject::UpdateDrag(int clickX, int clickY)
     //Drag
     if(UpdateClicked(clickX, clickY))
     {
-        setPosition(clickX - m_width/2,clickY - m_height/2);
+        setPosition(clickX,clickY);
         return true;
     }
     return false;

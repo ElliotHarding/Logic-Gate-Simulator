@@ -39,6 +39,8 @@ public:
 
     virtual void UpdateGraphics(QPainter* painter) override;
 
+    QPoint GetPosition (){return QPoint(m_layout.x(), m_layout.y());}
+
 private:
     Node* m_linkedNode = nullptr;
     Gate* m_parent = nullptr;

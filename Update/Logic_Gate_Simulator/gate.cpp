@@ -28,7 +28,7 @@ void Gate::UpdateGraphics(QPainter* painter)
 //
 
 Node::Node(Gate* parent) :
-     GameObject::GameObject("Resources/circle.png",5,5)
+     GameObject::GameObject("Resources/circle.png",15,15)
 {
     m_parent = parent;
     value = 0;
@@ -61,6 +61,15 @@ void Node::UpdateGraphics(QPainter* painter)
     painter->setPen(pen);
     QPoint position(m_layout.x(),m_layout.y());
     painter->drawEllipse(position,10,10);
+
+    //if linked draw line between node and linked node
+    if(m_linkedNode)
+    {
+        //setting todo
+        pen.setWidth(2);
+
+        painter->drawLine(m_linkedNode->GetPosition(),GetPosition());
+    }
 }
 
 Node *Node::GetLinkedNode()

@@ -105,7 +105,7 @@ void GateField::linkNodesClick(int clickX, int clickY)
         if(node != nullptr)
         {
             //If m_linkNodeA is a null pointer then its the first node to be clicked
-            if(m_linkNodeA != nullptr)
+            if(m_linkNodeA == nullptr)
             {
                 m_linkNodeA = node;
             }

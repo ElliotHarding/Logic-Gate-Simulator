@@ -9,4 +9,5 @@ enum ClickMode
     CLICK_DRAG,
     CLICK_DELETE_GATE,
     CLICK_LINK_NODES,
+    CLICK_DELETE_LINK_NODES
 };

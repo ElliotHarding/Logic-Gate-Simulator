@@ -71,6 +71,10 @@ void GateField::mousePressEvent(QMouseEvent *click)
         defaultClick(clickX,clickY);
         break;
 
+    case CLICK_DELETE_LINK_NODES:
+        deleteLinkedNodesClick(clickX,clickY);
+        break;
+
     //rest of dragging handeled in mouseMoveEvent
     case CLICK_DRAG:
         m_bMouseDragging = true;
@@ -78,7 +82,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
         break;
     }
 
-    updateFunction();
+    //updateFunction();
 
     QWidget::mousePressEvent(click);
 }
@@ -98,10 +102,11 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
 
 void GateField::linkNodesClick(int clickX, int clickY)
 {
+    Node* node;
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         //Check if iterated gate has any clicked nodes
-        Node* node = (m_allGates[index])->GetClickedNode(clickX,clickY);
+        node = (m_allGates[index])->GetClickedNode(clickX,clickY);
         if(node != nullptr)
         {
             //If m_linkNodeA is a null pointer then its the first node to be clicked
@@ -122,9 +127,35 @@ void GateField::linkNodesClick(int clickX, int clickY)
                 m_linkNodeA = nullptr;
             }
 
+            delete node;
             return; //so that we dont acidentally get more than one clicked node
         }
     }
+    delete node;
+}
+
+void GateField::deleteLinkedNodesClick(int clickX, int clickY)
+{
+    Node* node;
+    for (size_t index = 0; index < m_allGates.size(); index++)
+    {
+        //Check if iterated gate has any clicked nodes
+        node = (m_allGates[index])->GetClickedNode(clickX,clickY);
+        if(node != nullptr)
+        {
+            if(node->GetLinkedNode())
+            {
+                Node* nodeLinkedTo = node->GetLinkedNode();
+                nodeLinkedTo->DetachNode();
+                node->DetachNode();
+                delete nodeLinkedTo;
+            }
+
+            delete node;
+            return; //so that we dont acidentally get more than one clicked node
+        }
+    }
+    delete node;
 }
 
 void GateField::deleteClick(int clickX, int clickY)

@@ -96,22 +96,6 @@
      <string>Link</string>
     </property>
    </widget>
-   <widget class="QLabel" name="lbl_clickMode">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>150</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Click Mode : Drag</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_newPage">
     <property name="geometry">
      <rect>
@@ -218,6 +202,19 @@
       <width>64</width>
       <height>64</height>
      </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_DeleteLink">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>340</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete Link</string>
     </property>
    </widget>
   </widget>

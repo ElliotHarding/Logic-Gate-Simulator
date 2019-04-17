@@ -34,23 +34,7 @@ void GameObject::setPosition(int x, int y)
 
 bool GameObject::pointInside(int x, int y)
 {
-    if(x > m_layout.left() && x < m_layout.right())
-    {
-        if(y > m_layout.top() && y < m_layout.bottom())
-        {
-            return true;
-        }
-    }
-    return false;
-
-    /*if(x > m_layout.x() && x < m_layout.x() + m_layout.width())
-    {
-        if(y > m_layout.y() && y < m_layout.y() + m_layout.height())
-        {
-            return true;
-        }
-    }
-    return false;*/
+    return m_layout.contains(QPoint(x,y));
 }
 
 DragableGameObject::DragableGameObject(const char *iconLocation, int height, int width) :

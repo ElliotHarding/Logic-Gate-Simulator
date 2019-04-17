@@ -38,7 +38,6 @@ private:
 
     //Temps for multi step linking and unlinking
     Node* m_linkNodeA = nullptr;
-    Node* m_deleteLinkNode = nullptr;
 
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
@@ -47,6 +46,7 @@ private:
     void deleteClick(int clickX, int clickY);
     void defaultClick(int clickX, int clickY);
     void dragClick(int clickX, int clickY);
+    void deleteLinkedNodesClick(int clickX, int clickY);
 
     //Coords of newly spawned gate
     const int SPAWN_X = 5;

@@ -32,6 +32,13 @@ void GameObject::setPosition(int x, int y)
     m_layout.setBottom(y + m_height/2);
 }
 
+
+QPoint GameObject::GetPosition()
+{
+    //God I know i'm doing this wrong but whatever if it works i aint changing it, liek the compiler will probs do it for me right?
+    return QPoint((m_layout.right() - m_layout.left()) + m_layout.left(), (m_layout.bottom() - m_layout.top()) + m_layout.top());
+}
+
 bool GameObject::pointInside(int x, int y)
 {
     return m_layout.contains(QPoint(x,y));

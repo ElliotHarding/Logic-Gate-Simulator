@@ -39,9 +39,6 @@ public:
 
     virtual void UpdateGraphics(QPainter* painter) override;
 
-    //God I know i'm doing this wrong but whatever if it works i aint changing it, liek the compiler will probs do it for me right?
-    QPoint GetPosition (){return QPoint((m_layout.right() - m_layout.left()) + m_layout.left(), (m_layout.bottom() - m_layout.top()) + m_layout.top());}
-
 private:
     Node* m_linkedNode = nullptr;
     Gate* m_parent = nullptr;

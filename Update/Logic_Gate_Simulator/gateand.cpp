@@ -44,10 +44,10 @@ Node *GateAnd::GetClickedNode(int clickX, int clickY)
 }
 
 void GateAnd::DrawNodes(QPainter *painter)
-{
-    m_inputA.setPosition(m_layout.x() + M_INPUTa_OFFSET_X, m_layout.y() + M_INPUTa_OFFSET_Y);
-    m_inputB.setPosition(m_layout.x() + M_INPUTb_OFFSET_X, m_layout.y() + M_INPUTb_OFFSET_Y);
-    m_output.setPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
+{    
+    m_inputA.setPosition(GetPosition().x() + M_INPUTa_OFFSET_X, GetPosition().y() + M_INPUTa_OFFSET_Y);
+    m_inputB.setPosition(GetPosition().x() + M_INPUTb_OFFSET_X, GetPosition().y() + M_INPUTb_OFFSET_Y);
+    m_output.setPosition(GetPosition().x() + M_OUTPUT_OFFSET_X, GetPosition().y() + M_OUTPUT_OFFSET_Y);
 
     m_inputA.UpdateGraphics(painter);
     m_inputB.UpdateGraphics(painter);

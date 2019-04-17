@@ -26,6 +26,8 @@ void DLG_Home::on_btn_Drag_clicked()
         m_currentGateField->setCurrentClickMode(CLICK_DRAG);
     }
     ui->lbl_clickMode->setText("Click Mode : Drag");
+
+    QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
 }
 void DLG_Home::on_btn_Delete_clicked()
 {
@@ -33,7 +35,9 @@ void DLG_Home::on_btn_Delete_clicked()
     {
         m_currentGateField->setCurrentClickMode(CLICK_DELETE_GATE);
     }
-    ui->lbl_clickMode->setText("Click Mode : Delete");
+    ui->lbl_clickMode->setText("Click on something to delete it!");
+
+    QApplication::setOverrideCursor(Qt::CursorShape::CrossCursor);
 }
 void DLG_Home::on_btn_link_clicked()
 {
@@ -41,7 +45,19 @@ void DLG_Home::on_btn_link_clicked()
     {
         m_currentGateField->setCurrentClickMode(CLICK_LINK_NODES);
     }
-    ui->lbl_clickMode->setText("Click Mode : Link");
+    ui->lbl_clickMode->setText("Select two nodes to connect");
+
+    QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
+}
+void DLG_Home::on_btn_DeleteLink_clicked()
+{
+    if(m_currentGateField)
+    {
+        m_currentGateField->setCurrentClickMode(CLICK_LINK_NODES);
+    }
+    ui->lbl_clickMode->setText("Select two nodes to drag");
+
+    QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
 }
 
 

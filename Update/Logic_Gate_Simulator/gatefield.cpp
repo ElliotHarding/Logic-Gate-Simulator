@@ -113,6 +113,10 @@ void GateField::linkNodesClick(int clickX, int clickY)
             //Otherwise click on second node, so link first & second and then set m_linkNodeA to null
             else
             {
+                //Not gonna link to itself!
+                if (&node == &m_linkNodeA)
+                    return;
+
                 m_linkNodeA->LinkNode(node);
                 node->LinkNode(m_linkNodeA);
                 m_linkNodeA = nullptr;

@@ -36,7 +36,9 @@ private:
     //Gates
     std::vector<Gate*> m_allGates;
 
+    //Temps for multi step linking and unlinking
     Node* m_linkNodeA = nullptr;
+    Node* m_deleteLinkNode = nullptr;
 
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;

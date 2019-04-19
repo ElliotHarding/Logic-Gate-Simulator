@@ -9,7 +9,6 @@ GateInputBox::GateInputBox() :
 GateInputBox::~GateInputBox()
 {
     DetachNode(&m_output);
-    Gate::~Gate();
 }
 
 void GateInputBox::UpdateOutput()

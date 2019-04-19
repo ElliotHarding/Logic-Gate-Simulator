@@ -11,7 +11,7 @@ class GateInputBox : public Gate
 {
 public:
     GateInputBox();
-    ~GateInputBox();
+    ~GateInputBox() override;
 
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;
@@ -29,7 +29,6 @@ protected:
     //This is the image that shows if the GateInputBox is active, the actual image
     //is still in GameObject class
     QImage m_imageActive;
-
 
     virtual void DrawNodes(QPainter *painter) override;
 };

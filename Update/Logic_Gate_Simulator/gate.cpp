@@ -7,7 +7,6 @@ Gate::Gate(const char* iconLocation, int width, int height) :
 
 Gate::~Gate()
 {
-    GameObject::~GameObject();
 }
 
 bool Gate::UpdateDrag(int clickX, int clickY)

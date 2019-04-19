@@ -11,7 +11,6 @@ GateNot::~GateNot()
 {
     DetachNode(&m_input);
     DetachNode(&m_output);
-    Gate::~Gate();
 }
 
 void GateNot::UpdateOutput()
@@ -28,6 +27,7 @@ void GateNot::UpdateOutput()
         linkedNode->value = newVal;
         linkedNode->GetParent()->UpdateOutput();
     }
+    delete linkedNode;
 
     Gate::UpdateOutput();
 }

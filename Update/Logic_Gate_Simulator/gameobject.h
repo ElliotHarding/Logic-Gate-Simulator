@@ -19,7 +19,7 @@ public:
 
     //Positioning
     void setPosition(int x, int y);
-    QPoint GetPosition ();
+    QPoint GetPosition() {return QPoint(m_layout.x(),m_layout.y());}
 
 protected:
 

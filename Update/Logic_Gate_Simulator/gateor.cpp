@@ -13,7 +13,6 @@ GateOr::~GateOr()
     DetachNode(&m_inputA);
     DetachNode(&m_inputB);
     DetachNode(&m_output);
-    Gate::~Gate();
 }
 
 void GateOr::UpdateOutput()
@@ -32,6 +31,7 @@ void GateOr::UpdateOutput()
         linkedNode->value = newVal;        
         linkedNode->GetParent()->UpdateOutput();
     }
+    delete linkedNode;
 
     Gate::UpdateOutput();
 }

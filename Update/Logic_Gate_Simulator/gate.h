@@ -9,7 +9,7 @@ class Gate : public DragableGameObject
 {
 public:
     Gate(const char* iconLocation, int width, int height);
-    ~Gate();
+    ~Gate() override;
 
     virtual bool    UpdateDrag(int clickX, int clickY) override;
     virtual void    UpdateOutput();

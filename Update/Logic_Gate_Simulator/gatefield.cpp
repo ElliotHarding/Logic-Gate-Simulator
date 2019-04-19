@@ -21,14 +21,11 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
 
-    //Draw all gates
+    //Draw all gates & all lines between nodes (handeled via nodes)
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         m_allGates[index]->UpdateGraphics(&painter);
     }
-
-    //Draw lines between the nodes
-
 
     //updateFunction();
 
@@ -113,6 +110,7 @@ void GateField::linkNodesClick(int clickX, int clickY)
             if(m_linkNodeA == nullptr)
             {
                 m_linkNodeA = node;
+                QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
             }
 
             //Otherwise click on second node, so link first & second and then set m_linkNodeA to null
@@ -125,6 +123,7 @@ void GateField::linkNodesClick(int clickX, int clickY)
                 m_linkNodeA->LinkNode(node);
                 node->LinkNode(m_linkNodeA);
                 m_linkNodeA = nullptr;
+                QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
             }
 
             delete node;

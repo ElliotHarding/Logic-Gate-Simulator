@@ -73,11 +73,14 @@ void Node::UpdateGraphics(QPainter* painter)
     QPoint position(m_layout.x(),m_layout.y());
     painter->drawEllipse(position,10,10);
 
+    //Bug where there's a whole in the node, can't be bothered to look up filling a circle
+    painter->drawEllipse(position,4,4);
+
     //if linked draw line between node and linked node
     if(m_linkedNode)
     {
         //setting todo
-        pen.setWidth(2);
+        pen.setWidth(1);
 
         painter->drawLine(m_linkedNode->GetPosition(),GetPosition());
     }

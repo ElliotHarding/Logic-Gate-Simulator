@@ -9,6 +9,7 @@ GateField::GateField(QWidget *parent) : QWidget(parent)
 
 GateField::~GateField()
 {
+    //Delete all gates
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         delete m_allGates[index];
@@ -53,6 +54,10 @@ void GateField::mousePressEvent(QMouseEvent *click)
 {
     const int clickX = click->x();
     const int clickY = click->y();
+
+    //If was in the middle of linking, but then user changed click mode, forget
+    //the middle step variable m_linkNodeA
+    if(m_currentClickMode != CLICK_LINK_NODES) m_linkNodeA = nullptr;
 
     switch (m_currentClickMode)
     {
@@ -110,7 +115,9 @@ void GateField::linkNodesClick(int clickX, int clickY)
             if(m_linkNodeA == nullptr)
             {
                 m_linkNodeA = node;
-                QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
+
+                //Change cursor as moving to next linking step and need to notify user
+                QApplication::setOverrideCursor(Qt::CursorShape::DragCopyCursor);
             }
 
             //Otherwise click on second node, so link first & second and then set m_linkNodeA to null
@@ -123,6 +130,8 @@ void GateField::linkNodesClick(int clickX, int clickY)
                 m_linkNodeA->LinkNode(node);
                 node->LinkNode(m_linkNodeA);
                 m_linkNodeA = nullptr;
+
+                //Change cursor as finished linking
                 QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
             }
 

@@ -5,5 +5,10 @@
         <file>Resources/gate-not.png</file>
         <file>Resources/circle.png</file>
         <file>Resources/box.png</file>
+        <file>Resources/icon-bin.png</file>
+        <file>Resources/icon-drag.png</file>
+        <file>Resources/icon-link-basic.png</file>
+        <file>Resources/icon-link-delete.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

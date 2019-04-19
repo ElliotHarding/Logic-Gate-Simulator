@@ -60,40 +60,70 @@
    <widget class="QPushButton" name="btn_Drag">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>190</y>
-      <width>101</width>
+      <x>750</x>
+      <y>70</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Drag</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/icon-drag.png</normaloff>:/Resources/Resources/icon-drag.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_Delete">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>240</y>
-      <width>101</width>
+      <x>700</x>
+      <y>70</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Delete</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/icon-bin.png</normaloff>:/Resources/Resources/icon-bin.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_link">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>290</y>
-      <width>101</width>
+      <x>700</x>
+      <y>120</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Link</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/icon-link-basic.png</normaloff>:/Resources/Resources/icon-link-basic.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_newPage">
@@ -207,14 +237,24 @@
    <widget class="QPushButton" name="btn_DeleteLink">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>340</y>
-      <width>101</width>
+      <x>750</x>
+      <y>120</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Delete Link</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/icon-link-delete.png</normaloff>:/Resources/Resources/icon-link-delete.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
     </property>
    </widget>
   </widget>

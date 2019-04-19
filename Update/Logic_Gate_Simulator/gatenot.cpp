@@ -7,6 +7,13 @@ GateNot::GateNot() :
 {
 }
 
+GateNot::~GateNot()
+{
+    DetachNode(&m_input);
+    DetachNode(&m_output);
+    Gate::~Gate();
+}
+
 void GateNot::UpdateOutput()
 {
     bool newVal = !(m_input.value);

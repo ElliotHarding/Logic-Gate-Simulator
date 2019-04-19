@@ -10,6 +10,7 @@ class GateAnd : public Gate
 {
 public:
     GateAnd();
+    ~GateAnd();
 
     virtual void UpdateOutput() override;
     virtual Node* GetClickedNode(int clickX, int clickY) override;

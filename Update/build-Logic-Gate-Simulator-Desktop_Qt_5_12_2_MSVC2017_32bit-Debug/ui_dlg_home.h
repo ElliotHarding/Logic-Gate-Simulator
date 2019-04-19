@@ -13,7 +13,6 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTabWidget>
@@ -33,12 +32,12 @@ public:
     QPushButton *btn_Drag;
     QPushButton *btn_Delete;
     QPushButton *btn_link;
-    QLabel *lbl_clickMode;
     QPushButton *btn_newPage;
     QPushButton *btn_orGate;
     QPushButton *btn_notGate;
     QPushButton *btn_andGate;
     QPushButton *btn_sourceGate;
+    QPushButton *btn_DeleteLink;
 
     void setupUi(QMainWindow *DLG_Home)
     {
@@ -75,10 +74,6 @@ public:
         btn_link = new QPushButton(centralwidget);
         btn_link->setObjectName(QString::fromUtf8("btn_link"));
         btn_link->setGeometry(QRect(690, 290, 101, 41));
-        lbl_clickMode = new QLabel(centralwidget);
-        lbl_clickMode->setObjectName(QString::fromUtf8("lbl_clickMode"));
-        lbl_clickMode->setGeometry(QRect(690, 150, 91, 31));
-        lbl_clickMode->setAlignment(Qt::AlignCenter);
         btn_newPage = new QPushButton(centralwidget);
         btn_newPage->setObjectName(QString::fromUtf8("btn_newPage"));
         btn_newPage->setGeometry(QRect(690, 20, 101, 41));
@@ -111,6 +106,9 @@ public:
         icon3.addFile(QString::fromUtf8(":/Resources/Resources/box.png"), QSize(), QIcon::Normal, QIcon::Off);
         btn_sourceGate->setIcon(icon3);
         btn_sourceGate->setIconSize(QSize(64, 64));
+        btn_DeleteLink = new QPushButton(centralwidget);
+        btn_DeleteLink->setObjectName(QString::fromUtf8("btn_DeleteLink"));
+        btn_DeleteLink->setGeometry(QRect(690, 340, 101, 41));
         DLG_Home->setCentralWidget(centralwidget);
 
         retranslateUi(DLG_Home);
@@ -131,12 +129,12 @@ public:
         btn_Drag->setText(QApplication::translate("DLG_Home", "Drag", nullptr));
         btn_Delete->setText(QApplication::translate("DLG_Home", "Delete", nullptr));
         btn_link->setText(QApplication::translate("DLG_Home", "Link", nullptr));
-        lbl_clickMode->setText(QApplication::translate("DLG_Home", "Click Mode : Drag", nullptr));
         btn_newPage->setText(QApplication::translate("DLG_Home", "New Page", nullptr));
         btn_orGate->setText(QString());
         btn_notGate->setText(QString());
         btn_andGate->setText(QString());
         btn_sourceGate->setText(QString());
+        btn_DeleteLink->setText(QApplication::translate("DLG_Home", "Delete Link", nullptr));
     } // retranslateUi
 
 };

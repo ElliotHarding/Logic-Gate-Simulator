@@ -5,6 +5,11 @@ Gate::Gate(const char* iconLocation, int width, int height) :
 {
 }
 
+Gate::~Gate()
+{
+    GameObject::~GameObject();
+}
+
 bool Gate::UpdateDrag(int clickX, int clickY)
 {
     return DragableGameObject::UpdateDrag(clickX, clickY);
@@ -20,6 +25,13 @@ void Gate::UpdateGraphics(QPainter* painter)
     GameObject::UpdateGraphics(painter);
 
     DrawNodes(painter);
+}
+
+void Gate::DetachNode(Node *node)
+{
+    if(node->GetLinkedNode())
+        node->GetLinkedNode()->DetachNode();
+    node->DetachNode();
 }
 
 

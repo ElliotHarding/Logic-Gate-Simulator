@@ -8,6 +8,14 @@ GateOr::GateOr() :
 {
 }
 
+GateOr::~GateOr()
+{
+    DetachNode(&m_inputA);
+    DetachNode(&m_inputB);
+    DetachNode(&m_output);
+    Gate::~Gate();
+}
+
 void GateOr::UpdateOutput()
 {
     const bool newVal = m_inputA.value | m_inputB.value;

@@ -9,6 +9,7 @@ class Gate : public DragableGameObject
 {
 public:
     Gate(const char* iconLocation, int width, int height);
+    ~Gate();
 
     virtual bool    UpdateDrag(int clickX, int clickY) override;
     virtual void    UpdateOutput();
@@ -18,6 +19,7 @@ public:
 
 protected:
     virtual void DrawNodes(QPainter *painter) = 0;
+    void DetachNode(Node* node);
 };
 
 class Node : public GameObject

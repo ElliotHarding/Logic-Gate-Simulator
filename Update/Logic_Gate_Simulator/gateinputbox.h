@@ -3,10 +3,15 @@
 
 #include "gate.h"
 
+#define GateInputBoxWidth 35
+#define GateInputBoxHeight 35
+#define BorderWidth 7
+
 class GateInputBox : public Gate
 {
 public:
     GateInputBox();
+    ~GateInputBox();
 
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;
@@ -15,6 +20,8 @@ public:
 
 protected:
 
+    const int NODE_OFFSET_X = 0;
+    const int NODE_OFFSET_Y = 0;
     Node m_output;
 
     bool m_bColorJustSwitched = true;

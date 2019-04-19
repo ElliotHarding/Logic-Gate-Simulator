@@ -10,6 +10,7 @@ class GateOr : public Gate
 {
 public:
     GateOr();
+    ~GateOr();
 
     virtual void UpdateOutput() override;
 

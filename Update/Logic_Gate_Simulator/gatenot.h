@@ -10,6 +10,7 @@ class GateNot : public Gate
 {
 public:
     GateNot();
+    ~GateNot();
 
     virtual void UpdateOutput() override;
 

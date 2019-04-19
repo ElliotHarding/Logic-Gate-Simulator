@@ -9,6 +9,14 @@ GateAnd::GateAnd() :
 
 }
 
+GateAnd::~GateAnd()
+{
+    DetachNode(&m_inputA);
+    DetachNode(&m_inputB);
+    DetachNode(&m_output);
+    Gate::~Gate();
+}
+
 void GateAnd::UpdateOutput()
 {
     const bool sum = m_inputA.value & m_inputB.value;

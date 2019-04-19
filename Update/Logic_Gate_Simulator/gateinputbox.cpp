@@ -1,15 +1,15 @@
 #include "gateinputbox.h"
 
-static const int GateInputBoxWidth = 35;
-static const int GateInputBoxHeight = 35;
-static const int BorderWidth = 7;
-static const int NODE_1_OFFSET_X = 45;
-static const int NODE_1_OFFSET_Y = 17;
-
 GateInputBox::GateInputBox() :
     Gate::Gate(std::string(":/Resources/Resources/box.png").c_str(),GateInputBoxWidth,GateInputBoxHeight),
     m_output(this)
 {
+}
+
+GateInputBox::~GateInputBox()
+{
+    DetachNode(&m_output);
+    Gate::~Gate();
 }
 
 void GateInputBox::UpdateOutput()
@@ -74,7 +74,7 @@ Node *GateInputBox::GetClickedNode(int clickX, int clickY)
 
 void GateInputBox::DrawNodes(QPainter *painter)
 {
-    m_output.setPosition(m_layout.x() + NODE_1_OFFSET_X, m_layout.y() + NODE_1_OFFSET_Y);
+    m_output.setPosition(m_layout.x() + NODE_OFFSET_X, m_layout.y() + NODE_OFFSET_Y);
     m_output.UpdateGraphics(painter);
 }
 

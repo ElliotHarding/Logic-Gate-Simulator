@@ -28,7 +28,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
         m_allGates[index]->UpdateGraphics(&painter);
     }
 
-    updateFunction();
+    //updateFunction();
 }
 
 void GateField::setUpdateGraphics()

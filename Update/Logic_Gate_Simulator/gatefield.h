@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "clickmode.h"
 #include "gate.h"
+#include "gateinputbox.h"
 #include "QMouseEvent"
 #include <QDragMoveEvent>
 
@@ -11,27 +12,25 @@ class GateField : public QWidget
 {
     Q_OBJECT
 public:
+
     explicit GateField(QWidget *parent = nullptr);
     ~GateField() override;
 
+    //Calls from DLG_Home:
     void addGameObject(Gate* go);
-
-    //Comes from DLG_Home...
+    void updateFunction();
     void setCurrentClickMode(ClickMode clickMode) {m_currentClickMode = clickMode;}
 
 signals:
-
 public slots:
-
 protected:
-
 private:
+
+    //Events
     void mouseReleaseEvent(QMouseEvent *releaseEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
-
-    void updateFunction();
 
     //Gates
     std::vector<Gate*> m_allGates;
@@ -44,9 +43,9 @@ private:
     bool m_bMouseDragging = false;
     void linkNodesClick(int clickX, int clickY);
     void deleteClick(int clickX, int clickY);
-    void defaultClick(int clickX, int clickY);
     void dragClick(int clickX, int clickY);
     void deleteLinkedNodesClick(int clickX, int clickY);
+    void anyInputGatesToggled(int clickX, int clickY);
 
     //Coords of newly spawned gate
     const int SPAWN_X = 5;

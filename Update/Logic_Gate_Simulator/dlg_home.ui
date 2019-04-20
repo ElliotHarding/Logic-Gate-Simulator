@@ -257,6 +257,29 @@
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_click">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>170</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>a</string>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/icon-link-basic.png</normaloff>:/Resources/Resources/icon-link-basic.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
   </widget>
   <action name="actionNew_page">
    <property name="text">

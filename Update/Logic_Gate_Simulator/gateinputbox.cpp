@@ -4,6 +4,7 @@ GateInputBox::GateInputBox() :
     Gate::Gate(std::string(":/Resources/Resources/box.png").c_str(),GateInputBoxWidth,GateInputBoxHeight),
     m_output(this)
 {
+     m_toggleStateTimer.start(c_toggleFrequency);
 }
 
 GateInputBox::~GateInputBox()
@@ -13,24 +14,14 @@ GateInputBox::~GateInputBox()
 
 void GateInputBox::UpdateOutput()
 {
-    //if new click
-    if(!m_bColorJustSwitched && beingClicked)
+    //if output linked to node;
+    //- set value of node linked to output node
+    //- update the gate owner of the linked node
+    if(m_output.GetLinkedNode())
     {
-        m_output.value = !m_output.value;
-
-        m_bColorJustSwitched = true;
-
-        //if output linked to node;
-        //- set value of node linked to output node
-        //- update the gate owner of the linked node
-        if(m_output.GetLinkedNode())
-        {
-            m_output.GetLinkedNode()->value = m_output.value;
-            m_output.GetLinkedNode()->GetParent()->UpdateOutput();
-        }
+        m_output.GetLinkedNode()->value = m_output.value; //m_output.value is updated in GateInputBox::UpdateClicked
+        m_output.GetLinkedNode()->GetParent()->UpdateOutput();
     }
-
-    m_bColorJustSwitched = !beingClicked;
 
     Gate::UpdateOutput();
 }
@@ -61,6 +52,22 @@ DrawNodes(painter);
     pen.setWidth(20);
     painter->setPen(pen);
     painter->drawRect(activeRect);
+}
+
+bool GateInputBox::UpdateClicked(int clickX, int clickY)
+{
+    bool isClicked = GameObject::UpdateClicked(clickX,clickY);
+
+    //If being clicked & toggleStateTimer has finished
+    //Then toggle output value of gate
+    if (isClicked && m_toggleStateTimer.remainingTime() == 0)
+    {
+        m_toggleStateTimer.stop();
+        m_toggleStateTimer.start(c_toggleFrequency);
+        m_output.value = !m_output.value;
+    }
+
+    return isClicked;
 }
 
 Node *GateInputBox::GetClickedNode(int clickX, int clickY)

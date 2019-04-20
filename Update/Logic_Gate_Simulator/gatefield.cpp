@@ -28,10 +28,11 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
         m_allGates[index]->UpdateGraphics(&painter);
     }
 
-    //updateFunction();
+    updateFunction();
 
-    update();
-    qApp->processEvents();
+    //Call to update widget (so another draw call)
+    //update();
+    //qApp->processEvents();
 }
 
 void GateField::updateFunction()
@@ -69,22 +70,19 @@ void GateField::mousePressEvent(QMouseEvent *click)
         deleteClick(clickX,clickY);
         break;
 
-    case CLICK_NONE:
-        defaultClick(clickX,clickY);
-        break;
-
     case CLICK_DELETE_LINK_NODES:
         deleteLinkedNodesClick(clickX,clickY);
         break;
 
+    case CLICK_DEFAULT:
+        anyInputGatesToggled(click->x(),click->y());
+        break;
+
     //rest of dragging handeled in mouseMoveEvent
     case CLICK_DRAG:
-        m_bMouseDragging = true;
         dragClick(clickX,clickY);
         break;
     }
-
-    //updateFunction();
 
     QWidget::mousePressEvent(click);
 }
@@ -166,6 +164,23 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
     delete node;
 }
 
+
+void GateField::anyInputGatesToggled(int clickX, int clickY)
+{
+    //Loops through m_allGates, if GateInputBox found update its click state
+    //Reason done seperatly to other gates :
+    // - The required frequency of GateInputBox->UpdateClicked() is higher than all other gates
+    //   This is because no other gates take user click input so far
+
+    for (Gate* gate : m_allGates)
+    {
+        if(dynamic_cast<GateInputBox*>(gate))
+        {
+            dynamic_cast<GateInputBox*>(gate)->UpdateClicked(clickX, clickY);
+        }
+    }
+}
+
 void GateField::deleteClick(int clickX, int clickY)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
@@ -182,15 +197,6 @@ void GateField::deleteClick(int clickX, int clickY)
     }
 }
 
-
-void GateField::defaultClick(int clickX, int clickY)
-{
-    for (size_t index = 0; index < m_allGates.size(); index++)
-    {
-        m_allGates[index]->UpdateClicked(clickX,clickY);
-    }
-}
-
 void GateField::dragClick(int clickX, int clickY)
 {
     //Loop through all dragable gameobjects
@@ -200,6 +206,7 @@ void GateField::dragClick(int clickX, int clickY)
         //so we don't drag multiple objects
         if(m_allGates[index]->UpdateDrag(clickX, clickY))
         {
+            m_bMouseDragging = true;
             return;
         }
     }

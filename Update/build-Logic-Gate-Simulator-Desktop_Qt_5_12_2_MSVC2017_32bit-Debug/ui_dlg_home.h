@@ -38,6 +38,7 @@ public:
     QPushButton *btn_andGate;
     QPushButton *btn_sourceGate;
     QPushButton *btn_DeleteLink;
+    QPushButton *btn_click;
 
     void setupUi(QMainWindow *DLG_Home)
     {
@@ -125,6 +126,11 @@ public:
         icon7.addFile(QString::fromUtf8(":/Resources/Resources/icon-link-delete.png"), QSize(), QIcon::Normal, QIcon::Off);
         btn_DeleteLink->setIcon(icon7);
         btn_DeleteLink->setIconSize(QSize(32, 32));
+        btn_click = new QPushButton(centralwidget);
+        btn_click->setObjectName(QString::fromUtf8("btn_click"));
+        btn_click->setGeometry(QRect(700, 170, 41, 41));
+        btn_click->setIcon(icon2);
+        btn_click->setIconSize(QSize(32, 32));
         DLG_Home->setCentralWidget(centralwidget);
 
         retranslateUi(DLG_Home);
@@ -151,6 +157,7 @@ public:
         btn_andGate->setText(QString());
         btn_sourceGate->setText(QString());
         btn_DeleteLink->setText(QString());
+        btn_click->setText(QApplication::translate("DLG_Home", "a", nullptr));
     } // retranslateUi
 
 };

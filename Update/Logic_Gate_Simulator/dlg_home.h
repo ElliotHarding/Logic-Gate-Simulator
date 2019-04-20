@@ -8,8 +8,10 @@
 #include "gatenot.h"
 #include "gateor.h"
 #include "gatefield.h"
+#include <QThread>
 
 class QMouseEvent;
+class LogicUpdateThread;
 
 namespace Ui {
 class DLG_Home;
@@ -26,9 +28,13 @@ public:
 private:
     Ui::DLG_Home *ui;
 
-    int m_pageNumber = 0;
+    //Updating gates
+    LogicUpdateThread* m_updateThread;
+    void UpdateThread();
 
+    //Gatefields
     GateField* m_currentGateField;
+    std::vector<GateField*> m_allGateFields;
 
 private slots:
     void on_btn_Drag_clicked();
@@ -42,6 +48,26 @@ private slots:
     void on_PlayField_tabCloseRequested(int index);
     void on_PlayField_currentChanged(int index);
     void on_btn_DeleteLink_clicked();
+    void on_btn_click_clicked();
+};
+
+
+//Update thread for gatefields (pages)
+//------------------------------------
+// Calls the update function of all the gates in all of the gateFields
+// Runs continuously
+class LogicUpdateThread : public QThread
+{
+    Q_OBJECT
+public:
+    LogicUpdateThread(std::vector<GateField*>* allGateFields);
+    void stopRunning();
+
+private:
+    void run() override;
+
+    bool m_bStop;
+    std::vector<GateField*>* m_pAllGateFields;
 };
 
 #endif // DLG_HOME_H

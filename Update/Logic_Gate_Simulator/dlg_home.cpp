@@ -9,12 +9,40 @@ DLG_Home::DLG_Home(QWidget *parent) :
     setMouseTracking(true);
     ui->PlayField->clear();
     on_btn_newPage_clicked();
+
+    //Start the update thread
+    m_updateThread = new LogicUpdateThread(&m_allGateFields);
+    //m_updateThread->start();
 }
 
 DLG_Home::~DLG_Home()
 {
-    delete m_currentGateField;
+    m_updateThread->stopRunning();
+    m_updateThread->exit();
+
+    //Delete gatefields
+    {
+        delete m_currentGateField;
+
+        for (GateField* gf : m_allGateFields)
+        {
+            delete gf;
+        }
+    }
+
     delete ui;
+}
+
+
+void DLG_Home::UpdateThread()
+{
+    while (true)
+    {
+        for (GateField* gf : m_allGateFields)
+        {
+            gf->updateFunction();
+        }
+    }
 }
 
 // -- BUTTON HANDLERS FOR CLICK MODES --
@@ -54,6 +82,15 @@ void DLG_Home::on_btn_DeleteLink_clicked()
     }
 
     QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
+}
+void DLG_Home::on_btn_click_clicked()
+{
+    if(m_currentGateField)
+    {
+        m_currentGateField->setCurrentClickMode(CLICK_DEFAULT);
+    }
+
+    QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
 
 
@@ -97,8 +134,10 @@ void DLG_Home::on_btn_andGate_clicked()
 
 void DLG_Home::on_btn_newPage_clicked()
 {
-    const std::string pageName = "Page " + std::to_string(++m_pageNumber);
+    //Add gatefield
+    const std::string pageName = "Page " + std::to_string(m_allGateFields.size() + 1);
     m_currentGateField = new GateField();
+    m_allGateFields.push_back(m_currentGateField);
     ui->PlayField->addTab(m_currentGateField,tr(pageName.c_str()));
 }
 
@@ -115,4 +154,28 @@ void DLG_Home::on_PlayField_currentChanged(int index)
     {
         m_currentGateField = dynamic_cast<GateField*>(currentWidget);
     }
+}
+
+
+
+//          --------------------------------
+//          LogicUpdateThread implementation
+//          --------------------------------
+
+LogicUpdateThread::LogicUpdateThread(std::vector<GateField*>* allGateFields) : QThread (),
+    m_pAllGateFields(allGateFields),
+    m_bStop(false)
+{
+}
+
+void LogicUpdateThread::run()
+{
+    while (!m_bStop)
+        for (GateField* gf : *m_pAllGateFields)
+            gf->updateFunction();
+}
+
+void LogicUpdateThread::stopRunning()
+{
+    m_bStop = true;
 }

@@ -1,0 +1,3 @@
+saving and loading of gate positions
+deleting gates causes node issues
+spanner icon

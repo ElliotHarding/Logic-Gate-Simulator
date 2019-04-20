@@ -39,7 +39,7 @@ void Gate::DetachNode(Node *node)
 //
 
 Node::Node(Gate* parent) :
-     GameObject::GameObject("Resources/circle.png",15,15),
+     GameObject::GameObject("",15,15),
      m_parent(parent),
      value(0)
 {

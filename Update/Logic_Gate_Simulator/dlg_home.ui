@@ -74,7 +74,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-drag.png</normaloff>:/Resources/Resources/icon-drag.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-drag.png</normaloff>:/Resources/Button Icons/icon-drag.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -100,7 +100,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-bin.png</normaloff>:/Resources/Resources/icon-bin.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-bin.png</normaloff>:/Resources/Button Icons/icon-bin.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -126,7 +126,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-link-basic.png</normaloff>:/Resources/Resources/icon-link-basic.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-link-basic.png</normaloff>:/Resources/Button Icons/icon-link-basic.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -152,7 +152,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-new-page.png</normaloff>:/Resources/Resources/icon-new-page.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-new-page.png</normaloff>:/Resources/Button Icons/icon-new-page.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -178,7 +178,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/gate-or.png</normaloff>:/Resources/Resources/gate-or.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-gate-or.png</normaloff>:/Resources/Button Icons/icon-gate-or.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -204,7 +204,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/gate-not.png</normaloff>:/Resources/Resources/gate-not.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-gate-not.png</normaloff>:/Resources/Button Icons/icon-gate-not.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -233,7 +233,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/gate-and.png</normaloff>:/Resources/Resources/gate-and.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-gate-and.png</normaloff>:/Resources/Button Icons/icon-gate-and.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -259,7 +259,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-gate-output.png</normaloff>:/Resources/Resources/icon-gate-output.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-gate-output.png</normaloff>:/Resources/Button Icons/icon-gate-output.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -285,7 +285,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-link-delete.png</normaloff>:/Resources/Resources/icon-link-delete.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-link-delete.png</normaloff>:/Resources/Button Icons/icon-link-delete.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -311,7 +311,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-tool.png</normaloff>:/Resources/Resources/icon-tool.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-tool.png</normaloff>:/Resources/Button Icons/icon-tool.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -415,7 +415,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-file-up.png</normaloff>:/Resources/Resources/icon-file-up.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-file-down.png</normaloff>:/Resources/Button Icons/icon-file-down.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -441,7 +441,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-file-down.png</normaloff>:/Resources/Resources/icon-file-down.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -467,7 +467,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/icon-gate-input.png</normaloff>:/Resources/Resources/icon-gate-input.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-gate-input.png</normaloff>:/Resources/Button Icons/icon-gate-input.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -492,12 +492,16 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>C</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Button Icons/icon-gate-collection.png</normaloff>:/Resources/Button Icons/icon-gate-collection.png</iconset>
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>37</width>
+      <height>37</height>
      </size>
     </property>
    </widget>

@@ -1,20 +1,22 @@
 <RCC>
-    <qresource prefix="/Resources">
-        <file>Resources/gate-and.png</file>
-        <file>Resources/gate-or.png</file>
-        <file>Resources/gate-not.png</file>
-        <file>Resources/circle.png</file>
-        <file>Resources/box.png</file>
-        <file>Resources/icon-bin.png</file>
-        <file>Resources/icon-drag.png</file>
-        <file>Resources/icon-link-basic.png</file>
-        <file>Resources/icon-link-delete.png</file>
-        <file>Resources/icon-tool.png</file>
-        <file>Resources/icon-file-down.png</file>
-        <file>Resources/icon-file-up.png</file>
-        <file>Resources/icon-new-page.png</file>
-        <file>Resources/icon-gate-input.png</file>
-        <file>Resources/icon-gate-output.png</file>
+    <qresource prefix="/">
+        <file>Resources/Button Icons/icon-bin.png</file>
+        <file>Resources/Button Icons/icon-drag.png</file>
+        <file>Resources/Button Icons/icon-file-down.png</file>
+        <file>Resources/Button Icons/icon-file-explorer.png</file>
+        <file>Resources/Button Icons/icon-file-up.png</file>
+        <file>Resources/Button Icons/icon-gate-and.png</file>
+        <file>Resources/Button Icons/icon-gate-collection.png</file>
+        <file>Resources/Button Icons/icon-gate-input.png</file>
+        <file>Resources/Button Icons/icon-gate-not.png</file>
+        <file>Resources/Button Icons/icon-gate-or.png</file>
+        <file>Resources/Button Icons/icon-gate-output.png</file>
+        <file>Resources/Button Icons/icon-link-basic.png</file>
+        <file>Resources/Button Icons/icon-link-delete.png</file>
+        <file>Resources/Button Icons/icon-new-page.png</file>
+        <file>Resources/Button Icons/icon-tool.png</file>
+        <file>Resources/Gates/gate-and.png</file>
+        <file>Resources/Gates/gate-not.png</file>
+        <file>Resources/Gates/gate-or.png</file>
     </qresource>
-    <qresource prefix="/"/>
 </RCC>

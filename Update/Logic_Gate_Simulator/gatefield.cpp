@@ -29,10 +29,13 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     }
 
     updateFunction();
+}
 
+void GateField::setUpdateGraphics()
+{
     //Call to update widget (so another draw call)
-    //update();
-    //qApp->processEvents();
+    update();
+    qApp->processEvents();
 }
 
 void GateField::updateFunction()
@@ -84,6 +87,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
         break;
     }
 
+    setUpdateGraphics();
     QWidget::mousePressEvent(click);
 }
 
@@ -93,11 +97,13 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
     {
         dragClick(click->x(),click->y());
     }
+    setUpdateGraphics();
 }
 
 void GateField::mouseReleaseEvent(QMouseEvent *click)
 {
     m_bMouseDragging = false;
+    setUpdateGraphics();
 }
 
 void GateField::linkNodesClick(int clickX, int clickY)

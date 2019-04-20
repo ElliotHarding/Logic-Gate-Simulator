@@ -32,6 +32,8 @@ private:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
+    void setUpdateGraphics();
+
     //Gates
     std::vector<Gate*> m_allGates;
 

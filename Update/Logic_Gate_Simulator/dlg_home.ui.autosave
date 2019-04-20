@@ -217,7 +217,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>380</y>
+      <y>430</y>
       <width>51</width>
       <height>41</height>
      </rect>
@@ -245,7 +245,7 @@
    <widget class="QPushButton" name="btn_sourceGate">
     <property name="geometry">
      <rect>
-      <x>740</x>
+      <x>680</x>
       <y>380</y>
       <width>51</width>
       <height>41</height>
@@ -259,7 +259,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Resources/box.png</normaloff>:/Resources/Resources/box.png</iconset>
+      <normaloff>:/Resources/Resources/icon-gate-output.png</normaloff>:/Resources/Resources/icon-gate-output.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -363,7 +363,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>420</y>
+      <y>470</y>
       <width>111</width>
       <height>20</height>
      </rect>
@@ -447,6 +447,57 @@
      <size>
       <width>32</width>
       <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_recieverGate">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>380</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Resources/icon-gate-input.png</normaloff>:/Resources/Resources/icon-gate-input.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_gateCollection">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>430</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>C</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
      </size>
     </property>
    </widget>

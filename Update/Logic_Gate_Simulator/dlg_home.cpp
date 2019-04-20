@@ -22,7 +22,7 @@ DLG_Home::~DLG_Home()
 
     //Delete gatefields
     {
-        delete m_currentGateField;
+        //delete m_currentGateField;
 
         for (GateField* gf : m_allGateFields)
         {

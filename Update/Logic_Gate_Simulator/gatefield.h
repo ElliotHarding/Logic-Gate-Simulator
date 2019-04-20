@@ -50,8 +50,8 @@ private:
     void anyInputGatesToggled(int clickX, int clickY);
 
     //Coords of newly spawned gate
-    const int SPAWN_X = 5;
-    const int SPAWN_Y = 5;
+    const int SPAWN_X = 300;
+    const int SPAWN_Y = 300;
 };
 
 #endif // GATEFIELD_H

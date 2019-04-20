@@ -10,6 +10,11 @@
         <file>Resources/icon-link-basic.png</file>
         <file>Resources/icon-link-delete.png</file>
         <file>Resources/icon-tool.png</file>
+        <file>Resources/icon-file-down.png</file>
+        <file>Resources/icon-file-up.png</file>
+        <file>Resources/icon-new-page.png</file>
+        <file>Resources/icon-gate-input.png</file>
+        <file>Resources/icon-gate-output.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

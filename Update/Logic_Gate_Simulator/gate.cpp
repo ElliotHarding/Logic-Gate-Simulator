@@ -39,16 +39,22 @@ void Gate::DetachNode(Node *node)
 //
 
 Node::Node(Gate* parent) :
-     GameObject::GameObject("Resources/circle.png",15,15)
+     GameObject::GameObject("Resources/circle.png",15,15),
+     m_parent(parent),
+     value(0)
 {
-    m_parent = parent;
-    value = 0;
 }
+
 Node::~Node()
 {
     m_parent = nullptr;
     delete m_parent;
-    m_linkedNode = nullptr;
+
+    if(m_linkedNode)
+    {
+        m_linkedNode->DetachNode();
+        m_linkedNode = nullptr;
+    }
     delete m_linkedNode;
 }
 
@@ -92,5 +98,6 @@ Node *Node::GetLinkedNode()
 }
 void Node::DetachNode()
 {
-    m_linkedNode = nullptr;
+    if(m_linkedNode)
+        m_linkedNode = nullptr;
 }

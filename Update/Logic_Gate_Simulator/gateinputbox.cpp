@@ -1,7 +1,7 @@
 #include "gateinputbox.h"
 
 GateInputBox::GateInputBox() :
-    Gate::Gate(std::string(":/Resources/Resources/box.png").c_str(),GateInputBoxWidth,GateInputBoxHeight),
+    Gate::Gate(GateInputBoxWidth,GateInputBoxHeight),
     m_output(this)
 {
      m_toggleStateTimer.start(c_toggleFrequency);

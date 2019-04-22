@@ -1,12 +1,13 @@
 #include "gateand.h"
+#include <QDebug>
 
 GateAnd::GateAnd() :
-    Gate::Gate(std::string(":/Resources/Gates/gate-and.png").c_str(),GateAndWidth,GateAndHeight),
+    Gate::Gate(GateAndWidth,GateAndHeight, std::string(":/Resources/Gates/gate-and.png").c_str()),
     m_inputA(this),
     m_inputB(this),
     m_output(this)
 {
-
+    qDebug() << "And gate created";
 }
 
 GateAnd::~GateAnd()

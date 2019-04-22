@@ -1,7 +1,7 @@
 #include "gatenot.h"
 
 GateNot::GateNot() :
-    Gate::Gate(std::string(":/Resources/Gates/gate-not.png").c_str(),GateNotWidth,GateNotHeight),
+    Gate::Gate(GateNotWidth,GateNotHeight,std::string(":/Resources/Gates/gate-not.png").c_str()),
     m_input(this),
     m_output(this)
 {

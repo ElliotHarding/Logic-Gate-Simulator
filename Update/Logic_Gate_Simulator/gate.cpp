@@ -1,7 +1,7 @@
 #include "gate.h"
 
-Gate::Gate(const char* iconLocation, int width, int height) :
-    DragableGameObject::DragableGameObject(iconLocation, width, height)
+Gate::Gate(int width, int height, const char* iconLocation) :
+    DragableGameObject::DragableGameObject(width, height, iconLocation)
 {
 }
 
@@ -39,7 +39,7 @@ void Gate::DetachNode(Node *node)
 //
 
 Node::Node(Gate* parent) :
-     GameObject::GameObject("",15,15),
+     GameObject::GameObject(15,15),
      m_parent(parent),
      value(0)
 {

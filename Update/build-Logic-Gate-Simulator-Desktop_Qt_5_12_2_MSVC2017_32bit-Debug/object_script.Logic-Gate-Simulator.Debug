@@ -4,10 +4,10 @@ debug/gate.o
 debug/gateand.o
 debug/gatenot.o
 debug/gateor.o
-debug/gameobject.o
-debug/dlg_home.o
 debug/gateinputbox.o
 debug/gatefield.o
+debug/dlg_home.o
+debug/gameobject.o
 debug/qrc_resouces.o
 debug/moc_mainwindow.o
 debug/moc_dlg_home.o

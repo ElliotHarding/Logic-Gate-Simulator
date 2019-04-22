@@ -8,7 +8,7 @@
 class GameObject
 {
 public:
-    GameObject(const char* iconLocation, int width, int height);
+    GameObject(int width, int height, const char* iconLocation = nullptr);
     virtual ~GameObject();
 
     virtual void UpdateGraphics(QPainter* painter);
@@ -30,7 +30,7 @@ protected:
 class DragableGameObject : public GameObject
 {
 public:
-    DragableGameObject(const char* iconLocation, int width, int height);
+    DragableGameObject(int width, int height, const char* iconLocation = nullptr);
 
     virtual bool UpdateDrag(int clickX, int clickY);
 };

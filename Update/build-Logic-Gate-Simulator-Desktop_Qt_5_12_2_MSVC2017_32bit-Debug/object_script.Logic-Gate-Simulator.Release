@@ -4,10 +4,10 @@ release/gate.o
 release/gateand.o
 release/gatenot.o
 release/gateor.o
-release/gameobject.o
-release/dlg_home.o
 release/gateinputbox.o
 release/gatefield.o
+release/dlg_home.o
+release/gameobject.o
 release/qrc_resouces.o
 release/moc_mainwindow.o
 release/moc_dlg_home.o

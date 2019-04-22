@@ -1,8 +1,9 @@
 #include "gameobject.h"
 
-GameObject::GameObject(const char* iconLocation, int width, int height)
+GameObject::GameObject(int width, int height, const char* iconLocation)
 {
-    m_image = QImage(iconLocation);
+    if(iconLocation != nullptr)
+        m_image = QImage(iconLocation);
     m_width = width;
     m_height = height;
     setPosition(0,0);
@@ -37,8 +38,8 @@ void GameObject::setPosition(int x, int y)
 //          DragableGameObject
 //
 
-DragableGameObject::DragableGameObject(const char *iconLocation, int height, int width) :
-    GameObject::GameObject (iconLocation, height, width)
+DragableGameObject::DragableGameObject(int height, int width, const char *iconLocation) :
+    GameObject::GameObject (height, width, iconLocation)
 {
 }
 

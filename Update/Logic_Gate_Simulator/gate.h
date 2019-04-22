@@ -8,7 +8,7 @@ class Node;
 class Gate : public DragableGameObject
 {
 public:
-    Gate(const char* iconLocation, int width, int height);
+    Gate(int width, int height, const char* iconLocation = nullptr);
     ~Gate() override;
 
     virtual bool UpdateDrag(int clickX, int clickY) override;

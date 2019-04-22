@@ -4,9 +4,10 @@
 #include <QMainWindow>
 #include <QMouseEvent>
 #include "gateand.h"
-#include "gateinputbox.h"
 #include "gatenot.h"
 #include "gateor.h"
+#include "gateinputbox.h"
+#include "gateoutputbox.h"
 #include "gatefield.h"
 #include <QThread>
 
@@ -49,6 +50,7 @@ private slots:
     void on_PlayField_currentChanged(int index);
     void on_btn_DeleteLink_clicked();
     void on_btn_click_clicked();
+    void on_btn_recieverGate_clicked();
 };
 
 

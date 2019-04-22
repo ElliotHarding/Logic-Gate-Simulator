@@ -22,17 +22,13 @@ public:
 
 protected:
 
-    const int NODE_OFFSET_X = 0;
-    const int NODE_OFFSET_Y = 0;
+    const int NODE_OFFSET_X = GateInputBoxWidth + 10;
+    const int NODE_OFFSET_Y = GateInputBoxHeight;
     Node m_output;
 
     //Toggle functionality
     QTimer m_toggleStateTimer;
     const int c_toggleFrequency = 2;
-
-    //This is the image that shows if the GateInputBox is active, the actual image
-    //is still in GameObject class
-    QImage m_imageActive;
 
     virtual void DrawNodes(QPainter *painter) override;
 };

@@ -28,8 +28,6 @@ void GateNot::UpdateOutput()
         linkedNode->GetParent()->UpdateOutput();
     }
     delete linkedNode;
-
-    Gate::UpdateOutput();
 }
 
 Node *GateNot::GetClickedNode(int clickX, int clickY)
@@ -45,9 +43,13 @@ Node *GateNot::GetClickedNode(int clickX, int clickY)
 
 void GateNot::DrawNodes(QPainter *painter)
 {
-    m_input.setPosition(m_layout.x() + M_INPUT_OFFSET_X, m_layout.y() + M_INPUT_OFFSET_Y);
-    m_output.setPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
+    //This function gets called by seperate draw thread. So to avoid this, draw copies
+    Node& pm_input = m_input;
+    Node& pm_output = m_output;
 
-    m_input.UpdateGraphics(painter);
-    m_output.UpdateGraphics(painter);
+    pm_input.SetPosition(m_layout.x() + M_INPUT_OFFSET_X, m_layout.y() + M_INPUT_OFFSET_Y);
+    pm_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
+
+    pm_input.UpdateGraphics(painter);
+    pm_output.UpdateGraphics(painter);
 }

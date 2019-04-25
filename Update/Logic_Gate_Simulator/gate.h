@@ -12,7 +12,7 @@ public:
     ~Gate() override;
 
     virtual bool UpdateDrag(int clickX, int clickY) override;
-    virtual void UpdateOutput();
+    virtual void UpdateOutput() = 0;
     virtual void UpdateGraphics(QPainter* painter) override;
 
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;

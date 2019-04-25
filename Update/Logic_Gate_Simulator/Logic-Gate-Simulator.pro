@@ -35,7 +35,7 @@ SOURCES += \
         gatefield.cpp \
         dlg_home.cpp \
         gameobject.cpp \
-    gateoutputbox.cpp
+        gateoutputbox.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,7 +49,7 @@ HEADERS += \
         gateinputbox.h \
         gatenot.h \
         gateor.h \
-    gateoutputbox.h
+        gateoutputbox.h
 
 FORMS += \
         mainwindow.ui \

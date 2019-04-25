@@ -16,13 +16,13 @@ public:
     virtual bool UpdateClicked(int clickX, int clickY);
 
     //Positioning
-    void setPosition(int x, int y);
+    void SetPosition(int x, int y);
     QPoint GetPosition();
 
 protected:
 
     QMutex mutex_getPosition;
-    QMutex mutex_setPosition;
+    QMutex mutex_SetPosition;
     QMutex mutex_contains;
 
     QImage m_image;

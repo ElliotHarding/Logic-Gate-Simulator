@@ -6,7 +6,7 @@ GameObject::GameObject(int width, int height, const char* iconLocation)
         m_image = QImage(iconLocation);
     m_width = width;
     m_height = height;
-    setPosition(0,0);
+    SetPosition(0,0);
 }
 
 GameObject::~GameObject()
@@ -21,32 +21,20 @@ void GameObject::UpdateGraphics(QPainter *painter)
 
 bool GameObject::UpdateClicked(int clickX, int clickY)
 {
-    bool returnVal;
-
-    mutex_contains.lock();
-        returnVal = m_layout.contains(QPoint(clickX,clickY));
-    mutex_contains.unlock();
-
-    return returnVal;
+    return m_layout.contains(QPoint(clickX,clickY));
 }
 
-void GameObject::setPosition(int x, int y)
+void GameObject::SetPosition(int x, int y)
 {
-    mutex_setPosition.lock();
-        m_layout.setLeft(x - m_width/2);
-        m_layout.setTop(y - m_height/2);
-        m_layout.setRight(x + m_width/2);
-        m_layout.setBottom(y + m_height/2);
-    mutex_setPosition.unlock();
+   m_layout.setLeft(x - m_width/2);
+   m_layout.setTop(y - m_height/2);
+   m_layout.setRight(x + m_width/2);
+   m_layout.setBottom(y + m_height/2);
 }
 
 QPoint GameObject::GetPosition()
 {
-    QPoint returnVal;
-    mutex_getPosition.lock();
-        returnVal = QPoint(m_layout.x(),m_layout.y());
-    mutex_getPosition.unlock();
-    return returnVal;
+    return QPoint(m_layout.x(),m_layout.y());
 }
 
 
@@ -66,7 +54,7 @@ bool DragableGameObject::UpdateDrag(int clickX, int clickY)
     //Causes its output state to toggle (and we dont want it toggling on and off while dragging it)
     if(GameObject::UpdateClicked(clickX, clickY))
     {
-        setPosition(clickX,clickY);
+        SetPosition(clickX,clickY);
         return true;
     }
     return false;

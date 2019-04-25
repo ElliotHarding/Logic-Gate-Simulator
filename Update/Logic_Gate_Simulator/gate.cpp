@@ -14,10 +14,6 @@ bool Gate::UpdateDrag(int clickX, int clickY)
     return DragableGameObject::UpdateDrag(clickX, clickY);
 }
 
-void Gate::UpdateOutput()
-{
-
-}
 
 void Gate::UpdateGraphics(QPainter* painter)
 {

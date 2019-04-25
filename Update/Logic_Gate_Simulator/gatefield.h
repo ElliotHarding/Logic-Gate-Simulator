@@ -43,6 +43,7 @@ private:
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
     bool m_bMouseDragging = false;
+    bool m_bMouseDown = false;
     void linkNodesClick(int clickX, int clickY);
     void deleteClick(int clickX, int clickY);
     void dragClick(int clickX, int clickY);

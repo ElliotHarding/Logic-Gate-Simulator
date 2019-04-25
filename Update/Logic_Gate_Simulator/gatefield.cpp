@@ -22,13 +22,14 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
 
-    //Draw all gates & all lines between nodes (handeled via nodes)
-    for (size_t index = 0; index < m_allGates.size(); index++)
-    {
-        m_allGates[index]->UpdateGraphics(&painter);
-    }
+    //Get a copy of all the gates
+    std::vector<Gate*>& r_allGates = m_allGates;
 
-    //updateFunction();
+    //Draw all gates & all lines between nodes (handeled via nodes)
+    for (size_t index = 0; index < r_allGates.size(); index++)
+    {
+        r_allGates[index]->UpdateGraphics(&painter);
+    }
 }
 
 void GateField::setUpdateGraphics()
@@ -40,6 +41,10 @@ void GateField::setUpdateGraphics()
 
 void GateField::updateFunction()
 {
+    //TEST: dont want updating while mouse is down
+    if(m_bMouseDown)
+        return;
+
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         m_allGates[index]->UpdateOutput();
@@ -49,13 +54,14 @@ void GateField::updateFunction()
 void GateField::addGameObject(Gate* go)
 {
     //Set spawn position
-    go->setPosition(SPAWN_X,SPAWN_Y);
+    go->SetPosition(SPAWN_X,SPAWN_Y);
 
     m_allGates.push_back(go);
 }
 
 void GateField::mousePressEvent(QMouseEvent *click)
 {
+    m_bMouseDown = true;
     const int clickX = click->x();
     const int clickY = click->y();
 
@@ -103,6 +109,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 void GateField::mouseReleaseEvent(QMouseEvent *click)
 {
     m_bMouseDragging = false;
+    m_bMouseDown = false;
     setUpdateGraphics();
 }
 

@@ -23,7 +23,6 @@ void GateInputBox::UpdateOutput()
         m_output.GetLinkedNode()->GetParent()->UpdateOutput();
     }
 
-    Gate::UpdateOutput();
 }
 
 void GateInputBox::UpdateGraphics(QPainter *painter)
@@ -80,7 +79,10 @@ Node *GateInputBox::GetClickedNode(int clickX, int clickY)
 
 void GateInputBox::DrawNodes(QPainter *painter)
 {
-    m_output.setPosition(m_layout.x() + NODE_OFFSET_X, m_layout.y() + NODE_OFFSET_Y);
-    m_output.UpdateGraphics(painter);
+    //This function gets called by seperate draw thread. So to avoid this, draw copies
+    Node& pm_output = m_output;
+
+    pm_output.SetPosition(m_layout.x() + NODE_OFFSET_X, m_layout.y() + NODE_OFFSET_Y);
+    pm_output.UpdateGraphics(painter);
 }
 

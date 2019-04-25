@@ -31,7 +31,6 @@ private:
 
     //Updating gates
     LogicUpdateThread* m_updateThread;
-    void UpdateThread();
 
     //Gatefields
     GateField* m_currentGateField;

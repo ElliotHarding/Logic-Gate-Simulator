@@ -12,7 +12,7 @@ DLG_Home::DLG_Home(QWidget *parent) :
 
     //Start the update thread
     m_updateThread = new LogicUpdateThread(&m_allGateFields);
-    //m_updateThread->start();
+    m_updateThread->start();
 }
 
 DLG_Home::~DLG_Home()
@@ -20,30 +20,17 @@ DLG_Home::~DLG_Home()
     m_updateThread->stopRunning();
     m_updateThread->exit();
 
-    //Delete gatefields
-    {
-        //delete m_currentGateField;
+    //delete m_currentGateField
 
-        for (GateField* gf : m_allGateFields)
-        {
-            delete gf;
-        }
+    //Delete gatefields
+    for (GateField* gf : m_allGateFields)
+    {
+        delete gf;
     }
 
     delete ui;
 }
 
-
-void DLG_Home::UpdateThread()
-{
-    while (true)
-    {
-        for (GateField* gf : m_allGateFields)
-        {
-            gf->updateFunction();
-        }
-    }
-}
 
 // -- BUTTON HANDLERS FOR CLICK MODES --
 

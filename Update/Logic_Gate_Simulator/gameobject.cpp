@@ -21,15 +21,32 @@ void GameObject::UpdateGraphics(QPainter *painter)
 
 bool GameObject::UpdateClicked(int clickX, int clickY)
 {
-   return m_layout.contains(QPoint(clickX,clickY));
+    bool returnVal;
+
+    mutex_contains.lock();
+        returnVal = m_layout.contains(QPoint(clickX,clickY));
+    mutex_contains.unlock();
+
+    return returnVal;
 }
 
 void GameObject::setPosition(int x, int y)
 {
-    m_layout.setLeft(x - m_width/2);
-    m_layout.setTop(y - m_height/2);
-    m_layout.setRight(x + m_width/2);
-    m_layout.setBottom(y + m_height/2);
+    mutex_setPosition.lock();
+        m_layout.setLeft(x - m_width/2);
+        m_layout.setTop(y - m_height/2);
+        m_layout.setRight(x + m_width/2);
+        m_layout.setBottom(y + m_height/2);
+    mutex_setPosition.unlock();
+}
+
+QPoint GameObject::GetPosition()
+{
+    QPoint returnVal;
+    mutex_getPosition.lock();
+        returnVal = QPoint(m_layout.x(),m_layout.y());
+    mutex_getPosition.unlock();
+    return returnVal;
 }
 
 

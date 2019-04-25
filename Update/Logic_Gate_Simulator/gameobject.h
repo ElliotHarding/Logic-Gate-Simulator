@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QImage>
 #include <QPainter>
+#include <QMutex>
 
 class GameObject
 {
@@ -16,9 +17,13 @@ public:
 
     //Positioning
     void setPosition(int x, int y);
-    QPoint GetPosition() {return QPoint(m_layout.x(),m_layout.y());}
+    QPoint GetPosition();
 
 protected:
+
+    QMutex mutex_getPosition;
+    QMutex mutex_setPosition;
+    QMutex mutex_contains;
 
     QImage m_image;
 

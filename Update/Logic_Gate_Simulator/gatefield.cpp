@@ -9,11 +9,15 @@ GateField::GateField(QWidget *parent) : QWidget(parent)
 
 GateField::~GateField()
 {
+    m_lockAllGates.lock();
+
     //Delete all gates
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         delete m_allGates[index];
     }
+
+    m_lockAllGates.unlock();
 
     delete m_linkNodeA;
 }
@@ -47,7 +51,9 @@ void GateField::updateFunction()
 
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
+        m_lockAllGates.lock();
         m_allGates[index]->UpdateOutput();
+        m_lockAllGates.unlock();
     }
 }
 
@@ -56,7 +62,9 @@ void GateField::addGameObject(Gate* go)
     //Set spawn position
     go->SetPosition(SPAWN_X,SPAWN_Y);
 
+    m_lockAllGates.lock();
     m_allGates.push_back(go);
+    m_lockAllGates.unlock();
 }
 
 void GateField::mousePressEvent(QMouseEvent *click)
@@ -68,6 +76,8 @@ void GateField::mousePressEvent(QMouseEvent *click)
     //If was in the middle of linking, but then user changed click mode, forget
     //the middle step variable m_linkNodeA
     if(m_currentClickMode != CLICK_LINK_NODES) m_linkNodeA = nullptr;
+
+    m_lockAllGates.lock();
 
     switch (m_currentClickMode)
     {
@@ -92,6 +102,8 @@ void GateField::mousePressEvent(QMouseEvent *click)
         dragClick(clickX,clickY);
         break;
     }
+
+    m_lockAllGates.unlock();
 
     setUpdateGraphics();
     QWidget::mousePressEvent(click);
@@ -184,7 +196,6 @@ void GateField::anyInputGatesToggled(int clickX, int clickY)
     //Reason done seperatly to other gates :
     // - The required frequency of GateInputBox->UpdateClicked() is higher than all other gates
     //   This is because no other gates take user click input so far
-
     for (Gate* gate : m_allGates)
     {
         if(dynamic_cast<GateInputBox*>(gate))

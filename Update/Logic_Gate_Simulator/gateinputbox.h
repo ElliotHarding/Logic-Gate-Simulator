@@ -22,7 +22,7 @@ public:
 
 protected:
 
-    const int NODE_OFFSET_X = GateInputBoxWidth + 10;
+    const int NODE_OFFSET_X = GateInputBoxWidth + 17;
     const int NODE_OFFSET_Y = GateInputBoxHeight;
     Node m_output;
 

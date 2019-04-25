@@ -13,6 +13,7 @@ public:
 
     virtual bool UpdateDrag(int clickX, int clickY) override;
     virtual void UpdateOutput() = 0;
+      //todo setUpdateOutput()
     virtual void UpdateGraphics(QPainter* painter) override;
 
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;

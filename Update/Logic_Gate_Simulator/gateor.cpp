@@ -29,7 +29,9 @@ void GateOr::UpdateOutput()
     if(linkedNode)
     {        
         linkedNode->value = newVal;        
-        linkedNode->GetParent()->UpdateOutput();
+
+        //todo setUpdateOutput()
+        //linkedNode->GetParent()->UpdateOutput();
     }
     delete linkedNode;
 }

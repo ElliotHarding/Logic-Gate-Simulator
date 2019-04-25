@@ -31,7 +31,9 @@ void GateAnd::UpdateOutput()
     if(linkedNode)
     {
         linkedNode->value = sum;
-        linkedNode->GetParent()->UpdateOutput();
+
+        //todo setUpdateOutput()
+        //linkedNode->GetParent()->UpdateOutput();
     }
     delete linkedNode;
 }

@@ -21,10 +21,6 @@ public:
 
 protected:
 
-    QMutex mutex_getPosition;
-    QMutex mutex_SetPosition;
-    QMutex mutex_contains;
-
     QImage m_image;
 
     QRect m_layout;

@@ -36,6 +36,7 @@ private:
 
     //Gates
     std::vector<Gate*> m_allGates;
+    QMutex m_lockAllGates;
 
     //Temps for multi step linking and unlinking
     Node* m_linkNodeA = nullptr;

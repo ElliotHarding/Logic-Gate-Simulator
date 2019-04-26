@@ -34,21 +34,13 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     {
         r_allGates[index]->UpdateGraphics(&painter);
     }
-}
 
-void GateField::setUpdateGraphics()
-{
-    //Call to update widget (so another draw call)
+    //Call to redraw
     update();
-    qApp->processEvents();
 }
 
 void GateField::updateFunction()
 {
-    //TEST: dont want updating while mouse is down
-    if(m_bMouseDown)
-        return;
-
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         m_lockAllGates.lock();
@@ -69,7 +61,6 @@ void GateField::addGameObject(Gate* go)
 
 void GateField::mousePressEvent(QMouseEvent *click)
 {
-    m_bMouseDown = true;
     const int clickX = click->x();
     const int clickY = click->y();
 
@@ -104,9 +95,6 @@ void GateField::mousePressEvent(QMouseEvent *click)
     }
 
     m_lockAllGates.unlock();
-
-    setUpdateGraphics();
-    QWidget::mousePressEvent(click);
 }
 
 void GateField::mouseMoveEvent(QMouseEvent *click)
@@ -115,14 +103,11 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
     {
         dragClick(click->x(),click->y());
     }
-    setUpdateGraphics();
 }
 
 void GateField::mouseReleaseEvent(QMouseEvent *click)
 {
     m_bMouseDragging = false;
-    m_bMouseDown = false;
-    setUpdateGraphics();
 }
 
 void GateField::linkNodesClick(int clickX, int clickY)

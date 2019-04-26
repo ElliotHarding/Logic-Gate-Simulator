@@ -72,7 +72,7 @@ void Node::UpdateGraphics(QPainter* painter)
 
     //Draw node
     painter->setPen(pen);
-    QPoint position(m_layout.x(),m_layout.y());
+    QPoint position(GetPosition());
     painter->drawEllipse(position,10,10);
 
     //Bug where there's a whole in the node, can't be bothered to look up filling a circle

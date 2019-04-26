@@ -159,11 +159,12 @@ void DLG_Home::on_PlayField_currentChanged(int index)
 //          --------------------------------
 
 LogicUpdateThread::LogicUpdateThread(std::vector<GateField*>* allGateFields) : QThread (),
-    m_pAllGateFields(allGateFields),
-    m_bStop(false)
+    m_bStop(false),
+    m_pAllGateFields(allGateFields)
 {
 }
 
+//Calls the update function of all the gates in all of the gateFields
 void LogicUpdateThread::run()
 {
     while (!m_bStop)

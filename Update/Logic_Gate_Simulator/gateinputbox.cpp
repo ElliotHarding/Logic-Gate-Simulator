@@ -29,10 +29,8 @@ void GateInputBox::UpdateOutput()
 
 void GateInputBox::UpdateGraphics(QPainter *painter)
 {
-//Gate::UpdateGraphics(painter) <-- can't use this as dont want to draw the png
-//this happens to also call DrawNodes() so...
-DrawNodes(painter);
-//not the best fix... should have a differnet class structure
+    //Draw nodes
+    m_output.UpdateGraphics(painter);
 
     //Paiting variables to be used
     QPainterPath path;
@@ -71,20 +69,18 @@ bool GateInputBox::UpdateClicked(int clickX, int clickY)
     return isClicked;
 }
 
+void GateInputBox::SetPosition(int x, int y)
+{
+    GameObject::SetPosition(x,y);
+
+    m_output.SetPosition(m_layout.x() + NODE_OFFSET_X, m_layout.y() + NODE_OFFSET_Y);
+}
+
 Node *GateInputBox::GetClickedNode(int clickX, int clickY)
 {
     if( m_output.UpdateClicked(clickX, clickY))
         return &m_output;
 
     return nullptr;
-}
-
-void GateInputBox::DrawNodes(QPainter *painter)
-{
-    //This function gets called by seperate draw thread. So to avoid this, draw copies
-    Node& pm_output = m_output;
-
-    pm_output.SetPosition(m_layout.x() + NODE_OFFSET_X, m_layout.y() + NODE_OFFSET_Y);
-    pm_output.UpdateGraphics(painter);
 }
 

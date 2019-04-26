@@ -169,7 +169,8 @@ void LogicUpdateThread::run()
 {
     while (!m_bStop)
         for (GateField* gf : *m_pAllGateFields)
-            gf->updateFunction();
+            if(gf)
+                gf->updateFunction();
 }
 
 void LogicUpdateThread::stopRunning()

@@ -11,15 +11,14 @@ public:
     Gate(int width, int height, const char* iconLocation = nullptr);
     ~Gate() override;
 
-    virtual bool UpdateDrag(int clickX, int clickY) override;
     virtual void UpdateOutput() = 0;
       //todo setUpdateOutput()
     virtual void UpdateGraphics(QPainter* painter) override;
+    virtual void SetPosition(int x, int y) override = 0;
 
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
 
 protected:
-    virtual void DrawNodes(QPainter *painter) = 0;
     void DetachNode(Node* node);
 };
 

@@ -16,7 +16,7 @@ public:
 
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;
-
+    virtual void SetPosition(int x, int y) override;
     virtual Node* GetClickedNode(int clickX, int clickY) override;
 
 protected:
@@ -24,8 +24,6 @@ protected:
     const int NODE_OFFSET_X = -7;
     const int NODE_OFFSET_Y = GateOutputBoxHeight;
     Node m_input;
-
-    virtual void DrawNodes(QPainter *painter) override;
 };
 
 #endif // GATEOUTPUTBOX_H

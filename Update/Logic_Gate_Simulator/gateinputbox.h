@@ -17,6 +17,7 @@ public:
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual bool UpdateClicked(int clickX, int clickY) override;
+    virtual void SetPosition(int x, int y) override;
 
     virtual Node* GetClickedNode(int clickX, int clickY) override;
 
@@ -29,8 +30,6 @@ protected:
     //Toggle functionality
     QTimer m_toggleStateTimer;
     const int c_toggleFrequency = 2;
-
-    virtual void DrawNodes(QPainter *painter) override;
 };
 
 #endif // GATEINPUTBOX_H

@@ -31,6 +31,22 @@ void GateNot::UpdateOutput()
     delete linkedNode;
 }
 
+void GateNot::SetPosition(int x, int y)
+{
+    GameObject::SetPosition(x,y);
+
+    m_input.SetPosition(m_layout.x() + M_INPUT_OFFSET_X, m_layout.y() + M_INPUT_OFFSET_Y);
+    m_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
+}
+
+void GateNot::UpdateGraphics(QPainter *painter)
+{
+    m_input.UpdateGraphics(painter);
+    m_output.UpdateGraphics(painter);
+
+    Gate::UpdateGraphics(painter);
+}
+
 Node *GateNot::GetClickedNode(int clickX, int clickY)
 {
     if( m_input.UpdateClicked(clickX, clickY))
@@ -40,17 +56,4 @@ Node *GateNot::GetClickedNode(int clickX, int clickY)
         return &m_output;
 
     return nullptr;
-}
-
-void GateNot::DrawNodes(QPainter *painter)
-{
-    //This function gets called by seperate draw thread. So to avoid this, draw copies
-    Node& pm_input = m_input;
-    Node& pm_output = m_output;
-
-    pm_input.SetPosition(m_layout.x() + M_INPUT_OFFSET_X, m_layout.y() + M_INPUT_OFFSET_Y);
-    pm_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
-
-    pm_input.UpdateGraphics(painter);
-    pm_output.UpdateGraphics(painter);
 }

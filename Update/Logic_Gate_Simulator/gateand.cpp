@@ -38,6 +38,24 @@ void GateAnd::UpdateOutput()
     delete linkedNode;
 }
 
+void GateAnd::UpdateGraphics(QPainter *painter)
+{
+    m_inputA.UpdateGraphics(painter);
+    m_inputB.UpdateGraphics(painter);
+    m_output.UpdateGraphics(painter);
+
+    Gate::UpdateGraphics(painter);
+}
+
+void GateAnd::SetPosition(int x, int y)
+{
+    GameObject::SetPosition(x,y);
+
+    m_inputA.SetPosition(m_layout.x() + M_INPUTa_OFFSET_X, m_layout.y() + M_INPUTa_OFFSET_Y);
+    m_inputB.SetPosition(m_layout.x() + M_INPUTb_OFFSET_X, m_layout.y() + M_INPUTb_OFFSET_Y);
+    m_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
+}
+
 //Returns a clicked node if the gate has a node thats been clicked
 Node *GateAnd::GetClickedNode(int clickX, int clickY)
 {
@@ -51,20 +69,4 @@ Node *GateAnd::GetClickedNode(int clickX, int clickY)
         return &m_output;
 
     return nullptr;
-}
-
-void GateAnd::DrawNodes(QPainter *painter)
-{    
-    //This function gets called by seperate draw thread. So to avoid this, draw copies
-    Node& pm_inputA = m_inputA;
-    Node& pm_inputB = m_inputB;
-    Node& pm_output = m_output;
-
-    pm_inputA.SetPosition(m_layout.x() + M_INPUTa_OFFSET_X, m_layout.y() + M_INPUTa_OFFSET_Y);
-    pm_inputB.SetPosition(m_layout.x() + M_INPUTb_OFFSET_X, m_layout.y() + M_INPUTb_OFFSET_Y);
-    pm_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
-
-    pm_inputA.UpdateGraphics(painter);
-    pm_inputB.UpdateGraphics(painter);
-    pm_output.UpdateGraphics(painter);
 }

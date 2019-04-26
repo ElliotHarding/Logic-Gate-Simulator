@@ -13,9 +13,11 @@ public:
     ~GateNot() override;
 
     virtual void UpdateOutput() override;
-
+    virtual void SetPosition(int x, int y) override;
+    virtual void UpdateGraphics(QPainter* painter) override;
     virtual Node *GetClickedNode(int clickX, int clickY) override;
 
+protected:
     const int M_INPUT_OFFSET_X = 0;
     const int M_INPUT_OFFSET_Y = (GateNotHeight/2) + 5;
     Node m_input;
@@ -23,9 +25,6 @@ public:
     const int M_OUTPUT_OFFSET_X = GateNotWidth + 20;
     const int M_OUTPUT_OFFSET_Y = (GateNotHeight/2) + 5;
     Node m_output;
-
-protected:
-    virtual void DrawNodes(QPainter *painter) override;
 };
 
 #endif // GATENOT_H

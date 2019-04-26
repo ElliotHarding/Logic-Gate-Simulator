@@ -16,7 +16,7 @@ public:
     virtual bool UpdateClicked(int clickX, int clickY);
 
     //Positioning
-    void SetPosition(int x, int y);
+    virtual void SetPosition(int x, int y);
     QPoint GetPosition();
 
 protected:

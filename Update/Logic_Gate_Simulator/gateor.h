@@ -13,11 +13,11 @@ public:
     ~GateOr() override;
 
     virtual void UpdateOutput() override;
-
+    virtual void SetPosition(int x, int y) override;
+    virtual void UpdateGraphics(QPainter* painter) override;
     virtual Node *GetClickedNode(int clickX, int clickY) override;
 
 protected:
-    virtual void DrawNodes(QPainter *painter) override;
 
     const int M_INPUTa_OFFSET_X = -5;
     const int M_INPUTa_OFFSET_Y = (GateOrHeight/2) - 5;

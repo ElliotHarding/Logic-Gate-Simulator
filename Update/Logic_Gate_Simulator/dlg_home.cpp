@@ -120,7 +120,7 @@ void DLG_Home::on_btn_recieverGate_clicked()
 {
     if(m_currentGateField)
     {
-        m_currentGateField->addGameObject(new GateOutputBox());
+        //m_currentGateField->addGameObject(new GateOutputBox());
         on_btn_Drag_clicked();
     }
 }

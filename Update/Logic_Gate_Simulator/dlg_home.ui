@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>671</width>
+      <width>691</width>
       <height>591</height>
      </rect>
     </property>
@@ -60,9 +60,9 @@
    <widget class="QPushButton" name="btn_Drag">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>100</y>
-      <width>51</width>
+      <x>750</x>
+      <y>180</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
@@ -86,9 +86,9 @@
    <widget class="QPushButton" name="btn_Delete">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>200</y>
-      <width>51</width>
+      <x>750</x>
+      <y>280</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
@@ -112,9 +112,9 @@
    <widget class="QPushButton" name="btn_link">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>150</y>
-      <width>51</width>
+      <x>700</x>
+      <y>230</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
@@ -138,9 +138,9 @@
    <widget class="QPushButton" name="btn_newPage">
     <property name="geometry">
      <rect>
-      <x>740</x>
+      <x>700</x>
       <y>40</y>
-      <width>51</width>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
@@ -164,10 +164,10 @@
    <widget class="QPushButton" name="btn_orGate">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>330</y>
-      <width>51</width>
-      <height>41</height>
+      <x>700</x>
+      <y>400</y>
+      <width>41</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -182,18 +182,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>27</width>
+      <height>32</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_notGate">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>330</y>
-      <width>51</width>
-      <height>41</height>
+      <x>750</x>
+      <y>400</y>
+      <width>41</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -208,18 +208,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>29</width>
+      <height>32</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_andGate">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>430</y>
-      <width>51</width>
-      <height>41</height>
+      <x>750</x>
+      <y>440</y>
+      <width>41</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -237,18 +237,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>25</width>
+      <height>32</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_sourceGate">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>380</y>
-      <width>51</width>
-      <height>41</height>
+      <x>700</x>
+      <y>480</y>
+      <width>41</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -263,17 +263,17 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>32</width>
+      <height>32</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_DeleteLink">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>150</y>
-      <width>51</width>
+      <x>750</x>
+      <y>230</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
@@ -297,9 +297,9 @@
    <widget class="QPushButton" name="btn_click">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>100</y>
-      <width>51</width>
+      <x>700</x>
+      <y>180</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
@@ -323,9 +323,9 @@
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>80</y>
-      <width>111</width>
+      <x>700</x>
+      <y>160</y>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
@@ -336,9 +336,9 @@
    <widget class="Line" name="line_2">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>240</y>
-      <width>111</width>
+      <x>700</x>
+      <y>320</y>
+      <width>91</width>
       <height>16</height>
      </rect>
     </property>
@@ -349,10 +349,10 @@
    <widget class="Line" name="line_3">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>310</y>
-      <width>111</width>
-      <height>16</height>
+      <x>700</x>
+      <y>380</y>
+      <width>91</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="orientation">
@@ -362,9 +362,9 @@
    <widget class="Line" name="line_4">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>470</y>
-      <width>111</width>
+      <x>700</x>
+      <y>510</y>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
@@ -375,9 +375,9 @@
    <widget class="Line" name="line_5">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>700</x>
       <y>580</y>
-      <width>111</width>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
@@ -388,9 +388,9 @@
    <widget class="Line" name="line_6">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>700</x>
       <y>20</y>
-      <width>111</width>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
@@ -401,9 +401,9 @@
    <widget class="QPushButton" name="btn_Save">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>260</y>
-      <width>51</width>
+      <x>700</x>
+      <y>340</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
@@ -427,9 +427,9 @@
    <widget class="QPushButton" name="btn_load">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>260</y>
-      <width>51</width>
+      <x>750</x>
+      <y>340</y>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
@@ -453,10 +453,10 @@
    <widget class="QPushButton" name="btn_recieverGate">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>380</y>
-      <width>51</width>
-      <height>41</height>
+      <x>750</x>
+      <y>480</y>
+      <width>41</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -471,18 +471,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>40</width>
-      <height>40</height>
+      <width>32</width>
+      <height>32</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_gateCollection">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>430</y>
-      <width>51</width>
-      <height>41</height>
+      <x>700</x>
+      <y>440</y>
+      <width>41</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -500,8 +500,85 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>37</width>
-      <height>37</height>
+      <width>25</width>
+      <height>25</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_SelectionTool">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>280</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_zoomIn">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>90</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Button Icons/icon-zoom-in.png</normaloff>:/Resources/Button Icons/icon-zoom-in.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_zoomOut">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>90</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Button Icons/icon-zoom-out.png</normaloff>:/Resources/Button Icons/icon-zoom-out.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
      </size>
     </property>
    </widget>

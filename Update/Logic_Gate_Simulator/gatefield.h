@@ -13,13 +13,14 @@ class GateField : public QWidget
     Q_OBJECT
 public:
 
-    explicit GateField(QWidget *parent = nullptr);
+    explicit GateField(qreal zoomFactor, QWidget *parent = nullptr);
     ~GateField() override;
 
     //Calls from DLG_Home:
     void addGameObject(Gate* go);
     void updateFunction();
     void setCurrentClickMode(ClickMode clickMode) {m_currentClickMode = clickMode;}
+    void setZoomLevel(qreal zoom) {m_zoomFactor = zoom;}
 
 signals:
 public slots:
@@ -38,6 +39,9 @@ private:
 
     //Temps for multi step linking and unlinking
     Node* m_linkNodeA = nullptr;
+
+    //Zooming
+    qreal m_zoomFactor;
 
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;

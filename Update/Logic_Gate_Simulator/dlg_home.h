@@ -29,6 +29,11 @@ public:
 private:
     Ui::DLG_Home *ui;
 
+    //Zooming
+    qreal m_ZoomFactor;
+    const int c_maxZoom = 10;
+    const qreal c_minZoom = 0.25;
+
     //Updating gates
     LogicUpdateThread* m_updateThread;
 
@@ -50,6 +55,8 @@ private slots:
     void on_btn_DeleteLink_clicked();
     void on_btn_click_clicked();
     void on_btn_recieverGate_clicked();
+    void on_btn_zoomIn_clicked();
+    void on_btn_zoomOut_clicked();
 };
 
 

@@ -2,8 +2,9 @@
 #include "ui_dlg_home.h"
 
 DLG_Home::DLG_Home(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::DLG_Home)
+    QMainWindow(parent),    
+    ui(new Ui::DLG_Home),
+    m_ZoomFactor(0.5)
 {
     ui->setupUi(this);
     setMouseTracking(true);
@@ -128,11 +129,23 @@ void DLG_Home::on_btn_recieverGate_clicked()
 
 // -- OTHER BUTTON HANDLERS --
 
+void DLG_Home::on_btn_zoomIn_clicked()
+{
+    if(m_ZoomFactor < c_maxZoom)
+        m_currentGateField->setZoomLevel(m_ZoomFactor *= 2);
+}
+
+void DLG_Home::on_btn_zoomOut_clicked()
+{
+    if(m_ZoomFactor > c_minZoom)
+        m_currentGateField->setZoomLevel(m_ZoomFactor /= 2);
+}
+
 void DLG_Home::on_btn_newPage_clicked()
 {
     //Add gatefield
     const std::string pageName = "Page " + std::to_string(m_allGateFields.size() + 1);
-    m_currentGateField = new GateField();
+    m_currentGateField = new GateField(m_ZoomFactor);
     m_allGateFields.push_back(m_currentGateField);
     ui->PlayField->addTab(m_currentGateField,tr(pageName.c_str()));
 }
@@ -177,3 +190,5 @@ void LogicUpdateThread::stopRunning()
 {
     m_bStop = true;
 }
+
+

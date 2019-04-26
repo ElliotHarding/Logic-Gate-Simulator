@@ -1,7 +1,9 @@
 #include "gatefield.h"
 #include <QApplication>
 
-GateField::GateField(QWidget *parent) : QWidget(parent)
+GateField::GateField(qreal zoomFactor, QWidget *parent) :
+    QWidget(parent),
+    m_zoomFactor(zoomFactor)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -25,6 +27,7 @@ GateField::~GateField()
 void GateField::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
+    //painter.scale(m_zoomFactor,m_zoomFactor);
 
     //Get a copy of all the gates
     std::vector<Gate*>& r_allGates = m_allGates;

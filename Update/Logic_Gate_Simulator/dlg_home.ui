@@ -520,6 +520,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Button Icons/icon-gate-selection.png</normaloff>:/Resources/Button Icons/icon-gate-selection.png</iconset>
+    </property>
     <property name="iconSize">
      <size>
       <width>32</width>

@@ -12,8 +12,6 @@ SimpleSlider::SimpleSlider(float min, float max, QPoint pos, int size, DLG_Home*
     m_beingClicked(false),
     m_minMaxDiff(max - min)
 {
-    const static int c_height = 30;
-    const static int c_margin = 7;
     m_rightMost = QPoint(m_size + c_margin, c_height/2);
     m_leftMost = QPoint(c_margin, c_height/2);
     m_sliderPosition = m_leftMost;

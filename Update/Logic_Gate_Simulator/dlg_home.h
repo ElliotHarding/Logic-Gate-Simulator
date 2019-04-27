@@ -65,6 +65,7 @@ private slots:
     void on_btn_recieverGate_clicked();
     void on_btn_zoomIn_clicked();
     void on_btn_zoomOut_clicked();
+    void on_btn_SelectionTool_clicked();
 };
 
 
@@ -77,7 +78,7 @@ class LogicUpdateThread : public QThread
     Q_OBJECT
 public:
     LogicUpdateThread(std::vector<GateField*>* allGateFields);
-    ~LogicUpdateThread() {stopRunning(); terminate();}
+    ~LogicUpdateThread() override;
     void stopRunning();
 
 private:

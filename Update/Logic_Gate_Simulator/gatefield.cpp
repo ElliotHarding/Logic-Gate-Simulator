@@ -28,6 +28,15 @@ GateField::~GateField()
 void GateField::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
+
+    //If were currently selecting an area
+    if(m_currentClickMode == CLICK_SELECTION && m_selectionTool)
+    {
+        QPen pen(Qt::blue, 2);
+        painter.setPen(pen);
+        painter.drawRect(m_selectionTool->geometry());
+    }
+
     //painter.scale(m_zoomFactor,m_zoomFactor);
 
     m_lockAllGates.lock();
@@ -92,9 +101,12 @@ void GateField::mousePressEvent(QMouseEvent *click)
         anyInputGatesToggled(click->x(),click->y());
         break;
 
-    //rest of dragging handeled in mouseMoveEvent
     case CLICK_DRAG:
-        dragClick(clickX,clickY);
+        dragClick(clickX,clickY);//rest of dragging handeled in mouseMoveEvent
+        break;
+
+    case CLICK_SELECTION:
+        selectionClick(clickX,clickY);
         break;
     }
 
@@ -103,10 +115,17 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
 void GateField::mouseMoveEvent(QMouseEvent *click)
 {
-    if(m_bMouseDragging)
+    if(m_bMouseDragging && m_currentClickMode == CLICK_DRAG)
     {
         m_lockAllGates.lock();
         dragClick(click->x(),click->y());
+        m_lockAllGates.unlock();
+    }
+
+    if( m_selectionTool != nullptr && m_currentClickMode == CLICK_SELECTION)
+    {
+        m_lockAllGates.lock();
+        selectionClick(click->x(),click->y());
         m_lockAllGates.unlock();
     }
 }
@@ -114,6 +133,16 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 void GateField::mouseReleaseEvent(QMouseEvent *click)
 {
     m_bMouseDragging = false;
+
+    //If ending a selection
+    if( m_selectionTool != nullptr && m_currentClickMode == CLICK_SELECTION)
+    {
+        QRect selection = m_selectionTool->geometry();
+        m_selectionTool = nullptr;
+
+        //Todo use selection
+    }
+
 }
 
 void GateField::linkNodesClick(int clickX, int clickY)
@@ -194,6 +223,26 @@ void GateField::anyInputGatesToggled(int clickX, int clickY)
             dynamic_cast<GateInputBox*>(gate)->UpdateClicked(clickX, clickY);
         }
     }
+}
+
+void GateField::selectionClick(int clickX, int clickY)
+{
+
+    //If start of new selection
+    if(m_selectionTool == nullptr)
+    {
+        m_selectionTool = new QRubberBand(QRubberBand::Rectangle, this);
+        m_selectionToolOrigin = QPoint(clickX,clickY);
+        m_selectionTool->setGeometry(QRect(m_selectionToolOrigin, QSize()));
+    }
+
+    else
+    {
+        m_selectionTool->setGeometry(
+                    QRect(m_selectionToolOrigin, QPoint(clickX,clickY)).normalized()
+                    );
+    }
+
 }
 
 void GateField::deleteClick(int clickX, int clickY)

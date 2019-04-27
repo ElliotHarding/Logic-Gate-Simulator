@@ -7,6 +7,7 @@
 #include "gateinputbox.h"
 #include "QMouseEvent"
 #include <QDragMoveEvent>
+#include <QRubberBand>
 
 class GateField : public QWidget
 {
@@ -50,11 +51,19 @@ private:
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
     bool m_bMouseDragging = false;
+
+    //Selecting
+    QRubberBand* m_selectionTool = nullptr;
+    QPoint m_selectionToolOrigin;
+    const QColor selectionAreaColor = Qt::blue;
+
+    //Mouse event handlers
     void linkNodesClick(int clickX, int clickY);
     void deleteClick(int clickX, int clickY);
     void dragClick(int clickX, int clickY);
     void deleteLinkedNodesClick(int clickX, int clickY);
     void anyInputGatesToggled(int clickX, int clickY);
+    void selectionClick(int clickX, int clickY);
 
     //Coords of newly spawned gate
     const int SPAWN_X = 300;

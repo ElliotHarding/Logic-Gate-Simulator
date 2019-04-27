@@ -92,6 +92,14 @@ void DLG_Home::on_btn_click_clicked()
 
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
+void DLG_Home::on_btn_SelectionTool_clicked()
+{
+    if(m_currentGateField)
+    {
+        m_currentGateField->setCurrentClickMode(CLICK_SELECTION);
+    }
+    QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
+}
 
 
 // -- BUTTON HANDLERS FOR NEW GATES --
@@ -208,5 +216,3 @@ void LogicUpdateThread::stopRunning()
 {
     m_bStop = true;
 }
-
-

@@ -20,5 +20,6 @@
         <file>Resources/Gates/gate-or.png</file>
         <file>Resources/Button Icons/icon-zoom-in.png</file>
         <file>Resources/Button Icons/icon-zoom-out.png</file>
+        <file>Resources/Button Icons/icon-gate-selection.png</file>
     </qresource>
 </RCC>

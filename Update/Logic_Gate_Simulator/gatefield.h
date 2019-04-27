@@ -56,6 +56,7 @@ private:
     QRubberBand* m_selectionTool = nullptr;
     QPoint m_selectionToolOrigin;
     const QColor selectionAreaColor = Qt::blue;
+    std::vector<Gate*> m_selectedGates;
 
     //Mouse event handlers
     void linkNodesClick(int clickX, int clickY);

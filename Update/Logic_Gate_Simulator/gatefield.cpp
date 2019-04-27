@@ -140,7 +140,17 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
         QRect selection = m_selectionTool->geometry();
         m_selectionTool = nullptr;
 
-        //Todo use selection
+        //Go through all gates and add gates inside selection to selectedGates vector
+        m_selectedGates.clear();
+        m_lockAllGates.lock();
+            for (Gate* gate : m_allGates)
+            {
+                if(selection.contains(gate->GetPosition()))
+                {
+                    m_selectedGates.push_back(gate);
+                }
+            }
+        m_lockAllGates.unlock();
     }
 
 }

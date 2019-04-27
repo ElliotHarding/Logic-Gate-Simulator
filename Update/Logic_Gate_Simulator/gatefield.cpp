@@ -173,11 +173,11 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
                 delete nodeLinkedTo;
             }
 
-            delete node;
+            //delete node;
             return; //so that we dont acidentally get more than one clicked node
         }
     }
-    delete node;
+    //delete node;
 }
 
 

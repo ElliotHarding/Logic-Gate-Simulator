@@ -77,6 +77,7 @@ class LogicUpdateThread : public QThread
     Q_OBJECT
 public:
     LogicUpdateThread(std::vector<GateField*>* allGateFields);
+    ~LogicUpdateThread() {stopRunning(); terminate();}
     void stopRunning();
 
 private:

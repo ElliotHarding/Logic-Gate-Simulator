@@ -25,6 +25,7 @@ DLG_Home::~DLG_Home()
 {
     m_updateThread->stopRunning();
     m_updateThread->exit();
+    delete m_updateThread;
 
     //delete m_currentGateField
 
@@ -186,6 +187,12 @@ LogicUpdateThread::LogicUpdateThread(std::vector<GateField*>* allGateFields) : Q
     m_bStop(false),
     m_pAllGateFields(allGateFields)
 {
+}
+
+LogicUpdateThread::~LogicUpdateThread()
+{
+    stopRunning();
+    terminate();
 }
 
 //Calls the update function of all the gates in all of the gateFields

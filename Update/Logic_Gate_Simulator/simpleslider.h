@@ -6,9 +6,9 @@
 class SimpleSlider : public QWidget
 {
 public:
-    SimpleSlider(float min, float max, QPoint pos, int size = 10, float incSize = 1, QWidget *parent = nullptr);
+    SimpleSlider(float min, float max, QPoint pos, int size = 10, QWidget *parent = nullptr);
 
-    float GetCurrentValue() {return m_currentValue;}
+    float GetCurrentValue();
 
 protected:
 
@@ -18,20 +18,19 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
-    QPoint m_position;
-
-    int m_currentMousePosX;
+    //Position data
+    QPoint m_sliderPosition;
+    QPoint m_leftMost;
+    QPoint m_rightMost;
 
     bool m_beingClicked;
 
     //Pixel size
-    int m_size;
+    const int m_size;
 
-    float m_max;
-    float m_min;
-    float m_minMaxDiff;
-    float m_currentValue;
-    float m_incrementSize;
+    const float m_max;
+    const float m_min;
+    const float m_minMaxDiff;
 };
 
 #endif // SIMPLESLIDER_H

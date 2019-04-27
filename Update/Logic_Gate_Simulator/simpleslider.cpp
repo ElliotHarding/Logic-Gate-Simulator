@@ -16,6 +16,8 @@ SimpleSlider::SimpleSlider(float min, float max, QPoint pos, int size, DLG_Home*
     m_leftMost = QPoint(pos.x() - (m_size/2), pos.y());
     m_sliderPosition = m_leftMost;
 
+    this->setGeometry(pos.x(), pos.y(), 700, 200);
+
     setAcceptDrops(true);
     setMouseTracking(true);
 }

@@ -35,15 +35,6 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
         gate->UpdateGraphics(&painter);
     }
 
-    //Get a copy of all the gates
-    //std::vector<Gate*>& r_allGates = m_allGates;
-
-    //Draw all gates & all lines between nodes (handeled via nodes)
-    //for (size_t index = 0; index < r_allGates.size(); index++)
-    //{
-    //    r_allGates[index]->UpdateGraphics(&painter);
-    //}
-
     //Call to redraw
     update();
 }

@@ -44,12 +44,14 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
 
 void GateField::updateFunction()
 {
+    m_lockAllGates.lock();
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
-        m_lockAllGates.lock();
+        //m_lockAllGates.lock();
         m_allGates[index]->UpdateOutput();
-        m_lockAllGates.unlock();
+        //m_lockAllGates.unlock();
     }
+    m_lockAllGates.unlock();
 }
 
 void GateField::addGameObject(Gate* go)

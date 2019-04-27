@@ -14,7 +14,7 @@ public:
     virtual void UpdateOutput() = 0;
       //todo setUpdateOutput()
     virtual void UpdateGraphics(QPainter* painter) override;
-    virtual void SetPosition(int x, int y) override = 0;
+    //virtual void SetPosition(int x, int y) override = 0;
 
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
 

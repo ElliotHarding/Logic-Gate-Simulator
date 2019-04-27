@@ -36,7 +36,9 @@ SOURCES += \
         dlg_home.cpp \
         gameobject.cpp \
         gateoutputbox.cpp \
-    simpleslider.cpp
+    simpleslider.cpp \
+    gatecollection.cpp \
+    dlg_loadgatecollection.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -52,11 +54,14 @@ HEADERS += \
         gateor.h \
         gateoutputbox.h \
     simpleslider.h \
-    gatereader.h
+    gatereader.h \
+    gatecollection.h \
+    dlg_loadgatecollection.h
 
 FORMS += \
         mainwindow.ui \
-        dlg_home.ui
+        dlg_home.ui \
+    dlg_loadgatecollection.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

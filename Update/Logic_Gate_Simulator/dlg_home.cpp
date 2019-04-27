@@ -136,7 +136,6 @@ void DLG_Home::on_btn_andGate_clicked()
         on_btn_Drag_clicked();
     }
 }
-
 void DLG_Home::on_btn_recieverGate_clicked()
 {
     if(m_currentGateField)
@@ -145,7 +144,16 @@ void DLG_Home::on_btn_recieverGate_clicked()
         on_btn_Drag_clicked();
     }
 }
+void DLG_Home::on_btn_gateCollection_clicked()
+{
+    if(!m_currentGateField)
+        on_btn_newPage_clicked();
 
+    DLG_LoadGateCollection* loadGateCollectionDialog = new DLG_LoadGateCollection(m_currentGateField, this);
+    loadGateCollectionDialog->open();
+
+    on_btn_Drag_clicked();
+}
 
 // -- OTHER BUTTON HANDLERS --
 
@@ -216,3 +224,5 @@ void LogicUpdateThread::stopRunning()
 {
     m_bStop = true;
 }
+
+

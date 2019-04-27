@@ -15,28 +15,7 @@
 #include "gateinputbox.h"
 #include "gateoutputbox.h"
 #include "gatefield.h"
-
-struct GateSaveTemplate
-{
-    GateType name;
-    QPoint position;
-    std::vector<NodeSaveTemplate> nodes;
-
-    void out(std::ofstream& file)
-    {
-        //Add general gate info
-        file << "--Gate--"
-                with std::to_string(name)
-                with std::to_string(position.x())
-                with std::to_string(position.y());
-
-        //Add node information
-        for (NodeSaveTemplate node : nodes)
-        {
-            node.out(file);
-        }
-    }
-};
+#include "gatecollection.h"
 
 struct GateReader
 {

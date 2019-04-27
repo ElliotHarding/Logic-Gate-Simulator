@@ -10,6 +10,8 @@
 #include "gateinputbox.h"
 #include "gateoutputbox.h"
 #include "gatefield.h"
+#include "gatecollection.h"
+#include "dlg_loadgatecollection.h"
 #include <QThread>
 
 class QMouseEvent;
@@ -66,6 +68,7 @@ private slots:
     void on_btn_zoomIn_clicked();
     void on_btn_zoomOut_clicked();
     void on_btn_SelectionTool_clicked();
+    void on_btn_gateCollection_clicked();
 };
 
 

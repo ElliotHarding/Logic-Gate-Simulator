@@ -12,11 +12,13 @@ SimpleSlider::SimpleSlider(float min, float max, QPoint pos, int size, DLG_Home*
     m_beingClicked(false),
     m_minMaxDiff(max - min)
 {
-    m_rightMost = QPoint(pos.x() + (m_size/2), pos.y());
-    m_leftMost = QPoint(pos.x() - (m_size/2), pos.y());
+    const static int c_height = 30;
+    const static int c_margin = 7;
+    m_rightMost = QPoint(m_size + c_margin, c_height/2);
+    m_leftMost = QPoint(c_margin, c_height/2);
     m_sliderPosition = m_leftMost;
 
-    this->setGeometry(pos.x(), pos.y(), 700, 200);
+    this->setGeometry(pos.x(), pos.y(), m_size + (c_margin * 2), c_height);
 
     setAcceptDrops(true);
     setMouseTracking(true);

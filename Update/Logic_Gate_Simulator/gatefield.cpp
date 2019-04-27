@@ -149,11 +149,11 @@ void GateField::linkNodesClick(int clickX, int clickY)
                 QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
             }
 
-            delete node;
+            //delete node;
             return; //so that we dont acidentally get more than one clicked node
         }
     }
-    delete node;
+    //delete node;
 }
 
 void GateField::deleteLinkedNodesClick(int clickX, int clickY)

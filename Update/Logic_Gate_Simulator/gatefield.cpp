@@ -29,14 +29,19 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     QPainter painter(this);
     //painter.scale(m_zoomFactor,m_zoomFactor);
 
+    for (Gate* gate : m_allGates)
+    {
+        gate->UpdateGraphics(&painter);
+    }
+
     //Get a copy of all the gates
-    std::vector<Gate*>& r_allGates = m_allGates;
+    //std::vector<Gate*>& r_allGates = m_allGates;
 
     //Draw all gates & all lines between nodes (handeled via nodes)
-    for (size_t index = 0; index < r_allGates.size(); index++)
-    {
-        r_allGates[index]->UpdateGraphics(&painter);
-    }
+    //for (size_t index = 0; index < r_allGates.size(); index++)
+    //{
+    //    r_allGates[index]->UpdateGraphics(&painter);
+    //}
 
     //Call to redraw
     update();

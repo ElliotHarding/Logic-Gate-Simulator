@@ -1,5 +1,6 @@
 #include "gatefield.h"
 #include <QApplication>
+#include "DLG_SaveGateCollection.h"
 
 GateField::GateField(qreal zoomFactor, QWidget *parent) :
     QWidget(parent),
@@ -60,6 +61,13 @@ void GateField::updateFunction()
         //m_lockAllGates.unlock();
     }
     m_lockAllGates.unlock();
+}
+
+GateCollection* GateField::GenerateGateCollection()
+{
+    return new GateCollection(m_selectedGates,
+                              m_selectionTool->geometry().width(),
+                              m_selectionTool->geometry().height());
 }
 
 void GateField::addGameObject(Gate* go)
@@ -151,6 +159,9 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
                 }
             }
         m_lockAllGates.unlock();
+
+        DLG_SaveGateCollection* col = new DLG_SaveGateCollection(this, this);
+        col->open();
     }
 }
 

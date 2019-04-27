@@ -8,6 +8,7 @@
 #include "QMouseEvent"
 #include <QDragMoveEvent>
 #include <QRubberBand>
+#include "gatecollection.h"
 
 class GateField : public QWidget
 {
@@ -17,11 +18,11 @@ public:
     explicit GateField(qreal zoomFactor, QWidget *parent = nullptr);
     ~GateField() override;
 
-    //Calls from DLG_Home:
     void addGameObject(Gate* go);
     void updateFunction();
     void setCurrentClickMode(ClickMode clickMode) {m_currentClickMode = clickMode;}
     void setZoomLevel(qreal zoom) {m_zoomFactor = zoom;}
+    GateCollection* GenerateGateCollection();
 
     bool Enabled = true;
 

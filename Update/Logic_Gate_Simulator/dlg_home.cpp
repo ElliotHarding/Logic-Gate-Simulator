@@ -13,8 +13,7 @@ DLG_Home::DLG_Home(QWidget *parent) :
     on_btn_newPage_clicked();
 
     //Add zoom slider to dialog
-    //m_zoomSlider = new SimpleSlider(0.25, 10, QPoint(50,20), 100, this);
-    m_zoomSlider = new SimpleSlider(0.25,10,QPoint(50,20), 100, this);
+    m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, c_zoomSliderPos, c_zoomSliderWidth, this);
     this->layout()->addWidget(m_zoomSlider);
 
     //Start the update thread
@@ -36,6 +35,12 @@ DLG_Home::~DLG_Home()
     }
 
     delete ui;
+}
+
+void DLG_Home::SetZoomFactor(float zoomFactor)
+{
+    m_ZoomFactor = zoomFactor;
+    m_currentGateField->setZoomLevel(m_ZoomFactor);
 }
 
 
@@ -188,8 +193,8 @@ void LogicUpdateThread::run()
 {
     while (!m_bStop)
         for (GateField* gf : *m_pAllGateFields)
-            if(gf)
-                gf->updateFunction();
+            if(gf && gf->Enabled)
+                    gf->updateFunction();
 }
 
 void LogicUpdateThread::stopRunning()

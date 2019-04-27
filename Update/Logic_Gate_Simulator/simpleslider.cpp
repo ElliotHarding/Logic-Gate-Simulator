@@ -10,11 +10,11 @@ SimpleSlider::SimpleSlider(float min, float max, QPoint pos, int size, DLG_Home*
     m_size(size),
     m_pParent(parent),
     m_beingClicked(false),
-    m_sliderPosition(pos),
     m_minMaxDiff(max - min)
 {
     m_rightMost = QPoint(pos.x() + (m_size/2), pos.y());
     m_leftMost = QPoint(pos.x() - (m_size/2), pos.y());
+    m_sliderPosition = m_leftMost;
 
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -23,7 +23,8 @@ SimpleSlider::SimpleSlider(float min, float max, QPoint pos, int size, DLG_Home*
 float SimpleSlider::GetCurrentValue()
 {
     //Get how far slider is in terms of percentage from left
-    float percentage = m_sliderPosition.x() / m_size;
+    float distanceFromLeft = (m_sliderPosition.x() - m_leftMost.x());
+    float percentage = distanceFromLeft / m_size;
 
     //Apply same percentage across min - max difference
     return m_min + (m_minMaxDiff * percentage);
@@ -32,6 +33,9 @@ float SimpleSlider::GetCurrentValue()
 void SimpleSlider::mouseReleaseEvent(QMouseEvent *releaseEvent)
 {
     m_beingClicked = false;
+
+    //Send new data
+    m_pParent->SetZoomFactor(GetCurrentValue());
 }
 
 void SimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)
@@ -80,9 +84,4 @@ void SimpleSlider::UpdateSlider(int currentMousePosX)
         //Redraw
         update();
     }
-}
-
-void SimpleSlider::sendData()
-{
-    m_pParent->SetZoomFactor(GetCurrentValue());
 }

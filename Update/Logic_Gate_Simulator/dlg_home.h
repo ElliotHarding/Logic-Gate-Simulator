@@ -27,7 +27,7 @@ public:
     explicit DLG_Home(QWidget *parent = nullptr);
     ~DLG_Home();
 
-    void SetZoomFactor(float zoomFactor) {m_ZoomFactor = zoomFactor;}
+    void SetZoomFactor(float zoomFactor);
 
 private:
     Ui::DLG_Home *ui;
@@ -35,7 +35,7 @@ private:
     //Zooming
     qreal m_ZoomFactor;
     const int c_maxZoom = 10;
-    const qreal c_minZoom = 0.25;
+    const qreal c_minZoom = 0.25;    
 
     //Updating gates
     LogicUpdateThread* m_updateThread;
@@ -46,6 +46,8 @@ private:
 
     //Controls
     SimpleSlider* m_zoomSlider;
+    const int c_zoomSliderWidth = 100;
+    const QPoint c_zoomSliderPos = QPoint(700,140);
 
 private slots:
     void on_btn_Drag_clicked();

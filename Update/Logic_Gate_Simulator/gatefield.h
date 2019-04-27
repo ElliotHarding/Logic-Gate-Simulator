@@ -22,6 +22,8 @@ public:
     void setCurrentClickMode(ClickMode clickMode) {m_currentClickMode = clickMode;}
     void setZoomLevel(qreal zoom) {m_zoomFactor = zoom;}
 
+    bool Enabled = true;
+
 signals:
 public slots:
 protected:

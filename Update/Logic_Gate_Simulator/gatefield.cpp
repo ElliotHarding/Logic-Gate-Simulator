@@ -11,6 +11,7 @@ GateField::GateField(qreal zoomFactor, QWidget *parent) :
 
 GateField::~GateField()
 {
+    Enabled = false;
     m_lockAllGates.lock();
 
     //Delete all gates
@@ -27,7 +28,7 @@ GateField::~GateField()
 void GateField::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
-    //painter.scale(m_zoomFactor,m_zoomFactor);
+    painter.scale(m_zoomFactor,m_zoomFactor);
 
     for (Gate* gate : m_allGates)
     {
@@ -111,7 +112,9 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 {
     if(m_bMouseDragging)
     {
+        m_lockAllGates.lock();
         dragClick(click->x(),click->y());
+        m_lockAllGates.unlock();
     }
 }
 

@@ -23,7 +23,6 @@ protected:
     void UpdateSlider(int currentMousePosX);
 
     DLG_Home* m_pParent;
-    void sendData();
 
     //Position data
     QPoint m_sliderPosition;

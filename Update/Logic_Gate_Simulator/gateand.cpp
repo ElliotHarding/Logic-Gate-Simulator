@@ -7,7 +7,7 @@ GateAnd::GateAnd() :
     m_inputB(this),
     m_output(this)
 {
-    qDebug() << "And gate created";
+    m_gateName = "AND";
 }
 
 GateAnd::~GateAnd()

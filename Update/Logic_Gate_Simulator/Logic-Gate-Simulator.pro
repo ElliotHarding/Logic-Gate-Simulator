@@ -51,7 +51,8 @@ HEADERS += \
         gatenot.h \
         gateor.h \
         gateoutputbox.h \
-    simpleslider.h
+    simpleslider.h \
+    savingtemplates.h
 
 FORMS += \
         mainwindow.ui \

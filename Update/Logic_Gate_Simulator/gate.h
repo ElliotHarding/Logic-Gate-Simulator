@@ -21,6 +21,8 @@ public:
 
 protected:
     void DetachNode(Node* node);
+
+    std::string m_gateName;
 };
 
 class Node : public GameObject

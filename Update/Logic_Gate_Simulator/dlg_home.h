@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMouseEvent>
+#include "simpleslider.h"
 #include "gateand.h"
 #include "gatenot.h"
 #include "gateor.h"
@@ -40,6 +41,9 @@ private:
     //Gatefields
     GateField* m_currentGateField;
     std::vector<GateField*> m_allGateFields;
+
+    //Controls
+    SimpleSlider* m_zoomSlider;
 
 private slots:
     void on_btn_Drag_clicked();

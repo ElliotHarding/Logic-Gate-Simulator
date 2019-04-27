@@ -1,5 +1,6 @@
 #include "dlg_home.h"
 #include "ui_dlg_home.h"
+#include <QLayout>
 
 DLG_Home::DLG_Home(QWidget *parent) :
     QMainWindow(parent),    
@@ -10,6 +11,10 @@ DLG_Home::DLG_Home(QWidget *parent) :
     setMouseTracking(true);
     ui->PlayField->clear();
     on_btn_newPage_clicked();
+
+    //Add zoom slider to dialog
+    m_zoomSlider = new SimpleSlider(0.25, 10, QPoint(50,20), 100, 1, this);
+    this->layout()->addWidget(m_zoomSlider);
 
     //Start the update thread
     m_updateThread = new LogicUpdateThread(&m_allGateFields);

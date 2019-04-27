@@ -28,12 +28,14 @@ GateField::~GateField()
 void GateField::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
-    painter.scale(m_zoomFactor,m_zoomFactor);
+    //painter.scale(m_zoomFactor,m_zoomFactor);
 
+    m_lockAllGates.lock();
     for (Gate* gate : m_allGates)
     {
         gate->UpdateGraphics(&painter);
     }
+    m_lockAllGates.unlock();
 
     //Call to redraw
     update();
@@ -215,12 +217,26 @@ void GateField::dragClick(int clickX, int clickY)
     //Loop through all dragable gameobjects
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
-        //If found an object to drag, exit out of for loop
-        //so we don't drag multiple objects
+        //If found an object to drag,
         if(m_allGates[index]->UpdateDrag(clickX, clickY))
         {
             m_bMouseDragging = true;
+
+            //Move the dragged object to the front of the array.
+            //This way next loop the object will be checked first
+            //This means if you drag an object over another, the object being dragged wont switch
+            moveToFront(index, m_allGates);
+
+            //Exit out of for loop so we don't drag multiple objects
             return;
         }
     }
+}
+
+void GateField::moveToFront(int index, std::vector<Gate *> &vec)
+{
+    Gate* objectAtIndex = vec[index];
+
+    vec.erase(vec.begin() + index);
+    vec.insert(vec.begin(), objectAtIndex);
 }

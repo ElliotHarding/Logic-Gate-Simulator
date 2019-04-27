@@ -35,6 +35,8 @@ private:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
+    void moveToFront(int index, std::vector<Gate*>& vec);
+
     //Gates
     std::vector<Gate*> m_allGates;
     QMutex m_lockAllGates;

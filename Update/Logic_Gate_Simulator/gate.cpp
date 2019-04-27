@@ -16,6 +16,15 @@ void Gate::UpdateGraphics(QPainter* painter)
     GameObject::UpdateGraphics(painter);
 }
 
+void Gate::SaveData(std::ofstream &storage)
+{
+    //Add general gate info
+    storage << "--Gate--"
+            with std::to_string(m_type)
+            with std::to_string(GetPosition().x())
+            with std::to_string(GetPosition().y());
+}
+
 void Gate::DetachNode(Node *node)
 {
     if(node->GetLinkedNode())

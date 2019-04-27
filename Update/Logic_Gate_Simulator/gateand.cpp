@@ -74,14 +74,10 @@ Node *GateAnd::GetClickedNode(int clickX, int clickY)
 void GateAnd::SaveData(std::ofstream &storage)
 {
     //Add general gate info
-    storage << "--Gate--"
-            with std::to_string(name)
-            with std::to_string(position.x())
-            with std::to_string(position.y());
+    Gate::SaveData(storage);
 
     //Add node information
-    for (NodeSaveTemplate node : nodes)
-    {
-        node.out(file);
-    }
+    m_inputA.SaveData(storage);
+    m_inputB.SaveData(storage);
+    m_output.SaveData(storage);
 }

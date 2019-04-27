@@ -65,6 +65,10 @@ Node *GateOutputBox::GetClickedNode(int clickX, int clickY)
 
 void GateOutputBox::SaveData(std::ofstream &storage)
 {
+    //Add general gate info
+    Gate::SaveData(storage);
 
+    //Add node information
+    m_input.SaveData(storage);
 }
 

@@ -61,5 +61,10 @@ Node *GateNot::GetClickedNode(int clickX, int clickY)
 
 void GateNot::SaveData(std::ofstream &storage)
 {
+    //Add general gate info
+    Gate::SaveData(storage);
 
+    //Add node information
+    m_input.SaveData(storage);
+    m_output.SaveData(storage);
 }

@@ -28,7 +28,7 @@ public:
     virtual void UpdateGraphics(QPainter* painter) override;
 
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
-    virtual void SaveData(std::ofstream& storage) = 0;
+    virtual void SaveData(std::ofstream& storage);
 
 protected:
     void DetachNode(Node* node);

@@ -71,5 +71,11 @@ Node *GateOr::GetClickedNode(int clickX, int clickY)
 
 void GateOr::SaveData(std::ofstream &storage)
 {
+    //Add general gate info
+    Gate::SaveData(storage);
 
+    //Add node information
+    m_inputA.SaveData(storage);
+    m_inputB.SaveData(storage);
+    m_output.SaveData(storage);
 }

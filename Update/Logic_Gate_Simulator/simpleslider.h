@@ -3,10 +3,12 @@
 
 #include <QWidget>
 
+class DLG_Home;
+
 class SimpleSlider : public QWidget
 {
 public:
-    SimpleSlider(float min, float max, QPoint pos, int size = 10, QWidget *parent = nullptr);
+    SimpleSlider(float min, float max, QPoint pos, int size = 10, DLG_Home* parent = nullptr);
 
     float GetCurrentValue();
 
@@ -17,6 +19,11 @@ protected:
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
+
+    void UpdateSlider(int currentMousePosX);
+
+    DLG_Home* m_pParent;
+    void sendData();
 
     //Position data
     QPoint m_sliderPosition;

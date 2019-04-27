@@ -13,7 +13,8 @@ DLG_Home::DLG_Home(QWidget *parent) :
     on_btn_newPage_clicked();
 
     //Add zoom slider to dialog
-    m_zoomSlider = new SimpleSlider(0.25, 10, QPoint(50,20), 100, this);
+    //m_zoomSlider = new SimpleSlider(0.25, 10, QPoint(50,20), 100, this);
+    m_zoomSlider = new SimpleSlider(0.25,10,QPoint(50,20), 100, this);
     this->layout()->addWidget(m_zoomSlider);
 
     //Start the update thread

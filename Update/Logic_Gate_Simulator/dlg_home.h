@@ -27,6 +27,8 @@ public:
     explicit DLG_Home(QWidget *parent = nullptr);
     ~DLG_Home();
 
+    void SetZoomFactor(float zoomFactor) {m_ZoomFactor = zoomFactor;}
+
 private:
     Ui::DLG_Home *ui;
 

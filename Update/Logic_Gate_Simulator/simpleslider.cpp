@@ -1,15 +1,17 @@
 #include "simpleslider.h"
 #include <QMouseEvent>
 #include <QPainter>
+#include "dlg_home.h"
 
-SimpleSlider::SimpleSlider(float min, float max, QPoint pos, int size, QWidget *parent) :
+SimpleSlider::SimpleSlider(float min, float max, QPoint pos, int size, DLG_Home* parent) :
     QWidget(parent),
-    m_beingClicked(false),
-    m_size(size),
     m_max(max),
     m_min(min),
-    m_minMaxDiff(max - min),
-    m_sliderPosition(pos)
+    m_size(size),
+    m_pParent(parent),
+    m_beingClicked(false),
+    m_sliderPosition(pos),
+    m_minMaxDiff(max - min)
 {
     m_rightMost = QPoint(pos.x() + (m_size/2), pos.y());
     m_leftMost = QPoint(pos.x() - (m_size/2), pos.y());
@@ -35,32 +37,13 @@ void SimpleSlider::mouseReleaseEvent(QMouseEvent *releaseEvent)
 void SimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)
 {
     m_beingClicked = true;
+
+    UpdateSlider(mouseEvent->pos().x());
 }
 
 void SimpleSlider::mouseMoveEvent(QMouseEvent *event)
 {
-    if(!m_beingClicked)
-        return;
-
-    const int currentMousePosX = event->pos().x();
-
-    //Check if mouse inbetween leftMost & rightMost boundaries of slider
-    //If so move m_sliderPosition corredspondingly
-    if(m_leftMost.x() < currentMousePosX && currentMousePosX < m_rightMost.x())
-    {
-        if(currentMousePosX > m_sliderPosition.x())
-        {
-            m_sliderPosition.setX(m_sliderPosition.x() + 1);
-            //Redraw
-            update();
-        }
-        else if(currentMousePosX < m_sliderPosition.x())
-        {
-            m_sliderPosition.setX(m_sliderPosition.x() - 1);
-            //Redraw
-            update();
-        }
-    }
+    UpdateSlider(event->pos().x());
 }
 
 void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
@@ -69,7 +52,7 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
 
     //Paiting variables to be used
     QPainterPath path;
-    QPen pen(Qt::blue, 10);
+    QPen pen(Qt::white, 6);
     painter.setPen(pen);
 
     //Draw bar
@@ -81,4 +64,25 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
 
     //Draw slider
     painter.drawEllipse(m_sliderPosition, 5, 5);
+}
+
+void SimpleSlider::UpdateSlider(int currentMousePosX)
+{
+    if(!m_beingClicked)
+        return;
+
+    //Check if mouse inbetween leftMost & rightMost boundaries of slider
+    //If so move m_sliderPosition corredspondingly
+    if(m_leftMost.x() < currentMousePosX && currentMousePosX < m_rightMost.x())
+    {
+        m_sliderPosition.setX(currentMousePosX);
+
+        //Redraw
+        update();
+    }
+}
+
+void SimpleSlider::sendData()
+{
+    m_pParent->SetZoomFactor(GetCurrentValue());
 }

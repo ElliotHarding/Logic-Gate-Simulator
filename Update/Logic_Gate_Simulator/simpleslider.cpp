@@ -35,9 +35,6 @@ float SimpleSlider::GetCurrentValue()
 void SimpleSlider::mouseReleaseEvent(QMouseEvent *releaseEvent)
 {
     m_beingClicked = false;
-
-    //Send new data
-    m_pParent->SetZoomFactor(GetCurrentValue());
 }
 
 void SimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)
@@ -82,6 +79,9 @@ void SimpleSlider::UpdateSlider(int currentMousePosX)
     if(m_leftMost.x() < currentMousePosX && currentMousePosX < m_rightMost.x())
     {
         m_sliderPosition.setX(currentMousePosX);
+
+        //Send new data
+        m_pParent->SetZoomFactor(GetCurrentValue());
 
         //Redraw
         update();

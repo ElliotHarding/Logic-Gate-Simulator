@@ -4,6 +4,7 @@ GateOutputBox::GateOutputBox() :
     Gate::Gate(GateOutputBoxWidth,GateOutputBoxHeight),
     m_input(this)
 {
+    m_type = GateType::GATE_RECIEVER;
 }
 
 GateOutputBox::~GateOutputBox()

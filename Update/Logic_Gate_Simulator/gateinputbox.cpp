@@ -4,7 +4,8 @@ GateInputBox::GateInputBox() :
     Gate::Gate(GateInputBoxWidth,GateInputBoxHeight),
     m_output(this)
 {
-     m_toggleStateTimer.start(c_toggleFrequency);
+    m_type = GateType::GATE_EMMITTER;
+    m_toggleStateTimer.start(c_toggleFrequency);
 }
 
 GateInputBox::~GateInputBox()

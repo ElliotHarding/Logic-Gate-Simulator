@@ -4,8 +4,20 @@
 #include "gameobject.h"
 #include <fstream>
 
-class Node;
+#define with << std::endl <<
 
+enum GateType
+{
+    GATE_AND = 1,
+    GATE_OR = 2,
+    GATE_NOT = 3,
+    GATE_EMMITTER = 4,
+    GATE_RECIEVER = 5,
+    GATE_CUSTOM = 6,
+    GATE_NULL
+};
+
+class Node;
 class Gate : public DragableGameObject
 {
 public:
@@ -16,13 +28,11 @@ public:
     virtual void UpdateGraphics(QPainter* painter) override;
 
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
-
     virtual void SaveData(std::ofstream& storage) = 0;
 
 protected:
     void DetachNode(Node* node);
-
-    std::string m_gateName;
+    GateType m_type;
 };
 
 class Node : public GameObject
@@ -44,9 +54,12 @@ public:
 
     virtual void UpdateGraphics(QPainter* painter) override;
 
+    void SaveData(std::ofstream& storage);
 private:
     Node* m_linkedNode = nullptr;
     Gate* m_parent = nullptr;
+    int m_id = -1;
+    int m_linkedId = -1;
 };
 
 

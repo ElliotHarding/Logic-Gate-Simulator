@@ -7,7 +7,7 @@ GateAnd::GateAnd() :
     m_inputB(this),
     m_output(this)
 {
-    m_gateName = "AND";
+    m_type = GateType::GATE_AND;
 }
 
 GateAnd::~GateAnd()
@@ -73,5 +73,15 @@ Node *GateAnd::GetClickedNode(int clickX, int clickY)
 
 void GateAnd::SaveData(std::ofstream &storage)
 {
+    //Add general gate info
+    storage << "--Gate--"
+            with std::to_string(name)
+            with std::to_string(position.x())
+            with std::to_string(position.y());
 
+    //Add node information
+    for (NodeSaveTemplate node : nodes)
+    {
+        node.out(file);
+    }
 }

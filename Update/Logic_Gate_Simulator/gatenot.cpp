@@ -5,6 +5,7 @@ GateNot::GateNot() :
     m_input(this),
     m_output(this)
 {
+    m_type = GateType::GATE_NOT;
 }
 
 GateNot::~GateNot()

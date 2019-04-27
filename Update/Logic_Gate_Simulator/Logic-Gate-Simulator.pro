@@ -52,7 +52,7 @@ HEADERS += \
         gateor.h \
         gateoutputbox.h \
     simpleslider.h \
-    savingtemplates.h
+    gatereader.h
 
 FORMS += \
         mainwindow.ui \

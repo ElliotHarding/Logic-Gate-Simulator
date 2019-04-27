@@ -6,6 +6,7 @@ GateOr::GateOr() :
     m_inputB(this),
     m_output(this)
 {
+    m_type = GateType::GATE_OR;
 }
 
 GateOr::~GateOr()

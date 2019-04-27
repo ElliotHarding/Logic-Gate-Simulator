@@ -1,5 +1,7 @@
 #include "gate.h"
 
+#define with << std::endl <<
+
 Gate::Gate(int width, int height, const char* iconLocation) :
     DragableGameObject::DragableGameObject(width, height, iconLocation)
 {
@@ -78,6 +80,15 @@ void Node::UpdateGraphics(QPainter* painter)
 
         painter->drawLine(m_linkedNode->GetPosition(),GetPosition());
     }
+}
+
+void Node::SaveData(std::ofstream &storage)
+{
+    storage << "--Node--"
+            with std::to_string(m_id)
+            with std::to_string(GetPosition().x())
+            with std::to_string(GetPosition().y())
+            with std::to_string(m_linkedId);
 }
 
 Node *Node::GetLinkedNode()

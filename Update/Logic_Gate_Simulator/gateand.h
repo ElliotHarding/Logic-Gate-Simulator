@@ -18,6 +18,8 @@ public:
 
     virtual Node* GetClickedNode(int clickX, int clickY) override;
 
+    void SaveData(std::ofstream& storage) override;
+
 protected:
 
     const int M_INPUTa_OFFSET_X = -5;

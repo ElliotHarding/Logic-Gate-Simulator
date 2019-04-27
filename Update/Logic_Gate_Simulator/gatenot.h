@@ -16,6 +16,7 @@ public:
     virtual void SetPosition(int x, int y) override;
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual Node *GetClickedNode(int clickX, int clickY) override;
+    void SaveData(std::ofstream& storage) override;
 
 protected:
     const int M_INPUT_OFFSET_X = 0;

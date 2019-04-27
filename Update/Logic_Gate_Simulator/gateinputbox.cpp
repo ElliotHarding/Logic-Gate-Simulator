@@ -84,3 +84,8 @@ Node *GateInputBox::GetClickedNode(int clickX, int clickY)
     return nullptr;
 }
 
+void GateInputBox::SaveData(std::ofstream &storage)
+{
+
+}
+

@@ -67,3 +67,8 @@ Node *GateOr::GetClickedNode(int clickX, int clickY)
 
     return nullptr;
 }
+
+void GateOr::SaveData(std::ofstream &storage)
+{
+
+}

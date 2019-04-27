@@ -152,7 +152,6 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
             }
         m_lockAllGates.unlock();
     }
-
 }
 
 void GateField::linkNodesClick(int clickX, int clickY)

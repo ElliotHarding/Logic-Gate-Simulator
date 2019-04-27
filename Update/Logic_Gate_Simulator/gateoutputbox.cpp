@@ -62,3 +62,8 @@ Node *GateOutputBox::GetClickedNode(int clickX, int clickY)
     return nullptr;
 }
 
+void GateOutputBox::SaveData(std::ofstream &storage)
+{
+
+}
+

@@ -2,6 +2,7 @@
 #define GATE_H
 
 #include "gameobject.h"
+#include <fstream>
 
 class Node;
 
@@ -12,10 +13,11 @@ public:
     ~Gate() override;
 
     virtual void UpdateOutput() = 0;
-      //todo setUpdateOutput()
     virtual void UpdateGraphics(QPainter* painter) override;
 
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
+
+    virtual void SaveData(std::ofstream& storage) = 0;
 
 protected:
     void DetachNode(Node* node);

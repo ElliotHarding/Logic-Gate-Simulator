@@ -21,6 +21,8 @@ public:
 
     virtual Node* GetClickedNode(int clickX, int clickY) override;
 
+    void SaveData(std::ofstream& storage) override;
+
 protected:
 
     const int NODE_OFFSET_X = GateInputBoxWidth + 17;

@@ -165,12 +165,8 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
             m_saveGateCollection->open();
 
             //GenerateGateCollection() gets called by the saveGateCollectionDialog
-            //this also resets m_selectionTool;
         }
-        else
-        {
-            m_selectionTool = nullptr;
-        }
+        m_selectionTool = nullptr;
     }
 }
 

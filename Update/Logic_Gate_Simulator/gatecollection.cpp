@@ -33,10 +33,6 @@ Node *GateCollection::GetClickedNode(int clickX, int clickY)
 void GateCollection::SaveData(std::ofstream &storage)
 {
     storage << "--GateCollection--" << std::endl;
-    storage << std::to_string(m_layout.left()) << std::endl;
-    storage << std::to_string(m_layout.right()) << std::endl;
-    storage << std::to_string(m_layout.top()) << std::endl;
-    storage << std::to_string(m_layout.bottom()) << std::endl;
 
     for(Gate* gate : m_gates)
     {
@@ -49,25 +45,34 @@ void GateCollection::SaveData(std::ofstream &storage)
 typedef QPoint Vector2D;
 bool GateCollection::UpdateDrag(int clickX, int clickY)
 {
-    //Perform drag operation if mouse inside hitbox
-    if(GameObject::UpdateClicked(clickX, clickY))
+    Vector2D displacement(0,0);
+
+    //Check if any gate has been clicked.
+    //If so store displacement variable of how far it will be dragged by click
+    for(Gate* gate : m_gates)
     {
-        //Set new pos, store old pos
-        QPoint currentPos = GetPosition();
-        SetPosition(clickX,clickY);
-        QPoint newPos = GetPosition();
+        QPoint previousPos = gate->GetPosition();
+        if(gate->UpdateClicked(clickX, clickY))
+        {
+            QPoint newPos = QPoint(clickX, clickY);
 
-        //Calculate difference between new & old pos
-        Vector2D displacement = Vector2D(currentPos.x() - newPos.x() ,
-                                         currentPos.y() - newPos.y());
+            //Calculate difference between new & old pos
+            displacement = Vector2D(previousPos.x() - newPos.x() ,
+                                             previousPos.y() - newPos.y());
 
-        //Apply displacement to all gates
+            break;
+        }
+    }
+
+    //If one of the gates displaced, apply displacement to all gates
+    //And return true
+    if(displacement.x() != 0 || displacement.y() != 0)
+    {
         for(Gate* gate : m_gates)
         {
             gate->SetPosition(gate->GetPosition().x() + displacement.x(),
                               gate->GetPosition().y() + displacement.y());
         }
-
         return true;
     }
     return false;

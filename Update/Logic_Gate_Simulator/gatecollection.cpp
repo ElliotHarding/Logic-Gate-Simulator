@@ -57,8 +57,8 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
             QPoint newPos = QPoint(clickX, clickY);
 
             //Calculate difference between new & old pos
-            displacement = Vector2D(previousPos.x() - newPos.x() ,
-                                             previousPos.y() - newPos.y());
+            displacement = Vector2D(newPos.x() - previousPos.x(),
+                                    newPos.y() - previousPos.y());
 
             break;
         }

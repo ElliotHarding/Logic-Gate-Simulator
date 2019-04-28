@@ -31,8 +31,10 @@ Node *GateCollection::GetClickedNode(int clickX, int clickY)
 {
     for(Gate* gate : m_gates)
     {
-        gate->GetClickedNode(clickX, clickY);
+        if(gate->GetClickedNode(clickX, clickY))
+            return gate->GetClickedNode(clickX,clickY);
     }
+    return nullptr;
 }
 
 void GateCollection::SaveData(std::ofstream &storage)
@@ -50,17 +52,14 @@ void GateCollection::SaveData(std::ofstream &storage)
 typedef QPoint Vector2D;
 bool GateCollection::UpdateDrag(int clickX, int clickY)
 {
-    Vector2D displacement(0,0);
-
-    //If single gate is being dragged, or entire gate collection
-    bool singleGateDrag = false;
+    //If single gate is being dragged, only drag that gate,
+    //or if area is dragged, drag entire gate collection
 
     //Perform drag click for each individual gate
     for(Gate* gate : m_gates)
     {
         if(gate->UpdateDrag(clickX, clickY))
         {
-            singleGateDrag = true;
             return true;
         }
     }
@@ -69,26 +68,27 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
     //it will be dragged by click
     if(containingArea().contains(QPoint(clickX,clickY)))
     {
-        const QPoint previousPos = QPoint(containingArea().center().x(),containingArea().center().y());
-        const QPoint newPos = QPoint(clickX, clickY);
+        const QPoint previousPos = containingArea().center();
 
         //Calculate difference between new & old pos
-        displacement = Vector2D(newPos.x() - previousPos.x(),
-                                newPos.y() - previousPos.y());
+        Vector2D displacement(clickX - previousPos.x(),
+                              clickY - previousPos.y());
 
-    }
-
-    //apply displacement to all gates and return true
-    if(displacement.x() != 0 || displacement.y() != 0)
-    {
+        //apply displacement to all gates and return true
         for(Gate* gate : m_gates)
         {
             gate->SetPosition(gate->GetPosition().x() + displacement.x(),
                               gate->GetPosition().y() + displacement.y());
         }
         return true;
+
     }
     return false;
+}
+
+bool GateCollection::UpdateClicked(int clickX, int clickY)
+{
+    return containingArea().contains(QPoint(clickX,clickY));
 }
 
 QRect GateCollection::containingArea()

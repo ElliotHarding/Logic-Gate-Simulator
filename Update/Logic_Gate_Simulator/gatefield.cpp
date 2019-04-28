@@ -13,14 +13,15 @@ GateField::GateField(qreal zoomFactor, QWidget *parent) :
 GateField::~GateField()
 {
     Enabled = false;
-    m_lockAllGates.lock();
+
+    delete m_saveGateCollection;
 
     //Delete all gates
+    m_lockAllGates.lock();
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         delete m_allGates[index];
     }
-
     m_lockAllGates.unlock();
 
     delete m_linkNodeA;
@@ -65,15 +66,18 @@ void GateField::updateFunction()
 
 GateCollection* GateField::GenerateGateCollection()
 {
-    return new GateCollection(m_selectedGates,
-                              m_selectionTool->geometry().width(),
-                              m_selectionTool->geometry().height());
+    const int width = m_selectionTool->geometry().width();
+    const int height = m_selectionTool->geometry().height();
+    m_selectionTool = nullptr;
+
+    return new GateCollection(m_selectedGates, width, height);
 }
 
-void GateField::addGameObject(Gate* go)
+void GateField::addGameObject(Gate* go, bool newlySpawned)
 {
-    //Set spawn position
-    go->SetPosition(SPAWN_X,SPAWN_Y);
+    if(newlySpawned)
+        //Set spawn position
+        go->SetPosition(SPAWN_X,SPAWN_Y);
 
     m_lockAllGates.lock();
     m_allGates.push_back(go);
@@ -145,23 +149,31 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
     //If ending a selection
     if( m_selectionTool != nullptr && m_currentClickMode == CLICK_SELECTION)
     {
-        QRect selection = m_selectionTool->geometry();
-        m_selectionTool = nullptr;
-
         //Go through all gates and add gates inside selection to selectedGates vector
         m_selectedGates.clear();
         m_lockAllGates.lock();
             for (Gate* gate : m_allGates)
             {
-                if(selection.contains(gate->GetPosition()))
+                if( m_selectionTool->geometry().contains(gate->GetPosition()))
                 {
                     m_selectedGates.push_back(gate);
                 }
             }
         m_lockAllGates.unlock();
 
-        DLG_SaveGateCollection* col = new DLG_SaveGateCollection(this, this);
-        col->open();
+        //Selection contains some gates, then we can save them as a gate collection
+        if(m_selectedGates.size() > 0)
+        {
+            m_saveGateCollection = new DLG_SaveGateCollection(this, this);
+            m_saveGateCollection->open();
+
+            //GenerateGateCollection() gets called by the saveGateCollectionDialog
+            //this also resets m_selectionTool;
+        }
+        else
+        {
+            m_selectionTool = nullptr;
+        }
     }
 }
 

@@ -33,9 +33,13 @@ Node *GateCollection::GetClickedNode(int clickX, int clickY)
 void GateCollection::SaveData(std::ofstream &storage)
 {
     storage << "--GateCollection--" << std::endl;
+    storage << std::to_string(m_layout.width()) << std::endl;
+    storage << std::to_string(m_layout.height()) << std::endl;
+
     for(Gate* gate : m_gates)
     {
         gate->SaveData(storage);
     }
+
     storage << "--EndGateCollection--" << std::endl;
 }

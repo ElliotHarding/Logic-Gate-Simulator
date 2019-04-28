@@ -1,6 +1,8 @@
 #include "dlg_home.h"
 #include "ui_dlg_home.h"
 #include <QLayout>
+#include <QFileDialog>
+#include "gatereader.h"
 
 DLG_Home::DLG_Home(QWidget *parent) :
     QMainWindow(parent),    
@@ -149,8 +151,19 @@ void DLG_Home::on_btn_gateCollection_clicked()
     if(!m_currentGateField)
         on_btn_newPage_clicked();
 
-    DLG_LoadGateCollection* loadGateCollectionDialog = new DLG_LoadGateCollection(m_currentGateField, this);
-    loadGateCollectionDialog->open();
+    //Promt user for gate colleciton file
+    QStringList fileNames = QFileDialog::getOpenFileNames(this);
+
+    //Loop vars
+    GateReader reader;
+    std::ifstream gateCollectionFile;
+    //Go through each file and use reader to read gatecollections
+    //and add them to m_currentGateField
+    for (QString file : fileNames)
+    {
+        gateCollectionFile = std::ifstream(file.toUtf8());
+        m_currentGateField->addGameObject(reader.read(gateCollectionFile), false);
+    }
 
     on_btn_Drag_clicked();
 }

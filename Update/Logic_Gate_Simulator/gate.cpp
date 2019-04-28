@@ -22,7 +22,8 @@ void Gate::SaveData(std::ofstream &storage)
     storage << "--Gate--"
             with std::to_string(m_type)
             with std::to_string(GetPosition().x())
-            with std::to_string(GetPosition().y());
+            with std::to_string(GetPosition().y())
+            << std::endl;
 }
 
 void Gate::DetachNode(Node *node)
@@ -97,7 +98,8 @@ void Node::SaveData(std::ofstream &storage)
             with std::to_string(m_id)
             with std::to_string(GetPosition().x())
             with std::to_string(GetPosition().y())
-            with std::to_string(m_linkedId);
+            with std::to_string(m_linkedId)
+            << std::endl;
 }
 
 Node *Node::GetLinkedNode()

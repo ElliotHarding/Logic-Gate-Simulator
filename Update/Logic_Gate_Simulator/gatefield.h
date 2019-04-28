@@ -10,6 +10,8 @@
 #include <QRubberBand>
 #include "gatecollection.h"
 
+class DLG_SaveGateCollection;
+
 class GateField : public QWidget
 {
     Q_OBJECT
@@ -18,7 +20,7 @@ public:
     explicit GateField(qreal zoomFactor, QWidget *parent = nullptr);
     ~GateField() override;
 
-    void addGameObject(Gate* go);
+    void addGameObject(Gate* go, bool newlySpawned = true);
     void updateFunction();
     void setCurrentClickMode(ClickMode clickMode) {m_currentClickMode = clickMode;}
     void setZoomLevel(qreal zoom) {m_zoomFactor = zoom;}
@@ -58,6 +60,7 @@ private:
     QPoint m_selectionToolOrigin;
     const QColor selectionAreaColor = Qt::blue;
     std::vector<Gate*> m_selectedGates;
+    DLG_SaveGateCollection* m_saveGateCollection;
 
     //Mouse event handlers
     void linkNodesClick(int clickX, int clickY);

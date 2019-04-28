@@ -38,7 +38,6 @@ SOURCES += \
         gateoutputbox.cpp \
     simpleslider.cpp \
     gatecollection.cpp \
-    dlg_loadgatecollection.cpp \
     dlg_savegatecollection.cpp
 
 HEADERS += \
@@ -57,13 +56,11 @@ HEADERS += \
     simpleslider.h \
     gatereader.h \
     gatecollection.h \
-    dlg_loadgatecollection.h \
     dlg_savegatecollection.h
 
 FORMS += \
         mainwindow.ui \
         dlg_home.ui \
-    dlg_loadgatecollection.ui \
     dlg_savegatecollection.ui
 
 # Default rules for deployment.

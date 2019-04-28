@@ -11,7 +11,6 @@
 #include "gateoutputbox.h"
 #include "gatefield.h"
 #include "gatecollection.h"
-#include "dlg_loadgatecollection.h"
 #include <QThread>
 
 class QMouseEvent;

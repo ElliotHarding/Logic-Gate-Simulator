@@ -23,7 +23,6 @@ private slots:
 private:
     Ui::DLG_SaveGateCollection *ui;
     GateField* m_currentGateField;
-    std::string m_fileLocation;
 };
 
 #endif // DLG_SAVEGATECOLLECTION_H

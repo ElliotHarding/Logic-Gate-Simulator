@@ -20,7 +20,16 @@
 struct GateReader
 {
 public:
-    static std::vector<Gate*> readGates (std::ifstream& gateStream)
+
+    GateCollection* read(std::ifstream& gateStream)
+    {
+        std::string header, width, height;
+        gateStream >> header >> width >> height;
+
+        return new GateCollection(readGates(gateStream),stoi(width), stoi(height));
+    }
+
+    std::vector<Gate*> readGates (std::ifstream& gateStream)
     {
         std::vector<Gate*> rGates;
 
@@ -36,18 +45,19 @@ public:
     }
 
 private:
-    static Gate* readGate(std::ifstream& gateStream)
+    Gate* readGate(std::ifstream& gateStream)
     {
         //Get gate header info
-        std::string bin, type, posX, posY;
-        gateStream >> bin >> type >> posX >> posY;
+        std::string type, posX, posY;
+        gateStream >> type >> posX >> posY;
 
         //Todo read nodes
         std::string line;
         gateStream >> line;
         while (line == "--Node-")
         {
-            Node* n = readNode(gateStream);
+            readNode(gateStream);
+            gateStream >> line;
         }
 
         //Set return gate
@@ -77,14 +87,13 @@ private:
         }
 
         rGate->SetPosition(stoi(posX),stoi(posY));
-
-
-
         return rGate;
     }
 
-    static Node* readNode(std::ifstream& gateStream)
+    Node* readNode(std::ifstream& gateStream)
     {
+        std::string id, posX, posY, lId;
+        gateStream >> id >> posX >> posY >> lId;
         return new Node(nullptr);//todo
     }
 };

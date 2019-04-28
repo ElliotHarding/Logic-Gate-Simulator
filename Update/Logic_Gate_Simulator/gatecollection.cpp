@@ -18,8 +18,13 @@ void GateCollection::UpdateGraphics(QPainter *painter)
 {
     for(Gate* gate : m_gates)
     {
+        //Draw gate
         gate->UpdateGraphics(painter);
     }
+
+    //Draw bounding box
+    painter->setPen(Qt::black);
+    painter->drawRect(containingArea());
 }
 
 Node *GateCollection::GetClickedNode(int clickX, int clickY)
@@ -47,25 +52,33 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
 {
     Vector2D displacement(0,0);
 
-    //Check if any gate has been clicked.
-    //If so store displacement variable of how far it will be dragged by click
+    //If single gate is being dragged, or entire gate collection
+    bool singleGateDrag = false;
+
+    //Perform drag click for each individual gate
     for(Gate* gate : m_gates)
     {
-        QPoint previousPos = gate->GetPosition();
-        if(gate->UpdateClicked(clickX, clickY))
+        if(gate->UpdateDrag(clickX, clickY))
         {
-            QPoint newPos = QPoint(clickX, clickY);
-
-            //Calculate difference between new & old pos
-            displacement = Vector2D(newPos.x() - previousPos.x(),
-                                    newPos.y() - previousPos.y());
-
-            break;
+            singleGateDrag = true;
+            return true;
         }
     }
 
-    //If one of the gates displaced, apply displacement to all gates
-    //And return true
+    //If containingArea clicked store displacement variable of how far
+    //it will be dragged by click
+    if(containingArea().contains(QPoint(clickX,clickY)))
+    {
+        const QPoint previousPos = QPoint(containingArea().center().x(),containingArea().center().y());
+        const QPoint newPos = QPoint(clickX, clickY);
+
+        //Calculate difference between new & old pos
+        displacement = Vector2D(newPos.x() - previousPos.x(),
+                                newPos.y() - previousPos.y());
+
+    }
+
+    //apply displacement to all gates and return true
     if(displacement.x() != 0 || displacement.y() != 0)
     {
         for(Gate* gate : m_gates)
@@ -76,4 +89,39 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
         return true;
     }
     return false;
+}
+
+QRect GateCollection::containingArea()
+{
+    //Variables specifying boundaries of GateCollection
+    //To be used to draw bounding box
+    int MINX = 99999;
+    int MINY = 99999;
+    int MAXX = -99999;
+    int MAXY = -99999;
+
+    for(Gate* gate : m_gates)
+    {
+        if(gate->Left() < MINX)
+        {
+            MINX = gate->Left() - c_borderBoxMargin;
+        }
+
+        if(gate->Right() > MAXX)
+        {
+            MAXX = gate->Right() + c_borderBoxMargin;
+        }
+
+        if(gate->Top() < MINY)
+        {
+            MINY = gate->Top() - c_borderBoxMargin;
+        }
+
+        if(gate->Bottom() > MAXY)
+        {
+            MAXY = gate->Bottom() + c_borderBoxMargin;
+        }
+    }
+
+    return QRect(QPoint(MINX, MAXY), QPoint(MAXX, MINY));
 }

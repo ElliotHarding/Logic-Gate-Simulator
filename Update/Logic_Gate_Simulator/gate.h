@@ -30,6 +30,11 @@ public:
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
     virtual void SaveData(std::ofstream& storage);
 
+    int Left(){return m_layout.left();};
+    int Right(){return m_layout.right();};
+    int Top(){return m_layout.top();};
+    int Bottom(){return m_layout.bottom();};
+
 protected:
     void DetachNode(Node* node);
     GateType m_type;

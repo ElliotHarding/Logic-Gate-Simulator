@@ -15,7 +15,13 @@ public:
     virtual bool UpdateDrag(int clickX, int clickY);
 
 private:
+    //Vector of all the gates within collection
     std::vector<Gate*> m_gates;
+
+    //Number of pixels from border before gates are seen
+    const int c_borderBoxMargin = 10;
+
+    QRect containingArea();
 };
 
 #endif // GATECOLLECTION_H

@@ -23,10 +23,11 @@ public:
 
     GateCollection* read(std::ifstream& gateStream)
     {
-        std::string header, width, height;
-        gateStream >> header >> width >> height;
+        std::string header, left, right, top, bottom;
+        gateStream >> header >> left >> right >> top >> bottom;
+        QRect geometry(stoi(left), stoi(right), stoi(top), stoi(bottom));
 
-        return new GateCollection(readGates(gateStream),stoi(width), stoi(height));
+        return new GateCollection(readGates(gateStream), geometry);
     }
 
     std::vector<Gate*> readGates (std::ifstream& gateStream)
@@ -54,7 +55,7 @@ private:
         //Todo read nodes
         std::string line;
         gateStream >> line;
-        while (line == "--Node-")
+        while (line == "--Node--")
         {
             readNode(gateStream);
             gateStream >> line;

@@ -14,7 +14,8 @@ GateField::~GateField()
 {
     Enabled = false;
 
-    delete m_saveGateCollection;
+    //todo
+    //delete m_saveGateCollection;
 
     //Delete all gates
     m_lockAllGates.lock();
@@ -66,11 +67,7 @@ void GateField::updateFunction()
 
 GateCollection* GateField::GenerateGateCollection()
 {
-    const int width = m_selectionTool->geometry().width();
-    const int height = m_selectionTool->geometry().height();
-    m_selectionTool = nullptr;
-
-    return new GateCollection(m_selectedGates, width, height);
+    return new GateCollection(m_selectedGates);
 }
 
 void GateField::addGameObject(Gate* go, bool newlySpawned)

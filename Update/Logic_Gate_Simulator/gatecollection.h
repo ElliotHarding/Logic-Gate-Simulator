@@ -6,12 +6,13 @@
 class GateCollection : public Gate
 {
 public:
-    GateCollection(std::vector<Gate*> m_gates, int width, int height);
+    GateCollection(std::vector<Gate*> m_gates);
 
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual Node *GetClickedNode(int clickX, int clickY) override;
     virtual void SaveData(std::ofstream& storage) override;
+    virtual bool UpdateDrag(int clickX, int clickY);
 
 private:
     std::vector<Gate*> m_gates;

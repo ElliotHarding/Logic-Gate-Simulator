@@ -70,5 +70,7 @@ void GateOutputBox::SaveData(std::ofstream &storage)
 
     //Add node information
     m_input.SaveData(storage);
+
+    storage << END_SAVE_TAG_GATE << std::endl;
 }
 

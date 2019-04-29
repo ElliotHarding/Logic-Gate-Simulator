@@ -70,6 +70,20 @@ GateCollection* GateField::GenerateGateCollection()
     return new GateCollection(m_selectedGates);
 }
 
+void GateField::SaveData(std::ofstream &storage)
+{
+    storage << SAVE_TAG_GATE_FIELD << std::endl;
+    m_lockAllGates.lock();
+    for (size_t index = 0; index < m_allGates.size(); index++)
+    {
+        //m_lockAllGates.lock();
+        m_allGates[index]->SaveData(storage);
+        //m_lockAllGates.unlock();
+    }
+    m_lockAllGates.unlock();
+    storage << END_SAVE_TAG_GATE_FIELD << std::endl;
+}
+
 void GateField::addGameObject(Gate* go, bool newlySpawned)
 {
     if(newlySpawned)

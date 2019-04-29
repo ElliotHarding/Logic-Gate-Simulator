@@ -39,14 +39,14 @@ Node *GateCollection::GetClickedNode(int clickX, int clickY)
 
 void GateCollection::SaveData(std::ofstream &storage)
 {
-    storage << "--GateCollection--" << std::endl;
+    storage << SAVE_TAG_GATE_COLLECTION << std::endl;
 
     for(Gate* gate : m_gates)
     {
         gate->SaveData(storage);
     }
 
-    storage << "--EndGateCollection--" << std::endl;
+    storage << END_SAVE_TAG_GATE_COLLECTION << std::endl;
 }
 
 typedef QPoint Vector2D;

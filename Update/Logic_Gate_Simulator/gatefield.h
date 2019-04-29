@@ -25,6 +25,7 @@ public:
     void setCurrentClickMode(ClickMode clickMode) {m_currentClickMode = clickMode;}
     void setZoomLevel(qreal zoom) {m_zoomFactor = zoom;}
     GateCollection* GenerateGateCollection();
+    void SaveData(std::ofstream& storage);
 
     bool Enabled = true;
 

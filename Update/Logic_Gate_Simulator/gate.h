@@ -6,6 +6,16 @@
 
 #define with << std::endl <<
 
+static const char* SAVE_TAG_GATE_FIELD = "<GATE-FIELD>";
+static const char* SAVE_TAG_GATE_COLLECTION = "<GATE-COLLECTION>";
+static const char* SAVE_TAG_GATE = "<GATE>";
+static const char* SAVE_TAG_NODE = "<NODE>";
+
+static const char* END_SAVE_TAG_GATE_FIELD = "</GATE-FIELD>";
+static const char* END_SAVE_TAG_GATE_COLLECTION = "</GATE-COLLECTION>";
+static const char* END_SAVE_TAG_GATE = "</GATE>";
+static const char* END_SAVE_TAG_NODE = "</NODE>";
+
 enum GateType
 {
     GATE_AND = 1,
@@ -13,11 +23,12 @@ enum GateType
     GATE_NOT = 3,
     GATE_EMMITTER = 4,
     GATE_RECIEVER = 5,
-    GATE_CUSTOM = 6,
     GATE_NULL
 };
 
 class Node;
+
+
 class Gate : public DragableGameObject
 {
 public:
@@ -30,15 +41,16 @@ public:
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
     virtual void SaveData(std::ofstream& storage);
 
-    int Left(){return m_layout.left();};
-    int Right(){return m_layout.right();};
-    int Top(){return m_layout.top();};
-    int Bottom(){return m_layout.bottom();};
+    int Left(){return m_layout.left();}
+    int Right(){return m_layout.right();}
+    int Top(){return m_layout.top();}
+    int Bottom(){return m_layout.bottom();}
 
 protected:
     void DetachNode(Node* node);
     GateType m_type;
 };
+
 
 class Node : public GameObject
 {

@@ -80,4 +80,6 @@ void GateAnd::SaveData(std::ofstream &storage)
     m_inputA.SaveData(storage);
     m_inputB.SaveData(storage);
     m_output.SaveData(storage);
+
+    storage << END_SAVE_TAG_GATE << std::endl;
 }

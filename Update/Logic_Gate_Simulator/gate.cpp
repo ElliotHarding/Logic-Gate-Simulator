@@ -19,7 +19,9 @@ void Gate::UpdateGraphics(QPainter* painter)
 void Gate::SaveData(std::ofstream &storage)
 {
     //Add general gate info
-    storage << "--Gate--"
+    // - addition data such as nodes and END_SAVE_TAG_GATE
+    //   are stored in overiding function
+    storage << SAVE_TAG_GATE
             with std::to_string(m_type)
             with std::to_string(GetPosition().x())
             with std::to_string(GetPosition().y())
@@ -94,11 +96,10 @@ void Node::UpdateGraphics(QPainter* painter)
 
 void Node::SaveData(std::ofstream &storage)
 {
-    storage << "--Node--"
+    storage << SAVE_TAG_NODE
             with std::to_string(m_id)
-            with std::to_string(GetPosition().x())
-            with std::to_string(GetPosition().y())
             with std::to_string(m_linkedId)
+            with END_SAVE_TAG_NODE
             << std::endl;
 }
 

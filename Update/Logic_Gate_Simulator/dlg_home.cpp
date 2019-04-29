@@ -162,7 +162,7 @@ void DLG_Home::on_btn_gateCollection_clicked()
     for (QString file : fileNames)
     {
         gateCollectionFile = std::ifstream(file.toUtf8());
-        m_currentGateField->addGameObject(reader.read(gateCollectionFile), false);
+        m_currentGateField->addGameObject(reader.readGateCollection(gateCollectionFile), false);
     }
 
     on_btn_Drag_clicked();

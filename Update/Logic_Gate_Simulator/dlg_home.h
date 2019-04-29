@@ -68,6 +68,8 @@ private slots:
     void on_btn_zoomOut_clicked();
     void on_btn_SelectionTool_clicked();
     void on_btn_gateCollection_clicked();
+    void on_btn_Save_clicked();
+    void on_btn_load_clicked();
 };
 
 

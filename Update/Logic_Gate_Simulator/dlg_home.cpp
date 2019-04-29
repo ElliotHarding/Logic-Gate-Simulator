@@ -191,6 +191,34 @@ void DLG_Home::on_btn_newPage_clicked()
     ui->PlayField->addTab(m_currentGateField,tr(pageName.c_str()));
 }
 
+void DLG_Home::on_btn_Save_clicked()
+{
+
+    //todo get user input
+    std::string fileName = "test";
+
+    std::ofstream saveFile(fileName + ".txt");
+    if(saveFile.is_open())
+    {
+        //Loop through all open gate fields and save
+        for (GateField* gf : m_allGateFields)
+        {
+            gf->SaveData(saveFile);
+        }
+
+        //Close
+        saveFile.close();
+    }
+    else
+    {
+        //todo tell user bad file name
+    }
+}
+
+void DLG_Home::on_btn_load_clicked()
+{
+
+}
 
 void DLG_Home::on_PlayField_tabCloseRequested(int index)
 {
@@ -237,5 +265,3 @@ void LogicUpdateThread::stopRunning()
 {
     m_bStop = true;
 }
-
-

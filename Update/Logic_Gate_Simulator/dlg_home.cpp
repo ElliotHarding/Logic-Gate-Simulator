@@ -193,11 +193,10 @@ void DLG_Home::on_btn_newPage_clicked()
 
 void DLG_Home::on_btn_Save_clicked()
 {
+    //Get user input file name
+    QStringList fileName = QFileDialog::getOpenFileNames(this);
 
-    //todo get user input
-    std::string fileName = "test";
-
-    std::ofstream saveFile(fileName + ".txt");
+    std::ofstream saveFile(fileName.at(0).toStdString() + ".txt");
     if(saveFile.is_open())
     {
         //Loop through all open gate fields and save
@@ -217,7 +216,36 @@ void DLG_Home::on_btn_Save_clicked()
 
 void DLG_Home::on_btn_load_clicked()
 {
+    //Promt user for gate colleciton file
+    QStringList fileNames = QFileDialog::getOpenFileNames(this);
 
+    //Loop vars
+    GateReader reader;
+    std::ifstream saveFile;
+    for (QString file : fileNames)
+    {
+        //Open file
+        saveFile = std::ifstream(file.toUtf8());
+
+        //Load gates
+        const std::vector<Gate*> loadedGates = reader.readGateFieldGates(saveFile);
+        m_currentGateField = new GateField(m_ZoomFactor);
+
+        //For each loaded gate, add to loadedGateField
+        for (Gate* gate : loadedGates)
+        {
+            m_currentGateField->addGameObject(gate);
+        }
+
+        //Add to m_allGateFields
+        m_allGateFields.push_back(m_currentGateField);
+
+        //Gen page name
+        const std::string pageName = "Page " + std::to_string(m_allGateFields.size() + 1);
+
+        //Add to ui
+        ui->PlayField->addTab(m_currentGateField,tr(pageName.c_str()));
+    }
 }
 
 void DLG_Home::on_PlayField_tabCloseRequested(int index)

@@ -48,7 +48,7 @@ private:
     //Controls
     SimpleSlider* m_zoomSlider;
     const int c_zoomSliderWidth = 80;
-    const QPoint c_zoomSliderPos = QPoint(700,135);
+    const QPoint c_zoomSliderPos = QPoint(700,137);
 
 private slots:
     void on_btn_Drag_clicked();

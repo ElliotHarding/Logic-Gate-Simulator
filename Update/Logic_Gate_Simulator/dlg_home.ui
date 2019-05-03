@@ -402,7 +402,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-file-down.png</normaloff>:/Resources/Button Icons/icon-file-down.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -428,7 +428,7 @@
     </property>
     <property name="icon">
      <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-file-down.png</normaloff>:/Resources/Button Icons/icon-file-down.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
     </property>
     <property name="iconSize">
      <size>

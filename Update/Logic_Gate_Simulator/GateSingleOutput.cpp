@@ -13,9 +13,6 @@ GateSingleOutput::~GateSingleOutput()
 
 void GateSingleOutput::UpdateGraphics(QPainter *painter)
 {
-    //Draw nodes
-    m_output.UpdateGraphics(painter);
-
     //Paiting variables to be used
     QPainterPath path;
     QPen pen(Qt::black, 10);
@@ -35,6 +32,9 @@ void GateSingleOutput::UpdateGraphics(QPainter *painter)
     pen.setWidth(20);
     painter->setPen(pen);
     painter->drawRect(activeRect);
+
+    //Draw nodes
+    m_output.UpdateGraphics(painter);
 }
 
 void GateSingleOutput::SetPosition(int x, int y)

@@ -76,14 +76,7 @@ void Node::UpdateGraphics(QPainter* painter)
     //Paiting variables to be used
     QPainterPath path;
     QPen pen(Qt::black, 10);
-
-    //Draw node
     painter->setPen(pen);
-    QPoint position(GetPosition());
-    painter->drawEllipse(position,10,10);
-
-    //Bug where there's a whole in the node, can't be bothered to look up filling a circle
-    painter->drawEllipse(position,4,4);
 
     //if linked draw line between node and linked node
     if(m_linkedNode)
@@ -93,6 +86,13 @@ void Node::UpdateGraphics(QPainter* painter)
 
         painter->drawLine(m_linkedNode->GetPosition(),GetPosition());
     }
+
+    //Draw node
+    QPoint position(GetPosition());
+    painter->drawEllipse(position,10,10);
+
+    //Bug where there's a whole in the node, can't be bothered to look up filling a circle
+    painter->drawEllipse(position,4,4);
 }
 
 void Node::SaveData(std::ofstream &storage)

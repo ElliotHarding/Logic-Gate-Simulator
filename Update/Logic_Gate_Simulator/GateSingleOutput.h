@@ -7,6 +7,9 @@
 #define GateSingleOutputHeight 35
 #define BorderWidth 7
 
+/*
+    Inherited by gates with single output
+*/
 class GateSingleOutput : public Gate
 {
 public:
@@ -23,8 +26,8 @@ public:
 
 protected:
 
-    const int NODE_OFFSET_X = GateSingleOutputWidth + (GateSingleOutputWidth/2);
-    const int NODE_OFFSET_Y = GateSingleOutputHeight;
+    const int NODE_OFFSET_X = 25;//GateSingleOutputWidth; //+ (GateSingleOutputWidth/2);
+    const int NODE_OFFSET_Y = 25;//GateSingleOutputHeight;
     Node m_output;
 };
 

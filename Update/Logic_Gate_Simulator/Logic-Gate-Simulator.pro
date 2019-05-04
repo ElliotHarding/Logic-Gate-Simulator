@@ -31,14 +31,17 @@ SOURCES += \
         gateand.cpp \
         gatenot.cpp \
         gateor.cpp \
-        gateinputbox.cpp \
         gatefield.cpp \
         dlg_home.cpp \
         gameobject.cpp \
-        gateoutputbox.cpp \
-    simpleslider.cpp \
-    gatecollection.cpp \
-    dlg_savegatecollection.cpp
+        simpleslider.cpp \
+        gatecollection.cpp \
+        dlg_savegatecollection.cpp \
+        GateToggle.cpp \
+        GateReciever.cpp \
+    GateConstantInactive.cpp \
+    GateSingleOutput.cpp \
+    GateConstantActive.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,14 +52,17 @@ HEADERS += \
         gate.h \
         gateand.h \
         gatefield.h \
-        gateinputbox.h \
         gatenot.h \
         gateor.h \
-        gateoutputbox.h \
-    simpleslider.h \
-    gatereader.h \
-    gatecollection.h \
-    dlg_savegatecollection.h
+        simpleslider.h \
+        gatereader.h \
+        gatecollection.h \
+        dlg_savegatecollection.h \
+        GateToggle.h \
+        GateReciever.h \
+    GateConstantInactive.h \
+    GateSingleOutput.h \
+    GateConstantActive.h
 
 FORMS += \
         mainwindow.ui \

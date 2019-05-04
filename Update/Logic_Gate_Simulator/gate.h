@@ -23,6 +23,8 @@ enum GateType
     GATE_NOT = 3,
     GATE_EMMITTER = 4,
     GATE_RECIEVER = 5,
+    GATE_CONST_ACTIVE = 6,
+    GATE_COLLECTION = 7,
     GATE_NULL
 };
 
@@ -32,7 +34,7 @@ class Node;
 class Gate : public DragableGameObject
 {
 public:
-    Gate(int width, int height, const char* iconLocation = nullptr);
+    Gate(GateType type, int width, int height, const char* iconLocation = nullptr);
     ~Gate() override;
 
     virtual void UpdateOutput() = 0;

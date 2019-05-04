@@ -12,8 +12,8 @@
 #include "gateand.h"
 #include "gatenot.h"
 #include "gateor.h"
-#include "gateinputbox.h"
-#include "gateoutputbox.h"
+#include "GateToggle.h"
+#include "GateReciever.h"
 #include "gatefield.h"
 #include "gatecollection.h"
 
@@ -88,10 +88,10 @@ private:
             rGate = new GateNot();
             break;
         case GateType::GATE_EMMITTER:
-            rGate = new GateInputBox();
+            rGate = new GateToggle();
             break;
         case GateType::GATE_RECIEVER:
-            rGate = new GateOutputBox();
+            rGate = new GateReciever();
             break;
         default:
              break;

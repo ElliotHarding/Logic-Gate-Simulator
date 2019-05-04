@@ -251,15 +251,15 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
 
 void GateField::anyInputGatesToggled(int clickX, int clickY)
 {
-    //Loops through m_allGates, if GateInputBox found update its click state
+    //Loops through m_allGates, if GateToggle found update its click state
     //Reason done seperatly to other gates :
-    // - The required frequency of GateInputBox->UpdateClicked() is higher than all other gates
+    // - The required frequency of GateToggle->UpdateClicked() is higher than all other gates
     //   This is because no other gates take user click input so far
     for (Gate* gate : m_allGates)
     {
-        if(dynamic_cast<GateInputBox*>(gate))
+        if(dynamic_cast<GateToggle*>(gate))
         {
-            dynamic_cast<GateInputBox*>(gate)->UpdateClicked(clickX, clickY);
+            dynamic_cast<GateToggle*>(gate)->UpdateClicked(clickX, clickY);
         }
     }
 }

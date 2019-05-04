@@ -1,9 +1,17 @@
 #include "gatecollection.h"
 
 GateCollection::GateCollection(std::vector<Gate *> gates) :
-    Gate::Gate(0, 0),
+    Gate::Gate(GATE_COLLECTION, 0, 0),
     m_gates(gates)
 {
+}
+
+GateCollection::~GateCollection()
+{
+    for(Gate* gate : m_gates)
+    {
+        delete gate;
+    }
 }
 
 void GateCollection::UpdateOutput()

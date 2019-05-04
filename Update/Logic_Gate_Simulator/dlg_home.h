@@ -7,10 +7,12 @@
 #include "gateand.h"
 #include "gatenot.h"
 #include "gateor.h"
-#include "gateinputbox.h"
-#include "gateoutputbox.h"
+#include "GateToggle.h"
+#include "GateReciever.h"
 #include "gatefield.h"
 #include "gatecollection.h"
+#include "GateConstantActive.h"
+#include "GateConstantInactive.h"
 #include <QThread>
 
 class QMouseEvent;
@@ -48,7 +50,7 @@ private:
     //Controls
     SimpleSlider* m_zoomSlider;
     const int c_zoomSliderWidth = 80;
-    const QPoint c_zoomSliderPos = QPoint(700,137);
+    const QPoint c_zoomSliderPos = QPoint(700,130);
 
 private slots:
     void on_btn_Drag_clicked();

@@ -50,7 +50,7 @@ DragableGameObject::DragableGameObject(int height, int width, const char *iconLo
 
 bool DragableGameObject::UpdateDrag(int clickX, int clickY)
 {
-    //Need to specify GameObject::UpdateClicked because overriding function GateInputBox::UpdateClicked
+    //Need to specify GameObject::UpdateClicked because overriding function GateToggle::UpdateClicked
     //Causes its output state to toggle (and we dont want it toggling on and off while dragging it)
     if(GameObject::UpdateClicked(clickX, clickY))
     {

@@ -110,7 +110,7 @@ void DLG_Home::on_btn_sourceGate_clicked()
 {
     if(m_currentGateField)
     {
-        m_currentGateField->addGameObject(new GateInputBox());
+        m_currentGateField->addGameObject(new GateToggle());
         on_btn_Drag_clicked();
     }
 }
@@ -142,7 +142,7 @@ void DLG_Home::on_btn_recieverGate_clicked()
 {
     if(m_currentGateField)
     {
-        m_currentGateField->addGameObject(new GateOutputBox());
+        m_currentGateField->addGameObject(new GateReciever());
         on_btn_Drag_clicked();
     }
 }

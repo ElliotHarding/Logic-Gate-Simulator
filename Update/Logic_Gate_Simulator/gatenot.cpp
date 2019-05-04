@@ -1,11 +1,10 @@
 #include "gatenot.h"
 
 GateNot::GateNot() :
-    Gate::Gate(GateNotWidth,GateNotHeight,std::string(":/Resources/Gates/gate-not.png").c_str()),
+    Gate::Gate(GATE_NOT, GateNotWidth,GateNotHeight,std::string(":/Resources/Gates/gate-not.png").c_str()),
     m_input(this),
     m_output(this)
 {
-    m_type = GateType::GATE_NOT;
 }
 
 GateNot::~GateNot()

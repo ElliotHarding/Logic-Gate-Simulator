@@ -2,12 +2,11 @@
 #include <QDebug>
 
 GateAnd::GateAnd() :
-    Gate::Gate(GateAndWidth,GateAndHeight, std::string(":/Resources/Gates/gate-and.png").c_str()),
+    Gate::Gate(GATE_AND, GateAndWidth,GateAndHeight, std::string(":/Resources/Gates/gate-and.png").c_str()),
     m_inputA(this),
     m_inputB(this),
     m_output(this)
 {
-    m_type = GateType::GATE_AND;
 }
 
 GateAnd::~GateAnd()

@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "clickmode.h"
 #include "gate.h"
-#include "gateinputbox.h"
+#include "GateToggle.h"
 #include "QMouseEvent"
 #include <QDragMoveEvent>
 #include <QRubberBand>

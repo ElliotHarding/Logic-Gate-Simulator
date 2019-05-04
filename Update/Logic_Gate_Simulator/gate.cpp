@@ -2,9 +2,10 @@
 
 #define with << std::endl <<
 
-Gate::Gate(int width, int height, const char* iconLocation) :
+Gate::Gate(GateType type, int width, int height, const char* iconLocation) :
     DragableGameObject::DragableGameObject(width, height, iconLocation)
 {
+    m_type = type;
 }
 
 Gate::~Gate()

@@ -1,12 +1,11 @@
 #include "gateor.h"
 
 GateOr::GateOr() :
-    Gate::Gate(GateOrWidth,GateOrHeight, std::string(":/Resources/Gates/gate-or.png").c_str()),
+    Gate::Gate(GATE_OR, GateOrWidth,GateOrHeight, std::string(":/Resources/Gates/gate-or.png").c_str()),
     m_inputA(this),
     m_inputB(this),
     m_output(this)
 {
-    m_type = GateType::GATE_OR;
 }
 
 GateOr::~GateOr()

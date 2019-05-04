@@ -7,6 +7,7 @@ class GateCollection : public Gate
 {
 public:
     GateCollection(std::vector<Gate*> m_gates);
+    ~GateCollection() override;
 
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;

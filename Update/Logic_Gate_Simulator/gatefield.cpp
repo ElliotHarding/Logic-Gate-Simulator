@@ -2,8 +2,9 @@
 #include <QApplication>
 #include "DLG_SaveGateCollection.h"
 
-GateField::GateField(qreal zoomFactor, QWidget *parent) :
+GateField::GateField(qreal zoomFactor, std::string name, QWidget *parent) :
     QWidget(parent),
+    m_name(name),
     m_zoomFactor(zoomFactor)
 {
     setAcceptDrops(true);
@@ -70,18 +71,30 @@ GateCollection* GateField::GenerateGateCollection()
     return new GateCollection(m_selectedGates);
 }
 
-void GateField::SaveData(std::ofstream &storage)
+bool GateField::SaveData()
 {
-    storage << SAVE_TAG_GATE_FIELD << std::endl;
-    m_lockAllGates.lock();
-    for (size_t index = 0; index < m_allGates.size(); index++)
+    std::ofstream saveFile(m_name + ".txt");
+    saveFile << m_name << std::endl;
+
+    if(saveFile.is_open())
     {
-        //m_lockAllGates.lock();
-        m_allGates[index]->SaveData(storage);
-        //m_lockAllGates.unlock();
+        saveFile << SAVE_TAG_GATE_FIELD << std::endl;
+        m_lockAllGates.lock();
+        for (size_t index = 0; index < m_allGates.size(); index++)
+        {
+            //m_lockAllGates.lock();
+            m_allGates[index]->SaveData(saveFile);
+            //m_lockAllGates.unlock();
+        }
+        m_lockAllGates.unlock();
+        saveFile << END_SAVE_TAG_GATE_FIELD << std::endl;
+
+        //Close
+        saveFile.close();
+        return true;
     }
-    m_lockAllGates.unlock();
-    storage << END_SAVE_TAG_GATE_FIELD << std::endl;
+
+   return false;
 }
 
 void GateField::addGameObject(Gate* go, bool newlySpawned)

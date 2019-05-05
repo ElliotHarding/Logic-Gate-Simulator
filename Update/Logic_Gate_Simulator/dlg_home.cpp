@@ -2,6 +2,7 @@
 #include "ui_dlg_home.h"
 #include <QLayout>
 #include <QFileDialog>
+#include <QInputDialog>
 #include "gatereader.h"
 
 DLG_Home::DLG_Home(QWidget *parent) :
@@ -184,33 +185,36 @@ void DLG_Home::on_btn_zoomOut_clicked()
 
 void DLG_Home::on_btn_newPage_clicked()
 {
-    //Add gatefield
-    const std::string pageName = "Page " + std::to_string(m_allGateFields.size() + 1);
-    m_currentGateField = new GateField(m_ZoomFactor);
-    m_allGateFields.push_back(m_currentGateField);
-    ui->PlayField->addTab(m_currentGateField,tr(pageName.c_str()));
+    //Request page name
+    bool ok;
+    QString newPageName = QInputDialog::getText(this, tr("QInputDialog::getText()"),
+                                         tr("Page name: "), QLineEdit::Normal,
+                                         QDir::home().dirName(), &ok);
+    if(ok)
+    {
+        //Add gatefield
+        m_currentGateField = new GateField(m_ZoomFactor, newPageName.toStdString());
+        m_allGateFields.push_back(m_currentGateField);
+        ui->PlayField->addTab(m_currentGateField,tr(newPageName.toUtf8()));
+    }
 }
 
 void DLG_Home::on_btn_Save_clicked()
 {
-    //Get user input file name
-    QStringList fileName = QFileDialog::getOpenFileNames(this);
+    bool saveFailed = false;
 
-    std::ofstream saveFile(fileName.at(0).toStdString() + ".txt");
-    if(saveFile.is_open())
+    //Loop through all open gate fields and save
+    for (GateField* gf : m_allGateFields)
     {
-        //Loop through all open gate fields and save
-        for (GateField* gf : m_allGateFields)
-        {
-            gf->SaveData(saveFile);
-        }
-
-        //Close
-        saveFile.close();
+        saveFailed = gf->SaveData();
+        if(!saveFailed)
+            break;
     }
-    else
+
+    //todo
+    if(!saveFailed)
     {
-        //todo tell user bad file name
+
     }
 }
 
@@ -227,24 +231,29 @@ void DLG_Home::on_btn_load_clicked()
         //Open file
         saveFile = std::ifstream(file.toUtf8());
 
-        //Load gates
-        const std::vector<Gate*> loadedGates = reader.readGateFieldGates(saveFile);
-        m_currentGateField = new GateField(m_ZoomFactor);
-
-        //For each loaded gate, add to loadedGateField
-        for (Gate* gate : loadedGates)
+        if(saveFile.is_open())
         {
-            m_currentGateField->addGameObject(gate);
+            //Load gates
+            std::string pageName;
+            saveFile >> pageName;
+            m_currentGateField = new GateField(m_ZoomFactor, pageName);
+
+            //For each loaded gate, add to loadedGateField
+            const std::vector<Gate*> loadedGates = reader.readGateFieldGates(saveFile);
+            for (Gate* gate : loadedGates)
+            {
+                m_currentGateField->addGameObject(gate);
+            }
+
+            //Add to m_allGateFields
+            m_allGateFields.push_back(m_currentGateField);
+
+            //Add to ui
+            ui->PlayField->addTab(m_currentGateField,tr(pageName.c_str()));
         }
-
-        //Add to m_allGateFields
-        m_allGateFields.push_back(m_currentGateField);
-
-        //Gen page name
-        const std::string pageName = "Page " + std::to_string(m_allGateFields.size() + 1);
-
-        //Add to ui
-        ui->PlayField->addTab(m_currentGateField,tr(pageName.c_str()));
+        else {
+            //todo
+        }
     }
 }
 
@@ -285,7 +294,7 @@ void LogicUpdateThread::run()
 {
     while (!m_bStop)
         for (GateField* gf : *m_pAllGateFields)
-            if(gf && gf->Enabled)
+            if(gf && (gf->Enabled == true))
                     gf->updateFunction();
 }
 

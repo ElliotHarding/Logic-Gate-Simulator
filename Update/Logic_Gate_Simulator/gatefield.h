@@ -17,7 +17,7 @@ class GateField : public QWidget
     Q_OBJECT
 public:
 
-    explicit GateField(qreal zoomFactor, QWidget *parent = nullptr);
+    explicit GateField(qreal zoomFactor, std::string name, QWidget *parent = nullptr);
     ~GateField() override;
 
     void addGameObject(Gate* go, bool newlySpawned = true);
@@ -25,7 +25,7 @@ public:
     void setCurrentClickMode(ClickMode clickMode) {m_currentClickMode = clickMode;}
     void setZoomLevel(qreal zoom) {m_zoomFactor = zoom;}
     GateCollection* GenerateGateCollection();
-    void SaveData(std::ofstream& storage);
+    bool SaveData();
 
     bool Enabled = true;
 
@@ -41,6 +41,9 @@ private:
     void paintEvent(QPaintEvent* paintEvent) override;
 
     void moveToFront(int index, std::vector<Gate*>& vec);
+
+    //Saving
+    std::string m_name = "Unknown";
 
     //Gates
     std::vector<Gate*> m_allGates;

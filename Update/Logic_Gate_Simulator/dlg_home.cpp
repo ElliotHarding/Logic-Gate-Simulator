@@ -14,6 +14,17 @@ DLG_Home::DLG_Home(QWidget *parent) :
     setMouseTracking(true);
     ui->PlayField->clear();
 
+    m_pWidgetAllGates = new WidgetAllGates(this);
+    this->layout()->addWidget(m_pWidgetAllGates);
+    m_pWidgetCustomGates = new WidgetCustomGates(this);
+    this->layout()->addWidget(m_pWidgetCustomGates);
+    m_pWidgetAdvancedGates = new WidgetAdvancedGates(this);
+    this->layout()->addWidget(m_pWidgetAdvancedGates);
+    m_pWidgetStandardGates = new WidgetStandardGates(this);
+    this->layout()->addWidget(m_pWidgetStandardGates);
+    m_pWidgetInputGates = new WidgetInputGates(this);
+    this->layout()->addWidget(m_pWidgetInputGates);
+
     addGateField("New 1");
 
     //Add zoom slider to dialog
@@ -46,6 +57,15 @@ void DLG_Home::SetZoomFactor(float zoomFactor)
 {
     m_ZoomFactor = zoomFactor;
     m_currentGateField->setZoomLevel(m_ZoomFactor);
+}
+
+void DLG_Home::AddGate(Gate *g)
+{
+    if(m_currentGateField)
+    {
+        m_currentGateField->addGameObject(g);
+        on_btn_Drag_clicked();
+    }
 }
 
 void DLG_Home::GateSelected(Gate *g)
@@ -181,6 +201,56 @@ void DLG_Home::on_btn_gateCollection_clicked()
 
     on_btn_Drag_clicked();
 }
+
+// -- HANDLERS FOR GATES MENU BUTTONS --
+void DLG_Home::on_menu_btn_allGates_clicked()
+{
+    SwitchWidgets(m_pWidgetAllGates);
+}
+void DLG_Home::on_menu_btn_customGates_clicked()
+{
+    SwitchWidgets(m_pWidgetCustomGates);
+}
+void DLG_Home::on_menu_btn_InputGates_clicked()
+{
+    SwitchWidgets(m_pWidgetInputGates);
+}
+void DLG_Home::on_menu_btn_standardGates_clicked()
+{
+    SwitchWidgets(m_pWidgetStandardGates);
+}
+void DLG_Home::on_menu_btn_advancedGates_clicked()
+{
+    SwitchWidgets(m_pWidgetAdvancedGates);
+}
+void DLG_Home::SwitchWidgets(QWidget* w)
+{
+    if(w != m_pCurrentShownGateWidget)
+    {
+        if(m_pCurrentShownGateWidget)
+            HideWidget(m_pCurrentShownGateWidget);
+
+        m_pCurrentShownGateWidget = w;
+        ShowWidget(w);
+    }
+}
+void DLG_Home::ShowWidget(QWidget *w)
+{
+    for (int moved = 0; moved < w->geometry().width(); moved++)
+    {
+        QRect geo = w->geometry();
+        w->move(geo.center().x() + 1,geo.center().y());
+    }
+}
+void DLG_Home::HideWidget(QWidget *w)
+{
+    for (int moved = 0; moved < w->geometry().width(); moved++)
+    {
+        QRect geo = w->geometry();
+        w->move(geo.center().x() - 1,geo.center().y());
+    }
+}
+
 
 // -- OTHER BUTTON HANDLERS --
 

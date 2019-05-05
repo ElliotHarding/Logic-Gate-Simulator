@@ -43,7 +43,13 @@ SOURCES += \
     GateSingleOutput.cpp \
     GateConstantActive.cpp \
     GateTimer.cpp \
-    dlg_gateinfo.cpp
+    dlg_gateinfo.cpp \
+    WidgetCustomGates.cpp \
+    WidgetAllGates.cpp \
+    WidgetStandardGates.cpp \
+    WidgetAdvancedGates.cpp \
+    WidgetInputGates.cpp \
+    widget_allgates.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -67,14 +73,26 @@ HEADERS += \
     GateConstantActive.h \
     GateTimer.h \
     AllGates.h \
-    dlg_gateinfo.h
+    dlg_gateinfo.h \
+    WidgetCustomGates.h \
+    WidgetAllGates.h \
+    WidgetStandardGates.h \
+    WidgetAdvancedGates.h \
+    WidgetInputGates.h \
+    widget_allgates.h
 
 FORMS += \
         mainwindow.ui \
         dlg_home.ui \
     dlg_savegatecollection.ui \
     dlg_userinput.ui \
-    dlg_gateinfo.ui
+    dlg_gateinfo.ui \
+    WidgetCustomGates.ui \
+    WidgetAllGates.ui \
+    WidgetStandardGates.ui \
+    WidgetAdvancedGates.ui \
+    WidgetInputGates.ui \
+    widget_allgates.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

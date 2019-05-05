@@ -10,6 +10,11 @@
 #include "dlg_gateinfo.h"
 #include "gatefield.h"
 
+#include "WidgetAllGates.h"
+#include "WidgetCustomGates.h"
+#include "WidgetAdvancedGates.h"
+#include "WidgetStandardGates.h"
+#include "WidgetInputGates.h"
 
 class QMouseEvent;
 class LogicUpdateThread;
@@ -27,7 +32,7 @@ public:
     ~DLG_Home();
 
     void SetZoomFactor(float zoomFactor);
-
+    void AddGate(Gate* g);
     void GateSelected(Gate* g);
 
 private:
@@ -35,6 +40,19 @@ private:
 
     //Ui elements
     DLG_GateInfo* m_gateInfo;
+
+    //Gate widgets
+    WidgetAllGates*      m_pWidgetAllGates;
+    WidgetCustomGates*   m_pWidgetCustomGates;
+    WidgetAdvancedGates* m_pWidgetAdvancedGates;
+    WidgetStandardGates* m_pWidgetStandardGates;
+    WidgetInputGates*    m_pWidgetInputGates;
+    QWidget* m_pCurrentShownGateWidget = nullptr;
+
+    //Widget animations
+    void HideWidget(QWidget* w);
+    void ShowWidget(QWidget* w);
+    void SwitchWidgets(QWidget* w1);
 
     //Zooming
     qreal m_ZoomFactor;
@@ -52,7 +70,7 @@ private:
     //Controls
     SimpleSlider* m_zoomSlider;
     const int c_zoomSliderWidth = 80;
-    const QPoint c_zoomSliderPos = QPoint(700,130);
+    const QPoint c_zoomSliderPos = QPoint(900,130);
 
 private slots:
     void on_btn_Drag_clicked();
@@ -75,6 +93,11 @@ private slots:
     void on_btn_Save_clicked();
     void on_btn_load_clicked();
     void on_btn_test_clicked();
+    void on_menu_btn_allGates_clicked();
+    void on_menu_btn_customGates_clicked();
+    void on_menu_btn_InputGates_clicked();
+    void on_menu_btn_standardGates_clicked();
+    void on_menu_btn_advancedGates_clicked();
 };
 
 

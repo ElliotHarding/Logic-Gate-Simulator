@@ -38,3 +38,18 @@ void Widget_AllGates::on_btn_recieverGate_clicked()
     if(m_pParent)
         m_pParent->AddGate(new GateReciever());
 }
+void Widget_AllGates::on_btn_timerGate_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateTimer());
+}
+void Widget_AllGates::on_btn_inputOn_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateConstantActive());
+}
+void Widget_AllGates::on_btn_inputOff_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateConstantInactive());
+}

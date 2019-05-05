@@ -49,8 +49,8 @@ private:
     Widget_Standard*    m_pWidgetStandardGates;
     Widget_InputGates*  m_pWidgetInputGates;
     QWidget* m_pCurrentShownGateWidget = nullptr;
-    const QPoint c_GateWidgetPosShowing = QPoint(-160,60);
-    const QPoint c_GateWidgetPosHidden = QPoint(0,60);
+    const QPoint c_GateWidgetPosShowing = QPoint(0,60);
+    const QPoint c_GateWidgetPosHidden = QPoint(-160,60);
 
     //Widget animations
     void MoveWidget(QWidget* w, int xDir);

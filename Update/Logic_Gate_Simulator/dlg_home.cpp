@@ -56,7 +56,7 @@ DLG_Home::~DLG_Home()
     m_updateThread->exit();
     delete m_updateThread;
 
-    //delete m_currentGateField
+    m_currentGateField = nullptr;
 
     //Delete gatefields
     for (GateField* gf : m_allGateFields)

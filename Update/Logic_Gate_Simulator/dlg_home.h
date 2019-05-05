@@ -40,6 +40,7 @@ private:
 
     //Ui elements
     DLG_GateInfo* m_gateInfo;
+    const QPoint c_GateInfoWidgetPos = QPoint(850,350);
 
     //Gate widgets
     Widget_AllGates*    m_pWidgetAllGates;
@@ -48,6 +49,8 @@ private:
     Widget_Standard*    m_pWidgetStandardGates;
     Widget_InputGates*  m_pWidgetInputGates;
     QWidget* m_pCurrentShownGateWidget = nullptr;
+    const QPoint c_GateWidgetPosShowing = QPoint(-160,60);
+    const QPoint c_GateWidgetPosHidden = QPoint(0,60);
 
     //Widget animations
     void MoveWidget(QWidget* w, int xDir);
@@ -76,19 +79,13 @@ private slots:
     void on_btn_Delete_clicked();
     void on_btn_link_clicked();
     void on_btn_newPage_clicked();
-    void on_btn_sourceGate_clicked();
-    void on_btn_notGate_clicked();
-    void on_btn_orGate_clicked();
-    void on_btn_andGate_clicked();
     void on_PlayField_tabCloseRequested(int index);
     void on_PlayField_currentChanged(int index);
     void on_btn_DeleteLink_clicked();
     void on_btn_click_clicked();
-    void on_btn_recieverGate_clicked();
     void on_btn_zoomIn_clicked();
     void on_btn_zoomOut_clicked();
     void on_btn_SelectionTool_clicked();
-    void on_btn_gateCollection_clicked();
     void on_btn_Save_clicked();
     void on_btn_load_clicked();
     void on_btn_test_clicked();

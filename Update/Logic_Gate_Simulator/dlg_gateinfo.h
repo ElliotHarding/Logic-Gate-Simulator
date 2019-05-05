@@ -18,8 +18,14 @@ public:
 
     void setGate(Gate* g);
 
+private slots:
+    void on_btn_Delete_clicked();
+    void on_checkBox_stateChanged(int arg1);
+
 private:
     Ui::DLG_GateInfo *ui;
+
+    Gate* m_gateDisplayed;
 };
 
 #endif // DLG_GATEINFO_H

@@ -19,7 +19,7 @@
      <rect>
       <x>160</x>
       <y>0</y>
-      <width>731</width>
+      <width>681</width>
       <height>551</height>
      </rect>
     </property>
@@ -61,7 +61,7 @@
     <property name="geometry">
      <rect>
       <x>950</x>
-      <y>230</y>
+      <y>170</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -86,8 +86,8 @@
    <widget class="QPushButton" name="btn_Delete">
     <property name="geometry">
      <rect>
-      <x>950</x>
-      <y>330</y>
+      <x>900</x>
+      <y>220</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -112,8 +112,8 @@
    <widget class="QPushButton" name="btn_link">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>280</y>
+      <x>850</x>
+      <y>170</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -135,144 +135,11 @@
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_newPage">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>40</y>
-      <width>41</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-new-page.png</normaloff>:/Resources/Button Icons/icon-new-page.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_orGate">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>390</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-gate-or.png</normaloff>:/Resources/Button Icons/icon-gate-or.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>27</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_notGate">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>390</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-gate-not.png</normaloff>:/Resources/Button Icons/icon-gate-not.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>29</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_andGate">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>430</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-gate-and.png</normaloff>:/Resources/Button Icons/icon-gate-and.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>25</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_sourceGate">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>470</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-gate-output.png</normaloff>:/Resources/Button Icons/icon-gate-output.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_DeleteLink">
     <property name="geometry">
      <rect>
       <x>950</x>
-      <y>280</y>
+      <y>220</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -298,7 +165,7 @@
     <property name="geometry">
      <rect>
       <x>900</x>
-      <y>230</y>
+      <y>170</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -320,25 +187,12 @@
      </size>
     </property>
    </widget>
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>210</y>
-      <width>91</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
    <widget class="Line" name="line_2">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>370</y>
-      <width>91</width>
+      <x>850</x>
+      <y>270</y>
+      <width>141</width>
       <height>16</height>
      </rect>
     </property>
@@ -349,9 +203,9 @@
    <widget class="Line" name="line_6">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>20</y>
-      <width>91</width>
+      <x>850</x>
+      <y>150</y>
+      <width>141</width>
       <height>20</height>
      </rect>
     </property>
@@ -359,118 +213,11 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_Save">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>170</y>
-      <width>41</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-file-down.png</normaloff>:/Resources/Button Icons/icon-file-down.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_load">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>170</y>
-      <width>41</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_recieverGate">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>470</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-gate-input.png</normaloff>:/Resources/Button Icons/icon-gate-input.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_gateCollection">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>430</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-gate-collection.png</normaloff>:/Resources/Button Icons/icon-gate-collection.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>25</width>
-      <height>25</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_SelectionTool">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>330</y>
+      <x>850</x>
+      <y>220</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -547,41 +294,6 @@
      </size>
     </property>
    </widget>
-   <widget class="Line" name="line_3">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>150</y>
-      <width>91</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_test">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>510</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QPushButton" name="menu_btn_InputGates">
     <property name="geometry">
      <rect>
@@ -645,6 +357,136 @@
     </property>
     <property name="text">
      <string>Advanced</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_3">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>10</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>70</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_Save">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>30</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Button Icons/icon-file-down.png</normaloff>:/Resources/Button Icons/icon-file-down.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_newPage">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>30</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Button Icons/icon-new-page.png</normaloff>:/Resources/Button Icons/icon-new-page.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_load">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>30</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resouces.qrc">
+      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>90</y>
+      <width>41</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_4">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>330</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>

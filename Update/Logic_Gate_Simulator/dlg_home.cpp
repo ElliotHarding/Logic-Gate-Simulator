@@ -8,17 +8,19 @@
 DLG_Home::DLG_Home(QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
-    m_ZoomFactor(0.5)
+    m_ZoomFactor(0.5),
+
+    m_gateInfo(new DLG_GateInfo(this)),
+
+    m_pWidgetAllGates(new Widget_AllGates(this)),
+    m_pWidgetCustomGates(new Widget_CustomGates(this)),
+    m_pWidgetAdvancedGates(new Widget_Advanced(this)),
+    m_pWidgetStandardGates(new Widget_Standard(this)),
+    m_pWidgetInputGates(new Widget_InputGates(this))
 {
     ui->setupUi(this);
     setMouseTracking(true);
     ui->PlayField->clear();
-
-    m_pWidgetAllGates = new Widget_AllGates(this);
-    m_pWidgetCustomGates = new Widget_CustomGates(this);
-    m_pWidgetAdvancedGates = new Widget_Advanced(this);
-    m_pWidgetStandardGates = new Widget_Standard(this);
-    m_pWidgetInputGates = new Widget_InputGates(this);
 
     this->layout()->addWidget(m_pWidgetAllGates);
     this->layout()->addWidget(m_pWidgetCustomGates);
@@ -26,12 +28,15 @@ DLG_Home::DLG_Home(QWidget *parent) :
     this->layout()->addWidget(m_pWidgetStandardGates);
     this->layout()->addWidget(m_pWidgetInputGates);
 
-    m_pWidgetCustomGates->move(-160,60);
-    m_pWidgetAdvancedGates->move(-160,60);
-    m_pWidgetStandardGates->move(-160,60);
-    m_pWidgetInputGates->move(-160,60);
+    this->layout()->addWidget(m_gateInfo);
+    m_gateInfo->move(c_GateInfoWidgetPos);
 
-    m_pWidgetAllGates->move(0,60);
+    m_pWidgetCustomGates->move(c_GateWidgetPosHidden);
+    m_pWidgetAdvancedGates->move(c_GateWidgetPosHidden);
+    m_pWidgetStandardGates->move(c_GateWidgetPosHidden);
+    m_pWidgetInputGates->move(c_GateWidgetPosHidden);
+
+    m_pWidgetAllGates->move(c_GateWidgetPosShowing);
     m_pCurrentShownGateWidget = m_pWidgetAllGates;
 
     addGateField("New 1");
@@ -147,69 +152,6 @@ void DLG_Home::on_btn_SelectionTool_clicked()
 }
 
 
-// -- BUTTON HANDLERS FOR NEW GATES --
-
-void DLG_Home::on_btn_sourceGate_clicked()
-{
-    if(m_currentGateField)
-    {
-        m_currentGateField->addGameObject(new GateToggle());
-        on_btn_Drag_clicked();
-    }
-}
-void DLG_Home::on_btn_notGate_clicked()
-{
-    if(m_currentGateField)
-    {
-        m_currentGateField->addGameObject(new GateNot());
-        on_btn_Drag_clicked();
-    }
-}
-void DLG_Home::on_btn_orGate_clicked()
-{
-    if(m_currentGateField)
-    {
-        m_currentGateField->addGameObject(new GateOr());
-        on_btn_Drag_clicked();
-    }
-}
-void DLG_Home::on_btn_andGate_clicked()
-{
-    if(m_currentGateField)
-    {
-        m_currentGateField->addGameObject(new GateAnd());
-        on_btn_Drag_clicked();
-    }
-}
-void DLG_Home::on_btn_recieverGate_clicked()
-{
-    if(m_currentGateField)
-    {
-        m_currentGateField->addGameObject(new GateReciever());
-        on_btn_Drag_clicked();
-    }
-}
-void DLG_Home::on_btn_gateCollection_clicked()
-{
-    if(!m_currentGateField)
-        on_btn_newPage_clicked();
-
-    //Promt user for gate colleciton file
-    QStringList fileNames = QFileDialog::getOpenFileNames(this);
-
-    //Loop vars
-    GateReader reader;
-    std::ifstream gateCollectionFile;
-    //Go through each file and use reader to read gatecollections
-    //and add them to m_currentGateField
-    for (QString file : fileNames)
-    {
-        gateCollectionFile = std::ifstream(file.toUtf8());
-        m_currentGateField->addGameObject(reader.readGateCollection(gateCollectionFile), false);
-    }
-
-    on_btn_Drag_clicked();
-}
 
 // -- HANDLERS FOR GATES MENU BUTTONS --
 void DLG_Home::on_menu_btn_allGates_clicked()
@@ -377,10 +319,17 @@ LogicUpdateThread::~LogicUpdateThread()
 void LogicUpdateThread::run()
 {
     while (!m_bStop)
+    {
         for (GateField* gf : *m_pAllGateFields)
-            if(gf)
-                if(gf->Enabled)
+        {
+            if((gf) && gf->Enabled)
                     gf->updateFunction();
+
+        }
+        QThread::msleep(1000);
+    }
+
+
 }
 
 void LogicUpdateThread::stopRunning()

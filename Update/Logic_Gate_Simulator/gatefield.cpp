@@ -61,14 +61,16 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
 
 void GateField::updateFunction()
 {
-    m_lockAllGates.lock();
-    for (size_t index = 0; index < m_allGates.size(); index++)
+    if(m_lockAllGates.try_lock())
     {
-        //m_lockAllGates.lock();
-        m_allGates[index]->UpdateOutput();
-        //m_lockAllGates.unlock();
+        for (size_t index = 0; index < m_allGates.size(); index++)
+        {
+            //m_lockAllGates.lock();
+            m_allGates[index]->UpdateOutput();
+            //m_lockAllGates.unlock();
+        }
+        m_lockAllGates.unlock();
     }
-    m_lockAllGates.unlock();
 }
 
 GateCollection* GateField::GenerateGateCollection()
@@ -99,7 +101,25 @@ bool GateField::SaveData()
         return true;
     }
 
-   return false;
+    return false;
+}
+
+void GateField::removeGate(Gate* gateToDelete)
+{
+    m_lockAllGates.lock();
+
+    for(int index = 0; index < m_allGates.size(); index++)
+    {
+        if (m_allGates[index] == gateToDelete)
+        {
+            Gate* gObject = m_allGates[index];
+            m_allGates.erase(m_allGates.begin() + index);
+            delete gObject;
+            delete gateToDelete;
+        }
+    }
+
+    m_lockAllGates.unlock();
 }
 
 void GateField::addGameObject(Gate* go, bool newlySpawned)

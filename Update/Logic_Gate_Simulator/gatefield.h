@@ -30,6 +30,7 @@ public:
     void setZoomLevel(qreal zoom) {m_zoomFactor = zoom;}
     GateCollection* GenerateGateCollection();
     bool SaveData();
+    void removeGate(Gate* g);
 
     bool Enabled = true;
 

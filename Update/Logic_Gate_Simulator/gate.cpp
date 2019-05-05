@@ -1,11 +1,12 @@
 #include "gate.h"
+#include "gatecollection.h"
 
 #define with << std::endl <<
 
 Gate::Gate(GateType type, int width, int height, const char* iconLocation) :
-    DragableGameObject::DragableGameObject(width, height, iconLocation)
+    DragableGameObject::DragableGameObject(width, height, iconLocation),
+    m_type(type)
 {
-    m_type = type;
 }
 
 Gate::~Gate()

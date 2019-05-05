@@ -18,18 +18,20 @@ static const char* END_SAVE_TAG_NODE = "</NODE>";
 
 enum GateType
 {
-    GATE_AND = 1,
-    GATE_OR = 2,
-    GATE_NOT = 3,
-    GATE_EMMITTER = 4,
-    GATE_RECIEVER = 5,
-    GATE_CONST_ACTIVE = 6,
-    GATE_COLLECTION = 7,
-    GATE_TIMER = 8,
-    GATE_NULL
+    GATE_AND,
+    GATE_OR,
+    GATE_NOT,
+    GATE_EMMITTER,
+    GATE_RECIEVER,
+    GATE_CONST_ACTIVE,
+    GATE_CONST_INACTIVE,
+    GATE_COLLECTION,
+    GATE_TIMER,
+    GATE_NULL,
 };
 
 class Node;
+class GateField;
 
 class Gate : public DragableGameObject
 {
@@ -47,6 +49,12 @@ public:
     int Right(){return m_layout.right();}
     int Top(){return m_layout.top();}
     int Bottom(){return m_layout.bottom();}
+
+    bool Enabled = true; //todo implement
+
+    GateField* ParentField;
+
+    GateType GetType() {return m_type;}
 
 protected:
     void DetachNode(Node* node);

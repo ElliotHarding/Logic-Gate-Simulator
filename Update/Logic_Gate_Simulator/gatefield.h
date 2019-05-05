@@ -2,22 +2,26 @@
 #define GATEFIELD_H
 
 #include <QWidget>
+#include <QMouseEvent>
+#include <QDragMoveEvent>
+#include <QRubberBand>
+#include <QMainWindow>
+
 #include "clickmode.h"
 #include "gate.h"
 #include "GateToggle.h"
-#include "QMouseEvent"
-#include <QDragMoveEvent>
-#include <QRubberBand>
+#include "GateTimer.h"
 #include "gatecollection.h"
 
 class DLG_SaveGateCollection;
+class DLG_Home;
 
 class GateField : public QWidget
 {
     Q_OBJECT
 public:
 
-    explicit GateField(qreal zoomFactor, std::string name, QWidget *parent = nullptr);
+    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent = nullptr);
     ~GateField() override;
 
     void addGameObject(Gate* go, bool newlySpawned = true);
@@ -41,6 +45,10 @@ private:
     void paintEvent(QPaintEvent* paintEvent) override;
 
     void moveToFront(int index, std::vector<Gate*>& vec);
+
+    //Communication with parent dialog (DLG_Home instance)
+    DLG_Home* m_pParent;
+    void updateGateSelected(Gate* g);
 
     //Saving
     std::string m_name = "Unknown";
@@ -71,7 +79,8 @@ private:
     void deleteClick(int clickX, int clickY);
     void dragClick(int clickX, int clickY);
     void deleteLinkedNodesClick(int clickX, int clickY);
-    void anyInputGatesToggled(int clickX, int clickY);
+    //void anyInputGatesToggled(int clickX, int clickY);
+    void defaultClick(int clickX, int clickY);
     void selectionClick(int clickX, int clickY);
 
     //Coords of newly spawned gate

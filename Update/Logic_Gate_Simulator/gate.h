@@ -25,11 +25,11 @@ enum GateType
     GATE_RECIEVER = 5,
     GATE_CONST_ACTIVE = 6,
     GATE_COLLECTION = 7,
+    GATE_TIMER = 8,
     GATE_NULL
 };
 
 class Node;
-
 
 class Gate : public DragableGameObject
 {

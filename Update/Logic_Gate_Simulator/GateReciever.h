@@ -10,7 +10,6 @@ class GateReciever : public GateSingleOutput
 {
 public:
     GateReciever();
-    ~GateReciever() override;
 
     virtual void UpdateOutput() override;
 };

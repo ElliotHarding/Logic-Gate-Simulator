@@ -3,17 +3,12 @@
 
 #include <QMainWindow>
 #include <QMouseEvent>
-#include "simpleslider.h"
-#include "gateand.h"
-#include "gatenot.h"
-#include "gateor.h"
-#include "GateToggle.h"
-#include "GateReciever.h"
-#include "gatefield.h"
-#include "gatecollection.h"
-#include "GateConstantActive.h"
-#include "GateConstantInactive.h"
 #include <QThread>
+
+#include "allgates.h"
+#include "simpleslider.h"
+#include "gatefield.h"
+
 
 class QMouseEvent;
 class LogicUpdateThread;
@@ -32,6 +27,8 @@ public:
 
     void SetZoomFactor(float zoomFactor);
 
+    void GateSelected(Gate* g);
+
 private:
     Ui::DLG_Home *ui;
 
@@ -46,6 +43,7 @@ private:
     //Gatefields
     GateField* m_currentGateField;
     std::vector<GateField*> m_allGateFields;
+    void addGateField(QString name);
 
     //Controls
     SimpleSlider* m_zoomSlider;
@@ -72,6 +70,7 @@ private slots:
     void on_btn_gateCollection_clicked();
     void on_btn_Save_clicked();
     void on_btn_load_clicked();
+    void on_btn_test_clicked();
 };
 
 

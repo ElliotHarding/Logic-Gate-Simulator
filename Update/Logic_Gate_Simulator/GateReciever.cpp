@@ -6,10 +6,6 @@ GateReciever::GateReciever() :
     m_output.value = 0;
 }
 
-GateReciever::~GateReciever()
-{
-}
-
 void GateReciever::UpdateOutput()
 {
 

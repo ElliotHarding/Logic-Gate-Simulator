@@ -13,7 +13,8 @@ DLG_Home::DLG_Home(QWidget *parent) :
     ui->setupUi(this);
     setMouseTracking(true);
     ui->PlayField->clear();
-    on_btn_newPage_clicked();
+
+    addGateField("New 1");
 
     //Add zoom slider to dialog
     m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, c_zoomSliderPos, c_zoomSliderWidth, this);
@@ -45,6 +46,18 @@ void DLG_Home::SetZoomFactor(float zoomFactor)
 {
     m_ZoomFactor = zoomFactor;
     m_currentGateField->setZoomLevel(m_ZoomFactor);
+}
+
+void DLG_Home::GateSelected(Gate *g)
+{
+
+}
+
+void DLG_Home::addGateField(QString name)
+{
+    m_currentGateField = new GateField(m_ZoomFactor, name.toStdString());
+    m_allGateFields.push_back(m_currentGateField);
+    ui->PlayField->addTab(m_currentGateField,tr(name.toUtf8()));
 }
 
 
@@ -192,10 +205,7 @@ void DLG_Home::on_btn_newPage_clicked()
                                          QDir::home().dirName(), &ok);
     if(ok)
     {
-        //Add gatefield
-        m_currentGateField = new GateField(m_ZoomFactor, newPageName.toStdString());
-        m_allGateFields.push_back(m_currentGateField);
-        ui->PlayField->addTab(m_currentGateField,tr(newPageName.toUtf8()));
+        addGateField(newPageName);
     }
 }
 
@@ -301,4 +311,13 @@ void LogicUpdateThread::run()
 void LogicUpdateThread::stopRunning()
 {
     m_bStop = true;
+}
+
+void DLG_Home::on_btn_test_clicked()
+{
+    if(m_currentGateField)
+    {
+        m_currentGateField->addGameObject(new GateTimer());
+        on_btn_Drag_clicked();
+    }
 }

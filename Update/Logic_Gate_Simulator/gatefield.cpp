@@ -1,14 +1,19 @@
 #include "gatefield.h"
 #include <QApplication>
 #include "DLG_SaveGateCollection.h"
+#include "dlg_home.h"
 
-GateField::GateField(qreal zoomFactor, std::string name, QWidget *parent) :
+GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent) :
     QWidget(parent),
+    m_pParent(parent),
     m_name(name),
     m_zoomFactor(zoomFactor)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
+
+    QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
+    m_currentClickMode = CLICK_DRAG;
 }
 
 GateField::~GateField()
@@ -134,7 +139,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
         break;
 
     case CLICK_DEFAULT:
-        anyInputGatesToggled(click->x(),click->y());
+        defaultClick(clickX,clickY);
         break;
 
     case CLICK_DRAG:
@@ -261,25 +266,35 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
     //delete node;
 }
 
-
+/*
 void GateField::anyInputGatesToggled(int clickX, int clickY)
-{
-    //Loops through m_allGates, if GateToggle found update its click state
-    //Reason done seperatly to other gates :
-    // - The required frequency of GateToggle->UpdateClicked() is higher than all other gates
-    //   This is because no other gates take user click input so far
+{  
     for (Gate* gate : m_allGates)
     {
         if(dynamic_cast<GateToggle*>(gate))
         {
-            dynamic_cast<GateToggle*>(gate)->UpdateClicked(clickX, clickY);
+            if(dynamic_cast<GateToggle*>(gate)->UpdateClicked(clickX, clickY))
+            {
+                 updateGateSelected(gate);
+            }
+        }
+    }
+}
+*/
+
+void GateField::defaultClick(int clickX, int clickY)
+{
+    for (Gate* gate : m_allGates)
+    {
+        if(gate->UpdateClicked(clickX, clickY))
+        {
+            updateGateSelected(gate);
         }
     }
 }
 
 void GateField::selectionClick(int clickX, int clickY)
 {
-
     //If start of new selection
     if(m_selectionTool == nullptr)
     {
@@ -328,6 +343,8 @@ void GateField::dragClick(int clickX, int clickY)
             //This means if you drag an object over another, the object being dragged wont switch
             moveToFront(index, m_allGates);
 
+            updateGateSelected(m_allGates[index]);
+
             //Exit out of for loop so we don't drag multiple objects
             return;
         }
@@ -340,4 +357,9 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 
     vec.erase(vec.begin() + index);
     vec.insert(vec.begin(), objectAtIndex);
+}
+
+void GateField::updateGateSelected(Gate *g)
+{
+    m_pParent->GateSelected(g);
 }

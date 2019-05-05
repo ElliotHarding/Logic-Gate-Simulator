@@ -7,6 +7,7 @@
 
 #include "allgates.h"
 #include "simpleslider.h"
+#include "dlg_gateinfo.h"
 #include "gatefield.h"
 
 
@@ -31,6 +32,9 @@ public:
 
 private:
     Ui::DLG_Home *ui;
+
+    //Ui elements
+    DLG_GateInfo* m_gateInfo;
 
     //Zooming
     qreal m_ZoomFactor;

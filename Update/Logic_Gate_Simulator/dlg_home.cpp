@@ -50,7 +50,7 @@ void DLG_Home::SetZoomFactor(float zoomFactor)
 
 void DLG_Home::GateSelected(Gate *g)
 {
-
+    m_gateInfo->setGate(g);
 }
 
 void DLG_Home::addGateField(QString name)

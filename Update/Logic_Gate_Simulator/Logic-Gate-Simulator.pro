@@ -42,7 +42,8 @@ SOURCES += \
     GateConstantInactive.cpp \
     GateSingleOutput.cpp \
     GateConstantActive.cpp \
-    GateTimer.cpp
+    GateTimer.cpp \
+    dlg_gateinfo.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -65,13 +66,15 @@ HEADERS += \
     GateSingleOutput.h \
     GateConstantActive.h \
     GateTimer.h \
-    AllGates.h
+    AllGates.h \
+    dlg_gateinfo.h
 
 FORMS += \
         mainwindow.ui \
         dlg_home.ui \
     dlg_savegatecollection.ui \
-    dlg_userinput.ui
+    dlg_userinput.ui \
+    dlg_gateinfo.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

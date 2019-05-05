@@ -15,15 +15,24 @@ DLG_Home::DLG_Home(QWidget *parent) :
     ui->PlayField->clear();
 
     m_pWidgetAllGates = new Widget_AllGates(this);
-    this->layout()->addWidget(m_pWidgetAllGates);
     m_pWidgetCustomGates = new Widget_CustomGates(this);
-    this->layout()->addWidget(m_pWidgetCustomGates);
     m_pWidgetAdvancedGates = new Widget_Advanced(this);
-    this->layout()->addWidget(m_pWidgetAdvancedGates);
     m_pWidgetStandardGates = new Widget_Standard(this);
-    this->layout()->addWidget(m_pWidgetStandardGates);
     m_pWidgetInputGates = new Widget_InputGates(this);
+
+    this->layout()->addWidget(m_pWidgetAllGates);
+    this->layout()->addWidget(m_pWidgetCustomGates);
+    this->layout()->addWidget(m_pWidgetAdvancedGates);
+    this->layout()->addWidget(m_pWidgetStandardGates);
     this->layout()->addWidget(m_pWidgetInputGates);
+
+    m_pWidgetCustomGates->move(-160,60);
+    m_pWidgetAdvancedGates->move(-160,60);
+    m_pWidgetStandardGates->move(-160,60);
+    m_pWidgetInputGates->move(-160,60);
+
+    m_pWidgetAllGates->move(0,60);
+    m_pCurrentShownGateWidget = m_pWidgetAllGates;
 
     addGateField("New 1");
 
@@ -239,7 +248,7 @@ void DLG_Home::ShowWidget(QWidget *w)
     for (int moved = 0; moved < w->geometry().width(); moved++)
     {
         QRect geo = w->geometry();
-        w->move(geo.center().x() + 1,geo.center().y());
+        w->move(geo.left() + 1, geo.top());
     }
 }
 void DLG_Home::HideWidget(QWidget *w)
@@ -247,7 +256,7 @@ void DLG_Home::HideWidget(QWidget *w)
     for (int moved = 0; moved < w->geometry().width(); moved++)
     {
         QRect geo = w->geometry();
-        w->move(geo.center().x() - 1,geo.center().y());
+        w->move(geo.left() - 1,geo.top());
     }
 }
 
@@ -374,7 +383,8 @@ void LogicUpdateThread::run()
 {
     while (!m_bStop)
         for (GateField* gf : *m_pAllGateFields)
-            if(gf && (gf->Enabled == true))
+            if(gf)
+                if(gf->Enabled)
                     gf->updateFunction();
 }
 

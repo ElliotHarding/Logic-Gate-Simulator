@@ -10,11 +10,11 @@
 #include "dlg_gateinfo.h"
 #include "gatefield.h"
 
-#include "WidgetAllGates.h"
-#include "WidgetCustomGates.h"
-#include "WidgetAdvancedGates.h"
-#include "WidgetStandardGates.h"
-#include "WidgetInputGates.h"
+#include "widget_advanced.h"
+#include "widget_allgates.h"
+#include "widget_customgates.h"
+#include "widget_inputgates.h"
+#include "widget_standard.h"
 
 class QMouseEvent;
 class LogicUpdateThread;
@@ -42,11 +42,11 @@ private:
     DLG_GateInfo* m_gateInfo;
 
     //Gate widgets
-    WidgetAllGates*      m_pWidgetAllGates;
-    WidgetCustomGates*   m_pWidgetCustomGates;
-    WidgetAdvancedGates* m_pWidgetAdvancedGates;
-    WidgetStandardGates* m_pWidgetStandardGates;
-    WidgetInputGates*    m_pWidgetInputGates;
+    Widget_AllGates*    m_pWidgetAllGates;
+    Widget_CustomGates* m_pWidgetCustomGates;
+    Widget_Advanced*    m_pWidgetAdvancedGates;
+    Widget_Standard*    m_pWidgetStandardGates;
+    Widget_InputGates*  m_pWidgetInputGates;
     QWidget* m_pCurrentShownGateWidget = nullptr;
 
     //Widget animations

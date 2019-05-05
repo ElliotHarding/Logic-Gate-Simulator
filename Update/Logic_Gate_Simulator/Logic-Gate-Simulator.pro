@@ -39,17 +39,16 @@ SOURCES += \
         dlg_savegatecollection.cpp \
         GateToggle.cpp \
         GateReciever.cpp \
-    GateConstantInactive.cpp \
-    GateSingleOutput.cpp \
-    GateConstantActive.cpp \
-    GateTimer.cpp \
-    dlg_gateinfo.cpp \
-    WidgetCustomGates.cpp \
-    WidgetAllGates.cpp \
-    WidgetStandardGates.cpp \
-    WidgetAdvancedGates.cpp \
-    WidgetInputGates.cpp \
-    widget_allgates.cpp
+        GateConstantInactive.cpp \
+        GateSingleOutput.cpp \
+        GateConstantActive.cpp \
+        GateTimer.cpp \
+        dlg_gateinfo.cpp \
+        widget_allgates.cpp \
+        widget_advanced.cpp \
+        widget_standard.cpp \
+        widget_customgates.cpp \
+        widget_inputgates.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -68,31 +67,29 @@ HEADERS += \
         dlg_savegatecollection.h \
         GateToggle.h \
         GateReciever.h \
-    GateConstantInactive.h \
-    GateSingleOutput.h \
-    GateConstantActive.h \
-    GateTimer.h \
-    AllGates.h \
-    dlg_gateinfo.h \
-    WidgetCustomGates.h \
-    WidgetAllGates.h \
-    WidgetStandardGates.h \
-    WidgetAdvancedGates.h \
-    WidgetInputGates.h \
-    widget_allgates.h
+        GateConstantInactive.h \
+        GateSingleOutput.h \
+        GateConstantActive.h \
+        GateTimer.h \
+        AllGates.h \
+        dlg_gateinfo.h \
+        widget_allgates.h \
+        widget_advanced.h \
+        widget_standard.h \
+        widget_customgates.h \
+        widget_inputgates.h
 
 FORMS += \
         mainwindow.ui \
         dlg_home.ui \
-    dlg_savegatecollection.ui \
-    dlg_userinput.ui \
-    dlg_gateinfo.ui \
-    WidgetCustomGates.ui \
-    WidgetAllGates.ui \
-    WidgetStandardGates.ui \
-    WidgetAdvancedGates.ui \
-    WidgetInputGates.ui \
-    widget_allgates.ui
+        dlg_savegatecollection.ui \
+        dlg_userinput.ui \
+        dlg_gateinfo.ui \
+        widget_allgates.ui \
+        widget_advanced.ui \
+        widget_standard.ui \
+        widget_customgates.ui \
+        widget_inputgates.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -14,15 +14,15 @@ DLG_Home::DLG_Home(QWidget *parent) :
     setMouseTracking(true);
     ui->PlayField->clear();
 
-    m_pWidgetAllGates = new WidgetAllGates(this);
+    m_pWidgetAllGates = new Widget_AllGates(this);
     this->layout()->addWidget(m_pWidgetAllGates);
-    m_pWidgetCustomGates = new WidgetCustomGates(this);
+    m_pWidgetCustomGates = new Widget_CustomGates(this);
     this->layout()->addWidget(m_pWidgetCustomGates);
-    m_pWidgetAdvancedGates = new WidgetAdvancedGates(this);
+    m_pWidgetAdvancedGates = new Widget_Advanced(this);
     this->layout()->addWidget(m_pWidgetAdvancedGates);
-    m_pWidgetStandardGates = new WidgetStandardGates(this);
+    m_pWidgetStandardGates = new Widget_Standard(this);
     this->layout()->addWidget(m_pWidgetStandardGates);
-    m_pWidgetInputGates = new WidgetInputGates(this);
+    m_pWidgetInputGates = new Widget_InputGates(this);
     this->layout()->addWidget(m_pWidgetInputGates);
 
     addGateField("New 1");

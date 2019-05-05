@@ -236,30 +236,25 @@ void DLG_Home::SwitchWidgets(QWidget* w)
 {
     if(w != m_pCurrentShownGateWidget)
     {
-        if(m_pCurrentShownGateWidget)
-            HideWidget(m_pCurrentShownGateWidget);
+        for (int moved = 0; moved < w->geometry().width(); moved++)
+        {
+            if(m_pCurrentShownGateWidget)
+                MoveWidget(m_pCurrentShownGateWidget, -1);
+
+            MoveWidget(w, 1);
+
+            QThread::msleep(1);
+        }
 
         m_pCurrentShownGateWidget = w;
-        ShowWidget(w);
     }
 }
-void DLG_Home::ShowWidget(QWidget *w)
+void DLG_Home::MoveWidget(QWidget *w, int xDir)
 {
-    for (int moved = 0; moved < w->geometry().width(); moved++)
-    {
-        QRect geo = w->geometry();
-        w->move(geo.left() + 1, geo.top());
-    }
+    QRect geo = w->geometry();
+    w->move(geo.left() + xDir, geo.top());
+    w->repaint();
 }
-void DLG_Home::HideWidget(QWidget *w)
-{
-    for (int moved = 0; moved < w->geometry().width(); moved++)
-    {
-        QRect geo = w->geometry();
-        w->move(geo.left() - 1,geo.top());
-    }
-}
-
 
 // -- OTHER BUTTON HANDLERS --
 

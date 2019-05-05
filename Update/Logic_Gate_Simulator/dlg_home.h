@@ -50,8 +50,7 @@ private:
     QWidget* m_pCurrentShownGateWidget = nullptr;
 
     //Widget animations
-    void HideWidget(QWidget* w);
-    void ShowWidget(QWidget* w);
+    void MoveWidget(QWidget* w, int xDir);
     void SwitchWidgets(QWidget* w1);
 
     //Zooming

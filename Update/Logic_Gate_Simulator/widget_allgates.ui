@@ -218,7 +218,7 @@
    </property>
    <property name="icon">
     <iconset resource="resouces.qrc">
-     <normaloff>:/Resources/Button Icons/icon-gate-input.png</normaloff>:/Resources/Button Icons/icon-gate-input.png</iconset>
+     <normaloff>:/Resources/Button Icons/icon-gate-timer.png</normaloff>:/Resources/Button Icons/icon-gate-timer.png</iconset>
    </property>
    <property name="iconSize">
     <size>

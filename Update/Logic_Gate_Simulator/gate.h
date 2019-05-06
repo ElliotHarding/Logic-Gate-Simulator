@@ -50,9 +50,9 @@ public:
     int Top(){return m_layout.top();}
     int Bottom(){return m_layout.bottom();}
 
-    bool Enabled = true; //todo implement
-
     GateField* ParentField;
+
+    bool Enabled = true; //todo implement
 
     GateType GetType() {return m_type;}
 

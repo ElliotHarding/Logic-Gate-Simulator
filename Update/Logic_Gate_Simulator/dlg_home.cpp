@@ -37,6 +37,8 @@ DLG_Home::DLG_Home(QWidget *parent) :
     m_pWidgetInputGates->move(c_GateWidgetPosHidden);
 
     m_pWidgetAllGates->move(c_GateWidgetPosShowing);
+    m_pWidgetAllGates->raise();
+
     m_pCurrentShownGateWidget = m_pWidgetAllGates;
 
     addGateField("New 1");
@@ -89,7 +91,7 @@ void DLG_Home::GateSelected(Gate *g)
 
 void DLG_Home::addGateField(QString name)
 {
-    m_currentGateField = new GateField(m_ZoomFactor, name.toStdString());
+    m_currentGateField = new GateField(m_ZoomFactor, name.toStdString(), this);
     m_allGateFields.push_back(m_currentGateField);
     ui->PlayField->addTab(m_currentGateField,tr(name.toUtf8()));
 }
@@ -178,6 +180,8 @@ void DLG_Home::SwitchWidgets(QWidget* w)
 {
     if(w != m_pCurrentShownGateWidget)
     {
+        w->raise();
+
         for (int moved = 0; moved < w->geometry().width(); moved++)
         {
             if(m_pCurrentShownGateWidget)
@@ -262,7 +266,7 @@ void DLG_Home::on_btn_load_clicked()
             //Load gates
             std::string pageName;
             saveFile >> pageName;
-            m_currentGateField = new GateField(m_ZoomFactor, pageName);
+            m_currentGateField = new GateField(m_ZoomFactor, pageName, this);
 
             //For each loaded gate, add to loadedGateField
             const std::vector<Gate*> loadedGates = reader.readGateFieldGates(saveFile);

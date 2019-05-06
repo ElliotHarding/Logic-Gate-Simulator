@@ -20,7 +20,7 @@ public:
 
 private slots:
     void on_btn_Delete_clicked();
-    void on_checkBox_stateChanged(int arg1);
+    void on_checkBox_clicked();
 
 private:
     Ui::DLG_GateInfo *ui;

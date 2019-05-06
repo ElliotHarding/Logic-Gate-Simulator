@@ -381,5 +381,6 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 
 void GateField::updateGateSelected(Gate *g)
 {
-    m_pParent->GateSelected(g);
+    if(m_pParent)
+        m_pParent->GateSelected(g);
 }

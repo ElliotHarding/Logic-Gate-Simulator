@@ -37,8 +37,7 @@ void Widget_CustomGates::UpdateList()
         std::ifstream customGateFile(c_CustomGatesLocation.toStdString() + file.toStdString());
         if(customGateFile.is_open())
         {
-            GateCollection gc = gReader.readGateCollection(customGateFile);
-            m_customGates.push_back(gc);
+            m_customGates.push_back(gReader.readGateCollection(customGateFile));
             QString fileName = file.mid(c_CustomGatesLocation.length(), file.length());
             ui->customGateListWidget->addItem(fileName);
         }
@@ -50,10 +49,10 @@ void Widget_CustomGates::on_customGateListWidget_currentRowChanged(int currentRo
     if(currentRow > -1 && currentRow < m_customGates.size())
     {
         //Copy from vector
-        GateCollection gc = m_customGates[currentRow];
+        GateCollection* pGc = new GateCollection(*(m_customGates[currentRow]));
 
         //Add pointer to copy
-        m_pParent->AddGate(&gc);
+        m_pParent->AddGate(pGc);
     }
 
 }

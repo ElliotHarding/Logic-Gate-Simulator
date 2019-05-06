@@ -7,7 +7,7 @@
 #include <string>
 
 GateTimer::GateTimer() :
-    GateSingleOutput::GateSingleOutput(GATE_RECIEVER)
+    GateSingleOutput::GateSingleOutput(GATE_TIMER)
 {
     m_output.value = 0;
     m_timer.start();

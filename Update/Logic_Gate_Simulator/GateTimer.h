@@ -16,6 +16,7 @@ public:
     virtual void SaveData(std::ofstream& storage) override;
 
     void setFrequency(int frequency) {m_frequency = frequency;}
+    int getFrequency() {return m_frequency;}
 
 protected:
 

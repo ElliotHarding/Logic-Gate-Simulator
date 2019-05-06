@@ -78,6 +78,42 @@
     <string>-</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="signalCheck">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>121</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Input Signal</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_Frequency">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_Frequency">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Frequency</string>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="resouces.qrc"/>

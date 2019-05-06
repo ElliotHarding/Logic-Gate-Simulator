@@ -21,6 +21,7 @@ public:
 private slots:
     void on_checkBox_clicked();
     void on_btn_DeleteGate_clicked();
+    void on_lineEdit_Frequency_editingFinished();
 
 private:
     Ui::DLG_GateInfo *ui;

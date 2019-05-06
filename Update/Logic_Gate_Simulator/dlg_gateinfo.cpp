@@ -11,6 +11,9 @@ DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
     m_pParent(parent)
 {
     ui->setupUi(this);
+    ui->signalCheck->hide();
+    ui->lbl_Frequency->hide();
+    ui->lineEdit_Frequency->hide();
 }
 
 DLG_GateInfo::~DLG_GateInfo()
@@ -32,6 +35,9 @@ void DLG_GateInfo::setGate(Gate *g)
                     );
 
         //Display gate specific info
+        ui->signalCheck->hide();
+        ui->lbl_Frequency->hide();
+        ui->lineEdit_Frequency->hide();
         QString gateName;
         switch (m_gateDisplayed->GetType())
         {
@@ -48,10 +54,17 @@ void DLG_GateInfo::setGate(Gate *g)
                 gateName = "Unknown Gate";
                 break;
             case GateType::GATE_TIMER:
+                {
                 gateName = "Timer Gate";
+                ui->lbl_Frequency->show();
+                ui->lineEdit_Frequency->show();
+                const int frequency = dynamic_cast<GateTimer*>(m_gateDisplayed)->getFrequency();
+                ui->lineEdit_Frequency->setText(QString(frequency));
                 break;
+                }
             case GateType::GATE_EMMITTER:
                 gateName = "Emmiter Gate";
+                ui->signalCheck->show();
                 break;
             case GateType::GATE_RECIEVER:
                 gateName = "Reciever Gate";
@@ -90,4 +103,16 @@ void DLG_GateInfo::on_btn_DeleteGate_clicked()
     if(m_gateDisplayed)
         m_pParent->DeleteGate(m_gateDisplayed);
     m_gateDisplayed = nullptr;
+}
+
+void DLG_GateInfo::on_lineEdit_Frequency_editingFinished()
+{
+    QString frequencyString = ui->lineEdit_Frequency->text();
+    int frequency = frequencyString.toInt();
+
+    if(frequency > 0 && frequency < 30000)
+    {
+        if(m_gateDisplayed)
+            dynamic_cast<GateTimer*>(m_gateDisplayed)->setFrequency(frequency);
+    }
 }

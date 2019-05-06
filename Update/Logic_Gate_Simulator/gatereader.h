@@ -33,7 +33,10 @@ public:
             while(line == SAVE_TAG_GATE || line == SAVE_TAG_GATE_COLLECTION)
             {
                 if(line == SAVE_TAG_GATE_COLLECTION)
-                    gates.push_back(readGateCollection(gateStream));
+                {
+                    GateCollection g = readGateCollection(gateStream);
+                    gates.push_back(&g);
+                }
 
                 else if (line == SAVE_TAG_GATE)
                     gates.push_back(readGate(gateStream));
@@ -45,7 +48,7 @@ public:
         return gates;
     }
 
-    GateCollection* readGateCollection(std::ifstream& gateStream)
+    GateCollection readGateCollection(std::ifstream& gateStream)
     {
         std::vector<Gate*> rGates;
         std::string line;
@@ -63,7 +66,7 @@ public:
             gateStream >> line;
         }
 
-        return new GateCollection(rGates);
+        return GateCollection(rGates);
     }
 
 private:

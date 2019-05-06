@@ -6,13 +6,9 @@
 
 #define with << std::endl <<
 
-static const char* SAVE_TAG_GATE_FIELD = "<GATE-FIELD>";
-static const char* SAVE_TAG_GATE_COLLECTION = "<GATE-COLLECTION>";
 static const char* SAVE_TAG_GATE = "<GATE>";
 static const char* SAVE_TAG_NODE = "<NODE>";
 
-static const char* END_SAVE_TAG_GATE_FIELD = "</GATE-FIELD>";
-static const char* END_SAVE_TAG_GATE_COLLECTION = "</GATE-COLLECTION>";
 static const char* END_SAVE_TAG_GATE = "</GATE>";
 static const char* END_SAVE_TAG_NODE = "</NODE>";
 

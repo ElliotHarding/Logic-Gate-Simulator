@@ -17,7 +17,7 @@ public:
 
     //Positioning
     virtual void SetPosition(int x, int y);
-    QPoint GetPosition();
+    const QPoint GetPosition() const;
 
 protected:
 

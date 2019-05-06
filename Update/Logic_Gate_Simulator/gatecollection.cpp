@@ -39,12 +39,22 @@ GateCollection::GateCollection(const GateCollection &gCopy) :
         case GateType::GATE_TIMER:
             newGate = new GateTimer();
             break;
+        case GateType::GATE_COLLECTION:
+            if(dynamic_cast<GateCollection*>(copyGate))
+            {
+                newGate = new GateCollection(*dynamic_cast<GateCollection*>(copyGate));
+            }
+            else
+            {
+                //todo
+            }
         default:
             break;
         }
         newGate->SetPosition(copyGate->GetPosition().x(), copyGate->GetPosition().y());
         m_gates.push_back(newGate);
     }
+    SetPosition(gCopy.GetPosition().x(), gCopy.GetPosition().y());
 }
 
 GateCollection::~GateCollection()
@@ -89,14 +99,15 @@ Node *GateCollection::GetClickedNode(int clickX, int clickY)
 
 void GateCollection::SaveData(std::ofstream &storage)
 {
-    storage << SAVE_TAG_GATE_COLLECTION << std::endl;
+    //Add general gate info
+    Gate::SaveData(storage);
 
     for(Gate* gate : m_gates)
     {
         gate->SaveData(storage);
     }
 
-    storage << END_SAVE_TAG_GATE_COLLECTION << std::endl;
+    storage << END_SAVE_TAG_GATE << std::endl;
 }
 
 typedef QPoint Vector2D;

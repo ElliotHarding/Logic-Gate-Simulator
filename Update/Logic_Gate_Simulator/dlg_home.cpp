@@ -277,22 +277,16 @@ void DLG_Home::on_btn_load_clicked()
         if(saveFile.is_open())
         {
             //Load gates
-            std::string pageName;
-            saveFile >> pageName;
-            m_currentGateField = new GateField(m_ZoomFactor, pageName, this);
+            m_currentGateField = new GateField(m_ZoomFactor, file.toStdString(), this);
 
             //For each loaded gate, add to loadedGateField
-            const std::vector<Gate*> loadedGates = reader.readGateFieldGates(saveFile);
-            for (Gate* gate : loadedGates)
-            {
-                m_currentGateField->addGameObject(gate);
-            }
+            reader.readInGateFieldGates(saveFile, m_currentGateField);
 
             //Add to m_allGateFields
             m_allGateFields.push_back(m_currentGateField);
 
             //Add to ui
-            ui->PlayField->addTab(m_currentGateField,tr(pageName.c_str()));
+            ui->PlayField->addTab(m_currentGateField,tr(file.toUtf8()));
         }
         else {
             //todo

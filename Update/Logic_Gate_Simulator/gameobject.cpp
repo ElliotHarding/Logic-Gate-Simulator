@@ -32,7 +32,7 @@ void GameObject::SetPosition(int x, int y)
    m_layout.setBottom(y + m_height/2);
 }
 
-QPoint GameObject::GetPosition()
+const QPoint GameObject::GetPosition() const
 {
     return QPoint(m_layout.x(),m_layout.y());
 }

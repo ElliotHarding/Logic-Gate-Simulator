@@ -17,53 +17,44 @@
 #include "gatefield.h"
 #include "gatecollection.h"
 
+#define nextLine gateStream >> line;
+
 struct GateReader
 {
 public:
 
-    std::vector<Gate*> readGateFieldGates(std::ifstream& gateStream)
+    void readInGateFieldGates(std::ifstream& gateStream, GateField* gf)
     {
-        std::vector<Gate*> gates;
+        if(!gf)
+            return;
 
         std::string line;
-        gateStream >> line;
-        if(line == SAVE_TAG_GATE_FIELD)
+        std::vector<Gate*> gates;
+        nextLine
+        while(line == SAVE_TAG_GATE)
         {
-            gateStream >> line;
-            while(line == SAVE_TAG_GATE || line == SAVE_TAG_GATE_COLLECTION)
-            {
-                if(line == SAVE_TAG_GATE_COLLECTION)
-                {
-                    GateCollection* g = readGateCollection(gateStream);
-                    gates.push_back(g);
-                }
-
-                else if (line == SAVE_TAG_GATE)
-                    gates.push_back(readGate(gateStream));
-
-                gateStream >> line;
-            }
+            gates.push_back(readGate(gateStream, line));
+            nextLine
         }
 
-        return gates;
+        //Add loaded gates into gf
+        for (Gate* gate : gates)
+        {
+            gf->addGameObject(gate);
+        }
     }
 
     GateCollection* readGateCollection(std::ifstream& gateStream)
     {
         std::vector<Gate*> rGates;
         std::string line;
-        gateStream >> line;
-
-        //Some calling functions have already read this,
-        //so only goto next line if needed
-        if (line == SAVE_TAG_GATE_COLLECTION)
-            gateStream >> line;
 
         //Get all gates inside gate collection tags
+        nextLine
         while (line == SAVE_TAG_GATE)
         {
-            rGates.push_back(readGate(gateStream));
-            gateStream >> line;
+            rGates.push_back(readGate(gateStream, line));
+            nextLine
         }
 
         return new GateCollection(rGates);
@@ -71,7 +62,7 @@ public:
 
 private:
 
-    Gate* readGate(std::ifstream& gateStream)
+    Gate* readGate(std::ifstream& gateStream, std::string& line)
     {
         //Get gate header info
         std::string type, posX, posY;
@@ -87,6 +78,22 @@ private:
         case GateType::GATE_OR:
             rGate = new GateOr();
             break;
+        case GateType::GATE_COLLECTION:
+        {
+            std::vector<Gate*> rGates;
+            nextLine
+            while (line == SAVE_TAG_GATE)
+            {
+                rGates.push_back(readGate(gateStream, line));
+                nextLine
+            }
+            rGate = new GateCollection(rGates);
+
+            rGate->SetPosition(stoi(posX),stoi(posY));
+
+            return rGate;
+        }
+
         case GateType::GATE_NOT:
             rGate = new GateNot();
             break;
@@ -111,12 +118,11 @@ private:
         rGate->SetPosition(stoi(posX),stoi(posY));
 
         //Todo read nodes
-        std::string line;
-        gateStream >> line;
+        nextLine
         while (line == SAVE_TAG_NODE)
         {
             readNode(gateStream);
-            gateStream >> line;
+            nextLine
         }
 
         return rGate;

@@ -80,21 +80,16 @@ GateCollection* GateField::GenerateGateCollection()
 
 bool GateField::SaveData()
 {
-    std::ofstream saveFile(m_name + ".txt");
-    saveFile << m_name << std::endl;
+    std::ofstream saveFile(m_name + ".GateField");
 
     if(saveFile.is_open())
     {
-        saveFile << SAVE_TAG_GATE_FIELD << std::endl;
         m_lockAllGates.lock();
         for (size_t index = 0; index < m_allGates.size(); index++)
         {
-            //m_lockAllGates.lock();
             m_allGates[index]->SaveData(saveFile);
-            //m_lockAllGates.unlock();
         }
         m_lockAllGates.unlock();
-        saveFile << END_SAVE_TAG_GATE_FIELD << std::endl;
 
         //Close
         saveFile.close();

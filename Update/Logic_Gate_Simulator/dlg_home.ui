@@ -60,7 +60,7 @@
    <widget class="QPushButton" name="btn_Drag">
     <property name="geometry">
      <rect>
-      <x>950</x>
+      <x>850</x>
       <y>170</y>
       <width>41</width>
       <height>41</height>
@@ -86,8 +86,8 @@
    <widget class="QPushButton" name="btn_Delete">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>220</y>
+      <x>950</x>
+      <y>170</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -112,8 +112,8 @@
    <widget class="QPushButton" name="btn_link">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>170</y>
+      <x>900</x>
+      <y>220</y>
       <width>41</width>
       <height>41</height>
      </rect>

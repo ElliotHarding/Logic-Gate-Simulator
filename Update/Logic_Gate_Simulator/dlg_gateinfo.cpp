@@ -78,7 +78,7 @@ void DLG_GateInfo::on_btn_Delete_clicked()
 
 void DLG_GateInfo::on_checkBox_clicked()
 {
-    if(ui->checkBox->checkState() == Qt::CheckState::Checked)
+    if(m_gateDisplayed->Enabled)
     {
         m_gateDisplayed->Enabled = false;
         ui->checkBox->setCheckState(Qt::CheckState::Unchecked);

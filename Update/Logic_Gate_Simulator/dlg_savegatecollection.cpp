@@ -1,6 +1,7 @@
 #include "dlg_savegatecollection.h"
 #include "ui_dlg_savegatecollection.h"
 #include "gatecollection.h"
+#include "filelocations.h"
 
 DLG_SaveGateCollection::DLG_SaveGateCollection(GateField* currentGateField, QWidget *parent) :
     QDialog(parent),
@@ -25,9 +26,10 @@ void DLG_SaveGateCollection::on_Save_clicked()
 {
     std::string name = ui->txt_name->toPlainText().toStdString();
 
-    std::ofstream newGateCollection(name + ".txt");
+    std::ofstream newGateCollection(c_CustomGatesLocation.toStdString() + name + ".txt");
     if(newGateCollection.is_open())
     {
+        //Generate from currentGateField & then save to newGateCollection file
         m_currentGateField->GenerateGateCollection()->SaveData(newGateCollection);
         newGateCollection.close();
 

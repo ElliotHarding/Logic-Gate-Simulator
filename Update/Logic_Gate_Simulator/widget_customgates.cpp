@@ -3,8 +3,7 @@
 #include "dlg_home.h"
 #include <QDir>
 #include "gatereader.h"
-
-const static QString c_CustomGatesLocation = "C:\\Program Files\\Logic-Gate-Simulator\\CustomGates";
+#include "filelocations.h"
 
 Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent) :
     QWidget(pParent),

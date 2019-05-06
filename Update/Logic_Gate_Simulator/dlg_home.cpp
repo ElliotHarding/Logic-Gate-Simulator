@@ -30,6 +30,7 @@ DLG_Home::DLG_Home(QWidget *parent) :
 
     this->layout()->addWidget(m_gateInfo);
     m_gateInfo->move(c_GateInfoWidgetPos);
+    m_gateInfo->raise();
 
     m_pWidgetCustomGates->move(c_GateWidgetPosHidden);
     m_pWidgetAdvancedGates->move(c_GateWidgetPosHidden);

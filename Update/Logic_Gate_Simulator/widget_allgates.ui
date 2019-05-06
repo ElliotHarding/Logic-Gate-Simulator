@@ -42,8 +42,8 @@
   <widget class="QPushButton" name="btn_recieverGate">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>100</y>
+     <x>110</x>
+     <y>60</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -68,8 +68,8 @@
   <widget class="QPushButton" name="btn_andGate">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>60</y>
+     <x>110</x>
+     <y>20</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -123,8 +123,8 @@
   <widget class="QPushButton" name="btn_sourceGate">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>100</y>
+     <x>60</x>
+     <y>60</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -205,7 +205,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>170</y>
+     <y>100</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -230,8 +230,8 @@
   <widget class="QPushButton" name="btn_inputOn">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>210</y>
+     <x>60</x>
+     <y>100</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -244,7 +244,7 @@
    </property>
    <property name="icon">
     <iconset resource="resouces.qrc">
-     <normaloff>:/Resources/Button Icons/icon-gate-output.png</normaloff>:/Resources/Button Icons/icon-gate-output.png</iconset>
+     <normaloff>:/Resources/Button Icons/icon-gate-input-on.png</normaloff>:/Resources/Button Icons/icon-gate-input-on.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -256,8 +256,8 @@
   <widget class="QPushButton" name="btn_inputOff">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>250</y>
+     <x>110</x>
+     <y>100</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -270,7 +270,7 @@
    </property>
    <property name="icon">
     <iconset resource="resouces.qrc">
-     <normaloff>:/Resources/Button Icons/icon-gate-output.png</normaloff>:/Resources/Button Icons/icon-gate-output.png</iconset>
+     <normaloff>:/Resources/Button Icons/icon-gate-input-off.png</normaloff>:/Resources/Button Icons/icon-gate-input-off.png</iconset>
    </property>
    <property name="iconSize">
     <size>

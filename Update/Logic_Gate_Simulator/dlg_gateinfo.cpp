@@ -3,10 +3,12 @@
 #include "gatefield.h"
 #include "allgates.h"
 #include <QLayout>
+#include "dlg_home.h"
 
-DLG_GateInfo::DLG_GateInfo(QWidget *parent) :
+DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
     QWidget(parent),
-    ui(new Ui::DLG_GateInfo)
+    ui(new Ui::DLG_GateInfo),
+    m_pParent(parent)
 {
     ui->setupUi(this);
 }
@@ -15,6 +17,7 @@ DLG_GateInfo::~DLG_GateInfo()
 {
     delete ui;
     m_gateDisplayed = nullptr;
+    m_pParent = nullptr;
 }
 
 void DLG_GateInfo::setGate(Gate *g)
@@ -67,25 +70,24 @@ void DLG_GateInfo::setGate(Gate *g)
     }
 }
 
-void DLG_GateInfo::on_btn_Delete_clicked()
-{
-    if (m_gateDisplayed->ParentField)
-    {
-        m_gateDisplayed->ParentField->removeGate(m_gateDisplayed);
-        m_gateDisplayed = nullptr;
-    }
-}
-
 void DLG_GateInfo::on_checkBox_clicked()
 {
-    if(m_gateDisplayed->Enabled)
-    {
-        m_gateDisplayed->Enabled = false;
-        ui->checkBox->setCheckState(Qt::CheckState::Unchecked);
-    }
-    else
-    {
-        m_gateDisplayed->Enabled = true;
-        ui->checkBox->setCheckState(Qt::CheckState::Checked);
-    }
+    if(m_gateDisplayed)
+        if(m_gateDisplayed->Enabled)
+        {
+            m_gateDisplayed->Enabled = false;
+            ui->checkBox->setCheckState(Qt::CheckState::Unchecked);
+        }
+        else
+        {
+            m_gateDisplayed->Enabled = true;
+            ui->checkBox->setCheckState(Qt::CheckState::Checked);
+        }
+}
+
+void DLG_GateInfo::on_btn_DeleteGate_clicked()
+{
+    if(m_gateDisplayed)
+        m_pParent->DeleteGate(m_gateDisplayed);
+    m_gateDisplayed = nullptr;
 }

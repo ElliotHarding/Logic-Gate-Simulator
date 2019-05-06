@@ -90,6 +90,17 @@ void DLG_Home::GateSelected(Gate *g)
     m_gateInfo->setGate(g);
 }
 
+void DLG_Home::DeleteGate(Gate *g)
+{
+    for(GateField* gField : m_allGateFields)
+    {
+        if(gField == g->ParentField)
+        {
+            gField->DeleteGate(g);
+        }
+    }
+}
+
 void DLG_Home::addGateField(QString name)
 {
     m_currentGateField = new GateField(m_ZoomFactor, name.toStdString(), this);

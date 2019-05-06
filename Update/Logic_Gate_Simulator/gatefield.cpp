@@ -104,7 +104,7 @@ bool GateField::SaveData()
     return false;
 }
 
-void GateField::removeGate(Gate* gateToDelete)
+void GateField::DeleteGate(Gate* gateToDelete)
 {
     m_lockAllGates.lock();
 

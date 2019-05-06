@@ -34,6 +34,7 @@ public:
     void SetZoomFactor(float zoomFactor);
     void AddGate(Gate* g);
     void GateSelected(Gate* g);
+    void DeleteGate(Gate* g);
 
 private:
     Ui::DLG_Home *ui;

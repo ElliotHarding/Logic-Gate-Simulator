@@ -17,9 +17,6 @@ DLG_SaveGateCollection::~DLG_SaveGateCollection()
 
 void DLG_SaveGateCollection::on_Cancel_clicked()
 {
-    //Dummy call to GenerateGateCollection to reset the selector tool in m_currentGateField
-    m_currentGateField->GenerateGateCollection();
-
     //Close
     this->close();
 }

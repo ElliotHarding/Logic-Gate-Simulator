@@ -41,7 +41,6 @@ public:
 
     virtual void UpdateOutput() = 0;
     virtual void UpdateGraphics(QPainter* painter) override;
-
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
     virtual void SaveData(std::ofstream& storage);
 

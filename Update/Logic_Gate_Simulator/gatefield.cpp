@@ -107,26 +107,31 @@ bool GateField::SaveData()
 void GateField::DeleteGate(Gate* gateToDelete)
 {
     m_lockAllGates.lock();
-
     for(int index = 0; index < m_allGates.size(); index++)
     {
         if (m_allGates[index] == gateToDelete)
         {
+            //Find & remove from vector
             Gate* gObject = m_allGates[index];
             m_allGates.erase(m_allGates.begin() + index);
+
+            //Delete & forget
             delete gObject;
-            delete gateToDelete;
+            gateToDelete = nullptr;
+
+            //Exit early
+            break;
         }
     }
-
     m_lockAllGates.unlock();
 }
 
 void GateField::addGameObject(Gate* go, bool newlySpawned)
 {
     if(newlySpawned)
-        //Set spawn position
         go->SetPosition(SPAWN_X,SPAWN_Y);
+
+    go->ParentField = this;
 
     m_lockAllGates.lock();
     m_allGates.push_back(go);

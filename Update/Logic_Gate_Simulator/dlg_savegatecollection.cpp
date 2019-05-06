@@ -26,7 +26,7 @@ void DLG_SaveGateCollection::on_Save_clicked()
 {
     std::string name = ui->txt_name->toPlainText().toStdString();
 
-    std::ofstream newGateCollection(c_CustomGatesLocation.toStdString() + name + ".txt");
+    std::ofstream newGateCollection(c_CustomGatesLocation.toStdString() + name + ".CustomGate");
     if(newGateCollection.is_open())
     {
         //Generate from currentGateField & then save to newGateCollection file

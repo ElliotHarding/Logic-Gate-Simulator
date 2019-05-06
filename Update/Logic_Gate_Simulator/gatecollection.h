@@ -6,7 +6,7 @@
 class GateCollection : public Gate
 {
 public:
-    GateCollection(std::vector<Gate*> m_gates);
+    GateCollection(std::vector<Gate*> gates);
     ~GateCollection() override;
 
     virtual void UpdateOutput() override;

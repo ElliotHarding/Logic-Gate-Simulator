@@ -18,6 +18,8 @@ public:
     explicit Widget_CustomGates(DLG_Home* pParent);
     ~Widget_CustomGates();
 
+    void UpdateList();
+
 private slots:
     void on_customGateListWidget_currentRowChanged(int currentRow);
 

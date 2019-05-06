@@ -175,6 +175,7 @@ void DLG_Home::on_menu_btn_allGates_clicked()
 void DLG_Home::on_menu_btn_customGates_clicked()
 {
     SwitchWidgets(m_pWidgetCustomGates);
+    m_pWidgetCustomGates->UpdateList();
 }
 void DLG_Home::on_menu_btn_InputGates_clicked()
 {

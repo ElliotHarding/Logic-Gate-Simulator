@@ -1,16 +1,21 @@
 #include "gatecollection.h"
 
-GateCollection::GateCollection(std::vector<Gate *> gates) :
-    Gate::Gate(GATE_COLLECTION, 0, 0),
-    m_gates(gates)
+GateCollection::GateCollection(std::vector<Gate*> gates) :
+    Gate::Gate(GATE_COLLECTION, 0, 0)
 {
+    //m_gates = gates;
+    for(Gate* pGate : gates)
+    {
+        m_gates.push_back(pGate);
+    }
 }
 
 GateCollection::~GateCollection()
 {
-    for(Gate* gate : m_gates)
+    for (size_t index = 0; index < m_gates.size(); index++)
     {
-        delete gate;
+        delete m_gates[index];
+        m_gates.erase(m_gates.begin() + (int)index);
     }
 }
 

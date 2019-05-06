@@ -96,6 +96,15 @@ private:
         case GateType::GATE_RECIEVER:
             rGate = new GateReciever();
             break;
+        case GateType::GATE_CONST_ACTIVE:
+            rGate = new GateReciever();
+            break;
+        case GateType::GATE_CONST_INACTIVE:
+            rGate = new GateReciever();
+            break;
+        case GateType::GATE_TIMER:
+            rGate = new GateTimer();
+            break;
         default:
              break;
         }

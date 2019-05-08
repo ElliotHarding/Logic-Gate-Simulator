@@ -40,10 +40,10 @@ public:
     virtual Node* GetClickedNode(int clickX, int clickY) = 0;
     virtual void SaveData(std::ofstream& storage);
 
-    int Left(){return m_layout.left();}
-    int Right(){return m_layout.right();}
-    int Top(){return m_layout.top();}
-    int Bottom(){return m_layout.bottom();}
+    virtual int Left(){return m_layout.left();}
+    virtual int Right(){return m_layout.right();}
+    virtual int Top(){return m_layout.top();}
+    virtual int Bottom(){return m_layout.bottom();}
 
     GateField* ParentField;
 

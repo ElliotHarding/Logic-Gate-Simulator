@@ -82,9 +82,14 @@ void GateCollection::UpdateGraphics(QPainter *painter)
         gate->UpdateGraphics(painter);
     }
 
+    m_contaningArea = containingArea();
+
     //Draw bounding box
     painter->setPen(Qt::black);
-    painter->drawRect(containingArea());
+    painter->drawRect(m_contaningArea);
+
+    if (m_dragMode == DragAll)
+         painter->fillRect(m_contaningArea, QColor(20,20,20,20));
 }
 
 Node *GateCollection::GetClickedNode(int clickX, int clickY)
@@ -110,40 +115,66 @@ void GateCollection::SaveData(std::ofstream &storage)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
-typedef QPoint Vector2D;
-bool GateCollection::UpdateDrag(int clickX, int clickY)
+void GateCollection::DisplaceGates(Vector2D displacement)
 {
-    //If single gate is being dragged, only drag that gate,
-    //or if area is dragged, drag entire gate collection
-
-    //Perform drag click for each individual gate
     for(Gate* gate : m_gates)
     {
-        if(gate->UpdateDrag(clickX, clickY))
+        if(gate->GetType() == GATE_COLLECTION)
         {
-            return true;
+            if(dynamic_cast<GateCollection*>(gate))
+                dynamic_cast<GateCollection*>(gate)->DisplaceGates(displacement);
+        }
+        else
+        {
+            gate->SetPosition(gate->GetPosition().x() + displacement.x,
+                              gate->GetPosition().y() + displacement.y);
+        }
+    }
+}
+
+
+bool GateCollection::UpdateDrag(int clickX, int clickY)
+{
+
+    if(m_dragMode == DragIndividual)
+    {
+        //Perform drag click for each individual gate
+        for(Gate* gate : m_gates)
+        {
+            if(gate->UpdateDrag(clickX, clickY))
+            {
+                return true;
+            }
         }
     }
 
     //If containingArea clicked store displacement variable of how far
     //it will be dragged by click
-    if(containingArea().contains(QPoint(clickX,clickY)))
+    else if(m_contaningArea.contains(QPoint(clickX,clickY)))
     {
         const QPoint previousPos = containingArea().center();
 
         //Calculate difference between new & old pos
-        Vector2D displacement(clickX - previousPos.x(),
-                              clickY - previousPos.y());
+        Vector2D displacement = {clickX - previousPos.x(),
+                                 clickY - previousPos.y()};
 
         //apply displacement to all gates and return true
         for(Gate* gate : m_gates)
         {
-            gate->SetPosition(gate->GetPosition().x() + displacement.x(),
-                              gate->GetPosition().y() + displacement.y());
+            if(gate->GetType() == GATE_COLLECTION)
+            {
+                if(dynamic_cast<GateCollection*>(gate))
+                    dynamic_cast<GateCollection*>(gate)->DisplaceGates(displacement);
+            }
+            else
+            {
+                gate->SetPosition(gate->GetPosition().x() + displacement.x,
+                                  gate->GetPosition().y() + displacement.y);
+            }
         }
         return true;
-
     }
+
     return false;
 }
 
@@ -163,6 +194,12 @@ QRect GateCollection::containingArea()
 
     for(Gate* gate : m_gates)
     {
+        if(gate->GetType() == GATE_COLLECTION)
+        {
+            if(dynamic_cast<GateCollection*>(gate))
+                dynamic_cast<GateCollection*>(gate)->UpdateContaningArea();
+        }
+
         if(gate->Left() < MINX)
         {
             MINX = gate->Left() - c_borderBoxMargin;

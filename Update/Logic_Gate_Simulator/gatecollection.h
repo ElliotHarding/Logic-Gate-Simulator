@@ -26,10 +26,10 @@ public:
     void UpdateContaningArea() {m_contaningArea = containingArea();}
 
     //Call UpdateContaningArea() before calling any of these
-    virtual int Left(){return m_contaningArea.left();}
-    virtual int Right(){return m_contaningArea.right();}
-    virtual int Top(){return m_contaningArea.top();}
-    virtual int Bottom(){return m_contaningArea.bottom();}
+    virtual int Left() override {return m_contaningArea.left() + c_borderBoxMargin;}
+    virtual int Right() override{return m_contaningArea.right() - c_borderBoxMargin;}
+    virtual int Top() override {return m_contaningArea.top() + c_borderBoxMargin;}
+    virtual int Bottom() override {return m_contaningArea.bottom() - c_borderBoxMargin;}
 
     DragMode m_dragMode = DragAll;
 

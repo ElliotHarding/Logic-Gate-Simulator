@@ -132,6 +132,16 @@ void GateCollection::DisplaceGates(Vector2D displacement)
     }
 }
 
+void GateCollection::ToggleDragMode()
+{
+    m_dragMode = (bool)m_dragMode ? DragIndividual : DragAll;
+}
+
+bool GateCollection::IsDragAll()
+{
+    return (bool)m_dragMode;
+}
+
 
 bool GateCollection::UpdateDrag(int clickX, int clickY)
 {
@@ -174,7 +184,6 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
         }
         return true;
     }
-
     return false;
 }
 

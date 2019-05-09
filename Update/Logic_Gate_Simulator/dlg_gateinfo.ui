@@ -114,6 +114,27 @@
     <string>Frequency</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="dragModeCheck">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>121</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Drag All</string>
+   </property>
+  </widget>
+  <zorder>dragModeCheck</zorder>
+  <zorder>checkBox</zorder>
+  <zorder>btn_DeleteGate</zorder>
+  <zorder>label</zorder>
+  <zorder>lbl_GateType</zorder>
+  <zorder>signalCheck</zorder>
+  <zorder>lineEdit_Frequency</zorder>
+  <zorder>lbl_Frequency</zorder>
  </widget>
  <resources>
   <include location="resouces.qrc"/>

@@ -5,8 +5,6 @@
 
 struct Vector2D {int x; int y;};
 
-enum DragMode{DragIndividual,DragAll};
-
 class GateCollection : public Gate
 {
 public:
@@ -31,7 +29,9 @@ public:
     virtual int Top() override {return m_contaningArea.top() + c_borderBoxMargin;}
     virtual int Bottom() override {return m_contaningArea.bottom() - c_borderBoxMargin;}
 
-    DragMode m_dragMode = DragAll;
+    //Drag mode
+    void ToggleDragMode();
+    bool IsDragAll();
 
 private:
     //Vector of all the gates within collection
@@ -42,6 +42,9 @@ private:
 
     QRect containingArea();
     QRect m_contaningArea;
+
+    enum DragMode{DragIndividual,DragAll};
+    DragMode m_dragMode = DragAll;
 };
 
 #endif // GATECOLLECTION_H

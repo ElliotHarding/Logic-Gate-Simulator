@@ -14,9 +14,6 @@ DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
     ui->signalCheck->hide();
     ui->lbl_Frequency->hide();
     ui->lineEdit_Frequency->hide();
-
-    m_infoUpdateThread = new InfoUpdateThread(this);
-    m_infoUpdateThread->start();
 }
 
 DLG_GateInfo::~DLG_GateInfo()
@@ -24,8 +21,6 @@ DLG_GateInfo::~DLG_GateInfo()
     delete ui;
     m_gateDisplayed = nullptr;
     m_pParent = nullptr;
-    m_infoUpdateThread->stop();
-    delete m_infoUpdateThread;
 }
 
 void DLG_GateInfo::setGate(Gate *g)
@@ -95,12 +90,6 @@ void DLG_GateInfo::setGate(Gate *g)
     ui->lbl_GateType->setText(gateName);
 }
 
-void DLG_GateInfo::RefreshInfo()
-{
-    if(m_gateDisplayed)
-        setGate(m_gateDisplayed);
-}
-
 void DLG_GateInfo::on_checkBox_clicked()
 {
     if(m_gateDisplayed)
@@ -149,32 +138,3 @@ void DLG_GateInfo::on_signalCheck_clicked()
             dynamic_cast<GateToggle*>(m_gateDisplayed)->ToggleOutputState();
 }
 
-
-InfoUpdateThread::InfoUpdateThread(DLG_GateInfo* parent) :
-    m_pInfoDialog(parent)
-{
-
-}
-
-InfoUpdateThread::~InfoUpdateThread()
-{
-    m_pInfoDialog = nullptr;
-}
-
-void InfoUpdateThread::stop()
-{
-     m_bStopThread = true;
-}
-
-void InfoUpdateThread::run()
-{
-    while(!m_bStopThread)
-    {
-        QThread::msleep(1000);
-
-        if(m_pInfoDialog)
-        {
-            m_pInfoDialog->RefreshInfo();
-        }
-    }
-}

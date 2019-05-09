@@ -78,7 +78,7 @@ HEADERS += \
         widget_standard.h \
         widget_customgates.h \
         widget_inputgates.h \
-    filelocations.h
+        filelocations.h
 
 FORMS += \
         mainwindow.ui \

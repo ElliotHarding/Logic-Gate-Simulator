@@ -28,9 +28,10 @@ private slots:
     void on_lineEdit_Frequency_editingFinished();
     void on_dragModeCheck_clicked();
     void on_signalCheck_clicked();
-    Ui::DLG_GateInfo *ui;
+
 
 private:
+    Ui::DLG_GateInfo *ui;
 
     DLG_Home* m_pParent = nullptr;
 

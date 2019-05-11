@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>223</width>
-    <height>89</height>
+    <width>252</width>
+    <height>74</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Name Custom Gate</string>
   </property>
   <widget class="QPushButton" name="Cancel">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>60</y>
-     <width>75</width>
+     <y>40</y>
+     <width>81</width>
      <height>23</height>
     </rect>
    </property>
@@ -29,9 +29,9 @@
   <widget class="QPushButton" name="Save">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>60</y>
-     <width>75</width>
+     <x>144</x>
+     <y>40</y>
+     <width>81</width>
      <height>23</height>
     </rect>
    </property>
@@ -43,23 +43,16 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>30</y>
-     <width>191</width>
+     <y>10</y>
+     <width>211</width>
      <height>21</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QLabel" name="lbl_name">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
-   <property name="text">
-    <string>Name:</string>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
   </widget>
  </widget>

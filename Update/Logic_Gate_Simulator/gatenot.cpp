@@ -9,6 +9,9 @@ GateNot::GateNot(id in, id out) :
 
 GateNot::~GateNot()
 {
+    if(m_output.GetLinkedNode())
+        m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+
     DetachNode(&m_input);
     DetachNode(&m_output);
 }
@@ -25,10 +28,9 @@ void GateNot::UpdateOutput()
     if(linkedNode)
     {
         linkedNode->value = newVal;
-        //todo setUpdateOutput()
-        //linkedNode->GetParent()->UpdateOutput();
+        linkedNode->GetParent()->UpdateOutput();
     }
-    delete linkedNode;
+    linkedNode = nullptr;
 }
 
 void GateNot::SetPosition(int x, int y)

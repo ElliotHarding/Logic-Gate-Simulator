@@ -8,6 +8,9 @@ GateSingleOutput::GateSingleOutput(GateType type, id nodeId) :
 
 GateSingleOutput::~GateSingleOutput()
 {
+    if(m_output.GetLinkedNode())
+        m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+
     DetachNode(&m_output);
 }
 

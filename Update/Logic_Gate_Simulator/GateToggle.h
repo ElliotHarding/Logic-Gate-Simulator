@@ -11,7 +11,6 @@ class GateToggle : public GateSingleOutput
 {
 public:
     GateToggle(id out = idGenerator());
-    ~GateToggle() override;
 
     virtual void UpdateOutput() override;
     virtual bool UpdateClicked(int clickX, int clickY) override;

@@ -1,7 +1,8 @@
 #include "gatefield.h"
-#include <QApplication>
-#include "DLG_SaveGateCollection.h"
+#include "dlg_savegatecollection.h"
 #include "dlg_home.h"
+
+#include <QApplication>
 
 GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent) :
     QWidget(parent),
@@ -71,11 +72,10 @@ void GateField::updateFunction()
 {
     if(m_lockAllGates.try_lock())
     {
-        for (size_t index = 0; index < m_allGates.size(); index++)
+        for (Gate* g : m_allGates)
         {
-            //m_lockAllGates.lock();
-            m_allGates[index]->UpdateOutput();
-            //m_lockAllGates.unlock();
+            if(g->Enabled)
+                g->UpdateOutput();
         }
         m_lockAllGates.unlock();
     }
@@ -233,10 +233,10 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
 void GateField::linkNodesClick(int clickX, int clickY)
 {
     Node* node;
-    for (size_t index = 0; index < m_allGates.size(); index++)
+    for (Gate* gate : m_allGates)
     {
         //Check if iterated gate has any clicked nodes
-        node = (m_allGates[index])->GetClickedNode(clickX,clickY);
+        node = gate->GetClickedNode(clickX,clickY);
         if(node != nullptr)
         {
             //If m_linkNodeA is a null pointer then its the first node to be clicked
@@ -255,6 +255,7 @@ void GateField::linkNodesClick(int clickX, int clickY)
                 if (&node == &m_linkNodeA)
                     return;
 
+                //link nodes & update parent gates (inside LinkNode())
                 m_linkNodeA->LinkNode(node);
                 node->LinkNode(m_linkNodeA);
                 m_linkNodeA = nullptr;
@@ -273,17 +274,19 @@ void GateField::linkNodesClick(int clickX, int clickY)
 void GateField::deleteLinkedNodesClick(int clickX, int clickY)
 {
     Node* node;
-    for (size_t index = 0; index < m_allGates.size(); index++)
+    for (Gate* gate : m_allGates)
     {
         //Check if iterated gate has any clicked nodes
-        node = (m_allGates[index])->GetClickedNode(clickX,clickY);
+        node = gate->GetClickedNode(clickX,clickY);
         if(node != nullptr)
         {
             if(node->GetLinkedNode())
             {
+                //unlink nodes & update parent gates (inside LinkNode())
                 Node* nodeLinkedTo = node->GetLinkedNode();
                 nodeLinkedTo->DetachNode();
                 node->DetachNode();
+
                 delete nodeLinkedTo;
             }
 

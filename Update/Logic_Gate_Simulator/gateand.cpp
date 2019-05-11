@@ -11,6 +11,9 @@ GateAnd::GateAnd(id inA, id inB, id out) :
 
 GateAnd::~GateAnd()
 {
+    if(m_output.GetLinkedNode())
+        m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+
     DetachNode(&m_inputA);
     DetachNode(&m_inputB);
     DetachNode(&m_output);
@@ -30,11 +33,9 @@ void GateAnd::UpdateOutput()
     if(linkedNode)
     {
         linkedNode->value = sum;
-
-        //todo setUpdateOutput()
-        //linkedNode->GetParent()->UpdateOutput();
+        linkedNode->GetParent()->UpdateOutput();
     }
-    delete linkedNode;
+    linkedNode = nullptr;
 }
 
 void GateAnd::UpdateGraphics(QPainter *painter)

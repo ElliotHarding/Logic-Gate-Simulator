@@ -6,11 +6,6 @@ GateToggle::GateToggle(id out) :
     m_toggleStateTimer.start(c_toggleFrequency);
 }
 
-GateToggle::~GateToggle()
-{
-    DetachNode(&m_output);
-}
-
 void GateToggle::UpdateOutput()
 {
     //if output linked to node;
@@ -19,9 +14,7 @@ void GateToggle::UpdateOutput()
     if(m_output.GetLinkedNode())
     {
         m_output.GetLinkedNode()->value = m_output.value; //m_output.value is updated in GateToggle::UpdateClicked
-
-        //todo setUpdateOutput()
-        //m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+        m_output.GetLinkedNode()->GetParent()->UpdateOutput();
     }
 
 }

@@ -63,11 +63,6 @@ Node::~Node()
     delete m_linkedNode;
 }
 
-void Node::LinkNode(Node* n)
-{
-    m_linkedNode = n;
-}
-
 Gate* Node::GetParent()
 {
     return m_parent;
@@ -114,8 +109,16 @@ Node *Node::GetLinkedNode()
 {
     return m_linkedNode;
 }
+
+void Node::LinkNode(Node*& n)
+{
+    m_linkedNode = n;
+    m_parent->UpdateOutput();
+}
+
 void Node::DetachNode()
 {
     if(m_linkedNode)
         m_linkedNode = nullptr;
+    m_parent->UpdateOutput();
 }

@@ -76,7 +76,7 @@ public:
     ~Node() override;
 
     //Linked node
-    void LinkNode(Node* n);
+    void LinkNode(Node*& n);
     void DetachNode();
     Node* GetLinkedNode();
 

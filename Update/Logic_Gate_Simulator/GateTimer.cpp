@@ -21,6 +21,8 @@ void GateTimer::UpdateOutput()
         m_timer.stop();
         m_timer.start(m_frequency);
         m_output.value = !m_output.value;
+        if(m_output.GetLinkedNode())
+            m_output.GetLinkedNode()->GetParent()->UpdateOutput();
     }
 }
 

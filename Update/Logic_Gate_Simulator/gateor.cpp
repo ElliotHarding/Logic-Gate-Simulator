@@ -10,6 +10,9 @@ GateOr::GateOr(id inA, id inB, id out) :
 
 GateOr::~GateOr()
 {
+    if(m_output.GetLinkedNode())
+        m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+
     DetachNode(&m_inputA);
     DetachNode(&m_inputB);
     DetachNode(&m_output);
@@ -29,11 +32,9 @@ void GateOr::UpdateOutput()
     if(linkedNode)
     {        
         linkedNode->value = newVal;        
-
-        //todo setUpdateOutput()
-        //linkedNode->GetParent()->UpdateOutput();
+        linkedNode->GetParent()->UpdateOutput();
     }
-    delete linkedNode;
+    linkedNode = nullptr;
 }
 
 void GateOr::SetPosition(int x, int y)

@@ -203,8 +203,8 @@ void GateReader::linkNodes(std::vector<Gate *>& gates, std::vector<NodeIds> link
             Node* node2 = findNodeWithId(gates, link.linkedId);
             if (node1 != nullptr && node2 != nullptr)
             {
-                node1->LinkNode(node2);
                 node2->LinkNode(node1);
+                node1->LinkNode(node2);
             }
         }
     }

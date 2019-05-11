@@ -48,7 +48,8 @@ SOURCES += \
         widget_advanced.cpp \
         widget_standard.cpp \
         widget_customgates.cpp \
-        widget_inputgates.cpp
+        widget_inputgates.cpp \
+    gatereader.cpp
 
 HEADERS += \
         mainwindow.h \

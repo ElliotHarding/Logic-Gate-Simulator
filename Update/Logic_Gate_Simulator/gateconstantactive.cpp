@@ -1,7 +1,7 @@
 #include "GateConstantActive.h"
 
-GateConstantActive::GateConstantActive() :
-    GateSingleOutput::GateSingleOutput(GATE_CONST_ACTIVE)
+GateConstantActive::GateConstantActive(id out) :
+    GateSingleOutput::GateSingleOutput(GATE_CONST_ACTIVE, out)
 {
     m_output.value = 1;
 }

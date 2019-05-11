@@ -9,7 +9,7 @@
 class GateNot : public Gate
 {
 public:
-    GateNot();
+    GateNot(id in = idGenerator(), id out = idGenerator());
     ~GateNot() override;
 
     virtual void UpdateOutput() override;

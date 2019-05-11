@@ -26,6 +26,15 @@ enum GateType
     GATE_NULL,
 };
 
+static int idGenerator()
+{
+    static int idIndex = 0;
+    return idIndex++;
+}
+
+struct NodeIds {int id; int linkedId;};
+typedef int id;
+
 class Node;
 class GateField;
 
@@ -60,7 +69,7 @@ protected:
 class Node : public GameObject
 {
 public:
-    Node(Gate* parent);
+    Node(Gate* parent, int nodeId = idGenerator());
     ~Node() override;
 
     //Linked node

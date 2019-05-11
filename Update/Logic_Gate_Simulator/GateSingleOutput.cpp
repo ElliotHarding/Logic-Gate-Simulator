@@ -1,8 +1,8 @@
 #include "GateSingleOutput.h"
 
-GateSingleOutput::GateSingleOutput(GateType type) :
+GateSingleOutput::GateSingleOutput(GateType type, id nodeId) :
     Gate::Gate(type, GateSingleOutputWidth, GateSingleOutputHeight),
-    m_output(this)
+    m_output(this, nodeId)
 {
 }
 

@@ -1,7 +1,7 @@
 #include "GateToggle.h"
 
-GateToggle::GateToggle() :
-    GateSingleOutput::GateSingleOutput(GATE_EMMITTER)
+GateToggle::GateToggle(id out) :
+    GateSingleOutput::GateSingleOutput(GATE_EMMITTER, out)
 {
     m_toggleStateTimer.start(c_toggleFrequency);
 }

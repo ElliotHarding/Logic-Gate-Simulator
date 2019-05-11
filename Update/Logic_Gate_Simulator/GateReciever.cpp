@@ -1,7 +1,7 @@
 #include "GateReciever.h"
 
-GateReciever::GateReciever() :
-    GateSingleOutput::GateSingleOutput(GATE_RECIEVER)
+GateReciever::GateReciever(id out) :
+    GateSingleOutput::GateSingleOutput(GATE_RECIEVER, out)
 {
     m_output.value = 0;
 }

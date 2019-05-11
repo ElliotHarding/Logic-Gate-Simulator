@@ -1,9 +1,9 @@
 #include "gatenot.h"
 
-GateNot::GateNot() :
+GateNot::GateNot(id in, id out) :
     Gate::Gate(GATE_NOT, GateNotWidth,GateNotHeight,std::string(":/Resources/Gates/gate-not.png").c_str()),
-    m_input(this),
-    m_output(this)
+    m_input(this,in),
+    m_output(this,out)
 {
 }
 

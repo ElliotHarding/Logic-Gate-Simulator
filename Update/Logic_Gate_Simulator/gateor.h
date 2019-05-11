@@ -9,7 +9,7 @@
 class GateOr : public Gate
 {
 public:
-    GateOr();
+    GateOr(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
     ~GateOr() override;
 
     virtual void UpdateOutput() override;

@@ -6,8 +6,8 @@
 #include <iostream>
 #include <string>
 
-GateTimer::GateTimer() :
-    GateSingleOutput::GateSingleOutput(GATE_TIMER)
+GateTimer::GateTimer(id out) :
+    GateSingleOutput::GateSingleOutput(GATE_TIMER, out)
 {
     m_output.value = 0;
     m_timer.start();

@@ -1,12 +1,6 @@
 #include "gate.h"
 #include "gatecollection.h"
 
-static int idGenerator()
-{
-    static int idIndex = 0;
-    return idIndex++;
-}
-
 #define with << std::endl <<
 
 Gate::Gate(GateType type, int width, int height, const char* iconLocation) :
@@ -48,11 +42,11 @@ void Gate::DetachNode(Node *node)
 // -- NODE IMPLEMENTATION --
 //
 
-Node::Node(Gate* parent) :
-     GameObject::GameObject(15,15),     
-     value(0),
-     m_parent(parent),
-     m_id(idGenerator())
+Node::Node(Gate *parent, int id) :
+    GameObject::GameObject(15,15),
+    value(0),
+    m_parent(parent),
+    m_id(id)
 {
 }
 

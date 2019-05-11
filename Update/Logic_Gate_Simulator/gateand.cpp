@@ -9,6 +9,14 @@ GateAnd::GateAnd() :
 {
 }
 
+GateAnd::GateAnd(id inA, id inB, id out) :
+    Gate::Gate(GATE_AND, GateAndWidth,GateAndHeight, std::string(":/Resources/Gates/gate-and.png").c_str()),
+    m_inputA(this, inA),
+    m_inputB(this, inB),
+    m_output(this, out)
+{
+}
+
 GateAnd::~GateAnd()
 {
     DetachNode(&m_inputA);

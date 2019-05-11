@@ -6,11 +6,15 @@
 #define GateAndHeight 50
 #define GateAndWidth 100
 
+typedef int id;
+
 class GateAnd : public Gate
 {
 public:
     GateAnd();
     ~GateAnd() override;
+
+    GateAnd(id inA, id inB, id out);
 
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;

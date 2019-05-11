@@ -13,7 +13,7 @@
 class GateSingleOutput : public Gate
 {
 public:
-    GateSingleOutput(GateType type);
+    GateSingleOutput(GateType type, id nodeId);
     ~GateSingleOutput() override;
 
     virtual void UpdateOutput() override = 0;

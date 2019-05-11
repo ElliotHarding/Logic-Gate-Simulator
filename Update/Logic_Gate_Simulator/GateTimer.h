@@ -10,7 +10,7 @@
 class GateTimer : public GateSingleOutput
 {
 public:
-    GateTimer();
+    GateTimer(id out = idGenerator());
 
     virtual void UpdateOutput() override;
     virtual void SaveData(std::ofstream& storage) override;

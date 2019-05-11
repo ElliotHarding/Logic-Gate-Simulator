@@ -9,7 +9,7 @@
 class GateReciever : public GateSingleOutput
 {
 public:
-    GateReciever();
+    GateReciever(id out = idGenerator());
 
     virtual void UpdateOutput() override;
 };

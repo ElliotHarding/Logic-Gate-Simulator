@@ -6,7 +6,7 @@
 class GateConstantInactive : public GateSingleOutput
 {
 public:
-    GateConstantInactive();
+    GateConstantInactive(id out = idGenerator());
     ~GateConstantInactive() override;
 
     virtual void UpdateOutput() override;

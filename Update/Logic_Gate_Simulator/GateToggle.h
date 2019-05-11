@@ -10,7 +10,7 @@
 class GateToggle : public GateSingleOutput
 {
 public:
-    GateToggle();
+    GateToggle(id out = idGenerator());
     ~GateToggle() override;
 
     virtual void UpdateOutput() override;

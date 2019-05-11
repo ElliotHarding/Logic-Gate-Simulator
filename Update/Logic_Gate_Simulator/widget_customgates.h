@@ -23,6 +23,8 @@ public:
 private slots:
     void on_customGateListWidget_currentRowChanged(int currentRow);
 
+    void on_btn_SelectionTool_clicked();
+
 private:
     Ui::Widget_CustomGates *ui;
     DLG_Home* m_pParent;

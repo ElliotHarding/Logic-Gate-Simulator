@@ -95,6 +95,7 @@ private slots:
     void on_menu_btn_InputGates_clicked();
     void on_menu_btn_standardGates_clicked();
     void on_menu_btn_advancedGates_clicked();
+    void on_btn_Pan_clicked();
 };
 
 

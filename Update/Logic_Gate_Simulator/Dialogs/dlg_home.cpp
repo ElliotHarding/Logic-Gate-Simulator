@@ -49,8 +49,8 @@ DLG_Home::DLG_Home(QWidget *parent) :
     this->layout()->addWidget(m_zoomSlider);
 
     //Start the update thread
-    //m_updateThread = new LogicUpdateThread(&m_allGateFields);
-    //m_updateThread->start();
+    m_updateThread = new LogicUpdateThread(&m_allGateFields);
+    m_updateThread->start();
 }
 
 DLG_Home::~DLG_Home()

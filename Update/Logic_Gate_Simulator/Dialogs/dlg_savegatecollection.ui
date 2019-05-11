@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DLG_SaveGateCollection</class>
+ <widget class="QDialog" name="DLG_SaveGateCollection">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>252</width>
+    <height>74</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Name Custom Gate</string>
+  </property>
+  <widget class="QPushButton" name="Cancel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>81</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Save">
+   <property name="geometry">
+    <rect>
+     <x>144</x>
+     <y>40</y>
+     <width>81</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="txt_name">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>211</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

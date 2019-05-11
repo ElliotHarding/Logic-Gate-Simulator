@@ -86,7 +86,6 @@ private:
     void deleteLinkedNodesClick(int clickX, int clickY);
     void defaultClick(int clickX, int clickY);
     void selectionClick(int clickX, int clickY);
-    void panClick(int clickX, int clickY);
 
     //Coords of newly spawned gate
     const int SPAWN_X = 300;

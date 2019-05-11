@@ -50,7 +50,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
         painter.drawRect(m_selectionTool->geometry());
     }
 
-    painter.scale(m_zoomFactor,m_zoomFactor);
+    //painter.scale(m_zoomFactor,m_zoomFactor);
 
     //Panning
     QTransform panTransform;
@@ -148,8 +148,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     //If was in the middle of linking, but then user changed click mode, forget
     //the middle step variable m_linkNodeA
-    if(m_currentClickMode != CLICK_LINK_NODES)
-        m_linkNodeA = nullptr;
+    if(m_currentClickMode != CLICK_LINK_NODES) m_linkNodeA = nullptr;
 
     m_lockAllGates.lock();
 
@@ -171,16 +170,12 @@ void GateField::mousePressEvent(QMouseEvent *click)
         defaultClick(clickX,clickY);
         break;
 
-    case CLICK_SELECTION:
-        selectionClick(clickX,clickY);
-        break;
-
     case CLICK_DRAG:
         dragClick(clickX,clickY);//rest of dragging handeled in mouseMoveEvent
         break;
 
-    case CLICK_PAN:
-        panClick(clickX, clickY);//rest of dragging handeled in mouseMoveEvent
+    case CLICK_SELECTION:
+        selectionClick(clickX,clickY);
         break;
     }
 
@@ -193,13 +188,6 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
     {
         m_lockAllGates.lock();
         dragClick(click->x(),click->y());
-        m_lockAllGates.unlock();
-    }
-
-    if(m_bMouseDragging && m_currentClickMode == CLICK_PAN)
-    {
-        m_lockAllGates.lock();
-        panClick(click->x(),click->y());
         m_lockAllGates.unlock();
     }
 
@@ -276,11 +264,11 @@ void GateField::linkNodesClick(int clickX, int clickY)
                 QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
             }
 
-            node = nullptr;
+            //delete node;
             return; //so that we dont acidentally get more than one clicked node
         }
     }
-    node = nullptr;
+    //delete node;
 }
 
 void GateField::deleteLinkedNodesClick(int clickX, int clickY)
@@ -302,11 +290,11 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
                 delete nodeLinkedTo;
             }
 
-            node = nullptr;
+            //delete node;
             return; //so that we dont acidentally get more than one clicked node
         }
     }
-    node = nullptr;
+    //delete node;
 }
 
 void GateField::defaultClick(int clickX, int clickY)
@@ -358,14 +346,18 @@ void GateField::deleteClick(int clickX, int clickY)
 
 void GateField::dragClick(int clickX, int clickY)
 {
+    //If start of drag sequence,
+    if(!m_bMouseDragging)
+        m_previousDragMousePos = QPoint(clickX,clickY);
+
+    m_bMouseDragging = true;
+
     //Loop through all dragable gameobjects
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         //If found an object to drag,
         if(m_allGates[index]->UpdateDrag(clickX, clickY))
         {
-            m_bMouseDragging = true;
-
             //Move the dragged object to the front of the array.
             //This way next loop the object will be checked first
             //This means if you drag an object over another, the object being dragged wont switch
@@ -377,15 +369,8 @@ void GateField::dragClick(int clickX, int clickY)
             return;
         }
     }
-}
 
-void GateField::panClick(int clickX, int clickY)
-{
-    //If start of drag sequence,
-    if(!m_bMouseDragging)
-        m_previousDragMousePos = QPoint(clickX,clickY);
-    m_bMouseDragging = true;
-
+    //Panning:
     //Calcualte vector between previous mouse pos and current
     m_panOffset.x += clickX - m_previousDragMousePos.x();
     m_panOffset.y += clickY - m_previousDragMousePos.y();

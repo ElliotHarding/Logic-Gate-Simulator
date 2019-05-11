@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget_AllGates</class>
+ <widget class="QWidget" name="Widget_AllGates">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>160</width>
+    <height>490</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="btn_orGate">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-gate-or.png</normaloff>:/Resources/Button Icons/icon-gate-or.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>27</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_recieverGate">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>60</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-gate-input.png</normaloff>:/Resources/Button Icons/icon-gate-input.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_andGate">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>20</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-gate-and.png</normaloff>:/Resources/Button Icons/icon-gate-and.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>25</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_notGate">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>20</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-gate-not.png</normaloff>:/Resources/Button Icons/icon-gate-not.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>29</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_sourceGate">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>60</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-gate-output.png</normaloff>:/Resources/Button Icons/icon-gate-output.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>470</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_timerGate">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-gate-timer.png</normaloff>:/Resources/Button Icons/icon-gate-timer.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_inputOn">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>100</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-gate-input-on.png</normaloff>:/Resources/Button Icons/icon-gate-input-on.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_inputOff">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>100</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-gate-input-off.png</normaloff>:/Resources/Button Icons/icon-gate-input-off.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="resouces.qrc"/>
+ </resources>
+ <connections/>
+</ui>

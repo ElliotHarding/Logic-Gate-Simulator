@@ -55,3 +55,8 @@ void Widget_CustomGates::on_customGateListWidget_currentRowChanged(int currentRo
     }
 
 }
+
+void Widget_CustomGates::on_btn_SelectionTool_clicked()
+{
+    m_pParent->SelectionToolClicked();
+}

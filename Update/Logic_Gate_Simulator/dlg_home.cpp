@@ -156,7 +156,7 @@ void DLG_Home::on_btn_click_clicked()
 
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
-void DLG_Home::on_btn_SelectionTool_clicked()
+void DLG_Home::SelectionToolClicked()
 {
     if(m_currentGateField)
     {
@@ -164,6 +164,15 @@ void DLG_Home::on_btn_SelectionTool_clicked()
     }
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
+void DLG_Home::on_btn_Pan_clicked()
+{
+    if(m_currentGateField)
+    {
+        m_currentGateField->setCurrentClickMode(CLICK_PAN);
+    }
+    QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
+}
+
 
 
 

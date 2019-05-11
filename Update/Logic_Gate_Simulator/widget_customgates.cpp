@@ -38,7 +38,7 @@ void Widget_CustomGates::UpdateList()
         if(customGateFile.is_open())
         {
             m_customGates.push_back(gReader.readGateCollection(customGateFile));
-            ui->customGateListWidget->addItem(file);
+            ui->customGateListWidget->addItem(file.left(file.length() - 11));
         }
     }
 }

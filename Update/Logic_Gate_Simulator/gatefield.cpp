@@ -50,6 +50,8 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     }
 
     //painter.scale(m_zoomFactor,m_zoomFactor);
+
+    //Panning
     QTransform panTransform;
     panTransform.translate(m_panOffset.x,m_panOffset.y);
     painter.setWorldTransform(panTransform);
@@ -365,6 +367,7 @@ void GateField::dragClick(int clickX, int clickY)
         }
     }
 
+    //Panning:
     //Calcualte vector between previous mouse pos and current
     m_panOffset.x += clickX - m_previousDragMousePos.x();
     m_panOffset.y += clickY - m_previousDragMousePos.y();

@@ -77,11 +77,11 @@ public:
     virtual void UpdateGraphics(QPainter* painter) override;
 
     void SaveData(std::ofstream& storage);
+
+    int m_id;
 private:
     Node* m_linkedNode = nullptr;
     Gate* m_parent = nullptr;
-    int m_id = -1;
-    int m_linkedId = -1;
 };
 
 

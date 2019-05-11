@@ -1,6 +1,12 @@
 #include "gate.h"
 #include "gatecollection.h"
 
+static int idGenerator()
+{
+    static int idIndex = 0;
+    return idIndex++;
+}
+
 #define with << std::endl <<
 
 Gate::Gate(GateType type, int width, int height, const char* iconLocation) :
@@ -45,7 +51,8 @@ void Gate::DetachNode(Node *node)
 Node::Node(Gate* parent) :
      GameObject::GameObject(15,15),     
      value(0),
-     m_parent(parent)
+     m_parent(parent),
+     m_id(idGenerator())
 {
 }
 
@@ -98,9 +105,13 @@ void Node::UpdateGraphics(QPainter* painter)
 
 void Node::SaveData(std::ofstream &storage)
 {
+    int linkedNodeId = -1;
+    if(m_linkedNode)
+         linkedNodeId = m_linkedNode->m_id;
+
     storage << SAVE_TAG_NODE
             with std::to_string(m_id)
-            with std::to_string(m_linkedId)
+            with std::to_string(linkedNodeId)
             with END_SAVE_TAG_NODE
             << std::endl;
 }

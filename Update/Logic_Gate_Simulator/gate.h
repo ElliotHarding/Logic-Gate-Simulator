@@ -44,10 +44,13 @@ public:
     Gate(GateType type, int width, int height, const char* iconLocation = nullptr);
     ~Gate() override;
 
-    virtual void UpdateOutput() = 0;
     virtual void UpdateGraphics(QPainter* painter) override;
-    virtual Node* GetClickedNode(int clickX, int clickY) = 0;
     virtual void SaveData(std::ofstream& storage);
+
+    // = 0 functions
+    virtual void UpdateOutput() = 0;
+    virtual Node* GetClickedNode(int clickX, int clickY) = 0;
+    virtual Node* FindNodeWithId(id _id) = 0;
 
     virtual int Left(){return m_layout.left();}
     virtual int Right(){return m_layout.right();}

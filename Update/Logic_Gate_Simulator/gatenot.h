@@ -17,6 +17,7 @@ public:
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual Node *GetClickedNode(int clickX, int clickY) override;
     void SaveData(std::ofstream& storage) override;
+    virtual Node* FindNodeWithId(id _id) override;
 
 protected:
     const int M_INPUT_OFFSET_X = 0;

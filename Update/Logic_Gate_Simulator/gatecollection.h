@@ -18,9 +18,10 @@ public:
     virtual bool UpdateClicked(int clickX, int clickY) override;
     virtual Node *GetClickedNode(int clickX, int clickY) override;
     virtual void SaveData(std::ofstream& storage) override;
+    virtual Node* FindNodeWithId(id _id) override;
 
+    //Class specific public methods
     void DisplaceGates(Vector2D displacement);
-
     void UpdateContaningArea() {m_contaningArea = containingArea();}
 
     //Call UpdateContaningArea() before calling any of these

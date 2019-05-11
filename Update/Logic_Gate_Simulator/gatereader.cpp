@@ -5,14 +5,7 @@ void GateReader::readInGateFieldGates(std::ifstream& gateStream, GateField* gf)
     if(!gf)
         return;
 
-    std::string line;
-    std::vector<Gate*> gates;
-    nextLine
-    while(line == SAVE_TAG_GATE)
-    {
-        gates.push_back(readGate(gateStream, line));
-        nextLine
-    }
+    std::vector<Gate*> gates = readGates(gateStream);
 
     //Add loaded gates into gf
     for (Gate* gate : gates)
@@ -23,84 +16,152 @@ void GateReader::readInGateFieldGates(std::ifstream& gateStream, GateField* gf)
 
 GateCollection* GateReader::readGateCollection(std::ifstream& gateStream)
 {
-    std::vector<Gate*> rGates;
-    std::string line;
+    return new GateCollection(readGates(gateStream));
+}
 
-    //Get all gates inside gate collection tags
+std::vector<Gate *> GateReader::readGates(std::ifstream &gateStream)
+{
+    std::string line;
+    std::vector<Gate*> gates;
+    std::vector<NodeIds> linkInfo;
+
     nextLine
-    while (line == SAVE_TAG_GATE)
+    while(line == SAVE_TAG_GATE)
     {
-        rGates.push_back(readGate(gateStream, line));
+        gates.push_back(readGate(gateStream, line, linkInfo));
         nextLine
     }
 
-    return new GateCollection(rGates);
+    linkNodes(gates, linkInfo);
+
+    return gates;
 }
 
-Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line)
+Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::vector<NodeIds>& linkInfo)
 {
     //Get gate header info
     std::string type, posX, posY;
     gateStream >> type >> posX >> posY;
 
-    std::vector<NodeAndIds> allNodes;
-
     //Generate correct gate tye
     Gate* rGate;
-    switch((GateType)std::stoi(type))
+    switch(tryStoi(type, GATE_NULL))
     {
+
     case GateType::GATE_AND:
-        rGate = new GateAnd();
+    {
+        NodeIds n1 = readNode(gateStream);
+        NodeIds n2 = readNode(gateStream);
+        NodeIds n3 = readNode(gateStream);
+
+        rGate = new GateAnd(n1.id, n2.id, n3.id);
+
+        linkInfo.push_back(n1);
+        linkInfo.push_back(n2);
+        linkInfo.push_back(n3);
+
         break;
+    }
+
     case GateType::GATE_OR:
-        rGate = new GateOr();
+    {
+        NodeIds n1 = readNode(gateStream);
+        NodeIds n2 = readNode(gateStream);
+        NodeIds n3 = readNode(gateStream);
+
+        rGate = new GateOr(n1.id, n2.id, n3.id);
+
+        linkInfo.push_back(n1);
+        linkInfo.push_back(n2);
+        linkInfo.push_back(n3);
+
         break;
+    }
+
     case GateType::GATE_COLLECTION:
     {
         std::vector<Gate*> rGates;
+
         nextLine
         while (line == SAVE_TAG_GATE)
         {
-            rGates.push_back(readGate(gateStream, line));
+            rGates.push_back(readGate(gateStream, line, linkInfo));
             nextLine
         }
         rGate = new GateCollection(rGates);
-
-        rGate->SetPosition(stoi(posX),stoi(posY));
-
-        return rGate;
+        break;
     }
 
     case GateType::GATE_NOT:
-        rGate = new GateNot();
-        break;
-    case GateType::GATE_EMMITTER:
-        rGate = new GateToggle();
-        break;
-    case GateType::GATE_RECIEVER:
-        rGate = new GateReciever();
-        break;
-    case GateType::GATE_CONST_ACTIVE:
-        rGate = new GateReciever();
-        break;
-    case GateType::GATE_CONST_INACTIVE:
-        rGate = new GateReciever();
-        break;
-    case GateType::GATE_TIMER:
-        rGate = new GateTimer();
-        break;
-    default:
-         break;
-    }
-    rGate->SetPosition(stoi(posX),stoi(posY));
-
-    //Todo read nodes
-    nextLine
-    while (line == SAVE_TAG_NODE)
     {
-        NodeIds nodeInfo = readNode(gateStream);
-        nextLine
+        NodeIds n1 = readNode(gateStream);
+        NodeIds n2 = readNode(gateStream);
+
+        rGate = new GateNot(n1.id, n2.id);
+
+        linkInfo.push_back(n1);
+        linkInfo.push_back(n2);
+        break;
     }
+
+    case GateType::GATE_EMMITTER:
+    {
+        NodeIds n1 = readNode(gateStream);
+
+        rGate = new GateToggle(n1.id);
+
+        linkInfo.push_back(n1);
+        break;
+    }
+
+    case GateType::GATE_RECIEVER:
+    {
+        NodeIds n1 = readNode(gateStream);
+
+        rGate = new GateReciever(n1.id);
+
+        linkInfo.push_back(n1);
+        break;
+    }
+
+    case GateType::GATE_CONST_ACTIVE:
+    {
+        NodeIds n1 = readNode(gateStream);
+
+        rGate = new GateConstantActive(n1.id);
+
+        linkInfo.push_back(n1);
+        break;
+    }
+
+    case GateType::GATE_CONST_INACTIVE:
+    {
+        NodeIds n1 = readNode(gateStream);
+
+        rGate = new GateConstantInactive(n1.id);
+
+        linkInfo.push_back(n1);
+        break;
+    }
+
+    case GateType::GATE_TIMER:
+    {
+        NodeIds n1 = readNode(gateStream);
+
+        rGate = new GateTimer(n1.id);
+
+        linkInfo.push_back(n1);
+        break;
+    }
+
+    case GATE_NULL:
+        return nullptr;
+
+    default:
+        return nullptr;
+    }
+
+    rGate->SetPosition(stoi(posX),stoi(posY));
 
     return rGate;
 }
@@ -108,26 +169,54 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line)
 NodeIds GateReader::readNode(std::ifstream& gateStream)
 {
     //read in strings
-    std::string id, lId, endTag;
-    gateStream >> id >> lId >> endTag;
+    std::string startTag, sID, slID, endTag;
+    gateStream >> startTag >> sID >> slID >> endTag;
 
     //Apply string to nodeInfo
     NodeIds nodeInfo;
-    try
-    {
-        nodeInfo.id = std::stoi(id);
-        nodeInfo.linkedId = std::stoi(lId);
-    }
-    catch (...)
-    {
-        nodeInfo.id = -1;
-        nodeInfo.linkedId = -1;
-    }
+    nodeInfo.id = tryStoi(sID, -1);
+    nodeInfo.linkedId = tryStoi(slID, -1);
 
     return nodeInfo;
 }
 
-void GateReader::linkNodes(std::vector<Gate *> gates, std::vector<NodeAndIds> nodes)
+int GateReader::tryStoi(std::string s, int defaultVal)
 {
+    try
+    {
+        return std::stoi(s);
+    }
+    catch (...)
+    {
+        return defaultVal;
+        //todo
+    }
+}
 
+void GateReader::linkNodes(std::vector<Gate *>& gates, std::vector<NodeIds> linkInfo)
+{
+    for (NodeIds link : linkInfo)
+    {
+        if(link.id != -1 && link.linkedId != -1)
+        {
+            Node* node1 = findNodeWithId(gates, link.id);
+            Node* node2 = findNodeWithId(gates, link.linkedId);
+            if (node1 != nullptr && node2 != nullptr)
+            {
+                node1->LinkNode(node2);
+                node2->LinkNode(node1);
+            }
+        }
+    }
+}
+
+Node* GateReader::findNodeWithId(std::vector<Gate *> gates, id _id)
+{
+    for (Gate* gate : gates)
+    {
+        Node* n = gate->FindNodeWithId(_id);
+        if(n != nullptr)
+            return n;
+    }
+    return nullptr;
 }

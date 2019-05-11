@@ -8,14 +8,8 @@
 #include <vector>
 #include <fstream>
 
-#include "gate.h"
-#include "gateand.h"
-#include "gatenot.h"
-#include "gateor.h"
-#include "GateToggle.h"
-#include "GateReciever.h"
+#include "allgates.h"
 #include "gatefield.h"
-#include "gatecollection.h"
 
 #define nextLine gateStream >> line;
 
@@ -30,10 +24,12 @@ public:
 
 private:
 
-    Gate* readGate(std::ifstream& gateStream, std::string& line);
+    std::vector<Gate*> readGates(std::ifstream& gateStream);
+    Gate* readGate(std::ifstream& gateStream, std::string& line, std::vector<NodeIds>& linkInfo);
     NodeIds readNode(std::ifstream& gateStream);
-
-    void linkNodes(std::vector<Gate*> gates, std::vector<NodeAndIds> nodes);
+    int tryStoi(std::string, int);
+    void linkNodes(std::vector<Gate*>& gates, std::vector<NodeIds> linkInfo);
+    Node* findNodeWithId(std::vector<Gate *> gates, id _id);
 };
 
 

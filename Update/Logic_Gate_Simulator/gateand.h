@@ -6,23 +6,18 @@
 #define GateAndHeight 50
 #define GateAndWidth 100
 
-typedef int id;
-
 class GateAnd : public Gate
 {
 public:
-    GateAnd();
+     GateAnd(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
     ~GateAnd() override;
-
-    GateAnd(id inA, id inB, id out);
 
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual void SetPosition(int x, int y) override;
-
     virtual Node* GetClickedNode(int clickX, int clickY) override;
-
-    void SaveData(std::ofstream& storage) override;
+    virtual void SaveData(std::ofstream& storage) override;
+    virtual Node* FindNodeWithId(id _id) override;
 
 protected:
 

@@ -52,6 +52,13 @@ Node *GateSingleOutput::GetClickedNode(int clickX, int clickY)
     return nullptr;
 }
 
+Node *GateSingleOutput::FindNodeWithId(id _id)
+{
+    if(m_output.m_id == _id)
+        return &m_output;
+    return nullptr;
+}
+
 void GateSingleOutput::SaveData(std::ofstream &storage)
 {
     //Add general gate info

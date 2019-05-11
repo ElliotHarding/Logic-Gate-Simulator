@@ -1,14 +1,6 @@
 #include "gateand.h"
 #include <QDebug>
 
-GateAnd::GateAnd() :
-    Gate::Gate(GATE_AND, GateAndWidth,GateAndHeight, std::string(":/Resources/Gates/gate-and.png").c_str()),
-    m_inputA(this),
-    m_inputB(this),
-    m_output(this)
-{
-}
-
 GateAnd::GateAnd(id inA, id inB, id out) :
     Gate::Gate(GATE_AND, GateAndWidth,GateAndHeight, std::string(":/Resources/Gates/gate-and.png").c_str()),
     m_inputA(this, inA),
@@ -89,4 +81,15 @@ void GateAnd::SaveData(std::ofstream &storage)
     m_output.SaveData(storage);
 
     storage << END_SAVE_TAG_GATE << std::endl;
+}
+
+Node *GateAnd::FindNodeWithId(id _id)
+{
+    if(m_output.m_id == _id)
+        return &m_output;
+    if(m_inputA.m_id == _id)
+        return &m_inputA;
+    if(m_inputB.m_id == _id)
+        return &m_inputB;
+    return nullptr;
 }

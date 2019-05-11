@@ -69,3 +69,12 @@ void GateNot::SaveData(std::ofstream &storage)
 
     storage << END_SAVE_TAG_GATE << std::endl;
 }
+
+Node *GateNot::FindNodeWithId(id _id)
+{
+    if(m_output.m_id == _id)
+        return &m_output;
+    if(m_input.m_id == _id)
+        return &m_input;
+    return nullptr;
+}

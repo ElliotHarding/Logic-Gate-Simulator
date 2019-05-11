@@ -39,7 +39,10 @@ GateCollection::GateCollection(const GateCollection &gCopy) :
         case GateType::GATE_TIMER:
             newGate = new GateTimer();
             break;
+
         case GateType::GATE_COLLECTION:
+        {
+
             if(dynamic_cast<GateCollection*>(copyGate))
             {
                 newGate = new GateCollection(*dynamic_cast<GateCollection*>(copyGate));
@@ -48,8 +51,13 @@ GateCollection::GateCollection(const GateCollection &gCopy) :
             {
                 //todo
             }
-        default:
             break;
+        }
+
+        case GateType::GATE_NULL:
+        default:
+            //todo
+            return;
         }
         newGate->SetPosition(copyGate->GetPosition().x(), copyGate->GetPosition().y());
         m_gates.push_back(newGate);
@@ -72,6 +80,17 @@ void GateCollection::UpdateOutput()
     {
         gate->UpdateOutput();
     }
+}
+
+Node *GateCollection::FindNodeWithId(id _id)
+{
+    for (Gate* gate : m_gates)
+    {
+        Node* n = gate->FindNodeWithId(_id);
+        if(n != nullptr)
+            return n;
+    }
+    return nullptr;
 }
 
 void GateCollection::UpdateGraphics(QPainter *painter)

@@ -12,6 +12,9 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent) :
     setAcceptDrops(true);
     setMouseTracking(true);
 
+    m_panOffset.x = 0;
+    m_panOffset.y = 0;
+
     QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
     m_currentClickMode = CLICK_DRAG;
 }
@@ -47,6 +50,9 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     }
 
     //painter.scale(m_zoomFactor,m_zoomFactor);
+    QTransform panTransform;
+    panTransform.translate(m_panOffset.x,m_panOffset.y);
+    painter.setWorldTransform(panTransform);
 
     m_lockAllGates.lock();
     for (Gate* gate : m_allGates)
@@ -286,22 +292,6 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
     //delete node;
 }
 
-/*
-void GateField::anyInputGatesToggled(int clickX, int clickY)
-{  
-    for (Gate* gate : m_allGates)
-    {
-        if(dynamic_cast<GateToggle*>(gate))
-        {
-            if(dynamic_cast<GateToggle*>(gate)->UpdateClicked(clickX, clickY))
-            {
-                 updateGateSelected(gate);
-            }
-        }
-    }
-}
-*/
-
 void GateField::defaultClick(int clickX, int clickY)
 {
     for (Gate* gate : m_allGates)
@@ -351,14 +341,18 @@ void GateField::deleteClick(int clickX, int clickY)
 
 void GateField::dragClick(int clickX, int clickY)
 {
+    //If start of drag sequence,
+    if(!m_bMouseDragging)
+        m_previousDragMousePos = QPoint(clickX,clickY);
+
+    m_bMouseDragging = true;
+
     //Loop through all dragable gameobjects
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         //If found an object to drag,
         if(m_allGates[index]->UpdateDrag(clickX, clickY))
         {
-            m_bMouseDragging = true;
-
             //Move the dragged object to the front of the array.
             //This way next loop the object will be checked first
             //This means if you drag an object over another, the object being dragged wont switch
@@ -370,6 +364,13 @@ void GateField::dragClick(int clickX, int clickY)
             return;
         }
     }
+
+    //Calcualte vector between previous mouse pos and current
+    m_panOffset.x += clickX - m_previousDragMousePos.x();
+    m_panOffset.y += clickY - m_previousDragMousePos.y();
+
+    //Save current mouse pos as m_previousDragMousePos for next run
+    m_previousDragMousePos = QPoint(clickX, clickY);
 }
 
 void GateField::moveToFront(int index, std::vector<Gate *> &vec)

@@ -64,6 +64,10 @@ private:
     //Zooming
     qreal m_zoomFactor;
 
+    //Panning
+    Vector2D m_panOffset;
+    QPoint m_previousDragMousePos;
+
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
     bool m_bMouseDragging = false;
@@ -80,7 +84,6 @@ private:
     void deleteClick(int clickX, int clickY);
     void dragClick(int clickX, int clickY);
     void deleteLinkedNodesClick(int clickX, int clickY);
-    //void anyInputGatesToggled(int clickX, int clickY);
     void defaultClick(int clickX, int clickY);
     void selectionClick(int clickX, int clickY);
 

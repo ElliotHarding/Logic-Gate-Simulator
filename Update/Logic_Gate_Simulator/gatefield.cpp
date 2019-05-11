@@ -342,6 +342,7 @@ void GateField::deleteClick(int clickX, int clickY)
             m_allGates.erase(m_allGates.begin() + index);
             delete gObject;
 
+            updateGateSelected(nullptr);
             //Exit out of for so we dont delete more than one gameobject
             return;
         }

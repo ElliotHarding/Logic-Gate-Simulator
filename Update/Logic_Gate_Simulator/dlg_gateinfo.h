@@ -23,12 +23,11 @@ public:
     void setGate(Gate* g);
 
 private slots:
-    void on_checkBox_clicked();
     void on_btn_DeleteGate_clicked();
     void on_lineEdit_Frequency_editingFinished();
-    void on_dragModeCheck_clicked();
     void on_signalCheck_clicked();
-
+    void on_cb_Enabled_clicked();
+    void on_cb_DragMode_clicked();
 
 private:
     Ui::DLG_GateInfo *ui;
@@ -38,6 +37,8 @@ private:
     Gate* m_gateDisplayed = nullptr;
 
     bool m_bDragModeAll = true;
+
+    void UiWhenNoGateSelected();
 };
 
 #endif // DLG_GATEINFO_H

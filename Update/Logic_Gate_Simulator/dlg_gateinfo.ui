@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QCheckBox" name="checkBox">
+  <widget class="QCheckBox" name="cb_Enabled">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -52,7 +52,7 @@
     </size>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="lbl_Type">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -114,7 +114,7 @@
     <string>Frequency</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="dragModeCheck">
+  <widget class="QCheckBox" name="cb_DragMode">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -127,10 +127,10 @@
     <string>Drag All</string>
    </property>
   </widget>
-  <zorder>dragModeCheck</zorder>
-  <zorder>checkBox</zorder>
+  <zorder>cb_DragMode</zorder>
+  <zorder>cb_Enabled</zorder>
   <zorder>btn_DeleteGate</zorder>
-  <zorder>label</zorder>
+  <zorder>lbl_Type</zorder>
   <zorder>lbl_GateType</zorder>
   <zorder>signalCheck</zorder>
   <zorder>lineEdit_Frequency</zorder>

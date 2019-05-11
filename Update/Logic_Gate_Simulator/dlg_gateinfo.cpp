@@ -11,9 +11,7 @@ DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
     m_pParent(parent)
 {
     ui->setupUi(this);
-    ui->signalCheck->hide();
-    ui->lbl_Frequency->hide();
-    ui->lineEdit_Frequency->hide();
+    UiWhenNoGateSelected();
 }
 
 DLG_GateInfo::~DLG_GateInfo()
@@ -26,17 +24,32 @@ DLG_GateInfo::~DLG_GateInfo()
 void DLG_GateInfo::setGate(Gate *g)
 {
     m_gateDisplayed = g;
+    if(g == nullptr)
+    {
+        UiWhenNoGateSelected();
+        return;
+    }
+    else
+    {
+        //Default shown
+        ui->lbl_GateType->show();
+        ui->cb_Enabled->show();
+        ui->btn_DeleteGate->show();
+        ui->lbl_Type->show();
+
+        //Gate specific will be shown later
+        ui->signalCheck->hide();
+        ui->lbl_Frequency->hide();
+        ui->lineEdit_Frequency->hide();
+        ui->cb_DragMode->hide();
+    }
 
     //Set if enabled
-    ui->checkBox->setCheckState(
+    ui->cb_Enabled->setCheckState(
                 m_gateDisplayed->Enabled ? Qt::CheckState::Checked : Qt::CheckState::Unchecked
                 );
 
     //Display gate specific info
-    ui->signalCheck->hide();
-    ui->lbl_Frequency->hide();
-    ui->lineEdit_Frequency->hide();
-    ui->dragModeCheck->hide();
     QString gateName;
     switch (m_gateDisplayed->GetType())
     {
@@ -74,8 +87,8 @@ void DLG_GateInfo::setGate(Gate *g)
         case GateType::GATE_COLLECTION:
             {
             gateName = "Gate Collection";
-            ui->dragModeCheck->show();
-            ui->dragModeCheck->setCheckState( dynamic_cast<GateCollection*>(m_gateDisplayed)
+            ui->cb_DragMode->show();
+            ui->cb_DragMode->setCheckState( dynamic_cast<GateCollection*>(m_gateDisplayed)
                             ->IsDragAll() ?
                             Qt::CheckState::Checked : Qt::CheckState::Unchecked);
             break;
@@ -90,26 +103,11 @@ void DLG_GateInfo::setGate(Gate *g)
     ui->lbl_GateType->setText(gateName);
 }
 
-void DLG_GateInfo::on_checkBox_clicked()
-{
-    if(m_gateDisplayed)
-        if(m_gateDisplayed->Enabled)
-        {
-            m_gateDisplayed->Enabled = false;
-            ui->checkBox->setCheckState(Qt::CheckState::Unchecked);
-        }
-        else
-        {
-            m_gateDisplayed->Enabled = true;
-            ui->checkBox->setCheckState(Qt::CheckState::Checked);
-        }
-}
-
 void DLG_GateInfo::on_btn_DeleteGate_clicked()
 {
     if(m_gateDisplayed)
         m_pParent->DeleteGate(m_gateDisplayed);
-    m_gateDisplayed = nullptr;
+    setGate(nullptr);
 }
 
 void DLG_GateInfo::on_lineEdit_Frequency_editingFinished()
@@ -124,7 +122,7 @@ void DLG_GateInfo::on_lineEdit_Frequency_editingFinished()
     }
 }
 
-void DLG_GateInfo::on_dragModeCheck_clicked()
+void DLG_GateInfo::on_cb_DragMode_clicked()
 {
    if(m_gateDisplayed)
        if(dynamic_cast<GateCollection*>(m_gateDisplayed))
@@ -138,3 +136,30 @@ void DLG_GateInfo::on_signalCheck_clicked()
             dynamic_cast<GateToggle*>(m_gateDisplayed)->ToggleOutputState();
 }
 
+
+void DLG_GateInfo::on_cb_Enabled_clicked()
+{
+    if(m_gateDisplayed)
+        if(m_gateDisplayed->Enabled)
+        {
+            m_gateDisplayed->Enabled = false;
+            ui->cb_Enabled->setCheckState(Qt::CheckState::Unchecked);
+        }
+        else
+        {
+            m_gateDisplayed->Enabled = true;
+            ui->cb_Enabled->setCheckState(Qt::CheckState::Checked);
+        }
+}
+
+void DLG_GateInfo::UiWhenNoGateSelected()
+{
+    ui->lbl_GateType->hide();
+    ui->cb_Enabled->hide();
+    ui->btn_DeleteGate->hide();
+    ui->lbl_Type->hide();
+    ui->signalCheck->hide();
+    ui->lbl_Frequency->hide();
+    ui->lineEdit_Frequency->hide();
+    ui->cb_DragMode->hide();
+}

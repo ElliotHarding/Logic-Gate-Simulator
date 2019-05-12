@@ -20,7 +20,7 @@ class GateReader
 public:
 
     bool ReadGateField(std::ifstream& gateStream, GateField* gf);
-    bool ReadGateCollection(std::ifstream& gateStream, GateCollection* gCollection);
+    bool ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection);
 
 private:
 

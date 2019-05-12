@@ -14,7 +14,7 @@ bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
     }
 }
 
-bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection* gCollection)
+bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection)
 {
     if(!gCollection)
         return false;

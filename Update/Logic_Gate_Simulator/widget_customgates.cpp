@@ -21,7 +21,7 @@ Widget_CustomGates::~Widget_CustomGates()
 
 void Widget_CustomGates::UpdateList()
 {
-    m_customGates.clear();
+    m_customGatesNames.clear();
     ui->customGateListWidget->clear();
 
     //Find list of files in custom gate folder
@@ -29,36 +29,40 @@ void Widget_CustomGates::UpdateList()
     QDir directory(c_CustomGatesLocation);
     QStringList fileList = directory.entryList(nameFilter);
 
-    //Create list of custom gates from files in custom gate folder
-    //Add name of each custom gate to ui->customGateListWidget
-    GateReader gReader;
     for (QString file : fileList)
     {
-        std::ifstream customGateFile(c_CustomGatesLocation.toStdString() + file.toStdString());
-        if(customGateFile.is_open())
-        {
-            GateCollection* cg;
-            if(gReader.ReadGateCollection(customGateFile, cg))
-            {
-                m_customGates.push_back(cg);
-                ui->customGateListWidget->addItem(file.left(file.length() - 11));
-            }
-            cg = nullptr;
-        }
+        ui->customGateListWidget->addItem(file.left(file.length() - 11));
+        m_customGatesNames.push_back(file);
     }
 }
 
 void Widget_CustomGates::on_customGateListWidget_currentRowChanged(int currentRow)
 {
-    if(currentRow > -1 && currentRow < m_customGates.size())
+    //Check correct index
+    if(currentRow > -1 && currentRow < ui->customGateListWidget->count())
     {
-        //Make pointer point to copy from vector
-        GateCollection* pGc = new GateCollection(*(m_customGates[currentRow]));
 
-        //Add pointer
-        m_pParent->AddGate(pGc);
+        //Get selected file
+        QString file = m_customGatesNames[currentRow];
+        std::ifstream customGateFile(c_CustomGatesLocation.toStdString() + file.toStdString());
+
+        //Read into pointer and send to m_pParent
+        if(customGateFile.is_open())
+        {
+            GateCollection* cg;
+            static GateReader gReader;
+            if(gReader.ReadGateCollection(customGateFile, cg))
+            {
+                //Add pointer
+                m_pParent->AddGate(cg);
+            }
+            else
+            {
+                //todo
+            }
+            cg = nullptr;
+        }
     }
-
 }
 
 void Widget_CustomGates::on_btn_SelectionTool_clicked()

@@ -27,7 +27,7 @@ private slots:
 private:
     Ui::Widget_CustomGates *ui;
     DLG_Home* m_pParent;
-    std::vector<GateCollection*> m_customGates;
+    std::vector<QString> m_customGatesNames;
 };
 
 #endif // WIDGET_CUSTOMGATES_H

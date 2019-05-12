@@ -7,6 +7,7 @@ GateCollection::GateCollection(std::vector<Gate*> gates) :
     m_gates = gates;
 }
 
+/*
 GateCollection::GateCollection(const GateCollection &gCopy) :
     Gate::Gate(GATE_COLLECTION,0,0)
 {
@@ -67,7 +68,7 @@ GateCollection::GateCollection(const GateCollection &gCopy) :
         m_gates.push_back(newGate);
     }
     SetPosition(gCopy.GetPosition().x(), gCopy.GetPosition().y());
-}
+}*/
 
 GateCollection::~GateCollection()
 {

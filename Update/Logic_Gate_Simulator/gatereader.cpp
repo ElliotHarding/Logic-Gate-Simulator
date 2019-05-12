@@ -16,9 +16,6 @@ bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
 
 bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection)
 {
-    if(!gCollection)
-        return false;
-
     std::string line;
     nextLine //<GATE> tag
     nextLine //Type number 7

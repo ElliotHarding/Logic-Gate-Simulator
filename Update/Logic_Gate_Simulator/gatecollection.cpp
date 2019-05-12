@@ -7,69 +7,6 @@ GateCollection::GateCollection(std::vector<Gate*> gates) :
     m_gates = gates;
 }
 
-/*
-GateCollection::GateCollection(const GateCollection &gCopy) :
-    Gate::Gate(GATE_COLLECTION,0,0)
-{
-    for (Gate* copyGate : gCopy.m_gates)
-    {
-        Gate* newGate;
-        switch (copyGate->GetType())
-        {
-        case GateType::GATE_AND:
-            newGate = new GateAnd();
-            break;
-        case GateType::GATE_OR:
-            newGate = new GateOr();
-            break;
-        case GateType::GATE_NOT:
-            newGate = new GateNot();
-            break;
-        case GateType::GATE_EMMITTER:
-            newGate = new GateToggle();
-            break;
-        case GateType::GATE_RECIEVER:
-            newGate = new GateReciever();
-            break;
-        case GateType::GATE_CONST_ACTIVE:
-            newGate = new GateReciever();
-            break;
-        case GateType::GATE_CONST_INACTIVE:
-            newGate = new GateReciever();
-            break;
-        case GateType::GATE_TIMER:
-            newGate = new GateTimer();
-            break;
-
-        case GateType::GATE_COLLECTION:
-        {
-
-            if(dynamic_cast<GateCollection*>(copyGate))
-            {
-                newGate = new GateCollection(*dynamic_cast<GateCollection*>(copyGate));
-            }
-            else
-            {
-                //todo
-            }
-            break;
-        }
-
-        case GateType::GATE_NULL:
-        default:
-            //todo
-            return;
-        }
-
-
-
-        newGate->SetPosition(copyGate->GetPosition().x(), copyGate->GetPosition().y());
-
-        m_gates.push_back(newGate);
-    }
-    SetPosition(gCopy.GetPosition().x(), gCopy.GetPosition().y());
-}*/
-
 GateCollection::~GateCollection()
 {
     for (size_t index = 0; index < m_gates.size(); index++)

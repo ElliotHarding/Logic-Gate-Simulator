@@ -19,6 +19,12 @@ void GateToggle::UpdateOutput()
 
 }
 
+void GateToggle::ToggleOutputState()
+{
+    m_output.value = !m_output.value;
+    UpdateOutput();
+}
+
 bool GateToggle::UpdateClicked(int clickX, int clickY)
 {
     bool isClicked = GameObject::UpdateClicked(clickX,clickY);

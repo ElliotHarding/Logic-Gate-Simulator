@@ -14,10 +14,13 @@ GateAnd::GateAnd(id inA, id inB, id out) :
 
 GateAnd::~GateAnd()
 {
-    if(m_output.GetLinkedNode())
+    Node* linkedNode = m_output.GetLinkedNode();
+    if(linkedNode)
     {
         m_output.value = 0;
-        m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+        linkedNode->value = 0;
+        linkedNode->GetParent()->UpdateOutput();
+        linkedNode = nullptr;
     }
 
     DetachNodes();

@@ -14,10 +14,6 @@ public:
 
     virtual void UpdateOutput() override;
     virtual void SetPosition(int x, int y) override;
-    virtual void UpdateGraphics(QPainter* painter) override;
-    virtual Node *GetClickedNode(int clickX, int clickY) override;
-    virtual void SaveData(std::ofstream& storage) override;
-    virtual Node* FindNodeWithId(id _id) override;
 
 protected:
 

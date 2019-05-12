@@ -46,11 +46,10 @@ public:
 
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual void SaveData(std::ofstream& storage);
+    virtual Node* GetClickedNode(int clickX, int clickY);
+    virtual Node* FindNodeWithId(id _id);
 
-    // = 0 functions
     virtual void UpdateOutput() = 0;
-    virtual Node* GetClickedNode(int clickX, int clickY) = 0;
-    virtual Node* FindNodeWithId(id _id) = 0;
 
     virtual int Left(){return m_layout.left();}
     virtual int Right(){return m_layout.right();}
@@ -64,8 +63,13 @@ public:
     GateType GetType() {return m_type;}
 
 protected:
-    void DetachNode(Node* node);
+
+    void SaveGeneralData(std::ofstream& storage);
+
+    void DetachNodes();
+
     GateType m_type;
+    std::vector<Node*> m_nodes;
 };
 
 

@@ -5,15 +5,19 @@ GateNot::GateNot(id in, id out) :
     m_input(this,in),
     m_output(this,out)
 {
+    m_nodes.push_back(&m_input);
+    m_nodes.push_back(&m_output);
 }
 
 GateNot::~GateNot()
 {
     if(m_output.GetLinkedNode())
+    {
+        m_output.value = 0;
         m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+    }
 
-    DetachNode(&m_input);
-    DetachNode(&m_output);
+    DetachNodes();
 }
 
 void GateNot::UpdateOutput()
@@ -41,42 +45,3 @@ void GateNot::SetPosition(int x, int y)
     m_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
 }
 
-void GateNot::UpdateGraphics(QPainter *painter)
-{
-    m_input.UpdateGraphics(painter);
-    m_output.UpdateGraphics(painter);
-
-    Gate::UpdateGraphics(painter);
-}
-
-Node *GateNot::GetClickedNode(int clickX, int clickY)
-{
-    if( m_input.UpdateClicked(clickX, clickY))
-        return &m_input;
-
-    if( m_output.UpdateClicked(clickX, clickY))
-        return &m_output;
-
-    return nullptr;
-}
-
-void GateNot::SaveData(std::ofstream &storage)
-{
-    //Add general gate info
-    Gate::SaveData(storage);
-
-    //Add node information
-    m_input.SaveData(storage);
-    m_output.SaveData(storage);
-
-    storage << END_SAVE_TAG_GATE << std::endl;
-}
-
-Node *GateNot::FindNodeWithId(id _id)
-{
-    if(m_output.m_id == _id)
-        return &m_output;
-    if(m_input.m_id == _id)
-        return &m_input;
-    return nullptr;
-}

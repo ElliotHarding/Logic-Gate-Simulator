@@ -29,7 +29,7 @@ void GateTimer::UpdateOutput()
 void GateTimer::SaveData(std::ofstream &storage)
 {
     //Add general gate info
-    Gate::SaveData(storage);
+    Gate::SaveGeneralData(storage);
 
     //todo add m_frequency
     //....

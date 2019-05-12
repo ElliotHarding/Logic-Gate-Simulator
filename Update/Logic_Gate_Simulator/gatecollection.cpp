@@ -132,7 +132,7 @@ Node *GateCollection::GetClickedNode(int clickX, int clickY)
 void GateCollection::SaveData(std::ofstream &storage)
 {
     //Add general gate info
-    Gate::SaveData(storage);
+    Gate::SaveGeneralData(storage);
 
     for(Gate* gate : m_gates)
     {

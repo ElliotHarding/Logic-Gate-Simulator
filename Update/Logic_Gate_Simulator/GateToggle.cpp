@@ -38,7 +38,7 @@ bool GateToggle::UpdateClicked(int clickX, int clickY)
 void GateToggle::SaveData(std::ofstream &storage)
 {
     //Add general gate info
-    Gate::SaveData(storage);
+    Gate::SaveGeneralData(storage);
 
     //todo save states
 

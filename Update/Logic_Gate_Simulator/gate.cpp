@@ -15,10 +15,48 @@ Gate::~Gate()
 
 void Gate::UpdateGraphics(QPainter* painter)
 {
+    for (Node* n : m_nodes)
+    {
+        n->UpdateGraphics(painter);
+    }
+
     GameObject::UpdateGraphics(painter);
 }
 
 void Gate::SaveData(std::ofstream &storage)
+{
+    SaveGeneralData(storage);
+
+    //Add node information
+    for (Node* n : m_nodes)
+    {
+        n->SaveData(storage);
+    }
+
+    storage << END_SAVE_TAG_GATE << std::endl;
+}
+
+Node *Gate::GetClickedNode(int clickX, int clickY)
+{
+    for (Node* n : m_nodes)
+    {
+        if(n->UpdateClicked(clickX, clickY))
+            return n;
+    }
+    return nullptr;
+}
+
+Node *Gate::FindNodeWithId(id _id)
+{
+    for (Node* n : m_nodes)
+    {
+        if(n->m_id == _id)
+            return n;
+    }
+    return nullptr;
+}
+
+void Gate::SaveGeneralData(std::ofstream &storage)
 {
     //Add general gate info
     // - addition data such as nodes and END_SAVE_TAG_GATE
@@ -30,11 +68,19 @@ void Gate::SaveData(std::ofstream &storage)
             << std::endl;
 }
 
-void Gate::DetachNode(Node *node)
+void Gate::DetachNodes()
 {
-    if(node->GetLinkedNode())
-        node->GetLinkedNode()->DetachNode();
-    node->DetachNode();
+    for (size_t index = 0; index < m_nodes.size(); index++)
+    {
+        Node* n = m_nodes[index];
+
+        if(n->GetLinkedNode())
+            n->GetLinkedNode()->DetachNode();
+        n->DetachNode();
+
+        m_nodes.erase(m_nodes.begin() + index);
+        delete n;
+    }
 }
 
 

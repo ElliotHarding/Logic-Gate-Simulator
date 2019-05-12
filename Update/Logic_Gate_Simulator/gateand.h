@@ -22,15 +22,15 @@ public:
 protected:
 
     const int M_INPUTa_OFFSET_X = -5;
-    const int M_INPUTa_OFFSET_Y = (GateAndHeight/2) - 5;
+    const int M_INPUTa_OFFSET_Y = (GateAndHeight/2) - 12;
     Node m_inputA;
 
     const int M_INPUTb_OFFSET_X = -5;
-    const int M_INPUTb_OFFSET_Y = GateAndHeight - 7;
+    const int M_INPUTb_OFFSET_Y = GateAndHeight - 12;
     Node m_inputB;
 
     const int M_OUTPUT_OFFSET_X = GateAndWidth + 15;
-    const int M_OUTPUT_OFFSET_Y = (GateAndHeight/2) + 7;
+    const int M_OUTPUT_OFFSET_Y = (GateAndHeight/2);
     Node m_output;
 };
 

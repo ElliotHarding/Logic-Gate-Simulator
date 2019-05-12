@@ -21,11 +21,11 @@ public:
 
 protected:
     const int M_INPUT_OFFSET_X = 0;
-    const int M_INPUT_OFFSET_Y = (GateNotHeight/2) + 5;
+    const int M_INPUT_OFFSET_Y = (GateNotHeight/2);
     Node m_input;
 
     const int M_OUTPUT_OFFSET_X = GateNotWidth + 20;
-    const int M_OUTPUT_OFFSET_Y = (GateNotHeight/2) + 5;
+    const int M_OUTPUT_OFFSET_Y = (GateNotHeight/2);
     Node m_output;
 };
 

@@ -214,13 +214,15 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
         //Go through all gates and add gates inside selection to selectedGates vector
         m_selectedGates.clear();
         m_lockAllGates.lock();
-            for (Gate* gate : m_allGates)
+
+        for (Gate* gate : m_allGates)
+        {
+            if( m_selectionTool->geometry().contains(gate->GetPosition()))
             {
-                if( m_selectionTool->geometry().contains(gate->GetPosition()))
-                {
-                    m_selectedGates.push_back(gate);
-                }
+                m_selectedGates.push_back(gate);
             }
+        }
+
         m_lockAllGates.unlock();
 
         //Selection contains some gates, then we can save them as a gate collection

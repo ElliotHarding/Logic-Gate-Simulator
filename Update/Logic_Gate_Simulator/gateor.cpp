@@ -1,7 +1,7 @@
 #include "gateor.h"
 
 GateOr::GateOr(id inA, id inB, id out) :
-    Gate::Gate(GATE_AND, GateOrWidth,GateOrHeight, std::string(":/Resources/Gates/gate-and.png").c_str()),
+    Gate::Gate(GATE_AND, GateOrWidth,GateOrHeight, std::string(":/Resources/Gates/gate-or.png").c_str()),
     m_inputA(this, inA),
     m_inputB(this, inB),
     m_output(this, out)

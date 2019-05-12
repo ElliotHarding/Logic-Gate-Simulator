@@ -60,8 +60,6 @@ Node *Gate::FindNodeWithId(id _id)
 void Gate::SaveGeneralData(std::ofstream &storage)
 {
     //Add general gate info
-    // - addition data such as nodes and END_SAVE_TAG_GATE
-    //   are stored in overiding function
     storage << SAVE_TAG_GATE
             with std::to_string(m_type)
             with std::to_string(GetPosition().x())

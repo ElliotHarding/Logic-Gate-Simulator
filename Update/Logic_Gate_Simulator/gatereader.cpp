@@ -16,6 +16,9 @@ void GateReader::readInGateFieldGates(std::ifstream& gateStream, GateField* gf)
 
 GateCollection* GateReader::readGateCollection(std::ifstream& gateStream)
 {
+    std::string line;
+    nextLine //<GATE> tag
+    nextLine //Type number 7
     return new GateCollection(readGates(gateStream));
 }
 
@@ -163,6 +166,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
 
     rGate->SetPosition(stoi(posX),stoi(posY));
 
+    nextLine;
     return rGate;
 }
 

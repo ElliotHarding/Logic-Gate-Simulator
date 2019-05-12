@@ -13,8 +13,8 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent) :
     setAcceptDrops(true);
     setMouseTracking(true);
 
-    m_panOffset.x = 0;
-    m_panOffset.y = 0;
+    m_screenPosDelta.x = 0;
+    m_screenPosDelta.y = 0;
 
     QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
     m_currentClickMode = CLICK_DRAG;
@@ -49,13 +49,6 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
         painter.setPen(pen);
         painter.drawRect(m_selectionTool->geometry());
     }
-
-    //painter.scale(m_zoomFactor,m_zoomFactor);
-
-    //Panning
-    //QTransform panTransform;
-    //panTransform.translate(m_panOffset.x,m_panOffset.y);
-    //painter.setWorldTransform(panTransform);
 
     m_lockAllGates.lock();
     for (Gate* gate : m_allGates)
@@ -132,7 +125,7 @@ void GateField::DeleteGate(Gate* gateToDelete)
 void GateField::addGameObject(Gate* go, bool newlySpawned)
 {
     if(newlySpawned)
-        go->SetPosition(SPAWN_X + m_panOffset.x, SPAWN_Y + m_panOffset.y);
+        go->SetPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
 
     go->ParentField = this;
 
@@ -386,15 +379,13 @@ void GateField::panClick(int clickX, int clickY)
         m_previousDragMousePos = QPoint(clickX,clickY);
     m_bMouseDragging = true;
 
-    const static float c_panSpeedMultiplier = 0.5;
-
     //Calcualte vector between previous mouse pos and current
     const float offsetX = c_panSpeedMultiplier * (clickX - m_previousDragMousePos.x());
     const float offsetY = c_panSpeedMultiplier * (clickY - m_previousDragMousePos.y());
 
-    //Get add to total delta
-    m_panOffset.x += offsetX;
-    m_panOffset.y += offsetY;
+    //Add to total delta
+    m_screenPosDelta.x += offsetX;
+    m_screenPosDelta.y += offsetY;
 
     //Apply delta
     if(offsetX != 0 || offsetY != 0)

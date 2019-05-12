@@ -65,8 +65,9 @@ private:
     qreal m_zoomFactor;
 
     //Panning
-    Vector2D m_panOffset;
+    Vector2D m_screenPosDelta;
     QPoint m_previousDragMousePos;
+    const float c_panSpeedMultiplier = 0.75;
 
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;

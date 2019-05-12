@@ -289,7 +289,7 @@ void DLG_Home::on_btn_load_clicked()
             m_currentGateField = new GateField(m_ZoomFactor, file.toStdString(), this);
 
             //For each loaded gate, add to loadedGateField
-            reader.readInGateFieldGates(saveFile, m_currentGateField);
+            reader.ReadGateField(saveFile, m_currentGateField);
 
             //Add to m_allGateFields
             m_allGateFields.push_back(m_currentGateField);

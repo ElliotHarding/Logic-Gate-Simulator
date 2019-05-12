@@ -59,7 +59,11 @@ GateCollection::GateCollection(const GateCollection &gCopy) :
             //todo
             return;
         }
+
+
+
         newGate->SetPosition(copyGate->GetPosition().x(), copyGate->GetPosition().y());
+
         m_gates.push_back(newGate);
     }
     SetPosition(gCopy.GetPosition().x(), gCopy.GetPosition().y());

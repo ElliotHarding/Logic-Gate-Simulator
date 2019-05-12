@@ -1,9 +1,9 @@
 #include "gatereader.h"
 
-void GateReader::readInGateFieldGates(std::ifstream& gateStream, GateField* gf)
+bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
 {
     if(!gf)
-        return;
+        return false;
 
     std::vector<Gate*> gates = readGates(gateStream);
 
@@ -14,12 +14,17 @@ void GateReader::readInGateFieldGates(std::ifstream& gateStream, GateField* gf)
     }
 }
 
-GateCollection* GateReader::readGateCollection(std::ifstream& gateStream)
+bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection* gCollection)
 {
+    if(!gCollection)
+        return false;
+
     std::string line;
     nextLine //<GATE> tag
     nextLine //Type number 7
-    return new GateCollection(readGates(gateStream));
+    gCollection = new GateCollection(readGates(gateStream));
+
+    return true;
 }
 
 std::vector<Gate *> GateReader::readGates(std::ifstream &gateStream)

@@ -22,7 +22,6 @@ public:
 
 private slots:
     void on_customGateListWidget_currentRowChanged(int currentRow);
-
     void on_btn_SelectionTool_clicked();
 
 private:

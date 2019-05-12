@@ -19,8 +19,8 @@ class GateReader
 {
 public:
 
-    void readInGateFieldGates(std::ifstream& gateStream, GateField* gf);
-    GateCollection* readGateCollection(std::ifstream& gateStream);
+    bool ReadGateField(std::ifstream& gateStream, GateField* gf);
+    bool ReadGateCollection(std::ifstream& gateStream, GateCollection* gCollection);
 
 private:
 

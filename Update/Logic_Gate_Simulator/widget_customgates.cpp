@@ -37,8 +37,13 @@ void Widget_CustomGates::UpdateList()
         std::ifstream customGateFile(c_CustomGatesLocation.toStdString() + file.toStdString());
         if(customGateFile.is_open())
         {
-            m_customGates.push_back(gReader.readGateCollection(customGateFile));
-            ui->customGateListWidget->addItem(file.left(file.length() - 11));
+            GateCollection* cg;
+            if(gReader.ReadGateCollection(customGateFile, cg))
+            {
+                m_customGates.push_back(cg);
+                ui->customGateListWidget->addItem(file.left(file.length() - 11));
+            }
+            cg = nullptr;
         }
     }
 }

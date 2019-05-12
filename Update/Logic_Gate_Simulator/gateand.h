@@ -9,8 +9,7 @@
 class GateAnd : public Gate
 {
 public:
-     GateAnd(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
-    ~GateAnd() override;
+    GateAnd(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
 
     virtual void UpdateOutput() override;
     virtual void SetPosition(int x, int y) override;

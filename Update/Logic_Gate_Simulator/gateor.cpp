@@ -11,20 +11,6 @@ GateOr::GateOr(id inA, id inB, id out) :
     m_nodes.push_back(&m_output);
 }
 
-GateOr::~GateOr()
-{
-    Node* linkedNode = m_output.GetLinkedNode();
-    if(linkedNode)
-    {
-        m_output.value = 0;
-        linkedNode->value = 0;
-        linkedNode->GetParent()->UpdateOutput();
-        linkedNode = nullptr;
-    }
-
-    DetachNodes();
-}
-
 void GateOr::UpdateOutput()
 {
     const bool newVal = m_inputA.value | m_inputB.value;

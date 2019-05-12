@@ -12,20 +12,6 @@ GateAnd::GateAnd(id inA, id inB, id out) :
     m_nodes.push_back(&m_output);
 }
 
-GateAnd::~GateAnd()
-{
-    Node* linkedNode = m_output.GetLinkedNode();
-    if(linkedNode)
-    {
-        m_output.value = 0;
-        linkedNode->value = 0;
-        linkedNode->GetParent()->UpdateOutput();
-        linkedNode = nullptr;
-    }
-
-    DetachNodes();
-}
-
 void GateAnd::UpdateOutput()
 {
     const bool sum = m_inputA.value & m_inputB.value;

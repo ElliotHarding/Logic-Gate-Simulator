@@ -109,6 +109,7 @@ void GateField::DeleteGate(Gate* gateToDelete)
         {
             //Find & remove from vector
             Gate* gObject = m_allGates[index];
+            gObject->DetachNodes();
             m_allGates.erase(m_allGates.begin() + index);
 
             //Delete & forget
@@ -341,6 +342,7 @@ void GateField::deleteClick(int clickX, int clickY)
         if(m_allGates[index]->UpdateClicked(clickX,clickY))
         {
             Gate* gObject = m_allGates[index];
+            gObject->DetachNodes();
             m_allGates.erase(m_allGates.begin() + index);
             delete gObject;
 

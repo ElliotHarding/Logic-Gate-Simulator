@@ -9,20 +9,6 @@ GateNot::GateNot(id in, id out) :
     m_nodes.push_back(&m_output);
 }
 
-GateNot::~GateNot()
-{
-    Node* linkedNode = m_output.GetLinkedNode();
-    if(linkedNode)
-    {
-        m_output.value = 0;
-        linkedNode->value = 0;
-        linkedNode->GetParent()->UpdateOutput();
-        linkedNode = nullptr;
-    }
-
-    DetachNodes();
-}
-
 void GateNot::UpdateOutput()
 {
     bool newVal = !(m_input.value);

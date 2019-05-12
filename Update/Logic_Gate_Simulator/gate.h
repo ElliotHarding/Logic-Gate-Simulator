@@ -44,6 +44,8 @@ public:
     Gate(GateType type, int width, int height, const char* iconLocation = nullptr);
     ~Gate() override;
 
+    void DetachNodes();
+
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual void SaveData(std::ofstream& storage);
     virtual Node* GetClickedNode(int clickX, int clickY);
@@ -65,8 +67,6 @@ public:
 protected:
 
     void SaveGeneralData(std::ofstream& storage);
-
-    void DetachNodes();
 
     GateType m_type;
     std::vector<Node*> m_nodes;
@@ -98,6 +98,8 @@ public:
 private:
     Node* m_linkedNode = nullptr;
     Gate* m_parent = nullptr;
+
+    bool m_linked = false;
 };
 
 

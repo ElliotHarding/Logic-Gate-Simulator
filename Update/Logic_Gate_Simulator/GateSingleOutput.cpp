@@ -7,20 +7,6 @@ GateSingleOutput::GateSingleOutput(GateType type, id nodeId) :
     m_nodes.push_back(&m_output);
 }
 
-GateSingleOutput::~GateSingleOutput()
-{
-    Node* linkedNode = m_output.GetLinkedNode();
-    if(linkedNode)
-    {
-        m_output.value = 0;
-        linkedNode->value = 0;
-        linkedNode->GetParent()->UpdateOutput();
-        linkedNode = nullptr;
-    }
-
-    DetachNodes();
-}
-
 void GateSingleOutput::UpdateGraphics(QPainter *painter)
 {
     //Paiting variables to be used

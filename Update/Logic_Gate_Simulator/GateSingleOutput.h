@@ -14,7 +14,6 @@ class GateSingleOutput : public Gate
 {
 public:
     GateSingleOutput(GateType type, id nodeId);
-    ~GateSingleOutput() override;
 
     virtual void UpdateOutput() override = 0;
     virtual void UpdateGraphics(QPainter* painter) override;

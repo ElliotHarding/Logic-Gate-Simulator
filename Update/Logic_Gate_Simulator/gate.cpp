@@ -11,7 +11,10 @@ Gate::Gate(GateType type, int width, int height, const char* iconLocation) :
 
 Gate::~Gate()
 {
-    DetachNodes();
+    for (size_t index = 0; index < m_nodes.size(); index++)
+    {
+        m_nodes.erase(m_nodes.begin() + index);
+    }
 }
 
 void Gate::UpdateGraphics(QPainter* painter)
@@ -72,21 +75,11 @@ void Gate::SaveGeneralData(std::ofstream &storage)
 
 void Gate::DetachNodes()
 {
-    for (size_t index = 0; index < m_nodes.size(); index++)
+    for (Node* n : m_nodes)
     {
-        Node* n = m_nodes[index];
-
-        if(n->GetLinkedNode())
-        {
-            n->GetLinkedNode()->DetachNode();
-            n->DetachNode();
-        }
-
-        m_nodes.erase(m_nodes.begin() + index);
-        delete n;
+        n->DetachNode();
     }
 }
-
 
 //
 // -- NODE IMPLEMENTATION --
@@ -103,14 +96,7 @@ Node::Node(Gate *parent, int id) :
 Node::~Node()
 {
     m_parent = nullptr;
-    delete m_parent;
-
-    if(m_linkedNode)
-    {
-        m_linkedNode->DetachNode();
-        m_linkedNode = nullptr;
-    }
-    delete m_linkedNode;
+    m_linkedNode = nullptr;
 }
 
 Gate* Node::GetParent()
@@ -162,6 +148,7 @@ Node *Node::GetLinkedNode()
 
 void Node::LinkNode(Node*& n)
 {
+    m_linked = true;
     m_linkedNode = n;
     m_parent->UpdateOutput();
 }
@@ -169,6 +156,8 @@ void Node::LinkNode(Node*& n)
 void Node::DetachNode()
 {
     if(m_linkedNode)
+    {
+        m_linkedNode->m_linkedNode = nullptr;
         m_linkedNode = nullptr;
-    m_parent->UpdateOutput();
+    }
 }

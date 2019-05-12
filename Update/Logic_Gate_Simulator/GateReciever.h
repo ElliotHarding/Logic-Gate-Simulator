@@ -10,7 +10,6 @@ class GateReciever : public Gate
 {
 public:
     GateReciever(id out = idGenerator());
-    ~GateReciever() override;
 
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;

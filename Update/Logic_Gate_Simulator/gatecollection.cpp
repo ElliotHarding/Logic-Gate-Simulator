@@ -9,6 +9,11 @@ GateCollection::GateCollection(std::vector<Gate*> gates) :
 
 GateCollection::~GateCollection()
 {
+    for (Gate* g : m_gates)
+    {
+        g->DetachNodes();
+    }
+
     for (size_t index = 0; index < m_gates.size(); index++)
     {
         delete m_gates[index];

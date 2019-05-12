@@ -10,7 +10,6 @@ class GateOr : public Gate
 {
 public:
     GateOr(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
-    ~GateOr() override;
 
     virtual void UpdateOutput() override;
     virtual void SetPosition(int x, int y) override;

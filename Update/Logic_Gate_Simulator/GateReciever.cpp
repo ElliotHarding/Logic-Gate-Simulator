@@ -8,12 +8,6 @@ GateReciever::GateReciever(id inputNode) :
     m_nodes.push_back(&m_input);
 }
 
-GateReciever::~GateReciever()
-{
-    m_input.value = 0;
-    DetachNodes();
-}
-
 void GateReciever::UpdateOutput()
 {
     if(m_input.GetLinkedNode())

@@ -93,6 +93,14 @@ Node *GateCollection::FindNodeWithId(id _id)
     return nullptr;
 }
 
+void GateCollection::OffsetPosition(int dX, int dY)
+{
+    for (Gate* gate : m_gates)
+    {
+        gate->OffsetPosition(dX, dY);
+    }
+}
+
 void GateCollection::UpdateGraphics(QPainter *painter)
 {
     for(Gate* gate : m_gates)
@@ -101,7 +109,7 @@ void GateCollection::UpdateGraphics(QPainter *painter)
         gate->UpdateGraphics(painter);
     }
 
-    m_contaningArea = containingArea();
+    UpdateContaningArea();
 
     //Draw bounding box
     painter->setPen(Qt::black);

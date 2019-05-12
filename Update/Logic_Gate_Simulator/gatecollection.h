@@ -19,6 +19,7 @@ public:
     virtual Node *GetClickedNode(int clickX, int clickY) override;
     virtual void SaveData(std::ofstream& storage) override;
     virtual Node* FindNodeWithId(id _id) override;
+    virtual void OffsetPosition(int dX, int dY);
 
     //Class specific public methods
     void DisplaceGates(Vector2D displacement);

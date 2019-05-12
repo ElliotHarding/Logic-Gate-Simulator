@@ -50,12 +50,12 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
         painter.drawRect(m_selectionTool->geometry());
     }
 
-    painter.scale(m_zoomFactor,m_zoomFactor);
+    //painter.scale(m_zoomFactor,m_zoomFactor);
 
     //Panning
-    QTransform panTransform;
-    panTransform.translate(m_panOffset.x,m_panOffset.y);
-    painter.setWorldTransform(panTransform);
+    //QTransform panTransform;
+    //panTransform.translate(m_panOffset.x,m_panOffset.y);
+    //painter.setWorldTransform(panTransform);
 
     m_lockAllGates.lock();
     for (Gate* gate : m_allGates)
@@ -132,7 +132,7 @@ void GateField::DeleteGate(Gate* gateToDelete)
 void GateField::addGameObject(Gate* go, bool newlySpawned)
 {
     if(newlySpawned)
-        go->SetPosition(SPAWN_X,SPAWN_Y);
+        go->SetPosition(SPAWN_X + m_panOffset.x, SPAWN_Y + m_panOffset.y);
 
     go->ParentField = this;
 
@@ -386,9 +386,22 @@ void GateField::panClick(int clickX, int clickY)
         m_previousDragMousePos = QPoint(clickX,clickY);
     m_bMouseDragging = true;
 
+    const static float c_panSpeedMultiplier = 0.5;
+
     //Calcualte vector between previous mouse pos and current
-    m_panOffset.x += clickX - m_previousDragMousePos.x();
-    m_panOffset.y += clickY - m_previousDragMousePos.y();
+    const float offsetX = c_panSpeedMultiplier * (clickX - m_previousDragMousePos.x());
+    const float offsetY = c_panSpeedMultiplier * (clickY - m_previousDragMousePos.y());
+
+    //Get add to total delta
+    m_panOffset.x += offsetX;
+    m_panOffset.y += offsetY;
+
+    //Apply delta
+    if(offsetX != 0 || offsetY != 0)
+        for (Gate* g : m_allGates)
+        {
+            g->OffsetPosition(offsetX, offsetY);
+        }
 
     //Save current mouse pos as m_previousDragMousePos for next run
     m_previousDragMousePos = QPoint(clickX, clickY);

@@ -55,9 +55,9 @@ DLG_Home::DLG_Home(QWidget *parent) :
 
 DLG_Home::~DLG_Home()
 {
-    m_updateThread->stopRunning();
-    m_updateThread->exit();
-    delete m_updateThread;
+    //m_updateThread->stopRunning();
+    //m_updateThread->exit();
+    //delete m_updateThread;
 
     //m_currentGateField = nullptr;
 

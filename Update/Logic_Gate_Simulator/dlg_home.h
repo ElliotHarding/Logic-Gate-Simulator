@@ -63,9 +63,6 @@ private:
     const int c_maxZoom = 10;
     const qreal c_minZoom = 0.25;    
 
-    //Updating gates
-    LogicUpdateThread* m_updateThread;
-
     //Gatefields
     GateField* m_currentGateField;
     std::vector<GateField*> m_allGateFields;
@@ -89,7 +86,6 @@ private slots:
     void on_btn_zoomOut_clicked();
     void on_btn_Save_clicked();
     void on_btn_load_clicked();
-    void on_btn_test_clicked();
     void on_menu_btn_allGates_clicked();
     void on_menu_btn_customGates_clicked();
     void on_menu_btn_InputGates_clicked();
@@ -98,7 +94,7 @@ private slots:
     void on_btn_Pan_clicked();
 };
 
-
+#ifdef zero
 //Update thread for gatefields (pages)
 //------------------------------------
 // Calls the update function of all the gates in all of the gateFields
@@ -117,5 +113,6 @@ private:
     bool m_bStop;
     std::vector<GateField*>* m_pAllGateFields;
 };
+#endif
 
 #endif // DLG_HOME_H

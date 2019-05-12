@@ -47,10 +47,6 @@ DLG_Home::DLG_Home(QWidget *parent) :
     //Add zoom slider to dialog
     m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, c_zoomSliderPos, c_zoomSliderWidth, this);
     this->layout()->addWidget(m_zoomSlider);
-
-    //Start the update thread
-    //m_updateThread = new LogicUpdateThread(&m_allGateFields);
-    //m_updateThread->start();
 }
 
 DLG_Home::~DLG_Home()
@@ -321,7 +317,7 @@ void DLG_Home::on_PlayField_currentChanged(int index)
 }
 
 
-
+#ifdef zero
 //          --------------------------------
 //          LogicUpdateThread implementation
 //          --------------------------------
@@ -368,3 +364,4 @@ void DLG_Home::on_btn_test_clicked()
         on_btn_Drag_clicked();
     }
 }
+#endif

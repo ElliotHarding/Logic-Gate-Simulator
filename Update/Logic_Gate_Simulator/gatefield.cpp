@@ -61,16 +61,14 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     update();
 }
 
+//MAKE SURE m_lockAllGates is locked before calling!
+//Or re-implement...
 void GateField::updateFunction()
 {
-    if(m_lockAllGates.try_lock())
+    for (Gate* g : m_allGates)
     {
-        for (Gate* g : m_allGates)
-        {
-            if(g->Enabled)
-                g->UpdateOutput();
-        }
-        m_lockAllGates.unlock();
+        if(g->Enabled)
+            g->UpdateOutput();
     }
 }
 
@@ -115,6 +113,8 @@ void GateField::DeleteGate(Gate* gateToDelete)
             //Delete & forget
             delete gObject;
             gateToDelete = nullptr;
+
+            updateFunction();
 
             //Exit early
             break;
@@ -296,6 +296,8 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
                 node->DetachNode();
 
                 delete nodeLinkedTo;
+
+                updateFunction();
             }
 
             node = nullptr;
@@ -345,6 +347,8 @@ void GateField::deleteClick(int clickX, int clickY)
             gObject->DetachNodes();
             m_allGates.erase(m_allGates.begin() + index);
             delete gObject;
+
+            updateFunction();
 
             updateGateSelected(nullptr);
             //Exit out of for so we dont delete more than one gameobject

@@ -11,6 +11,7 @@ Gate::Gate(GateType type, int width, int height, const char* iconLocation) :
 
 Gate::~Gate()
 {
+    DetachNodes();
 }
 
 void Gate::UpdateGraphics(QPainter* painter)
@@ -75,8 +76,10 @@ void Gate::DetachNodes()
         Node* n = m_nodes[index];
 
         if(n->GetLinkedNode())
+        {
             n->GetLinkedNode()->DetachNode();
-        n->DetachNode();
+            n->DetachNode();
+        }
 
         m_nodes.erase(m_nodes.begin() + index);
         delete n;

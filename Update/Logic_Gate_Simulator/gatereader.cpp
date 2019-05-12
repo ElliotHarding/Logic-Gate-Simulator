@@ -203,24 +203,28 @@ void GateReader::linkNodes(std::vector<Gate *>& gates, std::vector<NodeIds> link
     {
         if(link.id != -1 && link.linkedId != -1)
         {
-            Node* node1 = findNodeWithId(gates, link.id);
-            Node* node2 = findNodeWithId(gates, link.linkedId);
-            if (node1 != nullptr && node2 != nullptr)
+            Node* node1;
+            if(SearchGatesForNode(gates, link.id, node1))
             {
-                node2->LinkNode(node1);
-                node1->LinkNode(node2);
+                Node* node2;
+                if(SearchGatesForNode(gates, link.id, node2))
+                {
+                    (node2)->LinkNode(node1);
+                    (node1)->LinkNode(node2);
+                }
+                node2 = nullptr;
             }
+            node1 = nullptr;
         }
     }
 }
 
-Node* GateReader::findNodeWithId(std::vector<Gate *> gates, id _id)
+bool GateReader::SearchGatesForNode(std::vector<Gate*>& gates, id _id, Node*& n)
 {
     for (Gate* gate : gates)
     {
-        Node* n = gate->FindNodeWithId(_id);
-        if(n != nullptr)
-            return n;
+        if(gate->FindNodeWithId(_id, n))
+            return true;
     }
-    return nullptr;
+    return false;
 }

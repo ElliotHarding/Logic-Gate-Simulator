@@ -18,7 +18,7 @@ public:
     virtual bool UpdateClicked(int clickX, int clickY) override;
     virtual Node *GetClickedNode(int clickX, int clickY) override;
     virtual void SaveData(std::ofstream& storage) override;
-    virtual Node* FindNodeWithId(id _id) override;
+    virtual bool FindNodeWithId(id _id, Node*& n) override;
     virtual void OffsetPosition(int dX, int dY);
 
     //Class specific public methods

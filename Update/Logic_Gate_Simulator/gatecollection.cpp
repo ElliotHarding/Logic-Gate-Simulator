@@ -82,15 +82,14 @@ void GateCollection::UpdateOutput()
     }
 }
 
-Node *GateCollection::FindNodeWithId(id _id)
+bool GateCollection::FindNodeWithId(id _id, Node*& n)
 {
     for (Gate* gate : m_gates)
     {
-        Node* n = gate->FindNodeWithId(_id);
-        if(n != nullptr)
-            return n;
+        if(gate->FindNodeWithId(_id, n))
+            return true;
     }
-    return nullptr;
+    return false;
 }
 
 void GateCollection::OffsetPosition(int dX, int dY)

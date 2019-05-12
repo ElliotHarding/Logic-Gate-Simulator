@@ -35,7 +35,10 @@ void GateNot::UpdateOutput()
     if(linkedNode)
     {
         linkedNode->value = newVal;
-        linkedNode->GetParent()->UpdateOutput();
+
+        //bug.. should fix
+        if(linkedNode->GetParent() != this)
+            linkedNode->GetParent()->UpdateOutput();
     }
     linkedNode = nullptr;
 }

@@ -47,7 +47,7 @@ public:
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual void SaveData(std::ofstream& storage);
     virtual Node* GetClickedNode(int clickX, int clickY);
-    virtual Node* FindNodeWithId(id _id);
+    virtual bool FindNodeWithId(id _id, Node*& node);
 
     virtual void UpdateOutput() = 0;
 

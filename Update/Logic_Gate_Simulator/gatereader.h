@@ -29,7 +29,7 @@ private:
     NodeIds readNode(std::ifstream& gateStream);
     int tryStoi(std::string, int);
     void linkNodes(std::vector<Gate*>& gates, std::vector<NodeIds> linkInfo);
-    Node* findNodeWithId(std::vector<Gate *> gates, id _id);
+    bool SearchGatesForNode(std::vector<Gate*>& gates, id _id, Node*& n);
 };
 
 

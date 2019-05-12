@@ -47,14 +47,17 @@ Node *Gate::GetClickedNode(int clickX, int clickY)
     return nullptr;
 }
 
-Node *Gate::FindNodeWithId(id _id)
+bool Gate::FindNodeWithId(id _id, Node*& node)
 {
-    for (Node* n : m_nodes)
+    for (size_t index = 0; index < m_nodes.size(); index++)
     {
-        if(n->m_id == _id)
-            return n;
+        if(m_nodes[index]->m_id == _id)
+        {
+            node = &*m_nodes[index];
+            return true;
+        }
     }
-    return nullptr;
+    return false;
 }
 
 void Gate::SaveGeneralData(std::ofstream &storage)

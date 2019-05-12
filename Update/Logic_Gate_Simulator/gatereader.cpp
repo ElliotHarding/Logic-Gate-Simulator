@@ -207,7 +207,7 @@ void GateReader::linkNodes(std::vector<Gate *>& gates, std::vector<NodeIds> link
             if(SearchGatesForNode(gates, link.id, node1))
             {
                 Node* node2;
-                if(SearchGatesForNode(gates, link.id, node2))
+                if(SearchGatesForNode(gates, link.linkedId, node2))
                 {
                     (node2)->LinkNode(node1);
                     (node1)->LinkNode(node2);

@@ -12,6 +12,8 @@ bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
     {
         gf->addGameObject(gate);
     }
+
+    return true;
 }
 
 bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection)
@@ -19,7 +21,17 @@ bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& 
     std::string line;
     nextLine //<GATE> tag
     nextLine //Type number 7
+
+    //Enabled
+    gateStream >> line;
+    bool enabled = false;
+    tryStoi(line, enabled);
+
+    nextLine //Empty element meant for xPos of a noraml gate, might add info here
+    nextLine //Empty element meant for yPos of a normal gate, might add info here
+
     gCollection = new GateCollection(readGates(gateStream));
+    gCollection->Enabled = enabled;
 
     return true;
 }
@@ -45,11 +57,12 @@ std::vector<Gate *> GateReader::readGates(std::ifstream &gateStream)
 Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::vector<NodeIds>& linkInfo)
 {
     //Get gate header info
-    std::string type, posX, posY;
-    gateStream >> type >> posX >> posY;
+    std::string type, enabled, posX, posY;
+    gateStream >> type >> enabled >> posX >> posY;
 
-    //Generate correct gate tye
+    //Gate that will be instanciated
     Gate* rGate;
+
     switch(tryStoi(type, GATE_NULL))
     {
 
@@ -160,15 +173,26 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     }
 
     case GATE_NULL:
-        return nullptr;
-
     default:
         return nullptr;
     }
 
+    //Only valid gate types after this:
+
+    //Enabled
+    bool isEnabled = false;
+    tryStoi(enabled, isEnabled);
+    rGate->Enabled = isEnabled;
+
+    //Position
     rGate->SetPosition(stoi(posX),stoi(posY));
 
-    nextLine;
+    //Read off </GATE> tag, but it's already been read for GateCollections
+    if(rGate->GetType() != GateType::GATE_COLLECTION)
+    {
+        nextLine;
+    }
+
     return rGate;
 }
 

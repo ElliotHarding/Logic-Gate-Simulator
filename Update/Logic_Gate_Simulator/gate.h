@@ -60,7 +60,7 @@ public:
 
     GateField* ParentField;
 
-    bool Enabled = true; //todo implement
+    bool Enabled = true;
 
     GateType GetType() {return m_type;}
 

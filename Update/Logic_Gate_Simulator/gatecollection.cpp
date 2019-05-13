@@ -23,10 +23,11 @@ GateCollection::~GateCollection()
 
 void GateCollection::UpdateOutput()
 {
-    for(Gate* gate : m_gates)
-    {
-        gate->UpdateOutput();
-    }
+    if(Enabled)
+        for(Gate* gate : m_gates)
+        {
+            gate->UpdateOutput();
+        }
 }
 
 bool GateCollection::FindNodeWithId(id _id, Node*& n)
@@ -77,9 +78,7 @@ Node *GateCollection::GetClickedNode(int clickX, int clickY)
 
 void GateCollection::SaveData(std::ofstream &storage)
 {
-    storage << SAVE_TAG_GATE
-            with std::to_string(m_type)
-            << std::endl;
+    SaveGeneralData(storage);
 
     for(Gate* gate : m_gates)
     {

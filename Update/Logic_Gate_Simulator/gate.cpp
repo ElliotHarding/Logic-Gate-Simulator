@@ -68,6 +68,7 @@ void Gate::SaveGeneralData(std::ofstream &storage)
     //Add general gate info
     storage << SAVE_TAG_GATE
             with std::to_string(m_type)
+            with std::to_string(Enabled)
             with std::to_string(GetPosition().x())
             with std::to_string(GetPosition().y())
             << std::endl;

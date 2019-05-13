@@ -10,6 +10,7 @@ bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
     //Add loaded gates into gf
     for (Gate* gate : gates)
     {
+        gate->AssignNewNodeIds();
         gf->addGameObject(gate);
     }
 
@@ -32,6 +33,7 @@ bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& 
 
     gCollection = new GateCollection(readGates(gateStream));
     gCollection->Enabled = enabled;
+    gCollection->AssignNewNodeIds();
 
     return true;
 }

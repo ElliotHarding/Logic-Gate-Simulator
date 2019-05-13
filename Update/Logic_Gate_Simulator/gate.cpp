@@ -63,6 +63,14 @@ bool Gate::FindNodeWithId(id _id, Node*& node)
     return false;
 }
 
+void Gate::AssignNewNodeIds()
+{
+    for (Node* n : m_nodes)
+    {
+        n->GenNewID();
+    }
+}
+
 void Gate::SaveGeneralData(std::ofstream &storage)
 {
     //Add general gate info
@@ -140,6 +148,11 @@ void Node::SaveData(std::ofstream &storage)
             with std::to_string(linkedNodeId)
             with END_SAVE_TAG_NODE
             << std::endl;
+}
+
+void Node::GenNewID()
+{
+    m_id = idGenerator();
 }
 
 Node *Node::GetLinkedNode()

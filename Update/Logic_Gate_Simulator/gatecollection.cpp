@@ -48,6 +48,14 @@ void GateCollection::OffsetPosition(int dX, int dY)
     }
 }
 
+void GateCollection::AssignNewNodeIds()
+{
+    for (Gate* gate : m_gates)
+    {
+        gate->AssignNewNodeIds();
+    }
+}
+
 void GateCollection::UpdateGraphics(QPainter *painter)
 {
     for(Gate* gate : m_gates)

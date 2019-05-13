@@ -50,6 +50,7 @@ public:
     virtual void SaveData(std::ofstream& storage);
     virtual Node* GetClickedNode(int clickX, int clickY);
     virtual bool FindNodeWithId(id _id, Node*& node);
+    virtual void AssignNewNodeIds();
 
     virtual void UpdateOutput() = 0;
 
@@ -93,6 +94,8 @@ public:
     virtual void UpdateGraphics(QPainter* painter) override;
 
     void SaveData(std::ofstream& storage);
+
+    void GenNewID();
 
     int m_id;
 private:

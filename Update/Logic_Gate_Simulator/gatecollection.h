@@ -19,6 +19,7 @@ public:
     virtual void SaveData(std::ofstream& storage) override;
     virtual bool FindNodeWithId(id _id, Node*& n) override;
     virtual void OffsetPosition(int dX, int dY) override;
+    virtual void AssignNewNodeIds() override;
 
     //Class specific public methods
     void DisplaceGates(Vector2D displacement);

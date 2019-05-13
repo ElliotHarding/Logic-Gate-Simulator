@@ -311,7 +311,15 @@ void GateField::defaultClick(int clickX, int clickY)
 {
     for (Gate* gate : m_allGates)
     {
-        if(gate->UpdateClicked(clickX, clickY))
+        if(gate->GetType() == GATE_COLLECTION)
+        {
+            Gate* subGate = dynamic_cast<GateCollection*>(gate)->UpdateClicked_Override(clickX,clickY);
+            if(subGate != nullptr)
+            {
+                updateGateSelected(subGate);
+            }
+        }
+        else if(gate->UpdateClicked(clickX, clickY))
         {
             updateGateSelected(gate);
         }
@@ -372,7 +380,16 @@ void GateField::dragClick(int clickX, int clickY)
             //This means if you drag an object over another, the object being dragged wont switch
             moveToFront(index, m_allGates);
 
-            updateGateSelected(m_allGates[index]);
+            if(m_allGates[index]->GetType() == GATE_COLLECTION)
+            {
+                Gate* g = dynamic_cast<GateCollection*>(m_allGates[index])->UpdateClicked_Override(clickX, clickY);
+                if(g != nullptr)
+                    updateGateSelected(g);
+            }
+            else
+            {
+                updateGateSelected(m_allGates[index]);
+            }
 
             //Exit out of for loop so we don't drag multiple objects
             return;

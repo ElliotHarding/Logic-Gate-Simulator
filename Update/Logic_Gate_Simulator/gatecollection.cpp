@@ -170,7 +170,26 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
 
 bool GateCollection::UpdateClicked(int clickX, int clickY)
 {
-    return containingArea().contains(QPoint(clickX,clickY));
+    //DISABLED FOR THIS GATE TYPE, BUT NEEDED TO OVERRIDE.
+    return false;
+}
+
+Gate *GateCollection::UpdateClicked_Override(int clickX, int clickY)
+{
+    if(containingArea().contains(QPoint(clickX,clickY)))
+    {
+        if(m_dragMode == DragIndividual)
+        {
+            for (Gate* g : m_gates)
+            {
+                if(g->UpdateClicked(clickX, clickY))
+                {
+                    return g;
+                }
+            }
+        }
+    }
+    return nullptr;
 }
 
 QRect GateCollection::containingArea()

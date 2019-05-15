@@ -176,7 +176,7 @@ bool GateCollection::UpdateClicked(int clickX, int clickY)
 
 Gate *GateCollection::UpdateClicked_Override(int clickX, int clickY)
 {
-    if(containingArea().contains(QPoint(clickX,clickY)))
+    if(m_contaningArea.contains(QPoint(clickX,clickY)))
     {
         if(m_dragMode == DragIndividual)
         {
@@ -187,6 +187,10 @@ Gate *GateCollection::UpdateClicked_Override(int clickX, int clickY)
                     return g;
                 }
             }
+        }
+        else
+        {
+            return this;
         }
     }
     return nullptr;
@@ -207,6 +211,28 @@ QRect GateCollection::containingArea()
         {
             if(dynamic_cast<GateCollection*>(gate))
                 dynamic_cast<GateCollection*>(gate)->UpdateContaningArea();
+
+            if(gate->Bottom() < MINY)
+            {
+                MINY = gate->Bottom() + c_borderBoxMargin;
+            }
+
+            if(gate->Top() > MAXY)
+            {
+                MAXY = gate->Top() - c_borderBoxMargin;
+            }
+        }
+        else
+        {
+            if(gate->Top() < MINY)
+            {
+                MINY = gate->Top() - c_borderBoxMargin;
+            }
+
+            if(gate->Bottom() > MAXY)
+            {
+                MAXY = gate->Bottom() + c_borderBoxMargin;
+            }
         }
 
         if(gate->Left() < MINX)
@@ -217,16 +243,6 @@ QRect GateCollection::containingArea()
         if(gate->Right() > MAXX)
         {
             MAXX = gate->Right() + c_borderBoxMargin;
-        }
-
-        if(gate->Top() < MINY)
-        {
-            MINY = gate->Top() - c_borderBoxMargin;
-        }
-
-        if(gate->Bottom() > MAXY)
-        {
-            MAXY = gate->Bottom() + c_borderBoxMargin;
         }
     }
 

@@ -141,7 +141,7 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
 
     //If containingArea clicked store displacement variable of how far
     //it will be dragged by click
-    else if(m_contaningArea.contains(QPoint(clickX,clickY)))
+    /*else*/ if(m_contaningArea.contains(QPoint(clickX,clickY)))
     {
         const QPoint previousPos = containingArea().center();
 
@@ -182,11 +182,22 @@ Gate *GateCollection::UpdateClicked_Override(int clickX, int clickY)
         {
             for (Gate* g : m_gates)
             {
-                if(g->UpdateClicked(clickX, clickY))
+                if(g->GetType() == GATE_COLLECTION)
+                {
+                    Gate* subG = dynamic_cast<GateCollection*>(g)->UpdateClicked_Override(clickX, clickY);
+                    if(subG)
+                    {
+                        return subG;
+                    }
+                }
+                else if(g->UpdateClicked(clickX, clickY))
                 {
                     return g;
                 }
             }
+
+            //If gate collection clicked, but no sub gates clicked, return gate collection
+            return this;
         }
         else
         {

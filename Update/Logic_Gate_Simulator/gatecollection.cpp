@@ -56,6 +56,33 @@ void GateCollection::AssignNewNodeIds()
     }
 }
 
+bool GateCollection::DeleteClick(int clickX, int clickY)
+{
+    if(m_contaningArea.contains(QPoint(clickX,clickY)))
+    {
+        if(m_dragMode == DragIndividual)
+        {
+            for(size_t index = 0; index < m_gates.size(); index++)
+            {
+                if(m_gates[index]->DeleteClick(clickX, clickY))
+                {
+                    Gate* gObject = m_gates[index];
+                    gObject->DetachNodes();
+                    m_gates.erase(m_gates.begin() + index);
+                    delete gObject;
+
+                    return false;
+                }
+            }
+        }
+
+        //returning true causes entire gate collection to be deleted
+        return true;
+    }
+
+    return false;
+}
+
 void GateCollection::UpdateGraphics(QPainter *painter)
 {
     for(Gate* gate : m_gates)

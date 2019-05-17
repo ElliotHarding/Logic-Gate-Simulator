@@ -51,6 +51,7 @@ public:
     virtual Node* GetClickedNode(int clickX, int clickY);
     virtual bool FindNodeWithId(id _id, Node*& node);
     virtual void AssignNewNodeIds();
+    virtual bool DeleteClick(int clickX, int clickY);
 
     virtual void UpdateOutput() = 0;
 

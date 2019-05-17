@@ -348,8 +348,8 @@ void GateField::selectionClick(int clickX, int clickY)
 void GateField::deleteClick(int clickX, int clickY)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
-    {
-        if(m_allGates[index]->UpdateClicked(clickX,clickY))
+    {     
+        if(m_allGates[index]->DeleteClick(clickX,clickY))
         {
             Gate* gObject = m_allGates[index];
             gObject->DetachNodes();

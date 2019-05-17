@@ -19,6 +19,7 @@ public:
     virtual bool FindNodeWithId(id _id, Node*& n) override;
     virtual void OffsetPosition(int dX, int dY) override;
     virtual void AssignNewNodeIds() override;
+    virtual bool DeleteClick(int clickX, int clickY) override;
     virtual bool UpdateClicked(int clickX, int clickY) override;
 
     Gate *UpdateClicked_Override(int clickX, int clickY);

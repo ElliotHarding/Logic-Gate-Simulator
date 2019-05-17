@@ -71,6 +71,11 @@ void Gate::AssignNewNodeIds()
     }
 }
 
+bool Gate::DeleteClick(int clickX, int clickY)
+{
+    return UpdateClicked(clickX, clickY);
+}
+
 void Gate::SaveGeneralData(std::ofstream &storage)
 {
     //Add general gate info

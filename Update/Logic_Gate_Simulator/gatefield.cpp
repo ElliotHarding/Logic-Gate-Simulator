@@ -431,6 +431,17 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
     vec.insert(vec.begin(), objectAtIndex);
 }
 
+//Functoin must be called when m_allGates is mutex locked
+void GateField::backupGates()
+{
+    std::vector<Gate*> backup;
+
+    for(Gate* g : m_allGates)
+    {
+
+    }
+}
+
 void GateField::updateGateSelected(Gate *g)
 {
     if(m_pParent)

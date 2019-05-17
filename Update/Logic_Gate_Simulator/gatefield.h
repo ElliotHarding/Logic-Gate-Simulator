@@ -54,8 +54,6 @@ private:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
-    void moveToFront(int index, std::vector<Gate*>& vec);
-
     //Communication with parent dialog (DLG_Home instance)
     DLG_Home* m_pParent;
     void updateGateSelected(Gate* g);
@@ -65,7 +63,10 @@ private:
 
     //Gates
     std::vector<Gate*> m_allGates;
+    std::vector<std::vector<Gate*>> m_gateBackups;
     QMutex m_lockAllGates;
+    void moveToFront(int index, std::vector<Gate*>& vec);
+    void backupGates();
 
     //Temps for multi step linking and unlinking
     Node* m_linkNodeA = nullptr;

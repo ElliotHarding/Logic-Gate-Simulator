@@ -14,6 +14,8 @@ public:
     virtual void UpdateOutput() override;
     virtual void SetPosition(int x, int y) override;
 
+    virtual Gate* Clone() override;
+
 protected:
 
     const int M_INPUTa_OFFSET_X = -5;

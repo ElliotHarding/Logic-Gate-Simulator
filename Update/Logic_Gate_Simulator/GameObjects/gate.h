@@ -44,7 +44,7 @@ public:
     Gate(GateType type, int width, int height, const char* iconLocation = nullptr);
     ~Gate() override;
 
-    virtual Gate* Clone() = 0;
+    //virtual Gate* Clone() = 0;
 
     void DetachNodes();
 

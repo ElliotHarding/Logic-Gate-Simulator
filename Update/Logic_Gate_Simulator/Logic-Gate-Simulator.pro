@@ -24,74 +24,79 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+INCLUDEPATH += \
+    Dialogs \
+    GameObjects
+
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        gate.cpp \
-        gateand.cpp \
-        gatenot.cpp \
-        gateor.cpp \
         gatefield.cpp \
-        dlg_home.cpp \
-        gameobject.cpp \
-        simpleslider.cpp \
-        gatecollection.cpp \
-        dlg_savegatecollection.cpp \
-        GateToggle.cpp \
-        GateReciever.cpp \
-        GateConstantInactive.cpp \
-        GateSingleOutput.cpp \
-        GateConstantActive.cpp \
-        GateTimer.cpp \
-        dlg_gateinfo.cpp \
-        widget_allgates.cpp \
-        widget_advanced.cpp \
-        widget_standard.cpp \
-        widget_customgates.cpp \
-        widget_inputgates.cpp \
-    gatereader.cpp
+        gatereader.cpp \
+        Dialogs/dlg_gateinfo.cpp \
+        Dialogs/dlg_home.cpp \
+        Dialogs/dlg_savegatecollection.cpp \
+        Dialogs/simpleslider.cpp \
+        Dialogs/widget_advanced.cpp \
+        Dialogs/widget_allgates.cpp \
+        Dialogs/widget_customgates.cpp \
+        Dialogs/widget_inputgates.cpp \
+        Dialogs/widget_standard.cpp \
+        GameObjects/gameobject.cpp \
+        GameObjects/gate.cpp \
+        GameObjects/gateand.cpp \
+        GameObjects/gatecollection.cpp \
+        GameObjects/gateconstantactive.cpp \
+        GameObjects/GateConstantInactive.cpp \
+        GameObjects/gatenot.cpp \
+        GameObjects/gateor.cpp \
+        GameObjects/GateReciever.cpp \
+        GameObjects/GateSingleOutput.cpp \
+        GameObjects/GateTimer.cpp \
+        GameObjects/GateToggle.cpp \
+        gatefieldscontainer.cpp \
 
 HEADERS += \
         mainwindow.h \
-        gateand.h \
         clickmode.h \
-        dlg_home.h \
-        gameobject.h \
-        gate.h \
-        gateand.h \
-        gatefield.h \
-        gatenot.h \
-        gateor.h \
-        simpleslider.h \
         gatereader.h \
-        gatecollection.h \
-        dlg_savegatecollection.h \
-        GateToggle.h \
-        GateReciever.h \
-        GateConstantInactive.h \
-        GateSingleOutput.h \
-        GateConstantActive.h \
-        GateTimer.h \
         AllGates.h \
-        dlg_gateinfo.h \
-        widget_allgates.h \
-        widget_advanced.h \
-        widget_standard.h \
-        widget_customgates.h \
-        widget_inputgates.h \
-        filelocations.h
+        filelocations.h \
+        gatefield.h \
+        gatefieldscontainer.h \
+        Dialogs/dlg_gateinfo.h \
+        Dialogs/dlg_home.h \
+        Dialogs/dlg_savegatecollection.h \
+        Dialogs/simpleslider.h \
+        Dialogs/widget_advanced.h \
+        Dialogs/widget_allgates.h \
+        Dialogs/widget_customgates.h \
+        Dialogs/widget_inputgates.h \
+        Dialogs/widget_standard.h \
+        GameObjects/gameobject.h \
+        GameObjects/gate.h \
+        GameObjects/gateand.h \
+        GameObjects/gatecollection.h \
+        GameObjects/GateConstantActive.h \
+        GameObjects/GateConstantInactive.h \
+        GameObjects/gatenot.h \
+        GameObjects/gateor.h \
+        GameObjects/GateReciever.h \
+        GameObjects/GateSingleOutput.h \
+        GameObjects/GateTimer.h \
+        GameObjects/GateToggle.h \
 
 FORMS += \
         mainwindow.ui \
-        dlg_home.ui \
-        dlg_savegatecollection.ui \
-        dlg_userinput.ui \
-        dlg_gateinfo.ui \
-        widget_allgates.ui \
-        widget_advanced.ui \
-        widget_standard.ui \
-        widget_customgates.ui \
-        widget_inputgates.ui
+        Dialogs/dlg_gateinfo.ui \
+        Dialogs/dlg_home.ui \
+        Dialogs/dlg_savegatecollection.ui \
+        Dialogs/dlg_userinput.ui \
+        Dialogs/widget_advanced.ui \
+        Dialogs/widget_allgates.ui \
+        Dialogs/widget_customgates.ui \
+        Dialogs/widget_inputgates.ui \
+        Dialogs/widget_standard.ui \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

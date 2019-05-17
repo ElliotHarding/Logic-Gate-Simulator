@@ -18,6 +18,7 @@ public:
     //Positioning
     virtual void SetPosition(int x, int y);
     const QPoint GetPosition() const;
+    virtual void OffsetPosition(int dX, int dY);
 
 protected:
 

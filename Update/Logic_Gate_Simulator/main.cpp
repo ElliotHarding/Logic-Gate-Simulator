@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "dlg_home.h"
+#include "Dialogs/dlg_home.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

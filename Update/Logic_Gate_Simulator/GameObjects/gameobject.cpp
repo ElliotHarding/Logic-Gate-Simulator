@@ -34,7 +34,12 @@ void GameObject::SetPosition(int x, int y)
 
 const QPoint GameObject::GetPosition() const
 {
-    return QPoint(m_layout.x(),m_layout.y());
+    return QPoint(m_layout.center().x(), m_layout.center().y());
+}
+
+void GameObject::OffsetPosition(int dx, int dy)
+{
+    SetPosition(m_layout.center().x() + dx, m_layout.center().y() + dy);
 }
 
 

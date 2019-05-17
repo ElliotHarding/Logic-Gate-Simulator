@@ -47,17 +47,13 @@ DLG_Home::DLG_Home(QWidget *parent) :
     //Add zoom slider to dialog
     m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, c_zoomSliderPos, c_zoomSliderWidth, this);
     this->layout()->addWidget(m_zoomSlider);
-
-    //Start the update thread
-    m_updateThread = new LogicUpdateThread(&m_allGateFields);
-    m_updateThread->start();
 }
 
 DLG_Home::~DLG_Home()
 {
-    m_updateThread->stopRunning();
-    m_updateThread->exit();
-    delete m_updateThread;
+    //m_updateThread->stopRunning();
+    //m_updateThread->exit();
+    //delete m_updateThread;
 
     //m_currentGateField = nullptr;
 
@@ -156,7 +152,7 @@ void DLG_Home::on_btn_click_clicked()
 
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
-void DLG_Home::on_btn_SelectionTool_clicked()
+void DLG_Home::SelectionToolClicked()
 {
     if(m_currentGateField)
     {
@@ -164,6 +160,15 @@ void DLG_Home::on_btn_SelectionTool_clicked()
     }
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
+void DLG_Home::on_btn_Pan_clicked()
+{
+    if(m_currentGateField)
+    {
+        m_currentGateField->setCurrentClickMode(CLICK_PAN);
+    }
+    QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
+}
+
 
 
 
@@ -280,17 +285,20 @@ void DLG_Home::on_btn_load_clicked()
             m_currentGateField = new GateField(m_ZoomFactor, file.toStdString(), this);
 
             //For each loaded gate, add to loadedGateField
-            reader.readInGateFieldGates(saveFile, m_currentGateField);
+            if (reader.ReadGateField(saveFile, m_currentGateField))
+            {
+                //Add to m_allGateFields
+                m_allGateFields.push_back(m_currentGateField);
 
-            //Add to m_allGateFields
-            m_allGateFields.push_back(m_currentGateField);
+                //Add to ui
+                ui->PlayField->addTab(m_currentGateField,tr(file.toUtf8()));
 
-            //Add to ui
-            ui->PlayField->addTab(m_currentGateField,tr(file.toUtf8()));
+                continue;
+            }
         }
-        else {
-            //todo
-        }
+
+        //todo failed
+
     }
 }
 
@@ -309,7 +317,7 @@ void DLG_Home::on_PlayField_currentChanged(int index)
 }
 
 
-
+#ifdef zero
 //          --------------------------------
 //          LogicUpdateThread implementation
 //          --------------------------------
@@ -356,3 +364,4 @@ void DLG_Home::on_btn_test_clicked()
         on_btn_Drag_clicked();
     }
 }
+#endif

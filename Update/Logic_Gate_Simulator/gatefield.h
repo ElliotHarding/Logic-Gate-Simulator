@@ -39,6 +39,15 @@ public slots:
 protected:
 private:
 
+    //Mouse event handlers
+    void linkNodesClick(int clickX, int clickY);
+    void deleteClick(int clickX, int clickY);
+    void dragClick(int clickX, int clickY);
+    void deleteLinkedNodesClick(int clickX, int clickY);
+    void defaultClick(int clickX, int clickY);
+    void selectionClick(int clickX, int clickY);
+    void panClick(int clickX, int clickY);
+
     //Events
     void mouseReleaseEvent(QMouseEvent *releaseEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
@@ -79,15 +88,6 @@ private:
     const QColor selectionAreaColor = Qt::blue;
     std::vector<Gate*> m_selectedGates;
     DLG_SaveGateCollection* m_saveGateCollection;
-
-    //Mouse event handlers
-    void linkNodesClick(int clickX, int clickY);
-    void deleteClick(int clickX, int clickY);
-    void dragClick(int clickX, int clickY);
-    void deleteLinkedNodesClick(int clickX, int clickY);
-    void defaultClick(int clickX, int clickY);
-    void selectionClick(int clickX, int clickY);
-    void panClick(int clickX, int clickY);
 
     //Coords of newly spawned gate
     const int SPAWN_X = 300;

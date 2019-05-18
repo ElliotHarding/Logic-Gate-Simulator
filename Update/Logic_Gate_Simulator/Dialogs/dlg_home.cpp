@@ -224,16 +224,22 @@ void DLG_Home::MoveWidget(QWidget *w, int xDir)
 
 void DLG_Home::on_btn_zoomIn_clicked()
 {
-    if(m_ZoomFactor < c_maxZoom)
-        m_currentGateField->setZoomLevel(m_ZoomFactor *= 2);
+    if(m_currentGateField)
+        if(m_ZoomFactor < c_maxZoom)
+            m_currentGateField->setZoomLevel(m_ZoomFactor *= 2);
 }
 
 void DLG_Home::on_btn_zoomOut_clicked()
 {
-    if(m_ZoomFactor > c_minZoom)
-        m_currentGateField->setZoomLevel(m_ZoomFactor /= 2);
+    if(m_currentGateField)
+        if(m_ZoomFactor > c_minZoom)
+            m_currentGateField->setZoomLevel(m_ZoomFactor /= 2);
 }
-
+void DLG_Home::on_btn_undo_clicked()
+{
+    if(m_currentGateField)
+        m_currentGateField->Undo();
+}
 void DLG_Home::on_btn_newPage_clicked()
 {
     //Request page name

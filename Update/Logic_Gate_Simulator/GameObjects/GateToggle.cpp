@@ -41,6 +41,20 @@ bool GateToggle::UpdateClicked(int clickX, int clickY)
     return isClicked;
 }
 
+Gate *GateToggle::Clone()
+{
+    GateToggle* clone = new GateToggle();
+
+    //Clone position
+    QPoint pos = GetPosition();
+    clone->SetPosition(pos.x(), pos.y());
+
+    //Clone nodes
+    clone->m_output = m_output;
+
+    return clone;
+}
+
 void GateToggle::SaveData(std::ofstream &storage)
 {
     //Add general gate info

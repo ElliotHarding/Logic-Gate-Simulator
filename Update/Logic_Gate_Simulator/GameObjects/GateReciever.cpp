@@ -49,3 +49,17 @@ void GateReciever::SetPosition(int x, int y)
     m_input.SetPosition(m_layout.x() + NODE_OFFSET_X, m_layout.y() + NODE_OFFSET_Y);
 }
 
+Gate *GateReciever::Clone()
+{
+    GateReciever* clone = new GateReciever();
+
+    //Clone position
+    QPoint pos = GetPosition();
+    clone->SetPosition(pos.x(), pos.y());
+
+    //Clone nodes
+    clone->m_input = m_input;
+
+    return clone;
+}
+

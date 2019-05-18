@@ -40,3 +40,19 @@ void GateTimer::SaveData(std::ofstream &storage)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
+Gate *GateTimer::Clone()
+{
+    GateTimer* clone = new GateTimer();
+
+    //Clone position
+    QPoint pos = GetPosition();
+    clone->SetPosition(pos.x(), pos.y());
+
+    //Clone nodes
+    clone->m_output = m_output;
+
+    clone->m_frequency = m_frequency;
+
+    return clone;
+}
+

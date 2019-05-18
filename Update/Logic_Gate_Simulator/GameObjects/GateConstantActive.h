@@ -10,6 +10,7 @@ public:
     ~GateConstantActive() override;
 
     virtual void UpdateOutput() override;
+    virtual Gate* Clone() override;
 };
 
 #endif // GATECONSTANTACTIVE_H

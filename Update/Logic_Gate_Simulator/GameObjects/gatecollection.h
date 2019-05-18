@@ -22,6 +22,8 @@ public:
     virtual bool DeleteClick(int clickX, int clickY) override;
     virtual bool UpdateClicked(int clickX, int clickY) override;
 
+    virtual Gate* Clone() override;
+
     Gate *UpdateClicked_Override(int clickX, int clickY);
 
     //Class specific public methods

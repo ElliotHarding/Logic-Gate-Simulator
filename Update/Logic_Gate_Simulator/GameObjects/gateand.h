@@ -14,7 +14,7 @@ public:
     virtual void UpdateOutput() override;
     virtual void SetPosition(int x, int y) override;
 
-    //virtual Gate* Clone() override;
+    virtual Gate* Clone() override;
 
 protected:
 

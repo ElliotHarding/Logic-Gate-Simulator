@@ -31,6 +31,7 @@ public:
     GateCollection* GenerateGateCollection();
     bool SaveData();
     void DeleteGate(Gate* g);
+    void Undo();
 
     bool Enabled = true;
 
@@ -62,11 +63,13 @@ private:
     std::string m_name = "Unknown";
 
     //Gates
+    QMutex m_lockAllGates;
     std::vector<Gate*> m_allGates;
     std::vector<std::vector<Gate*>> m_gateBackups;
-    QMutex m_lockAllGates;
+    const int c_maxNumberOfBackups = 10;
+    unsigned int m_backupIndex = 0;
     void moveToFront(int index, std::vector<Gate*>& vec);
-    void backupGates();
+    void BackupGates();
 
     //Temps for multi step linking and unlinking
     Node* m_linkNodeA = nullptr;

@@ -73,7 +73,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-drag.png</normaloff>:/Resources/Button Icons/icon-drag.png</iconset>
     </property>
     <property name="iconSize">
@@ -99,7 +99,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-bin.png</normaloff>:/Resources/Button Icons/icon-bin.png</iconset>
     </property>
     <property name="iconSize">
@@ -125,7 +125,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-link-basic.png</normaloff>:/Resources/Button Icons/icon-link-basic.png</iconset>
     </property>
     <property name="iconSize">
@@ -151,7 +151,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-link-delete.png</normaloff>:/Resources/Button Icons/icon-link-delete.png</iconset>
     </property>
     <property name="iconSize">
@@ -177,7 +177,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-tool.png</normaloff>:/Resources/Button Icons/icon-tool.png</iconset>
     </property>
     <property name="iconSize">
@@ -229,7 +229,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-zoom-in.png</normaloff>:/Resources/Button Icons/icon-zoom-in.png</iconset>
     </property>
     <property name="iconSize">
@@ -258,7 +258,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-zoom-out.png</normaloff>:/Resources/Button Icons/icon-zoom-out.png</iconset>
     </property>
     <property name="iconSize">
@@ -375,7 +375,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-file-down.png</normaloff>:/Resources/Button Icons/icon-file-down.png</iconset>
     </property>
     <property name="iconSize">
@@ -401,7 +401,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-new-page.png</normaloff>:/Resources/Button Icons/icon-new-page.png</iconset>
     </property>
     <property name="iconSize">
@@ -427,7 +427,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
     </property>
     <property name="iconSize">
@@ -435,19 +435,6 @@
       <width>32</width>
       <height>32</height>
      </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>90</y>
-      <width>41</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
     </property>
    </widget>
    <widget class="Line" name="line_4">
@@ -479,8 +466,30 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="resouces.qrc">
+     <iconset resource="../resouces.qrc">
       <normaloff>:/Resources/Button Icons/icon-drag.png</normaloff>:/Resources/Button Icons/icon-drag.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_undo">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>90</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>&lt;</string>
     </property>
     <property name="iconSize">
      <size>
@@ -497,7 +506,7 @@
   </action>
  </widget>
  <resources>
-  <include location="resouces.qrc"/>
+  <include location="../resouces.qrc"/>
  </resources>
  <connections/>
 </ui>

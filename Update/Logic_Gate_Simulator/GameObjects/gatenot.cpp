@@ -35,3 +35,18 @@ void GateNot::SetPosition(int x, int y)
     m_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
 }
 
+Gate *GateNot::Clone()
+{
+    GateNot* clone = new GateNot();
+
+    //Clone position
+    QPoint pos = GetPosition();
+    clone->SetPosition(pos.x(), pos.y());
+
+    //Clone nodes
+    clone->m_output = m_output;
+    clone->m_input = m_input;
+
+    return clone;
+}
+

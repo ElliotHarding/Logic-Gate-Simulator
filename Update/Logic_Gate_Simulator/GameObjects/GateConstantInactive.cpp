@@ -15,3 +15,17 @@ void GateConstantInactive::UpdateOutput()
     if(m_output.GetLinkedNode())
         m_output.GetLinkedNode()->value = 0;
 }
+
+Gate *GateConstantInactive::Clone()
+{
+    GateConstantInactive* clone = new GateConstantInactive();
+
+    //Clone position
+    QPoint pos = GetPosition();
+    clone->SetPosition(pos.x(), pos.y());
+
+    //Clone nodes
+    clone->m_output = m_output;
+
+    return clone;
+}

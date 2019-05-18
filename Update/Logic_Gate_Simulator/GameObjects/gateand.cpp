@@ -40,19 +40,18 @@ void GateAnd::SetPosition(int x, int y)
     m_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
 }
 
-/*
 Gate *GateAnd::Clone()
 {
-    GateAnd clone;
+    GateAnd* clone = new GateAnd();
 
     //Clone position
     QPoint pos = GetPosition();
-    clone.SetPosition(pos.x(), pos.y());
+    clone->SetPosition(pos.x(), pos.y());
 
     //Clone nodes
-    clone.m_inputA = m_inputA;
-    clone.m_inputB = m_inputB;
-    clone.m_output = m_output;
+    clone->m_inputA = m_inputA;
+    clone->m_inputB = m_inputB;
+    clone->m_output = m_output;
 
-    return &clone;
-}*/
+    return clone;
+}

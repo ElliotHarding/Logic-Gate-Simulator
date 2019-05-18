@@ -123,6 +123,21 @@ void GateField::DeleteGate(Gate* gateToDelete)
     m_lockAllGates.unlock();
 }
 
+void GateField::Undo()
+{
+    if(m_backupIndex > 0)
+    {
+        m_backupIndex--;
+
+        std::vector<Gate*> v = m_gateBackups[m_backupIndex];
+        m_gateBackups.pop_back();
+
+        m_lockAllGates.lock();
+        m_allGates = v;
+        m_lockAllGates.unlock();
+    }
+}
+
 void GateField::addGameObject(Gate* go, bool newlySpawned)
 {
     if(newlySpawned)
@@ -139,6 +154,8 @@ void GateField::mousePressEvent(QMouseEvent *click)
 {
     const int clickX = click->x();
     const int clickY = click->y();
+
+    BackupGates();
 
     //If was in the middle of linking, but then user changed click mode, forget
     //the middle step variable m_linkNodeA
@@ -432,13 +449,21 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 }
 
 //Functoin must be called when m_allGates is mutex locked
-void GateField::backupGates()
+void GateField::BackupGates()
 {
     std::vector<Gate*> backup;
 
     for(Gate* g : m_allGates)
     {
+        backup.push_back(g->Clone());
+    }
 
+    m_gateBackups.push_back(backup);
+    m_backupIndex++;
+
+    if(m_gateBackups.size() > c_maxNumberOfBackups)
+    {
+        m_gateBackups.erase(m_gateBackups.begin());
     }
 }
 

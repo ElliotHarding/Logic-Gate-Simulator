@@ -201,6 +201,25 @@ bool GateCollection::UpdateClicked(int clickX, int clickY)
     return false;
 }
 
+Gate *GateCollection::Clone()
+{
+    std::vector<Gate*> backupGates;
+    for (Gate* g : m_gates)
+    {
+        backupGates.push_back(g->Clone());
+    }
+
+    GateCollection* clone = new GateCollection(backupGates);
+
+    //Clone position
+    QPoint pos = GetPosition();
+    clone->SetPosition(pos.x(), pos.y());
+
+    clone->m_contaningArea = m_contaningArea;
+
+    return clone;
+}
+
 Gate *GateCollection::UpdateClicked_Override(int clickX, int clickY)
 {
     if(m_contaningArea.contains(QPoint(clickX,clickY)))

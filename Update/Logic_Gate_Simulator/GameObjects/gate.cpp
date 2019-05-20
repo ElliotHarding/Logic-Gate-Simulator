@@ -110,7 +110,7 @@ Node::Node(Gate *parent, int id) :
 Node::~Node()
 {
     m_parent = nullptr;
-    m_linkedNode = nullptr;
+    DetachNode();
 }
 
 Gate* Node::GetParent()

@@ -3,8 +3,8 @@
 
 #include "gate.h"
 
-#define GateSingleOutputWidth 35
-#define GateSingleOutputHeight 35
+#define GateSingleOutputWidth 34
+#define GateSingleOutputHeight 34
 #define BorderWidth 7
 
 /*
@@ -21,8 +21,8 @@ public:
 
 protected:
 
-    const int NODE_OFFSET_X = 25;//GateSingleOutputWidth; //+ (GateSingleOutputWidth/2);
-    const int NODE_OFFSET_Y = 25;//GateSingleOutputHeight;
+    const int NODE_OFFSET_X = GateSingleOutputWidth/2;
+    const int NODE_OFFSET_Y = GateSingleOutputHeight/2;
     Node m_output;
 };
 

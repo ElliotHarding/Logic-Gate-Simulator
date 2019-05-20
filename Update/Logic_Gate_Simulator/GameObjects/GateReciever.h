@@ -1,7 +1,9 @@
 #ifndef GATEOUTPUTBOX_H
 #define GATEOUTPUTBOX_H
 
-#include "GateSingleOutput.h"
+#include "Gate.h"
+#define GateRecieverWidth 24
+#define GateRecieverHeight 24
 
 /*
     Recieves input
@@ -18,8 +20,8 @@ public:
 
 protected:
 
-    const int NODE_OFFSET_X = 25;//GateSingleOutputWidth; //+ (GateSingleOutputWidth/2);
-    const int NODE_OFFSET_Y = 25;//GateSingleOutputHeight;
+    const int NODE_OFFSET_X = (GateRecieverWidth/2);
+    const int NODE_OFFSET_Y = (GateRecieverHeight/2);
     Node m_input;
 };
 

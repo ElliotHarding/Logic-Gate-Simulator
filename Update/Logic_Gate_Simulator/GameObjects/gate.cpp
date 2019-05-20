@@ -122,7 +122,7 @@ void Node::UpdateGraphics(QPainter* painter)
 {
     //Paiting variables to be used
     QPainterPath path;
-    QPen pen(Qt::black, 10);
+    QPen pen(Qt::black, 5);
     painter->setPen(pen);
 
     //if linked draw line between node and linked node
@@ -136,10 +136,10 @@ void Node::UpdateGraphics(QPainter* painter)
 
     //Draw node
     QPoint position(GetPosition());
-    painter->drawEllipse(position,10,10);
+    painter->drawEllipse(position,5,5);
 
     //Bug where there's a whole in the node, can't be bothered to look up filling a circle
-    painter->drawEllipse(position,4,4);
+    painter->drawEllipse(position,2,2);
 }
 
 void Node::SaveData(std::ofstream &storage)

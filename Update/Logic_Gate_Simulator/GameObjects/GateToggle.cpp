@@ -14,7 +14,11 @@ void GateToggle::UpdateOutput()
     if(m_output.GetLinkedNode())
     {
         m_output.GetLinkedNode()->value = m_output.value; //m_output.value is updated in GateToggle::UpdateClicked
-        m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+        if(m_output.GetLinkedNode()->GetParent() && m_output.GetLinkedNode()->GetParent() != this)
+        {
+            m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+        }
+
     }
 
 }

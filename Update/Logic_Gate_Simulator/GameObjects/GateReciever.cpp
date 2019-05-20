@@ -1,7 +1,7 @@
 #include "GateReciever.h"
 
 GateReciever::GateReciever(id inputNode) :
-    Gate::Gate(GateType::GATE_RECIEVER, GateSingleOutputWidth, GateSingleOutputHeight),
+    Gate::Gate(GateType::GATE_RECIEVER, GateRecieverWidth, GateRecieverHeight),
     m_input(this, inputNode)
 {
     m_input.value = 0;
@@ -22,21 +22,22 @@ void GateReciever::UpdateGraphics(QPainter *painter)
     QPainterPath path;
     QPen pen(Qt::black, 10);
 
-    //Draw gate
-    painter->setPen(pen);
-    painter->drawRect(m_layout);
+    //Fill with red if active
+    if(m_input.value)
+    {
+        pen.setColor(Qt::red);
+        pen.setWidth(22);
+        painter->setPen(pen);
+        painter->drawEllipse(m_layout);
+        pen.setWidth(5);
+        painter->drawEllipse(m_layout);
+    }
 
-    //Draw active/inactive buttons
-    QRect activeRect = m_layout;
-    activeRect.setLeft(activeRect.left() + BorderWidth);
-    activeRect.setRight(activeRect.right() - BorderWidth);
-    activeRect.setTop(activeRect.top() + BorderWidth);
-    activeRect.setBottom(activeRect.bottom() - BorderWidth);
-
-    pen.setColor(m_input.value ? Qt::red : Qt::black);
-    pen.setWidth(20);
+    //Draw border
+    pen.setColor(Qt::black);
+    pen.setWidth(3);
     painter->setPen(pen);
-    painter->drawRect(activeRect);
+    painter->drawEllipse(m_layout.center(), GateRecieverWidth, GateRecieverHeight);
 
     //Draw nodes
     m_input.UpdateGraphics(painter);

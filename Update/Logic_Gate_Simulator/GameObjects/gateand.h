@@ -26,7 +26,7 @@ protected:
     const int M_INPUTb_OFFSET_Y = GateAndHeight - 12;
     Node m_inputB;
 
-    const int M_OUTPUT_OFFSET_X = GateAndWidth + 15;
+    const int M_OUTPUT_OFFSET_X = GateAndWidth + 5;
     const int M_OUTPUT_OFFSET_Y = (GateAndHeight/2);
     Node m_output;
 };

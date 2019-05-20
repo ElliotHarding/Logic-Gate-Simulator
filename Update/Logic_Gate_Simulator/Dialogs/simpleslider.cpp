@@ -3,20 +3,20 @@
 #include <QPainter>
 #include "dlg_home.h"
 
-SimpleSlider::SimpleSlider(float min, float max, QPoint pos, int size, DLG_Home* parent) :
+SimpleSlider::SimpleSlider(float min, float max, QRect layout, DLG_Home *parent) :
     QWidget(parent),
     m_max(max),
     m_min(min),
-    m_size(size),
+    m_width(layout.width() - (c_margin * 2)),
     m_pParent(parent),
     m_beingClicked(false),
     m_minMaxDiff(max - min)
 {
-    m_rightMost = QPoint(m_size + c_margin, c_height/2);
+    m_rightMost = QPoint(m_width + c_margin, c_height/2);
     m_leftMost = QPoint(c_margin, c_height/2);
     m_sliderPosition = m_leftMost;
 
-    this->setGeometry(pos.x(), pos.y(), m_size + (c_margin * 2), c_height);
+    this->setGeometry(layout.left(), layout.top(), layout.width(), c_height);
 
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -26,7 +26,7 @@ float SimpleSlider::GetCurrentValue()
 {
     //Get how far slider is in terms of percentage from left
     float distanceFromLeft = (m_sliderPosition.x() - m_leftMost.x());
-    float percentage = distanceFromLeft / m_size;
+    float percentage = distanceFromLeft / m_width;
 
     //Apply same percentage across min - max difference
     return m_min + (m_minMaxDiff * percentage);
@@ -35,6 +35,7 @@ float SimpleSlider::GetCurrentValue()
 void SimpleSlider::mouseReleaseEvent(QMouseEvent *releaseEvent)
 {
     m_beingClicked = false;
+    update();
 }
 
 void SimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)

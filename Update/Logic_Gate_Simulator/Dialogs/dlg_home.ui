@@ -18,13 +18,16 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>0</y>
-      <width>681</width>
-      <height>551</height>
+      <y>10</y>
+      <width>711</width>
+      <height>531</height>
      </rect>
     </property>
+    <property name="tabPosition">
+     <enum>QTabWidget::North</enum>
+    </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideMiddle</enum>
@@ -37,6 +40,9 @@
     </property>
     <property name="tabsClosable">
      <bool>true</bool>
+    </property>
+    <property name="movable">
+     <bool>false</bool>
     </property>
     <property name="tabBarAutoHide">
      <bool>false</bool>
@@ -60,10 +66,10 @@
    <widget class="QPushButton" name="btn_Drag">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>170</y>
-      <width>41</width>
-      <height>41</height>
+      <x>880</x>
+      <y>140</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -78,18 +84,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_Delete">
     <property name="geometry">
      <rect>
-      <x>950</x>
-      <y>170</y>
-      <width>41</width>
-      <height>41</height>
+      <x>960</x>
+      <y>140</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -104,18 +110,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_link">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>220</y>
-      <width>41</width>
-      <height>41</height>
+      <x>920</x>
+      <y>180</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -130,18 +136,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_DeleteLink">
     <property name="geometry">
      <rect>
-      <x>950</x>
-      <y>220</y>
-      <width>41</width>
-      <height>41</height>
+      <x>960</x>
+      <y>180</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -156,18 +162,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_click">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>220</y>
-      <width>41</width>
-      <height>41</height>
+      <x>880</x>
+      <y>180</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -182,44 +188,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
-    </property>
-   </widget>
-   <widget class="Line" name="line_2">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>270</y>
-      <width>141</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line_6">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>150</y>
-      <width>141</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_zoomIn">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>90</y>
-      <width>41</width>
-      <height>41</height>
+      <x>875</x>
+      <y>40</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -234,8 +214,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>22</width>
+      <height>22</height>
      </size>
     </property>
     <property name="checkable">
@@ -245,10 +225,10 @@
    <widget class="QPushButton" name="btn_zoomOut">
     <property name="geometry">
      <rect>
-      <x>950</x>
-      <y>90</y>
-      <width>41</width>
-      <height>41</height>
+      <x>965</x>
+      <y>40</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -263,8 +243,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>22</width>
+      <height>22</height>
      </size>
     </property>
    </widget>
@@ -336,22 +316,9 @@
    <widget class="Line" name="line_3">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>10</y>
-      <width>141</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
+      <x>880</x>
       <y>70</y>
-      <width>141</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
@@ -362,10 +329,10 @@
    <widget class="QPushButton" name="btn_Save">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>30</y>
-      <width>41</width>
-      <height>41</height>
+      <x>880</x>
+      <y>90</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -380,18 +347,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_newPage">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>30</y>
-      <width>41</width>
-      <height>41</height>
+      <x>920</x>
+      <y>90</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -406,18 +373,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_load">
     <property name="geometry">
      <rect>
-      <x>950</x>
-      <y>30</y>
-      <width>41</width>
-      <height>41</height>
+      <x>960</x>
+      <y>90</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -432,31 +399,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
-    </property>
-   </widget>
-   <widget class="Line" name="line_4">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>330</y>
-      <width>141</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_Pan">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>170</y>
-      <width>41</width>
-      <height>41</height>
+      <x>920</x>
+      <y>140</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -471,18 +425,18 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_undo">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>90</y>
-      <width>41</width>
-      <height>41</height>
+      <x>920</x>
+      <y>5</y>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -496,6 +450,87 @@
       <width>32</width>
       <height>32</height>
      </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_redo">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>5</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>&gt;</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layout_ZoomSlider" native="true">
+    <property name="geometry">
+     <rect>
+      <x>907</x>
+      <y>40</y>
+      <width>55</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layout_Dlg_GateInfo" native="true">
+    <property name="geometry">
+     <rect>
+      <x>875</x>
+      <y>350</y>
+      <width>120</width>
+      <height>190</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line_5">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>340</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>120</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_6">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>210</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>

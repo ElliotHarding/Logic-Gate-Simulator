@@ -42,7 +42,6 @@ private:
 
     //Ui elements
     DLG_GateInfo* m_gateInfo;
-    const QPoint c_GateInfoWidgetPos = QPoint(850,350);
 
     //Gate widgets
     Widget_AllGates*    m_pWidgetAllGates;
@@ -93,6 +92,7 @@ private slots:
     void on_menu_btn_advancedGates_clicked();
     void on_btn_Pan_clicked();
     void on_btn_undo_clicked();
+    void on_btn_redo_clicked();
 };
 
 #ifdef zero

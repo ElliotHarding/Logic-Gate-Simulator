@@ -29,7 +29,7 @@ DLG_Home::DLG_Home(QWidget *parent) :
     this->layout()->addWidget(m_pWidgetInputGates);
 
     this->layout()->addWidget(m_gateInfo);
-    m_gateInfo->move(c_GateInfoWidgetPos);
+    m_gateInfo->move(ui->layout_Dlg_GateInfo->geometry().topLeft());
     m_gateInfo->raise();
 
     m_pWidgetCustomGates->move(c_GateWidgetPosHidden);
@@ -45,7 +45,8 @@ DLG_Home::DLG_Home(QWidget *parent) :
     addGateField("New 1");
 
     //Add zoom slider to dialog
-    m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, c_zoomSliderPos, c_zoomSliderWidth, this);
+    QRect layout = ui->layout_ZoomSlider->geometry();
+    m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, layout, this);
     this->layout()->addWidget(m_zoomSlider);
 }
 
@@ -239,6 +240,11 @@ void DLG_Home::on_btn_undo_clicked()
 {
     if(m_currentGateField)
         m_currentGateField->Undo();
+}
+void DLG_Home::on_btn_redo_clicked()
+{
+    if(m_currentGateField)
+        m_currentGateField->Redo();
 }
 void DLG_Home::on_btn_newPage_clicked()
 {

@@ -31,7 +31,9 @@ public:
     GateCollection* GenerateGateCollection();
     bool SaveData();
     void DeleteGate(Gate* g);
+
     void Undo();
+    void Redo();
 
     bool Enabled = true;
 

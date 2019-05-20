@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>140</width>
+    <width>120</width>
     <height>190</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@
   <widget class="QPushButton" name="btn_DeleteGate">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>90</x>
      <y>10</y>
      <width>21</width>
      <height>21</height>
@@ -42,7 +42,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset resource="resouces.qrc">
+    <iconset resource="../resouces.qrc">
      <normaloff>:/Resources/Button Icons/icon-bin.png</normaloff>:/Resources/Button Icons/icon-bin.png</iconset>
    </property>
    <property name="iconSize">
@@ -96,7 +96,7 @@
     <rect>
      <x>10</x>
      <y>130</y>
-     <width>113</width>
+     <width>101</width>
      <height>20</height>
     </rect>
    </property>
@@ -137,7 +137,7 @@
   <zorder>lbl_Frequency</zorder>
  </widget>
  <resources>
-  <include location="resouces.qrc"/>
+  <include location="../resouces.qrc"/>
  </resources>
  <connections/>
 </ui>

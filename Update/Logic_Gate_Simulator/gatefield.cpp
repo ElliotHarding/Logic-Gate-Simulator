@@ -138,6 +138,11 @@ void GateField::Undo()
     }
 }
 
+void GateField::Redo()
+{
+
+}
+
 void GateField::addGameObject(Gate* go, bool newlySpawned)
 {
     if(newlySpawned)

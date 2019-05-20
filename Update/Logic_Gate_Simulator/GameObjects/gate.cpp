@@ -99,11 +99,12 @@ void Gate::DetachNodes()
 // -- NODE IMPLEMENTATION --
 //
 
-Node::Node(Gate *parent, int id) :
+Node::Node(Gate *parent, NodeType type, int id) :
     GameObject::GameObject(15,15),
     value(0),
     m_parent(parent),
-    m_id(id)
+    m_id(id),
+    m_nodeType(type)
 {
 }
 
@@ -126,7 +127,7 @@ void Node::UpdateGraphics(QPainter* painter)
     painter->setPen(pen);
 
     //if linked draw line between node and linked node
-    if(m_linkedNode)
+    if(m_nodeType == InputNode && m_linkedNode)
     {
         //setting todo
         pen.setWidth(1);
@@ -160,23 +161,28 @@ void Node::GenNewID()
     m_id = idGenerator();
 }
 
-Node *Node::GetLinkedNode()
+Node* Node::GetLinkedNode()
 {
     return m_linkedNode;
 }
 
-void Node::LinkNode(Node*& n)
+bool Node::LinkNode(Node*& n)
 {
-    m_linked = true;
-    m_linkedNode = n;
-    m_parent->UpdateOutput();
+    if(m_linked == false && m_nodeType == InputNode)
+    {
+        m_linked = true;
+        m_linkedNode = n;
+        m_parent->UpdateOutput();
+        return true;
+    }
+    else if(m_nodeType == OutputNode)
+    {
+        return true;
+    }
+    return false;
 }
 
 void Node::DetachNode()
 {
-    if(m_linkedNode)
-    {
-        m_linkedNode->m_linkedNode = nullptr;
-        m_linkedNode = nullptr;
-    }
+    m_linkedNode = nullptr;
 }

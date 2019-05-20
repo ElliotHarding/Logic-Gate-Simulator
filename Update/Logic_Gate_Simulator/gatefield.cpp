@@ -238,6 +238,7 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
         m_selectedGates.clear();
         m_lockAllGates.lock();
 
+        //Get all gates inside surrounding m_selectionTool
         for (Gate* gate : m_allGates)
         {
             if( m_selectionTool->geometry().contains(gate->GetPosition()))
@@ -286,9 +287,27 @@ void GateField::linkNodesClick(int clickX, int clickY)
                     return;
 
                 //link nodes & update parent gates (inside LinkNode())
-                m_linkNodeA->LinkNode(node);
-                node->LinkNode(m_linkNodeA);
-                m_linkNodeA = nullptr;
+                bool n1Linked = node->LinkNode(m_linkNodeA);
+                bool n2Linked = m_linkNodeA->LinkNode(node);
+
+                if(!n1Linked && !n2Linked)
+                {
+                    if(n1Linked)
+                    {
+                        node->DetachNode();
+                    }
+
+                    if(n2Linked)
+                    {
+                        m_linkNodeA->DetachNode();
+                    }
+                }
+
+                //link successful
+                else
+                {
+                    m_linkNodeA = nullptr;
+                }
 
                 //Change cursor as finished linking
                 QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);

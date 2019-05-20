@@ -2,7 +2,7 @@
 
 GateReciever::GateReciever(id inputNode) :
     Gate::Gate(GateType::GATE_RECIEVER, GateRecieverWidth, GateRecieverHeight),
-    m_input(this, inputNode)
+    m_input(this, InputNode, inputNode)
 {
     m_input.value = 0;
     m_nodes.push_back(&m_input);

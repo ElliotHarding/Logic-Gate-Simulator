@@ -2,7 +2,7 @@
 
 GateSingleOutput::GateSingleOutput(GateType type, id nodeId) :
     Gate::Gate(type, GateSingleOutputWidth, GateSingleOutputHeight),
-    m_output(this, nodeId)
+    m_output(this, OutputNode, nodeId)
 {
     m_nodes.push_back(&m_output);
 }

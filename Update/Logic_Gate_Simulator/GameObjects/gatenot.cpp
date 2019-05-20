@@ -2,8 +2,8 @@
 
 GateNot::GateNot(id in, id out) :
     Gate::Gate(GATE_NOT, GateNotWidth,GateNotHeight,std::string(":/Resources/Gates/gate-not.png").c_str()),
-    m_input(this,in),
-    m_output(this,out)
+    m_input(this,InputNode,in),
+    m_output(this,OutputNode,out)
 {
     m_nodes.push_back(&m_input);
     m_nodes.push_back(&m_output);

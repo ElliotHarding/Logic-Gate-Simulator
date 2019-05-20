@@ -76,15 +76,20 @@ protected:
     std::vector<Node*> m_nodes;
 };
 
+enum NodeType
+{
+    OutputNode,
+    InputNode //Node that inputs something into gate
+};
 
 class Node : public GameObject
 {
 public:
-    Node(Gate* parent, int nodeId = idGenerator());
+    Node(Gate* parent, NodeType type, int nodeId = idGenerator());
     ~Node() override;
 
-    //Linked node
-    void LinkNode(Node*& n);
+    //Linked nodes
+    bool LinkNode(Node*& n);
     void DetachNode();
     Node* GetLinkedNode();
 
@@ -101,6 +106,8 @@ public:
     void GenNewID();
 
     int m_id;
+    NodeType m_nodeType = InputNode;
+
 private:
     Node* m_linkedNode = nullptr;
     Gate* m_parent = nullptr;

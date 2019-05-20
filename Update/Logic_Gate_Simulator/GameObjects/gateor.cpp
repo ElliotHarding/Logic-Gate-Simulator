@@ -2,9 +2,9 @@
 
 GateOr::GateOr(id inA, id inB, id out) :
     Gate::Gate(GATE_AND, GateOrWidth,GateOrHeight, std::string(":/Resources/Gates/gate-or.png").c_str()),
-    m_inputA(this, inA),
-    m_inputB(this, inB),
-    m_output(this, out)
+    m_inputA(this, InputNode, inA),
+    m_inputB(this, InputNode, inB),
+    m_output(this, OutputNode, out)
 {
     m_nodes.push_back(&m_inputA);
     m_nodes.push_back(&m_inputB);

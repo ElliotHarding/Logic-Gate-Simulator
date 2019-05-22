@@ -24,7 +24,7 @@ void GateSingleOutput::UpdateGraphics(QPainter *painter)
     activeRect.setTop(activeRect.top() + BorderWidth);
     activeRect.setBottom(activeRect.bottom() - BorderWidth);
 
-    pen.setColor(m_output.value ? Qt::red : Qt::black);
+    pen.setColor(m_output.GetValue() ? Qt::red : Qt::black);
     pen.setWidth(20);
     painter->setPen(pen);
     painter->drawRect(activeRect);

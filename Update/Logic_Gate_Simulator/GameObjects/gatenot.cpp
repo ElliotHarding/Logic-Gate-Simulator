@@ -11,20 +11,7 @@ GateNot::GateNot(id in, id out) :
 
 void GateNot::UpdateOutput()
 {
-    bool newVal = !(m_input.value);
-    m_output.value = newVal;
-
-    //if output linked to node;
-    //- set value of node linked to output node
-    //- update the gate owner of the linked node
-    Node* linkedNode = m_output.GetLinkedNode();
-    if(linkedNode)
-    {
-        linkedNode->value = newVal;
-
-        linkedNode->GetParent()->UpdateOutput();
-    }
-    linkedNode = nullptr;
+    m_output.SetValue(!(m_input.GetValue()));
 }
 
 void GateNot::SetPosition(int x, int y)

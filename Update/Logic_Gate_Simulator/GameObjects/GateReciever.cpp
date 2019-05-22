@@ -4,16 +4,13 @@ GateReciever::GateReciever(id inputNode) :
     Gate::Gate(GateType::GATE_RECIEVER, GateRecieverWidth, GateRecieverHeight),
     m_input(this, InputNode, inputNode)
 {
-    m_input.value = 0;
+    m_input.SetValue(0);
     m_nodes.push_back(&m_input);
 }
 
 void GateReciever::UpdateOutput()
 {
-    if(m_input.GetLinkedNode())
-    {
-        m_input.value = m_input.GetLinkedNode()->value;
-    }
+
 }
 
 void GateReciever::UpdateGraphics(QPainter *painter)
@@ -23,7 +20,7 @@ void GateReciever::UpdateGraphics(QPainter *painter)
     QPen pen(Qt::black, 10);
 
     //Fill with red if active
-    if(m_input.value)
+    if(m_input.GetValue())
     {
         pen.setColor(Qt::red);
         pen.setWidth(22);

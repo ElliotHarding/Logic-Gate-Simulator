@@ -18,7 +18,7 @@ public:
 
     void SaveData(std::ofstream& storage) override;
 
-    bool GetPowerState() {return m_output.value;}
+    bool GetPowerState() {return m_output.GetValue();}
     void ToggleOutputState();
 
 protected:

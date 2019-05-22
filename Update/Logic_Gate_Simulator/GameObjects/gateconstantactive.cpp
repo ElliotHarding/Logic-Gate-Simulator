@@ -3,7 +3,7 @@
 GateConstantActive::GateConstantActive(id out) :
     GateSingleOutput::GateSingleOutput(GATE_CONST_ACTIVE, out)
 {
-    m_output.value = 1;
+    m_output.SetValue(1);
 }
 
 GateConstantActive::~GateConstantActive()
@@ -12,8 +12,7 @@ GateConstantActive::~GateConstantActive()
 
 void GateConstantActive::UpdateOutput()
 {
-    if(m_output.GetLinkedNode())
-        m_output.GetLinkedNode()->value = 1;
+    m_output.SetValue(1);
 }
 
 Gate *GateConstantActive::Clone()

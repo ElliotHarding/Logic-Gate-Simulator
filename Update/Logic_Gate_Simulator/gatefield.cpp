@@ -329,17 +329,7 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
         node = gate->GetClickedNode(clickX,clickY);
         if(node != nullptr)
         {
-            if(node->GetLinkedNode())
-            {
-                //unlink nodes & update parent gates (inside LinkNode())
-                Node* nodeLinkedTo = node->GetLinkedNode();
-                nodeLinkedTo->DetachNode();
-                node->DetachNode();
-
-                delete nodeLinkedTo;
-
-                updateFunction();
-            }
+            node->DetachNode();
 
             node = nullptr;
             return; //so that we dont acidentally get more than one clicked node

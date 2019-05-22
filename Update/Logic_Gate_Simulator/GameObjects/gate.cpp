@@ -101,7 +101,7 @@ void Gate::DetachNodes()
 
 Node::Node(Gate *parent, NodeType type, int id) :
     GameObject::GameObject(15,15),
-    value(0),
+    m_bValue(0),
     m_parent(parent),
     m_id(id),
     m_nodeType(type)
@@ -112,6 +112,29 @@ Node::~Node()
 {
     m_parent = nullptr;
     DetachNode();
+}
+
+void Node::SetValue(bool val)
+{
+    m_bValue = val;
+
+    if(m_nodeType == OutputNode)
+    {
+         for(Node* n : m_linkedNodes)
+         {
+            n->SetValue(m_bValue);
+            if(n->GetParent())
+            {
+                n->GetParent()->UpdateOutput();
+            }
+         }
+    }
+
+}
+
+bool Node::GetValue()
+{
+    return m_bValue;
 }
 
 Gate* Node::GetParent()
@@ -126,13 +149,16 @@ void Node::UpdateGraphics(QPainter* painter)
     QPen pen(Qt::black, 5);
     painter->setPen(pen);
 
-    //if linked draw line between node and linked node
-    if(m_nodeType == InputNode && m_linkedNode)
+    //if linked draw line between node and linked nodes
+    if(m_nodeType == OutputNode)
     {
         //setting todo
         pen.setWidth(1);
 
-        painter->drawLine(m_linkedNode->GetPosition(),GetPosition());
+        for (Node* n : m_linkedNodes)
+        {
+            painter->drawLine(n->GetPosition(),GetPosition());
+        }
     }
 
     //Draw node
@@ -145,13 +171,11 @@ void Node::UpdateGraphics(QPainter* painter)
 
 void Node::SaveData(std::ofstream &storage)
 {
-    int linkedNodeId = -1;
-    if(m_linkedNode)
-         linkedNodeId = m_linkedNode->m_id;
+    std::string linkedNodeIds = GetLinkedNodesIds();
 
     storage << SAVE_TAG_NODE
             with std::to_string(m_id)
-            with std::to_string(linkedNodeId)
+            with linkedNodeIds
             with END_SAVE_TAG_NODE
             << std::endl;
 }
@@ -161,22 +185,41 @@ void Node::GenNewID()
     m_id = idGenerator();
 }
 
-Node* Node::GetLinkedNode()
+std::string Node::GetLinkedNodesIds()
 {
-    return m_linkedNode;
+    if(m_linkedNodes.size() == 0)
+        return "-1";
+
+    std::string ids = "";
+    const std::string next = ",";
+    for (Node* n : m_linkedNodes)
+    {
+        ids += std::to_string(n->m_id) + next;
+    }
+    return ids;
 }
 
 bool Node::LinkNode(Node*& n)
 {
-    if(m_linked == false && m_nodeType == InputNode)
+    if(m_nodeType == InputNode)
     {
-        m_linked = true;
-        m_linkedNode = n;
-        m_parent->UpdateOutput();
         return true;
     }
     else if(m_nodeType == OutputNode)
     {
+        //Check if already linked
+        for (Node* alreadyLinkedNode : m_linkedNodes)
+        {
+            if(&alreadyLinkedNode == &n)
+            {
+                return false;
+            }
+        }
+
+        m_linked = true;
+        m_linkedNodes.push_back(n);
+        m_parent->UpdateOutput();
+
         return true;
     }
     return false;
@@ -184,5 +227,22 @@ bool Node::LinkNode(Node*& n)
 
 void Node::DetachNode()
 {
-    m_linkedNode = nullptr;
+    for (Node* n : m_linkedNodes)
+    {
+        n->DetachNode(this);
+        n = nullptr;
+    }
+    m_linkedNodes.clear();
+}
+
+void Node::DetachNode(Node* n)
+{
+    for(size_t index = 0; index < m_linkedNodes.size(); index++)
+    {
+        if(&m_linkedNodes[index] == &n)
+        {
+            m_linkedNodes.erase(m_linkedNodes.begin() + index);
+            return;
+        }
+    }
 }

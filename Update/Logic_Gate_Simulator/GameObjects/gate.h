@@ -88,16 +88,15 @@ public:
     Node(Gate* parent, NodeType type, int nodeId = idGenerator());
     ~Node() override;
 
+    void SetValue(bool val);
+    bool GetValue();
+
     //Linked nodes
     bool LinkNode(Node*& n);
     void DetachNode();
-    Node* GetLinkedNode();
 
     //returns Gate that node is attached to
     Gate* GetParent();
-
-    //Stored value
-    bool value;
 
     virtual void UpdateGraphics(QPainter* painter) override;
 
@@ -108,9 +107,17 @@ public:
     int m_id;
     NodeType m_nodeType = InputNode;
 
+protected:
+    void DetachNode(Node* n);
+
 private:
-    Node* m_linkedNode = nullptr;
+    std::vector<Node*> m_linkedNodes;
     Gate* m_parent = nullptr;
+
+    std::string GetLinkedNodesIds();
+
+    //Stored value
+    bool m_bValue;
 
     bool m_linked = false;
 };

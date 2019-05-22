@@ -8,25 +8,12 @@ GateToggle::GateToggle(id out) :
 
 void GateToggle::UpdateOutput()
 {
-    //if output linked to node;
-    //- set value of node linked to output node
-    //- update the gate owner of the linked node
-    if(m_output.GetLinkedNode())
-    {
-        m_output.GetLinkedNode()->value = m_output.value; //m_output.value is updated in GateToggle::UpdateClicked
-        if(m_output.GetLinkedNode()->GetParent() && m_output.GetLinkedNode()->GetParent() != this)
-        {
-            m_output.GetLinkedNode()->GetParent()->UpdateOutput();
-        }
-
-    }
-
+    //done in ToggleOutputState
 }
 
 void GateToggle::ToggleOutputState()
 {
-    m_output.value = !m_output.value;
-    UpdateOutput();
+    m_output.SetValue(!m_output.GetValue());
 }
 
 bool GateToggle::UpdateClicked(int clickX, int clickY)
@@ -39,7 +26,7 @@ bool GateToggle::UpdateClicked(int clickX, int clickY)
     {
         m_toggleStateTimer.stop();
         m_toggleStateTimer.start(c_toggleFrequency);
-        m_output.value = !m_output.value;
+        m_output.SetValue(!m_output.GetValue());
     }
 
     return isClicked;

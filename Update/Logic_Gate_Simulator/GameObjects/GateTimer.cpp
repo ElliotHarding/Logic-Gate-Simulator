@@ -9,7 +9,7 @@
 GateTimer::GateTimer(id out) :
     GateSingleOutput::GateSingleOutput(GATE_TIMER, out)
 {
-    m_output.value = 0;
+    m_output.SetValue(0);
     m_timer.start();
 }
 
@@ -20,9 +20,7 @@ void GateTimer::UpdateOutput()
     {
         m_timer.stop();
         m_timer.start(m_frequency);
-        m_output.value = !m_output.value;
-        if(m_output.GetLinkedNode())
-            m_output.GetLinkedNode()->GetParent()->UpdateOutput();
+        m_output.SetValue(!m_output.GetValue());
     }
 }
 

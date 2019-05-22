@@ -14,21 +14,10 @@ GateAnd::GateAnd(id inA, id inB, id out) :
 
 void GateAnd::UpdateOutput()
 {
-    const bool sum = m_inputA.value & m_inputB.value;
+    const bool sum = m_inputA.GetValue() & m_inputB.GetValue();
 
     //set output node value
-    m_output.value = sum;
-
-    //if output linked to node;
-    //- set value of node linked to output node
-    //- update the gate owner of the linked node
-    Node* linkedNode = m_output.GetLinkedNode();
-    if(linkedNode)
-    {
-        linkedNode->value = sum;
-        linkedNode->GetParent()->UpdateOutput();
-    }
-    linkedNode = nullptr;
+    m_output.SetValue(sum);
 }
 
 void GateAnd::SetPosition(int x, int y)

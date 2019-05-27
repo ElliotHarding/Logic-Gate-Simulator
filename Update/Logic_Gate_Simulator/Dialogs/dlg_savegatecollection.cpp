@@ -4,10 +4,9 @@
 #include "filelocations.h"
 #include <QDir>
 
-DLG_SaveGateCollection::DLG_SaveGateCollection(GateField* currentGateField, QWidget *parent) :
+DLG_SaveGateCollection::DLG_SaveGateCollection(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DLG_SaveGateCollection),
-    m_currentGateField(currentGateField)
+    ui(new Ui::DLG_SaveGateCollection)
 {
     ui->setupUi(this);
     ui->lb_error->hide();
@@ -16,6 +15,11 @@ DLG_SaveGateCollection::DLG_SaveGateCollection(GateField* currentGateField, QWid
 DLG_SaveGateCollection::~DLG_SaveGateCollection()
 {
     delete ui;
+}
+
+void DLG_SaveGateCollection::SetCurrentGateField(GateField* currentGateField)
+{
+     m_currentGateField = currentGateField;
 }
 
 void DLG_SaveGateCollection::open()

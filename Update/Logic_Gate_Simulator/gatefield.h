@@ -23,7 +23,7 @@ class GateField : public QWidget
 public:
 
     //Construction
-    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent);
+    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog);
      ~GateField() override;
 
     void addGameObject(Gate* go, bool newlySpawned = true);

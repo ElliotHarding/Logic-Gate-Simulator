@@ -4,12 +4,12 @@
 
 #include <QApplication>
 
-GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent) :
+GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog) :
     QWidget(parent),
     m_pParent(parent),
     m_name(name),
     m_zoomFactor(zoomFactor),
-    m_pDlgSaveGateCollection(new DLG_SaveGateCollection(this,this))
+    m_pDlgSaveGateCollection(saveGateCollectionDialog)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -19,6 +19,11 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent) :
 
     QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
     m_currentClickMode = CLICK_DRAG;
+
+    saveGateCollectionDialog->SetCurrentGateField(this);
+
+    m_allGates.reserve(20);
+    m_gateBackups.reserve(20);
 }
 
 GateField::~GateField()
@@ -253,6 +258,7 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
         //Selection contains some gates, then we can save them as a gate collection
         if(m_selectedGates.size() > 0)
         {
+            m_pDlgSaveGateCollection->SetCurrentGateField(this);
             m_pDlgSaveGateCollection->open();
             //GenerateGateCollection() gets called by the saveGateCollectionDialog
         }

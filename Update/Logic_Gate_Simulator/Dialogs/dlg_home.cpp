@@ -1,6 +1,7 @@
 #include "dlg_home.h"
 #include "ui_dlg_home.h"
 #include <QLayout>
+#include <QLibrary>
 #include "gatereader.h"
 
 DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
@@ -8,77 +9,88 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
     ui(new Ui::DLG_Home),
     m_ZoomFactor(0.5)
 {
-    progressBar->setValue(20);
 
-    ui->setupUi(this);
-    setMouseTracking(true);
-    ui->PlayField->clear();
+    progressBar->setValue(10);
 
+    {
+        ui->setupUi(this);
+    }
 
+    progressBar->setValue(30);
+
+    {
+        setMouseTracking(true);
+        ui->PlayField->clear();
+    }
 
     progressBar->setValue(40);
 
 
+    {
+        m_pDlgGateInfo = new DLG_GateInfo(this);
+        this->layout()->addWidget(m_pDlgGateInfo);
+        m_pDlgGateInfo->move(ui->layout_Dlg_GateInfo->geometry().topLeft());
+        m_pDlgGateInfo->raise();
+    }
 
-    //m_pDlgGateInfo
-    m_pDlgGateInfo = new DLG_GateInfo(this);
-    this->layout()->addWidget(m_pDlgGateInfo);
-    m_pDlgGateInfo->move(ui->layout_Dlg_GateInfo->geometry().topLeft());
-    m_pDlgGateInfo->raise();
+    {
+         m_pDlgLoadGates = new QFileDialog(this);
+         m_pDlgInput = new QInputDialog(this);
+         m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
+    }
 
+    progressBar->setValue(50);
 
-
-    progressBar->setValue(60);
-
-
-
-    //Gate widgets
-    m_pWidgetAllGates = new Widget_AllGates(this);
-    m_pWidgetCustomGates = new Widget_CustomGates(this);
-    m_pWidgetAdvancedGates = new Widget_Advanced(this);
-    m_pWidgetStandardGates = new Widget_Standard(this);
-    m_pWidgetInputGates = new Widget_InputGates(this);
-    m_pDlgLoadGates = new QFileDialog(this);
-    m_pDlgInput = new QInputDialog(this);
-
-    this->layout()->addWidget(m_pWidgetAllGates);
-    this->layout()->addWidget(m_pWidgetCustomGates);
-    this->layout()->addWidget(m_pWidgetAdvancedGates);
-    this->layout()->addWidget(m_pWidgetStandardGates);
-    this->layout()->addWidget(m_pWidgetInputGates);
-
-
+    {
+        QLibrary lib( "Comctl32.dll" );
+        lib.setLoadHints( QLibrary::ResolveAllSymbolsHint );
+        lib.load();
+    }
 
     progressBar->setValue(80);
 
+    {
+        const QPoint c_GateWidgetPosShowing = QPoint(0,60);
+        const QPoint c_GateWidgetPosHidden = QPoint(-160,60);
 
+        //Gate widgets
+        m_pWidgetAllGates = new Widget_AllGates(this);
+        m_pWidgetCustomGates = new Widget_CustomGates(this);
+        m_pWidgetAdvancedGates = new Widget_Advanced(this);
+        m_pWidgetStandardGates = new Widget_Standard(this);
+        m_pWidgetInputGates = new Widget_InputGates(this);
 
-    const QPoint c_GateWidgetPosShowing = QPoint(0,60);
-    const QPoint c_GateWidgetPosHidden = QPoint(-160,60);
+        this->layout()->addWidget(m_pWidgetAllGates);
+        this->layout()->addWidget(m_pWidgetCustomGates);
+        this->layout()->addWidget(m_pWidgetAdvancedGates);
+        this->layout()->addWidget(m_pWidgetStandardGates);
+        this->layout()->addWidget(m_pWidgetInputGates);
 
-    //Hide all gate widgets
-    m_pWidgetCustomGates->move(c_GateWidgetPosHidden);
-    m_pWidgetAdvancedGates->move(c_GateWidgetPosHidden);
-    m_pWidgetStandardGates->move(c_GateWidgetPosHidden);
-    m_pWidgetInputGates->move(c_GateWidgetPosHidden);
+        m_pWidgetCustomGates->move(c_GateWidgetPosHidden);
+        m_pWidgetAdvancedGates->move(c_GateWidgetPosHidden);
+        m_pWidgetStandardGates->move(c_GateWidgetPosHidden);
+        m_pWidgetInputGates->move(c_GateWidgetPosHidden);
 
-    //Set current shown gate widget
-    m_pWidgetAllGates->move(c_GateWidgetPosShowing);
-    m_pWidgetAllGates->raise();
-    m_pCurrentShownGateWidget = m_pWidgetAllGates;
-
-
+        //Set current shown gate widget
+        m_pWidgetAllGates->move(c_GateWidgetPosShowing);
+        m_pWidgetAllGates->raise();
+        m_pCurrentShownGateWidget = m_pWidgetAllGates;
+    }
 
     progressBar->setValue(90);
 
+    {
+        m_allGateFields.reserve(10);
+    }
 
+    progressBar->setValue(95);
 
-    //Add zoom slider to dialog
-    QRect layout = ui->layout_ZoomSlider->geometry();
-    m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, layout, this);
-    this->layout()->addWidget(m_zoomSlider);
-
-
+    {
+        //Add zoom slider to dialog
+        QRect layout = ui->layout_ZoomSlider->geometry();
+        m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, layout, this);
+        this->layout()->addWidget(m_zoomSlider);
+    }
 
     progressBar->setValue(100);
 }
@@ -133,9 +145,14 @@ void DLG_Home::DeleteGate(Gate *g)
 
 void DLG_Home::addGateField(QString name)
 {
-    m_currentGateField = new GateField(m_ZoomFactor, name.toStdString(), this);
+    m_currentGateField = createNewGateField(name);
     m_allGateFields.push_back(m_currentGateField);
     ui->PlayField->addTab(m_currentGateField,tr(name.toUtf8()));
+}
+
+GateField *DLG_Home::createNewGateField(QString name)
+{
+    return new GateField(m_ZoomFactor, name.toStdString(), this, m_pDlgSaveGateCollection);
 }
 
 
@@ -323,7 +340,7 @@ void DLG_Home::on_btn_load_clicked()
         if(saveFile.is_open())
         {
             //Load gates
-            m_currentGateField = new GateField(m_ZoomFactor, file.toStdString(), this);
+            m_currentGateField = createNewGateField(file);
 
             //For each loaded gate, add to loadedGateField
             if (reader.ReadGateField(saveFile, m_currentGateField))

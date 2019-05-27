@@ -9,9 +9,11 @@
 #include <QProgressBar>
 
 #include "allgates.h"
+#include "gatefield.h"
+
 #include "simpleslider.h"
 #include "dlg_gateinfo.h"
-#include "gatefield.h"
+#include "dlg_savegatecollection.h"
 
 #include "widget_advanced.h"
 #include "widget_allgates.h"
@@ -44,9 +46,10 @@ private:
     Ui::DLG_Home *ui;
 
     //Dialogs
-    DLG_GateInfo*   m_pDlgGateInfo;
-    QFileDialog*    m_pDlgLoadGates;
-    QInputDialog*   m_pDlgInput;
+    DLG_GateInfo*           m_pDlgGateInfo;
+    DLG_SaveGateCollection* m_pDlgSaveGateCollection;
+    QFileDialog*            m_pDlgLoadGates;
+    QInputDialog*           m_pDlgInput;
 
     //Gate widgets
     Widget_AllGates*    m_pWidgetAllGates;
@@ -66,9 +69,10 @@ private:
     const qreal c_minZoom = 0.25;    
 
     //Gatefields
-    GateField* m_currentGateField;
+    GateField* m_currentGateField = nullptr;
     std::vector<GateField*> m_allGateFields;
     void addGateField(QString name);
+    GateField* createNewGateField(QString name);
 
     //Controls
     SimpleSlider* m_zoomSlider;
@@ -76,26 +80,36 @@ private:
     const QPoint c_zoomSliderPos = QPoint(900,130);
 
 private slots:
+
+    //Tools buttons
     void on_btn_Drag_clicked();
     void on_btn_Delete_clicked();
     void on_btn_link_clicked();
-    void on_btn_newPage_clicked();
-    void on_PlayField_tabCloseRequested(int index);
-    void on_PlayField_currentChanged(int index);
     void on_btn_DeleteLink_clicked();
     void on_btn_click_clicked();
+    void on_btn_Pan_clicked();
+
+    void on_btn_newPage_clicked();
+
     void on_btn_zoomIn_clicked();
     void on_btn_zoomOut_clicked();
+
     void on_btn_Save_clicked();
     void on_btn_load_clicked();
+
+    void on_btn_undo_clicked();
+    void on_btn_redo_clicked();
+
+    //Menu buttons
     void on_menu_btn_allGates_clicked();
     void on_menu_btn_customGates_clicked();
     void on_menu_btn_InputGates_clicked();
     void on_menu_btn_standardGates_clicked();
     void on_menu_btn_advancedGates_clicked();
-    void on_btn_Pan_clicked();
-    void on_btn_undo_clicked();
-    void on_btn_redo_clicked();
+
+    //Tabs
+    void on_PlayField_tabCloseRequested(int index);
+    void on_PlayField_currentChanged(int index);
 };
 
 #ifdef zero

@@ -13,9 +13,10 @@ class DLG_SaveGateCollection : public QDialog
     Q_OBJECT
 
 public:
-    explicit DLG_SaveGateCollection(GateField* currentGateField, QWidget *parent = nullptr);
+    explicit DLG_SaveGateCollection(QWidget *parent = nullptr);
     ~DLG_SaveGateCollection() override;
 
+    void SetCurrentGateField(GateField* current);
     virtual void open() override;
 
 private slots:

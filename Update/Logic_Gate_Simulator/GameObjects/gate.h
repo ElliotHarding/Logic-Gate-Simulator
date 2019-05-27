@@ -32,7 +32,7 @@ static int idGenerator()
     return idIndex++;
 }
 
-struct NodeIds {int id; int linkedId;};
+struct NodeIds {int id; std::vector<int> linkedIds;};
 typedef int id;
 
 class Node;

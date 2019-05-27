@@ -9,6 +9,7 @@ DLG_SaveGateCollection::DLG_SaveGateCollection(GateField* currentGateField, QWid
     m_currentGateField(currentGateField)
 {
     ui->setupUi(this);
+    ui->lb_error->hide();
 }
 
 DLG_SaveGateCollection::~DLG_SaveGateCollection()
@@ -38,6 +39,7 @@ void DLG_SaveGateCollection::on_Save_clicked()
     }
     else
     {
-        //todo tell user bad file name
+        ui->lb_error->setText("Bad file name!");
+        ui->lb_error->show();
     }
 }

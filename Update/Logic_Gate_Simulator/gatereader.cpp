@@ -201,14 +201,29 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
 NodeIds GateReader::readNode(std::ifstream& gateStream)
 {
     //read in strings
-    std::string startTag, sID, slID, endTag;
-    gateStream >> startTag >> sID >> slID >> endTag;
+    std::string startTag, sID, linkedNodes, endTag;
+    gateStream >> startTag >> sID >> linkedNodes >> endTag;
 
     //Apply string to nodeInfo
     NodeIds nodeInfo;
     nodeInfo.id = tryStoi(sID, -1);
-    nodeInfo.linkedId = tryStoi(slID, -1);
 
+    //Read linkedNodes string, into linkedIds vector
+    std::vector<int> linkedIds;
+    std::string stringBuild = "";
+    for (size_t index = 0; index < linkedNodes.length(); index++)
+    {
+        //If at ',' or end of string
+        if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
+        {
+            nodeInfo.linkedIds.push_back(tryStoi(stringBuild, -1));
+            stringBuild = "";
+        }
+        else
+        {
+            stringBuild += linkedNodes[index];
+        }
+    }
     return nodeInfo;
 }
 
@@ -229,20 +244,26 @@ void GateReader::linkNodes(std::vector<Gate *>& gates, std::vector<NodeIds> link
 {
     for (NodeIds link : linkInfo)
     {
-        if(link.id != -1 && link.linkedId != -1)
+        if(link.id != -1)
         {
-            Node* node1;
-            if(SearchGatesForNode(gates, link.id, node1))
+            for (id id_ : link.linkedIds)
             {
-                Node* node2;
-                if(SearchGatesForNode(gates, link.linkedId, node2))
+                if(id_ != -1)
                 {
-                    (node2)->LinkNode(node1);
-                    (node1)->LinkNode(node2);
+                    Node* node1;
+                    if(SearchGatesForNode(gates, link.id, node1))
+                    {
+                        Node* node2;
+                        if(SearchGatesForNode(gates, id_, node2))
+                        {
+                            (node2)->LinkNode(node1);
+                            (node1)->LinkNode(node2);
+                        }
+                        node2 = nullptr;
+                    }
+                    node1 = nullptr;
                 }
-                node2 = nullptr;
             }
-            node1 = nullptr;
         }
     }
 }

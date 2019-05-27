@@ -13,7 +13,7 @@
 
 #define nextLine gateStream >> line;
 
-struct NodeAndIds {Node* pNode; int id; int linkedId;};
+struct NodeAndIds {Node* pNode; int id; std::vector<int> linkedIds;};
 
 class GateReader
 {

@@ -24,5 +24,7 @@
         <file>Resources/Button Icons/icon-gate-input-off.png</file>
         <file>Resources/Button Icons/icon-gate-input-on.png</file>
         <file>Resources/Button Icons/icon-gate-timer.png</file>
+        <file>Resources/Button Icons/icon-redo.png</file>
+        <file>Resources/Button Icons/icon-undo.png</file>
     </qresource>
 </RCC>

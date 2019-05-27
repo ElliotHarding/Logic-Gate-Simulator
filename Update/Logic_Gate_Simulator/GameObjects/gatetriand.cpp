@@ -6,7 +6,7 @@ GateTriAnd::GateTriAnd(id inA, id inB, id inC, id out) :
     m_inputA(this, InputNode, inA),
     m_inputB(this, InputNode, inB),
     m_inputC(this, InputNode, inC),
-    m_output(this, OutputNode, out),
+    m_output(this, OutputNode, out)
 {
     m_nodes.push_back(&m_inputA);
     m_nodes.push_back(&m_inputB);

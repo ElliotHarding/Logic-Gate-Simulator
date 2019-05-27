@@ -3,24 +3,43 @@
 #include <QLayout>
 #include "gatereader.h"
 
-DLG_Home::DLG_Home(QWidget *parent) :
+DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
-    m_ZoomFactor(0.5),
-
-    m_gateInfo(new DLG_GateInfo(this)),
-
-    m_pWidgetAllGates(new Widget_AllGates(this)),
-    m_pWidgetCustomGates(new Widget_CustomGates(this)),
-    m_pWidgetAdvancedGates(new Widget_Advanced(this)),
-    m_pWidgetStandardGates(new Widget_Standard(this)),
-    m_pWidgetInputGates(new Widget_InputGates(this)),
-    m_pDlgLoadGates(new QFileDialog(this)),
-    m_pDlgInput(new QInputDialog)
+    m_ZoomFactor(0.5)
 {
+    progressBar->setValue(20);
+
     ui->setupUi(this);
     setMouseTracking(true);
     ui->PlayField->clear();
+
+
+
+    progressBar->setValue(40);
+
+
+
+    //m_pDlgGateInfo
+    m_pDlgGateInfo = new DLG_GateInfo(this);
+    this->layout()->addWidget(m_pDlgGateInfo);
+    m_pDlgGateInfo->move(ui->layout_Dlg_GateInfo->geometry().topLeft());
+    m_pDlgGateInfo->raise();
+
+
+
+    progressBar->setValue(60);
+
+
+
+    //Gate widgets
+    m_pWidgetAllGates = new Widget_AllGates(this);
+    m_pWidgetCustomGates = new Widget_CustomGates(this);
+    m_pWidgetAdvancedGates = new Widget_Advanced(this);
+    m_pWidgetStandardGates = new Widget_Standard(this);
+    m_pWidgetInputGates = new Widget_InputGates(this);
+    m_pDlgLoadGates = new QFileDialog(this);
+    m_pDlgInput = new QInputDialog(this);
 
     this->layout()->addWidget(m_pWidgetAllGates);
     this->layout()->addWidget(m_pWidgetCustomGates);
@@ -28,29 +47,40 @@ DLG_Home::DLG_Home(QWidget *parent) :
     this->layout()->addWidget(m_pWidgetStandardGates);
     this->layout()->addWidget(m_pWidgetInputGates);
 
-    this->layout()->addWidget(m_gateInfo);
-    m_gateInfo->move(ui->layout_Dlg_GateInfo->geometry().topLeft());
-    m_gateInfo->raise();
+
+
+    progressBar->setValue(80);
+
+
 
     const QPoint c_GateWidgetPosShowing = QPoint(0,60);
     const QPoint c_GateWidgetPosHidden = QPoint(-160,60);
 
+    //Hide all gate widgets
     m_pWidgetCustomGates->move(c_GateWidgetPosHidden);
     m_pWidgetAdvancedGates->move(c_GateWidgetPosHidden);
     m_pWidgetStandardGates->move(c_GateWidgetPosHidden);
     m_pWidgetInputGates->move(c_GateWidgetPosHidden);
 
+    //Set current shown gate widget
     m_pWidgetAllGates->move(c_GateWidgetPosShowing);
     m_pWidgetAllGates->raise();
-
     m_pCurrentShownGateWidget = m_pWidgetAllGates;
 
-    addGateField("New 1");
+
+
+    progressBar->setValue(90);
+
+
 
     //Add zoom slider to dialog
     QRect layout = ui->layout_ZoomSlider->geometry();
     m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, layout, this);
     this->layout()->addWidget(m_zoomSlider);
+
+
+
+    progressBar->setValue(100);
 }
 
 DLG_Home::~DLG_Home()
@@ -87,7 +117,7 @@ void DLG_Home::AddGate(Gate *g)
 
 void DLG_Home::GateSelected(Gate *g)
 {
-    m_gateInfo->setGate(g);
+    m_pDlgGateInfo->setGate(g);
 }
 
 void DLG_Home::DeleteGate(Gate *g)
@@ -117,7 +147,6 @@ void DLG_Home::on_btn_Drag_clicked()
     {
         m_currentGateField->setCurrentClickMode(CLICK_DRAG);
     }
-
     QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
 }
 void DLG_Home::on_btn_Delete_clicked()
@@ -126,7 +155,6 @@ void DLG_Home::on_btn_Delete_clicked()
     {
         m_currentGateField->setCurrentClickMode(CLICK_DELETE_GATE);
     }
-
     QApplication::setOverrideCursor(Qt::CursorShape::CrossCursor);
 }
 void DLG_Home::on_btn_link_clicked()
@@ -135,7 +163,6 @@ void DLG_Home::on_btn_link_clicked()
     {
         m_currentGateField->setCurrentClickMode(CLICK_LINK_NODES);
     }
-
     QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
 }
 void DLG_Home::on_btn_DeleteLink_clicked()
@@ -144,7 +171,6 @@ void DLG_Home::on_btn_DeleteLink_clicked()
     {
         m_currentGateField->setCurrentClickMode(CLICK_DELETE_LINK_NODES);
     }
-
     QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
 }
 void DLG_Home::on_btn_click_clicked()
@@ -153,7 +179,6 @@ void DLG_Home::on_btn_click_clicked()
     {
         m_currentGateField->setCurrentClickMode(CLICK_DEFAULT);
     }
-
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
 void DLG_Home::SelectionToolClicked()
@@ -164,6 +189,7 @@ void DLG_Home::SelectionToolClicked()
     }
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
+
 void DLG_Home::on_btn_Pan_clicked()
 {
     if(m_currentGateField)

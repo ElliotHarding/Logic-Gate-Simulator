@@ -55,6 +55,7 @@ SOURCES += \
         GameObjects/GateTimer.cpp \
         GameObjects/GateToggle.cpp \
         gatefieldscontainer.cpp \
+    Dialogs/dlg_load.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -85,6 +86,7 @@ HEADERS += \
         GameObjects/GateSingleOutput.h \
         GameObjects/GateTimer.h \
         GameObjects/GateToggle.h \
+    Dialogs/dlg_load.h
 
 FORMS += \
         mainwindow.ui \
@@ -97,6 +99,7 @@ FORMS += \
         Dialogs/widget_customgates.ui \
         Dialogs/widget_inputgates.ui \
         Dialogs/widget_standard.ui \
+    Dialogs/dlg_load.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

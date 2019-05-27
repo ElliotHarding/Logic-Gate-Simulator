@@ -13,6 +13,7 @@
 #include "GateTimer.h"
 #include "gatecollection.h"
 
+
 class DLG_SaveGateCollection;
 class DLG_Home;
 
@@ -21,8 +22,9 @@ class GateField : public QWidget
     Q_OBJECT
 public:
 
+    //Construction
     explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent);
-    ~GateField() override;
+     ~GateField() override;
 
     void addGameObject(Gate* go, bool newlySpawned = true);
     void updateFunction();
@@ -31,7 +33,6 @@ public:
     GateCollection* GenerateGateCollection();
     bool SaveData();
     void DeleteGate(Gate* g);
-
     void Undo();
     void Redo();
 
@@ -93,7 +94,7 @@ private:
     QPoint m_selectionToolOrigin;
     const QColor selectionAreaColor = Qt::blue;
     std::vector<Gate*> m_selectedGates;
-    DLG_SaveGateCollection* m_saveGateCollection;
+    DLG_SaveGateCollection* m_pDlgSaveGateCollection;
 
     //Coords of newly spawned gate
     const int SPAWN_X = 300;

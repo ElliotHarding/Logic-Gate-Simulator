@@ -1,6 +1,6 @@
 #include "gatefield.h"
-#include "dlg_savegatecollection.h"
 #include "dlg_home.h"
+#include "dlg_savegatecollection.h"
 
 #include <QApplication>
 
@@ -8,7 +8,8 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent) :
     QWidget(parent),
     m_pParent(parent),
     m_name(name),
-    m_zoomFactor(zoomFactor)
+    m_zoomFactor(zoomFactor),
+    m_pDlgSaveGateCollection(new DLG_SaveGateCollection(this,this))
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -252,9 +253,7 @@ void GateField::mouseReleaseEvent(QMouseEvent *click)
         //Selection contains some gates, then we can save them as a gate collection
         if(m_selectedGates.size() > 0)
         {
-            m_saveGateCollection = new DLG_SaveGateCollection(this, this);
-            m_saveGateCollection->open();
-
+            m_pDlgSaveGateCollection->open();
             //GenerateGateCollection() gets called by the saveGateCollectionDialog
         }
         m_selectionTool = nullptr;

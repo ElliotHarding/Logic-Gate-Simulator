@@ -18,6 +18,12 @@ DLG_SaveGateCollection::~DLG_SaveGateCollection()
     delete ui;
 }
 
+void DLG_SaveGateCollection::open()
+{
+    ui->lb_error->hide();
+    QDialog::open();
+}
+
 void DLG_SaveGateCollection::on_Cancel_clicked()
 {
     //Close

@@ -1,13 +1,14 @@
 #include "mainwindow.h"
-#include "Dialogs/dlg_home.h"
+#include "dlg_home.h"
+#include "dlg_load.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    DLG_Home home;
-    home.show();
+    DLG_Load loadScreen;
+    loadScreen.show();
 
     return a.exec();
 }

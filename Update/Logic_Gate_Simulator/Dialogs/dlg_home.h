@@ -6,6 +6,7 @@
 #include <QThread>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QProgressBar>
 
 #include "allgates.h"
 #include "simpleslider.h"
@@ -30,7 +31,7 @@ class DLG_Home : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit DLG_Home(QWidget *parent = nullptr);
+    explicit DLG_Home(QProgressBar* progressBar, QWidget *parent = nullptr);
     ~DLG_Home();
 
     void SetZoomFactor(float zoomFactor);
@@ -42,8 +43,10 @@ public:
 private:
     Ui::DLG_Home *ui;
 
-    //Ui elements
-    DLG_GateInfo* m_gateInfo;
+    //Dialogs
+    DLG_GateInfo*   m_pDlgGateInfo;
+    QFileDialog*    m_pDlgLoadGates;
+    QInputDialog*   m_pDlgInput;
 
     //Gate widgets
     Widget_AllGates*    m_pWidgetAllGates;
@@ -52,10 +55,6 @@ private:
     Widget_Standard*    m_pWidgetStandardGates;
     Widget_InputGates*  m_pWidgetInputGates;
     QWidget* m_pCurrentShownGateWidget = nullptr;
-
-    //Diaglogs
-    QFileDialog* m_pDlgLoadGates;
-    QInputDialog* m_pDlgInput;
 
     //Widget animations
     void MoveWidget(QWidget* w, int xDir);

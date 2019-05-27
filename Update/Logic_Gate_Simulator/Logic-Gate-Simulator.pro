@@ -55,7 +55,8 @@ SOURCES += \
         GameObjects/GateTimer.cpp \
         GameObjects/GateToggle.cpp \
         gatefieldscontainer.cpp \
-    Dialogs/dlg_load.cpp
+    Dialogs/dlg_load.cpp \
+    GameObjects/gatetriand.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -86,7 +87,8 @@ HEADERS += \
         GameObjects/GateSingleOutput.h \
         GameObjects/GateTimer.h \
         GameObjects/GateToggle.h \
-    Dialogs/dlg_load.h
+    Dialogs/dlg_load.h \
+    GameObjects/gatetriand.h
 
 FORMS += \
         mainwindow.ui \

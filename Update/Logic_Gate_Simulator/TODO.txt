@@ -1,0 +1,2 @@
+Load file file browser in save name popup at startup
+When loading saved gatefield use name of file instead of entire path

@@ -2,6 +2,7 @@
 #include "ui_dlg_savegatecollection.h"
 #include "gatecollection.h"
 #include "filelocations.h"
+#include <QDir>
 
 DLG_SaveGateCollection::DLG_SaveGateCollection(GateField* currentGateField, QWidget *parent) :
     QDialog(parent),
@@ -26,6 +27,9 @@ void DLG_SaveGateCollection::on_Cancel_clicked()
 void DLG_SaveGateCollection::on_Save_clicked()
 {
     std::string name = ui->txt_name->toPlainText().toStdString();
+
+    if(!QDir(c_CustomGatesLocation).exists())
+        QDir().mkdir(c_CustomGatesLocation);
 
     std::ofstream newGateCollection(c_CustomGatesLocation.toStdString() + name + ".CustomGate");
     if(newGateCollection.is_open())

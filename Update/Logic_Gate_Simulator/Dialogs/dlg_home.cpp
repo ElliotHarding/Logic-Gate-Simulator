@@ -16,30 +16,8 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
         ui->setupUi(this);
     }
 
-    progressBar->setValue(30);
+    progressBar->setValue(33);
 
-    {
-        setMouseTracking(true);
-        ui->PlayField->clear();
-    }
-
-    progressBar->setValue(40);
-
-
-    {
-        m_pDlgGateInfo = new DLG_GateInfo(this);
-        this->layout()->addWidget(m_pDlgGateInfo);
-        m_pDlgGateInfo->move(ui->layout_Dlg_GateInfo->geometry().topLeft());
-        m_pDlgGateInfo->raise();
-    }
-
-    {
-         m_pDlgLoadGates = new QFileDialog(this);
-         m_pDlgInput = new QInputDialog(this);
-         m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
-    }
-
-    progressBar->setValue(50);
 
     {
         QLibrary lib( "Comctl32.dll" );
@@ -47,7 +25,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
         lib.load();
     }
 
-    progressBar->setValue(80);
+    progressBar->setValue(66);
 
     {
         const QPoint c_GateWidgetPosShowing = QPoint(0,60);
@@ -77,13 +55,27 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
         m_pCurrentShownGateWidget = m_pWidgetAllGates;
     }
 
-    progressBar->setValue(90);
-
     {
         m_allGateFields.reserve(10);
     }
 
-    progressBar->setValue(95);
+    {
+        setMouseTracking(true);
+        ui->PlayField->clear();
+    }
+
+    {
+        m_pDlgGateInfo = new DLG_GateInfo(this);
+        this->layout()->addWidget(m_pDlgGateInfo);
+        m_pDlgGateInfo->move(ui->layout_Dlg_GateInfo->geometry().topLeft());
+        m_pDlgGateInfo->raise();
+    }
+
+    {
+         m_pDlgLoadGates = new QFileDialog(this);
+         m_pDlgInput = new QInputDialog(this);
+         m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
+    }
 
     {
         //Add zoom slider to dialog

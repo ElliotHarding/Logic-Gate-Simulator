@@ -11,7 +11,7 @@ void GateSingleOutput::UpdateGraphics(QPainter *painter)
 {
     //Paiting variables to be used
     QPainterPath path;
-    QPen pen(Qt::black, 10);
+    QPen pen(Qt::lightGray, 10);
 
     //Draw gate
     painter->setPen(pen);
@@ -24,7 +24,7 @@ void GateSingleOutput::UpdateGraphics(QPainter *painter)
     activeRect.setTop(activeRect.top() + BorderWidth);
     activeRect.setBottom(activeRect.bottom() - BorderWidth);
 
-    pen.setColor(m_output.GetValue() ? Qt::red : Qt::black);
+    pen.setColor(m_output.GetValue() ? Qt::red : Qt::lightGray);
     pen.setWidth(20);
     painter->setPen(pen);
     painter->drawRect(activeRect);

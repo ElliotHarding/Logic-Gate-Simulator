@@ -32,6 +32,19 @@ bool GateToggle::UpdateClicked(int clickX, int clickY)
     return isClicked;
 }
 
+void GateToggle::UpdateGraphics(QPainter *painter)
+{
+    GateSingleOutput::UpdateGraphics(painter);
+
+    const QPoint pos = GetPosition();
+
+    QPen p;
+    p.setColor(Qt::black);
+    painter->setPen(p);
+
+    painter->drawText(pos.x(), pos.y() - (GateSingleOutputHeight/4), m_output.GetValue() ? "On" : "Off");
+}
+
 Gate *GateToggle::Clone()
 {
     GateToggle* clone = new GateToggle();

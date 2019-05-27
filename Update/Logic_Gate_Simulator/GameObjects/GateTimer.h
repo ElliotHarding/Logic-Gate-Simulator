@@ -14,6 +14,7 @@ public:
 
     virtual void UpdateOutput() override;
     virtual void SaveData(std::ofstream& storage) override;
+    virtual void UpdateGraphics(QPainter* painter) override;
     virtual Gate* Clone() override;
 
     void setFrequency(int frequency) {m_frequency = frequency;}

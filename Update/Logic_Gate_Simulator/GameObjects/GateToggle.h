@@ -14,6 +14,7 @@ public:
 
     virtual void UpdateOutput() override;
     virtual bool UpdateClicked(int clickX, int clickY) override;
+    virtual void UpdateGraphics(QPainter* painter) override;
     virtual Gate* Clone() override;
 
     void SaveData(std::ofstream& storage) override;

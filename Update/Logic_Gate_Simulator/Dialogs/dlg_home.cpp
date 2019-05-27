@@ -115,7 +115,8 @@ DLG_Home::~DLG_Home()
 void DLG_Home::SetZoomFactor(float zoomFactor)
 {
     m_ZoomFactor = zoomFactor;
-    m_currentGateField->setZoomLevel(m_ZoomFactor);
+    if(m_currentGateField)
+        m_currentGateField->setZoomLevel(m_ZoomFactor);
 }
 
 void DLG_Home::AddGate(Gate *g)

@@ -1,8 +1,6 @@
 #include "dlg_home.h"
 #include "ui_dlg_home.h"
 #include <QLayout>
-#include <QFileDialog>
-#include <QInputDialog>
 #include "gatereader.h"
 
 DLG_Home::DLG_Home(QWidget *parent) :
@@ -16,7 +14,9 @@ DLG_Home::DLG_Home(QWidget *parent) :
     m_pWidgetCustomGates(new Widget_CustomGates(this)),
     m_pWidgetAdvancedGates(new Widget_Advanced(this)),
     m_pWidgetStandardGates(new Widget_Standard(this)),
-    m_pWidgetInputGates(new Widget_InputGates(this))
+    m_pWidgetInputGates(new Widget_InputGates(this)),
+    m_pDlgLoadGates(new QFileDialog(this)),
+    m_pDlgInput(new QInputDialog)
 {
     ui->setupUi(this);
     setMouseTracking(true);
@@ -31,6 +31,9 @@ DLG_Home::DLG_Home(QWidget *parent) :
     this->layout()->addWidget(m_gateInfo);
     m_gateInfo->move(ui->layout_Dlg_GateInfo->geometry().topLeft());
     m_gateInfo->raise();
+
+    const QPoint c_GateWidgetPosShowing = QPoint(0,60);
+    const QPoint c_GateWidgetPosHidden = QPoint(-160,60);
 
     m_pWidgetCustomGates->move(c_GateWidgetPosHidden);
     m_pWidgetAdvancedGates->move(c_GateWidgetPosHidden);
@@ -250,7 +253,7 @@ void DLG_Home::on_btn_newPage_clicked()
 {
     //Request page name
     bool ok;
-    QString newPageName = QInputDialog::getText(this, tr("QInputDialog::getText()"),
+    QString newPageName = m_pDlgInput->getText(this, tr("QInputDialog::getText()"),
                                          tr("Page name: "), QLineEdit::Normal,
                                          QDir::home().dirName(), &ok);
     if(ok)
@@ -281,7 +284,7 @@ void DLG_Home::on_btn_Save_clicked()
 void DLG_Home::on_btn_load_clicked()
 {
     //Promt user for gate colleciton file
-    QStringList fileNames = QFileDialog::getOpenFileNames(this);
+    QStringList fileNames = m_pDlgLoadGates->getOpenFileNames(this);
 
     //Loop vars
     GateReader reader;

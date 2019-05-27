@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QMouseEvent>
 #include <QThread>
+#include <QFileDialog>
+#include <QInputDialog>
 
 #include "allgates.h"
 #include "simpleslider.h"
@@ -50,8 +52,10 @@ private:
     Widget_Standard*    m_pWidgetStandardGates;
     Widget_InputGates*  m_pWidgetInputGates;
     QWidget* m_pCurrentShownGateWidget = nullptr;
-    const QPoint c_GateWidgetPosShowing = QPoint(0,60);
-    const QPoint c_GateWidgetPosHidden = QPoint(-160,60);
+
+    //Diaglogs
+    QFileDialog* m_pDlgLoadGates;
+    QInputDialog* m_pDlgInput;
 
     //Widget animations
     void MoveWidget(QWidget* w, int xDir);

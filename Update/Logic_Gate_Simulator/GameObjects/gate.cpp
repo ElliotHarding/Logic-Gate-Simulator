@@ -201,48 +201,42 @@ std::string Node::GetLinkedNodesIds()
 
 bool Node::LinkNode(Node*& n)
 {
-    if(m_nodeType == InputNode)
+    //Check if already linked
+    for (Node* alreadyLinkedNode : m_linkedNodes)
     {
-        return true;
-    }
-    else if(m_nodeType == OutputNode)
-    {
-        //Check if already linked
-        for (Node* alreadyLinkedNode : m_linkedNodes)
+        if(&alreadyLinkedNode == &n)
         {
-            if(&alreadyLinkedNode == &n)
-            {
-                return false;
-            }
+            return false;
         }
-
-        m_linked = true;
-        m_linkedNodes.push_back(n);
-        m_parent->UpdateOutput();
-
-        return true;
     }
-    return false;
+
+    m_linked = true;
+    m_linkedNodes.push_back(n);
+    m_parent->UpdateOutput();
+
+    return true;
 }
 
 void Node::DetachNode()
 {
     for (Node* n : m_linkedNodes)
     {
-        n->DetachNode(this);
+        for(size_t index = 0; index < n->m_linkedNodes.size(); index++)
+        {
+            if(this->m_id == n->m_linkedNodes[index]->m_id)
+            {
+                n->m_linkedNodes[index] = nullptr;
+                n->m_linkedNodes.erase(n->m_linkedNodes.begin() + index);
+                break;
+            }
+        }
+
+        if(m_nodeType == OutputNode)
+        {
+            n->SetValue(0);
+        }
+
         n = nullptr;
     }
     m_linkedNodes.clear();
-}
-
-void Node::DetachNode(Node* n)
-{
-    for(size_t index = 0; index < m_linkedNodes.size(); index++)
-    {
-        if(&m_linkedNodes[index] == &n)
-        {
-            m_linkedNodes.erase(m_linkedNodes.begin() + index);
-            return;
-        }
-    }
 }

@@ -107,9 +107,6 @@ public:
     int m_id;
     NodeType m_nodeType = InputNode;
 
-protected:
-    void DetachNode(Node* n);
-
 private:
     std::vector<Node*> m_linkedNodes;
     Gate* m_parent = nullptr;

@@ -64,6 +64,7 @@ private:
     void MoveWidget(QWidget* w, int xDir);
     void SwitchWidgets(QWidget* w1);
     const int c_moveWidgetsIncrement = 2;
+    const int c_moveWidgetDistance = 160;
 
     //Zooming
     qreal m_ZoomFactor;
@@ -73,13 +74,13 @@ private:
     //Gatefields
     GateField* m_currentGateField = nullptr;
     std::vector<GateField*> m_allGateFields;
-    void addGateField(QString name);
-    GateField* createNewGateField(QString name);
+    void addGateField(QString& name);
+    GateField* createNewGateField(QString& name);
 
     //Controls
     SimpleSlider* m_zoomSlider;
-    const int c_zoomSliderWidth = 80;
-    const QPoint c_zoomSliderPos = QPoint(900,130);
+
+    QRect accountForUIOffsetts(const QRect& rect);
 
 private slots:
 

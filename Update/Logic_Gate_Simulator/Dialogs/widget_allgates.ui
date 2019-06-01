@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>160</width>
+    <width>140</width>
     <height>300</height>
    </rect>
   </property>
@@ -16,10 +16,13 @@
   <property name="autoFillBackground">
    <bool>true</bool>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgb(234, 234, 234);</string>
+  </property>
   <widget class="QPushButton" name="btn_orGate">
    <property name="geometry">
     <rect>
-     <x>5</x>
+     <x>-5</x>
      <y>0</y>
      <width>50</width>
      <height>40</height>
@@ -48,7 +51,7 @@
   <widget class="QPushButton" name="btn_recieverGate">
    <property name="geometry">
     <rect>
-     <x>105</x>
+     <x>95</x>
      <y>40</y>
      <width>50</width>
      <height>40</height>
@@ -77,7 +80,7 @@
   <widget class="QPushButton" name="btn_andGate">
    <property name="geometry">
     <rect>
-     <x>105</x>
+     <x>95</x>
      <y>0</y>
      <width>50</width>
      <height>40</height>
@@ -109,7 +112,7 @@
   <widget class="QPushButton" name="btn_notGate">
    <property name="geometry">
     <rect>
-     <x>55</x>
+     <x>45</x>
      <y>0</y>
      <width>50</width>
      <height>40</height>
@@ -138,7 +141,7 @@
   <widget class="QPushButton" name="btn_sourceGate">
    <property name="geometry">
     <rect>
-     <x>55</x>
+     <x>45</x>
      <y>40</y>
      <width>50</width>
      <height>40</height>
@@ -167,7 +170,7 @@
   <widget class="QPushButton" name="btn_timerGate">
    <property name="geometry">
     <rect>
-     <x>5</x>
+     <x>-5</x>
      <y>80</y>
      <width>50</width>
      <height>40</height>
@@ -196,7 +199,7 @@
   <widget class="QPushButton" name="btn_inputOn">
    <property name="geometry">
     <rect>
-     <x>55</x>
+     <x>45</x>
      <y>80</y>
      <width>50</width>
      <height>40</height>
@@ -225,7 +228,7 @@
   <widget class="QPushButton" name="btn_inputOff">
    <property name="geometry">
     <rect>
-     <x>105</x>
+     <x>95</x>
      <y>80</y>
      <width>50</width>
      <height>40</height>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>160</width>
+    <width>140</width>
     <height>300</height>
    </rect>
   </property>
@@ -15,6 +15,9 @@
   </property>
   <property name="autoFillBackground">
    <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgb(234, 234, 234);</string>
   </property>
  </widget>
  <resources/>

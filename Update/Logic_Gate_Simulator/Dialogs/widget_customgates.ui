@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>160</width>
+    <width>140</width>
     <height>300</height>
    </rect>
   </property>
@@ -14,14 +14,17 @@
    <string>Form</string>
   </property>
   <property name="autoFillBackground">
-   <bool>true</bool>
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgb(234, 234, 234);</string>
   </property>
   <widget class="QListWidget" name="customGateListWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>39</y>
-     <width>141</width>
+     <y>40</y>
+     <width>121</width>
      <height>251</height>
     </rect>
    </property>

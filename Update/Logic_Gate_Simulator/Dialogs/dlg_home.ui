@@ -330,8 +330,8 @@ border:none;</string>
     </property>
     <property name="iconSize">
      <size>
-      <width>24</width>
-      <height>24</height>
+      <width>22</width>
+      <height>22</height>
      </size>
     </property>
     <property name="flat">
@@ -444,10 +444,10 @@ border:none;</string>
    <widget class="QWidget" name="layout_Dlg_GateInfo" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>9</x>
       <y>350</y>
-      <width>160</width>
-      <height>190</height>
+      <width>140</width>
+      <height>180</height>
      </rect>
     </property>
    </widget>
@@ -610,9 +610,9 @@ border:none;</string>
    <widget class="QWidget" name="widget_4" native="true">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>0</x>
       <y>31</y>
-      <width>841</width>
+      <width>1001</width>
       <height>510</height>
      </rect>
     </property>
@@ -706,6 +706,16 @@ QComboBox::down-arrow {
      </property>
     </item>
    </widget>
+   <widget class="QWidget" name="layout_GateWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>140</width>
+      <height>300</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>widget_2</zorder>
    <zorder>widget_4</zorder>
    <zorder>layout_ZoomSlider</zorder>
@@ -723,6 +733,7 @@ QComboBox::down-arrow {
    <zorder>layout_Dlg_GateInfo</zorder>
    <zorder>PlayField</zorder>
    <zorder>comboBox</zorder>
+   <zorder>layout_GateWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

@@ -6,12 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>160</width>
-    <height>190</height>
+    <width>140</width>
+    <height>180</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgb(234, 234, 234);</string>
   </property>
   <widget class="QCheckBox" name="cb_Enabled">
    <property name="geometry">
@@ -29,7 +35,7 @@
   <widget class="QPushButton" name="btn_DeleteGate">
    <property name="geometry">
     <rect>
-     <x>125</x>
+     <x>105</x>
      <y>5</y>
      <width>31</width>
      <height>31</height>
@@ -98,8 +104,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>160</y>
-     <width>141</width>
+     <y>150</y>
+     <width>121</width>
      <height>20</height>
     </rect>
    </property>
@@ -108,7 +114,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>140</y>
+     <y>130</y>
      <width>111</width>
      <height>21</height>
     </rect>

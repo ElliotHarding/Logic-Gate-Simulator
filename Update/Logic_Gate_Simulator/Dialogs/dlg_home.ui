@@ -23,14 +23,27 @@
       <x>160</x>
       <y>30</y>
       <width>805</width>
-      <height>511</height>
+      <height>510</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);
+border:none;</string>
     </property>
     <property name="tabPosition">
      <enum>QTabWidget::North</enum>
     </property>
+    <property name="tabShape">
+     <enum>QTabWidget::Rounded</enum>
+    </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>5</width>
+      <height>5</height>
+     </size>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideMiddle</enum>
@@ -221,7 +234,7 @@
     <property name="geometry">
      <rect>
       <x>965</x>
-      <y>50</y>
+      <y>35</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -253,7 +266,7 @@
     <property name="geometry">
      <rect>
       <x>965</x>
-      <y>80</y>
+      <y>75</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -278,108 +291,13 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="menu_btn_InputGates">
-    <property name="geometry">
-     <rect>
-      <x>98</x>
-      <y>4</y>
-      <width>53</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Input</string>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="menu_btn_allGates">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>4</y>
-      <width>32</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>All</string>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="menu_btn_standardGates">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>24</y>
-      <width>72</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Standard</string>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="menu_btn_customGates">
-    <property name="geometry">
-     <rect>
-      <x>39</x>
-      <y>4</y>
-      <width>62</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Custom</string>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="menu_btn_advancedGates">
-    <property name="geometry">
-     <rect>
-      <x>79</x>
-      <y>24</y>
-      <width>72</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Advanced</string>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_Save">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>0</y>
-      <width>32</width>
-      <height>32</height>
+      <x>200</x>
+      <y>3</y>
+      <width>24</width>
+      <height>24</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -394,8 +312,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
     <property name="flat">
@@ -405,10 +323,10 @@
    <widget class="QPushButton" name="btn_newPage">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>0</y>
-      <width>32</width>
-      <height>32</height>
+      <x>170</x>
+      <y>3</y>
+      <width>24</width>
+      <height>24</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -423,40 +341,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>30</width>
-      <height>30</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_load">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>0</y>
-      <width>32</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="../resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
     <property name="flat">
@@ -495,7 +381,7 @@
    <widget class="QPushButton" name="btn_undo">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>270</x>
       <y>5</y>
       <width>24</width>
       <height>24</height>
@@ -527,7 +413,7 @@
    <widget class="QPushButton" name="btn_redo">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>300</x>
       <y>5</y>
       <width>24</width>
       <height>24</height>
@@ -558,7 +444,7 @@
      <rect>
       <x>850</x>
       <y>0</y>
-      <width>111</width>
+      <width>151</width>
       <height>31</height>
      </rect>
     </property>
@@ -576,19 +462,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>960</x>
-      <y>110</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
      <rect>
@@ -604,22 +477,95 @@
     <property name="styleSheet">
      <string notr="true">background-color: rgb(59, 59, 59);</string>
     </property>
-   </widget>
-   <widget class="QWidget" name="widget_3" native="true">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(116, 116, 116);</string>
-    </property>
+    <widget class="QPushButton" name="btn_load">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>3</y>
+       <width>24</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../resouces.qrc">
+       <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="Line" name="line_3">
+     <property name="geometry">
+      <rect>
+       <x>92</x>
+       <y>5</y>
+       <width>20</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:rgb(255, 255, 255);</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_5">
+     <property name="geometry">
+      <rect>
+       <x>-5</x>
+       <y>5</y>
+       <width>20</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:rgb(255, 255, 255);</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="Line" name="line_6">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>5</y>
+       <width>20</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:rgb(255, 255, 255);</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="widget_4" native="true">
     <property name="geometry">
@@ -627,7 +573,7 @@
       <x>160</x>
       <y>31</y>
       <width>841</width>
-      <height>511</height>
+      <height>510</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -636,11 +582,93 @@
     <property name="styleSheet">
      <string notr="true">background-color: rgb(116, 116, 116);</string>
     </property>
+    <widget class="Line" name="line">
+     <property name="geometry">
+      <rect>
+       <x>810</x>
+       <y>90</y>
+       <width>25</width>
+       <height>3</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </widget>
-   <zorder>widget_4</zorder>
-   <zorder>widget_3</zorder>
-   <zorder>layout_ZoomSlider</zorder>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>160</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/*background-color: rgb(59, 59, 59);*/
+/*border:none;*/
+
+QComboBox {
+    color: black;
+    font: 14px;
+    padding: 1px 0px 1px 3px; /* This (useless) line resolves a bug with the font color */
+}
+
+QComboBox:focus {
+    color: black;
+}
+
+QComboBox::drop-down 
+{
+    border: 0px; /* This seems to replace the whole arrow of the combo box */
+}
+
+Define a new custom arrow icon for the combo box 
+QComboBox::down-arrow {
+    image: url(Resources/empty.png);
+    width: 14px;
+    height: 14px;
+}</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>All</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Standard</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Custom</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Input</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Advanced</string>
+     </property>
+    </item>
+   </widget>
    <zorder>widget_2</zorder>
+   <zorder>widget_4</zorder>
+   <zorder>layout_ZoomSlider</zorder>
    <zorder>btn_Drag</zorder>
    <zorder>btn_Delete</zorder>
    <zorder>btn_link</zorder>
@@ -648,20 +676,14 @@
    <zorder>btn_click</zorder>
    <zorder>btn_zoomIn</zorder>
    <zorder>btn_zoomOut</zorder>
-   <zorder>menu_btn_InputGates</zorder>
-   <zorder>menu_btn_allGates</zorder>
-   <zorder>menu_btn_standardGates</zorder>
-   <zorder>menu_btn_customGates</zorder>
-   <zorder>menu_btn_advancedGates</zorder>
    <zorder>btn_Save</zorder>
    <zorder>btn_newPage</zorder>
-   <zorder>btn_load</zorder>
    <zorder>btn_Pan</zorder>
    <zorder>btn_undo</zorder>
    <zorder>btn_redo</zorder>
    <zorder>layout_Dlg_GateInfo</zorder>
-   <zorder>line</zorder>
    <zorder>PlayField</zorder>
+   <zorder>comboBox</zorder>
   </widget>
   <action name="actionNew_page">
    <property name="text">

@@ -210,30 +210,40 @@ void DLG_Home::on_btn_Pan_clicked()
 }
 
 
-
-
 // -- HANDLERS FOR GATES MENU BUTTONS --
-void DLG_Home::on_menu_btn_allGates_clicked()
+
+enum GateWidgetPage
 {
-    SwitchWidgets(m_pWidgetAllGates);
-}
-void DLG_Home::on_menu_btn_customGates_clicked()
+    ALL_GATES,
+    STANDARD_GATES,
+    CUSTOM_GATES,
+    INPUT_GATES,
+    ADVANCED_GATES
+};
+
+void DLG_Home::on_comboBox_currentIndexChanged(int index)
 {
-    SwitchWidgets(m_pWidgetCustomGates);
-    m_pWidgetCustomGates->UpdateList();
+    switch (index)
+    {
+        case ALL_GATES:
+            SwitchWidgets(m_pWidgetAllGates);
+            break;
+        case CUSTOM_GATES:
+            SwitchWidgets(m_pWidgetCustomGates);
+            m_pWidgetCustomGates->UpdateList();
+            break;
+        case INPUT_GATES:
+            SwitchWidgets(m_pWidgetInputGates);
+            break;
+        case STANDARD_GATES:
+            SwitchWidgets(m_pWidgetStandardGates);
+            break;
+        case ADVANCED_GATES:
+            SwitchWidgets(m_pWidgetAdvancedGates);
+            break;
+    }
 }
-void DLG_Home::on_menu_btn_InputGates_clicked()
-{
-    SwitchWidgets(m_pWidgetInputGates);
-}
-void DLG_Home::on_menu_btn_standardGates_clicked()
-{
-    SwitchWidgets(m_pWidgetStandardGates);
-}
-void DLG_Home::on_menu_btn_advancedGates_clicked()
-{
-    SwitchWidgets(m_pWidgetAdvancedGates);
-}
+
 void DLG_Home::SwitchWidgets(QWidget* w)
 {
     if(w != m_pCurrentShownGateWidget)

@@ -100,16 +100,13 @@ private slots:
     void on_btn_undo_clicked();
     void on_btn_redo_clicked();
 
-    //Menu buttons
-    void on_menu_btn_allGates_clicked();
-    void on_menu_btn_customGates_clicked();
-    void on_menu_btn_InputGates_clicked();
-    void on_menu_btn_standardGates_clicked();
-    void on_menu_btn_advancedGates_clicked();
+    //Gate widget switching
+    void on_comboBox_currentIndexChanged(int index);
 
     //Tabs
     void on_PlayField_tabCloseRequested(int index);
     void on_PlayField_currentChanged(int index);
+
 };
 
 #ifdef zero

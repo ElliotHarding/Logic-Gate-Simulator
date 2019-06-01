@@ -4,20 +4,21 @@
 #include <QLibrary>
 #include "gatereader.h"
 
-DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
+DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
     m_ZoomFactor(0.5)
 {
 
     progressBar->setValue(10);
+    txtProgress->setText("Setting up UI...");
 
     {
         ui->setupUi(this);
     }
 
     progressBar->setValue(33);
-
+    txtProgress->setText("Loading additional libs");
 
     {
         QLibrary lib( "Comctl32.dll" );
@@ -26,10 +27,11 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
     }
 
     progressBar->setValue(66);
+    txtProgress->setText("Intializing child components");
 
     {
-        const QPoint c_GateWidgetPosShowing = QPoint(0,51);
-        const QPoint c_GateWidgetPosHidden = QPoint(-160,51);
+        const QPoint c_GateWidgetPosShowing = QPoint(0,52);
+        const QPoint c_GateWidgetPosHidden = QPoint(-160,52);
 
         //Gate widgets
         m_pWidgetAllGates = new Widget_AllGates(this);
@@ -81,7 +83,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
     {
         //Get layout & shift because menu bar offsetts y-positions
         QRect layout = ui->layout_ZoomSlider->geometry();
-        layout.setY(layout.y() + 20);
+        layout.setY(layout.y() + 22);
 
         //Setup
         m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, layout, this);
@@ -89,6 +91,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
     }
 
     progressBar->setValue(100);
+    txtProgress->setText("Done!");
 }
 
 DLG_Home::~DLG_Home()

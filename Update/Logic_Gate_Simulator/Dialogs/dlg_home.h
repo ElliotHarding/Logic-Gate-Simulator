@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QProgressBar>
+#include <QLabel>
 
 #include "allgates.h"
 #include "gatefield.h"
@@ -33,7 +34,7 @@ class DLG_Home : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit DLG_Home(QProgressBar* progressBar, QWidget *parent = nullptr);
+    explicit DLG_Home(QProgressBar* progressBar, QLabel *txtProgress, QWidget *parent = nullptr);
     ~DLG_Home();
 
     void SetZoomFactor(float zoomFactor);

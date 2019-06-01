@@ -7,6 +7,10 @@ DLG_Load::DLG_Load(QWidget *parent) :
     ui(new Ui::DLG_Load)
 {
     ui->setupUi(this);
+
+    //Inital ui values
+    ui->progressBar->setValue(0);
+    ui->lbl_progressStep->setText("Initalizing");
 }
 
 DLG_Load::~DLG_Load()
@@ -14,9 +18,30 @@ DLG_Load::~DLG_Load()
     delete ui;
 }
 
-void DLG_Load::on_btnLoad_clicked()
+bool DLG_Load::event(QEvent *event)
 {
-    ui->progressBar->setValue(0);
-    DLG_Home* home = new DLG_Home(ui->progressBar);
+    int returnValue = QWidget::event(event);
+
+    if(m_bUiElementsVisible && !m_bStartedLoad)
+    {
+        Load();
+    }
+
+    if (event->type() == QEvent::Paint)
+    {
+        m_bUiElementsVisible = true;
+        return true;
+    }
+
+    return returnValue;
+}
+
+void DLG_Load::Load()
+{
+    m_bStartedLoad = true;
+
+    DLG_Home* home = new DLG_Home(ui->progressBar, ui->lbl_progressStep);
     home->show();
+
+    close();
 }

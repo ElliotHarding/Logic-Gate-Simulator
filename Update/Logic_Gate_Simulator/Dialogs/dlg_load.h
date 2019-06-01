@@ -16,11 +16,16 @@ public:
     explicit DLG_Load(QWidget *parent = nullptr);
     ~DLG_Load() override;
 
-private slots:
-    void on_btnLoad_clicked();
+protected:
+    bool event(QEvent *event) override;
 
 private:
     Ui::DLG_Load *ui;
+
+    bool m_bUiElementsVisible = false;
+    bool m_bStartedLoad = false;
+
+    void Load();
 };
 
 #endif // DLG_LOAD_H

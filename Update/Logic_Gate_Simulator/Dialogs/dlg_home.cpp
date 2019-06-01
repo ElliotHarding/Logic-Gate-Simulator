@@ -28,8 +28,8 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
     progressBar->setValue(66);
 
     {
-        const QPoint c_GateWidgetPosShowing = QPoint(0,30);
-        const QPoint c_GateWidgetPosHidden = QPoint(-160,30);
+        const QPoint c_GateWidgetPosShowing = QPoint(0,50);
+        const QPoint c_GateWidgetPosHidden = QPoint(-160,50);
 
         //Gate widgets
         m_pWidgetAllGates = new Widget_AllGates(this);
@@ -77,9 +77,13 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
          m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
     }
 
+    //Add zoom slider to dialog
     {
-        //Add zoom slider to dialog
+        //Get layout & shift because menu bar offsetts y-positions
         QRect layout = ui->layout_ZoomSlider->geometry();
+        layout.setY(layout.y() + 20);
+
+        //Setup
         m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, layout, this);
         this->layout()->addWidget(m_zoomSlider);
     }

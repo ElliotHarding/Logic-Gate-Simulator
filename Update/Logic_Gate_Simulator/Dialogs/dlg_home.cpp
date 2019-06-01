@@ -10,14 +10,14 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     m_ZoomFactor(0.5)
 {
 
-    progressBar->setValue(10);
+    progressBar->setValue(20);
     txtProgress->setText("Setting up UI...");
 
     {
         ui->setupUi(this);
     }
 
-    progressBar->setValue(33);
+    progressBar->setValue(45);
     txtProgress->setText("Loading additional libs");
 
     {

@@ -13,27 +13,30 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="PlayField">
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>10</y>
-      <width>711</width>
-      <height>531</height>
+      <y>30</y>
+      <width>805</width>
+      <height>511</height>
      </rect>
     </property>
     <property name="tabPosition">
      <enum>QTabWidget::North</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideMiddle</enum>
     </property>
     <property name="usesScrollButtons">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="documentMode">
      <bool>false</bool>
@@ -42,7 +45,7 @@
      <bool>true</bool>
     </property>
     <property name="movable">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="tabBarAutoHide">
      <bool>false</bool>
@@ -66,10 +69,10 @@
    <widget class="QPushButton" name="btn_Drag">
     <property name="geometry">
      <rect>
-      <x>875</x>
-      <y>135</y>
-      <width>41</width>
-      <height>41</height>
+      <x>965</x>
+      <y>130</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -101,10 +104,10 @@
    <widget class="QPushButton" name="btn_Delete">
     <property name="geometry">
      <rect>
-      <x>955</x>
-      <y>135</y>
-      <width>41</width>
-      <height>41</height>
+      <x>965</x>
+      <y>250</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -130,10 +133,10 @@
    <widget class="QPushButton" name="btn_link">
     <property name="geometry">
      <rect>
-      <x>915</x>
-      <y>175</y>
-      <width>41</width>
-      <height>41</height>
+      <x>965</x>
+      <y>290</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -159,10 +162,10 @@
    <widget class="QPushButton" name="btn_DeleteLink">
     <property name="geometry">
      <rect>
-      <x>955</x>
-      <y>175</y>
-      <width>41</width>
-      <height>41</height>
+      <x>965</x>
+      <y>330</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -188,10 +191,10 @@
    <widget class="QPushButton" name="btn_click">
     <property name="geometry">
      <rect>
-      <x>875</x>
-      <y>175</y>
-      <width>41</width>
-      <height>41</height>
+      <x>965</x>
+      <y>210</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -207,7 +210,7 @@
     <property name="iconSize">
      <size>
       <width>30</width>
-      <height>32</height>
+      <height>30</height>
      </size>
     </property>
     <property name="flat">
@@ -217,10 +220,10 @@
    <widget class="QPushButton" name="btn_zoomIn">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>40</y>
-      <width>41</width>
-      <height>41</height>
+      <x>965</x>
+      <y>50</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -249,10 +252,10 @@
    <widget class="QPushButton" name="btn_zoomOut">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>40</y>
-      <width>41</width>
-      <height>41</height>
+      <x>965</x>
+      <y>80</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -278,88 +281,105 @@
    <widget class="QPushButton" name="menu_btn_InputGates">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>10</y>
-      <width>51</width>
+      <x>98</x>
+      <y>4</y>
+      <width>53</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Input</string>
     </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="menu_btn_allGates">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>31</width>
+      <y>4</y>
+      <width>32</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>All</string>
     </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="menu_btn_standardGates">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>71</width>
+      <y>24</y>
+      <width>72</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Standard</string>
     </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="menu_btn_customGates">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>10</y>
-      <width>61</width>
+      <x>39</x>
+      <y>4</y>
+      <width>62</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Custom</string>
     </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="menu_btn_advancedGates">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>30</y>
-      <width>71</width>
+      <x>79</x>
+      <y>24</y>
+      <width>72</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Advanced</string>
     </property>
-   </widget>
-   <widget class="Line" name="line_3">
-    <property name="geometry">
-     <rect>
-      <x>880</x>
-      <y>70</y>
-      <width>111</width>
-      <height>20</height>
-     </rect>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_Save">
     <property name="geometry">
      <rect>
-      <x>871</x>
-      <y>85</y>
-      <width>41</width>
-      <height>41</height>
+      <x>190</x>
+      <y>0</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -385,10 +405,10 @@
    <widget class="QPushButton" name="btn_newPage">
     <property name="geometry">
      <rect>
-      <x>911</x>
-      <y>85</y>
-      <width>41</width>
-      <height>40</height>
+      <x>160</x>
+      <y>0</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -414,11 +434,14 @@
    <widget class="QPushButton" name="btn_load">
     <property name="geometry">
      <rect>
-      <x>951</x>
-      <y>85</y>
-      <width>41</width>
-      <height>41</height>
+      <x>220</x>
+      <y>0</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
     </property>
     <property name="styleSheet">
      <string notr="true"/>
@@ -443,10 +466,10 @@
    <widget class="QPushButton" name="btn_Pan">
     <property name="geometry">
      <rect>
-      <x>915</x>
-      <y>135</y>
-      <width>41</width>
-      <height>41</height>
+      <x>965</x>
+      <y>170</y>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -472,10 +495,10 @@
    <widget class="QPushButton" name="btn_undo">
     <property name="geometry">
      <rect>
-      <x>920</x>
+      <x>260</x>
       <y>5</y>
-      <width>30</width>
-      <height>30</height>
+      <width>24</width>
+      <height>24</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -504,10 +527,10 @@
    <widget class="QPushButton" name="btn_redo">
     <property name="geometry">
      <rect>
-      <x>960</x>
+      <x>290</x>
       <y>5</y>
-      <width>30</width>
-      <height>30</height>
+      <width>24</width>
+      <height>24</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -533,29 +556,32 @@
    <widget class="QWidget" name="layout_ZoomSlider" native="true">
     <property name="geometry">
      <rect>
-      <x>901</x>
-      <y>46</y>
-      <width>61</width>
+      <x>850</x>
+      <y>0</y>
+      <width>111</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QWidget" name="layout_Dlg_GateInfo" native="true">
     <property name="geometry">
      <rect>
-      <x>875</x>
+      <x>0</x>
       <y>350</y>
-      <width>120</width>
+      <width>160</width>
       <height>190</height>
      </rect>
     </property>
    </widget>
-   <widget class="Line" name="line_5">
+   <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>880</x>
-      <y>340</y>
-      <width>111</width>
+      <x>960</x>
+      <y>110</y>
+      <width>41</width>
       <height>20</height>
      </rect>
     </property>
@@ -563,32 +589,79 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="Line" name="line_2">
+   <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>880</x>
-      <y>120</y>
-      <width>111</width>
-      <height>20</height>
+      <x>160</x>
+      <y>0</y>
+      <width>841</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(59, 59, 59);</string>
     </property>
    </widget>
-   <widget class="Line" name="line_6">
+   <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">
      <rect>
-      <x>880</x>
-      <y>210</y>
-      <width>111</width>
-      <height>20</height>
+      <x>0</x>
+      <y>0</y>
+      <width>161</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(116, 116, 116);</string>
     </property>
    </widget>
+   <widget class="QWidget" name="widget_4" native="true">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>31</y>
+      <width>841</width>
+      <height>511</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(116, 116, 116);</string>
+    </property>
+   </widget>
+   <zorder>widget_4</zorder>
+   <zorder>widget_3</zorder>
+   <zorder>layout_ZoomSlider</zorder>
+   <zorder>widget_2</zorder>
+   <zorder>btn_Drag</zorder>
+   <zorder>btn_Delete</zorder>
+   <zorder>btn_link</zorder>
+   <zorder>btn_DeleteLink</zorder>
+   <zorder>btn_click</zorder>
+   <zorder>btn_zoomIn</zorder>
+   <zorder>btn_zoomOut</zorder>
+   <zorder>menu_btn_InputGates</zorder>
+   <zorder>menu_btn_allGates</zorder>
+   <zorder>menu_btn_standardGates</zorder>
+   <zorder>menu_btn_customGates</zorder>
+   <zorder>menu_btn_advancedGates</zorder>
+   <zorder>btn_Save</zorder>
+   <zorder>btn_newPage</zorder>
+   <zorder>btn_load</zorder>
+   <zorder>btn_Pan</zorder>
+   <zorder>btn_undo</zorder>
+   <zorder>btn_redo</zorder>
+   <zorder>layout_Dlg_GateInfo</zorder>
+   <zorder>line</zorder>
+   <zorder>PlayField</zorder>
   </widget>
   <action name="actionNew_page">
    <property name="text">

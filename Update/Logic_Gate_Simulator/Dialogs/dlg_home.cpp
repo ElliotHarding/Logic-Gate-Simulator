@@ -28,8 +28,8 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QWidget *parent) :
     progressBar->setValue(66);
 
     {
-        const QPoint c_GateWidgetPosShowing = QPoint(0,50);
-        const QPoint c_GateWidgetPosHidden = QPoint(-160,50);
+        const QPoint c_GateWidgetPosShowing = QPoint(0,51);
+        const QPoint c_GateWidgetPosHidden = QPoint(-160,51);
 
         //Gate widgets
         m_pWidgetAllGates = new Widget_AllGates(this);

@@ -62,6 +62,7 @@ private:
     //Widget animations
     void MoveWidget(QWidget* w, int xDir);
     void SwitchWidgets(QWidget* w1);
+    const int c_moveWidgetsIncrement = 2;
 
     //Zooming
     qreal m_ZoomFactor;

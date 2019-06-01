@@ -248,14 +248,16 @@ void DLG_Home::SwitchWidgets(QWidget* w)
 {
     if(w != m_pCurrentShownGateWidget)
     {
-        w->raise();
+        w->raise();    
 
-        for (int moved = 0; moved < w->geometry().width(); moved++)
+        for (int moved = 0; moved < w->geometry().width(); moved += c_moveWidgetsIncrement)
         {
+            //Retract current shown widget
             if(m_pCurrentShownGateWidget)
-                MoveWidget(m_pCurrentShownGateWidget, -1);
+                MoveWidget(m_pCurrentShownGateWidget, -c_moveWidgetsIncrement);
 
-            MoveWidget(w, 1);
+            //Move out new one to show
+            MoveWidget(w, c_moveWidgetsIncrement);
 
             QThread::msleep(1);
         }

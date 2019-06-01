@@ -83,7 +83,7 @@ border:none;</string>
     <property name="geometry">
      <rect>
       <x>965</x>
-      <y>130</y>
+      <y>120</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -118,7 +118,7 @@ border:none;</string>
     <property name="geometry">
      <rect>
       <x>965</x>
-      <y>250</y>
+      <y>240</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -147,7 +147,7 @@ border:none;</string>
     <property name="geometry">
      <rect>
       <x>965</x>
-      <y>290</y>
+      <y>280</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -176,7 +176,7 @@ border:none;</string>
     <property name="geometry">
      <rect>
       <x>965</x>
-      <y>330</y>
+      <y>320</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -205,7 +205,7 @@ border:none;</string>
     <property name="geometry">
      <rect>
       <x>965</x>
-      <y>210</y>
+      <y>200</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -251,8 +251,8 @@ border:none;</string>
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
     <property name="checkable">
@@ -266,7 +266,7 @@ border:none;</string>
     <property name="geometry">
      <rect>
       <x>965</x>
-      <y>75</y>
+      <y>70</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -283,8 +283,8 @@ border:none;</string>
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>30</width>
+      <height>30</height>
      </size>
     </property>
     <property name="flat">
@@ -353,7 +353,7 @@ border:none;</string>
     <property name="geometry">
      <rect>
       <x>965</x>
-      <y>170</y>
+      <y>160</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -586,7 +586,7 @@ border:none;</string>
      <property name="geometry">
       <rect>
        <x>810</x>
-       <y>90</y>
+       <y>80</y>
        <width>25</width>
        <height>3</height>
       </rect>
@@ -602,7 +602,7 @@ border:none;</string>
       <x>0</x>
       <y>0</y>
       <width>160</width>
-      <height>31</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -612,16 +612,16 @@ border:none;</string>
      </sizepolicy>
     </property>
     <property name="autoFillBackground">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">/*background-color: rgb(59, 59, 59);*/
-/*border:none;*/
-
-QComboBox {
+     <string notr="true">QComboBox {
+	background-color: rgb(59, 59, 59);
+	border:none;
     color: black;
     font: 14px;
-    padding: 1px 0px 1px 3px; /* This (useless) line resolves a bug with the font color */
+	font-color:rgb(255, 255, 255);
+    padding: 5px 5px 5px 20px; /* This (useless) line resolves a bug with the font color */
 }
 
 QComboBox:focus {

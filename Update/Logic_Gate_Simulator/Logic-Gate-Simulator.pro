@@ -131,7 +131,9 @@ DISTFILES += \
     Resources/Button Icons/icon-new-page.png \
     Resources/Button Icons/icon-tool.png \
     Resources/Button Icons/icon-zoom-in.png \
-    Resources/Button Icons/icon-zoom-out.png
+    Resources/Button Icons/icon-zoom-out.png \
+    Resources/Button Icons/icon-redo.png \
+    Resources/Button Icons/icon-undo.png
 
 RESOURCES += \
     resouces.qrc

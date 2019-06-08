@@ -464,7 +464,7 @@ border:none;</string>
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(116, 116, 116);</string>
+     <string notr="true">background-color: rgb(85, 85, 85);</string>
     </property>
     <widget class="QPushButton" name="btn_load">
      <property name="geometry">
@@ -620,7 +620,7 @@ border:none;</string>
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(116, 116, 116);</string>
+     <string notr="true">background-color: rgb(85, 85, 85);</string>
     </property>
     <widget class="Line" name="line">
      <property name="geometry">
@@ -656,7 +656,7 @@ border:none;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QComboBox {
-	background-color: rgb(116, 116, 116);
+	background-color: rgb(85, 85, 85);
 	border:none;
     color: black;
     font: 14px;
@@ -743,6 +743,9 @@ QComboBox::down-arrow {
      <width>1000</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(120, 120, 120);</string>
    </property>
    <property name="defaultUp">
     <bool>false</bool>

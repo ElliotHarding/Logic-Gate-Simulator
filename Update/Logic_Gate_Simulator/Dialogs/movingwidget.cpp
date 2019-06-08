@@ -4,7 +4,7 @@
 
 MovingWidget::MovingWidget(QWidget *parent) :
     QWidget (parent),
-    m_backgroundBrush(QColor(255,0,0,255))
+    m_backgroundBrush(QColor(85,85,85,255))
 {    
 }
 

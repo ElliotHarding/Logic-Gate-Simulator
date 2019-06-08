@@ -2,7 +2,7 @@
 #include <QDebug>
 
 GateTriAnd::GateTriAnd(id inA, id inB, id inC, id out) :
-    Gate::Gate(GATE_AND, GateTriAndWidth,GateTriAndHeight, std::string(":/Resources/Gates/gate-tri-and.png").c_str()),
+    Gate::Gate(GATE_TRI_AND, GateTriAndWidth,GateTriAndHeight, std::string(":/Resources/Gates/gate-tri-and.png").c_str()),
     m_inputA(this, InputNode, inA),
     m_inputB(this, InputNode, inB),
     m_inputC(this, InputNode, inC),

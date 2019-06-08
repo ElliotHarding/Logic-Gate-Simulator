@@ -1,7 +1,7 @@
 #include "gatenumberoutput.h"
 
 GateNumberOutput::GateNumberOutput(id inA, id inB, id inC, id inD) :
-    Gate::Gate(GATE_AND, GateNumberOutputWidth, GateNumberOutputHeight, std::string(":/Resources/Gates/gate-number-output.png").c_str()),
+    Gate::Gate(GATE_NUMBER_OUT, GateNumberOutputWidth, GateNumberOutputHeight, std::string(":/Resources/Gates/gate-number-output.png").c_str()),
     m_inputA(this, InputNode, inA),
     m_inputB(this, InputNode, inB),
     m_inputC(this, InputNode, inC),

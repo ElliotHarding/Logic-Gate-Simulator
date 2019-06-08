@@ -174,6 +174,50 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         break;
     }
 
+    case GateType::GATE_TRI_OR:
+    {
+        NodeIds n1 = readNode(gateStream);
+        NodeIds n2 = readNode(gateStream);
+        NodeIds n3 = readNode(gateStream);
+
+        rGate = new GateTriOr(n1.id, n2.id, n3.id);
+
+        linkInfo.push_back(n1);
+        linkInfo.push_back(n2);
+        linkInfo.push_back(n3);
+        break;
+    }
+
+    case GateType::GATE_TRI_AND:
+    {
+        NodeIds n1 = readNode(gateStream);
+        NodeIds n2 = readNode(gateStream);
+        NodeIds n3 = readNode(gateStream);
+
+        rGate = new GateTriAnd(n1.id, n2.id, n3.id);
+
+        linkInfo.push_back(n1);
+        linkInfo.push_back(n2);
+        linkInfo.push_back(n2);
+        break;
+    }
+
+    case GateType::GATE_NUMBER_OUT:
+    {
+        NodeIds n1 = readNode(gateStream);
+        NodeIds n2 = readNode(gateStream);
+        NodeIds n3 = readNode(gateStream);
+        NodeIds n4 = readNode(gateStream);
+
+        rGate = new GateNumberOutput(n1.id, n2.id, n3.id, n4.id);
+
+        linkInfo.push_back(n1);
+        linkInfo.push_back(n2);
+        linkInfo.push_back(n3);
+        linkInfo.push_back(n4);
+        break;
+    }
+
     case GATE_NULL:
     default:
         return nullptr;

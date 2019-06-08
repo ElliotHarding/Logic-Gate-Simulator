@@ -1,7 +1,7 @@
 #include "gatetrior.h"
 
 GateTriOr::GateTriOr(id inA, id inB, id inC, id out) :
-    Gate::Gate(GATE_AND, GateTriOrWidth, GateTriOrHeight, std::string(":/Resources/Gates/gate-tri-or.png").c_str()),
+    Gate::Gate(GATE_TRI_OR, GateTriOrWidth, GateTriOrHeight, std::string(":/Resources/Gates/gate-tri-or.png").c_str()),
     m_inputA(this, InputNode, inA),
     m_inputB(this, InputNode, inB),
     m_inputC(this, InputNode, inC),

@@ -23,6 +23,9 @@ enum GateType
     GATE_CONST_INACTIVE,
     GATE_COLLECTION,
     GATE_TIMER,
+    GATE_TRI_AND,
+    GATE_TRI_OR,
+    GATE_NUMBER_OUT,
     GATE_NULL,
 };
 

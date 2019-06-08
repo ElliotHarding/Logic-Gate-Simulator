@@ -2,7 +2,7 @@
 #include "ui_widget_standard.h"
 
 Widget_Standard::Widget_Standard(QWidget *parent) :
-    QWidget(parent),
+    MovingWidget(parent),
     ui(new Ui::Widget_Standard)
 {
     ui->setupUi(this);

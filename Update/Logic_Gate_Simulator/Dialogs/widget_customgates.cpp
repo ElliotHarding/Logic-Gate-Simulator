@@ -6,7 +6,7 @@
 #include "filelocations.h"
 
 Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent) :
-    QWidget(pParent),
+    MovingWidget(pParent),
     ui(new Ui::Widget_CustomGates),
     m_pParent(pParent)
 {

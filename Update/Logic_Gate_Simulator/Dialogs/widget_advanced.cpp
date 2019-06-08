@@ -2,7 +2,7 @@
 #include "ui_widget_advanced.h"
 
 Widget_Advanced::Widget_Advanced(QWidget *parent) :
-    QWidget(parent),
+    MovingWidget(parent),
     ui(new Ui::Widget_Advanced)
 {
     ui->setupUi(this);

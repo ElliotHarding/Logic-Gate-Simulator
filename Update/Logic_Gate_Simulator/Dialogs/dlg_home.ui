@@ -464,7 +464,7 @@ border:none;</string>
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(59, 59, 59);</string>
+     <string notr="true">background-color: rgb(116, 116, 116);</string>
     </property>
     <widget class="QPushButton" name="btn_load">
      <property name="geometry">

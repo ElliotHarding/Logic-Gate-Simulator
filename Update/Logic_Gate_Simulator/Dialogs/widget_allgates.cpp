@@ -3,7 +3,7 @@
 #include "dlg_home.h"
 
 Widget_AllGates::Widget_AllGates(DLG_Home* parent) :
-    QWidget(parent),    
+    MovingWidget(parent),
     ui(new Ui::Widget_AllGates),
     m_pParent(parent)
 {

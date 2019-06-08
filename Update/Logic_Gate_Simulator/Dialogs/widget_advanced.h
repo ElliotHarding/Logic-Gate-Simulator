@@ -1,13 +1,13 @@
 #ifndef WIDGET_ADVANCED_H
 #define WIDGET_ADVANCED_H
 
-#include <QWidget>
+#include "movingwidget.h"
 
 namespace Ui {
 class Widget_Advanced;
 }
 
-class Widget_Advanced : public QWidget
+class Widget_Advanced : public MovingWidget
 {
     Q_OBJECT
 

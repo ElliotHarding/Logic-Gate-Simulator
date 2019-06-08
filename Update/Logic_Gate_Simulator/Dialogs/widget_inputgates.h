@@ -1,13 +1,13 @@
 #ifndef WIDGET_INPUTGATES_H
 #define WIDGET_INPUTGATES_H
 
-#include <QWidget>
+#include "movingwidget.h"
 
 namespace Ui {
 class Widget_InputGates;
 }
 
-class Widget_InputGates : public QWidget
+class Widget_InputGates : public MovingWidget
 {
     Q_OBJECT
 

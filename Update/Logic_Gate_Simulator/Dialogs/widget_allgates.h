@@ -1,14 +1,14 @@
 #ifndef WIDGET_ALLGATES_H
 #define WIDGET_ALLGATES_H
 
-#include <QWidget>
+#include "movingwidget.h"
 
 namespace Ui {
 class Widget_AllGates;
 }
 
 class DLG_Home;
-class Widget_AllGates : public QWidget
+class Widget_AllGates : public MovingWidget
 {
     Q_OBJECT
 

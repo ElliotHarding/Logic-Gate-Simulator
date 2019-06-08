@@ -1,13 +1,13 @@
 #ifndef WIDGET_STANDARD_H
 #define WIDGET_STANDARD_H
 
-#include <QWidget>
+#include "movingwidget.h"
 
 namespace Ui {
 class Widget_Standard;
 }
 
-class Widget_Standard : public QWidget
+class Widget_Standard : public MovingWidget
 {
     Q_OBJECT
 

@@ -1,7 +1,7 @@
 #ifndef WIDGET_CUSTOMGATES_H
 #define WIDGET_CUSTOMGATES_H
 
-#include <QWidget>
+#include "movingwidget.h"
 #include "vector"
 #include "gatecollection.h"
 
@@ -10,7 +10,7 @@ class Widget_CustomGates;
 }
 
 class DLG_Home;
-class Widget_CustomGates : public QWidget
+class Widget_CustomGates : public MovingWidget
 {
     Q_OBJECT
 

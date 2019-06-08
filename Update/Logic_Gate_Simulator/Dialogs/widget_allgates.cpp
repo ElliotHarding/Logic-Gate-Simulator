@@ -53,3 +53,15 @@ void Widget_AllGates::on_btn_inputOff_clicked()
     if(m_pParent)
         m_pParent->AddGate(new GateConstantInactive());
 }
+
+void Widget_AllGates::on_btn_GateTriAnd_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateTriAnd());
+}
+
+void Widget_AllGates::on_btn_GateTriOr_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateTriOr());
+}

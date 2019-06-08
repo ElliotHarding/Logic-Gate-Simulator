@@ -8,6 +8,9 @@
 #include "gatenot.h"
 #include "gateor.h"
 
+#include "gatetriand.h"
+#include "gatetrior.h"
+
 //  I/O Gates
 #include "GateToggle.h"
 #include "GateTimer.h"
@@ -17,5 +20,7 @@
 
 //Other
 #include "gatecollection.h"
+
+
 
 #endif // ALLGATES_H

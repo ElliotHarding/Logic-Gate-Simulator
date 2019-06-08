@@ -40,7 +40,7 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>27</width>
+     <width>32</width>
      <height>32</height>
     </size>
    </property>
@@ -52,7 +52,7 @@
    <property name="geometry">
     <rect>
      <x>95</x>
-     <y>40</y>
+     <y>180</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -101,7 +101,7 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>25</width>
+     <width>32</width>
      <height>32</height>
     </size>
    </property>
@@ -130,7 +130,7 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>29</width>
+     <width>32</width>
      <height>32</height>
     </size>
    </property>
@@ -142,7 +142,7 @@
    <property name="geometry">
     <rect>
      <x>45</x>
-     <y>40</y>
+     <y>180</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -171,7 +171,7 @@
    <property name="geometry">
     <rect>
      <x>-5</x>
-     <y>80</y>
+     <y>220</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -200,7 +200,7 @@
    <property name="geometry">
     <rect>
      <x>45</x>
-     <y>80</y>
+     <y>220</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -229,7 +229,7 @@
    <property name="geometry">
     <rect>
      <x>95</x>
-     <y>80</y>
+     <y>220</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -248,6 +248,64 @@
     <size>
      <width>48</width>
      <height>48</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_GateTriAnd">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>40</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Gates/gate-tri-and.png</normaloff>:/Resources/Gates/gate-tri-and.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_GateTriOr">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-gate-tri-or.png</normaloff>:/Resources/Button Icons/icon-gate-tri-or.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
     </size>
    </property>
    <property name="flat">

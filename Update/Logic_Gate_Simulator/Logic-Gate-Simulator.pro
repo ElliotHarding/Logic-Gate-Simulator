@@ -57,7 +57,8 @@ SOURCES += \
         gatefieldscontainer.cpp \
     Dialogs/dlg_load.cpp \
     GameObjects/gatetriand.cpp \
-    Dialogs/movingwidget.cpp
+    Dialogs/movingwidget.cpp \
+    GameObjects/gatetrior.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -90,7 +91,8 @@ HEADERS += \
         GameObjects/GateToggle.h \
     Dialogs/dlg_load.h \
     GameObjects/gatetriand.h \
-    Dialogs/movingwidget.h
+    Dialogs/movingwidget.h \
+    GameObjects/gatetrior.h
 
 FORMS += \
         mainwindow.ui \
@@ -133,7 +135,11 @@ DISTFILES += \
     Resources/Button Icons/icon-zoom-in.png \
     Resources/Button Icons/icon-zoom-out.png \
     Resources/Button Icons/icon-redo.png \
-    Resources/Button Icons/icon-undo.png
+    Resources/Button Icons/icon-undo.png \
+    Resources/Button Icons/icon-gate-tri-and.png \
+    Resources/Button Icons/icon-gate-tri-or.png \
+    Resources/Button Icons/icon-gate-tri-and.png \
+    Resources/Button Icons/icon-gate-tri-or.png
 
 RESOURCES += \
     resouces.qrc

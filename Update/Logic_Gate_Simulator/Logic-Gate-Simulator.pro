@@ -58,7 +58,8 @@ SOURCES += \
     Dialogs/dlg_load.cpp \
     GameObjects/gatetriand.cpp \
     Dialogs/movingwidget.cpp \
-    GameObjects/gatetrior.cpp
+    GameObjects/gatetrior.cpp \
+    GameObjects/gatenumberoutput.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -92,7 +93,8 @@ HEADERS += \
     Dialogs/dlg_load.h \
     GameObjects/gatetriand.h \
     Dialogs/movingwidget.h \
-    GameObjects/gatetrior.h
+    GameObjects/gatetrior.h \
+    GameObjects/gatenumberoutput.h
 
 FORMS += \
         mainwindow.ui \

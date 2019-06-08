@@ -14,15 +14,15 @@
    <string>Form</string>
   </property>
   <property name="autoFillBackground">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);</string>
+   <string notr="true"/>
   </property>
   <widget class="QCheckBox" name="cb_Enabled">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>5</x>
      <y>40</y>
      <width>141</width>
      <height>17</height>
@@ -35,7 +35,7 @@
   <widget class="QPushButton" name="btn_DeleteGate">
    <property name="geometry">
     <rect>
-     <x>105</x>
+     <x>110</x>
      <y>5</y>
      <width>31</width>
      <height>31</height>
@@ -64,8 +64,8 @@
   <widget class="QLabel" name="lbl_Type">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
+     <x>5</x>
+     <y>5</y>
      <width>41</width>
      <height>21</height>
     </rect>
@@ -77,8 +77,8 @@
   <widget class="QLabel" name="lbl_GateType">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>10</y>
+     <x>40</x>
+     <y>5</y>
      <width>81</width>
      <height>21</height>
     </rect>
@@ -90,7 +90,7 @@
   <widget class="QCheckBox" name="signalCheck">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>5</x>
      <y>60</y>
      <width>141</width>
      <height>17</height>
@@ -103,7 +103,7 @@
   <widget class="QLineEdit" name="lineEdit_Frequency">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>5</x>
      <y>150</y>
      <width>121</width>
      <height>20</height>
@@ -113,7 +113,7 @@
   <widget class="QLabel" name="lbl_Frequency">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>5</x>
      <y>130</y>
      <width>111</width>
      <height>21</height>
@@ -126,7 +126,7 @@
   <widget class="QCheckBox" name="cb_DragMode">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>5</x>
      <y>80</y>
      <width>141</width>
      <height>17</height>

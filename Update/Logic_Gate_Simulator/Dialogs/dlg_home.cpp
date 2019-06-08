@@ -275,24 +275,29 @@ void DLG_Home::on_comboBox_currentIndexChanged(int index)
     }
 }
 
-void DLG_Home::SwitchWidgets(MovingWidget* w)
+void DLG_Home::SwitchWidgets(MovingWidget* newWidgetToShow)
 {
-    if(m_pCurrentShownGateWidget && w != m_pCurrentShownGateWidget)
+    if(m_pCurrentShownGateWidget && newWidgetToShow != m_pCurrentShownGateWidget)
     {
-        w->raise();    
+        newWidgetToShow->raise();
 
         for (int moved = 0; moved < c_moveWidgetDistance; moved += c_moveWidgetsIncrement)
         {
             //Retract current shown widget
-            m_pCurrentShownGateWidget->MoveX(-c_moveWidgetsIncrement);
+            const QRect geo = m_pCurrentShownGateWidget->geometry();
+            m_pCurrentShownGateWidget->move(geo.left() - c_moveWidgetsIncrement, geo.right());
 
             //Move out new one to show
-            w->MoveX(c_moveWidgetsIncrement);
+            newWidgetToShow->move(geo.left() + c_moveWidgetsIncrement, geo.right());
+
+            //Force redraw on the widgets. Drawing new one last (on top)
+            m_pCurrentShownGateWidget->repaint();
+            newWidgetToShow->repaint();
 
             QThread::msleep(1);
         }
 
-        m_pCurrentShownGateWidget = w;
+        m_pCurrentShownGateWidget = newWidgetToShow;
     }
 }
 

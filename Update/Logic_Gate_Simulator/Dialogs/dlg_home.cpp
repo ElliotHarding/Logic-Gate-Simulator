@@ -90,6 +90,24 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
         m_pCurrentShownGateWidget = m_pWidgetAllGates;
     }
 
+    //Connections
+    {
+         connect(ui->actionNew_page, SIGNAL(triggered()), this, SLOT(on_btn_newPage_clicked()));
+         connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
+         connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
+         connect(ui->actionPan, SIGNAL(triggered()), this, SLOT(on_btn_Pan_clicked()));
+         connect(ui->actionDrag, SIGNAL(triggered()), this, SLOT(on_btn_Drag_clicked()));
+         connect(ui->actionLink, SIGNAL(triggered()), this, SLOT(on_btn_link_clicked()));
+         connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
+         connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
+         connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(on_btn_undo_clicked()));
+         connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(on_btn_redo_clicked()));
+         connect(ui->actionZoom, SIGNAL(triggered()), this, SLOT(on_btn_zoomIn_clicked()));
+         connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(on_btn_Delete_clicked()));
+         connect(ui->actionZoom_2, SIGNAL(triggered()), this, SLOT(on_btn_zoomOut_clicked()));
+         connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
+    }
+
     progressBar->setValue(100);
     txtProgress->setText("Done!");
 }

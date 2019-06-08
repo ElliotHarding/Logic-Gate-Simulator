@@ -757,7 +757,7 @@ QComboBox::down-arrow {
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew_page_2"/>
+    <addaction name="actionNewPage"/>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
    </widget>
@@ -790,7 +790,7 @@ QComboBox::down-arrow {
     <string>New page</string>
    </property>
   </action>
-  <action name="actionNew_page_2">
+  <action name="actionNewPage">
    <property name="icon">
     <iconset resource="../resouces.qrc">
      <normaloff>:/Resources/Button Icons/icon-new-page.png</normaloff>:/Resources/Button Icons/icon-new-page.png</iconset>
@@ -800,6 +800,9 @@ QComboBox::down-arrow {
    </property>
   </action>
   <action name="actionSave">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../resouces.qrc">
      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>

@@ -22,7 +22,6 @@ protected:
 private:
     Ui::DLG_Load *ui;
 
-    bool m_bUiElementsVisible = false;
     bool m_bStartedLoad = false;
 
     void Load();

@@ -22,14 +22,9 @@ bool DLG_Load::event(QEvent *event)
 {
     int returnValue = QWidget::event(event);
 
-    if(m_bUiElementsVisible && !m_bStartedLoad)
+    if (event->type() == QEvent::Paint && !m_bStartedLoad)
     {
         Load();
-    }
-
-    if (event->type() == QEvent::Paint)
-    {
-        m_bUiElementsVisible = true;
         return true;
     }
 

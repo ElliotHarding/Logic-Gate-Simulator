@@ -1,7 +1,8 @@
 #include "GateToggle.h"
 
 GateToggle::GateToggle(id out) :
-    GateSingleOutput::GateSingleOutput(GATE_EMMITTER, out)
+    GateSingleOutput::GateSingleOutput(GATE_EMMITTER, out),
+    m_font("Helvetica", 5)
 {
     m_toggleStateTimer.start(c_toggleFrequency);
 }
@@ -27,6 +28,10 @@ bool GateToggle::UpdateClicked(int clickX, int clickY)
         m_toggleStateTimer.stop();
         m_toggleStateTimer.start(c_toggleFrequency);
         m_output.SetValue(!m_output.GetValue());
+
+        //todo request repaint of parent
+        QPainter p;
+        UpdateGraphics(&p);
     }
 
     return isClicked;
@@ -42,6 +47,7 @@ void GateToggle::UpdateGraphics(QPainter *painter)
     p.setColor(Qt::black);
     painter->setPen(p);
 
+    painter->setFont(m_font);
     painter->drawText(pos.x(), pos.y() - (GateSingleOutputHeight/4), m_output.GetValue() ? "On" : "Off");
 }
 

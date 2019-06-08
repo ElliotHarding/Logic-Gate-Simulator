@@ -37,6 +37,8 @@ private slots:
 
     void on_btn_GateTriOr_clicked();
 
+    void on_btn_numberOutputGate_clicked();
+
 private:
     Ui::Widget_AllGates *ui;
     DLG_Home* m_pParent;

@@ -25,5 +25,7 @@ protected:
     //Toggle functionality
     QTimer m_timer;
     int m_frequency = 2;
+
+    const QFont m_font;
 };
 #endif // GATETIMER_H

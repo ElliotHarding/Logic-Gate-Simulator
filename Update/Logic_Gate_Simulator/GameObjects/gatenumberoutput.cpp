@@ -6,7 +6,7 @@ GateNumberOutput::GateNumberOutput(id inA, id inB, id inC, id inD) :
     m_inputB(this, InputNode, inB),
     m_inputC(this, InputNode, inC),
     m_inputD(this, InputNode, inD),
-    m_font("Helvetica", 10)
+    m_font("Helvetica", 40)
 {
     m_nodes.push_back(&m_inputA);
     m_nodes.push_back(&m_inputB);
@@ -16,7 +16,10 @@ GateNumberOutput::GateNumberOutput(id inA, id inB, id inC, id inD) :
 
 void GateNumberOutput::UpdateOutput()
 {
-    const int sum = m_inputA.GetValue() & m_inputB.GetValue() & m_inputC.GetValue() & m_inputD.GetValue();
+    const int sum =   m_inputA.GetValue() * 1
+                    + m_inputB.GetValue() * 2
+                    + m_inputC.GetValue() * 4
+                    + m_inputD.GetValue() * 8;
 
     m_outputText = QString::fromStdString(std::to_string(sum));
 }
@@ -36,7 +39,9 @@ void GateNumberOutput::UpdateGraphics(QPainter *painter)
     Gate::UpdateGraphics(painter);
 
     painter->setFont(m_font);
-    painter->drawText(GetPosition(), m_outputText);
+    const QPoint textPosition = QPoint(GetPosition().x() - 6,
+                                       m_layout.bottom() - (m_layout.height()/4));
+    painter->drawText(textPosition, m_outputText);
 }
 
 Gate *GateNumberOutput::Clone()

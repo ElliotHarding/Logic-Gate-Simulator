@@ -141,7 +141,9 @@ DISTFILES += \
     Resources/Button Icons/icon-gate-tri-and.png \
     Resources/Button Icons/icon-gate-tri-or.png \
     Resources/Button Icons/icon-gate-tri-and.png \
-    Resources/Button Icons/icon-gate-tri-or.png
+    Resources/Button Icons/icon-gate-tri-or.png \
+    Resources/Gates/gate-number-output.png \
+    Resources/Gates/gate-tri-and.png
 
 RESOURCES += \
     resouces.qrc

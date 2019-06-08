@@ -3,8 +3,8 @@
 
 #include "gate.h"
 
-#define GateNumberOutputHeight 50
-#define GateNumberOutputWidth 100
+#define GateNumberOutputHeight 70
+#define GateNumberOutputWidth 70
 
 class GateNumberOutput : public Gate
 {
@@ -19,25 +19,25 @@ public:
 
 protected:
 
-    QFont m_font;
+    const QFont m_font;
     QString m_outputText;
 
 #define HeightStep (GateNumberOutputHeight/5)
 
-    const int M_INPUTa_OFFSET_X = -5;
-    const int M_INPUTa_OFFSET_Y = HeightStep * 1;
+    const int M_INPUTa_OFFSET_X = 0;
+    const int M_INPUTa_OFFSET_Y = (HeightStep * 1) - 5;
     Node m_inputA;
 
-    const int M_INPUTb_OFFSET_X = -5;
-    const int M_INPUTb_OFFSET_Y = HeightStep * 2;
+    const int M_INPUTb_OFFSET_X = 0;
+    const int M_INPUTb_OFFSET_Y = (HeightStep * 2) - 2;
     Node m_inputB;
 
-    const int M_INPUTc_OFFSET_X = -5;
-    const int M_INPUTc_OFFSET_Y = HeightStep * 3;
+    const int M_INPUTc_OFFSET_X = 0;
+    const int M_INPUTc_OFFSET_Y = (HeightStep * 3) + 2;
     Node m_inputC;
 
-    const int M_INPUTd_OFFSET_X = -5;
-    const int M_INPUTd_OFFSET_Y = HeightStep * 4;
+    const int M_INPUTd_OFFSET_X = 0;
+    const int M_INPUTd_OFFSET_Y = (HeightStep * 4) + 5;
     Node m_inputD;
 
 };

@@ -17,10 +17,10 @@
 #include "GateReciever.h"
 #include "GateConstantActive.h"
 #include "GateConstantInactive.h"
+#include "gatenumberoutput.h"
 
 //Other
 #include "gatecollection.h"
-
 
 
 #endif // ALLGATES_H

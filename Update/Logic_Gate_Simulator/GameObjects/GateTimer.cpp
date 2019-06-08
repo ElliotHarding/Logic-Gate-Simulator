@@ -7,7 +7,8 @@
 #include <string>
 
 GateTimer::GateTimer(id out) :
-    GateSingleOutput::GateSingleOutput(GATE_TIMER, out)
+    GateSingleOutput::GateSingleOutput(GATE_TIMER, out),
+    m_font("Helvetica", 5)
 {
     m_output.SetValue(0);
     m_timer.start();
@@ -45,6 +46,7 @@ void GateTimer::UpdateGraphics(QPainter *painter)
     const QPoint pos = GetPosition();
     const std::string frequency = std::to_string(m_frequency) + "Mhz";
 
+    painter->setFont(m_font);
     painter->drawText(pos.x(), pos.y() - (GateSingleOutputHeight/4), QString::fromStdString(frequency));
 }
 

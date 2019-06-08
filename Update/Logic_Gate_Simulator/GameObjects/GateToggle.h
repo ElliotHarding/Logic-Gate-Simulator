@@ -27,6 +27,8 @@ protected:
     //Toggle functionality
     QTimer m_toggleStateTimer;
     const int c_toggleFrequency = 2;
+
+    const QFont m_font;
 };
 
 #endif // GATEINPUTBOX_H

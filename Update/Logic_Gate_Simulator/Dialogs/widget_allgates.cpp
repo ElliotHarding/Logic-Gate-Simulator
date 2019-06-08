@@ -65,3 +65,9 @@ void Widget_AllGates::on_btn_GateTriOr_clicked()
     if(m_pParent)
         m_pParent->AddGate(new GateTriOr());
 }
+
+void Widget_AllGates::on_btn_numberOutputGate_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateNumberOutput());
+}

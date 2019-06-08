@@ -16,6 +16,7 @@
 #include "dlg_gateinfo.h"
 #include "dlg_savegatecollection.h"
 
+#include "movingwidget.h"
 #include "widget_advanced.h"
 #include "widget_allgates.h"
 #include "widget_customgates.h"
@@ -58,11 +59,10 @@ private:
     Widget_Advanced*    m_pWidgetAdvancedGates;
     Widget_Standard*    m_pWidgetStandardGates;
     Widget_InputGates*  m_pWidgetInputGates;
-    QWidget* m_pCurrentShownGateWidget = nullptr;
+    MovingWidget* m_pCurrentShownGateWidget = nullptr;
 
     //Widget animations
-    void MoveWidget(QWidget* w, int xDir);
-    void SwitchWidgets(QWidget* w1);
+    void SwitchWidgets(MovingWidget* w1);
     const int c_moveWidgetsIncrement = 2;
     const int c_moveWidgetDistance = 160;
 

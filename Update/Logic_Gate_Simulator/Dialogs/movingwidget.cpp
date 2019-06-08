@@ -4,8 +4,18 @@
 
 MovingWidget::MovingWidget(QWidget *parent) :
     QWidget (parent),
-    m_backgroundBrush(QColor(85,85,85,255))
+    m_backgroundBrush(QColor(255,255,255,255))
 {    
+}
+
+void MovingWidget::MoveX(int xDir)
+{
+    //Move
+    const QRect geo = geometry();
+    move(geo.left() + xDir, geo.top());
+
+    //request immediate re-draw
+    repaint();
 }
 
 void MovingWidget::paintEvent(QPaintEvent* paintEvent)

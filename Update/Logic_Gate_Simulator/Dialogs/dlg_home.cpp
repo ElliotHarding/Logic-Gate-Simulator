@@ -275,32 +275,25 @@ void DLG_Home::on_comboBox_currentIndexChanged(int index)
     }
 }
 
-void DLG_Home::SwitchWidgets(QWidget* w)
+void DLG_Home::SwitchWidgets(MovingWidget* w)
 {
-    if(w != m_pCurrentShownGateWidget)
+    if(m_pCurrentShownGateWidget && w != m_pCurrentShownGateWidget)
     {
         w->raise();    
 
         for (int moved = 0; moved < c_moveWidgetDistance; moved += c_moveWidgetsIncrement)
         {
             //Retract current shown widget
-            if(m_pCurrentShownGateWidget)
-                MoveWidget(m_pCurrentShownGateWidget, -c_moveWidgetsIncrement);
+            m_pCurrentShownGateWidget->MoveX(-c_moveWidgetsIncrement);
 
             //Move out new one to show
-            MoveWidget(w, c_moveWidgetsIncrement);
+            w->MoveX(c_moveWidgetsIncrement);
 
             QThread::msleep(1);
         }
 
         m_pCurrentShownGateWidget = w;
     }
-}
-void DLG_Home::MoveWidget(QWidget *w, int xDir)
-{
-    QRect geo = w->geometry();
-    w->move(geo.left() + xDir, geo.top());
-    w->repaint();
 }
 
 // -- OTHER BUTTON HANDLERS --

@@ -656,7 +656,7 @@ border:none;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QComboBox {
-	background-color: rgb(59, 59, 59);
+	background-color: rgb(116, 116, 116);
 	border:none;
     color: black;
     font: 14px;

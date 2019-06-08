@@ -108,6 +108,11 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
          connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
     }
 
+    {
+        QString newTab("New tab");
+        addGateField(newTab);
+    }
+
     progressBar->setValue(100);
     txtProgress->setText("Done!");
 }

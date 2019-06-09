@@ -12,8 +12,15 @@ class Widget_Standard : public MovingWidget
     Q_OBJECT
 
 public:
-    explicit Widget_Standard(QWidget *parent = nullptr);
+    explicit Widget_Standard(DLG_Home *parent = nullptr);
     ~Widget_Standard();
+
+private slots:
+    void on_btn_orGate_clicked();
+    void on_btn_notGate_clicked();
+    void on_btn_andGate_clicked();
+    void on_btn_GateTriOr_clicked();
+    void on_btn_GateTriAnd_clicked();
 
 private:
     Ui::Widget_Standard *ui;

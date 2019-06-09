@@ -12,8 +12,17 @@ class Widget_InputGates : public MovingWidget
     Q_OBJECT
 
 public:
-    explicit Widget_InputGates(QWidget *parent = nullptr);
+    explicit Widget_InputGates(DLG_Home *DLG_Home = nullptr);
     ~Widget_InputGates();
+
+private slots:
+    void on_btn_sourceGate_clicked();
+
+    void on_btn_inputOn_clicked();
+
+    void on_btn_inputOff_clicked();
+
+    void on_btn_timerGate_clicked();
 
 private:
     Ui::Widget_InputGates *ui;

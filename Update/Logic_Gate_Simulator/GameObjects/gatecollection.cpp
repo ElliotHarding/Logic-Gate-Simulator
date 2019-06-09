@@ -94,7 +94,7 @@ void GateCollection::UpdateGraphics(QPainter *painter)
     UpdateContaningArea();
 
     //Draw bounding box
-    painter->setPen(Qt::black);
+    painter->setPen(QPen(Qt::black,2));
     painter->drawRect(m_contaningArea);
 
     if (m_dragMode == DragAll)

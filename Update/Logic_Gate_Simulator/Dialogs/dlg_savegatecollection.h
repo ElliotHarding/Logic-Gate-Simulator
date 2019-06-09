@@ -13,7 +13,7 @@ class DLG_SaveGateCollection : public QDialog
     Q_OBJECT
 
 public:
-    explicit DLG_SaveGateCollection(QWidget *parent = nullptr);
+    explicit DLG_SaveGateCollection(DLG_Home *parent = nullptr);
     ~DLG_SaveGateCollection() override;
 
     void SetCurrentGateField(GateField* current);
@@ -26,6 +26,7 @@ private slots:
 private:
     Ui::DLG_SaveGateCollection *ui;
     GateField* m_currentGateField;
+    DLG_Home* m_pParent;
 };
 
 #endif // DLG_SAVEGATECOLLECTION_H

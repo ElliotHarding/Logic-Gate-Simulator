@@ -1,4 +1,5 @@
 #include "gatenumberoutput.h"
+#include <sstream>
 
 GateNumberOutput::GateNumberOutput(id inA, id inB, id inC, id inD) :
     Gate::Gate(GATE_NUMBER_OUT, GateNumberOutputWidth, GateNumberOutputHeight, std::string(":/Resources/Gates/gate-number-output.png").c_str()),
@@ -6,7 +7,8 @@ GateNumberOutput::GateNumberOutput(id inA, id inB, id inC, id inD) :
     m_inputB(this, InputNode, inB),
     m_inputC(this, InputNode, inC),
     m_inputD(this, InputNode, inD),
-    m_font("Helvetica", 40)
+    m_font("Helvetica", 40),
+    m_outputText("0")
 {
     m_nodes.push_back(&m_inputA);
     m_nodes.push_back(&m_inputB);
@@ -21,7 +23,10 @@ void GateNumberOutput::UpdateOutput()
                     + m_inputC.GetValue() * 4
                     + m_inputD.GetValue() * 8;
 
-    m_outputText = QString::fromStdString(std::to_string(sum));
+    std::stringstream stream;
+    stream << std::hex << sum;
+
+    m_outputText = QString::fromStdString(stream.str());
 }
 
 void GateNumberOutput::SetPosition(int x, int y)
@@ -40,7 +45,7 @@ void GateNumberOutput::UpdateGraphics(QPainter *painter)
 
     painter->setFont(m_font);
     const QPoint textPosition = QPoint(GetPosition().x() - 6,
-                                       m_layout.bottom() - (m_layout.height()/4));
+                                       m_layout.bottom() - (m_layout.height()/4) + 2);
     painter->drawText(textPosition, m_outputText);
 }
 

@@ -280,7 +280,6 @@ int GateReader::tryStoi(std::string s, int defaultVal)
     catch (...)
     {
         return defaultVal;
-        //todo
     }
 }
 

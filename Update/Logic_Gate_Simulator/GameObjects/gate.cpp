@@ -19,12 +19,12 @@ Gate::~Gate()
 
 void Gate::UpdateGraphics(QPainter* painter)
 {
+    GameObject::UpdateGraphics(painter);
+
     for (Node* n : m_nodes)
     {
         n->UpdateGraphics(painter);
     }
-
-    GameObject::UpdateGraphics(painter);
 }
 
 void Gate::SaveData(std::ofstream &storage)
@@ -144,16 +144,10 @@ Gate* Node::GetParent()
 
 void Node::UpdateGraphics(QPainter* painter)
 {
-    //Paiting variables to be used
-    QPainterPath path;
-    QPen pen(Qt::black, 5);
-    painter->setPen(pen);
-
     //if linked draw line between node and linked nodes
     if(m_nodeType == OutputNode)
     {
-        //setting todo
-        pen.setWidth(1);
+        painter->setPen(QPen(Qt::black, 1));
 
         for (Node* n : m_linkedNodes)
         {
@@ -162,11 +156,9 @@ void Node::UpdateGraphics(QPainter* painter)
     }
 
     //Draw node
+    painter->setPen(QPen(Qt::black,5));
     QPoint position(GetPosition());
     painter->drawEllipse(position,5,5);
-
-    //Bug where there's a whole in the node, can't be bothered to look up filling a circle
-    painter->drawEllipse(position,2,2);
 }
 
 void Node::SaveData(std::ofstream &storage)

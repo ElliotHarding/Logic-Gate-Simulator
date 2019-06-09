@@ -3,9 +3,11 @@
 #include "gatecollection.h"
 #include "filelocations.h"
 #include <QDir>
+#include "dlg_home.h"
 
-DLG_SaveGateCollection::DLG_SaveGateCollection(QWidget *parent) :
+DLG_SaveGateCollection::DLG_SaveGateCollection(DLG_Home *parent) :
     QDialog(parent),
+    m_pParent(parent),
     ui(new Ui::DLG_SaveGateCollection)
 {
     ui->setupUi(this);
@@ -47,6 +49,8 @@ void DLG_SaveGateCollection::on_Save_clicked()
         //Generate from currentGateField & then save to newGateCollection file
         m_currentGateField->GenerateGateCollection()->SaveData(newGateCollection);
         newGateCollection.close();
+
+        m_pParent->UpdateCustomGateListWidget();
 
         //Close
         this->close();

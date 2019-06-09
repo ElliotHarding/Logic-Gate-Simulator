@@ -47,6 +47,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
          m_pDlgInput = new QInputDialog(this);
          m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
          m_pDlgGateInfo = new DLG_GateInfo(this);
+         m_pDlgMessage = new DLG_Message(this);
 
          //Gate widgets
          m_pWidgetAllGates = new Widget_AllGates(this);
@@ -134,11 +135,10 @@ DLG_Home::~DLG_Home()
     delete ui;
 }
 
-void DLG_Home::SetZoomFactor(float zoomFactor)
+void DLG_Home::SendUserMessage(QString message)
 {
-    m_ZoomFactor = zoomFactor;
-    if(m_currentGateField)
-        m_currentGateField->setZoomLevel(m_ZoomFactor);
+    m_pDlgMessage->SetMessage(message);
+    m_pDlgMessage->show();
 }
 
 void DLG_Home::AddGate(Gate *g)
@@ -173,7 +173,7 @@ void DLG_Home::addGateField(QString& name)
     ui->PlayField->addTab(m_currentGateField,tr(name.toUtf8()));
 }
 
-GateField *DLG_Home::createNewGateField(QString& name)
+GateField *DLG_Home::createNewGateField(QString name)
 {
     return new GateField(m_ZoomFactor, name.toStdString(), this, m_pDlgSaveGateCollection);
 }
@@ -182,6 +182,12 @@ QRect DLG_Home::accountForUIOffsetts(const QRect& rect)
 {
     QRect newRect(rect.left(), rect.top() + 20, rect.width(), rect.height());
     return newRect;
+}
+
+QString DLG_Home::PathToFileName(const QString s)
+{
+    QFileInfo fi(s);
+    return fi.baseName();
 }
 
 
@@ -219,14 +225,6 @@ void DLG_Home::on_btn_DeleteLink_clicked()
     }
     QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
 }
-void DLG_Home::on_btn_click_clicked()
-{
-    if(m_currentGateField)
-    {
-        m_currentGateField->setCurrentClickMode(CLICK_DEFAULT);
-    }
-    QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
-}
 void DLG_Home::SelectionToolClicked()
 {
     if(m_currentGateField)
@@ -236,11 +234,24 @@ void DLG_Home::SelectionToolClicked()
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
 
+void DLG_Home::UpdateCustomGateListWidget()
+{
+    m_pWidgetCustomGates->UpdateList();
+}
+
 void DLG_Home::on_btn_Pan_clicked()
 {
     if(m_currentGateField)
     {
         m_currentGateField->setCurrentClickMode(CLICK_PAN);
+    }
+    QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
+}
+void DLG_Home::on_btn_click_clicked()
+{
+    if(m_currentGateField)
+    {
+        m_currentGateField->setCurrentClickMode(CLICK_DEFAULT);
     }
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
@@ -310,18 +321,37 @@ void DLG_Home::SwitchWidgets(MovingWidget* newWidgetToShow)
 // -- OTHER BUTTON HANDLERS --
 
 void DLG_Home::on_btn_zoomIn_clicked()
-{
-    if(m_currentGateField)
-        if(m_ZoomFactor < c_maxZoom)
-            m_currentGateField->setZoomLevel(m_ZoomFactor *= 2);
-}
+{  
+    if(m_ZoomFactor < c_maxZoom)
+    {
+        m_ZoomFactor += 0.1;
+    }
 
+    SetZoomFactor(m_ZoomFactor);
+}
 void DLG_Home::on_btn_zoomOut_clicked()
 {
-    if(m_currentGateField)
-        if(m_ZoomFactor > c_minZoom)
-            m_currentGateField->setZoomLevel(m_ZoomFactor /= 2);
+    if(m_ZoomFactor > c_minZoom)
+    {
+        m_ZoomFactor -= 0.1;
+    }
+
+    SetZoomFactor(m_ZoomFactor);
 }
+
+//Function works for local call & external call
+void DLG_Home::SetZoomFactor(float zoomFactor, bool updateSlider)
+{
+    m_ZoomFactor = zoomFactor;
+
+    if(updateSlider)
+        m_zoomSlider->SetValue(m_ZoomFactor);
+
+    if(m_currentGateField)
+        m_currentGateField->setZoomLevel(m_ZoomFactor);
+}
+
+
 void DLG_Home::on_btn_undo_clicked()
 {
     if(m_currentGateField)
@@ -357,10 +387,9 @@ void DLG_Home::on_btn_Save_clicked()
             break;
     }
 
-    //todo
     if(!saveFailed)
     {
-
+        SendUserMessage("Saving a page failed!");
     }
 }
 
@@ -377,10 +406,14 @@ void DLG_Home::on_btn_load_clicked()
         //Open file
         saveFile = std::ifstream(file.toUtf8());
 
+        bool failed = false;
+
         if(saveFile.is_open())
         {
+            QString name = QFileInfo(file).baseName();
+
             //Load gates
-            m_currentGateField = createNewGateField(file);
+            m_currentGateField = createNewGateField(name);
 
             //For each loaded gate, add to loadedGateField
             if (reader.ReadGateField(saveFile, m_currentGateField))
@@ -389,14 +422,25 @@ void DLG_Home::on_btn_load_clicked()
                 m_allGateFields.push_back(m_currentGateField);
 
                 //Add to ui
-                ui->PlayField->addTab(m_currentGateField,tr(file.toUtf8()));
+                ui->PlayField->addTab(m_currentGateField,tr(name.toUtf8()));
 
                 continue;
             }
+            else
+            {
+                failed = true;
+            }
+        }
+        else
+        {
+            failed = true;
         }
 
-        //todo failed
-
+        if(failed)
+        {
+            m_pDlgMessage->SetMessage("Loading file failed");
+            m_pDlgMessage->show();
+        }
     }
 }
 
@@ -413,53 +457,3 @@ void DLG_Home::on_PlayField_currentChanged(int index)
         m_currentGateField = dynamic_cast<GateField*>(currentWidget);
     }
 }
-
-
-#ifdef zero
-//          --------------------------------
-//          LogicUpdateThread implementation
-//          --------------------------------
-
-LogicUpdateThread::LogicUpdateThread(std::vector<GateField*>* allGateFields) : QThread (),
-    m_bStop(false),
-    m_pAllGateFields(allGateFields)
-{
-}
-
-LogicUpdateThread::~LogicUpdateThread()
-{
-    stopRunning();
-    terminate();
-}
-
-//Calls the update function of all the gates in all of the gateFields
-void LogicUpdateThread::run()
-{
-    while (!m_bStop)
-    {
-        for (GateField* gf : *m_pAllGateFields)
-        {
-            if((gf) && gf->Enabled)
-                    gf->updateFunction();
-
-        }
-        QThread::msleep(1000);
-    }
-
-
-}
-
-void LogicUpdateThread::stopRunning()
-{
-    m_bStop = true;
-}
-
-void DLG_Home::on_btn_test_clicked()
-{
-    if(m_currentGateField)
-    {
-        m_currentGateField->addGameObject(new GateTimer());
-        on_btn_Drag_clicked();
-    }
-}
-#endif

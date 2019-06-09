@@ -29,7 +29,6 @@ bool GateToggle::UpdateClicked(int clickX, int clickY)
         m_toggleStateTimer.start(c_toggleFrequency);
         m_output.SetValue(!m_output.GetValue());
 
-        //todo request repaint of parent
         QPainter p;
         UpdateGraphics(&p);
     }
@@ -43,11 +42,9 @@ void GateToggle::UpdateGraphics(QPainter *painter)
 
     const QPoint pos = GetPosition();
 
-    QPen p;
-    p.setColor(Qt::black);
-    painter->setPen(p);
-
+    painter->setPen(QPen(Qt::black, 1));
     painter->setFont(m_font);
+
     painter->drawText(pos.x(), pos.y() - (GateSingleOutputHeight/4), m_output.GetValue() ? "On" : "Off");
 }
 

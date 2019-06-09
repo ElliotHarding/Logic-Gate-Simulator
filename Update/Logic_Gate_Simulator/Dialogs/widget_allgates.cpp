@@ -4,8 +4,7 @@
 
 Widget_AllGates::Widget_AllGates(DLG_Home* parent) :
     MovingWidget(parent),
-    ui(new Ui::Widget_AllGates),
-    m_pParent(parent)
+    ui(new Ui::Widget_AllGates)
 {
     ui->setupUi(this);
 }

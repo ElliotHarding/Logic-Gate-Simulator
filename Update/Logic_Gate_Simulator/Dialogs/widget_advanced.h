@@ -12,8 +12,13 @@ class Widget_Advanced : public MovingWidget
     Q_OBJECT
 
 public:
-    explicit Widget_Advanced(QWidget *parent = nullptr);
+    explicit Widget_Advanced(DLG_Home *parent = nullptr);
     ~Widget_Advanced();
+
+private slots:
+    void on_btn_numberOutputGate_clicked();
+
+    void on_btn_recieverGate_clicked();
 
 private:
     Ui::Widget_Advanced *ui;

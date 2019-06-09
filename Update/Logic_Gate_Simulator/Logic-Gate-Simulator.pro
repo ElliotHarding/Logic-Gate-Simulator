@@ -29,6 +29,7 @@ INCLUDEPATH += \
     GameObjects
 
 SOURCES += \
+    Dialogs/dlg_message.cpp \
         main.cpp \
         mainwindow.cpp \
         gatefield.cpp \
@@ -54,7 +55,6 @@ SOURCES += \
         GameObjects/GateSingleOutput.cpp \
         GameObjects/GateTimer.cpp \
         GameObjects/GateToggle.cpp \
-        gatefieldscontainer.cpp \
     Dialogs/dlg_load.cpp \
     GameObjects/gatetriand.cpp \
     Dialogs/movingwidget.cpp \
@@ -62,13 +62,14 @@ SOURCES += \
     GameObjects/gatenumberoutput.cpp
 
 HEADERS += \
+    Dialogs/dlg_message.h \
+    GameObjects/gatetypes.h \
         mainwindow.h \
         clickmode.h \
         gatereader.h \
         AllGates.h \
         filelocations.h \
         gatefield.h \
-        gatefieldscontainer.h \
         Dialogs/dlg_gateinfo.h \
         Dialogs/dlg_home.h \
         Dialogs/dlg_savegatecollection.h \
@@ -97,11 +98,11 @@ HEADERS += \
     GameObjects/gatenumberoutput.h
 
 FORMS += \
+    Dialogs/dlg_message.ui \
         mainwindow.ui \
         Dialogs/dlg_gateinfo.ui \
         Dialogs/dlg_home.ui \
         Dialogs/dlg_savegatecollection.ui \
-        Dialogs/dlg_userinput.ui \
         Dialogs/widget_advanced.ui \
         Dialogs/widget_allgates.ui \
         Dialogs/widget_customgates.ui \
@@ -133,6 +134,7 @@ DISTFILES += \
     Resources/Button Icons/icon-link-basic.png \
     Resources/Button Icons/icon-link-delete.png \
     Resources/Button Icons/icon-new-page.png \
+    Resources/Button Icons/icon-pan.png \
     Resources/Button Icons/icon-tool.png \
     Resources/Button Icons/icon-zoom-in.png \
     Resources/Button Icons/icon-zoom-out.png \

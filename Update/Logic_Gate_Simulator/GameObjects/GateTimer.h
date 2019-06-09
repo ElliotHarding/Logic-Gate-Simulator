@@ -24,7 +24,7 @@ protected:
 
     //Toggle functionality
     QTimer m_timer;
-    int m_frequency = 2;
+    int m_frequency = 500;
 
     const QFont m_font;
 };

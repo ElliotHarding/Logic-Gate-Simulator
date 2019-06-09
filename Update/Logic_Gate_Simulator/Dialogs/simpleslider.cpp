@@ -32,6 +32,18 @@ float SimpleSlider::GetCurrentValue()
     return m_min + (m_minMaxDiff * percentage);
 }
 
+void SimpleSlider::SetValue(float val)
+{
+    //Calculate position from value
+    const float length = (m_rightMost.x() - m_leftMost.x());
+    const float unit = length/m_minMaxDiff;
+    const float distanceFromLeft = val * unit;
+    float pos = m_leftMost.x() + distanceFromLeft - 5;
+
+    SetSliderPosition(pos);
+}
+
+
 void SimpleSlider::mouseReleaseEvent(QMouseEvent *releaseEvent)
 {
     m_beingClicked = false;
@@ -47,7 +59,8 @@ void SimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)
 
 void SimpleSlider::mouseMoveEvent(QMouseEvent *event)
 {
-    UpdateSlider(event->pos().x());
+    if(m_beingClicked)
+        UpdateSlider(event->pos().x());
 }
 
 void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
@@ -62,29 +75,32 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
     //Draw bar
     painter.drawLine(m_leftMost, m_rightMost);
 
-    //Set slider colour
-    pen.setColor(m_beingClicked ? Qt::lightGray : Qt::darkGray);
+    //Set slider colourSetZoomFactor);
     painter.setPen(pen);
 
     //Draw slider
     painter.drawEllipse(m_sliderPosition, 5, 5);
 }
 
-void SimpleSlider::UpdateSlider(int currentMousePosX)
+void SimpleSlider::UpdateSlider(float currentMousePosX)
 {
-    if(!m_beingClicked)
-        return;
+    SetSliderPosition(currentMousePosX);
 
+    //Send new data
+    m_pParent->SetZoomFactor(GetCurrentValue(), false);
+}
+
+void SimpleSlider::SetSliderPosition(float val)
+{
     //Check if mouse inbetween leftMost & rightMost boundaries of slider
-    //If so move m_sliderPosition corredspondingly
-    if(m_leftMost.x() < currentMousePosX && currentMousePosX < m_rightMost.x())
-    {
-        m_sliderPosition.setX(currentMousePosX);
+    if(m_leftMost.x() > val)
+        val = m_leftMost.x();
 
-        //Send new data
-        m_pParent->SetZoomFactor(GetCurrentValue());
+    else if(m_rightMost.x() < val)
+        val = m_rightMost.x();
 
-        //Redraw
-        update();
-    }
+    m_sliderPosition.setX(val);
+
+    //Redraw
+    update();
 }

@@ -31,5 +31,6 @@
         <file>Resources/Gates/gate-tri-and.png</file>
         <file>Resources/Gates/gate-tri-or.png</file>
         <file>Resources/Gates/gate-number-output.png</file>
+        <file>Resources/Button Icons/icon-pan.png</file>
     </qresource>
 </RCC>

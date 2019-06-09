@@ -41,13 +41,15 @@ void GateTimer::SaveData(std::ofstream &storage)
 
 void GateTimer::UpdateGraphics(QPainter *painter)
 {
+    UpdateOutput();
+
     GateSingleOutput::UpdateGraphics(painter);
 
     const QPoint pos = GetPosition();
     const std::string frequency = std::to_string(m_frequency) + "Mhz";
 
     painter->setFont(m_font);
-    painter->drawText(pos.x(), pos.y() - (GateSingleOutputHeight/4), QString::fromStdString(frequency));
+    painter->drawText(pos.x() - GateSingleOutputWidth/3, pos.y() - (GateSingleOutputHeight/4), QString::fromStdString(frequency));
 }
 
 Gate *GateTimer::Clone()

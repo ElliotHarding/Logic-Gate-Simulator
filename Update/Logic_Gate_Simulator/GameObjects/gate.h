@@ -1,6 +1,7 @@
 #ifndef GATE_H
 #define GATE_H
 
+#include "gatetypes.h"
 #include "gameobject.h"
 #include <fstream>
 
@@ -11,23 +12,6 @@ static const char* SAVE_TAG_NODE = "<NODE>";
 
 static const char* END_SAVE_TAG_GATE = "</GATE>";
 static const char* END_SAVE_TAG_NODE = "</NODE>";
-
-enum GateType
-{
-    GATE_AND,
-    GATE_OR,
-    GATE_NOT,
-    GATE_EMMITTER,
-    GATE_RECIEVER,
-    GATE_CONST_ACTIVE,
-    GATE_CONST_INACTIVE,
-    GATE_COLLECTION,
-    GATE_TIMER,
-    GATE_TRI_AND,
-    GATE_TRI_OR,
-    GATE_NUMBER_OUT,
-    GATE_NULL,
-};
 
 static int idGenerator()
 {

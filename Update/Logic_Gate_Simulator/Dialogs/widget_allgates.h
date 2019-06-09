@@ -18,30 +18,19 @@ public:
 
 private slots:
     void on_btn_andGate_clicked();
-
     void on_btn_notGate_clicked();
-
     void on_btn_orGate_clicked();
-
     void on_btn_recieverGate_clicked();
-
     void on_btn_sourceGate_clicked();
-
     void on_btn_timerGate_clicked();
-
     void on_btn_inputOn_clicked();
-
     void on_btn_inputOff_clicked();
-
     void on_btn_GateTriAnd_clicked();
-
     void on_btn_GateTriOr_clicked();
-
     void on_btn_numberOutputGate_clicked();
 
 private:
     Ui::Widget_AllGates *ui;
-    DLG_Home* m_pParent;
 };
 
 #endif // WIDGET_ALLGATES_H

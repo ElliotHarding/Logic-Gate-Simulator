@@ -1,14 +1,13 @@
 #include "widget_customgates.h"
 #include "ui_widget_customgates.h"
-#include "dlg_home.h"
 #include <QDir>
 #include "gatereader.h"
 #include "filelocations.h"
+#include "dlg_home.h"
 
 Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent) :
     MovingWidget(pParent),
-    ui(new Ui::Widget_CustomGates),
-    m_pParent(pParent)
+    ui(new Ui::Widget_CustomGates)
 {
     ui->setupUi(this);
     UpdateList();
@@ -36,14 +35,30 @@ void Widget_CustomGates::UpdateList()
     }
 }
 
+#include "dlg_message.h"
 void Widget_CustomGates::on_customGateListWidget_currentRowChanged(int currentRow)
 {
-    //Check correct index
-    if(currentRow > -1 && currentRow < ui->customGateListWidget->count())
-    {
+    m_currentRow = currentRow;
+    createItem();
+}
 
+void Widget_CustomGates::on_btn_SelectionTool_clicked()
+{
+    m_pParent->SelectionToolClicked();
+}
+
+void Widget_CustomGates::on_customGateListWidget_itemClicked(QListWidgetItem *item)
+{
+    createItem();
+}
+
+void Widget_CustomGates::createItem()
+{
+    //Check correct index
+    if(m_currentRow > -1 && m_currentRow < ui->customGateListWidget->count())
+    {
         //Get selected file
-        QString file = m_customGatesNames[currentRow];
+        QString file = m_customGatesNames[m_currentRow];
         std::ifstream customGateFile(c_CustomGatesLocation.toStdString() + file.toStdString());
 
         //Read into pointer and send to m_pParent
@@ -58,14 +73,15 @@ void Widget_CustomGates::on_customGateListWidget_currentRowChanged(int currentRo
             }
             else
             {
-                //todo
+                m_pParent->SendUserMessage("Opening a file failed!");
             }
             cg = nullptr;
         }
-    }
-}
+        else
+        {
+            m_pParent->SendUserMessage("Opening a file failed!");
+        }
 
-void Widget_CustomGates::on_btn_SelectionTool_clicked()
-{
-    m_pParent->SelectionToolClicked();
+        UpdateList();
+    }
 }

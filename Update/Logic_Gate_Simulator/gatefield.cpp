@@ -30,8 +30,9 @@ GateField::~GateField()
 {
     Enabled = false;
 
-    //todo
-    //delete m_saveGateCollection;
+    //Belongs to parent DLG_Home
+    m_pDlgSaveGateCollection = nullptr;
+    m_pParent = nullptr;
 
     //Delete all gates
     m_lockAllGates.lock();
@@ -47,12 +48,15 @@ GateField::~GateField()
 void GateField::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
+    //Zooming
+    painter.scale(m_zoomFactor, m_zoomFactor);
 
     //If were currently selecting an area
     if(m_currentClickMode == CLICK_SELECTION && m_selectionTool)
     {
         QPen pen(Qt::blue, 2);
-        painter.setPen(pen);
         painter.drawRect(m_selectionTool->geometry());
     }
 
@@ -78,6 +82,16 @@ void GateField::updateFunction()
     }
 }
 
+void GateField::setCurrentClickMode(ClickMode clickMode)
+{
+    m_currentClickMode = clickMode;
+}
+
+void GateField::setZoomLevel(qreal zoom)
+{
+     m_zoomFactor = zoom;
+}
+
 GateCollection* GateField::GenerateGateCollection()
 {
     return new GateCollection(m_selectedGates);
@@ -85,7 +99,12 @@ GateCollection* GateField::GenerateGateCollection()
 
 bool GateField::SaveData()
 {
-    std::ofstream saveFile(m_name + ".GateField");
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                 "/home",
+                                                 QFileDialog::ShowDirsOnly
+                                                 | QFileDialog::DontResolveSymlinks);
+
+    std::ofstream saveFile(dir.toStdString() + "/" + m_name + ".GateField");
 
     if(saveFile.is_open())
     {
@@ -131,12 +150,9 @@ void GateField::DeleteGate(Gate* gateToDelete)
 
 void GateField::Undo()
 {
-    if(m_backupIndex > 0)
+    if(m_backupIndex > -1 && m_backupIndex < m_gateBackups.size())
     {
-        m_backupIndex--;
-
-        std::vector<Gate*> v = m_gateBackups[m_backupIndex];
-        m_gateBackups.pop_back();
+        std::vector<Gate*> v = m_gateBackups[m_backupIndex--];
 
         m_lockAllGates.lock();
         m_allGates = v;
@@ -146,7 +162,14 @@ void GateField::Undo()
 
 void GateField::Redo()
 {
+    if(m_backupIndex < m_gateBackups.size())
+    {
+        std::vector<Gate*> v = m_gateBackups[m_backupIndex++];
 
+        m_lockAllGates.lock();
+        m_allGates = v;
+        m_lockAllGates.unlock();
+    }
 }
 
 void GateField::addGameObject(Gate* go, bool newlySpawned)
@@ -163,8 +186,9 @@ void GateField::addGameObject(Gate* go, bool newlySpawned)
 
 void GateField::mousePressEvent(QMouseEvent *click)
 {
-    const int clickX = click->x();
-    const int clickY = click->y();
+    const QPoint clickPos = GetClickFromMouseEvent(click);
+    const int clickX = clickPos.x();
+    const int clickY = clickPos.y();
 
     BackupGates();
 
@@ -175,6 +199,24 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     m_lockAllGates.lock();
 
+    if(click->buttons() & Qt::LeftButton)
+    {
+        leftMouseClick(clickX, clickY);
+    }
+    else if(click->buttons() & Qt::RightButton)
+    {
+        rightMouseClick(clickX, clickY);
+    }
+    else if(click->buttons() & Qt::MiddleButton)
+    {
+        middleMouseClick(clickX, clickY);
+    }
+
+    m_lockAllGates.unlock();
+}
+
+void GateField::leftMouseClick(int clickX, int clickY)
+{
     switch (m_currentClickMode)
     {
     case CLICK_LINK_NODES:
@@ -205,37 +247,55 @@ void GateField::mousePressEvent(QMouseEvent *click)
         panClick(clickX, clickY);//rest of dragging handeled in mouseMoveEvent
         break;
     }
+}
 
-    m_lockAllGates.unlock();
+void GateField::rightMouseClick(int clickX, int clickY)
+{
+    defaultClick(clickX,clickY);
+}
+
+void GateField::middleMouseClick(int clickX, int clickY)
+{
+    deleteClick(clickX,clickY);
 }
 
 void GateField::mouseMoveEvent(QMouseEvent *click)
 {
-    if(m_bMouseDragging && m_currentClickMode == CLICK_DRAG)
+    const QPoint clickPos = GetClickFromMouseEvent(click);
+
+    if(m_bMouseDragging && m_currentClickMode == CLICK_DRAG && m_dragGate != nullptr)
     {
         m_lockAllGates.lock();
-        dragClick(click->x(),click->y());
+        if(m_dragGate->GetType() != GATE_COLLECTION)
+        {
+            m_dragGate->SetPosition(clickPos.x(), clickPos.y());
+        }
+        else
+        {
+            dragClick(clickPos.x(), clickPos.y());
+        }
         m_lockAllGates.unlock();
     }
 
     if(m_bMouseDragging && m_currentClickMode == CLICK_PAN)
     {
         m_lockAllGates.lock();
-        panClick(click->x(),click->y());
+        panClick(clickPos.x(), clickPos.y());
         m_lockAllGates.unlock();
     }
 
     if( m_selectionTool != nullptr && m_currentClickMode == CLICK_SELECTION)
     {
         m_lockAllGates.lock();
-        selectionClick(click->x(),click->y());
+        selectionClick(clickPos.x(), clickPos.y());
         m_lockAllGates.unlock();
     }
 }
 
-void GateField::mouseReleaseEvent(QMouseEvent *click)
+void GateField::mouseReleaseEvent(QMouseEvent* click)
 {
     m_bMouseDragging = false;
+    m_dragGate = nullptr;
 
     //If ending a selection
     if( m_selectionTool != nullptr && m_currentClickMode == CLICK_SELECTION)
@@ -410,6 +470,7 @@ void GateField::dragClick(int clickX, int clickY)
         if(m_allGates[index]->UpdateDrag(clickX, clickY))
         {
             m_bMouseDragging = true;
+            m_dragGate = m_allGates[index];
 
             //Move the dragged object to the front of the array.
             //This way next loop the object will be checked first
@@ -467,11 +528,23 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
     vec.insert(vec.begin(), objectAtIndex);
 }
 
-//Functoin must be called when m_allGates is mutex locked
+//Function must be called when m_allGates is mutex locked
 void GateField::BackupGates()
 {
-    std::vector<Gate*> backup;
 
+    //So if were in the middle of an undo (ie. backup index has gone back a bit)
+    //Pop back the redos
+    if(m_backupIndex != m_gateBackups.size())
+    {
+        const int diff = m_gateBackups.size() - m_backupIndex;
+        for (int index = 0; index < diff; index++)
+        {
+            m_gateBackups.pop_back();
+        }
+    }
+
+    //Create backup of all gates
+    std::vector<Gate*> backup;
     for(Gate* g : m_allGates)
     {
         backup.push_back(g->Clone());
@@ -484,6 +557,13 @@ void GateField::BackupGates()
     {
         m_gateBackups.erase(m_gateBackups.begin());
     }
+}
+
+QPoint GateField::GetClickFromMouseEvent(QMouseEvent *mouseEvent) const
+{
+    QTransform transform;
+    transform.scale(m_zoomFactor, m_zoomFactor);
+    return transform.inverted().map(QPoint(mouseEvent->x(), mouseEvent->y()));
 }
 
 void GateField::updateGateSelected(Gate *g)

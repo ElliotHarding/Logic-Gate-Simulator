@@ -78,7 +78,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">tex-colour: rgb(255, 8, 0)</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>TextLabel</string>

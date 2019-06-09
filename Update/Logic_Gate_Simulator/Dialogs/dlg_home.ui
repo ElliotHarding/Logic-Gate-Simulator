@@ -114,7 +114,7 @@ border:none;</string>
     </property>
     <property name="icon">
      <iconset resource="../resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-drag.png</normaloff>:/Resources/Button Icons/icon-drag.png</iconset>
+      <normaloff>:/Resources/Button Icons/icon-pan.png</normaloff>:/Resources/Button Icons/icon-pan.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -663,7 +663,6 @@ border:none;</string>
 	border:none;
     color: black;
     font: 14px;
-	font-color:rgb(255, 255, 255);
     padding: 5px 5px 5px 20px; /* This (useless) line resolves a bug with the font color */
 }
 

@@ -27,12 +27,12 @@ public:
      ~GateField() override;
 
     void addGameObject(Gate* go, bool newlySpawned = true);
-    void updateFunction();
-    void setCurrentClickMode(ClickMode clickMode) {m_currentClickMode = clickMode;}
-    void setZoomLevel(qreal zoom) {m_zoomFactor = zoom;}
+    void setCurrentClickMode(ClickMode clickMode);
     GateCollection* GenerateGateCollection();
-    bool SaveData();
+    void setZoomLevel(qreal zoom);
     void DeleteGate(Gate* g);
+    void updateFunction();
+    bool SaveData();
     void Undo();
     void Redo();
 
@@ -58,6 +58,10 @@ private:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
+    void leftMouseClick(int clickX, int clickY);
+    void rightMouseClick(int clickX, int clickY);
+    void middleMouseClick(int clickX, int clickY);
+
     //Communication with parent dialog (DLG_Home instance)
     DLG_Home* m_pParent;
     void updateGateSelected(Gate* g);
@@ -68,6 +72,7 @@ private:
     //Gates
     QMutex m_lockAllGates;
     std::vector<Gate*> m_allGates;
+    Gate* m_dragGate = nullptr;
     std::vector<std::vector<Gate*>> m_gateBackups;
     const int c_maxNumberOfBackups = 10;
     unsigned int m_backupIndex = 0;
@@ -79,6 +84,7 @@ private:
 
     //Zooming
     qreal m_zoomFactor;
+    QPoint GetClickFromMouseEvent(QMouseEvent* mouseEvent) const;
 
     //Panning
     Vector2D m_screenPosDelta;

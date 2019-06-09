@@ -15,6 +15,7 @@
 #include "simpleslider.h"
 #include "dlg_gateinfo.h"
 #include "dlg_savegatecollection.h"
+#include "dlg_message.h"
 
 #include "movingwidget.h"
 #include "widget_advanced.h"
@@ -38,11 +39,13 @@ public:
     explicit DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget* parent = nullptr);
     ~DLG_Home();
 
-    void SetZoomFactor(float zoomFactor);
+    void SendUserMessage(QString message);
+    void SetZoomFactor(float zoomFactor, bool updateSlider = true);
     void AddGate(Gate* g);
     void GateSelected(Gate* g);
     void DeleteGate(Gate* g);
     void SelectionToolClicked();
+    void UpdateCustomGateListWidget();
 
 private:
     Ui::DLG_Home *ui;
@@ -50,6 +53,7 @@ private:
     //Dialogs
     DLG_GateInfo*           m_pDlgGateInfo;
     DLG_SaveGateCollection* m_pDlgSaveGateCollection;
+    DLG_Message*            m_pDlgMessage;
     QFileDialog*            m_pDlgLoadGates;
     QInputDialog*           m_pDlgInput;
 
@@ -61,6 +65,9 @@ private:
     Widget_InputGates*  m_pWidgetInputGates;
     MovingWidget* m_pCurrentShownGateWidget = nullptr;
 
+    //Controls
+    SimpleSlider* m_zoomSlider;
+
     //Widget animations
     void SwitchWidgets(MovingWidget* w1);
     const int c_moveWidgetsIncrement = 2;
@@ -68,19 +75,18 @@ private:
 
     //Zooming
     qreal m_ZoomFactor;
-    const int c_maxZoom = 10;
-    const qreal c_minZoom = 0.25;    
+    const int c_maxZoom = 1;
+    const qreal c_minZoom = 0.2;
 
     //Gatefields
     GateField* m_currentGateField = nullptr;
     std::vector<GateField*> m_allGateFields;
     void addGateField(QString& name);
-    GateField* createNewGateField(QString& name);
-
-    //Controls
-    SimpleSlider* m_zoomSlider;
+    GateField* createNewGateField(QString name);
 
     QRect accountForUIOffsetts(const QRect& rect);
+
+    QString PathToFileName(const QString);
 
 private slots:
 
@@ -111,26 +117,5 @@ private slots:
     void on_PlayField_currentChanged(int index);
 
 };
-
-#ifdef zero
-//Update thread for gatefields (pages)
-//------------------------------------
-// Calls the update function of all the gates in all of the gateFields
-// Runs continuously
-class LogicUpdateThread : public QThread
-{
-    Q_OBJECT
-public:
-    LogicUpdateThread(std::vector<GateField*>* allGateFields);
-    ~LogicUpdateThread() override;
-    void stopRunning();
-
-private:
-    void run() override;
-
-    bool m_bStop;
-    std::vector<GateField*>* m_pAllGateFields;
-};
-#endif
 
 #endif // DLG_HOME_H

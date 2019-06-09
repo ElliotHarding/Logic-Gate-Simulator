@@ -11,6 +11,7 @@ public:
     SimpleSlider(float min, float max, QRect layout, DLG_Home* parent = nullptr);
 
     float GetCurrentValue();
+    void SetValue(float val);
 
 protected:
 
@@ -20,7 +21,8 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
-    void UpdateSlider(int currentMousePosX);
+    void UpdateSlider(float currentMousePosX);
+    void SetSliderPosition(float val);
 
     DLG_Home* m_pParent;
 

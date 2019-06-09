@@ -14,30 +14,21 @@ void GateReciever::UpdateOutput()
 
 void GateReciever::UpdateGraphics(QPainter *painter)
 {
-    //Paiting variables to be used
-    QPainterPath path;
-    QBrush brush;
-    brush.setStyle(Qt::SolidPattern);
-
     //Draw center
     //Fill with red if active
     if(m_input.GetValue())
     {
-        brush.setColor(Qt::red);
-        painter->setBrush(brush);
+        painter->setPen(QPen(Qt::red, GateRecieverWidth));
         painter->drawEllipse(m_layout);
     }
     else
     {
-        brush.setColor(Qt::white);
-        painter->setBrush(brush);
-        painter->drawEllipse(m_layout.center(), GateRecieverWidth, GateRecieverHeight);
+        painter->setPen(QPen(Qt::white, GateRecieverWidth));
+        painter->drawEllipse(m_layout);
     }
 
     //Draw border
-    QPen pen;
-    painter->setPen(pen);
-    pen.setColor(Qt::lightGray);
+    painter->setPen(QPen(Qt::lightGray, 3));
     painter->drawEllipse(m_layout.center(), GateRecieverWidth, GateRecieverHeight);
 
     //Draw nodes

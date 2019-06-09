@@ -289,11 +289,12 @@ void DLG_Home::SwitchWidgets(MovingWidget* newWidgetToShow)
         for (int moved = 0; moved < c_moveWidgetDistance; moved += c_moveWidgetsIncrement)
         {
             //Retract current shown widget
-            const QRect geo = m_pCurrentShownGateWidget->geometry();
-            m_pCurrentShownGateWidget->move(geo.left() - c_moveWidgetsIncrement, geo.right());
+            const QRect currentGeo = m_pCurrentShownGateWidget->geometry();
+            m_pCurrentShownGateWidget->move(currentGeo.left() - c_moveWidgetsIncrement, currentGeo.top());
 
             //Move out new one to show
-            newWidgetToShow->move(geo.left() + c_moveWidgetsIncrement, geo.right());
+            const QRect newWidgetGeometry = newWidgetToShow->geometry();
+            newWidgetToShow->move(newWidgetGeometry.left() + c_moveWidgetsIncrement, newWidgetGeometry.top());
 
             //Force redraw on the widgets. Drawing new one last (on top)
             m_pCurrentShownGateWidget->repaint();

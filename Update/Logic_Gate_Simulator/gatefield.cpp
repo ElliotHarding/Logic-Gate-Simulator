@@ -43,6 +43,9 @@ GateField::~GateField()
     m_lockAllGates.unlock();
 
     delete m_linkNodeA;
+
+    if(m_selectionTool)
+        delete m_selectionTool;
 }
 
 void GateField::paintEvent(QPaintEvent *paintEvent)
@@ -92,9 +95,12 @@ void GateField::setZoomLevel(qreal zoom)
      m_zoomFactor = zoom;
 }
 
-GateCollection* GateField::GenerateGateCollection()
+bool GateField::SaveGateCollection(std::ofstream& saveStream)
 {
-    return new GateCollection(m_selectedGates);
+    GateCollection::SaveData(saveStream, m_selectedGates);
+
+    //should probably return a bool...
+    return true;
 }
 
 bool GateField::SaveData()
@@ -126,14 +132,14 @@ bool GateField::SaveData()
 void GateField::DeleteGate(Gate* gateToDelete)
 {
     m_lockAllGates.lock();
-    for(int index = 0; index < m_allGates.size(); index++)
+    for(size_t index = 0; index < m_allGates.size(); index++)
     {
         if (m_allGates[index] == gateToDelete)
         {
             //Find & remove from vector
             Gate* gObject = m_allGates[index];
             gObject->DetachNodes();
-            m_allGates.erase(m_allGates.begin() + index);
+            m_allGates.erase(m_allGates.begin() + int8_t(index));
 
             //Delete & forget
             delete gObject;
@@ -150,9 +156,9 @@ void GateField::DeleteGate(Gate* gateToDelete)
 
 void GateField::Undo()
 {
-    if(m_backupIndex > -1 && m_backupIndex < m_gateBackups.size())
+    if(m_backupIndex > -1 && size_t(m_backupIndex) < m_gateBackups.size())
     {
-        std::vector<Gate*> v = m_gateBackups[m_backupIndex--];
+        std::vector<Gate*> v = m_gateBackups[size_t(m_backupIndex--)];
 
         m_lockAllGates.lock();
         m_allGates = v;
@@ -162,9 +168,9 @@ void GateField::Undo()
 
 void GateField::Redo()
 {
-    if(m_backupIndex < m_gateBackups.size())
+    if(size_t(m_backupIndex) < m_gateBackups.size())
     {
-        std::vector<Gate*> v = m_gateBackups[m_backupIndex++];
+        std::vector<Gate*> v = m_gateBackups[size_t(m_backupIndex++)];
 
         m_lockAllGates.lock();
         m_allGates = v;

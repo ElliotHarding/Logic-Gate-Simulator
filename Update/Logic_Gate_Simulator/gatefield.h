@@ -28,7 +28,7 @@ public:
 
     void addGameObject(Gate* go, bool newlySpawned = true);
     void setCurrentClickMode(ClickMode clickMode);
-    GateCollection* GenerateGateCollection();
+    bool SaveGateCollection(std::ofstream& saveStream);
     void setZoomLevel(qreal zoom);
     void DeleteGate(Gate* g);
     void updateFunction();
@@ -75,7 +75,7 @@ private:
     Gate* m_dragGate = nullptr;
     std::vector<std::vector<Gate*>> m_gateBackups;
     const int c_maxNumberOfBackups = 10;
-    unsigned int m_backupIndex = 0;
+    int m_backupIndex = 0;
     void moveToFront(int index, std::vector<Gate*>& vec);
     void BackupGates();
 

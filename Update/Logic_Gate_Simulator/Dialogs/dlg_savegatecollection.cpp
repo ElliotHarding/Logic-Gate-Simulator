@@ -47,7 +47,7 @@ void DLG_SaveGateCollection::on_Save_clicked()
     if(newGateCollection.is_open())
     {
         //Generate from currentGateField & then save to newGateCollection file
-        m_currentGateField->GenerateGateCollection()->SaveData(newGateCollection);
+        m_currentGateField->SaveGateCollection(newGateCollection);
         newGateCollection.close();
 
         m_pParent->UpdateCustomGateListWidget();

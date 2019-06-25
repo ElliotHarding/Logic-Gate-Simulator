@@ -123,6 +123,26 @@ void GateCollection::SaveData(std::ofstream &storage)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
+void GateCollection::SaveData(std::ofstream &storage, std::vector<Gate *> gates)
+{
+    //should probably return a bool here
+
+    //Add general gate info
+    storage << SAVE_TAG_GATE
+            with std::to_string(GATE_COLLECTION)
+            with std::to_string(1)
+            with std::to_string(0)
+            with std::to_string(0)
+            << std::endl;
+
+    for(Gate* gate : gates)
+    {
+        gate->SaveData(storage);
+    }
+
+    storage << END_SAVE_TAG_GATE << std::endl;
+}
+
 void GateCollection::DisplaceGates(Vector2D displacement)
 {
     for(Gate* gate : m_gates)

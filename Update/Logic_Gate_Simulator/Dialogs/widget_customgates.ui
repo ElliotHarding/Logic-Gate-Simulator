@@ -28,6 +28,9 @@
      <height>251</height>
     </rect>
    </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
   </widget>
   <widget class="QPushButton" name="btn_SelectionTool">
    <property name="geometry">

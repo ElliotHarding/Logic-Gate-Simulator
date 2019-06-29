@@ -13,8 +13,12 @@ Gate::~Gate()
 {
     for (size_t index = 0; index < m_nodes.size(); index++)
     {
+        Node* node = m_nodes[index];
         m_nodes.erase(m_nodes.begin() + index);
+        delete node;
     }
+
+    ParentField = nullptr;
 }
 
 void Gate::UpdateGraphics(QPainter* painter)
@@ -111,6 +115,7 @@ Node::Node(Gate *parent, NodeType type, int id) :
 Node::~Node()
 {
     m_parent = nullptr;
+
     DetachNode();
 }
 

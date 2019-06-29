@@ -11,7 +11,6 @@ GameObject::GameObject(int width, int height, const char* iconLocation)
 
 GameObject::~GameObject()
 {
-
 }
 
 void GameObject::UpdateGraphics(QPainter *painter)

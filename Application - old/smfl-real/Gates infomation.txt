@@ -1,0 +1,16 @@
+And-Gate: 311,199 1
+And-Gate: 342,295 1
+Output-Gate: 147,173 1
+Pulse-Emitter: 146,256 1
+Output-Gate: 146,340 1
+Or-Gate: 484,207 1
+Or-Gate: 481,297 1
+Not-Gate: 571,300 1
+Not-Gate: 569,212 1
+Splitter-Gate: 631,292 1
+Splitter-Gate: 634,203 1
+Input-Gate: 865,207 1
+Input-Gate: 865,316 1
+Splitter-Gate: 728,310 1
+Splitter-Gate: 729,194 1
+Splitter-Gate: 218.5,249 1

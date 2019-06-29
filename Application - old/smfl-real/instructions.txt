@@ -1,0 +1,47 @@
+(*) Use "z" to zoom in & "x" to zoom out
+
+(*)In the bottom right hand coner of the screen is the add page
+   button this adds a page
+
+(*)The link button allows gates to be linked 
+   (see next page for more info)
+
+(*)The new button removes all gates and links, as well as resets 
+   other properties
+
+(*)The load button loads any saved gates from a file
+
+(*)The save button saves any gates (types, properties, positions) 
+   (does not currently save links =( )
+
+(*)The quit button is self explanitory
+
+---------------
+The two top buttons (<- & ->) are for switching inbetween pages 
+giving you acsess to differnt types of gates.
+
+Process of linking gates:
+
+Step 1: Press link button
+Step 2: Select any gates output attacher
+Step 3: Select any gates input attacher
+Step 4: Link is then generated
+
+* It is possible to link gates over pages
+* Having multiple links from/to one attacher is possible
+
+---------------
+Using 4-bit memory:
+
+*Four attachers (right) --> The read attachers
+
+*Top attacher (left) --> The increment array position attacher
+	--> sending a signal to this will increment the array 
+		position from which data is read from
+
+*Bottom attacher (left) --> The reset attacher
+	--> sending a signal to this will reset the array position 
+		reader to 0
+
+Bool reader is similar to the 4-bit memory execpt it only emmits
+one signal

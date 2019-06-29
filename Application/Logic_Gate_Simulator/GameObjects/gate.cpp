@@ -13,10 +13,9 @@ Gate::~Gate()
 {
     for (size_t index = 0; index < m_nodes.size(); index++)
     {
-        Node* node = m_nodes[index];
-        m_nodes.erase(m_nodes.begin() + index);
-        delete node;
+        m_nodes[index] = nullptr;
     }
+    m_nodes.clear();
 
     ParentField = nullptr;
 }

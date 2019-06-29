@@ -12,6 +12,15 @@ GateAnd::GateAnd(id inA, id inB, id out) :
     m_nodes.push_back(&m_output);
 }
 
+GateAnd::~GateAnd()
+{
+    for (size_t index = 0; index < m_nodes.size(); index++)
+    {
+        m_nodes[index] = nullptr;
+    }
+    m_nodes.clear();
+}
+
 void GateAnd::UpdateOutput()
 {
     const bool sum = m_inputA.GetValue() & m_inputB.GetValue();

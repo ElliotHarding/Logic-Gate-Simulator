@@ -24,6 +24,10 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
 
     m_allGates.reserve(20);
     m_gateBackups.reserve(20);
+    for(std::vector<Gate*> g : m_gateBackups)
+    {
+        g.reserve(20);
+    }
 }
 
 GateField::~GateField()
@@ -39,6 +43,13 @@ GateField::~GateField()
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         delete m_allGates[index];
+    }
+    for(std::vector<Gate*> g : m_gateBackups)
+    {
+        for (size_t index = 0; index < g.size(); index++)
+        {
+            delete g[index];
+        }
     }
     m_lockAllGates.unlock();
 
@@ -138,10 +149,10 @@ void GateField::DeleteGate(Gate* gateToDelete)
         {
             //Find & remove from vector
             Gate* gObject = m_allGates[index];
-            gObject->DetachNodes();
+            //gObject->DetachNodes(); ~ todo think its done by destructor
             m_allGates.erase(m_allGates.begin() + int8_t(index));
 
-            //Delete & forget
+            //~Delete & forget
             delete gObject;
             gateToDelete = nullptr;
 
@@ -454,8 +465,8 @@ void GateField::deleteClick(int clickX, int clickY)
         if(m_allGates[index]->DeleteClick(clickX,clickY))
         {
             Gate* gObject = m_allGates[index];
-            gObject->DetachNodes();
             m_allGates.erase(m_allGates.begin() + index);
+            //gObject->DetachNodes(); ~ Think its done by the destructor
             delete gObject;
 
             updateFunction();

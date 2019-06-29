@@ -120,10 +120,6 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
 DLG_Home::~DLG_Home()
 {
-    //m_updateThread->stopRunning();
-    //m_updateThread->exit();
-    //delete m_updateThread;
-
     //m_currentGateField = nullptr;
 
     //Delete gatefields
@@ -446,7 +442,17 @@ void DLG_Home::on_btn_load_clicked()
 
 void DLG_Home::on_PlayField_tabCloseRequested(int index)
 {
-    ui->PlayField->removeTab(index);
+    //Get pointer to widget to delete
+    GateField* gf = dynamic_cast<GateField*>(ui->PlayField->widget(index));
+
+    //Forget m_currentGateField incase it's pointing to gf
+    m_currentGateField = nullptr;
+    m_allGateFields[index] = nullptr;
+    m_allGateFields.erase(m_allGateFields.begin() + index);
+
+    //Remove tab
+    ui->PlayField->removeTab(index); // ~ Causes tabs to be switched if there's an existing open tab
+    delete gf;
 }
 
 void DLG_Home::on_PlayField_currentChanged(int index)

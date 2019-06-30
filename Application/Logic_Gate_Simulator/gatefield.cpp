@@ -489,7 +489,6 @@ void GateField::deleteClick(int clickX, int clickY)
         {
             Gate* gObject = m_allGates[index];
             m_allGates.erase(m_allGates.begin() + index);
-            //gObject->DetachNodes(); ~ Think its done by the destructor
             delete gObject;
 
             updateFunction();

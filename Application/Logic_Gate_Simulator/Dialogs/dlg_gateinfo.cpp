@@ -115,12 +115,14 @@ void DLG_GateInfo::setGate(Gate *g)
         case GateType::GATE_NUMBER_OUT:
             gateName = "Number output";
             break;
-
         default:
             gateName = "";
             break;
     }
     ui->lbl_GateType->setText(gateName);
+
+    //Call to redraw
+    update();
 }
 
 void DLG_GateInfo::on_btn_DeleteGate_clicked()

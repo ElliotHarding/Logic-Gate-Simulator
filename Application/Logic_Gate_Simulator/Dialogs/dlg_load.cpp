@@ -41,6 +41,8 @@ void DLG_Load::Load()
     DLG_Home* home = new DLG_Home(ui->progressBar, ui->lbl_progressStep);
     home->show();
 
+    //Forget home
     home = nullptr;
+
     close();
 }

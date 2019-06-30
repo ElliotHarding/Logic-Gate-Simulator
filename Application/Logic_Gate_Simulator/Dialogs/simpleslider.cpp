@@ -22,6 +22,11 @@ SimpleSlider::SimpleSlider(float min, float max, QRect layout, DLG_Home *parent)
     setMouseTracking(true);
 }
 
+SimpleSlider::~SimpleSlider()
+{
+    m_pParent = nullptr;
+}
+
 float SimpleSlider::GetCurrentValue()
 {
     //Get how far slider is in terms of percentage from left

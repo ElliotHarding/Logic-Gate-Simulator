@@ -11,5 +11,5 @@ MovingWidget::MovingWidget(DLG_Home *parent) :
 
 MovingWidget::~MovingWidget()
 {
-    delete m_pParent;
+    m_pParent = nullptr;
 }

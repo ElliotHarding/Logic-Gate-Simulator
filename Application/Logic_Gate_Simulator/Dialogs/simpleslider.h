@@ -9,6 +9,7 @@ class SimpleSlider : public QWidget
 {
 public:
     SimpleSlider(float min, float max, QRect layout, DLG_Home* parent = nullptr);
+    ~SimpleSlider();
 
     float GetCurrentValue();
     void SetValue(qreal val);

@@ -120,7 +120,19 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
 DLG_Home::~DLG_Home()
 {
-    //m_currentGateField = nullptr;
+    delete m_pWidgetAllGates;
+    delete m_pWidgetCustomGates;
+    delete m_pWidgetAdvancedGates;
+    delete m_pWidgetStandardGates;
+    delete m_pWidgetInputGates;
+
+    delete m_zoomSlider;
+
+    delete m_pDlgLoadGates;
+    delete m_pDlgInput;
+    delete m_pDlgSaveGateCollection;
+    delete m_pDlgGateInfo;
+    delete m_pDlgMessage;
 
     //Delete gatefields
     for (GateField* gf : m_allGateFields)

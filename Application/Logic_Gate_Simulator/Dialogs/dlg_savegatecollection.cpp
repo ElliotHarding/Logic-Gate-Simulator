@@ -16,6 +16,7 @@ DLG_SaveGateCollection::DLG_SaveGateCollection(DLG_Home *parent) :
 
 DLG_SaveGateCollection::~DLG_SaveGateCollection()
 {
+    m_pParent = nullptr;
     delete ui;
 }
 

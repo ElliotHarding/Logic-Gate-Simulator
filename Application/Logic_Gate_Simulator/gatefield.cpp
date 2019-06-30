@@ -187,7 +187,7 @@ void GateField::Undo()
 
 void GateField::Redo()
 {
-    if(size_t(m_backupIndex) <= m_gateBackups.size())
+    if(m_backupIndex > -1 && m_backupIndex < int(m_gateBackups.size()))
     {
         std::vector<Gate*> v = m_gateBackups[size_t(m_backupIndex++)];
 
@@ -571,16 +571,18 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 //Function must be called when m_allGates is mutex locked
 void GateField::BackupGates()
 {
+    /*
     //So if were in the middle of an undo (ie. backup index has gone back a bit)
     //Pop back the redos
-    if(m_backupIndex != m_gateBackups.size())
+    if(m_backupIndex != int(m_gateBackups.size()) - 1)
     {
-        const int diff = m_gateBackups.size() - m_backupIndex;
+        const int diff = int(m_gateBackups.size()) - m_backupIndex;
         for (int index = 0; index < diff; index++)
         {
             m_gateBackups.pop_back();
         }
     }
+    */
 
     //Create backup of all gates
     std::vector<Gate*> backup;
@@ -596,7 +598,7 @@ void GateField::BackupGates()
         m_gateBackups.erase(m_gateBackups.begin());
     }
 
-    m_backupIndex = m_gateBackups.size();
+    m_backupIndex = m_gateBackups.size() - 1;
 }
 
 QPoint GateField::GetClickFromMouseEvent(QMouseEvent *mouseEvent) const

@@ -85,9 +85,6 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     }
 
     m_lockAllGates.unlock();
-
-    //Call to redraw
-    update();
 }
 
 //MAKE SURE m_lockAllGates is locked before calling!
@@ -109,6 +106,9 @@ void GateField::setCurrentClickMode(ClickMode clickMode)
 void GateField::setZoomLevel(qreal zoom)
 {
      m_zoomFactor = zoom;
+
+     //Call to redraw
+     update();
 }
 
 bool GateField::SaveGateCollection(std::ofstream& saveStream)
@@ -172,7 +172,7 @@ void GateField::DeleteGate(Gate* gateToDelete)
 
 void GateField::Undo()
 {
-    if(m_backupIndex > -1 && size_t(m_backupIndex) < m_gateBackups.size())
+    if(m_backupIndex > -1 && size_t(m_backupIndex) <= m_gateBackups.size())
     {
         std::vector<Gate*> v = m_gateBackups[size_t(m_backupIndex--)];
 
@@ -180,11 +180,14 @@ void GateField::Undo()
         m_allGates = v;
         m_lockAllGates.unlock();
     }
+
+    //Call to redraw
+    update();
 }
 
 void GateField::Redo()
 {
-    if(size_t(m_backupIndex) < m_gateBackups.size())
+    if(size_t(m_backupIndex) <= m_gateBackups.size())
     {
         std::vector<Gate*> v = m_gateBackups[size_t(m_backupIndex++)];
 
@@ -192,6 +195,9 @@ void GateField::Redo()
         m_allGates = v;
         m_lockAllGates.unlock();
     }
+
+    //Call to redraw
+    update();
 }
 
 void GateField::addGameObject(Gate* go, bool newlySpawned)
@@ -204,6 +210,9 @@ void GateField::addGameObject(Gate* go, bool newlySpawned)
     m_lockAllGates.lock();
     m_allGates.push_back(go);
     m_lockAllGates.unlock();
+
+    //Call to redraw
+    update();
 }
 
 void GateField::mousePressEvent(QMouseEvent *click)
@@ -235,6 +244,9 @@ void GateField::mousePressEvent(QMouseEvent *click)
     }
 
     m_lockAllGates.unlock();
+
+    //Call to redraw
+    update();
 }
 
 void GateField::leftMouseClick(int clickX, int clickY)
@@ -312,6 +324,9 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
         selectionClick(clickPos.x(), clickPos.y());
         m_lockAllGates.unlock();
     }
+
+    //Call to redraw
+    update();
 }
 
 void GateField::mouseReleaseEvent(QMouseEvent* click)
@@ -346,6 +361,9 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         }
         m_selectionTool = nullptr;
     }
+
+    //Call to redraw
+    update();
 }
 
 void GateField::linkNodesClick(int clickX, int clickY)
@@ -553,7 +571,6 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 //Function must be called when m_allGates is mutex locked
 void GateField::BackupGates()
 {
-
     //So if were in the middle of an undo (ie. backup index has gone back a bit)
     //Pop back the redos
     if(m_backupIndex != m_gateBackups.size())
@@ -571,14 +588,15 @@ void GateField::BackupGates()
     {
         backup.push_back(g->Clone());
     }
-
     m_gateBackups.push_back(backup);
-    m_backupIndex++;
 
+    //If we got too many backups, delete the first row from m_gateBackups (oldest backup)
     if(m_gateBackups.size() > c_maxNumberOfBackups)
     {
         m_gateBackups.erase(m_gateBackups.begin());
     }
+
+    m_backupIndex = m_gateBackups.size();
 }
 
 QPoint GateField::GetClickFromMouseEvent(QMouseEvent *mouseEvent) const

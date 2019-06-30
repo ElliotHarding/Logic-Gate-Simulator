@@ -1,10 +1,12 @@
-#include "GateTimer.h"
 #include <QInputDialog>
 #include <QWidget>
 #include <QString>
 #include <QDir>
 #include <iostream>
 #include <string>
+
+#include "GateTimer.h"
+#include "gatefield.h"
 
 GateTimer::GateTimer(id out) :
     GateSingleOutput::GateSingleOutput(GATE_TIMER, out),
@@ -22,6 +24,9 @@ void GateTimer::UpdateOutput()
         m_timer.stop();
         m_timer.start(m_frequency);
         m_output.SetValue(!m_output.GetValue());
+
+        //Call to redraw
+        ParentField->update();
     }
 }
 

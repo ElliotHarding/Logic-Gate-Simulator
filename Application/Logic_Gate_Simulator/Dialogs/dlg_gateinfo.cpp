@@ -71,11 +71,14 @@ void DLG_GateInfo::setGate(Gate *g)
             break;
         case GateType::GATE_TIMER:
             {
+
             gateName = "Timer Gate";
             ui->lbl_Frequency->show();
             ui->lineEdit_Frequency->setDisabled(false);
+
             const int frequency = dynamic_cast<GateTimer*>(m_gateDisplayed)->getFrequency();
-            ui->lineEdit_Frequency->setText(QString(frequency));
+            ui->lineEdit_Frequency->setText(std::to_string(frequency).c_str());
+
             break;
             }
         case GateType::GATE_EMMITTER:

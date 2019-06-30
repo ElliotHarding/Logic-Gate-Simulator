@@ -63,6 +63,12 @@ void DLG_GateInfo::setGate(Gate *g)
         case GateType::GATE_AND:
             gateName = "And Gate";
             break;
+        case GateType::GATE_TRI_OR:
+            gateName = "Or Gate (Tri)";
+            break;
+        case GateType::GATE_TRI_AND:
+            gateName = "And Gate (Tri)";
+            break;
         case GateType::GATE_NOT:
             gateName = "Not Gate";
             break;
@@ -105,6 +111,13 @@ void DLG_GateInfo::setGate(Gate *g)
             break;
         case GateType::GATE_CONST_INACTIVE:
             gateName = "Input Off";
+            break;
+        case GateType::GATE_NUMBER_OUT:
+            gateName = "Number output";
+            break;
+
+        default:
+            gateName = "";
             break;
     }
     ui->lbl_GateType->setText(gateName);

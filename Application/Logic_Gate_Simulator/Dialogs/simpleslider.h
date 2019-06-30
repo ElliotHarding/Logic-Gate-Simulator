@@ -11,7 +11,7 @@ public:
     SimpleSlider(float min, float max, QRect layout, DLG_Home* parent = nullptr);
 
     float GetCurrentValue();
-    void SetValue(float val);
+    void SetValue(qreal val);
 
 protected:
 

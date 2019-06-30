@@ -166,7 +166,7 @@ void DLG_Home::addGateField(QString& name)
 {
     GateField* newGF = createNewGateField(name);
     m_allGateFields.push_back(newGF);
-    m_iCurrentGateField = m_allGateFields.size();
+    m_iCurrentGateField = int8_t(m_allGateFields.size());
     ui->PlayField->addTab(newGF,tr(name.toUtf8()));
 }
 
@@ -337,7 +337,7 @@ void DLG_Home::on_btn_zoomOut_clicked()
 }
 
 //Function works for local call & external call
-void DLG_Home::SetZoomFactor(float zoomFactor, bool updateSlider)
+void DLG_Home::SetZoomFactor(qreal zoomFactor, bool updateSlider)
 {
     m_ZoomFactor = zoomFactor;
 

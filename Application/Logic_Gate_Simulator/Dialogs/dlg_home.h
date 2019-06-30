@@ -40,7 +40,7 @@ public:
     ~DLG_Home();
 
     void SendUserMessage(QString message);
-    void SetZoomFactor(float zoomFactor, bool updateSlider = true);
+    void SetZoomFactor(qreal zoomFactor, bool updateSlider = true);
     void AddGate(Gate* g);
     void GateSelected(Gate* g);
     void DeleteGate(Gate* g);

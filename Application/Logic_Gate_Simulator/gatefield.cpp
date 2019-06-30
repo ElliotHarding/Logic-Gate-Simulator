@@ -75,10 +75,15 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     }
 
     m_lockAllGates.lock();
-    for (Gate* gate : m_allGates)
+
+    //Paint in reverse order, so gate on top of vector get's painted last
+    //So if we're dragging, the one we're dragging gets painted ontop of the others
+    //Since dragging move the gate to the top of the vector
+    for (int index = m_allGates.size() - 1; index > -1; index--)
     {
-        gate->UpdateGraphics(&painter);
+        m_allGates[size_t(index)]->UpdateGraphics(&painter);
     }
+
     m_lockAllGates.unlock();
 
     //Call to redraw

@@ -32,12 +32,12 @@ float SimpleSlider::GetCurrentValue()
     return m_min + (m_minMaxDiff * percentage);
 }
 
-void SimpleSlider::SetValue(float val)
+void SimpleSlider::SetValue(qreal val)
 {
     //Calculate position from value
     const float length = (m_rightMost.x() - m_leftMost.x());
     const float unit = length/m_minMaxDiff;
-    const float distanceFromLeft = val * unit;
+    const qreal distanceFromLeft = val * unit;
     float pos = m_leftMost.x() + distanceFromLeft - 5;
 
     SetSliderPosition(pos);

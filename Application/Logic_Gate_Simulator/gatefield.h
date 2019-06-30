@@ -73,11 +73,13 @@ private:
     QMutex m_lockAllGates;
     std::vector<Gate*> m_allGates;
     Gate* m_dragGate = nullptr;
+    void moveToFront(int index, std::vector<Gate*>& vec);
+
+    //Gate backups for redo and undo functions
+    void BackupGates();
     std::vector<std::vector<Gate*>> m_gateBackups;
     const int c_maxNumberOfBackups = 10;
     int m_backupIndex = 0;
-    void moveToFront(int index, std::vector<Gate*>& vec);
-    void BackupGates();
 
     //Temps for multi step linking and unlinking
     Node* m_linkNodeA = nullptr;

@@ -35,6 +35,14 @@ bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& 
     gCollection->Enabled = enabled;
     gCollection->AssignNewNodeIds();
 
+    /*
+        So what I could do is read all the gateCollections into GateCollection objects
+        & then whenever a gate collection is requested, just clone the objects
+        and pass them to the requester
+
+        Clone function's already implemented....
+     */
+
     return true;
 }
 

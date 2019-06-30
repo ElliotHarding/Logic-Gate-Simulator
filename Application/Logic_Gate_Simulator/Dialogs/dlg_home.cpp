@@ -156,6 +156,11 @@ void DLG_Home::AddGate(Gate *g)
         m_allGateFields[size_t(m_iCurrentGateField)]->addGameObject(g);
         on_btn_Drag_clicked();
     }
+    else
+    {
+        //Failed to add gate so discard it
+        delete g;
+    }
 }
 
 void DLG_Home::GateSelected(Gate *g)

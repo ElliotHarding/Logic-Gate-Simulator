@@ -79,7 +79,7 @@ private:
     const qreal c_minZoom = 0.2;
 
     //Gatefields
-    GateField* m_currentGateField = nullptr;
+    int8_t m_iCurrentGateField;
     std::vector<GateField*> m_allGateFields;
     void addGateField(QString& name);
     GateField* createNewGateField(QString name);

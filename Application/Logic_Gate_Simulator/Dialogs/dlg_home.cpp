@@ -139,9 +139,9 @@ void DLG_Home::SendUserMessage(QString message)
 
 void DLG_Home::AddGate(Gate *g)
 {
-    if(m_currentGateField)
+    if(m_iCurrentGateField != -1)
     {
-        m_currentGateField->addGameObject(g);
+        m_allGateFields[size_t(m_iCurrentGateField)]->addGameObject(g);
         on_btn_Drag_clicked();
     }
 }
@@ -164,9 +164,10 @@ void DLG_Home::DeleteGate(Gate *g)
 
 void DLG_Home::addGateField(QString& name)
 {
-    m_currentGateField = createNewGateField(name);
-    m_allGateFields.push_back(m_currentGateField);
-    ui->PlayField->addTab(m_currentGateField,tr(name.toUtf8()));
+    GateField* newGF = createNewGateField(name);
+    m_allGateFields.push_back(newGF);
+    m_iCurrentGateField = m_allGateFields.size();
+    ui->PlayField->addTab(newGF,tr(name.toUtf8()));
 }
 
 GateField *DLG_Home::createNewGateField(QString name)
@@ -191,41 +192,41 @@ QString DLG_Home::PathToFileName(const QString s)
 
 void DLG_Home::on_btn_Drag_clicked()
 {
-    if(m_currentGateField)
+    if(m_iCurrentGateField != -1)
     {
-        m_currentGateField->setCurrentClickMode(CLICK_DRAG);
+        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_DRAG);
     }
     QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
 }
 void DLG_Home::on_btn_Delete_clicked()
 {
-    if(m_currentGateField)
+    if(m_iCurrentGateField != -1)
     {
-        m_currentGateField->setCurrentClickMode(CLICK_DELETE_GATE);
+        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_DELETE_GATE);
     }
     QApplication::setOverrideCursor(Qt::CursorShape::CrossCursor);
 }
 void DLG_Home::on_btn_link_clicked()
 {
-    if(m_currentGateField)
+    if(m_iCurrentGateField != -1)
     {
-        m_currentGateField->setCurrentClickMode(CLICK_LINK_NODES);
+        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_LINK_NODES);
     }
     QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
 }
 void DLG_Home::on_btn_DeleteLink_clicked()
 {
-    if(m_currentGateField)
+    if(m_iCurrentGateField != -1)
     {
-        m_currentGateField->setCurrentClickMode(CLICK_DELETE_LINK_NODES);
+        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_DELETE_LINK_NODES);
     }
     QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
 }
 void DLG_Home::SelectionToolClicked()
 {
-    if(m_currentGateField)
+    if(m_iCurrentGateField != -1)
     {
-        m_currentGateField->setCurrentClickMode(CLICK_SELECTION);
+        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_SELECTION);
     }
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
@@ -237,17 +238,17 @@ void DLG_Home::UpdateCustomGateListWidget()
 
 void DLG_Home::on_btn_Pan_clicked()
 {
-    if(m_currentGateField)
+    if(m_iCurrentGateField != -1)
     {
-        m_currentGateField->setCurrentClickMode(CLICK_PAN);
+        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_PAN);
     }
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
 void DLG_Home::on_btn_click_clicked()
 {
-    if(m_currentGateField)
+    if(m_iCurrentGateField != -1)
     {
-        m_currentGateField->setCurrentClickMode(CLICK_DEFAULT);
+        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_DEFAULT);
     }
     QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
@@ -343,20 +344,20 @@ void DLG_Home::SetZoomFactor(float zoomFactor, bool updateSlider)
     if(updateSlider)
         m_zoomSlider->SetValue(m_ZoomFactor);
 
-    if(m_currentGateField)
-        m_currentGateField->setZoomLevel(m_ZoomFactor);
+    if(m_iCurrentGateField != -1)
+        m_allGateFields[size_t(m_iCurrentGateField)]->setZoomLevel(m_ZoomFactor);
 }
 
 
 void DLG_Home::on_btn_undo_clicked()
 {
-    if(m_currentGateField)
-        m_currentGateField->Undo();
+    if(m_iCurrentGateField != -1)
+        m_allGateFields[size_t(m_iCurrentGateField)]->Undo();
 }
 void DLG_Home::on_btn_redo_clicked()
 {
-    if(m_currentGateField)
-        m_currentGateField->Redo();
+    if(m_iCurrentGateField != -1)
+        m_allGateFields[size_t(m_iCurrentGateField)]->Redo();
 }
 void DLG_Home::on_btn_newPage_clicked()
 {
@@ -409,16 +410,16 @@ void DLG_Home::on_btn_load_clicked()
             QString name = QFileInfo(file).baseName();
 
             //Load gates
-            m_currentGateField = createNewGateField(name);
+            m_allGateFields[size_t(m_iCurrentGateField)] = createNewGateField(name);
 
             //For each loaded gate, add to loadedGateField
-            if (reader.ReadGateField(saveFile, m_currentGateField))
+            if (reader.ReadGateField(saveFile, m_allGateFields[size_t(m_iCurrentGateField)]))
             {
                 //Add to m_allGateFields
-                m_allGateFields.push_back(m_currentGateField);
+                m_allGateFields.push_back(m_allGateFields[size_t(m_iCurrentGateField)]);
 
                 //Add to ui
-                ui->PlayField->addTab(m_currentGateField,tr(name.toUtf8()));
+                ui->PlayField->addTab(m_allGateFields[size_t(m_iCurrentGateField)],tr(name.toUtf8()));
 
                 continue;
             }
@@ -445,21 +446,16 @@ void DLG_Home::on_PlayField_tabCloseRequested(int index)
     //Get pointer to widget to delete
     GateField* gf = dynamic_cast<GateField*>(ui->PlayField->widget(index));
 
-    //Forget m_currentGateField incase it's pointing to gf
-    m_currentGateField = nullptr;
-    m_allGateFields[index] = nullptr;
+    m_allGateFields[size_t(index)] = nullptr;
     m_allGateFields.erase(m_allGateFields.begin() + index);
 
     //Remove tab
-    ui->PlayField->removeTab(index); // ~ Causes tabs to be switched if there's an existing open tab
+    // ~ Causes tabs to be switched if there's an existing open tab & resets m_iCurrentGateField
+    ui->PlayField->removeTab(index);
     delete gf;
 }
 
 void DLG_Home::on_PlayField_currentChanged(int index)
 {
-    QWidget* currentWidget = ui->PlayField->currentWidget();
-    if(dynamic_cast<GateField*>(currentWidget))
-    {
-        m_currentGateField = dynamic_cast<GateField*>(currentWidget);
-    }
+    m_iCurrentGateField = index;
 }

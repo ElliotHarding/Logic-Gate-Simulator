@@ -28,6 +28,7 @@ public:
 
     void addGameObject(Gate* go, bool newlySpawned = true);
     void setCurrentClickMode(ClickMode clickMode);
+    ClickMode GetCurrentClickMode();
     bool SaveGateCollection(std::ofstream& saveStream);
     void setZoomLevel(qreal zoom);
     void DeleteGate(Gate* g);

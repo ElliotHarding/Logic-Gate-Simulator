@@ -103,6 +103,11 @@ void GateField::setCurrentClickMode(ClickMode clickMode)
     m_currentClickMode = clickMode;
 }
 
+ClickMode GateField::GetCurrentClickMode()
+{
+    return m_currentClickMode;
+}
+
 void GateField::setZoomLevel(qreal zoom)
 {
      m_zoomFactor = zoom;

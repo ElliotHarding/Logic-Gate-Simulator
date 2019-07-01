@@ -15,6 +15,7 @@ enum GateType
     GATE_TRI_AND,
     GATE_TRI_OR,
     GATE_NUMBER_OUT,
+    GATE_FPGA,
     GATE_NULL,
 };
 

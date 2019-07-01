@@ -2,7 +2,8 @@
 #include "gatefield.h"
 
 GateFPGA::GateFPGA() :
-    Gate::Gate(GATE_FPGA, GateFpgaWidth, GateFpgaHeight)
+    Gate::Gate(GATE_FPGA, GateFpgaWidth, GateFpgaHeight),
+    m_pDlgEdit(new DLG_FPGA(this))
 {
     for (size_t x = 0; x < 10; x++)
     {
@@ -78,7 +79,7 @@ bool GateFPGA::UpdateClicked(int clickX, int clickY)
     {
         if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
-            //todo
+            m_pDlgEdit->EditFpgaScript(&m_updateScript);
         }
     }
 
@@ -121,7 +122,12 @@ void UpdateScript::CalculateOutput(std::vector<Node>& in, std::vector<Node>& out
 
 }
 
-void UpdateScript::SaveData(std::ofstream &storage)
+void UpdateScript::SaveData(std::ofstream& storage)
+{
+
+}
+
+void DLG_FPGA::EditFpgaScript(UpdateScript* updateScript)
 {
 
 }

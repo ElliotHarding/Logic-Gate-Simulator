@@ -5,7 +5,23 @@
 #define GateFpgaHeight 100
 #define BorderWidth 10
 
+#include <QDialog>
 #include "gate.h"
+
+class GateFPGA;
+class UpdateScript;
+
+class DLG_FPGA : public QDialog
+{
+public:
+    DLG_FPGA(GateFPGA* parent);
+
+    void EditFpgaScript(UpdateScript* updateScript);
+
+protected:
+    GateFPGA* m_pParentGate;
+
+};
 
 class UpdateScript
 {
@@ -34,6 +50,8 @@ public:
 protected:
 
     UpdateScript m_updateScript;
+
+    DLG_FPGA* m_pDlgEdit;
 
     //Nodes:
     const int INPUT_NODES_X = -5;

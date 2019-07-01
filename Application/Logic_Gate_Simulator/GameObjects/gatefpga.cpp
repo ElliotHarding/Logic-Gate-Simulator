@@ -56,6 +56,21 @@ void GateFPGA::SetPosition(int x, int y)
     }
 }
 
+void GateFPGA::SaveData(std::ofstream& storage)
+{
+    SaveGeneralData(storage);
+
+    m_updateScript.SaveData(storage);
+
+    //Add node information
+    for (Node* n : m_nodes)
+    {
+        n->SaveData(storage);
+    }
+
+    storage << END_SAVE_TAG_GATE << std::endl;
+}
+
 bool GateFPGA::UpdateClicked(int clickX, int clickY)
 {
     bool ret = Gate::UpdateClicked(clickX, clickY);
@@ -72,14 +87,41 @@ bool GateFPGA::UpdateClicked(int clickX, int clickY)
 
 void GateFPGA::UpdateOutput()
 {
-
+    m_updateScript.CalculateOutput(m_inputNodes, m_outputNodes);
 }
 
 Gate *GateFPGA::Clone()
 {
     GateFPGA* clone = new GateFPGA();
 
-    //todo
+    clone->m_inputNodes = m_inputNodes;
+    clone->m_outputNodes = m_outputNodes;
+
+    //Clone position
+    const QPoint pos = GetPosition();
+    clone->SetPosition(pos.x(), pos.y());
+
+    clone->m_updateScript = m_updateScript;
 
     return clone;
+}
+
+
+//      ----                    ----
+//              UpdateScript
+//      ----                    ----
+
+UpdateScript::UpdateScript()
+{
+
+}
+
+void UpdateScript::CalculateOutput(std::vector<Node>& in, std::vector<Node>& out)
+{
+
+}
+
+void UpdateScript::SaveData(std::ofstream &storage)
+{
+
 }

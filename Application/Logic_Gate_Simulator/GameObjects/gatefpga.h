@@ -7,6 +7,17 @@
 
 #include "gate.h"
 
+class UpdateScript
+{
+public:
+    UpdateScript();
+
+    void CalculateOutput(std::vector<Node>& in, std::vector<Node>& out);
+    void SaveData(std::ofstream& storage);
+protected:
+
+};
+
 class GateFPGA : public Gate
 {
 public:
@@ -14,13 +25,17 @@ public:
     ~GateFPGA();
 
     virtual void UpdateGraphics(QPainter* painter) override;
-    virtual void SetPosition(int x, int y) override;
     virtual bool UpdateClicked(int clickX, int clickY);
     virtual void UpdateOutput() override;
+    virtual void SetPosition(int x, int y) override;
+    virtual void SaveData(std::ofstream& storage) override;
     virtual Gate* Clone() override;
 
 protected:
 
+    UpdateScript m_updateScript;
+
+    //Nodes:
     const int INPUT_NODES_X = -5;
     const int OUTPUT_NODES_X = GateFpgaWidth + 5;
     const int NODES_Y_DIFF = 10;

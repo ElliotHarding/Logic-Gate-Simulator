@@ -136,6 +136,19 @@
     <string>Drag All</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_Edit">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>9</y>
+     <width>31</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </widget>
   <zorder>cb_DragMode</zorder>
   <zorder>cb_Enabled</zorder>
   <zorder>btn_DeleteGate</zorder>
@@ -144,6 +157,7 @@
   <zorder>signalCheck</zorder>
   <zorder>lineEdit_Frequency</zorder>
   <zorder>lbl_Frequency</zorder>
+  <zorder>btn_Edit</zorder>
  </widget>
  <resources>
   <include location="../resouces.qrc"/>

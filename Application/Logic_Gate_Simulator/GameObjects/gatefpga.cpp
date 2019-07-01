@@ -7,29 +7,33 @@ GateFPGA::GateFPGA() :
 {
     for (size_t x = 0; x < 10; x++)
     {
-        m_inputNodes[x] = Node(this, InputNode);
+        m_inputNodes.push_back(Node(this, InputNode));
         m_nodes.push_back(&m_inputNodes[x]);
 
-        m_outputNodes[x] = Node(this, OutputNode);
+        m_outputNodes.push_back(Node(this, OutputNode));
         m_nodes.push_back(&m_outputNodes[x]);
     }
+}
+
+GateFPGA::~GateFPGA()
+{
+    delete m_pDlgEdit;
 }
 
 void GateFPGA::UpdateGraphics(QPainter *painter)
 {
     //Draw gate
-    painter->setPen(QPen(Qt::darkGray, 10));
+    painter->setPen(QPen(Qt::darkGray, GateFpgaBorderWidth * 2));
     painter->drawRect(m_layout);
 
     //MiniRect
     QRect miniRect = m_layout;
-    miniRect.setLeft(miniRect.left() + BorderWidth);
-    miniRect.setRight(miniRect.right() - BorderWidth);
-    miniRect.setTop(miniRect.top() + BorderWidth);
-    miniRect.setBottom(miniRect.bottom() - BorderWidth);
+    miniRect.setLeft(miniRect.left() + GateFpgaBorderWidth);
+    miniRect.setRight(miniRect.right() - GateFpgaBorderWidth);
+    miniRect.setTop(miniRect.top() + GateFpgaBorderWidth);
+    miniRect.setBottom(miniRect.bottom() - GateFpgaBorderWidth);
 
-    painter->setPen(QPen(Qt::lightGray, 20));
-    painter->drawRect(miniRect);
+    painter->fillRect(miniRect, QBrush(Qt::lightGray));
 
     //Draw nodes
     for (Node n : m_inputNodes)
@@ -79,7 +83,7 @@ bool GateFPGA::UpdateClicked(int clickX, int clickY)
     {
         if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
-            m_pDlgEdit->EditFpgaScript(&m_updateScript);
+            OpenEditor();
         }
     }
 
@@ -107,6 +111,11 @@ Gate *GateFPGA::Clone()
     return clone;
 }
 
+void GateFPGA::OpenEditor()
+{
+    m_pDlgEdit->EditFpgaScript(&m_updateScript);
+}
+
 
 //      ----                    ----
 //              UpdateScript
@@ -127,7 +136,20 @@ void UpdateScript::SaveData(std::ofstream& storage)
 
 }
 
+
+
+//      ----                    ----
+//               DLG_FPGA
+//      ----                    ----
+
+
+DLG_FPGA::DLG_FPGA(GateFPGA *parent) :
+    QDialog (),
+    m_pParentGate(parent)
+{
+}
+
 void DLG_FPGA::EditFpgaScript(UpdateScript* updateScript)
 {
-
+    show();
 }

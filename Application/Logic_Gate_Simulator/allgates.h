@@ -21,6 +21,7 @@
 
 //Other
 #include "gatecollection.h"
+#include "gatefpga.h"
 
 
 #endif // ALLGATES_H

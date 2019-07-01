@@ -46,6 +46,8 @@ void DLG_GateInfo::setGate(Gate *g)
         ui->lbl_Frequency->setDisabled(true);
         ui->lineEdit_Frequency->setDisabled(true);
         ui->cb_DragMode->setDisabled(true);
+
+        ui->btn_Edit->hide();
     }
 
     //Set if enabled
@@ -114,6 +116,10 @@ void DLG_GateInfo::setGate(Gate *g)
             break;
         case GateType::GATE_NUMBER_OUT:
             gateName = "Number output";
+            break;
+        case GateType::GATE_FPGA:
+            gateName = "FPGA";
+            ui->btn_Edit->show();
             break;
         default:
             gateName = "";
@@ -184,4 +190,13 @@ void DLG_GateInfo::UiWhenNoGateSelected()
     ui->lbl_Frequency->hide();
     ui->lineEdit_Frequency->hide();
     ui->cb_DragMode->hide();
+    ui->btn_Edit->hide();
+}
+
+void DLG_GateInfo::on_btn_Edit_clicked()
+{
+    if(m_gateDisplayed->GetType() == GATE_FPGA)
+    {
+        dynamic_cast<GateFPGA*>(m_gateDisplayed)->OpenEditor();
+    }
 }

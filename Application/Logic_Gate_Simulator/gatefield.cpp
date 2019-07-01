@@ -205,7 +205,7 @@ void GateField::addGameObject(Gate* go, bool newlySpawned)
     if(newlySpawned)
         go->SetPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
 
-    go->ParentField = this;
+    go->SetParent(this);
 
     m_lockAllGates.lock();
     m_allGates.push_back(go);

@@ -48,7 +48,8 @@ public:
     virtual int Top(){return m_layout.top();}
     virtual int Bottom(){return m_layout.bottom();}
 
-    GateField* ParentField;
+    virtual void SetParent(GateField* gf);
+    virtual GateField* GetParent();
 
     bool Enabled = true;
 
@@ -60,6 +61,7 @@ protected:
 
     GateType m_type;
     std::vector<Node*> m_nodes;
+    GateField* m_pParentField;
 };
 
 enum NodeType

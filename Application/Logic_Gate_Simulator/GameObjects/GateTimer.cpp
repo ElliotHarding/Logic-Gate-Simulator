@@ -26,7 +26,7 @@ void GateTimer::UpdateOutput()
         m_output.SetValue(!m_output.GetValue());
 
         //Call to redraw
-        ParentField->update();
+        m_pParentField->update();
     }
 }
 

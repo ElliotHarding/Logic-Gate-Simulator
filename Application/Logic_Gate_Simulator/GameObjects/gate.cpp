@@ -17,7 +17,7 @@ Gate::~Gate()
     }
     m_nodes.clear();
 
-    ParentField = nullptr;
+    m_pParentField = nullptr;
 }
 
 void Gate::UpdateGraphics(QPainter* painter)
@@ -77,6 +77,16 @@ void Gate::AssignNewNodeIds()
 bool Gate::DeleteClick(int clickX, int clickY)
 {
     return UpdateClicked(clickX, clickY);
+}
+
+void Gate::SetParent(GateField* gf)
+{
+    m_pParentField = gf;
+}
+
+GateField *Gate::GetParent()
+{
+    return m_pParentField;
 }
 
 void Gate::SaveGeneralData(std::ofstream &storage)

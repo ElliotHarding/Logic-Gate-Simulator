@@ -172,7 +172,7 @@ void DLG_Home::DeleteGate(Gate *g)
 {
     for(GateField* gField : m_allGateFields)
     {
-        if(gField == g->ParentField)
+        if(gField == g->GetParent())
         {
             gField->DeleteGate(g);
         }

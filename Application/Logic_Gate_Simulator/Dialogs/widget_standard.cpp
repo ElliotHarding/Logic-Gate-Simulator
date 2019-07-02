@@ -45,3 +45,9 @@ void Widget_Standard::on_btn_GateEor_clicked()
     if(m_pParent)
         m_pParent->AddGate(new GateEor());
 }
+
+void Widget_Standard::on_btn_GateTriEor_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateTriEor());
+}

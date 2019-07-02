@@ -122,11 +122,20 @@ class TimerThread : public QThread
 public:
     TimerThread(GateField* parent);
 
-    void Stop();
+    void InitStop();
+    bool FinishedStop();
+
     void run();
 private:
     GateField* m_pGateField;
-    bool m_bStop;
+
+    enum StopState
+    {
+        Running,
+        Stopping,
+        Stopped
+    }
+    m_state;
 };
 
 #endif // GATEFIELD_H

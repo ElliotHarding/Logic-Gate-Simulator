@@ -51,7 +51,7 @@
   <widget class="QPushButton" name="btn_andGate">
    <property name="geometry">
     <rect>
-     <x>95</x>
+     <x>90</x>
      <y>10</y>
      <width>50</width>
      <height>40</height>
@@ -112,7 +112,7 @@
   <widget class="QPushButton" name="btn_GateTriOr">
    <property name="geometry">
     <rect>
-     <x>-5</x>
+     <x>0</x>
      <y>50</y>
      <width>50</width>
      <height>40</height>
@@ -141,7 +141,7 @@
   <widget class="QPushButton" name="btn_orGate">
    <property name="geometry">
     <rect>
-     <x>-5</x>
+     <x>0</x>
      <y>10</y>
      <width>50</width>
      <height>40</height>
@@ -170,7 +170,7 @@
   <widget class="QPushButton" name="btn_GateEor">
    <property name="geometry">
     <rect>
-     <x>95</x>
+     <x>90</x>
      <y>50</y>
      <width>50</width>
      <height>40</height>
@@ -185,6 +185,35 @@
    <property name="icon">
     <iconset resource="../resouces.qrc">
      <normaloff>:/Resources/Gates/gate-eor.png</normaloff>:/Resources/Gates/gate-eor.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_GateTriEor">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>90</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Gates/gate-tri-eor.png</normaloff>:/Resources/Gates/gate-tri-eor.png</iconset>
    </property>
    <property name="iconSize">
     <size>

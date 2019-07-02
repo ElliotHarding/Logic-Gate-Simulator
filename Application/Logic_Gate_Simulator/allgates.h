@@ -11,6 +11,7 @@
 
 #include "gatetriand.h"
 #include "gatetrior.h"
+#include "gatetrieor.h"
 
 //  I/O Gates
 #include "GateToggle.h"

@@ -32,6 +32,7 @@ SOURCES += \
     Dialogs/dlg_message.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
+    GameObjects/gatetrieor.cpp \
         main.cpp \
         mainwindow.cpp \
         gatefield.cpp \
@@ -67,6 +68,7 @@ HEADERS += \
     Dialogs/dlg_message.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
+    GameObjects/gatetrieor.h \
     GameObjects/gatetypes.h \
         mainwindow.h \
         clickmode.h \

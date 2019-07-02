@@ -15,6 +15,7 @@ enum GateType
     GATE_TIMER,
     GATE_TRI_AND,
     GATE_TRI_OR,
+    GATE_TRI_EOR,
     GATE_NUMBER_OUT,
     GATE_FPGA,
     GATE_NULL,

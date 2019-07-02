@@ -191,12 +191,14 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n1 = readNode(gateStream);
         NodeIds n2 = readNode(gateStream);
         NodeIds n3 = readNode(gateStream);
+        NodeIds n4 = readNode(gateStream);
 
-        rGate = new GateTriOr(n1.id, n2.id, n3.id);
+        rGate = new GateTriOr(n1.id, n2.id, n3.id, n4.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
         linkInfo.push_back(n3);
+        linkInfo.push_back(n4);
         break;
     }
 
@@ -205,12 +207,30 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n1 = readNode(gateStream);
         NodeIds n2 = readNode(gateStream);
         NodeIds n3 = readNode(gateStream);
+        NodeIds n4 = readNode(gateStream);
 
-        rGate = new GateTriAnd(n1.id, n2.id, n3.id);
+        rGate = new GateTriAnd(n1.id, n2.id, n3.id, n4.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
+        linkInfo.push_back(n3);
+        linkInfo.push_back(n4);
+        break;
+    }
+
+    case GateType::GATE_TRI_EOR:
+    {
+        NodeIds n1 = readNode(gateStream);
+        NodeIds n2 = readNode(gateStream);
+        NodeIds n3 = readNode(gateStream);
+        NodeIds n4 = readNode(gateStream);
+
+        rGate = new GateTriEor(n1.id, n2.id, n3.id, n4.id);
+
+        linkInfo.push_back(n1);
         linkInfo.push_back(n2);
+        linkInfo.push_back(n3);
+        linkInfo.push_back(n4);
         break;
     }
 

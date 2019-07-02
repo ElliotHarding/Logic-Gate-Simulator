@@ -37,7 +37,12 @@ GateField::~GateField()
 {
     Enabled = false;
 
-    m_pTimerThread->Stop();
+    m_pTimerThread->InitStop();
+    while(!m_pTimerThread->FinishedStop())
+    {
+    }
+
+    m_pTimerThread->quit();
     delete m_pTimerThread;
 
     //Belongs to parent DLG_Home
@@ -642,18 +647,24 @@ void GateField::updateGateSelected(Gate *g)
 TimerThread::TimerThread(GateField *parent):
     QThread (),
     m_pGateField(parent),
-    m_bStop(false)
+    m_state(Stopped)
 {
 }
 
-void TimerThread::Stop()
+bool TimerThread::FinishedStop()
 {
-    m_bStop = true;
+    return (m_state == Stopped);
+}
+
+void TimerThread::InitStop()
+{
+    m_state = Stopping;
 }
 
 void TimerThread::run()
 {
-    while(!m_bStop)
+    m_state = Running;
+    while(m_state == Running)
     {
         QThread::msleep(1);
 
@@ -678,4 +689,6 @@ void TimerThread::run()
         if(reqUpdate)
             m_pGateField->update();
     }
+
+    m_state = Stopped;
 }

@@ -30,6 +30,7 @@ INCLUDEPATH += \
 
 SOURCES += \
     Dialogs/dlg_message.cpp \
+    GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -64,6 +65,7 @@ SOURCES += \
 
 HEADERS += \
     Dialogs/dlg_message.h \
+    GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
     GameObjects/gatetypes.h \
         mainwindow.h \

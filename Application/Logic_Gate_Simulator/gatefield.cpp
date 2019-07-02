@@ -596,19 +596,6 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 //Function must be called when m_allGates is mutex locked
 void GateField::BackupGates()
 {
-    /*
-    //So if were in the middle of an undo (ie. backup index has gone back a bit)
-    //Pop back the redos
-    if(m_backupIndex != int(m_gateBackups.size()) - 1)
-    {
-        const int diff = int(m_gateBackups.size()) - m_backupIndex;
-        for (int index = 0; index < diff; index++)
-        {
-            m_gateBackups.pop_back();
-        }
-    }
-    */
-
     //Create backup of all gates
     std::vector<Gate*> backup;
     for(Gate* g : m_allGates)

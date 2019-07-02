@@ -29,7 +29,9 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:none;
+</string>
    </property>
    <property name="text">
     <string/>
@@ -43,6 +45,9 @@
      <width>48</width>
      <height>48</height>
     </size>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
    </property>
    <property name="flat">
     <bool>true</bool>
@@ -58,7 +63,9 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:none;
+</string>
    </property>
    <property name="text">
     <string/>
@@ -72,6 +79,9 @@
      <width>48</width>
      <height>48</height>
     </size>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
    </property>
    <property name="flat">
     <bool>true</bool>
@@ -87,7 +97,9 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:none;
+</string>
    </property>
    <property name="text">
     <string/>
@@ -101,6 +113,9 @@
      <width>48</width>
      <height>48</height>
     </size>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
    </property>
    <property name="flat">
     <bool>true</bool>
@@ -116,7 +131,9 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:none;
+</string>
    </property>
    <property name="text">
     <string/>
@@ -130,6 +147,9 @@
      <width>48</width>
      <height>48</height>
     </size>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
    </property>
    <property name="flat">
     <bool>true</bool>

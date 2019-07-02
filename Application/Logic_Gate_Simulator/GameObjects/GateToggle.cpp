@@ -9,11 +9,13 @@ GateToggle::GateToggle(id out) :
 
 void GateToggle::UpdateOutput()
 {
-    //done in ToggleOutputState
+    //done in ToggleOutputState & UpdateClicked
 }
 
 void GateToggle::ToggleOutputState()
 {
+    m_toggleStateTimer.stop();
+    m_toggleStateTimer.start(c_toggleFrequency);
     m_output.SetValue(!m_output.GetValue());
 }
 
@@ -25,9 +27,7 @@ bool GateToggle::UpdateClicked(int clickX, int clickY)
     //Then toggle output value of gate
     if (isClicked && m_toggleStateTimer.remainingTime() == 0)
     {
-        m_toggleStateTimer.stop();
-        m_toggleStateTimer.start(c_toggleFrequency);
-        m_output.SetValue(!m_output.GetValue());
+        ToggleOutputState();
 
         QPainter p;
         UpdateGraphics(&p);
@@ -45,7 +45,9 @@ void GateToggle::UpdateGraphics(QPainter *painter)
     painter->setPen(QPen(Qt::black, 1));
     painter->setFont(m_font);
 
-    painter->drawText(pos.x(), pos.y() - (GateSingleOutputHeight/4), m_output.GetValue() ? "On" : "Off");
+    painter->drawText(pos.x() - GateSingleOutputWidth/2,
+                      pos.y() - int(GateSingleOutputHeight/3.5),
+                      m_output.GetValue() ? "On" : "Off");
 }
 
 Gate *GateToggle::Clone()

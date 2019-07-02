@@ -140,7 +140,14 @@ void DLG_GateInfo::setGate(Gate *g)
 void DLG_GateInfo::on_btn_DeleteGate_clicked()
 {
     if(m_gateDisplayed)
+    {
+        GateField* gf = m_gateDisplayed->GetParent();
         m_pParent->DeleteGate(m_gateDisplayed);
+
+        gf->update();
+        gf = nullptr;
+    }
+
     setGate(nullptr);
 }
 
@@ -152,28 +159,40 @@ void DLG_GateInfo::on_lineEdit_Frequency_editingFinished()
     if(frequency > 0 && frequency < 30000)
     {
         if(m_gateDisplayed)
+        {
             dynamic_cast<GateTimer*>(m_gateDisplayed)->setFrequency(frequency);
+            m_gateDisplayed->GetParent()->update();
+        }
     }
 }
 
 void DLG_GateInfo::on_cb_DragMode_clicked()
 {
    if(m_gateDisplayed)
+   {
        if(dynamic_cast<GateCollection*>(m_gateDisplayed))
            dynamic_cast<GateCollection*>(m_gateDisplayed)->ToggleDragMode();
+       m_gateDisplayed->GetParent()->update();
+   }
+
 }
 
 void DLG_GateInfo::on_signalCheck_clicked()
 {
     if(m_gateDisplayed)
+    {
         if(dynamic_cast<GateToggle*>(m_gateDisplayed))
             dynamic_cast<GateToggle*>(m_gateDisplayed)->ToggleOutputState();
+
+         m_gateDisplayed->GetParent()->update();
+    }
 }
 
 
 void DLG_GateInfo::on_cb_Enabled_clicked()
 {
     if(m_gateDisplayed)
+    {
         if(m_gateDisplayed->Enabled)
         {
             m_gateDisplayed->Enabled = false;
@@ -184,6 +203,9 @@ void DLG_GateInfo::on_cb_Enabled_clicked()
             m_gateDisplayed->Enabled = true;
             ui->cb_Enabled->setCheckState(Qt::CheckState::Checked);
         }
+
+        m_gateDisplayed->GetParent()->update();
+    }
 }
 
 void DLG_GateInfo::UiWhenNoGateSelected()

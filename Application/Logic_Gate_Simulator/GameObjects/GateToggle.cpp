@@ -2,7 +2,7 @@
 
 GateToggle::GateToggle(id out) :
     GateSingleOutput::GateSingleOutput(GATE_EMMITTER, out),
-    m_font("Helvetica", 5)
+    m_font("Helvetica", 7)
 {
     m_toggleStateTimer.start(c_toggleFrequency);
 }
@@ -45,7 +45,7 @@ void GateToggle::UpdateGraphics(QPainter *painter)
     painter->setPen(QPen(Qt::black, 1));
     painter->setFont(m_font);
 
-    painter->drawText(pos.x() - GateSingleOutputWidth/2,
+    painter->drawText(pos.x() - 7,
                       pos.y() - int(GateSingleOutputHeight/3.5),
                       m_output.GetValue() ? "On" : "Off");
 }

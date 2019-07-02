@@ -73,7 +73,7 @@ GateField::~GateField()
 void GateField::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
     //Zooming
     painter.scale(m_zoomFactor, m_zoomFactor);

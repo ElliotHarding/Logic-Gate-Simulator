@@ -70,3 +70,9 @@ void Widget_AllGates::on_btn_numberOutputGate_clicked()
     if(m_pParent)
         m_pParent->AddGate(new GateNumberOutput());
 }
+
+void Widget_AllGates::on_btn_GateEor_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateEor());
+}

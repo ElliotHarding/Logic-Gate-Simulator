@@ -6,6 +6,7 @@ enum GateType
     GATE_AND,
     GATE_OR,
     GATE_NOT,
+    GATE_EOR,
     GATE_EMMITTER,
     GATE_RECIEVER,
     GATE_CONST_ACTIVE,

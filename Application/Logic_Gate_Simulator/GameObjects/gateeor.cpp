@@ -1,7 +1,7 @@
 #include "gateeor.h"
 
 GateEor::GateEor(id inA, id inB, id out) :
-    Gate::Gate(GATE_AND, GateEorWidth,GateEorHeight, std::string(":/Resources/Gates/gate-eor.png").c_str()),
+    Gate::Gate(GATE_EOR, GateEorWidth,GateEorHeight, std::string(":/Resources/Gates/gate-eor.png").c_str()),
     m_inputA(this, InputNode, inA),
     m_inputB(this, InputNode, inB),
     m_output(this, OutputNode, out)

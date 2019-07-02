@@ -7,6 +7,7 @@
 #include "gateand.h"
 #include "gatenot.h"
 #include "gateor.h"
+#include "gateeor.h"
 
 #include "gatetriand.h"
 #include "gatetrior.h"

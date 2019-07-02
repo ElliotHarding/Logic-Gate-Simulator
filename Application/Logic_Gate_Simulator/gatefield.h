@@ -16,6 +16,7 @@
 
 class DLG_SaveGateCollection;
 class DLG_Home;
+class TimerThread;
 
 class GateField : public QWidget
 {
@@ -25,17 +26,18 @@ public:
     //Construction
     explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog);
      ~GateField() override;
-
-    void addGameObject(Gate* go, bool newlySpawned = true);
+    void AddGate(Gate* go, bool newlySpawned = true);
+    void DeleteGate(Gate* g);
     void setCurrentClickMode(ClickMode clickMode);
     ClickMode GetCurrentClickMode();
     bool SaveGateCollection(std::ofstream& saveStream);
     void setZoomLevel(qreal zoom);
-    void DeleteGate(Gate* g);
-    void updateFunction();
     bool SaveData();
     void Undo();
     void Redo();
+
+    std::vector<Gate*>& GetGates();
+    void FinishWithGates();
 
     bool Enabled = true;
 
@@ -62,6 +64,10 @@ private:
     void leftMouseClick(int clickX, int clickY);
     void rightMouseClick(int clickX, int clickY);
     void middleMouseClick(int clickX, int clickY);
+
+    void updateFunction();
+
+    TimerThread* m_pTimerThread;
 
     //Communication with parent dialog (DLG_Home instance)
     DLG_Home* m_pParent;
@@ -108,6 +114,19 @@ private:
     //Coords of newly spawned gate
     const int SPAWN_X = 300;
     const int SPAWN_Y = 300;
+};
+
+#include <QThread>
+class TimerThread : public QThread
+{
+public:
+    TimerThread(GateField* parent);
+
+    void Stop();
+    void run();
+private:
+    GateField* m_pGateField;
+    bool m_bStop;
 };
 
 #endif // GATEFIELD_H

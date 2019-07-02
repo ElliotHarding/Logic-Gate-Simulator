@@ -17,14 +17,16 @@ public:
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual Gate* Clone() override;
 
+    bool CheckTimer();
+
     void setFrequency(int frequency) {m_frequency = frequency;}
     int getFrequency() {return m_frequency;}
 
 protected:
 
     //Toggle functionality
-    QTimer m_timer;
     int m_frequency = 500;
+    int m_remaningTime;
 
     const QFont m_font;
 };

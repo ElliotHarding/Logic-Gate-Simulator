@@ -9,7 +9,8 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     m_pParent(parent),
     m_name(name),
     m_zoomFactor(zoomFactor),
-    m_pDlgSaveGateCollection(saveGateCollectionDialog)
+    m_pDlgSaveGateCollection(saveGateCollectionDialog),
+    m_pTimerThread(new TimerThread(this))
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -28,11 +29,16 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     {
         g.reserve(20);
     }
+
+    m_pTimerThread->start();
 }
 
 GateField::~GateField()
 {
     Enabled = false;
+
+    m_pTimerThread->Stop();
+    delete m_pTimerThread;
 
     //Belongs to parent DLG_Home
     m_pDlgSaveGateCollection = nullptr;
@@ -205,7 +211,17 @@ void GateField::Redo()
     update();
 }
 
-void GateField::addGameObject(Gate* go, bool newlySpawned)
+std::vector<Gate*>& GateField::GetGates()
+{
+    m_lockAllGates.lock();
+    return m_allGates;
+}
+void GateField::FinishWithGates()
+{
+    m_lockAllGates.unlock();
+}
+
+void GateField::AddGate(Gate* go, bool newlySpawned)
 {
     if(newlySpawned)
         go->SetPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
@@ -616,4 +632,50 @@ void GateField::updateGateSelected(Gate *g)
 {
     if(m_pParent)
         m_pParent->GateSelected(g);
+}
+
+
+//      ----            ----
+//           TimerThread
+//      ----            ----
+
+TimerThread::TimerThread(GateField *parent):
+    QThread (),
+    m_pGateField(parent),
+    m_bStop(false)
+{
+}
+
+void TimerThread::Stop()
+{
+    m_bStop = true;
+}
+
+void TimerThread::run()
+{
+    while(!m_bStop)
+    {
+        QThread::msleep(1);
+
+        bool reqUpdate = false;
+
+        //GetGates causes mutex lock, so need to call FinishWithGates after
+        std::vector<Gate*> gates = m_pGateField->GetGates();
+        for (Gate* g : gates)
+        {
+            if(g->GetType() == GATE_TIMER)
+            {
+                //If the CheckTimer function returns true, its essentially a request
+                //asking for a redraw of the gate, because it's timer state has changed
+                if(dynamic_cast<GateTimer*>(g)->CheckTimer())
+                    reqUpdate = true;
+            }
+        }
+
+        //Release mutex
+        m_pGateField->FinishWithGates();
+
+        if(reqUpdate)
+            m_pGateField->update();
+    }
 }

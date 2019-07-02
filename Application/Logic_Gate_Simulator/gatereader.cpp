@@ -11,7 +11,7 @@ bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
     for (Gate* gate : gates)
     {
         gate->AssignNewNodeIds();
-        gf->addGameObject(gate);
+        gf->AddGate(gate);
     }
 
     return true;

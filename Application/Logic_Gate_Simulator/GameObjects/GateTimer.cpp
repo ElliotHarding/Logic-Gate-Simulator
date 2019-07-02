@@ -10,24 +10,15 @@
 
 GateTimer::GateTimer(id out) :
     GateSingleOutput::GateSingleOutput(GATE_TIMER, out),
-    m_font("Helvetica", 5)
+    m_font("Helvetica", 5),
+    m_remaningTime(m_frequency)
 {
     m_output.SetValue(0);
-    m_timer.start();
 }
 
 void GateTimer::UpdateOutput()
 {
-    //If timer timed out, reset & switch output
-    if(m_timer.remainingTime() == 0)
-    {
-        m_timer.stop();
-        m_timer.start(m_frequency);
-        m_output.SetValue(!m_output.GetValue());
-
-        //Call to redraw
-        m_pParentField->update();
-    }
+    //None, check CheckTimer functionality (Called by parent gatefield)
 }
 
 void GateTimer::SaveData(std::ofstream &storage)
@@ -46,8 +37,6 @@ void GateTimer::SaveData(std::ofstream &storage)
 
 void GateTimer::UpdateGraphics(QPainter *painter)
 {
-    UpdateOutput();
-
     GateSingleOutput::UpdateGraphics(painter);
 
     const QPoint pos = GetPosition();
@@ -71,5 +60,17 @@ Gate *GateTimer::Clone()
     clone->m_frequency = m_frequency;
 
     return clone;
+}
+
+bool GateTimer::CheckTimer()
+{
+    //If timer timed out, reset & switch output
+    if(m_remaningTime-- < 1)
+    {
+        m_remaningTime = m_frequency;
+        m_output.SetValue(!m_output.GetValue());
+        return true;
+    }
+    return false;
 }
 

@@ -153,7 +153,7 @@ void DLG_Home::AddGate(Gate *g)
 {
     if(m_iCurrentGateField != -1)
     {
-        m_allGateFields[size_t(m_iCurrentGateField)]->addGameObject(g);
+        m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(g);
         on_btn_Drag_clicked();
     }
     else

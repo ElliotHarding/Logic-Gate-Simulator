@@ -176,7 +176,11 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     {
         NodeIds n1 = readNode(gateStream);
 
+        std::string frequency;
+        gateStream >> frequency;
+
         rGate = new GateTimer(n1.id);
+        dynamic_cast<GateTimer*>(rGate)->setFrequency(tryStoi(frequency, 500));
 
         linkInfo.push_back(n1);
         break;
@@ -223,6 +227,21 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         linkInfo.push_back(n2);
         linkInfo.push_back(n3);
         linkInfo.push_back(n4);
+        break;
+    }
+
+    case GateType::GATE_EOR:
+    {
+        NodeIds n1 = readNode(gateStream);
+        NodeIds n2 = readNode(gateStream);
+        NodeIds n3 = readNode(gateStream);
+
+        rGate = new GateEor(n1.id, n2.id, n3.id);
+
+        linkInfo.push_back(n1);
+        linkInfo.push_back(n2);
+        linkInfo.push_back(n3);
+
         break;
     }
 

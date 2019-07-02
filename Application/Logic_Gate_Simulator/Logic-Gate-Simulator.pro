@@ -105,7 +105,6 @@ HEADERS += \
 
 FORMS += \
     Dialogs/dlg_message.ui \
-        mainwindow.ui \
         Dialogs/dlg_gateinfo.ui \
         Dialogs/dlg_home.ui \
         Dialogs/dlg_savegatecollection.ui \

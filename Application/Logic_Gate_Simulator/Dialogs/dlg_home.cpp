@@ -58,6 +58,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
          //m_zoomSlider
          m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, layoutZoomSlider, this);
+         SetZoomFactor(0.5);
 
          m_pDlgGateInfo->move(layoutGateInfo.topLeft());
          m_pDlgGateInfo->raise();
@@ -145,8 +146,7 @@ DLG_Home::~DLG_Home()
 
 void DLG_Home::SendUserMessage(QString message)
 {
-    m_pDlgMessage->SetMessage(message);
-    m_pDlgMessage->show();
+    m_pDlgMessage->ShowMessage(message);
 }
 
 void DLG_Home::AddGate(Gate *g)
@@ -380,12 +380,16 @@ void DLG_Home::on_btn_newPage_clicked()
 {
     //Request page name
     bool ok;
-    QString newPageName = m_pDlgInput->getText(this, tr("QInputDialog::getText()"),
+    QString newPageName = m_pDlgInput->getText(this, tr("Edit Name"),
                                          tr("Page name: "), QLineEdit::Normal,
-                                         QDir::home().dirName(), &ok);
-    if(ok)
+                                         "", &ok);
+    if(ok && newPageName.length() > 0)
     {
         addGateField(newPageName);
+    }
+    else
+    {
+        m_pDlgMessage->ShowMessage(newPageName + "Is not a valid file name!");
     }
 }
 
@@ -452,8 +456,7 @@ void DLG_Home::on_btn_load_clicked()
 
         if(failed)
         {
-            m_pDlgMessage->SetMessage("Loading file failed");
-            m_pDlgMessage->show();
+            m_pDlgMessage->ShowMessage("Loading file failed");
         }
     }
 }

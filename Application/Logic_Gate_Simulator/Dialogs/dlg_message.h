@@ -15,7 +15,7 @@ public:
     explicit DLG_Message(QWidget *parent = nullptr);
     ~DLG_Message();
 
-    void SetMessage(QString message);
+    void ShowMessage(QString message);
 
 private slots:
     void on_pushButton_clicked();

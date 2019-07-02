@@ -123,19 +123,10 @@ public:
     TimerThread(GateField* parent);
 
     void InitStop();
-    bool FinishedStop();
-
     void run();
 private:
     GateField* m_pGateField;
-
-    enum StopState
-    {
-        Running,
-        Stopping,
-        Stopped
-    }
-    m_state;
+    bool m_bStop;
 };
 
 #endif // GATEFIELD_H

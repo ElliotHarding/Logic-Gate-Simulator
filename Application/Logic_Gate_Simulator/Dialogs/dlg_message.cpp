@@ -13,9 +13,10 @@ DLG_Message::~DLG_Message()
     delete ui;
 }
 
-void DLG_Message::SetMessage(QString message)
+void DLG_Message::ShowMessage(QString message)
 {
     ui->lbl_text->setText(message);
+    show();
 }
 
 void DLG_Message::on_pushButton_clicked()

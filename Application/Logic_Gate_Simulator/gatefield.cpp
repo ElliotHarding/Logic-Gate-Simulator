@@ -38,9 +38,9 @@ GateField::~GateField()
     Enabled = false;
 
     m_pTimerThread->InitStop();
-    while(!m_pTimerThread->FinishedStop())
-    {
-    }
+
+    //VERY VERY VERY VERY VERY BAD
+    QThread::msleep(10);
 
     m_pTimerThread->quit();
     delete m_pTimerThread;
@@ -634,24 +634,18 @@ void GateField::updateGateSelected(Gate *g)
 TimerThread::TimerThread(GateField *parent):
     QThread (),
     m_pGateField(parent),
-    m_state(Stopped)
+    m_bStop(false)
 {
-}
-
-bool TimerThread::FinishedStop()
-{
-    return (m_state == Stopped);
 }
 
 void TimerThread::InitStop()
 {
-    m_state = Stopping;
+    m_bStop = true;
 }
 
 void TimerThread::run()
 {
-    m_state = Running;
-    while(m_state == Running)
+    while(!m_bStop)
     {
         QThread::msleep(1);
 
@@ -676,6 +670,4 @@ void TimerThread::run()
         if(reqUpdate)
             m_pGateField->update();
     }
-
-    m_state = Stopped;
 }

@@ -37,6 +37,10 @@
   <property name="windowTitle">
    <string/>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../resouces.qrc">
+    <normaloff>:/Resources/Button Icons/icon-application.png</normaloff>:/Resources/Button Icons/icon-application.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true"/>
   </property>

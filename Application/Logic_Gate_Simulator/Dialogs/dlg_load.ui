@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Loading</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../resouces.qrc">
+    <normaloff>:/Resources/Button Icons/icon-application.png</normaloff>:/Resources/Button Icons/icon-application.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
@@ -54,6 +58,8 @@
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resouces.qrc"/>
+ </resources>
  <connections/>
 </ui>

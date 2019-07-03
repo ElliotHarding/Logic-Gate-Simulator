@@ -35,8 +35,12 @@ void DLG_Load::Load()
 {
     m_bStartedLoad = true;
 
+    repaint();
+
     ui->lbl_progressStep->setText("Constructing window");
     ui->progressBar->setValue(10);
+
+    repaint();
 
     DLG_Home* home = new DLG_Home(ui->progressBar, ui->lbl_progressStep);
     home->show();

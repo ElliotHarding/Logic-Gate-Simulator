@@ -30,6 +30,7 @@ INCLUDEPATH += \
 
 SOURCES += \
     Dialogs/dlg_message.cpp \
+    Dialogs/dlg_textedit.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
     GameObjects/gatetrieor.cpp \
@@ -66,6 +67,7 @@ SOURCES += \
 
 HEADERS += \
     Dialogs/dlg_message.h \
+    Dialogs/dlg_textedit.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
     GameObjects/gatetrieor.h \
@@ -108,6 +110,7 @@ FORMS += \
         Dialogs/dlg_gateinfo.ui \
         Dialogs/dlg_home.ui \
         Dialogs/dlg_savegatecollection.ui \
+    Dialogs/dlg_textedit.ui \
         Dialogs/widget_advanced.ui \
         Dialogs/widget_allgates.ui \
         Dialogs/widget_customgates.ui \

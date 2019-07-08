@@ -4,6 +4,7 @@
 #include <QWidget>
 
 class DLG_Home;
+class DLG_TextEdit;
 
 class SimpleSlider : public QWidget
 {
@@ -22,7 +23,7 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
-    void UpdateSlider(float currentMousePosX);
+    virtual void UpdateSlider(float currentMousePosX);
     void SetSliderPosition(float val);
 
     DLG_Home* m_pParent;
@@ -43,6 +44,18 @@ protected:
 
     const static int c_height = 30;
     const static int c_margin = 11;
+};
+
+class FontSlider : SimpleSlider
+{
+public:
+    FontSlider(float min, float max, QRect layout, DLG_TextEdit* parent);
+    ~FontSlider();
+
+protected:
+    DLG_TextEdit* m_pParent;
+
+    virtual void UpdateSlider(float currentMousePosX);
 };
 
 #endif // SIMPLESLIDER_H

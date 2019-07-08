@@ -2,6 +2,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include "dlg_home.h"
+#include "dlg_textedit.h"
 
 SimpleSlider::SimpleSlider(float min, float max, QRect layout, DLG_Home *parent) :
     QWidget(parent),
@@ -108,4 +109,23 @@ void SimpleSlider::SetSliderPosition(float val)
 
     //Redraw
     update();
+}
+
+FontSlider::FontSlider(float min, float max, QRect layout, DLG_TextEdit *parent) :
+    SimpleSlider (min, max, layout),
+    m_pParent(parent)
+{
+}
+
+FontSlider::~FontSlider()
+{
+    m_pParent = nullptr;
+}
+
+void FontSlider::UpdateSlider(float currentMousePosX)
+{
+    SetSliderPosition(currentMousePosX);
+
+    //Send new data
+    m_pParent->SetFontSize(GetCurrentValue());
 }

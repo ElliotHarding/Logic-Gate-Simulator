@@ -1,30 +1,21 @@
 #include "dlg_textedit.h"
 #include "ui_dlg_textedit.h"
 
-DLG_TextEdit::DLG_TextEdit(QWidget *parent, std::string initalString, QFont initalFont) :
-    QDialog(parent),
-    ui(new Ui::DLG_TextEdit),
-    m_savedString(initalString.c_str()),
-    m_font(initalFont)
+DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont, bool isUnderlined) :
+    QDialog(),
+    m_savedString(initalString),
+    m_font(initalFont),
+    m_bIsUnderlined(isUnderlined),
+    ui(new Ui::DLG_TextEdit)
 {
     ui->setupUi(this);   
-
+    ui->textEdit->setText(initalString);
     dlg_fontSizeSlider = new FontSlider(5,20, ui->layout_fontSizeSlider->geometry(), this);
 }
 
 DLG_TextEdit::~DLG_TextEdit()
 {
     delete ui;
-}
-
-std::string DLG_TextEdit::GetString()
-{
-    return m_savedString.toStdString();
-}
-
-QFont DLG_TextEdit::GetFont()
-{
-    return m_font;
 }
 
 void DLG_TextEdit::SetFontSize(float size)
@@ -35,6 +26,7 @@ void DLG_TextEdit::SetFontSize(float size)
 void DLG_TextEdit::on_btn_Ok_clicked()
 {
     m_savedString = ui->textEdit->toPlainText();
+    UpdateOverrideObject();
     hide();
 }
 

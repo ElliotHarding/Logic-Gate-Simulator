@@ -30,18 +30,18 @@ public:
     Gate(GateType type, int width, int height, const char* iconLocation = nullptr);
     ~Gate() override;
 
+    virtual void UpdateGraphics(QPainter* painter) override;    
+    virtual void UpdateOutput() = 0;
+
+    virtual void SaveData(std::ofstream& storage);
+    virtual bool DeleteClick(int clickX, int clickY);
     virtual Gate* Clone() = 0;
 
-    void DetachNodes();
-
-    virtual void UpdateGraphics(QPainter* painter) override;
-    virtual void SaveData(std::ofstream& storage);
+    //Node functions
     virtual Node* GetClickedNode(int clickX, int clickY);
     virtual bool FindNodeWithId(id _id, Node*& node);
     virtual void AssignNewNodeIds();
-    virtual bool DeleteClick(int clickX, int clickY);
-
-    virtual void UpdateOutput() = 0;
+    void DetachNodes();
 
     virtual int Left(){return m_layout.left();}
     virtual int Right(){return m_layout.right();}

@@ -13,29 +13,28 @@ class DLG_TextEdit : public QDialog
     Q_OBJECT
 
 public:
-    explicit DLG_TextEdit(QWidget *parent = nullptr, std::string initalString = "", QFont initalFont = QFont("Helvetica", 5));
+    explicit DLG_TextEdit(QString initalString = "", QFont initalFont = QFont("Helvetica", 5), bool isUnderlined = false);
     ~DLG_TextEdit();
-
-    std::string GetString();
-    QFont GetFont();
 
     //Called by slider
     void SetFontSize(float size);
 
-private slots:
+protected:
+    virtual void UpdateOverrideObject() = 0;
 
+    QString m_savedString;
+    QFont m_font;
+    bool m_bIsUnderlined;
+
+private slots:
     void on_btn_Ok_clicked();
     void on_btn_Cancel_clicked();
     void on_btn_clear_clicked();
 
 private:
-
     //Ui elements
     Ui::DLG_TextEdit *ui;
     FontSlider* dlg_fontSizeSlider;
-
-    QString m_savedString;
-    QFont m_font;
 };
 
 #endif // DLG_TEXTEDIT_H

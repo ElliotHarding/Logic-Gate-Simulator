@@ -41,6 +41,9 @@ class DLG_LabelGateEdit : public DLG_TextEdit
 public:
     DLG_LabelGateEdit(TextLabel* textLabel);
     ~DLG_LabelGateEdit();
+    
+protected:
+    virtual void UpdateOverrideObject();
 
 private:
     TextLabel* m_pTextLabel;

@@ -1,7 +1,7 @@
 #include "textlabel.h"
 
 TextLabel::TextLabel() :
-    DragableGameObject (TEXT_LABEL, 20,20),
+    Gate (GATE_TEXT_LABEL, 20,20),
     m_string(""),
     m_font("Helvetica", 5),
     m_bUnderlined(false)
@@ -14,7 +14,7 @@ void TextLabel::UpdateGraphics(QPainter *painter)
     painter->drawText(GetPosition(), m_string);
 }
 
-GameObject* TextLabel::Clone()
+Gate* TextLabel::Clone()
 {
     TextLabel* clone = new TextLabel();
 

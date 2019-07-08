@@ -34,6 +34,7 @@ SOURCES += \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
     GameObjects/gatetrieor.cpp \
+    GameObjects/textlabel.cpp \
         main.cpp \
         mainwindow.cpp \
         gatefield.cpp \
@@ -72,6 +73,7 @@ HEADERS += \
     GameObjects/gatefpga.h \
     GameObjects/gatetrieor.h \
     GameObjects/gatetypes.h \
+    GameObjects/textlabel.h \
         mainwindow.h \
         clickmode.h \
         gatereader.h \

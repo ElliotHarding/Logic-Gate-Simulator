@@ -18,6 +18,7 @@ enum GateType
     GATE_TRI_EOR,
     GATE_NUMBER_OUT,
     GATE_FPGA,
+    GATE_TEXT_LABEL,
     GATE_NULL,
 };
 

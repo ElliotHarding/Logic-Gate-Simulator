@@ -4,6 +4,7 @@ GameObject::GameObject(int width, int height, const char* iconLocation)
 {
     if(iconLocation != nullptr)
         m_image = QImage(iconLocation);
+
     m_width = width;
     m_height = height;
     SetPosition(0,0);

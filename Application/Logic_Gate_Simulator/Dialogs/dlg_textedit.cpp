@@ -1,18 +1,23 @@
 #include "dlg_textedit.h"
 #include "ui_dlg_textedit.h"
 
-DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont, bool isUnderlined) :
+DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     QDialog(),
     m_savedString(initalString),
     m_font(initalFont),
-    m_bIsUnderlined(isUnderlined),
     ui(new Ui::DLG_TextEdit)
 {
     ui->setupUi(this);   
     ui->textEdit->setText(initalString);
-    dlg_fontSizeSlider = new FontSlider(5,20, ui->layout_fontSizeSlider->geometry(), this);
+    dlg_fontSizeSlider = new FontSlider(5, 100, ui->layout_fontSizeSlider->geometry(), this);
 
-    ui->btn_Underline->setDown(m_bIsUnderlined);
+    ui->textEdit->setFont(m_font);
+
+    m_fontBold.setBold(true);
+    m_fontUnderlined.setUnderline(true);
+
+    ui->btn_Bold->setFont(m_font.bold() ? m_fontBold : m_fontDisabled);
+    ui->btn_Underline->setFont(m_font.underline() ? m_fontUnderlined : m_fontDisabled);
 }
 
 DLG_TextEdit::~DLG_TextEdit()
@@ -23,6 +28,8 @@ DLG_TextEdit::~DLG_TextEdit()
 void DLG_TextEdit::SetFontSize(float size)
 {
     m_font.setWeight(int(size));
+    ui->lbl_fontSize->setText(std::to_string(int(size)).c_str());
+    ui->textEdit->setFont(m_font);
 }
 
 void DLG_TextEdit::on_btn_Ok_clicked()
@@ -44,6 +51,14 @@ void DLG_TextEdit::on_btn_clear_clicked()
 
 void DLG_TextEdit::on_btn_Underline_clicked()
 {
-    m_bIsUnderlined = !m_bIsUnderlined;
-    ui->btn_Underline->setDown(m_bIsUnderlined);
+    m_font.setUnderline(!m_font.underline());
+    ui->textEdit->setFont(m_font);
+    ui->btn_Underline->setFont(m_font.underline() ? m_fontUnderlined : m_fontDisabled);
+}
+
+void DLG_TextEdit::on_btn_Bold_clicked()
+{
+    m_font.setBold(!m_font.bold());
+    ui->textEdit->setFont(m_font);
+    ui->btn_Bold->setFont(m_font.bold() ? m_fontBold : m_fontDisabled);
 }

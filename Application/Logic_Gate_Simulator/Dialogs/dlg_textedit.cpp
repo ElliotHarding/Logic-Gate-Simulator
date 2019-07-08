@@ -11,6 +11,8 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont, bool isUnderl
     ui->setupUi(this);   
     ui->textEdit->setText(initalString);
     dlg_fontSizeSlider = new FontSlider(5,20, ui->layout_fontSizeSlider->geometry(), this);
+
+    ui->btn_Underline->setDown(m_bIsUnderlined);
 }
 
 DLG_TextEdit::~DLG_TextEdit()
@@ -38,4 +40,10 @@ void DLG_TextEdit::on_btn_Cancel_clicked()
 void DLG_TextEdit::on_btn_clear_clicked()
 {
     ui->textEdit->clear();
+}
+
+void DLG_TextEdit::on_btn_Underline_clicked()
+{
+    m_bIsUnderlined = !m_bIsUnderlined;
+    ui->btn_Underline->setDown(m_bIsUnderlined);
 }

@@ -2,49 +2,63 @@
 #include "dlg_textedit.h"
 
 TextLabel::TextLabel() :
-    Gate (GATE_TEXT_LABEL, 20,20),
+    Gate(GATE_TEXT_LABEL, 20,20),
     m_string(""),
     m_font("Helvetica", 5),
     m_bUnderlined(false),
-    m_editClickZone(QRect(10,10,5,5))
+    m_editClickZone(QRect(0,0,EDIT_ZONE_WIDTH,EDIT_ZONE_WIDTH))
 {
 }
 
 void TextLabel::UpdateGraphics(QPainter *painter)
 {
-    painter->setFont(m_font);
-    painter->drawText(GetPosition(), m_string);
-
     painter->setBrush(QBrush(Qt::gray));
     painter->drawRect(m_editClickZone);
+
+    painter->setFont(m_font);
+    painter->drawText(GetPosition(), m_string);
 
     //todo underlined....
 }
 
 bool TextLabel::UpdateClicked(int clickX, int clickY)
 {
-    if(GameObject::UpdateClicked(clickX, clickY))
+    //When a textlabel is clicked on its editor opens up
+    if(m_editClickZone.contains(clickX, clickY))
     {
-        //When a textlabel is clicked on its editor opens up
-        if(m_editClickZone.contains(clickX, clickY))
-        {
-            //Can't be bothered instanciating this in memory before,
-            //its a tiny dlg anyways...
-            DLG_LabelGateEdit textEditor(this);
-            textEditor.show();
-        }
-        return true;
+        //Can't be bothered instanciating this in memory before,
+        //its a tiny dlg anyways...
+        DLG_LabelGateEdit textEditor(this);
+        textEditor.show();
+
+        return false;
     }
 
-    return false;
+    return GameObject::UpdateClicked(clickX, clickY);
+}
+
+bool TextLabel::UpdateDrag(int clickX, int clickY)
+{
+    //When a textlabel is clicked on its editor opens up
+    if(m_editClickZone.contains(clickX, clickY))
+    {
+        //Can't be bothered instanciating this in memory before,
+        //its a tiny dlg anyways...
+        DLG_LabelGateEdit textEditor(this);
+        textEditor.show();
+
+        return false;
+    }
+
+    else
+        return Gate::UpdateDrag(clickX, clickY);
 }
 
 void TextLabel::SetPosition(int x, int y)
 {
     Gate::SetPosition(x, y);
 
-    m_editClickZone.setX(Right() - EDIT_ZONE_WIDTH);
-    m_editClickZone.setY(Top() + EDIT_ZONE_HEIGHT);
+    m_editClickZone = QRect(Right() - EDIT_ZONE_WIDTH, Top() + EDIT_ZONE_HEIGHT, EDIT_ZONE_WIDTH, EDIT_ZONE_HEIGHT);
 }
 
 Gate* TextLabel::Clone()

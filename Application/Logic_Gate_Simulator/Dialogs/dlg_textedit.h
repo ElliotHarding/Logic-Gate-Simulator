@@ -31,6 +31,8 @@ private slots:
     void on_btn_Cancel_clicked();
     void on_btn_clear_clicked();
 
+    void on_btn_Underline_clicked();
+
 private:
     //Ui elements
     Ui::DLG_TextEdit *ui;

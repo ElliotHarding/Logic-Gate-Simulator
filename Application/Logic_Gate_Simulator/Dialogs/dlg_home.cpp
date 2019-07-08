@@ -57,7 +57,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
          m_pWidgetInputGates = new Widget_InputGates(this);
 
          //m_zoomSlider
-         m_zoomSlider = new SimpleSlider(c_minZoom, c_maxZoom, layoutZoomSlider, this);
+         m_zoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, layoutZoomSlider, this);
          SetZoomFactor(0.5);
 
          m_pDlgGateInfo->move(layoutGateInfo.topLeft());

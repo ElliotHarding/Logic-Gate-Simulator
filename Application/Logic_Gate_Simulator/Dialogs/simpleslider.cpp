@@ -4,12 +4,11 @@
 #include "dlg_home.h"
 #include "dlg_textedit.h"
 
-SimpleSlider::SimpleSlider(float min, float max, QRect layout, DLG_Home *parent) :
-    QWidget(parent),
+SimpleSlider::SimpleSlider(float min, float max, QRect layout) :
+    QWidget(),
     m_max(max),
     m_min(min),
     m_width(layout.width() - (c_margin * 2)),
-    m_pParent(parent),
     m_beingClicked(false),
     m_minMaxDiff(max - min)
 {
@@ -25,7 +24,6 @@ SimpleSlider::SimpleSlider(float min, float max, QRect layout, DLG_Home *parent)
 
 SimpleSlider::~SimpleSlider()
 {
-    m_pParent = nullptr;
 }
 
 float SimpleSlider::GetCurrentValue()
@@ -38,7 +36,7 @@ float SimpleSlider::GetCurrentValue()
     return m_min + (m_minMaxDiff * percentage);
 }
 
-void SimpleSlider::SetValue(qreal val)
+void SimpleSlider::SetValue(float val)
 {
     //Calculate position from value
     const float length = (m_rightMost.x() - m_leftMost.x());
@@ -93,7 +91,7 @@ void SimpleSlider::UpdateSlider(float currentMousePosX)
     SetSliderPosition(currentMousePosX);
 
     //Send new data
-    m_pParent->SetZoomFactor(GetCurrentValue(), false);
+    UpdateParent(GetCurrentValue());
 }
 
 void SimpleSlider::SetSliderPosition(float val)
@@ -111,6 +109,12 @@ void SimpleSlider::SetSliderPosition(float val)
     update();
 }
 
+
+
+//
+//  FontSlider : SimpleSlider
+//
+
 FontSlider::FontSlider(float min, float max, QRect layout, DLG_TextEdit *parent) :
     SimpleSlider (min, max, layout),
     m_pParent(parent)
@@ -122,10 +126,30 @@ FontSlider::~FontSlider()
     m_pParent = nullptr;
 }
 
-void FontSlider::UpdateSlider(float currentMousePosX)
+void FontSlider::UpdateParent(float val)
 {
-    SetSliderPosition(currentMousePosX);
-
     //Send new data
-    m_pParent->SetFontSize(GetCurrentValue());
+    m_pParent->SetFontSize(val);
+}
+
+
+
+//
+//  ZoomSlider : SimpleSlider
+//
+
+ZoomSlider::ZoomSlider(float min, float max, QRect layout, DLG_Home *parent) :
+    SimpleSlider (min, max, layout),
+    m_pParent(parent)
+{
+}
+
+ZoomSlider::~ZoomSlider()
+{
+    m_pParent = nullptr;
+}
+
+void ZoomSlider::UpdateParent(float val)
+{
+    m_pParent->SetZoomFactor(val, false);
 }

@@ -66,7 +66,7 @@ private:
     MovingWidget* m_pCurrentShownGateWidget = nullptr;
 
     //Controls
-    SimpleSlider* m_zoomSlider;
+    ZoomSlider* m_zoomSlider;
 
     //Widget animations
     void SwitchWidgets(MovingWidget* w1);

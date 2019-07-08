@@ -3,17 +3,14 @@
 
 #include <QWidget>
 
-class DLG_Home;
-class DLG_TextEdit;
-
 class SimpleSlider : public QWidget
 {
 public:
-    SimpleSlider(float min, float max, QRect layout, DLG_Home* parent = nullptr);
+    SimpleSlider(float min, float max, QRect layout);
     ~SimpleSlider();
 
     float GetCurrentValue();
-    void SetValue(qreal val);
+    void SetValue(float val);
 
 protected:
 
@@ -23,10 +20,10 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
-    virtual void UpdateSlider(float currentMousePosX);
+    void UpdateSlider(float currentMousePosX);
     void SetSliderPosition(float val);
 
-    DLG_Home* m_pParent;
+    virtual void UpdateParent(float val) = 0;
 
     //Position data
     QPoint m_sliderPosition;
@@ -46,7 +43,21 @@ protected:
     const static int c_margin = 11;
 };
 
-class FontSlider : SimpleSlider
+class DLG_Home;
+class ZoomSlider : public SimpleSlider
+{
+public:
+    ZoomSlider(float min, float max, QRect layout, DLG_Home* parent);
+    ~ZoomSlider();
+
+protected:
+
+    DLG_Home* m_pParent;
+    virtual void UpdateParent(float val);
+};
+
+class DLG_TextEdit;
+class FontSlider : public SimpleSlider
 {
 public:
     FontSlider(float min, float max, QRect layout, DLG_TextEdit* parent);
@@ -54,8 +65,7 @@ public:
 
 protected:
     DLG_TextEdit* m_pParent;
-
-    virtual void UpdateSlider(float currentMousePosX);
+    virtual void UpdateParent(float val);
 };
 
 #endif // SIMPLESLIDER_H

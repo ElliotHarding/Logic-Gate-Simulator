@@ -147,7 +147,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QWidget" name="widget" native="true">
+  <widget class="QWidget" name="topBar" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -160,7 +160,17 @@
     <string notr="true">background-color: rgb(85, 85, 85);</string>
    </property>
   </widget>
-  <zorder>widget</zorder>
+  <widget class="QWidget" name="CenteralWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>401</width>
+     <height>301</height>
+    </rect>
+   </property>
+  </widget>
+  <zorder>topBar</zorder>
   <zorder>btn_clear</zorder>
   <zorder>textEdit</zorder>
   <zorder>btn_Cancel</zorder>
@@ -169,6 +179,7 @@
   <zorder>layout_fontSizeSlider</zorder>
   <zorder>btn_Underline</zorder>
   <zorder>btn_Bold</zorder>
+  <zorder>CenteralWidget</zorder>
  </widget>
  <resources/>
  <connections/>

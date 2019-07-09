@@ -7,6 +7,10 @@ TextLabel::TextLabel() :
     m_font("Helvetica", 15),
     m_editClickZone(QRect(0,0,EDIT_ZONE_WIDTH,EDIT_ZONE_WIDTH))
 {
+
+    //Can't be bothered instanciating this in memory before,
+    //its a tiny dlg anyways...
+    m_pEditDlg = new DLG_LabelGateEdit(this);
 }
 
 TextLabel::~TextLabel()
@@ -28,9 +32,6 @@ bool TextLabel::UpdateDrag(int clickX, int clickY)
     //When a textlabel is clicked on its editor opens up
     if(m_editClickZone.contains(clickX, clickY))
     {
-        //Can't be bothered instanciating this in memory before,
-        //its a tiny dlg anyways...
-        m_pEditDlg = new DLG_LabelGateEdit(this);
         m_pEditDlg->show();
 
         return false;

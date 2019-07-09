@@ -12,11 +12,6 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     ui->setupUi(this);
     this->setLayout(new QHBoxLayout());
 
-    //Create & add font size slider
-    dlg_fontSizeSlider = new FontSlider(5, 90, ui->layout_fontSizeSlider->geometry(), this);
-    dlg_fontSizeSlider->raise();
-    this->layout()->addWidget(dlg_fontSizeSlider);
-
     //Inital setup
     ui->textEdit->setText(initalString);
     ui->textEdit->setFont(m_font);
@@ -26,6 +21,11 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
 
     ui->btn_Bold->setFont(m_font.bold() ? m_fontBold : m_fontDisabled);
     ui->btn_Underline->setFont(m_font.underline() ? m_fontUnderlined : m_fontDisabled);
+
+    //Create & add font size slider
+    dlg_fontSizeSlider = new FontSlider(5, 90, ui->layout_fontSizeSlider->geometry(), this);
+    dlg_fontSizeSlider->raise();
+    this->layout()->addWidget(dlg_fontSizeSlider);
 }
 
 DLG_TextEdit::~DLG_TextEdit()

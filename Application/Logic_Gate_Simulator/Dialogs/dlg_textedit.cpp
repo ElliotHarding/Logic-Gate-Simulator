@@ -9,13 +9,16 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     m_font(initalFont),
     ui(new Ui::DLG_TextEdit)
 {
-    ui->setupUi(this);   
-    ui->textEdit->setText(initalString);
+    ui->setupUi(this);
+    this->setLayout(new QHBoxLayout());
 
     //Create & add font size slider
-    dlg_fontSizeSlider = new FontSlider(5, 100, ui->layout_fontSizeSlider->geometry(), this);
-    this->layout()->addWidget(dlg_fontSizeSlider);
+    const QRect sliderLayout = ui->layout_fontSizeSlider->geometry();
+    dlg_fontSizeSlider = new FontSlider(5, 90, sliderLayout, this);
+    //this->layout()->addWidget(dlg_fontSizeSlider);
 
+    //Inital setup
+    ui->textEdit->setText(initalString);
     ui->textEdit->setFont(m_font);
 
     m_fontBold.setBold(true);

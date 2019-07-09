@@ -15,9 +15,8 @@ SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max, QRect layout)
     this->setGeometry(layout);
 
     //Calculate positions
-    const int yMiddle = (layout.left() - layout.top()) / 2;
-    m_rightMost = QPoint(layout.right() - c_margin, layout.top() + yMiddle);
-    m_leftMost = QPoint(layout.left() + c_margin, layout.top() + yMiddle);
+    m_rightMost = QPoint(width() - c_margin * 2, height()/2);
+    m_leftMost = QPoint(c_margin, height()/2);
     m_sliderPosition = m_leftMost;
 
     //setAcceptDrops(true);
@@ -42,9 +41,9 @@ void SimpleSlider::SetValue(float val)
 {
     //Calculate position from value
     const float length = (m_rightMost.x() - m_leftMost.x());
-    const float unit = length/m_minMaxDiff;
-    const qreal distanceFromLeft = val * unit;
-    float pos = m_leftMost.x() + distanceFromLeft - 5;
+    const float lenghtPerUnit = length/m_minMaxDiff;
+    const qreal distanceFromLeft = val * lenghtPerUnit;
+    float pos = m_leftMost.x() + distanceFromLeft - c_margin;
 
     SetSliderPosition(pos);
 }
@@ -79,7 +78,7 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
     painter.setPen(pen);
 
     //Draw bar
-    painter.drawLine(m_leftMost, m_rightMost);
+    painter.drawLine( QPoint(c_margin, height()/2), QPoint(width() - c_margin * 2, height()/2));
 
     //Set slider colourSetZoomFactor);
     painter.setPen(pen);

@@ -26,6 +26,8 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     dlg_fontSizeSlider = new FontSlider(5, 90, ui->layout_fontSizeSlider->geometry(), this);
     dlg_fontSizeSlider->raise();
     this->layout()->addWidget(dlg_fontSizeSlider);
+    this->layout()->setGeometry(ui->CenteralWidget->geometry());
+
 }
 
 DLG_TextEdit::~DLG_TextEdit()

@@ -15,8 +15,9 @@ SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max, QRect layout)
     this->setGeometry(layout);
 
     //Calculate positions
-    m_rightMost = QPoint(layout.width() - c_margin * 2, layout.height()/2);
     m_leftMost = QPoint(c_margin, layout.height()/2);
+    m_rightMost = QPoint(m_leftMost.x() + m_width, layout.height()/2);
+
     m_sliderPosition = m_leftMost;
 
     //setAcceptDrops(true);
@@ -40,8 +41,7 @@ float SimpleSlider::GetCurrentValue()
 void SimpleSlider::SetValue(float val)
 {
     //Calculate position from value
-    const float length = (m_rightMost.x() - m_leftMost.x());
-    const float lenghtPerUnit = length/m_minMaxDiff;
+    const float lenghtPerUnit = m_width/m_minMaxDiff;
     const qreal distanceFromLeft = val * lenghtPerUnit;
     float pos = m_leftMost.x() + distanceFromLeft - c_margin;
 

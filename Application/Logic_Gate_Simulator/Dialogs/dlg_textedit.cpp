@@ -25,7 +25,10 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     //Create & add font size slider
     dlg_fontSizeSlider = new FontSlider(5, 90, QRect(0, 0, 100, 15), this);
     this->layout()->addWidget(dlg_fontSizeSlider);
+
+    //Z order changes
     dlg_fontSizeSlider->lower();
+    ui->topBar->lower();
 }
 
 DLG_TextEdit::~DLG_TextEdit()

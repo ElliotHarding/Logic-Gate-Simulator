@@ -25,8 +25,11 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     //Create & add font size slider
     dlg_fontSizeSlider = new FontSlider(5, 90, ui->layout_fontSizeSlider->geometry(), this);
     dlg_fontSizeSlider->raise();
+
     this->layout()->addWidget(dlg_fontSizeSlider);
-    this->layout()->setGeometry(ui->CenteralWidget->geometry());
+
+    //Shouldn't have had to do this but got tierd of wrestling with QLayouts
+    dlg_fontSizeSlider->SetClientToScreenOffsett(250,0);
 }
 
 DLG_TextEdit::~DLG_TextEdit()

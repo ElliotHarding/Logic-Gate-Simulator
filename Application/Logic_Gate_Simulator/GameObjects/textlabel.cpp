@@ -17,7 +17,8 @@ TextLabel::TextLabel() :
 
 TextLabel::~TextLabel()
 {
-    m_pEditDlg = nullptr;
+    m_pEditDlg->close();
+    delete m_pEditDlg;
 }
 
 void TextLabel::UpdateGraphics(QPainter *painter)

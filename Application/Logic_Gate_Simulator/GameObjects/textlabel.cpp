@@ -47,7 +47,7 @@ void TextLabel::SetPosition(int x, int y)
 {
     Gate::SetPosition(x, y);
 
-    m_editClickZone = QRect(Right() - EDIT_ZONE_WIDTH, Top() + EDIT_ZONE_HEIGHT, EDIT_ZONE_WIDTH, EDIT_ZONE_HEIGHT);
+    m_editClickZone = QRect(Right(), Top(), EDIT_ZONE_WIDTH, EDIT_ZONE_HEIGHT);
 }
 
 Gate* TextLabel::Clone()
@@ -74,11 +74,8 @@ void TextLabel::Update(QFont font, QString string)
     m_width = fm.width(m_string);
     m_height = fm.height();
 
-    const QPoint pos = GetPosition();
-    m_layout.setLeft(pos.x() - m_width/2);
-    m_layout.setTop(pos.y() - m_height/2);
-    m_layout.setRight(pos.x() + m_width/2);
-    m_layout.setBottom(pos.y()  + m_height/2);
+    //Rests everything due to changed m_width & m_height
+    SetPosition(GetPosition().x(), GetPosition().y());
 }
 
 QString TextLabel::GetString()

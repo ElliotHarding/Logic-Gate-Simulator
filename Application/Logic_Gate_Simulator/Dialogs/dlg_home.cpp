@@ -38,7 +38,6 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     }
 
     QRect layoutGateWidget = accountForUIOffsetts(ui->layout_GateWidget->geometry());
-    QRect layoutZoomSlider = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
     QRect layoutGateInfo = accountForUIOffsetts(ui->layout_Dlg_GateInfo->geometry());
 
     //Construction
@@ -57,7 +56,8 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
          m_pWidgetInputGates = new Widget_InputGates(this);
 
          //m_zoomSlider
-         m_zoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, layoutZoomSlider, this);
+         m_zoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, ui->layout_ZoomSlider->geometry(), this);
+         m_zoomSlider->raise();
          SetZoomFactor(0.5);
 
          m_pDlgGateInfo->move(layoutGateInfo.topLeft());

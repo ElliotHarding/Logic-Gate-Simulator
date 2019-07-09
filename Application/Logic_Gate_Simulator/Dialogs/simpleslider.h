@@ -2,11 +2,12 @@
 #define SIMPLESLIDER_H
 
 #include <QWidget>
+#include <QLayout>
 
 class SimpleSlider : public QWidget
 {
 public:
-    SimpleSlider(float min, float max, QRect layout);
+    SimpleSlider(QWidget* pParent, float min, float max, QRect layout);
     ~SimpleSlider() override;
 
     float GetCurrentValue();
@@ -39,7 +40,6 @@ protected:
     const float m_min;
     const float m_minMaxDiff;
 
-    const static int c_height = 30;
     const static int c_margin = 11;
 };
 

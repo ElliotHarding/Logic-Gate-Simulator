@@ -13,8 +13,8 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     this->setLayout(new QHBoxLayout());
 
     //Create & add font size slider
-    const QRect sliderLayout = ui->layout_fontSizeSlider->geometry();
-    dlg_fontSizeSlider = new FontSlider(5, 90, sliderLayout, this);
+    dlg_fontSizeSlider = new FontSlider(5, 90, ui->layout_fontSizeSlider->geometry(), this);
+    dlg_fontSizeSlider->raise();
     this->layout()->addWidget(dlg_fontSizeSlider);
 
     //Inital setup

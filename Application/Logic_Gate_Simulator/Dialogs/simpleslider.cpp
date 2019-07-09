@@ -4,22 +4,24 @@
 #include "dlg_home.h"
 #include "dlg_textedit.h"
 
-SimpleSlider::SimpleSlider(float min, float max, QRect layout) :
-    QWidget(),
+SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max, QRect layout) :
+    QWidget(pParent),
     m_max(max),
     m_min(min),
     m_width(layout.width() - (c_margin * 2)),
     m_beingClicked(false),
     m_minMaxDiff(max - min)
 {
-    m_rightMost = QPoint(m_width + c_margin, c_height/2);
-    m_leftMost = QPoint(c_margin, c_height/2);
+    this->setGeometry(layout);
+
+    //Calculate positions
+    const int yMiddle = (layout.left() - layout.top()) / 2;
+    m_rightMost = QPoint(layout.right() - c_margin, layout.top() + yMiddle);
+    m_leftMost = QPoint(layout.left() + c_margin, layout.top() + yMiddle);
     m_sliderPosition = m_leftMost;
 
-    this->setGeometry(layout.left(), layout.top(), layout.width(), c_height);
-
-    setAcceptDrops(true);
-    setMouseTracking(true);
+    //setAcceptDrops(true);
+    //setMouseTracking(true);
 }
 
 SimpleSlider::~SimpleSlider()
@@ -116,7 +118,7 @@ void SimpleSlider::SetSliderPosition(float val)
 //
 
 FontSlider::FontSlider(float min, float max, QRect layout, DLG_TextEdit *parent) :
-    SimpleSlider (min, max, layout),
+    SimpleSlider (parent, min, max, layout),
     m_pParent(parent)
 {
 }
@@ -139,7 +141,7 @@ void FontSlider::UpdateParent(float val)
 //
 
 ZoomSlider::ZoomSlider(float min, float max, QRect layout, DLG_Home *parent) :
-    SimpleSlider (min, max, layout),
+    SimpleSlider (parent, min, max, layout),
     m_pParent(parent)
 {
 }

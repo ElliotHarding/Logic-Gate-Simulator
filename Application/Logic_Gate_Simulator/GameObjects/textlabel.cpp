@@ -11,6 +11,8 @@ TextLabel::TextLabel() :
     //Can't be bothered instanciating this in memory before,
     //its a tiny dlg anyways...
     m_pEditDlg = new DLG_LabelGateEdit(this);
+
+    Update(m_font, m_string);
 }
 
 TextLabel::~TextLabel()
@@ -67,7 +69,16 @@ void TextLabel::Update(QFont font, QString string)
     m_font = font;
 
     QFontMetrics fm(m_font);
+
+    //Update dimensions since text has changed:
     m_width = fm.width(m_string);
+    m_height = fm.height();
+
+    const QPoint pos = GetPosition();
+    m_layout.setLeft(pos.x() - m_width/2);
+    m_layout.setTop(pos.y() - m_height/2);
+    m_layout.setRight(pos.x() + m_width/2);
+    m_layout.setBottom(pos.y()  + m_height/2);
 }
 
 QString TextLabel::GetString()

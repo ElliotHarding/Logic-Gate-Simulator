@@ -7,7 +7,7 @@ class SimpleSlider : public QWidget
 {
 public:
     SimpleSlider(float min, float max, QRect layout);
-    ~SimpleSlider();
+    ~SimpleSlider() override;
 
     float GetCurrentValue();
     void SetValue(float val);

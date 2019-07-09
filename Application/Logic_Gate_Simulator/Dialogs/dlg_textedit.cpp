@@ -1,6 +1,8 @@
 #include "dlg_textedit.h"
 #include "ui_dlg_textedit.h"
 
+#include <qlayout.h>
+
 DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     QDialog(),
     m_savedString(initalString),
@@ -9,7 +11,10 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
 {
     ui->setupUi(this);   
     ui->textEdit->setText(initalString);
+
+    //Create & add font size slider
     dlg_fontSizeSlider = new FontSlider(5, 100, ui->layout_fontSizeSlider->geometry(), this);
+    this->layout()->addWidget(dlg_fontSizeSlider);
 
     ui->textEdit->setFont(m_font);
 

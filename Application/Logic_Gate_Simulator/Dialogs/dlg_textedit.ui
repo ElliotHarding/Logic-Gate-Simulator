@@ -16,19 +16,6 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QPushButton" name="btn_clear">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>5</y>
-     <width>31</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>C</string>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="textEdit">
    <property name="geometry">
     <rect>
@@ -68,10 +55,91 @@
     <string>Ok</string>
    </property>
   </widget>
+  <widget class="QWidget" name="topBar" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>401</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(85, 85, 85);</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_Bold">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>5</y>
+     <width>25</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+     <underline>false</underline>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(200, 200, 200);</string>
+   </property>
+   <property name="text">
+    <string>B</string>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
+   </property>
+   <property name="default">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_Underline">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>5</y>
+     <width>25</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(200, 200, 200);</string>
+   </property>
+   <property name="text">
+    <string>U</string>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
+   </property>
+   <property name="default">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="QLabel" name="lbl_fontSize">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>110</x>
      <y>5</y>
      <width>25</width>
      <height>23</height>
@@ -87,99 +155,39 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QWidget" name="layout_fontSizeSlider" native="true">
+  <widget class="QPushButton" name="btn_clear">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>360</x>
      <y>5</y>
-     <width>111</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_Underline">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>5</y>
-     <width>25</width>
+     <width>31</width>
      <height>23</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <underline>true</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>U</string>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_Bold">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>5</y>
-     <width>25</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <weight>75</weight>
-     <bold>true</bold>
-     <underline>false</underline>
-    </font>
-   </property>
-   <property name="text">
-    <string>B</string>
-   </property>
-   <property name="autoDefault">
-    <bool>false</bool>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QWidget" name="topBar" native="true">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>401</width>
-     <height>31</height>
-    </rect>
+   <property name="autoFillBackground">
+    <bool>true</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(85, 85, 85);</string>
+    <string notr="true">background-color: rgb(200, 200, 200);</string>
    </property>
-  </widget>
-  <widget class="QWidget" name="CenteralWidget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>401</width>
-     <height>301</height>
-    </rect>
+   <property name="text">
+    <string>C</string>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <zorder>topBar</zorder>
-  <zorder>btn_clear</zorder>
   <zorder>textEdit</zorder>
-  <zorder>btn_Cancel</zorder>
   <zorder>btn_Ok</zorder>
-  <zorder>lbl_fontSize</zorder>
-  <zorder>layout_fontSizeSlider</zorder>
-  <zorder>btn_Underline</zorder>
+  <zorder>btn_Cancel</zorder>
   <zorder>btn_Bold</zorder>
-  <zorder>CenteralWidget</zorder>
+  <zorder>btn_Underline</zorder>
+  <zorder>lbl_fontSize</zorder>
+  <zorder>btn_clear</zorder>
  </widget>
  <resources/>
  <connections/>

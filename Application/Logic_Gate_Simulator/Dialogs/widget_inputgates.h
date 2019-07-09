@@ -17,11 +17,8 @@ public:
 
 private slots:
     void on_btn_sourceGate_clicked();
-
     void on_btn_inputOn_clicked();
-
     void on_btn_inputOff_clicked();
-
     void on_btn_timerGate_clicked();
 
 private:

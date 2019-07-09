@@ -23,13 +23,9 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     ui->btn_Underline->setFont(m_font.underline() ? m_fontUnderlined : m_fontDisabled);
 
     //Create & add font size slider
-    dlg_fontSizeSlider = new FontSlider(5, 90, ui->layout_fontSizeSlider->geometry(), this);
-    dlg_fontSizeSlider->raise();
-
+    dlg_fontSizeSlider = new FontSlider(5, 90, QRect(0, 0, 100, 15), this);
     this->layout()->addWidget(dlg_fontSizeSlider);
-
-    //Shouldn't have had to do this but got tierd of wrestling with QLayouts
-    dlg_fontSizeSlider->SetClientToScreenOffsett(250,0);
+    dlg_fontSizeSlider->lower();
 }
 
 DLG_TextEdit::~DLG_TextEdit()

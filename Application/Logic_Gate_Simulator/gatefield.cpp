@@ -400,7 +400,6 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     //If ending a selection
     if( m_selectionTool != nullptr && m_currentClickMode == CLICK_SELECTION)
     {
-        //Go through all gates and add gates inside selection to selectedGates vector
         m_selectedGates.clear();
         m_lockAllGates.lock();
 
@@ -413,16 +412,21 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
             }
         }
 
-        m_lockAllGates.unlock();
+        //Add the gates to collection
+        GateCollection* collection = new GateCollection(m_selectedGates);
 
-        //Selection contains some gates, then we can save them as a gate collection
-        if(m_selectedGates.size() > 0)
+        //Remove gates from m_allgates
+        for (Gate* g : m_allGates)
         {
-            m_pDlgSaveGateCollection->SetCurrentGateField(this);
-            m_pDlgSaveGateCollection->open();
-            //GenerateGateCollection() gets called by the saveGateCollectionDialog
+            ForgetChild(g);
         }
+
+        //Add gate collection to m_allGates
+        AddGate(collection, false, true);
+
         m_selectionTool = nullptr;
+
+        m_lockAllGates.unlock();
     }
 
     //Call to redraw

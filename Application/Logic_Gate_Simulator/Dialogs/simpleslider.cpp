@@ -49,6 +49,18 @@ void SimpleSlider::SetValue(float val)
     SetSliderPosition(pos);
 }
 
+void SimpleSlider::SetGeometry(QRect layout)
+{
+    //Calculate positions & dimensions
+    m_width = layout.width() - (c_margin * 2);
+
+    m_leftMost = QPoint(c_margin, layout.height()/2);
+    m_rightMost = QPoint(m_leftMost.x() + m_width, layout.height()/2);
+
+    m_sliderPosition = m_leftMost;
+
+    setGeometry(layout);
+}
 
 void SimpleSlider::mouseReleaseEvent(QMouseEvent *releaseEvent)
 {

@@ -23,7 +23,7 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     ui->btn_Underline->setFont(m_font.underline() ? m_fontUnderlined : m_fontDisabled);
 
     //Create & add font size slider
-    dlg_fontSizeSlider = new FontSlider(5, 90, QRect(0, 0, 100, 15), this);
+    dlg_fontSizeSlider = new FontSlider(5, 90, QRect(0, -10, 100, 20), this);
     this->layout()->addWidget(dlg_fontSizeSlider);
 
     //Z order changes
@@ -38,7 +38,7 @@ DLG_TextEdit::~DLG_TextEdit()
 
 void DLG_TextEdit::SetFontSize(float size)
 {
-    m_font.setWeight(int(size));
+    m_font.setPointSize(int(size));
     ui->lbl_fontSize->setText(std::to_string(int(size)).c_str());
     ui->textEdit->setFont(m_font);
 }

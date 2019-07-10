@@ -94,7 +94,7 @@
     <string>B</string>
    </property>
    <property name="autoDefault">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="default">
     <bool>false</bool>
@@ -127,7 +127,7 @@
     <string>U</string>
    </property>
    <property name="autoDefault">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="default">
     <bool>false</bool>
@@ -174,7 +174,7 @@
     <string>C</string>
    </property>
    <property name="autoDefault">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="flat">
     <bool>true</bool>

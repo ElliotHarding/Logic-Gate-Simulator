@@ -14,14 +14,9 @@ GateCollection::~GateCollection()
     //When deleted the gate collection filed can dump its contents onto the parent gatefield
     if(!m_bDontDeleteGates)
     {
-
-        for (Gate* g : m_gates)
-        {
-            g->DetachNodes();
-        }
-
         for (size_t index = 0; index < m_gates.size(); index++)
         {
+            m_gates[index]->DetachNodes();
             delete m_gates[index];
             m_gates.erase(m_gates.begin() + (int)index);
         }
@@ -35,7 +30,14 @@ GateCollection::~GateCollection()
             for (Gate* g : m_gates)
             {
                 m_pParentField->AddGate(&*g, false, true);
+            }
 
+            //todo
+            //very lazy code.... fix up
+
+            const int size = m_gates.size();
+            for (int x = 0; x < size; x++)
+            {
                 m_gates.erase(m_gates.begin());
             }
 

@@ -456,19 +456,6 @@ border:none;</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QWidget" name="layout_ZoomSlider" native="true">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>0</y>
-      <width>151</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QWidget" name="layout_Dlg_GateInfo" native="true">
     <property name="geometry">
      <rect>
@@ -749,9 +736,21 @@ QComboBox::down-arrow {
      <string notr="true">background-color:rgb(255, 255, 255);</string>
     </property>
    </widget>
+   <widget class="QWidget" name="layout_ZoomSlider" native="true">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>0</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+   </widget>
    <zorder>widget_2</zorder>
    <zorder>widget_4</zorder>
-   <zorder>layout_ZoomSlider</zorder>
    <zorder>btn_Drag</zorder>
    <zorder>btn_Delete</zorder>
    <zorder>btn_link</zorder>
@@ -767,6 +766,7 @@ QComboBox::down-arrow {
    <zorder>PlayField</zorder>
    <zorder>comboBox</zorder>
    <zorder>layout_GateWidget</zorder>
+   <zorder>layout_ZoomSlider</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

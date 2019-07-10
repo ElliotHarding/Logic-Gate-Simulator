@@ -65,9 +65,6 @@ private:
     Widget_InputGates*  m_pWidgetInputGates;
     MovingWidget* m_pCurrentShownGateWidget = nullptr;
 
-    //Controls
-    ZoomSlider* m_zoomSlider;
-
     //Widget animations
     void SwitchWidgets(MovingWidget* w1);
     const int c_moveWidgetsIncrement = 2;

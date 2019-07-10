@@ -7,7 +7,7 @@
 class SimpleSlider : public QWidget
 {
 public:
-    SimpleSlider(QWidget* pParent, float min, float max, QRect layout);
+    SimpleSlider(QWidget* pParent, float min, float max);
     ~SimpleSlider() override;
 
     float GetCurrentValue();
@@ -34,20 +34,20 @@ protected:
     bool m_beingClicked;
 
     //Pixel size (width)
-    const int m_width;
+    int m_width;
 
     const float m_max;
     const float m_min;
     const float m_minMaxDiff;
 
-    const static int c_margin = 11;
+    const int c_margin = 11;
 };
 
 class DLG_Home;
 class ZoomSlider : public SimpleSlider
 {
 public:
-    ZoomSlider(float min, float max, QRect layout, DLG_Home* parent);
+    ZoomSlider(float min, float max, DLG_Home* parent);
     ~ZoomSlider();
 
 protected:
@@ -60,7 +60,7 @@ class DLG_TextEdit;
 class FontSlider : public SimpleSlider
 {
 public:
-    FontSlider(float min, float max, QRect layout, DLG_TextEdit* parent);
+    FontSlider(float min, float max, DLG_TextEdit* parent);
     ~FontSlider();
 
 protected:

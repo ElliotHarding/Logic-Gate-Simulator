@@ -35,7 +35,6 @@ private slots:
 private:
     //Ui elements
     Ui::DLG_TextEdit *ui;
-    FontSlider* dlg_fontSizeSlider;
 
     QFont m_fontDisabled = QFont("Helvetica", 7);
     QFont m_fontUnderlined = QFont("Helvetica", 7);

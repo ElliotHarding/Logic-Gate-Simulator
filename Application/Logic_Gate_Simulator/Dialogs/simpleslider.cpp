@@ -4,17 +4,18 @@
 #include "dlg_home.h"
 #include "dlg_textedit.h"
 
-SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max, QRect layout) :
+SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max) :
     QWidget(pParent),
     m_max(max),
-    m_min(min),
-    m_width(layout.width() - (c_margin * 2)),
+    m_min(min),    
     m_beingClicked(false),
     m_minMaxDiff(max - min)
 {
-    this->setGeometry(layout);
+    QRect layout = geometry();
 
-    //Calculate positions
+    //Calculate positions & dimensions
+    m_width = layout.width() - (c_margin * 2);
+
     m_leftMost = QPoint(c_margin, layout.height()/2);
     m_rightMost = QPoint(m_leftMost.x() + m_width, layout.height()/2);
 
@@ -80,7 +81,7 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
     //Draw bar
     painter.drawLine(m_leftMost, m_rightMost);
 
-    //Set slider colourSetZoomFactor);
+    //Set slider colourSetZoomFactor
     painter.setPen(pen);
 
     //Draw slider
@@ -116,8 +117,8 @@ void SimpleSlider::SetSliderPosition(float val)
 //  FontSlider : SimpleSlider
 //
 
-FontSlider::FontSlider(float min, float max, QRect layout, DLG_TextEdit *parent) :
-    SimpleSlider (parent, min, max, layout),
+FontSlider::FontSlider(float min, float max, DLG_TextEdit *parent) :
+    SimpleSlider (parent, min, max),
     m_pParent(parent)
 {
 }
@@ -139,8 +140,8 @@ void FontSlider::UpdateParent(float val)
 //  ZoomSlider : SimpleSlider
 //
 
-ZoomSlider::ZoomSlider(float min, float max, QRect layout, DLG_Home *parent) :
-    SimpleSlider (parent, min, max, layout),
+ZoomSlider::ZoomSlider(float min, float max, DLG_Home *parent) :
+    SimpleSlider (parent, min, max),
     m_pParent(parent)
 {
 }

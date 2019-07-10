@@ -24,10 +24,6 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
 
     //Create & add font size slider
     ui->widget = new FontSlider(1, 100, this);
-
-    //Z order changes
-    ui->topBar->lower();
-
 }
 
 DLG_TextEdit::~DLG_TextEdit()

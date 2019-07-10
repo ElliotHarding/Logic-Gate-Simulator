@@ -26,15 +26,19 @@ public:
     //Construction
     explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog);
      ~GateField() override;
-    void AddGate(Gate* go, bool newlySpawned = true);
+    void AddGate(Gate* go, bool newlySpawned = true, bool cameFromGateColleciton = false);
     void DeleteGate(Gate* g);
+    void ForgetChild(Gate* g);
     void setCurrentClickMode(ClickMode clickMode);
     ClickMode GetCurrentClickMode();
     bool SaveGateCollection(std::ofstream& saveStream);
+    void StartSaveGateCollection(std::vector<Gate*> selectedGates);
     void setZoomLevel(qreal zoom);
     bool SaveData();
     void Undo();
     void Redo();
+
+
 
     std::vector<Gate*>& GetGates();
     void FinishWithGates();

@@ -113,6 +113,7 @@ private slots:
     void on_PlayField_tabCloseRequested(int index);
     void on_PlayField_currentChanged(int index);
 
+    void on_btn_SelectionTool_clicked();
 };
 
 #endif // DLG_HOME_H

@@ -1,5 +1,6 @@
 #include "gatecollection.h"
 #include "allgates.h"
+#include "gatefield.h"
 
 GateCollection::GateCollection(std::vector<Gate*> gates) :
     Gate::Gate(GATE_COLLECTION, 0, 0)
@@ -9,16 +10,39 @@ GateCollection::GateCollection(std::vector<Gate*> gates) :
 
 GateCollection::~GateCollection()
 {
-    for (Gate* g : m_gates)
+
+    //When deleted the gate collection filed can dump its contents onto the parent gatefield
+    if(!m_bDontDeleteGates)
     {
-        g->DetachNodes();
+
+        for (Gate* g : m_gates)
+        {
+            g->DetachNodes();
+        }
+
+        for (size_t index = 0; index < m_gates.size(); index++)
+        {
+            delete m_gates[index];
+            m_gates.erase(m_gates.begin() + (int)index);
+        }
     }
 
-    for (size_t index = 0; index < m_gates.size(); index++)
+    //dump contents onto the parent gatefield
+    else
     {
-        delete m_gates[index];
-        m_gates.erase(m_gates.begin() + (int)index);
+        if(m_pParentField)
+        {
+            for (Gate* g : m_gates)
+            {
+                m_pParentField->AddGate(&*g, false, true);
+
+                m_gates.erase(m_gates.begin());
+            }
+
+            m_pParentField->ForgetChild(this);
+        }
     }
+
 }
 
 void GateCollection::UpdateOutput()
@@ -60,21 +84,22 @@ bool GateCollection::DeleteClick(int clickX, int clickY)
 {
     if(m_contaningArea.contains(QPoint(clickX,clickY)))
     {
-        if(m_dragMode == DragIndividual)
-        {
-            for(size_t index = 0; index < m_gates.size(); index++)
+        if(!m_bDontDeleteGates)
+            if(m_dragMode == DragIndividual)
             {
-                if(m_gates[index]->DeleteClick(clickX, clickY))
+                for(size_t index = 0; index < m_gates.size(); index++)
                 {
-                    Gate* gObject = m_gates[index];
-                    gObject->DetachNodes();
-                    m_gates.erase(m_gates.begin() + index);
-                    delete gObject;
+                    if(m_gates[index]->DeleteClick(clickX, clickY))
+                    {
+                        Gate* gObject = m_gates[index];
+                        gObject->DetachNodes();
+                        m_gates.erase(m_gates.begin() + index);
+                        delete gObject;
 
-                    return false;
+                        return false;
+                    }
                 }
             }
-        }
 
         //returning true causes entire gate collection to be deleted
         return true;
@@ -93,12 +118,27 @@ void GateCollection::UpdateGraphics(QPainter *painter)
 
     UpdateContaningArea();
 
+    DrawButtons(painter);
+
     //Draw bounding box
     painter->setPen(QPen(Qt::black,2));
     painter->drawRect(m_contaningArea);
 
     if (m_dragMode == DragAll)
          painter->fillRect(m_contaningArea, QColor(20,20,20,20));
+}
+
+void GateCollection::DrawButtons(QPainter *painter)
+{
+    static const QImage saveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
+    static const QImage deleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
+    const int xyButtonSize = 25;
+
+    m_deleteButton = QRect(m_contaningArea.right() - xyButtonSize, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_saveButton = QRect(m_contaningArea.right() - xyButtonSize*2, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+
+    painter->drawImage(m_deleteButton, deleteButton);
+    painter->drawImage(m_saveButton, saveButton);
 }
 
 Node *GateCollection::GetClickedNode(int clickX, int clickY)
@@ -173,6 +213,24 @@ bool GateCollection::IsDragAll()
 
 bool GateCollection::UpdateDrag(int clickX, int clickY)
 {
+
+    //Save button
+    if(m_saveButton.contains(clickX, clickY))
+    {
+        m_pParentField->StartSaveGateCollection(m_gates);
+        return false;
+    }
+
+    //Delete button
+    else if (m_deleteButton.contains(clickX, clickY))
+    {
+        //Keep gates in memory, but remove them from this list,
+        //since we're deleting this collection, its gets dumped onto gatefield
+        m_bDontDeleteGates = true;
+
+        delete this;
+        return false;
+    }
 
     if(m_dragMode == DragIndividual)
     {

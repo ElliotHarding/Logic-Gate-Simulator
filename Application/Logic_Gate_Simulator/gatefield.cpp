@@ -186,6 +186,26 @@ void GateField::DeleteGate(Gate* gateToDelete)
     m_lockAllGates.unlock();
 }
 
+void GateField::ForgetChild(Gate* gateToDelete)
+{
+    //dosent need mutex since call comming from child in locked m_allgates
+
+    for(size_t index = 0; index < m_allGates.size(); index++)
+    {
+        if (m_allGates[index] == gateToDelete)
+        {
+            //forget
+            m_allGates.erase(m_allGates.begin() + int8_t(index));
+            gateToDelete = nullptr;
+
+            updateFunction();
+
+            //Exit early
+            break;
+        }
+    }
+}
+
 void GateField::Undo()
 {
     if(m_backupIndex > -1 && size_t(m_backupIndex) <= m_gateBackups.size())
@@ -216,6 +236,13 @@ void GateField::Redo()
     update();
 }
 
+void GateField::StartSaveGateCollection(std::vector<Gate*> selectedGates)
+{
+    m_selectedGates = selectedGates;
+    m_pDlgSaveGateCollection->SetCurrentGateField(this);
+    m_pDlgSaveGateCollection->open();
+}
+
 std::vector<Gate*>& GateField::GetGates()
 {
     m_lockAllGates.lock();
@@ -226,19 +253,29 @@ void GateField::FinishWithGates()
     m_lockAllGates.unlock();
 }
 
-void GateField::AddGate(Gate* go, bool newlySpawned)
+void GateField::AddGate(Gate* go, bool newlySpawned, bool cameFromGateColleciton)
 {
-    if(newlySpawned)
-        go->SetPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
+    if(cameFromGateColleciton)
+    {
+        go->SetParent(this);
+        m_allGates.push_back(go);
+    }
+    else
+    {
+        if(newlySpawned)
+            go->SetPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
 
-    go->SetParent(this);
+        go->SetParent(this);
 
-    m_lockAllGates.lock();
-    m_allGates.push_back(go);
-    m_lockAllGates.unlock();
+        m_lockAllGates.lock();
+        m_allGates.push_back(go);
+        m_lockAllGates.unlock();
+    }
+
 
     //Call to redraw
-    update();
+    if(!cameFromGateColleciton)
+        update();
 }
 
 void GateField::mousePressEvent(QMouseEvent *click)

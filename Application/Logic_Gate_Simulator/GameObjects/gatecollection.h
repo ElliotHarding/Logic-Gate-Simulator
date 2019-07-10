@@ -54,6 +54,12 @@ private:
 
     enum DragMode{DragIndividual,DragAll};
     DragMode m_dragMode = DragAll;
+
+    QRect m_saveButton;
+    QRect m_deleteButton;
+    void DrawButtons(QPainter* painter);
+
+    bool m_bDontDeleteGates = false;
 };
 
 #endif // GATECOLLECTION_H

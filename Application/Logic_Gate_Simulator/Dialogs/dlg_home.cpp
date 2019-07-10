@@ -246,6 +246,10 @@ void DLG_Home::on_btn_DeleteLink_clicked()
     }
     QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
 }
+void DLG_Home::on_btn_SelectionTool_clicked()
+{
+    SelectionToolClicked();
+}
 void DLG_Home::SelectionToolClicked()
 {
     if(m_iCurrentGateField != -1)

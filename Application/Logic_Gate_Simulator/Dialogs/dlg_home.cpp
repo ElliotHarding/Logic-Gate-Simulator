@@ -55,15 +55,23 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
          m_pWidgetStandardGates = new Widget_Standard(this);
          m_pWidgetInputGates = new Widget_InputGates(this);
 
-         //m_zoomSlider
-         QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
-         ui->layout_ZoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, this);
-         ui->layout_ZoomSlider->setGeometry(layout);
-         ui->layout_ZoomSlider->raise();
-         SetZoomFactor(0.5);
+         //m_zoomSlider :
+         {
+             //save layout
+             QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
 
-         m_pDlgGateInfo->move(layoutGateInfo.topLeft());
-         m_pDlgGateInfo->raise();
+             ui->layout_ZoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, this);
+
+             //set layout after construction
+             dynamic_cast<SimpleSlider*>(ui->layout_ZoomSlider)->SetGeometry(layout);
+
+             //setup
+             ui->layout_ZoomSlider->raise();
+             SetZoomFactor(0.5);
+        }
+
+        m_pDlgGateInfo->move(layoutGateInfo.topLeft());
+        m_pDlgGateInfo->raise();
     }
 
     //Add to layout

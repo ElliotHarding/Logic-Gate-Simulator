@@ -216,71 +216,77 @@ QString DLG_Home::PathToFileName(const QString s)
 
 void DLG_Home::on_btn_Drag_clicked()
 {
-    if(m_iCurrentGateField != -1)
-    {
-        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_DRAG);
-    }
-    QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
+    SetCurrentClickMode(CLICK_DRAG);
 }
 void DLG_Home::on_btn_Delete_clicked()
 {
-    if(m_iCurrentGateField != -1)
-    {
-        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_DELETE_GATE);
-    }
-    QApplication::setOverrideCursor(Qt::CursorShape::CrossCursor);
+    SetCurrentClickMode(CLICK_DELETE_GATE);
 }
 void DLG_Home::on_btn_link_clicked()
 {
-    if(m_iCurrentGateField != -1)
-    {
-        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_LINK_NODES);
-    }
-    QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
+    SetCurrentClickMode(CLICK_LINK_NODES);
 }
 void DLG_Home::on_btn_DeleteLink_clicked()
 {
-    if(m_iCurrentGateField != -1)
-    {
-        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_DELETE_LINK_NODES);
-    }
-    QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
+    SetCurrentClickMode(CLICK_DELETE_LINK_NODES);
 }
 void DLG_Home::on_btn_SelectionTool_clicked()
 {
-    SelectionToolClicked();
+    SetCurrentClickMode(CLICK_SELECTION);
 }
 void DLG_Home::SelectionToolClicked()
 {
+    SetCurrentClickMode(CLICK_SELECTION);
+}
+void DLG_Home::on_btn_Pan_clicked()
+{
+    SetCurrentClickMode(CLICK_PAN);
+}
+void DLG_Home::on_btn_click_clicked()
+{
+    SetCurrentClickMode(CLICK_DEFAULT);
+}
+void DLG_Home::SetCurrentClickMode(ClickMode clickMode)
+{
     if(m_iCurrentGateField != -1)
+        m_allGateFields[size_t(m_iCurrentGateField)]->CurrentClickMode = clickMode;
+
+    switch (clickMode)
     {
-        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_SELECTION);
+    case CLICK_PAN:
+        QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
+        break;
+
+    case CLICK_DRAG:
+        QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
+        break;
+
+    case CLICK_SELECTION:
+        QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
+        break;
+
+    case CLICK_LINK_NODES:
+        QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
+        break;
+
+    case CLICK_DELETE_GATE:
+        QApplication::setOverrideCursor(Qt::CursorShape::CrossCursor);
+        break;
+
+    case CLICK_DELETE_LINK_NODES:
+        QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
+        break;
+
+    case CLICK_DEFAULT:
+        QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
+        break;
     }
-    QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
 }
 
 void DLG_Home::UpdateCustomGateListWidget()
 {
     m_pWidgetCustomGates->UpdateList();
 }
-
-void DLG_Home::on_btn_Pan_clicked()
-{
-    if(m_iCurrentGateField != -1)
-    {
-        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_PAN);
-    }
-    QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
-}
-void DLG_Home::on_btn_click_clicked()
-{
-    if(m_iCurrentGateField != -1)
-    {
-        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(CLICK_DEFAULT);
-    }
-    QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
-}
-
 
 // -- HANDLERS FOR GATES MENU BUTTONS --
 

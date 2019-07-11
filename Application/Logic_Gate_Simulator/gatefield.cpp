@@ -18,8 +18,7 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     m_screenPosDelta.x = 0;
     m_screenPosDelta.y = 0;
 
-    QApplication::setOverrideCursor(Qt::CursorShape::SizeAllCursor);
-    m_currentClickMode = CLICK_DRAG;
+    m_pParent->SetCurrentClickMode(CLICK_DRAG);
 
     saveGateCollectionDialog->SetCurrentGateField(this);
 
@@ -79,7 +78,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     painter.scale(m_zoomFactor, m_zoomFactor);
 
     //If were currently selecting an area
-    if(m_currentClickMode == CLICK_SELECTION && m_selectionTool)
+    if(CurrentClickMode == CLICK_SELECTION && m_selectionTool)
     {
         QPen pen(Qt::blue, 2);
         painter.drawRect(m_selectionTool->geometry());
@@ -109,14 +108,9 @@ void GateField::updateFunction()
     }
 }
 
-void GateField::setCurrentClickMode(ClickMode clickMode)
-{
-    m_currentClickMode = clickMode;
-}
-
 ClickMode GateField::GetCurrentClickMode()
 {
-    return m_currentClickMode;
+    return CurrentClickMode;
 }
 
 void GateField::setZoomLevel(qreal zoom)
@@ -288,7 +282,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     //If was in the middle of linking, but then user changed click mode, forget
     //the middle step variable m_linkNodeA
-    if(m_currentClickMode != CLICK_LINK_NODES)
+    if(CurrentClickMode != CLICK_LINK_NODES)
         m_linkNodeA = nullptr;
 
     m_lockAllGates.lock();
@@ -314,7 +308,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
 void GateField::leftMouseClick(int clickX, int clickY)
 {
-    switch (m_currentClickMode)
+    switch (CurrentClickMode)
     {
     case CLICK_LINK_NODES:
         linkNodesClick(clickX,clickY);
@@ -360,7 +354,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 {
     const QPoint clickPos = GetClickFromMouseEvent(click);
 
-    if(m_bMouseDragging && m_currentClickMode == CLICK_DRAG && m_dragGate != nullptr)
+    if(m_bMouseDragging && CurrentClickMode == CLICK_DRAG && m_dragGate != nullptr)
     {
         m_lockAllGates.lock();
         if(m_dragGate->GetType() != GATE_COLLECTION)
@@ -374,14 +368,14 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
         m_lockAllGates.unlock();
     }
 
-    if(m_bMouseDragging && m_currentClickMode == CLICK_PAN)
+    if(m_bMouseDragging && CurrentClickMode == CLICK_PAN)
     {
         m_lockAllGates.lock();
         panClick(clickPos.x(), clickPos.y());
         m_lockAllGates.unlock();
     }
 
-    if( m_selectionTool != nullptr && m_currentClickMode == CLICK_SELECTION)
+    if( m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION)
     {
         m_lockAllGates.lock();
         selectionClick(clickPos.x(), clickPos.y());
@@ -398,7 +392,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     m_dragGate = nullptr;
 
     //If ending a selection
-    if( m_selectionTool != nullptr && m_currentClickMode == CLICK_SELECTION)
+    if( m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION)
     {
         m_selectedGates.clear();
         m_lockAllGates.lock();
@@ -430,7 +424,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         //Disactivate selection
         m_selectionTool = nullptr;
 
-        m_currentClickMode = CLICK_DRAG;
+        m_pParent->SetCurrentClickMode(CLICK_DRAG);
 
         m_lockAllGates.unlock();
     }

@@ -46,6 +46,7 @@ public:
     void DeleteGate(Gate* g);
     void SelectionToolClicked();
     void UpdateCustomGateListWidget();
+    void SetCurrentClickMode(ClickMode clickMode);
 
 private:
     Ui::DLG_Home *ui;

@@ -29,7 +29,6 @@ public:
     void AddGate(Gate* go, bool newlySpawned = true, bool cameFromGateColleciton = false);
     void DeleteGate(Gate* g);
     void ForgetChild(Gate* g);
-    void setCurrentClickMode(ClickMode clickMode);
     ClickMode GetCurrentClickMode();
     bool SaveGateCollection(std::ofstream& saveStream);
     void StartSaveGateCollection(std::vector<Gate*> selectedGates);
@@ -38,12 +37,12 @@ public:
     void Undo();
     void Redo();
 
-
-
     std::vector<Gate*>& GetGates();
     void FinishWithGates();
 
+    //Public vars
     bool Enabled = true;
+    ClickMode CurrentClickMode;
 
 signals:
 public slots:
@@ -105,7 +104,6 @@ private:
     const float c_panSpeedMultiplier = 0.75;
 
     //Clicking
-    ClickMode m_currentClickMode = CLICK_DRAG;
     bool m_bMouseDragging = false;
 
     //Selecting

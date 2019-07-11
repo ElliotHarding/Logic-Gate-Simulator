@@ -40,8 +40,6 @@ GateCollection::~GateCollection()
             {
                 m_gates.erase(m_gates.begin());
             }
-
-            m_pParentField->ForgetChild(this);
         }
     }
 
@@ -132,13 +130,16 @@ void GateCollection::UpdateGraphics(QPainter *painter)
 
 void GateCollection::DrawButtons(QPainter *painter)
 {
+    static const QImage deleteAllButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete-all.png").c_str());
     static const QImage saveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
     static const QImage deleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
-    const int xyButtonSize = 25;
+    const int xyButtonSize = 40;
 
-    m_deleteButton = QRect(m_contaningArea.right() - xyButtonSize, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_saveButton = QRect(m_contaningArea.right() - xyButtonSize*2, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_deleteAllButton  = QRect(m_contaningArea.right() - xyButtonSize, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_deleteButton = QRect(m_contaningArea.right() - xyButtonSize*2, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_saveButton = QRect(m_contaningArea.right() - xyButtonSize*3, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
 
+    painter->drawImage(m_deleteAllButton, deleteAllButton);
     painter->drawImage(m_deleteButton, deleteButton);
     painter->drawImage(m_saveButton, saveButton);
 }
@@ -230,7 +231,18 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
         //since we're deleting this collection, its gets dumped onto gatefield
         m_bDontDeleteGates = true;
 
+        m_pParentField->ForgetChild(this);
         delete this;
+
+        return false;
+    }
+
+    //Delete all button
+    else if (m_deleteAllButton.contains(clickX, clickY))
+    {
+        m_pParentField->ForgetChild(this);
+        delete this;
+
         return false;
     }
 

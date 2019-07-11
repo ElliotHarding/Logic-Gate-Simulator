@@ -57,6 +57,7 @@ private:
 
     QRect m_saveButton;
     QRect m_deleteButton;
+    QRect m_deleteAllButton;
     void DrawButtons(QPainter* painter);
 
     bool m_bDontDeleteGates = false;

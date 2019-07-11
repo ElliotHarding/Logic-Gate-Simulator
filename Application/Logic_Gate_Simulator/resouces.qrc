@@ -37,5 +37,6 @@
         <file>Resources/Button Icons/icon-application.png</file>
         <file>Resources/Button Icons/gate-collection-delete.png</file>
         <file>Resources/Button Icons/gate-collection-save.png</file>
+        <file>Resources/Button Icons/gate-collection-delete-all.png</file>
     </qresource>
 </RCC>

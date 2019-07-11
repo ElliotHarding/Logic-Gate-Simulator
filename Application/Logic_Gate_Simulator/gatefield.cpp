@@ -413,18 +413,24 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         }
 
         //Add the gates to collection
-        GateCollection* collection = new GateCollection(m_selectedGates);
-
-        //Remove gates from m_allgates
-        for (Gate* g : m_allGates)
+        if(m_selectedGates.size() > 0)
         {
-            ForgetChild(g);
+            GateCollection* collection = new GateCollection(m_selectedGates);
+
+            //Remove gates from m_allgates
+            for (Gate* g : m_allGates)
+            {
+                ForgetChild(g);
+            }
+
+            //Add gate collection to m_allGates
+            AddGate(collection, false, true);
         }
 
-        //Add gate collection to m_allGates
-        AddGate(collection, false, true);
-
+        //Disactivate selection
         m_selectionTool = nullptr;
+
+        m_currentClickMode = CLICK_DRAG;
 
         m_lockAllGates.unlock();
     }

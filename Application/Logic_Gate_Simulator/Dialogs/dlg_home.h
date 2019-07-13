@@ -47,6 +47,7 @@ public:
     void SelectionToolClicked();
     void UpdateCustomGateListWidget();
     void SetCurrentClickMode(ClickMode clickMode);
+    void ResetToPreviousClickMode();
 
 private:
     Ui::DLG_Home *ui;
@@ -85,6 +86,9 @@ private:
     QRect accountForUIOffsetts(const QRect& rect);
 
     QString PathToFileName(const QString);
+
+    ClickMode m_currentClickMode = CLICK_DRAG;
+    ClickMode m_previousClickMode = CLICK_DRAG;
 
 private slots:
 

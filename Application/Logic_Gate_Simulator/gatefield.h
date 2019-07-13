@@ -57,16 +57,14 @@ private:
     void defaultClick(int clickX, int clickY);
     void selectionClick(int clickX, int clickY);
     void panClick(int clickX, int clickY);
+    void leftMouseClick(int clickX, int clickY);
+    QPoint GetClickFromMouseEvent(QMouseEvent* mouseEvent) const;
 
-    //Events
+    //Qt Events
     void mouseReleaseEvent(QMouseEvent *releaseEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
-
-    void leftMouseClick(int clickX, int clickY);
-    void rightMouseClick(int clickX, int clickY);
-    void middleMouseClick(int clickX, int clickY);
 
     void updateFunction();
 
@@ -96,14 +94,14 @@ private:
 
     //Zooming
     qreal m_zoomFactor;
-    QPoint GetClickFromMouseEvent(QMouseEvent* mouseEvent) const;
 
     //Panning
     Vector2D m_screenPosDelta;
     QPoint m_previousDragMousePos;
     const float c_panSpeedMultiplier = 0.75;
 
-    //Clicking
+    //Dragging
+    QPoint m_currentDragPoint = QPoint(0,0);
     bool m_bMouseDragging = false;
 
     //Selecting

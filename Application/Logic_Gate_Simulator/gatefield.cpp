@@ -81,7 +81,16 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     if(CurrentClickMode == CLICK_SELECTION && m_selectionTool)
     {
         QPen pen(Qt::blue, 2);
+        painter.setPen(pen);
         painter.drawRect(m_selectionTool->geometry());
+    }
+
+    //If were in the middle of linking
+    if(CurrentClickMode == CLICK_LINK_NODES)
+    {
+        QPen pen(Qt::blue, 2);
+        painter.setPen(pen);
+        painter.drawLine(m_previousDragMousePos, m_currentDragPoint);
     }
 
     m_lockAllGates.lock();
@@ -278,12 +287,20 @@ void GateField::mousePressEvent(QMouseEvent *click)
     const int clickX = clickPos.x();
     const int clickY = clickPos.y();
 
+    //Update variables
+    m_bMouseDragging = true;
+    m_previousDragMousePos = QPoint(clickX,clickY);
+    m_currentDragPoint = m_previousDragMousePos;
+
     BackupGates();
 
     //If was in the middle of linking, but then user changed click mode, forget
     //the middle step variable m_linkNodeA
-    if(CurrentClickMode != CLICK_LINK_NODES)
+    if(CurrentClickMode != CLICK_LINK_NODES && m_linkNodeA)
+    {
         m_linkNodeA = nullptr;
+        m_pParent->ResetToPreviousClickMode();
+    }
 
     m_lockAllGates.lock();
 
@@ -293,11 +310,11 @@ void GateField::mousePressEvent(QMouseEvent *click)
     }
     else if(click->buttons() & Qt::RightButton)
     {
-        rightMouseClick(clickX, clickY);
+        defaultClick(clickX,clickY);
     }
     else if(click->buttons() & Qt::MiddleButton)
     {
-        middleMouseClick(clickX, clickY);
+        deleteClick(clickX,clickY);
     }
 
     m_lockAllGates.unlock();
@@ -310,10 +327,6 @@ void GateField::leftMouseClick(int clickX, int clickY)
 {
     switch (CurrentClickMode)
     {
-    case CLICK_LINK_NODES:
-        linkNodesClick(clickX,clickY);
-        break;
-
     case CLICK_DELETE_GATE:
         deleteClick(clickX,clickY);
         break;
@@ -322,65 +335,57 @@ void GateField::leftMouseClick(int clickX, int clickY)
         deleteLinkedNodesClick(clickX,clickY);
         break;
 
-    case CLICK_DEFAULT:
-        defaultClick(clickX,clickY);
-        break;
-
     case CLICK_SELECTION:
         selectionClick(clickX,clickY);
         break;
 
+    case CLICK_DEFAULT:
+        defaultClick(clickX,clickY);
     case CLICK_DRAG:
-        dragClick(clickX,clickY);//rest of dragging handeled in mouseMoveEvent
-        break;
-
     case CLICK_PAN:
-        panClick(clickX, clickY);//rest of dragging handeled in mouseMoveEvent
+    case CLICK_LINK_NODES:
+        linkNodesClick(clickX, clickY);
         break;
     }
-}
-
-void GateField::rightMouseClick(int clickX, int clickY)
-{
-    defaultClick(clickX,clickY);
-}
-
-void GateField::middleMouseClick(int clickX, int clickY)
-{
-    deleteClick(clickX,clickY);
 }
 
 void GateField::mouseMoveEvent(QMouseEvent *click)
 {
     const QPoint clickPos = GetClickFromMouseEvent(click);
 
-    if(m_bMouseDragging && CurrentClickMode == CLICK_DRAG && m_dragGate != nullptr)
+    switch (CurrentClickMode)
     {
-        m_lockAllGates.lock();
-        if(m_dragGate->GetType() != GATE_COLLECTION)
-        {
-            m_dragGate->SetPosition(clickPos.x(), clickPos.y());
-        }
-        else
-        {
+        case CLICK_DRAG:
+
+            m_lockAllGates.lock();
             dragClick(clickPos.x(), clickPos.y());
-        }
-        m_lockAllGates.unlock();
+            m_lockAllGates.unlock();
+
+        break;
+
+
+        case CLICK_PAN:
+
+            m_lockAllGates.lock();
+            panClick(clickPos.x(), clickPos.y());
+            m_lockAllGates.unlock();
+            break;
+
+        case CLICK_SELECTION:
+
+            m_lockAllGates.lock();
+            selectionClick(clickPos.x(), clickPos.y());
+            m_lockAllGates.unlock();
+            break;
+
+        case CLICK_LINK_NODES:
+            m_currentDragPoint = clickPos;
+            break;
+
+        default:
+            break;
     }
 
-    if(m_bMouseDragging && CurrentClickMode == CLICK_PAN)
-    {
-        m_lockAllGates.lock();
-        panClick(clickPos.x(), clickPos.y());
-        m_lockAllGates.unlock();
-    }
-
-    if( m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION)
-    {
-        m_lockAllGates.lock();
-        selectionClick(clickPos.x(), clickPos.y());
-        m_lockAllGates.unlock();
-    }
 
     //Call to redraw
     update();
@@ -388,6 +393,8 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 
 void GateField::mouseReleaseEvent(QMouseEvent* click)
 {
+    const QPoint clickPos = GetClickFromMouseEvent(click);
+
     m_bMouseDragging = false;
     m_dragGate = nullptr;
 
@@ -429,31 +436,23 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         m_lockAllGates.unlock();
     }
 
-    //Call to redraw
-    update();
-}
-
-void GateField::linkNodesClick(int clickX, int clickY)
-{
-    Node* node;
-    for (Gate* gate : m_allGates)
+    //Check if ending a link
+    if(CurrentClickMode == CLICK_LINK_NODES)
     {
-        //Check if iterated gate has any clicked nodes
-        node = gate->GetClickedNode(clickX,clickY);
-        if(node != nullptr)
+        //Change cursor as finished linking
+        m_pParent->ResetToPreviousClickMode();
+
+        for (Gate* g : m_allGates)
         {
-            //If m_linkNodeA is a null pointer then its the first node to be clicked
-            if(m_linkNodeA == nullptr)
+            Node* node = g->GetClickedNode(clickPos.x(), clickPos.y());
+            if(node && m_linkNodeA)
             {
-                m_linkNodeA = node;
+                if(node->m_nodeType == m_linkNodeA->m_nodeType)
+                {
+                    m_pParent->SendUserMessage("Cant link to nodes of same type");
+                    return;
+                }
 
-                //Change cursor as moving to next linking step and need to notify user
-                QApplication::setOverrideCursor(Qt::CursorShape::DragCopyCursor);
-            }
-
-            //Otherwise click on second node, so link first & second and then set m_linkNodeA to null
-            else
-            {
                 //Not gonna link to itself!
                 if (&node == &m_linkNodeA)
                     return;
@@ -481,15 +480,33 @@ void GateField::linkNodesClick(int clickX, int clickY)
                     m_linkNodeA = nullptr;
                 }
 
-                //Change cursor as finished linking
-                QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
+                node = nullptr;
+                return;
             }
-
             node = nullptr;
-            return; //so that we dont acidentally get more than one clicked node
         }
     }
-    node = nullptr;
+
+    //Call to redraw
+    update();
+}
+
+void GateField::linkNodesClick(int clickX, int clickY)
+{
+    for (Gate* g : m_allGates)
+    {
+        Node* n = g->GetClickedNode(clickX, clickY);
+        if(n)
+        {
+            m_linkNodeA = n;
+
+            //Change cursor as started linking
+            m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
+            n = nullptr;
+            return;
+        }
+        n = nullptr;
+    }
 }
 
 void GateField::deleteLinkedNodesClick(int clickX, int clickY)
@@ -569,43 +586,53 @@ void GateField::deleteClick(int clickX, int clickY)
 
 void GateField::dragClick(int clickX, int clickY)
 {
-    //Loop through all dragable gameobjects
-    for (size_t index = 0; index < m_allGates.size(); index++)
+    if(!m_bMouseDragging)
+        return;
+
+    if(m_dragGate != nullptr)
     {
-        //If found an object to drag,
-        if(m_allGates[index]->UpdateDrag(clickX, clickY))
-        {
-            m_bMouseDragging = true;
-            m_dragGate = m_allGates[index];
-
-            //Move the dragged object to the front of the array.
-            //This way next loop the object will be checked first
-            //This means if you drag an object over another, the object being dragged wont switch
-            moveToFront(index, m_allGates);
-
-            if(m_allGates[index]->GetType() == GATE_COLLECTION)
-            {
-                Gate* g = dynamic_cast<GateCollection*>(m_allGates[index])->UpdateClicked_Override(clickX, clickY);
-                if(g != nullptr)
-                    updateGateSelected(g);
-            }
-            else
-            {
-                updateGateSelected(m_allGates[index]);
-            }
-
-            //Exit out of for loop so we don't drag multiple objects
-            return;
-        }
+        m_dragGate->UpdateDrag(clickX, clickY);
     }
+    else
+    {
+
+        //Loop through all dragable gameobjects
+        for (size_t index = 0; index < m_allGates.size(); index++)
+        {
+            //If found an object to drag,
+            if(m_allGates[index]->UpdateDrag(clickX, clickY))
+            {
+                m_dragGate = m_allGates[index];
+
+                //Move the dragged object to the front of the array.
+                //This way next loop the object will be checked first
+                //This means if you drag an object over another, the object being dragged wont switch
+                moveToFront(index, m_allGates);
+
+                if(m_allGates[index]->GetType() == GATE_COLLECTION)
+                {
+                    Gate* g = dynamic_cast<GateCollection*>(m_allGates[index])->UpdateClicked_Override(clickX, clickY);
+                    if(g != nullptr)
+                        updateGateSelected(g);
+                }
+                else
+                {
+                    updateGateSelected(m_allGates[index]);
+                }
+
+                //Exit out of for loop so we don't drag multiple objects
+                return;
+            }
+        }
+
+    }
+
 }
 
 void GateField::panClick(int clickX, int clickY)
 {
-    //If start of drag sequence,
     if(!m_bMouseDragging)
-        m_previousDragMousePos = QPoint(clickX,clickY);
-    m_bMouseDragging = true;
+        return;
 
     //Calcualte vector between previous mouse pos and current
     const float offsetX = c_panSpeedMultiplier * (clickX - m_previousDragMousePos.x());

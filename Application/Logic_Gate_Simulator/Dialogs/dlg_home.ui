@@ -189,40 +189,11 @@ border:none;</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_link">
-    <property name="geometry">
-     <rect>
-      <x>966</x>
-      <y>330</y>
-      <width>32</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="../resouces.qrc">
-      <normaloff>:/Resources/Button Icons/icon-link-basic.png</normaloff>:/Resources/Button Icons/icon-link-basic.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_DeleteLink">
     <property name="geometry">
      <rect>
       <x>966</x>
-      <y>370</y>
+      <y>330</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -726,6 +697,12 @@ QComboBox::down-arrow {
     height: 14px;
 }</string>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>16</width>
+      <height>60</height>
+     </size>
+    </property>
     <item>
      <property name="text">
       <string>All</string>
@@ -782,7 +759,6 @@ QComboBox::down-arrow {
    <zorder>widget_4</zorder>
    <zorder>btn_Drag</zorder>
    <zorder>btn_Delete</zorder>
-   <zorder>btn_link</zorder>
    <zorder>btn_DeleteLink</zorder>
    <zorder>btn_click</zorder>
    <zorder>btn_zoomIn</zorder>

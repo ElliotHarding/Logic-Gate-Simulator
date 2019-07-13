@@ -86,7 +86,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     }
 
     //If were in the middle of linking
-    if(CurrentClickMode == CLICK_LINK_NODES)
+    if(CurrentClickMode == CLICK_LINK_NODES && m_linkNodeA)
     {
         QPen pen(Qt::blue, 2);
         painter.setPen(pen);
@@ -340,11 +340,20 @@ void GateField::leftMouseClick(int clickX, int clickY)
         break;
 
     case CLICK_DEFAULT:
-        defaultClick(clickX,clickY);
+
+        if(defaultClick(clickX,clickY))
+            break;
+
     case CLICK_DRAG:
     case CLICK_PAN:
     case CLICK_LINK_NODES:
-        linkNodesClick(clickX, clickY);
+
+        if(!linkNodesClick(clickX, clickY))
+        {
+            selectionClick(clickX,clickY);
+            m_pParent->SetCurrentClickMode(CLICK_SELECTION);
+        }
+
         break;
     }
 }
@@ -447,14 +456,15 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
             Node* node = g->GetClickedNode(clickPos.x(), clickPos.y());
             if(node && m_linkNodeA)
             {
+                //Check not same node types
                 if(node->m_nodeType == m_linkNodeA->m_nodeType)
                 {
                     m_pParent->SendUserMessage("Cant link to nodes of same type");
                     return;
                 }
 
-                //Not gonna link to itself!
-                if (&node == &m_linkNodeA)
+                //Check both dont have same parent
+                if(node->GetParent() == m_linkNodeA->GetParent())
                     return;
 
                 //link nodes & update parent gates (inside LinkNode())
@@ -491,7 +501,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     update();
 }
 
-void GateField::linkNodesClick(int clickX, int clickY)
+bool GateField::linkNodesClick(int clickX, int clickY)
 {
     for (Gate* g : m_allGates)
     {
@@ -503,10 +513,11 @@ void GateField::linkNodesClick(int clickX, int clickY)
             //Change cursor as started linking
             m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
             n = nullptr;
-            return;
+            return true;
         }
         n = nullptr;
     }
+    return false;
 }
 
 void GateField::deleteLinkedNodesClick(int clickX, int clickY)
@@ -527,7 +538,7 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
     node = nullptr;
 }
 
-void GateField::defaultClick(int clickX, int clickY)
+bool GateField::defaultClick(int clickX, int clickY)
 {
     for (Gate* gate : m_allGates)
     {
@@ -537,13 +548,17 @@ void GateField::defaultClick(int clickX, int clickY)
             if(subGate != nullptr)
             {
                 updateGateSelected(subGate);
+                return true;
             }
         }
         else if(gate->UpdateClicked(clickX, clickY))
         {
             updateGateSelected(gate);
+            return true;
         }
     }
+
+    return false;
 }
 
 void GateField::selectionClick(int clickX, int clickY)
@@ -589,13 +604,22 @@ void GateField::dragClick(int clickX, int clickY)
     if(!m_bMouseDragging)
         return;
 
+    //Already know which gate to drag
     if(m_dragGate != nullptr)
     {
-        m_dragGate->UpdateDrag(clickX, clickY);
+        if(m_dragGate->GetType() != GATE_COLLECTION)
+        {
+            m_dragGate->SetPosition(clickX, clickY);
+        }
+        else
+        {
+            m_dragGate->UpdateDrag(clickX, clickY);
+        }
     }
+
+    //Look for a gate to drag
     else
     {
-
         //Loop through all dragable gameobjects
         for (size_t index = 0; index < m_allGates.size(); index++)
         {

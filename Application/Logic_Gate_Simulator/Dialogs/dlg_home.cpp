@@ -222,10 +222,6 @@ void DLG_Home::on_btn_Delete_clicked()
 {
     SetCurrentClickMode(CLICK_DELETE_GATE);
 }
-void DLG_Home::on_btn_link_clicked()
-{
-    SetCurrentClickMode(CLICK_LINK_NODES);
-}
 void DLG_Home::on_btn_DeleteLink_clicked()
 {
     SetCurrentClickMode(CLICK_DELETE_LINK_NODES);

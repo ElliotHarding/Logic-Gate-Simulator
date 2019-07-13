@@ -95,7 +95,6 @@ private slots:
     //Tools buttons
     void on_btn_Drag_clicked();
     void on_btn_Delete_clicked();
-    void on_btn_link_clicked();
     void on_btn_DeleteLink_clicked();
     void on_btn_click_clicked();
     void on_btn_Pan_clicked();

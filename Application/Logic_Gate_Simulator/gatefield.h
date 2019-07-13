@@ -52,7 +52,7 @@ private:
     //Mouse event handlers
     bool linkNodesClick(int clickX, int clickY);
     void deleteClick(int clickX, int clickY);
-    void dragClick(int clickX, int clickY);
+    bool dragClick(int clickX, int clickY);
     void deleteLinkedNodesClick(int clickX, int clickY);
     bool defaultClick(int clickX, int clickY);
     void selectionClick(int clickX, int clickY);

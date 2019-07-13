@@ -345,6 +345,10 @@ void GateField::leftMouseClick(int clickX, int clickY)
             break;
 
     case CLICK_DRAG:
+
+        if(dragClick(clickX,clickY))
+            break;
+
     case CLICK_PAN:
     case CLICK_LINK_NODES:
 
@@ -599,10 +603,10 @@ void GateField::deleteClick(int clickX, int clickY)
     }
 }
 
-void GateField::dragClick(int clickX, int clickY)
+bool GateField::dragClick(int clickX, int clickY)
 {
     if(!m_bMouseDragging)
-        return;
+        return false;
 
     //Already know which gate to drag
     if(m_dragGate != nullptr)
@@ -615,6 +619,8 @@ void GateField::dragClick(int clickX, int clickY)
         {
             m_dragGate->UpdateDrag(clickX, clickY);
         }
+
+        return true;
     }
 
     //Look for a gate to drag
@@ -645,12 +651,12 @@ void GateField::dragClick(int clickX, int clickY)
                 }
 
                 //Exit out of for loop so we don't drag multiple objects
-                return;
+                return true;
             }
         }
-
     }
 
+    return false;
 }
 
 void GateField::panClick(int clickX, int clickY)

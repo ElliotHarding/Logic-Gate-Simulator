@@ -340,7 +340,6 @@ void GateField::leftMouseClick(int clickX, int clickY)
         break;
 
     case CLICK_DEFAULT:
-
         if(defaultClick(clickX,clickY))
             break;
 
@@ -432,7 +431,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
             GateCollection* collection = new GateCollection(m_selectedGates);
 
             //Remove gates from m_allgates
-            for (Gate* g : m_allGates)
+            for (Gate* g : m_selectedGates)
             {
                 ForgetChild(g);
             }

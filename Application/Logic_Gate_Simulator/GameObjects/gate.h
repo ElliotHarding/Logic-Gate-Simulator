@@ -5,6 +5,18 @@
 #include "gameobject.h"
 #include <fstream>
 
+enum DragMode
+{
+    DragIndividual,
+    DragAll
+};
+
+struct Vector2D
+{
+    int x;
+    int y;
+};
+
 #define with << std::endl <<
 
 static const std::string SAVE_TAG_GATE = "<GATE>";

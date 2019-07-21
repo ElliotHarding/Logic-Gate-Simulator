@@ -12,7 +12,7 @@
 #include "GateToggle.h"
 #include "GateTimer.h"
 #include "gatecollection.h"
-
+#include "gateselection.h"
 
 class DLG_SaveGateCollection;
 class DLG_Home;
@@ -105,10 +105,10 @@ private:
     bool m_bMouseDragging = false;
 
     //Selecting
+    GateSelection* m_pSelectedGates = nullptr;
     QRubberBand* m_selectionTool = nullptr;
     QPoint m_selectionToolOrigin;
     const QColor selectionAreaColor = Qt::blue;
-    std::vector<Gate*> m_selectedGates;
     DLG_SaveGateCollection* m_pDlgSaveGateCollection;
 
     //Coords of newly spawned gate

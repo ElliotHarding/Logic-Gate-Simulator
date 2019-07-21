@@ -213,6 +213,59 @@ bool GateCollection::IsDragAll()
     return (bool)m_dragMode;
 }
 
+void GateCollection::UpdateContaningArea()
+{
+    //Variables specifying boundaries of GateCollection
+    //To be used to draw bounding box
+    int MINX = 99999;
+    int MINY = 99999;
+    int MAXX = -99999;
+    int MAXY = -99999;
+
+    for(Gate* gate : m_gates)
+    {
+        if(gate->GetType() == GATE_COLLECTION)
+        {
+            if(dynamic_cast<GateCollection*>(gate))
+                dynamic_cast<GateCollection*>(gate)->UpdateContaningArea();
+
+            if(gate->Bottom() < MINY)
+            {
+                MINY = gate->Bottom() + c_borderBoxMargin;
+            }
+
+            if(gate->Top() > MAXY)
+            {
+                MAXY = gate->Top() - c_borderBoxMargin;
+            }
+        }
+        else
+        {
+            if(gate->Top() < MINY)
+            {
+                MINY = gate->Top() - c_borderBoxMargin;
+            }
+
+            if(gate->Bottom() > MAXY)
+            {
+                MAXY = gate->Bottom() + c_borderBoxMargin;
+            }
+        }
+
+        if(gate->Left() < MINX)
+        {
+            MINX = gate->Left() - c_borderBoxMargin;
+        }
+
+        if(gate->Right() > MAXX)
+        {
+            MAXX = gate->Right() + c_borderBoxMargin;
+        }
+    }
+
+    m_contaningArea = QRect(QPoint(MINX, MAXY), QPoint(MAXX, MINY));
+}
+
 
 bool GateCollection::UpdateDrag(int clickX, int clickY)
 {
@@ -262,7 +315,7 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
     //it will be dragged by click
     /*else*/ if(m_contaningArea.contains(QPoint(clickX,clickY)))
     {
-        const QPoint previousPos = containingArea().center();
+        const QPoint previousPos = m_contaningArea.center();
 
         //Calculate difference between new & old pos
         Vector2D displacement = {clickX - previousPos.x(),
@@ -343,57 +396,4 @@ Gate *GateCollection::UpdateClicked_Override(int clickX, int clickY)
         }
     }
     return nullptr;
-}
-
-QRect GateCollection::containingArea()
-{
-    //Variables specifying boundaries of GateCollection
-    //To be used to draw bounding box
-    int MINX = 99999;
-    int MINY = 99999;
-    int MAXX = -99999;
-    int MAXY = -99999;
-
-    for(Gate* gate : m_gates)
-    {
-        if(gate->GetType() == GATE_COLLECTION)
-        {
-            if(dynamic_cast<GateCollection*>(gate))
-                dynamic_cast<GateCollection*>(gate)->UpdateContaningArea();
-
-            if(gate->Bottom() < MINY)
-            {
-                MINY = gate->Bottom() + c_borderBoxMargin;
-            }
-
-            if(gate->Top() > MAXY)
-            {
-                MAXY = gate->Top() - c_borderBoxMargin;
-            }
-        }
-        else
-        {
-            if(gate->Top() < MINY)
-            {
-                MINY = gate->Top() - c_borderBoxMargin;
-            }
-
-            if(gate->Bottom() > MAXY)
-            {
-                MAXY = gate->Bottom() + c_borderBoxMargin;
-            }
-        }
-
-        if(gate->Left() < MINX)
-        {
-            MINX = gate->Left() - c_borderBoxMargin;
-        }
-
-        if(gate->Right() > MAXX)
-        {
-            MAXX = gate->Right() + c_borderBoxMargin;
-        }
-    }
-
-    return QRect(QPoint(MINX, MAXY), QPoint(MAXX, MINY));
 }

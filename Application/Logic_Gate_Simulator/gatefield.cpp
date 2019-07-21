@@ -44,6 +44,9 @@ GateField::~GateField()
     m_pTimerThread->quit();
     delete m_pTimerThread;
 
+    if(m_pSelectedGates)
+        delete m_pSelectedGates;
+
     //Belongs to parent DLG_Home
     m_pDlgSaveGateCollection = nullptr;
     m_pParent = nullptr;
@@ -95,6 +98,11 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
 
     m_lockAllGates.lock();
 
+    if(m_pSelectedGates)
+    {
+        m_pSelectedGates->Draw(&painter);
+    }
+
     //Paint in reverse order, so gate on top of vector get's painted last
     //So if we're dragging, the one we're dragging gets painted ontop of the others
     //Since dragging move the gate to the top of the vector
@@ -132,7 +140,7 @@ void GateField::setZoomLevel(qreal zoom)
 
 bool GateField::SaveGateCollection(std::ofstream& saveStream)
 {
-    GateCollection::SaveData(saveStream, m_selectedGates);
+    GateCollection::SaveData(saveStream, m_pSelectedGates->GetSelectedGates());
 
     //should probably return a bool...
     return true;
@@ -241,7 +249,6 @@ void GateField::Redo()
 
 void GateField::StartSaveGateCollection(std::vector<Gate*> selectedGates)
 {
-    m_selectedGates = selectedGates;
     m_pDlgSaveGateCollection->SetCurrentGateField(this);
     m_pDlgSaveGateCollection->open();
 }
@@ -366,29 +373,20 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 {
     const QPoint clickPos = GetClickFromMouseEvent(click);
 
+    m_lockAllGates.lock();
+
     switch (CurrentClickMode)
     {
         case CLICK_DRAG:
-
-            m_lockAllGates.lock();
             dragClick(clickPos.x(), clickPos.y());
-            m_lockAllGates.unlock();
-
-        break;
-
+            break;
 
         case CLICK_PAN:
-
-            m_lockAllGates.lock();
             panClick(clickPos.x(), clickPos.y());
-            m_lockAllGates.unlock();
             break;
 
         case CLICK_SELECTION:
-
-            m_lockAllGates.lock();
             selectionClick(clickPos.x(), clickPos.y());
-            m_lockAllGates.unlock();
             break;
 
         case CLICK_LINK_NODES:
@@ -399,6 +397,10 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
             break;
     }
 
+    if(m_pSelectedGates)
+        m_pSelectedGates->UpdateContaningArea();
+
+    m_lockAllGates.unlock();
 
     //Call to redraw
     update();
@@ -414,31 +416,22 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     //If ending a selection
     if( m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION)
     {
-        m_selectedGates.clear();
         m_lockAllGates.lock();
 
         //Get all gates inside surrounding m_selectionTool
+        std::vector<Gate**> selectedGates;
         for (Gate* gate : m_allGates)
         {
             if( m_selectionTool->geometry().contains(gate->GetPosition()))
             {
-                m_selectedGates.push_back(gate);
+                selectedGates.push_back(&gate);
             }
         }
 
         //Add the gates to collection
-        if(m_selectedGates.size() > 0)
+        if(selectedGates.size() > 0)
         {
-            GateCollection* collection = new GateCollection(m_selectedGates);
-
-            //Remove gates from m_allgates
-            for (Gate* g : m_allGates)
-            {
-                ForgetChild(g);
-            }
-
-            //Add gate collection to m_allGates
-            AddGate(collection, false, true);
+            m_pSelectedGates = new GateSelection(this, selectedGates);
         }
 
         //Disactivate selection
@@ -623,8 +616,13 @@ bool GateField::dragClick(int clickX, int clickY)
         return true;
     }
 
+
+    bool draggingSelection = false;
+    if(m_pSelectedGates)
+        draggingSelection = m_pSelectedGates->UpdateDrag(clickX, clickY);
+
     //Look for a gate to drag
-    else
+    else if (!draggingSelection)
     {
         //Loop through all dragable gameobjects
         for (size_t index = 0; index < m_allGates.size(); index++)

@@ -33,6 +33,7 @@ SOURCES += \
     Dialogs/dlg_textedit.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
+    GameObjects/gateselection.cpp \
     GameObjects/gatetrieor.cpp \
     GameObjects/textlabel.cpp \
         main.cpp \
@@ -71,6 +72,7 @@ HEADERS += \
     Dialogs/dlg_textedit.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
+    GameObjects/gateselection.h \
     GameObjects/gatetrieor.h \
     GameObjects/gatetypes.h \
     GameObjects/textlabel.h \

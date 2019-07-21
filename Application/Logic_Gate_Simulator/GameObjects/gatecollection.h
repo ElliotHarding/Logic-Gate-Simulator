@@ -3,8 +3,6 @@
 
 #include "gate.h"
 
-struct Vector2D {int x; int y;};
-
 class GateCollection : public Gate
 {
 public:
@@ -28,10 +26,6 @@ public:
 
     Gate *UpdateClicked_Override(int clickX, int clickY);
 
-    //Class specific public methods
-    void DisplaceGates(Vector2D displacement);
-    void UpdateContaningArea() {m_contaningArea = containingArea();}
-
     //Call UpdateContaningArea() before calling any of these
     virtual int Left() override {return m_contaningArea.left() + c_borderBoxMargin;}
     virtual int Right() override{return m_contaningArea.right() - c_borderBoxMargin;}
@@ -42,6 +36,9 @@ public:
     void ToggleDragMode();
     bool IsDragAll();
 
+    void UpdateContaningArea();
+    void DisplaceGates(Vector2D displacement);
+
 private:
     //Vector of all the gates within collection
     std::vector<Gate*> m_gates;
@@ -49,10 +46,8 @@ private:
     //Number of pixels from border before gates are seen
     const int c_borderBoxMargin = 20;
 
-    QRect containingArea();
     QRect m_contaningArea;
 
-    enum DragMode{DragIndividual,DragAll};
     DragMode m_dragMode = DragAll;
 
     QRect m_saveButton;

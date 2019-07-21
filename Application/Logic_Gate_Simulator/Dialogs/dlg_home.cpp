@@ -108,7 +108,6 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
          connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
          connect(ui->actionPan, SIGNAL(triggered()), this, SLOT(on_btn_Pan_clicked()));
          connect(ui->actionDrag, SIGNAL(triggered()), this, SLOT(on_btn_Drag_clicked()));
-         connect(ui->actionLink, SIGNAL(triggered()), this, SLOT(on_btn_link_clicked()));
          connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
          connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
          connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(on_btn_undo_clicked()));

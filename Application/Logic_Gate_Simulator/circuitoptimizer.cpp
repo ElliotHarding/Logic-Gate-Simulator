@@ -21,31 +21,17 @@ std::string CircuitOptimizer::OptimizeBooleanAlgebra(const std::string& initalSt
 
 std::string CircuitOptimizer::BooleanAlgebraFromCircuit(std::vector<Gate*>& gates)
 {
-
     //Need to get all input nodes that are not connected & all output nodes that are not connected
-
-    //Get inputs
     std::vector<Node*> inputNodes;
+    std::vector<Node*> outputNodes;
     for (Gate* g : gates)
     {
-        if (!g->HasConnectedInputNodes())
-            inputGates.push_back(g);
+        g->GetDisconnectedInputNodes(inputNodes);
+        g->GetDisconnectedOutputNodes(outputNodes);
     }
 
     //Nothing to optimise
-    if (inputGates.size() < 2)
-        return "";
-
-    //Get outputs
-    std::vector<Gate*> outputGates;
-    for (Gate* g : gates)
-    {
-        if(!g->HasConnectedOutputNodes())
-            outputGates.push_back(g);
-    }
-
-    //Nothing to optimise
-    if (outputGates.size() == 0)
+    if (inputNodes.size() < 2 || outputNodes.size() == 0)
         return "";
 
     //Check what happens when input values are changed

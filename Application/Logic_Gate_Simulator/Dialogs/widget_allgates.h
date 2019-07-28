@@ -13,7 +13,7 @@ class Widget_AllGates : public MovingWidget
     Q_OBJECT
 
 public:
-    explicit Widget_AllGates(DLG_Home* parent = nullptr);
+    explicit Widget_AllGates(DLG_Home* parent = nullptr, bool show = false, QPoint loc = QPoint(0,0));
     ~Widget_AllGates();
 
 private slots:

@@ -5,8 +5,8 @@
 #include "filelocations.h"
 #include "dlg_home.h"
 
-Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent) :
-    MovingWidget(pParent),
+Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent, bool show, QPoint loc) :
+    MovingWidget(pParent, show, loc),
     ui(new Ui::Widget_CustomGates)
 {
     ui->setupUi(this);

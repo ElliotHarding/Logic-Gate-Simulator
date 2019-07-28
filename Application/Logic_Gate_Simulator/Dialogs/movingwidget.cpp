@@ -3,10 +3,15 @@
 #include <QBrush>
 #include "dlg_home.h"
 
-MovingWidget::MovingWidget(DLG_Home *parent) :
+MovingWidget::MovingWidget(DLG_Home *parent, bool setShow, QPoint loc) :
     QWidget (parent)
 {    
     m_pParent = parent;
+
+    if (!setShow)
+        hide();
+
+    move(loc);
 }
 
 MovingWidget::~MovingWidget()

@@ -12,7 +12,7 @@ class Widget_InputGates : public MovingWidget
     Q_OBJECT
 
 public:
-    explicit Widget_InputGates(DLG_Home *DLG_Home = nullptr);
+    explicit Widget_InputGates(DLG_Home *DLG_Home = nullptr, bool show = false, QPoint loc = QPoint(0,0));
     ~Widget_InputGates();
 
 private slots:

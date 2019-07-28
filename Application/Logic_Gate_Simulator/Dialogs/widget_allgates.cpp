@@ -2,8 +2,8 @@
 #include "ui_widget_allgates.h"
 #include "dlg_home.h"
 
-Widget_AllGates::Widget_AllGates(DLG_Home* parent) :
-    MovingWidget(parent),
+Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
+    MovingWidget(parent, show, loc),
     ui(new Ui::Widget_AllGates)
 {
     ui->setupUi(this);

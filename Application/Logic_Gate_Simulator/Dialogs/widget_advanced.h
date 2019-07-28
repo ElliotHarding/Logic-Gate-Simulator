@@ -12,7 +12,7 @@ class Widget_Advanced : public MovingWidget
     Q_OBJECT
 
 public:
-    explicit Widget_Advanced(DLG_Home *parent = nullptr);
+    explicit Widget_Advanced(DLG_Home *parent = nullptr, bool show = false, QPoint loc = QPoint(0,0));
     ~Widget_Advanced();
 
 private slots:

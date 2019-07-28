@@ -2,8 +2,8 @@
 #include "ui_widget_standard.h"
 #include "dlg_home.h"
 
-Widget_Standard::Widget_Standard(DLG_Home *parent) :
-    MovingWidget(parent),
+Widget_Standard::Widget_Standard(DLG_Home *parent, bool show, QPoint loc) :
+    MovingWidget(parent, show, loc),
     ui(new Ui::Widget_Standard)
 {
     ui->setupUi(this);

@@ -49,11 +49,14 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
          m_pDlgMessage = new DLG_Message(this);
 
          //Gate widgets
-         m_pWidgetAllGates = new Widget_AllGates(this);
-         m_pWidgetCustomGates = new Widget_CustomGates(this);
-         m_pWidgetAdvancedGates = new Widget_Advanced(this);
-         m_pWidgetStandardGates = new Widget_Standard(this);
-         m_pWidgetInputGates = new Widget_InputGates(this);
+         const QPoint c_GateWidgetPos = layoutGateWidget.topLeft();
+         m_pWidgetAllGates = new Widget_AllGates(this, true, c_GateWidgetPos);
+         m_pCurrentShownGateWidget = m_pWidgetAllGates;
+
+         m_pWidgetCustomGates = new Widget_CustomGates(this, false, c_GateWidgetPos);
+         m_pWidgetAdvancedGates = new Widget_Advanced(this, false, c_GateWidgetPos);
+         m_pWidgetStandardGates = new Widget_Standard(this, false, c_GateWidgetPos);
+         m_pWidgetInputGates = new Widget_InputGates(this, false, c_GateWidgetPos);
 
          //m_zoomSlider :
          {
@@ -77,7 +80,6 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     //Add to layout
     {
         this->layout()->addWidget(m_pDlgGateInfo);
-
         this->layout()->addWidget(m_pWidgetAllGates);
         this->layout()->addWidget(m_pWidgetCustomGates);
         this->layout()->addWidget(m_pWidgetAdvancedGates);
@@ -87,6 +89,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
     //Positiong for gate widgets
     {
+        /*
         const QPoint c_GateWidgetPosShowing = layoutGateWidget.topLeft();
         const QPoint c_GateWidgetPosHidden = QPoint(c_GateWidgetPosShowing.x() - c_moveWidgetDistance, c_GateWidgetPosShowing.y());
 
@@ -99,6 +102,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
         m_pWidgetAllGates->move(c_GateWidgetPosShowing);
         m_pWidgetAllGates->raise();
         m_pCurrentShownGateWidget = m_pWidgetAllGates;
+        */
     }
 
     //Connections
@@ -339,6 +343,16 @@ void DLG_Home::SwitchWidgets(MovingWidget* newWidgetToShow)
 {
     if(m_pCurrentShownGateWidget && newWidgetToShow != m_pCurrentShownGateWidget)
     {
+        m_pCurrentShownGateWidget->hide();
+        newWidgetToShow->show();
+
+        m_pCurrentShownGateWidget = newWidgetToShow;
+    }
+
+    //Old style animation:
+    /*
+    if(m_pCurrentShownGateWidget && newWidgetToShow != m_pCurrentShownGateWidget)
+    {
         newWidgetToShow->raise();
 
         for (int moved = 0; moved < c_moveWidgetDistance; moved += c_moveWidgetsIncrement)
@@ -355,11 +369,12 @@ void DLG_Home::SwitchWidgets(MovingWidget* newWidgetToShow)
             m_pCurrentShownGateWidget->repaint();
             newWidgetToShow->repaint();
 
-            QThread::msleep(1);
+            //QThread::msleep(1);
         }
 
         m_pCurrentShownGateWidget = newWidgetToShow;
     }
+    */
 }
 
 // -- OTHER BUTTON HANDLERS --

@@ -16,7 +16,7 @@ class Widget_CustomGates : public MovingWidget
     Q_OBJECT
 
 public:
-    explicit Widget_CustomGates(DLG_Home* pParent);
+    explicit Widget_CustomGates(DLG_Home* pParent, bool show = false, QPoint loc = QPoint(0,0));
     ~Widget_CustomGates();
 
     void UpdateList();

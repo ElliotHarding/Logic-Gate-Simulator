@@ -2,8 +2,8 @@
 #include "ui_widget_advanced.h"
 #include "dlg_home.h"
 
-Widget_Advanced::Widget_Advanced(DLG_Home *parent) :
-    MovingWidget(parent),
+Widget_Advanced::Widget_Advanced(DLG_Home *parent, bool show, QPoint loc) :
+    MovingWidget(parent, show, loc),
     ui(new Ui::Widget_Advanced)
 {
     ui->setupUi(this);

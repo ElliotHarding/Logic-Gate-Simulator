@@ -9,7 +9,7 @@ class DLG_Home;
 class MovingWidget : public QWidget
 {
 public:
-    MovingWidget(DLG_Home *parent);
+    MovingWidget(DLG_Home *parent, bool show = false, QPoint loc = QPoint(0,0));
     ~MovingWidget();
 
 protected:

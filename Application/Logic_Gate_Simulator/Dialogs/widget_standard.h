@@ -12,7 +12,7 @@ class Widget_Standard : public MovingWidget
     Q_OBJECT
 
 public:
-    explicit Widget_Standard(DLG_Home *parent = nullptr);
+    explicit Widget_Standard(DLG_Home *parent = nullptr, bool show = false, QPoint loc = QPoint(0,0));
     ~Widget_Standard();
 
 private slots:

@@ -2,8 +2,8 @@
 #include "ui_widget_inputgates.h"
 #include "dlg_home.h"
 
-Widget_InputGates::Widget_InputGates(DLG_Home *parent) :
-    MovingWidget(parent),
+Widget_InputGates::Widget_InputGates(DLG_Home *parent, bool show, QPoint loc) :
+    MovingWidget(parent, show, loc),
     ui(new Ui::Widget_InputGates)
 {
     ui->setupUi(this);

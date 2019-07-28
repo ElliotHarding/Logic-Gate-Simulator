@@ -40,9 +40,18 @@ public:
     std::vector<Gate*> Optimize(std::vector<Gate*>& gates, bool failed);
 
 private:
+
+    struct InputRunResults
+    {
+        std::vector<bool> in;
+        std::vector<bool> result;
+    };
+
     std::string OptimizeBooleanAlgebra(const std::string& initalString);
     std::string BooleanAlgebraFromCircuit(std::vector<Gate*>& gates);
     std::vector<Gate*> CuircuitFromBooleanAlgebra(std::string algebraicString);
+
+    void FillCustomTruthTable(std::vector<InputRunResults>& results, const size_t& numInputNodes);
 };
 
 #endif // CIRCUITOPTIMIZER_H

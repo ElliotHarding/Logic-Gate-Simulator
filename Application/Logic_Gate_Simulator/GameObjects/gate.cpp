@@ -89,6 +89,55 @@ GateField *Gate::GetParent()
     return m_pParentField;
 }
 
+bool Gate::HasConnectedInputNodes()
+{
+    for (Node* n : m_nodes)
+    {
+        if (n->m_nodeType == NodeType::InputNode && n->IsLinked())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Gate::HasConnectedOutputNodes()
+{
+    for (Node* n : m_nodes)
+    {
+        if (n->m_nodeType == NodeType::OutputNode && n->IsLinked())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void Gate::GetDisconnectedInputNodes(std::vector<Node*> nodes)
+{
+    for (Node* n : m_nodes)
+    {
+        if (n->m_nodeType == NodeType::InputNode && !n->IsLinked())
+        {
+            nodes.push_back(n);
+        }
+    }
+
+}
+
+void Gate::GetDisconnectedOutputNodes(std::vector<Node*> nodes)
+{
+    for (Node* n : m_nodes)
+    {
+        if (n->m_nodeType == NodeType::OutputNode && !n->IsLinked())
+        {
+            nodes.push_back(n);
+        }
+    }
+}
+
 void Gate::SaveGeneralData(std::ofstream &storage)
 {
     //Add general gate info
@@ -191,6 +240,11 @@ void Node::GenNewID()
     m_id = idGenerator();
 }
 
+bool Node::IsLinked()
+{
+    return m_linked;
+}
+
 std::string Node::GetLinkedNodesIds()
 {
     if(m_linkedNodes.size() == 0)
@@ -245,4 +299,5 @@ void Node::DetachNode()
         n = nullptr;
     }
     m_linkedNodes.clear();
+    m_linked = false;
 }

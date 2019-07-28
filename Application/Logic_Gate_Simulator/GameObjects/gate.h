@@ -51,6 +51,12 @@ public:
     virtual void SetParent(GateField* gf);
     virtual GateField* GetParent();
 
+    virtual bool HasConnectedInputNodes();
+    virtual bool HasConnectedOutputNodes();
+
+    void GetDisconnectedInputNodes(std::vector<Node*>);
+    void GetDisconnectedOutputNodes(std::vector<Node*>);
+
     bool Enabled = true;
 
     GateType GetType() {return m_type;}
@@ -91,6 +97,8 @@ public:
     void SaveData(std::ofstream& storage);
 
     void GenNewID();
+
+    bool IsLinked();
 
     int m_id;
     NodeType m_nodeType = InputNode;

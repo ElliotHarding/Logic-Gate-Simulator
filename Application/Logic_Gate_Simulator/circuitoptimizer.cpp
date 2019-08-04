@@ -37,7 +37,7 @@ std::string CircuitOptimizer::BooleanAlgebraFromCircuit(std::vector<Gate*>& gate
     //Check what happens when input values are changed
     const size_t numInputNodes = inputNodes.size();
     std::vector<InputRunResults> inputRunResults;
-
+    FillCustomTruthTable(inputRunResults, numInputNodes);
 
 
 
@@ -98,31 +98,33 @@ void CircuitOptimizer::FillCustomTruthTable(std::vector<CircuitOptimizer::InputR
     {
         results.push_back(InputRunResults());
 
-        std::string bin = int.toBinaryString(i);
+        std::string bin = DecimalToBinaryString(i);
         while (bin.length() < n)
             bin = "0" + bin;
 
-        char[] chars = bin.toCharArray();
-
-
-        boolean[] boolArray = new boolean[n];
-        for (int j = 0; j < bin.size(); j++)
+        std::vector<bool> boolArray;
+        for (char c : bin)
         {
-            boolArray[j] = chars[j] == '0' ? true : false;
+            boolArray.push_back(c == '0' ? true : false);
         }
 
-        System.out.println(Arrays.toString(boolArray));
+        results[results.size()].in = boolArray;
     }
 
-    std::vector<bool> inputList;
+}
 
-
-    for (int x = 0; x < numInputNodes; x++)
+std::string CircuitOptimizer::DecimalToBinaryString(int a)
+{
+    std::string binary = "";
+    int mask = 1;
+    for(int i = 0; i < 31; i++)
     {
-        results.push_back(InputRunResults());
-        for (int y = 0; y < numInputNodes; y++)
-        {
-            results[x].in = inputList;
-        }
+        if((mask&a) >= 1)
+            binary = "1"+binary;
+        else
+            binary = "0"+binary;
+        mask<<=1;
     }
+
+    return binary;
 }

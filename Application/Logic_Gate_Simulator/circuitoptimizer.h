@@ -52,6 +52,9 @@ private:
     std::vector<Gate*> CuircuitFromBooleanAlgebra(std::string algebraicString);
 
     void FillCustomTruthTable(std::vector<InputRunResults>& results, const size_t& numInputNodes);
+
+private:
+    std::string DecimalToBinaryString(int a);
 };
 
 #endif // CIRCUITOPTIMIZER_H

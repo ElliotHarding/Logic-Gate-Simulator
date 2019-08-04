@@ -1,4 +1,5 @@
 #include "circuitoptimizer.h"
+#include <cmath>
 
 CircuitOptimizer::CircuitOptimizer()
 {
@@ -93,7 +94,7 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(std::string alge
 void CircuitOptimizer::FillCustomTruthTable(std::vector<CircuitOptimizer::InputRunResults> &results, const size_t& numInputNodes)
 {
     int n = 3;
-    int size = 2^numInputNodes;
+    int size = pow(2, numInputNodes);
     for (int i = 0; i < size; i++)
     {
         results.push_back(InputRunResults());

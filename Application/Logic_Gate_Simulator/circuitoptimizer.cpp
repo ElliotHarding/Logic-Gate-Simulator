@@ -8,20 +8,15 @@ CircuitOptimizer::CircuitOptimizer()
 
 std::vector<Gate*> CircuitOptimizer::Optimize(std::vector<Gate*>& gates)
 {
-    return CuircuitFromBooleanAlgebra(
-                OptimizeBooleanAlgebra(
-                            BooleanAlgebraFromCircuit(gates)
-                    )
+    return OptimizedCuircuitFromTruthTable(
+                TruthTableFromCircuit(gates)
                 );
 }
 
-std::string CircuitOptimizer::OptimizeBooleanAlgebra(const std::string& initalString)
+CircuitOptimizer::TruthTable CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates)
 {
+    std::vector<CircuitOptimizer::InputRunResults> inputRunResults;
 
-}
-
-std::string CircuitOptimizer::BooleanAlgebraFromCircuit(std::vector<Gate*>& gates)
-{
     //Need to get all input nodes that are not connected & all output nodes that are not connected
     std::vector<Node*> inputNodes;
     std::vector<Node*> outputNodes;
@@ -31,19 +26,18 @@ std::string CircuitOptimizer::BooleanAlgebraFromCircuit(std::vector<Gate*>& gate
         g->GetDisconnectedOutputNodes(outputNodes);
     }
 
-    //Nothing to optimise
-    if (inputNodes.size() < 2 || outputNodes.size() == 0)
-        return "";
-
     //Check what happens when input values are changed
     const size_t numInputNodes = inputNodes.size();
-    std::vector<InputRunResults> inputRunResults;
+
+    //Nothing to optimise
+    if (numInputNodes < 2 || numInputNodes == 0)
+        return inputRunResults;
 
     FillCustomTruthTable(inputRunResults, numInputNodes);
 
     GateRun(inputRunResults, inputNodes, outputNodes, numInputNodes);
 
-    return BooleanAlgebraFromTruthTable(inputRunResults);
+    return inputRunResults;
 }
 
 void CircuitOptimizer::GateRun(std::vector<InputRunResults>& inputRunResults, std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes, const size_t numInputNodes)
@@ -67,12 +61,7 @@ void CircuitOptimizer::GateRun(std::vector<InputRunResults>& inputRunResults, st
     }
 }
 
-std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(std::string algebraicString)
-{
-
-}
-
-void CircuitOptimizer::FillCustomTruthTable(std::vector<CircuitOptimizer::InputRunResults> &results, const size_t& numInputNodes)
+void CircuitOptimizer::FillCustomTruthTable(TruthTable &results, const size_t& numInputNodes)
 {
     int n = 3;
     int size = pow(2, numInputNodes);
@@ -95,11 +84,6 @@ void CircuitOptimizer::FillCustomTruthTable(std::vector<CircuitOptimizer::InputR
 
 }
 
-std::string CircuitOptimizer::BooleanAlgebraFromTruthTable(std::vector<CircuitOptimizer::InputRunResults>& results)
-{
-
-}
-
 std::string CircuitOptimizer::DecimalToBinaryString(int a)
 {
     std::string binary = "";
@@ -115,3 +99,25 @@ std::string CircuitOptimizer::DecimalToBinaryString(int a)
 
     return binary;
 }
+
+std::string CircuitOptimizer::BooleanAlgebraFromTruthTable(TruthTable& results)
+{
+
+}
+
+std::string CircuitOptimizer::OptimizeBooleanAlgebra(const std::string& initalString)
+{
+
+}
+
+std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(std::string algebraicString)
+{
+
+}
+
+std::vector<Gate*> CircuitOptimizer::OptimizedCuircuitFromTruthTable(CircuitOptimizer::TruthTable tt)
+{
+
+}
+
+

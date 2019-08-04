@@ -32,6 +32,8 @@
 //Logic gates to boolean algebra
 */
 
+
+
 class CircuitOptimizer
 {
 public:
@@ -46,20 +48,24 @@ private:
         std::vector<bool> in;
         std::vector<bool> result;
     };
+    typedef std::vector<CircuitOptimizer::InputRunResults> TruthTable;
 
-    static std::string OptimizeBooleanAlgebra(const std::string& initalString);
-    static std::string BooleanAlgebraFromCircuit(std::vector<Gate*>& gates);
-    static std::vector<Gate*> CuircuitFromBooleanAlgebra(std::string algebraicString);
+    static std::vector<Gate*> OptimizedCuircuitFromTruthTable(TruthTable tt);
 
-    static void FillCustomTruthTable(std::vector<InputRunResults>& results, const size_t& numInputNodes);
+    static TruthTable TruthTableFromCircuit(std::vector<Gate*>& gates);
 
-    static std::string BooleanAlgebraFromTruthTable(std::vector<InputRunResults>& results);
+    static void FillCustomTruthTable(TruthTable& results, const size_t& numInputNodes);
 
     static std::string DecimalToBinaryString(int a);
 
     static void GateRun(std::vector<InputRunResults>& inputRunResults,
                  std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
                  const size_t numInputNodes);
+
+    //Currently unused
+    static std::string OptimizeBooleanAlgebra(const std::string& initalString);
+    static std::string BooleanAlgebraFromTruthTable(TruthTable& results);
+    static std::vector<Gate*> CuircuitFromBooleanAlgebra(std::string algebraicString);
 };
 
 #endif // CIRCUITOPTIMIZER_H

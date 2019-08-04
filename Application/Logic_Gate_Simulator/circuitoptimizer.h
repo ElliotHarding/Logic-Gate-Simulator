@@ -51,10 +51,14 @@ private:
     std::string BooleanAlgebraFromCircuit(std::vector<Gate*>& gates);
     std::vector<Gate*> CuircuitFromBooleanAlgebra(std::string algebraicString);
 
+private:
+
     void FillCustomTruthTable(std::vector<InputRunResults>& results, const size_t& numInputNodes);
 
-private:
+    std::string BooleanAlgebraFromTruthTable(std::vector<InputRunResults>& results);
+
     std::string DecimalToBinaryString(int a);
+
     void GateRun(std::vector<InputRunResults>& inputRunResults,
                  std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
                  const size_t numInputNodes);

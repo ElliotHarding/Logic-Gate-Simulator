@@ -41,29 +41,28 @@ std::string CircuitOptimizer::BooleanAlgebraFromCircuit(std::vector<Gate*>& gate
     FillCustomTruthTable(inputRunResults, numInputNodes);
 
     GateRun(inputRunResults, inputNodes, outputNodes, numInputNodes);
+
+    return BooleanAlgebraFromTruthTable(inputRunResults);
 }
 
 void CircuitOptimizer::GateRun(std::vector<InputRunResults>& inputRunResults, std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes, const size_t numInputNodes)
 {
     for (InputRunResults results : inputRunResults)
     {
-        for (size_t x = 0; x < numInputNodes; x++)
+        //Run it twice just to be sure. can probably remove this after
+        for (int x = 0; x < 2; x++)
         {
-            inputNodes[x]->SetValue(results.in[x]);
+            for (size_t x = 0; x < numInputNodes; x++)
+            {
+                inputNodes[x]->SetValue(results.in[x]);
+            }
         }
 
-
-        //Do execution
-
-
         //Store results
-    }
-
-
-
-    for (size_t x = 0; x < numInputNodes; x++)
-    {
-        inputNodes[x]->SetValue(in[x]);
+        for (Node* n : outputNodes)
+        {
+            results.result.push_back(n->GetValue());
+        }
     }
 }
 
@@ -92,6 +91,11 @@ void CircuitOptimizer::FillCustomTruthTable(std::vector<CircuitOptimizer::InputR
 
         results[results.size()].in = boolArray;
     }
+
+}
+
+std::string CircuitOptimizer::BooleanAlgebraFromTruthTable(std::vector<CircuitOptimizer::InputRunResults>& results)
+{
 
 }
 

@@ -6,7 +6,7 @@ CircuitOptimizer::CircuitOptimizer()
 
 }
 
-std::vector<Gate*> CircuitOptimizer::Optimize(std::vector<Gate*>& gates, bool failed)
+std::vector<Gate*> CircuitOptimizer::Optimize(std::vector<Gate*>& gates)
 {
     return CuircuitFromBooleanAlgebra(
                 OptimizeBooleanAlgebra(
@@ -38,6 +38,7 @@ std::string CircuitOptimizer::BooleanAlgebraFromCircuit(std::vector<Gate*>& gate
     //Check what happens when input values are changed
     const size_t numInputNodes = inputNodes.size();
     std::vector<InputRunResults> inputRunResults;
+
     FillCustomTruthTable(inputRunResults, numInputNodes);
 
     GateRun(inputRunResults, inputNodes, outputNodes, numInputNodes);

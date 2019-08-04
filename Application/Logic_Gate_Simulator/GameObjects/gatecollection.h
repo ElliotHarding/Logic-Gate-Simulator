@@ -55,6 +55,7 @@ private:
     enum DragMode{DragIndividual,DragAll};
     DragMode m_dragMode = DragAll;
 
+    QRect m_optimize;
     QRect m_saveButton;
     QRect m_deleteButton;
     QRect m_deleteAllButton;

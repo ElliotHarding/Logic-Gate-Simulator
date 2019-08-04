@@ -37,7 +37,7 @@ class CircuitOptimizer
 public:
     CircuitOptimizer();
 
-    std::vector<Gate*> Optimize(std::vector<Gate*>& gates, bool failed);
+    static std::vector<Gate*> Optimize(std::vector<Gate*>& gates);
 
 private:
 
@@ -47,19 +47,17 @@ private:
         std::vector<bool> result;
     };
 
-    std::string OptimizeBooleanAlgebra(const std::string& initalString);
-    std::string BooleanAlgebraFromCircuit(std::vector<Gate*>& gates);
-    std::vector<Gate*> CuircuitFromBooleanAlgebra(std::string algebraicString);
+    static std::string OptimizeBooleanAlgebra(const std::string& initalString);
+    static std::string BooleanAlgebraFromCircuit(std::vector<Gate*>& gates);
+    static std::vector<Gate*> CuircuitFromBooleanAlgebra(std::string algebraicString);
 
-private:
+    static void FillCustomTruthTable(std::vector<InputRunResults>& results, const size_t& numInputNodes);
 
-    void FillCustomTruthTable(std::vector<InputRunResults>& results, const size_t& numInputNodes);
+    static std::string BooleanAlgebraFromTruthTable(std::vector<InputRunResults>& results);
 
-    std::string BooleanAlgebraFromTruthTable(std::vector<InputRunResults>& results);
+    static std::string DecimalToBinaryString(int a);
 
-    std::string DecimalToBinaryString(int a);
-
-    void GateRun(std::vector<InputRunResults>& inputRunResults,
+    static void GateRun(std::vector<InputRunResults>& inputRunResults,
                  std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
                  const size_t numInputNodes);
 };

@@ -1,6 +1,7 @@
 #include "gatecollection.h"
 #include "allgates.h"
 #include "gatefield.h"
+#include "circuitoptimizer.h"
 
 GateCollection::GateCollection(std::vector<Gate*> gates) :
     Gate::Gate(GATE_COLLECTION, 0, 0)
@@ -138,10 +139,13 @@ void GateCollection::DrawButtons(QPainter *painter)
     m_deleteAllButton  = QRect(m_contaningArea.right() - xyButtonSize, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     m_deleteButton = QRect(m_contaningArea.right() - xyButtonSize*2, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     m_saveButton = QRect(m_contaningArea.right() - xyButtonSize*3, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_optimize = QRect(m_contaningArea.right() - xyButtonSize*4, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
 
     painter->drawImage(m_deleteAllButton, deleteAllButton);
     painter->drawImage(m_deleteButton, deleteButton);
     painter->drawImage(m_saveButton, saveButton);
+
+    painter->drawRect(m_optimize);
 }
 
 Node *GateCollection::GetClickedNode(int clickX, int clickY)
@@ -244,6 +248,12 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
         delete this;
 
         return false;
+    }
+
+    //Optimize button
+    else if (m_optimize.contains(clickX, clickY))
+    {
+        m_gates = CircuitOptimizer::Optimize(m_gates);
     }
 
     if(m_dragMode == DragIndividual)

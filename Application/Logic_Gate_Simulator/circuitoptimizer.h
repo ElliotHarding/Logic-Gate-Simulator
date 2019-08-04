@@ -55,6 +55,9 @@ private:
 
 private:
     std::string DecimalToBinaryString(int a);
+    void GateRun(std::vector<InputRunResults>& inputRunResults,
+                 std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
+                 const size_t numInputNodes);
 };
 
 #endif // CIRCUITOPTIMIZER_H

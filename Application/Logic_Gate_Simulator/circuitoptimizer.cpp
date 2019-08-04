@@ -40,45 +40,26 @@ std::string CircuitOptimizer::BooleanAlgebraFromCircuit(std::vector<Gate*>& gate
     std::vector<InputRunResults> inputRunResults;
     FillCustomTruthTable(inputRunResults, numInputNodes);
 
-
-
-
-    for (size_t x = 0; x < numInputNodes; x++)
-    {
-        inputNodes[x]->SetValue(false);
-    }
-
-    for (size_t x = 0; x < numInputNodes; x++)
-    {
-        inputNodes[x]->SetValue(false);
-    }
-
-    for (size_t x = 0; x < numInputNodes; x++)
-    {
-        in.push_back(true);
-    }
-
-    GateRun(in, out, inputNodes, outputNodes, numInputNodes, false);
-
-
+    GateRun(inputRunResults, inputNodes, outputNodes, numInputNodes);
 }
 
-void GateRun(std::vector<bool>& in, std::vector<bool>& out, std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes, const size_t numInputNodes, bool bSetOneByOne)
+void CircuitOptimizer::GateRun(std::vector<InputRunResults>& inputRunResults, std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes, const size_t numInputNodes)
 {
-    for (size_t run = 0; run < numInputNodes; run++)
+    for (InputRunResults results : inputRunResults)
     {
         for (size_t x = 0; x < numInputNodes; x++)
         {
-            inputNodes[x]->SetValue(in[x]);
+            inputNodes[x]->SetValue(results.in[x]);
         }
-        in[run] = bSetOneByOne;
+
 
         //Do execution
 
 
         //Store results
-
     }
+
+
 
     for (size_t x = 0; x < numInputNodes; x++)
     {

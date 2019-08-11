@@ -82,3 +82,27 @@ void Widget_AllGates::on_btn_GateTriEor_clicked()
     if(m_pParent)
         m_pParent->AddGate(new GateTriEor());
 }
+
+void Widget_AllGates::SetupGateButtons()
+{
+    QWidget *widget = new QWidget();
+    ui->m_scrollArea->setWidget( widget );
+
+    QVBoxLayout *layout = new QVBoxLayout();
+    widget->setLayout( layout );
+
+    layout->addWidget( ui->btn_orGate );
+    layout->addWidget( ui->btn_GateEor );
+    layout->addWidget( ui->btn_andGate );
+    layout->addWidget( ui->btn_inputOn );
+    layout->addWidget( ui->btn_notGate );
+    layout->addWidget( ui->btn_inputOff );
+    layout->addWidget( ui->btn_GateTriOr );
+    layout->addWidget( ui->btn_timerGate );
+    layout->addWidget( ui->btn_GateTriAnd );
+    layout->addWidget( ui->btn_sourceGate );
+    layout->addWidget( ui->btn_recieverGate );
+    layout->addWidget( ui->btn_numberOutputGate );
+
+   // ui->scrollAreaWidgetContents->layout()->addWidget(ui->btn_orGate);
+}

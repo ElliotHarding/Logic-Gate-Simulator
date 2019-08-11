@@ -23,7 +23,7 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
-    void UpdateSlider(float currentMousePosX);
+    void UpdateSlider(float currentMousePos);
     void SetSliderPosition(float val);
 
     virtual void UpdateParent(float val) = 0;
@@ -67,6 +67,34 @@ public:
 
 protected:
     DLG_TextEdit* m_pParent;
+    virtual void UpdateParent(float val);
+};
+
+class VerticalSimpleSlider : public SimpleSlider
+{
+public:
+    VerticalSimpleSlider(QWidget* pParent, float min, float max);
+    ~VerticalSimpleSlider() override;
+
+    void SetGeometry(QRect layout);
+    void SetSliderPosition(float val);
+
+    virtual void UpdateParent(float val) override = 0;
+
+protected:
+    void mousePressEvent(QMouseEvent* mouseEvent) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+};
+
+class Widget_AllGates;
+class GateSlider : public VerticalSimpleSlider
+{
+public:
+    GateSlider(float min, float max, Widget_AllGates* parent);
+    ~GateSlider();
+
+protected:
+    Widget_AllGates* m_pParent;
     virtual void UpdateParent(float val);
 };
 

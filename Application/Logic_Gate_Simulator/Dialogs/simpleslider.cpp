@@ -100,9 +100,9 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
     painter.drawEllipse(m_sliderPosition, 5, 5);
 }
 
-void SimpleSlider::UpdateSlider(float currentMousePosX)
+void SimpleSlider::UpdateSlider(float currentMousePos)
 {
-    SetSliderPosition(currentMousePosX);
+    SetSliderPosition(currentMousePos);
 
     //Send new data
     UpdateParent(GetCurrentValue());
@@ -166,4 +166,61 @@ ZoomSlider::~ZoomSlider()
 void ZoomSlider::UpdateParent(float val)
 {
     m_pParent->SetZoomFactor(val, false);
+}
+
+
+//
+//  GateSlider : VerticalSimpleSlider
+//
+
+GateSlider::GateSlider(float min, float max, Widget_AllGates *parent) :
+    VerticalSimpleSlider (parent, min, max)
+{
+
+}
+
+GateSlider::~GateSlider()
+{
+
+}
+
+void GateSlider::UpdateParent(float val)
+{
+
+}
+
+
+//
+//  VerticalSimpleSlider : SimpleSlider
+//
+
+VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, float min, float max) :
+    SimpleSlider (pParent, min, max)
+{
+
+}
+
+VerticalSimpleSlider::~VerticalSimpleSlider()
+{
+
+}
+
+void VerticalSimpleSlider::SetGeometry(QRect layout)
+{
+
+}
+
+void VerticalSimpleSlider::SetSliderPosition(float val)
+{
+
+}
+
+void VerticalSimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)
+{
+
+}
+
+void VerticalSimpleSlider::mouseMoveEvent(QMouseEvent *event)
+{
+
 }

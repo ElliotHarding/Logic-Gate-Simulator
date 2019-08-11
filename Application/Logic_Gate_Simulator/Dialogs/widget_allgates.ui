@@ -492,6 +492,51 @@ border:none;
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QScrollArea" name="m_scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>141</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>139</width>
+      <height>299</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <zorder>m_scrollArea</zorder>
+  <zorder>btn_orGate</zorder>
+  <zorder>btn_recieverGate</zorder>
+  <zorder>btn_andGate</zorder>
+  <zorder>btn_notGate</zorder>
+  <zorder>btn_sourceGate</zorder>
+  <zorder>btn_timerGate</zorder>
+  <zorder>btn_inputOn</zorder>
+  <zorder>btn_inputOff</zorder>
+  <zorder>btn_GateTriAnd</zorder>
+  <zorder>btn_GateTriOr</zorder>
+  <zorder>btn_numberOutputGate</zorder>
+  <zorder>line</zorder>
+  <zorder>line_2</zorder>
+  <zorder>btn_GateEor</zorder>
+  <zorder>btn_GateTriEor</zorder>
  </widget>
  <resources>
   <include location="../resouces.qrc"/>

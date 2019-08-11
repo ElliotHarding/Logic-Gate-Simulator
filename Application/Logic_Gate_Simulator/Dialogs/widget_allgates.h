@@ -28,13 +28,13 @@ private slots:
     void on_btn_GateTriAnd_clicked();
     void on_btn_GateTriOr_clicked();
     void on_btn_numberOutputGate_clicked();
-
     void on_btn_GateEor_clicked();
-
     void on_btn_GateTriEor_clicked();
 
 private:
     Ui::Widget_AllGates *ui;
+
+    void SetupGateButtons();
 };
 
 #endif // WIDGET_ALLGATES_H

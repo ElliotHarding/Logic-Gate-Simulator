@@ -254,7 +254,7 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
     else if (m_optimize.contains(clickX, clickY))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates);
-        return true;
+        return false;
     }
 
     if(m_dragMode == DragIndividual)

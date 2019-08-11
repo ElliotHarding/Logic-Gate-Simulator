@@ -4,6 +4,7 @@
 #include "gatereader.h"
 #include "filelocations.h"
 #include "dlg_home.h"
+#include "dlg_message.h"
 
 Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent, bool show, QPoint loc) :
     MovingWidget(pParent, show, loc),
@@ -35,7 +36,6 @@ void Widget_CustomGates::UpdateList()
     }
 }
 
-#include "dlg_message.h"
 void Widget_CustomGates::on_customGateListWidget_currentRowChanged(int currentRow)
 {
     m_currentRow = currentRow;

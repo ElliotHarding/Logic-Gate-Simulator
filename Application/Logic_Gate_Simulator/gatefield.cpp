@@ -339,6 +339,10 @@ void GateField::leftMouseClick(int clickX, int clickY)
         selectionClick(clickX,clickY);
         break;
 
+    case CLICK_PAN:
+        panClick(clickX, clickY);
+        break;
+
     case CLICK_DEFAULT:
         if(defaultClick(clickX,clickY))
             break;
@@ -348,7 +352,6 @@ void GateField::leftMouseClick(int clickX, int clickY)
         if(dragClick(clickX,clickY))
             break;
 
-    case CLICK_PAN:
     case CLICK_LINK_NODES:
 
         if(!linkNodesClick(clickX, clickY))

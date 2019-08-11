@@ -37,20 +37,12 @@ void DLG_GateInfo::setGate(Gate *g)
         ui->btn_DeleteGate->show();
         ui->lbl_Type->show();
         ui->signalCheck->show();
-        ui->lbl_Frequency->show();
-        ui->lineEdit_Frequency->show();
-        ui->cb_DragMode->show();
 
-        //Gate specific will be shown later
-        /*ui->signalCheck->setDisabled(true);
-        ui->lbl_Frequency->setDisabled(true);
-        ui->lineEdit_Frequency->setDisabled(true);
-        ui->cb_DragMode->setDisabled(true);*/
-        ui->signalCheck->hide();
         ui->lbl_Frequency->hide();
         ui->lineEdit_Frequency->hide();
         ui->cb_DragMode->hide();
-
+        ui->signalCheck->hide();
+        ui->lineEdit_Frequency->hide();
         ui->btn_Edit->hide();
     }
 

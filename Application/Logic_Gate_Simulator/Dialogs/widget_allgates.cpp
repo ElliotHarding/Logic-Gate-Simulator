@@ -1,17 +1,31 @@
 #include "widget_allgates.h"
 #include "ui_widget_allgates.h"
 #include "dlg_home.h"
+#include "simpleslider.h"
 
 Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
     MovingWidget(parent, show, loc),
     ui(new Ui::Widget_AllGates)
 {
     ui->setupUi(this);
+
+    //save layout
+    QRect layout = ui->scrollSliderLayout->geometry();
+    ui->scrollSliderLayout = new GateSlider(1, 100, this);
+
+    //set layout after construction
+    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetGeometry(layout);
 }
 Widget_AllGates::~Widget_AllGates()
 {
     delete ui;
 }
+
+void Widget_AllGates::SetScrollPosition(float y)
+{
+
+}
+
 void Widget_AllGates::on_btn_sourceGate_clicked()
 {
     if(m_pParent)
@@ -81,28 +95,4 @@ void Widget_AllGates::on_btn_GateTriEor_clicked()
 {
     if(m_pParent)
         m_pParent->AddGate(new GateTriEor());
-}
-
-void Widget_AllGates::SetupGateButtons()
-{
-    QWidget *widget = new QWidget();
-    ui->m_scrollArea->setWidget( widget );
-
-    QVBoxLayout *layout = new QVBoxLayout();
-    widget->setLayout( layout );
-
-    layout->addWidget( ui->btn_orGate );
-    layout->addWidget( ui->btn_GateEor );
-    layout->addWidget( ui->btn_andGate );
-    layout->addWidget( ui->btn_inputOn );
-    layout->addWidget( ui->btn_notGate );
-    layout->addWidget( ui->btn_inputOff );
-    layout->addWidget( ui->btn_GateTriOr );
-    layout->addWidget( ui->btn_timerGate );
-    layout->addWidget( ui->btn_GateTriAnd );
-    layout->addWidget( ui->btn_sourceGate );
-    layout->addWidget( ui->btn_recieverGate );
-    layout->addWidget( ui->btn_numberOutputGate );
-
-   // ui->scrollAreaWidgetContents->layout()->addWidget(ui->btn_orGate);
 }

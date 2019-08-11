@@ -8,6 +8,7 @@ class Widget_AllGates;
 }
 
 class DLG_Home;
+class GateSlider;
 class Widget_AllGates : public MovingWidget
 {
     Q_OBJECT
@@ -15,6 +16,8 @@ class Widget_AllGates : public MovingWidget
 public:
     explicit Widget_AllGates(DLG_Home* parent = nullptr, bool show = false, QPoint loc = QPoint(0,0));
     ~Widget_AllGates();
+
+    void SetScrollPosition(float y);
 
 private slots:
     void on_btn_andGate_clicked();
@@ -34,7 +37,7 @@ private slots:
 private:
     Ui::Widget_AllGates *ui;
 
-    void SetupGateButtons();
+    GateSlider* m_pGateSlider;
 };
 
 #endif // WIDGET_ALLGATES_H

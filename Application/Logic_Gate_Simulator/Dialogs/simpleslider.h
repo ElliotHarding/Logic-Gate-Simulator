@@ -30,13 +30,13 @@ protected:
 
     //Position data
     QPoint m_sliderPosition;
-    QPoint m_leftMost;
-    QPoint m_rightMost;
+    QPoint m_minPoint;
+    QPoint m_maxPoint;
 
     bool m_beingClicked;
 
     //Pixel size (width)
-    int m_width;
+    int m_length;
 
     const float m_max;
     const float m_min;
@@ -74,16 +74,18 @@ class VerticalSimpleSlider : public SimpleSlider
 {
 public:
     VerticalSimpleSlider(QWidget* pParent, float min, float max);
-    ~VerticalSimpleSlider() override;
 
+    float GetCurrentValue();
+    void SetValue(float val);
     void SetGeometry(QRect layout);
-    void SetSliderPosition(float val);
 
     virtual void UpdateParent(float val) override = 0;
 
 protected:
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
+
+    void SetSliderPosition(float val);
 };
 
 class Widget_AllGates;

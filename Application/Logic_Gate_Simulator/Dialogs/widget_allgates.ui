@@ -56,8 +56,8 @@ border:none;
   <widget class="QPushButton" name="btn_recieverGate">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>130</y>
+     <x>50</x>
+     <y>150</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -90,8 +90,8 @@ border:none;
   <widget class="QPushButton" name="btn_andGate">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>0</y>
+     <x>10</x>
+     <y>120</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -164,7 +164,7 @@ border:none;</string>
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>190</y>
+     <y>210</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -198,7 +198,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>230</y>
+     <y>250</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -232,7 +232,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>45</x>
-     <y>190</y>
+     <y>210</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -265,8 +265,8 @@ border:none;
   <widget class="QPushButton" name="btn_inputOff">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>190</y>
+     <x>45</x>
+     <y>250</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -367,8 +367,8 @@ border:none;
   <widget class="QPushButton" name="btn_numberOutputGate">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>130</y>
+     <x>0</x>
+     <y>150</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -402,9 +402,9 @@ border:none;
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
-     <width>118</width>
-     <height>3</height>
+     <y>140</y>
+     <width>91</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="orientation">
@@ -415,9 +415,9 @@ border:none;
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>180</y>
-     <width>118</width>
-     <height>3</height>
+     <y>195</y>
+     <width>81</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="orientation">
@@ -427,8 +427,8 @@ border:none;
   <widget class="QPushButton" name="btn_GateEor">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>40</y>
+     <x>50</x>
+     <y>80</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -492,51 +492,16 @@ border:none;
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QScrollArea" name="m_scrollArea">
+  <widget class="QWidget" name="scrollSliderLayout" native="true">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>109</x>
      <y>0</y>
-     <width>141</width>
+     <width>31</width>
      <height>301</height>
     </rect>
    </property>
-   <property name="lineWidth">
-    <number>0</number>
-   </property>
-   <property name="verticalScrollBarPolicy">
-    <enum>Qt::ScrollBarAlwaysOff</enum>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>139</width>
-      <height>299</height>
-     </rect>
-    </property>
-   </widget>
   </widget>
-  <zorder>m_scrollArea</zorder>
-  <zorder>btn_orGate</zorder>
-  <zorder>btn_recieverGate</zorder>
-  <zorder>btn_andGate</zorder>
-  <zorder>btn_notGate</zorder>
-  <zorder>btn_sourceGate</zorder>
-  <zorder>btn_timerGate</zorder>
-  <zorder>btn_inputOn</zorder>
-  <zorder>btn_inputOff</zorder>
-  <zorder>btn_GateTriAnd</zorder>
-  <zorder>btn_GateTriOr</zorder>
-  <zorder>btn_numberOutputGate</zorder>
-  <zorder>line</zorder>
-  <zorder>line_2</zorder>
-  <zorder>btn_GateEor</zorder>
-  <zorder>btn_GateTriEor</zorder>
  </widget>
  <resources>
   <include location="../resouces.qrc"/>

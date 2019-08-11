@@ -8,9 +8,11 @@ CircuitOptimizer::CircuitOptimizer()
 
 std::vector<Gate*> CircuitOptimizer::Optimize(std::vector<Gate*>& gates)
 {
-    return OptimizedCuircuitFromTruthTable(
+    return gates;
+
+    /*return OptimizedCuircuitFromTruthTable(
                 TruthTableFromCircuit(gates)
-                );
+                );*/
 }
 
 CircuitOptimizer::TruthTable CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates)

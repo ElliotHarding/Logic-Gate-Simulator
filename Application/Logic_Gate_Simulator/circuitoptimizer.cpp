@@ -100,6 +100,11 @@ std::string CircuitOptimizer::DecimalToBinaryString(int a)
     return binary;
 }
 
+std::vector<Gate*> CircuitOptimizer::OptimizedCuircuitFromTruthTable(CircuitOptimizer::TruthTable tt)
+{
+
+}
+
 std::string CircuitOptimizer::BooleanAlgebraFromTruthTable(TruthTable& results)
 {
 
@@ -115,9 +120,5 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(std::string alge
 
 }
 
-std::vector<Gate*> CircuitOptimizer::OptimizedCuircuitFromTruthTable(CircuitOptimizer::TruthTable tt)
-{
-
-}
 
 

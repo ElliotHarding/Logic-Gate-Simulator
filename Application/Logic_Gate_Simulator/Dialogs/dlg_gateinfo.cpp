@@ -42,10 +42,14 @@ void DLG_GateInfo::setGate(Gate *g)
         ui->cb_DragMode->show();
 
         //Gate specific will be shown later
-        ui->signalCheck->setDisabled(true);
+        /*ui->signalCheck->setDisabled(true);
         ui->lbl_Frequency->setDisabled(true);
         ui->lineEdit_Frequency->setDisabled(true);
-        ui->cb_DragMode->setDisabled(true);
+        ui->cb_DragMode->setDisabled(true);*/
+        ui->signalCheck->hide();
+        ui->lbl_Frequency->hide();
+        ui->lineEdit_Frequency->hide();
+        ui->cb_DragMode->hide();
 
         ui->btn_Edit->hide();
     }
@@ -88,7 +92,7 @@ void DLG_GateInfo::setGate(Gate *g)
 
             gateName = "Timer Gate";
             ui->lbl_Frequency->show();
-            ui->lineEdit_Frequency->setDisabled(false);
+            ui->lineEdit_Frequency->show();
 
             const int frequency = dynamic_cast<GateTimer*>(m_gateDisplayed)->getFrequency();
             ui->lineEdit_Frequency->setText(std::to_string(frequency).c_str());
@@ -97,7 +101,7 @@ void DLG_GateInfo::setGate(Gate *g)
             }
         case GateType::GATE_EMMITTER:
             gateName = "Emmiter Gate";
-            ui->signalCheck->setDisabled(false);
+            ui->signalCheck->show();
             ui->signalCheck->setCheckState( dynamic_cast<GateToggle*>(m_gateDisplayed)
                         ->GetPowerState() ?
                           Qt::CheckState::Checked : Qt::CheckState::Unchecked);
@@ -108,7 +112,7 @@ void DLG_GateInfo::setGate(Gate *g)
         case GateType::GATE_COLLECTION:
             {
             gateName = "Gate Collection";
-            ui->cb_DragMode->setDisabled(false);
+            ui->cb_DragMode->show();
             ui->cb_DragMode->setCheckState( dynamic_cast<GateCollection*>(m_gateDisplayed)
                             ->IsDragAll() ?
                             Qt::CheckState::Checked : Qt::CheckState::Unchecked);

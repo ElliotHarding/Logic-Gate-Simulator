@@ -111,6 +111,9 @@ bool GateCollection::DeleteClick(int clickX, int clickY)
 
 void GateCollection::UpdateGraphics(QPainter *painter)
 {
+    if (m_dragMode == DragAll)
+         painter->fillRect(m_contaningArea, QColor(20,20,20,20));
+
     for(Gate* gate : m_gates)
     {
         //Draw gate
@@ -124,9 +127,6 @@ void GateCollection::UpdateGraphics(QPainter *painter)
     //Draw bounding box
     painter->setPen(QPen(Qt::black,2));
     painter->drawRect(m_contaningArea);
-
-    if (m_dragMode == DragAll)
-         painter->fillRect(m_contaningArea, QColor(20,20,20,20));
 }
 
 void GateCollection::DrawButtons(QPainter *painter)

@@ -127,6 +127,10 @@ void DLG_GateInfo::setGate(Gate *g)
             gateName = "FPGA";
             ui->btn_Edit->show();
             break;
+        case GateType::GATE_TEXT_LABEL:
+            gateName = "Label";
+            ui->btn_Edit->show();
+            break;
         default:
             gateName = "";
             break;
@@ -226,5 +230,10 @@ void DLG_GateInfo::on_btn_Edit_clicked()
     if(m_gateDisplayed->GetType() == GATE_FPGA)
     {
         dynamic_cast<GateFPGA*>(m_gateDisplayed)->OpenEditor();
+    }
+
+    if(m_gateDisplayed->GetType() == GATE_TEXT_LABEL)
+    {
+        dynamic_cast<TextLabel*>(m_gateDisplayed)->ShowTextEditor();
     }
 }

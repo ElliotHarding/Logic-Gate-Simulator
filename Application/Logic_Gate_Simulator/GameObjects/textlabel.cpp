@@ -79,6 +79,11 @@ void TextLabel::Update(QFont font, QString string)
     SetPosition(GetPosition().x(), GetPosition().y());
 }
 
+void TextLabel::ShowTextEditor()
+{
+    m_pEditDlg->show();
+}
+
 QString TextLabel::GetString()
 {
     return m_string;

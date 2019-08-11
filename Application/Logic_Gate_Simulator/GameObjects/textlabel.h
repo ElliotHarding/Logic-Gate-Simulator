@@ -24,6 +24,9 @@ public:
     //Text label functions
     void Update(QFont font, QString string);
 
+    //From dlg_gateEdit
+    void ShowTextEditor();
+
     QString GetString();
     QFont GetFont();
 

@@ -426,7 +426,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         }
 
         //Add the gates to collection
-        if(m_selectedGates.size() > 0)
+        if(m_selectedGates.size() > 1)
         {
             GateCollection* collection = new GateCollection(m_selectedGates);
 

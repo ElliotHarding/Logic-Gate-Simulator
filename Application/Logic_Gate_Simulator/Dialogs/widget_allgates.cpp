@@ -15,6 +15,7 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
 
     //set layout after construction
     dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetGeometry(layout);
+    ui->scrollSliderLayout->raise();
 }
 Widget_AllGates::~Widget_AllGates()
 {

@@ -24,7 +24,7 @@ protected:
     void paintEvent(QPaintEvent* paintEvent) override;
 
     void UpdateSlider(float currentMousePos);
-    void SetSliderPosition(float val);
+    virtual void SetSliderPosition(float val);
 
     virtual void UpdateParent(float val) = 0;
 
@@ -85,7 +85,7 @@ protected:
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
 
-    void SetSliderPosition(float val);
+    void SetSliderPosition(float val) override;
 };
 
 class Widget_AllGates;

@@ -735,6 +735,9 @@ QComboBox::down-arrow {
       <height>301</height>
      </rect>
     </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color:rgb(255, 255, 255);</string>
     </property>

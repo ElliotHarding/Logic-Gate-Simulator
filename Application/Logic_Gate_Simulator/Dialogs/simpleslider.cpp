@@ -87,7 +87,7 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
 
     //Paiting variables to be used
     QPainterPath path;
-    QPen pen(Qt::white, 6);
+    QPen pen(Qt::black, 6);
     painter.setPen(pen);
 
     //Draw bar
@@ -181,6 +181,7 @@ GateSlider::GateSlider(float min, float max, Widget_AllGates *parent) :
 
 GateSlider::~GateSlider()
 {
+    m_pParent = nullptr;
 }
 
 void GateSlider::UpdateParent(float val)

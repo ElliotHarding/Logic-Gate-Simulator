@@ -11,11 +11,30 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
 
     //save layout
     QRect layout = ui->scrollSliderLayout->geometry();
-    ui->scrollSliderLayout = new GateSlider(1, 100, this);
+    ui->scrollSliderLayout = new GateSlider(1, 100, this, Qt::black);
 
     //set layout after construction
     dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetGeometry(layout);
     ui->scrollSliderLayout->raise();
+
+    m_buttons.push_back({ui->btn_orGate, ui->btn_orGate->geometry()});
+    m_buttons.push_back({ui->btn_GateEor, ui->btn_GateEor->geometry()});
+    m_buttons.push_back({ui->btn_andGate, ui->btn_andGate->geometry()});
+    m_buttons.push_back({ui->btn_inputOn, ui->btn_inputOn->geometry()});
+    m_buttons.push_back({ui->btn_notGate, ui->btn_notGate->geometry()});
+    m_buttons.push_back({ui->btn_inputOff, ui->btn_inputOff->geometry()});
+    m_buttons.push_back({ui->btn_GateTriOr, ui->btn_GateTriOr->geometry()});
+    m_buttons.push_back({ui->btn_timerGate, ui->btn_timerGate->geometry()});
+    m_buttons.push_back({ui->btn_GateTriAnd, ui->btn_GateTriAnd->geometry()});
+    m_buttons.push_back({ui->btn_GateTriEor, ui->btn_GateTriEor->geometry()});
+    m_buttons.push_back({ui->btn_sourceGate, ui->btn_sourceGate->geometry()});
+    m_buttons.push_back({ui->btn_recieverGate, ui->btn_recieverGate->geometry()});
+    m_buttons.push_back({ui->btn_numberOutputGate, ui->btn_numberOutputGate->geometry()});
+    m_buttons.push_back({ui->ln_1, ui->ln_1->geometry()});
+    m_buttons.push_back({ui->ln_2, ui->ln_2->geometry()});
+
+    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(0);
+    //SetScrollPosition(0);
 }
 Widget_AllGates::~Widget_AllGates()
 {
@@ -24,7 +43,14 @@ Widget_AllGates::~Widget_AllGates()
 
 void Widget_AllGates::SetScrollPosition(float y)
 {
+    int scroll = y + 100;
 
+    for (WidgetAndPosition widget : m_buttons)
+    {
+        const int newTop = widget.originalLayout.top() - scroll;
+        const QRect scrolledLayout = QRect(widget.originalLayout.left(), (newTop > 1) ? newTop : 1, widget.originalLayout.width(), widget.originalLayout.height());
+        widget.widget->setGeometry(scrolledLayout);
+    }
 }
 
 void Widget_AllGates::on_btn_sourceGate_clicked()

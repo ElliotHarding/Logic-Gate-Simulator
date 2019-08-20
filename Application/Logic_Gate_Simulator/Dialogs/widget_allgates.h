@@ -2,6 +2,7 @@
 #define WIDGET_ALLGATES_H
 
 #include "movingwidget.h"
+#include "QPushButton"
 
 namespace Ui {
 class Widget_AllGates;
@@ -38,6 +39,13 @@ private:
     Ui::Widget_AllGates *ui;
 
     GateSlider* m_pGateSlider;
+
+    struct WidgetAndPosition
+    {
+        QWidget* widget;
+        QRect originalLayout;
+    };
+    std::vector<WidgetAndPosition> m_buttons;
 };
 
 #endif // WIDGET_ALLGATES_H

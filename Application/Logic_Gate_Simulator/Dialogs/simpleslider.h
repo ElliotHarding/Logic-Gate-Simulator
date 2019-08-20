@@ -7,10 +7,10 @@
 class SimpleSlider : public QWidget
 {
 public:
-    SimpleSlider(QWidget* pParent, float min, float max);
+    SimpleSlider(QWidget* pParent, float min, float max, QColor sliderCol = QColor(255,255,255));
     ~SimpleSlider() override;
 
-    float GetCurrentValue();
+    virtual float GetCurrentValue();
     void SetValue(float val);
 
     void SetGeometry(QRect layout);
@@ -27,6 +27,9 @@ protected:
     virtual void SetSliderPosition(float val);
 
     virtual void UpdateParent(float val) = 0;
+
+    //Colour stuff
+    QColor m_sliderCol;
 
     //Position data
     QPoint m_sliderPosition;
@@ -73,9 +76,9 @@ protected:
 class VerticalSimpleSlider : public SimpleSlider
 {
 public:
-    VerticalSimpleSlider(QWidget* pParent, float min, float max);
+    VerticalSimpleSlider(QWidget* pParent, float min, float max, QColor sliderCol = QColor(255,255,255));
 
-    float GetCurrentValue();
+    virtual float GetCurrentValue() override;
     void SetValue(float val);
     void SetGeometry(QRect layout);
 
@@ -92,7 +95,7 @@ class Widget_AllGates;
 class GateSlider : public VerticalSimpleSlider
 {
 public:
-    GateSlider(float min, float max, Widget_AllGates* parent);
+    GateSlider(float min, float max, Widget_AllGates* parent, QColor sliderCol = QColor(255,255,255));
     ~GateSlider();
 
 protected:

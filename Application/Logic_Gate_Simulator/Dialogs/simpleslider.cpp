@@ -4,8 +4,9 @@
 #include "dlg_home.h"
 #include "dlg_textedit.h"
 
-SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max) :
+SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max, QColor sliderCol) :
     QWidget(pParent),
+    m_sliderCol(sliderCol),
     m_max(max),
     m_min(min),    
     m_beingClicked(false),
@@ -87,7 +88,7 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
 
     //Paiting variables to be used
     QPainterPath path;
-    QPen pen(Qt::black, 6);
+    QPen pen(m_sliderCol, 6);
     painter.setPen(pen);
 
     //Draw bar
@@ -173,8 +174,8 @@ void ZoomSlider::UpdateParent(float val)
 //  GateSlider : VerticalSimpleSlider
 //
 
-GateSlider::GateSlider(float min, float max, Widget_AllGates *parent) :
-    VerticalSimpleSlider (parent, min, max),
+GateSlider::GateSlider(float min, float max, Widget_AllGates *parent, QColor sliderCol) :
+    VerticalSimpleSlider (parent, min, max, sliderCol),
     m_pParent(parent)
 {
 }
@@ -194,8 +195,8 @@ void GateSlider::UpdateParent(float val)
 //  VerticalSimpleSlider : SimpleSlider
 //
 
-VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, float min, float max) :
-    SimpleSlider (pParent, min, max)
+VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, float min, float max, QColor sliderCol) :
+    SimpleSlider (pParent, min, max, sliderCol)
 {
     QRect layout = geometry();
 
@@ -262,7 +263,7 @@ void VerticalSimpleSlider::SetValue(float val)
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromTop = val * lenghtPerUnit;
-    float pos = m_minPoint.y() + distanceFromTop - c_margin;
+    float pos = m_maxPoint.y() + distanceFromTop - c_margin;
 
     SetSliderPosition(pos);
 }

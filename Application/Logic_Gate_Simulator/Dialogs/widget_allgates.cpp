@@ -11,7 +11,7 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
 
     //save layout
     QRect layout = ui->scrollSliderLayout->geometry();
-    ui->scrollSliderLayout = new GateSlider(1, 100, this, Qt::black);
+    ui->scrollSliderLayout = new GateSlider(1, 100, this, Qt::lightGray);
 
     //set layout after construction
     dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetGeometry(layout);
@@ -32,9 +32,9 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
     m_buttons.push_back({ui->btn_numberOutputGate, ui->btn_numberOutputGate->geometry()});
     m_buttons.push_back({ui->ln_1, ui->ln_1->geometry()});
     m_buttons.push_back({ui->ln_2, ui->ln_2->geometry()});
+    m_buttons.push_back({ui->btn_labelGate, ui->btn_labelGate->geometry()});
 
     dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(0);
-    //SetScrollPosition(0);
 }
 Widget_AllGates::~Widget_AllGates()
 {
@@ -122,4 +122,10 @@ void Widget_AllGates::on_btn_GateTriEor_clicked()
 {
     if(m_pParent)
         m_pParent->AddGate(new GateTriEor());
+}
+
+void Widget_AllGates::on_btn_labelGate_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new TextLabel());
 }

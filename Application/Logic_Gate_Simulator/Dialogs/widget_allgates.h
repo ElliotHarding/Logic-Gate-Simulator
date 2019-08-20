@@ -35,6 +35,8 @@ private slots:
     void on_btn_GateEor_clicked();
     void on_btn_GateTriEor_clicked();
 
+    void on_btn_labelGate_clicked();
+
 private:
     Ui::Widget_AllGates *ui;
 

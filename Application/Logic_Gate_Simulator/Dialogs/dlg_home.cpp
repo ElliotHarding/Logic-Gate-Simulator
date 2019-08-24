@@ -428,7 +428,10 @@ void DLG_Home::on_btn_newPage_clicked()
     QString newPageName = m_pDlgInput->getText(this, tr("Edit Name"),
                                          tr("Page name: "), QLineEdit::Normal,
                                          "", &ok);
-    if(ok && newPageName.length() > 0)
+    if(!ok)
+        return;
+
+    if(newPageName.length() > 0)
     {
         addGateField(newPageName);
     }

@@ -72,7 +72,6 @@ private:
 
     TimerThread* m_pTimerThread;
 
-    //Communication with parent dialog (DLG_Home instance)
     DLG_Home* m_pParent;
 
     //Saving

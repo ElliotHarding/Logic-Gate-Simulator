@@ -39,7 +39,21 @@ void Widget_CustomGates::UpdateList()
 void Widget_CustomGates::on_customGateListWidget_currentRowChanged(int currentRow)
 {
     m_currentRow = currentRow;
-    createItem();
+}
+
+void Widget_CustomGates::on_customGateListWidget_itemClicked(QListWidgetItem *item)
+{
+    if (m_currentRow > -1 && m_currentRow <= ui->customGateListWidget->count())
+    {
+        if (m_bDeleting)
+        {
+            DeleteItem(m_currentRow);
+        }
+        else
+        {
+            CreateItem(m_currentRow);
+        }
+    }
 }
 
 void Widget_CustomGates::on_btn_SelectionTool_clicked()
@@ -47,41 +61,64 @@ void Widget_CustomGates::on_btn_SelectionTool_clicked()
     m_pParent->SelectionToolClicked();
 }
 
-void Widget_CustomGates::on_customGateListWidget_itemClicked(QListWidgetItem *item)
+void Widget_CustomGates::CreateItem(int currentRow)
 {
-    createItem();
-}
+    //Get selected file
+    QString file = m_customGatesNames[currentRow];
+    std::ifstream customGateFile(c_CustomGatesLocation.toStdString() + file.toStdString());
 
-void Widget_CustomGates::createItem()
-{
-    //Check correct index
-    if(m_currentRow > -1 && m_currentRow < ui->customGateListWidget->count())
+    //Read into pointer and send to m_pParent
+    if(customGateFile.is_open())
     {
-        //Get selected file
-        QString file = m_customGatesNames[m_currentRow];
-        std::ifstream customGateFile(c_CustomGatesLocation.toStdString() + file.toStdString());
-
-        //Read into pointer and send to m_pParent
-        if(customGateFile.is_open())
+        GateCollection* cg;
+        static GateReader gReader;
+        if(gReader.ReadGateCollection(customGateFile, cg))
         {
-            GateCollection* cg;
-            static GateReader gReader;
-            if(gReader.ReadGateCollection(customGateFile, cg))
-            {
-                //Add pointer
-                m_pParent->AddGate(cg);
-            }
-            else
-            {
-                m_pParent->SendUserMessage("Opening a file failed!");
-            }
-            cg = nullptr;
+            //Add pointer
+            m_pParent->AddGate(cg);
         }
         else
         {
             m_pParent->SendUserMessage("Opening a file failed!");
         }
+        cg = nullptr;
+    }
+    else
+    {
+        m_pParent->SendUserMessage("Opening a file failed!");
+    }
 
-        UpdateList();
+    UpdateList();
+}
+
+void Widget_CustomGates::DeleteItem(int index)
+{
+    //Get selected file
+    QString file = m_customGatesNames[index];
+
+    //Try delete file
+    std::string fileName = c_CustomGatesLocation.toStdString() + m_customGatesNames[index].toStdString();
+    if(std::remove(fileName.c_str()) == 0)
+    {
+        //Remove from list
+        m_customGatesNames.erase (m_customGatesNames.begin()+index);
+
+        //Remove from ui list
+        ui->customGateListWidget->removeItemWidget(ui->customGateListWidget->takeItem(index));
+    }
+    else
+    {
+        m_pParent->SendUserMessage("Deleting gate collection failed!");
     }
 }
+
+void Widget_CustomGates::on_btn_Delete_clicked()
+{
+    m_bDeleting = true;
+}
+
+void Widget_CustomGates::on_btn_Create_clicked()
+{
+    m_bDeleting = false;
+}
+

@@ -388,9 +388,13 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 
         case CLICK_SELECTION:
 
-            m_lockAllGates.lock();
-            selectionClick(clickPos.x(), clickPos.y());
-            m_lockAllGates.unlock();
+            if (m_bMouseDragging)
+            {
+                m_lockAllGates.lock();
+                selectionClick(clickPos.x(), clickPos.y());
+                m_lockAllGates.unlock();
+            }
+
             break;
 
         case CLICK_LINK_NODES:
@@ -553,13 +557,13 @@ bool GateField::defaultClick(int clickX, int clickY)
             Gate* subGate = dynamic_cast<GateCollection*>(gate)->UpdateClicked_Override(clickX,clickY);
             if(subGate != nullptr)
             {
-                updateGateSelected(subGate);
+                UpdateGateSelected(subGate);
                 return true;
             }
         }
         else if(gate->UpdateClicked(clickX, clickY))
         {
-            updateGateSelected(gate);
+            UpdateGateSelected(gate);
             return true;
         }
     }
@@ -598,7 +602,7 @@ void GateField::deleteClick(int clickX, int clickY)
 
             updateFunction();
 
-            updateGateSelected(nullptr);
+            UpdateGateSelected(nullptr);
             //Exit out of for so we dont delete more than one gameobject
             return;
         }
@@ -645,11 +649,11 @@ bool GateField::dragClick(int clickX, int clickY)
                 {
                     Gate* g = dynamic_cast<GateCollection*>(m_allGates[index])->UpdateClicked_Override(clickX, clickY);
                     if(g != nullptr)
-                        updateGateSelected(g);
+                        UpdateGateSelected(g);
                 }
                 else
                 {
-                    updateGateSelected(m_allGates[index]);
+                    UpdateGateSelected(m_allGates[index]);
                 }
 
                 //Exit out of for loop so we don't drag multiple objects

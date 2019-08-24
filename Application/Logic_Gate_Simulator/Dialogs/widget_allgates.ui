@@ -25,7 +25,7 @@
   <widget class="QPushButton" name="btn_orGate">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>5</x>
      <y>15</y>
      <width>50</width>
      <height>40</height>
@@ -59,7 +59,7 @@ border:none;
   <widget class="QPushButton" name="btn_recieverGate">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>65</x>
      <y>190</y>
      <width>50</width>
      <height>40</height>
@@ -93,7 +93,7 @@ border:none;
   <widget class="QPushButton" name="btn_andGate">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>5</x>
      <y>135</y>
      <width>50</width>
      <height>40</height>
@@ -130,7 +130,7 @@ border:none;
   <widget class="QPushButton" name="btn_notGate">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>65</x>
      <y>15</y>
      <width>50</width>
      <height>40</height>
@@ -166,7 +166,7 @@ border:none;</string>
   <widget class="QPushButton" name="btn_sourceGate">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>5</x>
      <y>285</y>
      <width>50</width>
      <height>40</height>
@@ -200,7 +200,7 @@ border:none;
   <widget class="QPushButton" name="btn_timerGate">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>5</x>
      <y>320</y>
      <width>50</width>
      <height>40</height>
@@ -234,7 +234,7 @@ border:none;
   <widget class="QPushButton" name="btn_inputOn">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>65</x>
      <y>285</y>
      <width>50</width>
      <height>40</height>
@@ -268,7 +268,7 @@ border:none;
   <widget class="QPushButton" name="btn_inputOff">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>65</x>
      <y>320</y>
      <width>50</width>
      <height>40</height>
@@ -302,7 +302,7 @@ border:none;
   <widget class="QPushButton" name="btn_GateTriAnd">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>65</x>
      <y>55</y>
      <width>50</width>
      <height>40</height>
@@ -336,7 +336,7 @@ border:none;
   <widget class="QPushButton" name="btn_GateTriOr">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>5</x>
      <y>55</y>
      <width>50</width>
      <height>40</height>
@@ -370,7 +370,7 @@ border:none;
   <widget class="QPushButton" name="btn_numberOutputGate">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>5</x>
      <y>190</y>
      <width>50</width>
      <height>40</height>
@@ -406,7 +406,7 @@ border:none;
     <rect>
      <x>5</x>
      <y>175</y>
-     <width>91</width>
+     <width>101</width>
      <height>16</height>
     </rect>
    </property>
@@ -419,7 +419,7 @@ border:none;
     <rect>
      <x>5</x>
      <y>270</y>
-     <width>91</width>
+     <width>101</width>
      <height>16</height>
     </rect>
    </property>
@@ -430,7 +430,7 @@ border:none;
   <widget class="QPushButton" name="btn_GateEor">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>65</x>
      <y>95</y>
      <width>50</width>
      <height>40</height>
@@ -464,7 +464,7 @@ border:none;
   <widget class="QPushButton" name="btn_GateTriEor">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>5</x>
      <y>95</y>
      <width>50</width>
      <height>40</height>
@@ -498,9 +498,9 @@ border:none;
   <widget class="QWidget" name="scrollSliderLayout" native="true">
    <property name="geometry">
     <rect>
-     <x>105</x>
+     <x>120</x>
      <y>5</y>
-     <width>31</width>
+     <width>21</width>
      <height>290</height>
     </rect>
    </property>
@@ -511,7 +511,7 @@ border:none;
   <widget class="QPushButton" name="btn_labelGate">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>5</x>
      <y>230</y>
      <width>50</width>
      <height>40</height>
@@ -549,7 +549,7 @@ border:none;
     <rect>
      <x>5</x>
      <y>360</y>
-     <width>91</width>
+     <width>101</width>
      <height>16</height>
     </rect>
    </property>

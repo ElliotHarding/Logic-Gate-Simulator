@@ -235,6 +235,7 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
         //since we're deleting this collection, its gets dumped onto gatefield
         m_bDontDeleteGates = true;
 
+        m_pParentField->UpdateGateSelected(nullptr);
         m_pParentField->ForgetChild(this);
         delete this;
 
@@ -244,6 +245,7 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
     //Delete all button
     else if (m_deleteAllButton.contains(clickX, clickY))
     {
+        m_pParentField->UpdateGateSelected(nullptr);
         m_pParentField->ForgetChild(this);
         delete this;
 

@@ -720,7 +720,7 @@ QPoint GateField::GetClickFromMouseEvent(QMouseEvent *mouseEvent) const
     return transform.inverted().map(QPoint(mouseEvent->x(), mouseEvent->y()));
 }
 
-void GateField::updateGateSelected(Gate *g)
+void GateField::UpdateGateSelected(Gate *g)
 {
     if(m_pParent)
         m_pParent->GateSelected(g);

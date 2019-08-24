@@ -40,6 +40,8 @@ public:
     std::vector<Gate*>& GetGates();
     void FinishWithGates();
 
+    void UpdateGateSelected(Gate* g);
+
     //Public vars
     bool Enabled = true;
     ClickMode CurrentClickMode;
@@ -72,7 +74,6 @@ private:
 
     //Communication with parent dialog (DLG_Home instance)
     DLG_Home* m_pParent;
-    void updateGateSelected(Gate* g);
 
     //Saving
     std::string m_name = "Unknown";

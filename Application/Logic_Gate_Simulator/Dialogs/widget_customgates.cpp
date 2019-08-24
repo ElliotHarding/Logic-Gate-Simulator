@@ -12,6 +12,9 @@ Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent, bool show, QPoint loc)
 {
     ui->setupUi(this);
     UpdateList();
+
+    m_palActive.setColor(QPalette::Background, Qt::lightGray);
+    m_palInActive = ui->btn_Delete->palette();
 }
 
 Widget_CustomGates::~Widget_CustomGates()
@@ -114,7 +117,10 @@ void Widget_CustomGates::DeleteItem(int index)
 
 void Widget_CustomGates::on_btn_Delete_clicked()
 {
-    m_bDeleting = true;
+    m_bDeleting = !m_bDeleting;
+
+    ui->btn_Delete->setPalette(m_bDeleting ? m_palActive : m_palInActive);
+    ui->btn_Delete->setAutoFillBackground(m_bDeleting);
 }
 
 void Widget_CustomGates::on_btn_Create_clicked()

@@ -25,14 +25,15 @@ private slots:
     void on_customGateListWidget_currentRowChanged(int currentRow);
     void on_btn_SelectionTool_clicked();
     void on_btn_Delete_clicked();
-
     void on_btn_Create_clicked();
-
     void on_customGateListWidget_itemClicked(QListWidgetItem *item);
 
 private:
     Ui::Widget_CustomGates *ui;
     std::vector<QString> m_customGatesNames;
+
+    QPalette m_palActive;
+    QPalette m_palInActive;
 
     int m_currentRow = -1;
 

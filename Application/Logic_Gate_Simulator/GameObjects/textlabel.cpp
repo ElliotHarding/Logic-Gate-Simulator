@@ -13,6 +13,7 @@ TextLabel::TextLabel() :
 
 TextLabel::~TextLabel()
 {
+    m_pParentField = nullptr;
 }
 
 void TextLabel::UpdateGraphics(QPainter *painter)

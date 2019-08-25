@@ -217,10 +217,9 @@ bool GateCollection::IsDragAll()
     return (bool)m_dragMode;
 }
 
-
-bool GateCollection::UpdateDrag(int clickX, int clickY)
+//Returns true if NO buttons we're clicked
+bool GateCollection::CheckButtonClick(int clickX, int clickY)
 {
-
     //Save button
     if(m_saveButton.contains(clickX, clickY))
     {
@@ -258,6 +257,14 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
         m_gates = CircuitOptimizer::Optimize(m_gates);
         return false;
     }
+
+    return true;
+}
+
+bool GateCollection::UpdateDrag(int clickX, int clickY)
+{
+    if (!CheckButtonClick(clickX,clickY))
+        return false;
 
     if(m_dragMode == DragIndividual)
     {
@@ -302,7 +309,27 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
 
 bool GateCollection::UpdateClicked(int clickX, int clickY)
 {
-    //DISABLED FOR THIS GATE TYPE, BUT NEEDED TO OVERRIDE.
+    if(CheckButtonClick(clickX,clickY) && m_contaningArea.contains(QPoint(clickX,clickY)))
+    {
+        if(m_dragMode == DragIndividual)
+        {
+            //Proporgate click to sub gates
+            for (Gate* g : m_gates)
+            {
+                if(g->UpdateClicked(clickX, clickY))
+                {
+                    m_pParentField->UpdateGateSelected(g);
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        //Note: if return true, gate collection will be shown in DLG_GateInfo
+        return true;
+    }
+
     return false;
 }
 
@@ -323,39 +350,6 @@ Gate *GateCollection::Clone()
     clone->m_contaningArea = m_contaningArea;
 
     return clone;
-}
-
-Gate *GateCollection::UpdateClicked_Override(int clickX, int clickY)
-{
-    if(m_contaningArea.contains(QPoint(clickX,clickY)))
-    {
-        if(m_dragMode == DragIndividual)
-        {
-            for (Gate* g : m_gates)
-            {
-                if(g->GetType() == GATE_COLLECTION)
-                {
-                    Gate* subG = dynamic_cast<GateCollection*>(g)->UpdateClicked_Override(clickX, clickY);
-                    if(subG)
-                    {
-                        return subG;
-                    }
-                }
-                else if(g->UpdateClicked(clickX, clickY))
-                {
-                    return g;
-                }
-            }
-
-            //If gate collection clicked, but no sub gates clicked, return gate collection
-            return this;
-        }
-        else
-        {
-            return this;
-        }
-    }
-    return nullptr;
 }
 
 QRect GateCollection::containingArea()

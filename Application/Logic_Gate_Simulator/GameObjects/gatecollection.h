@@ -26,8 +26,6 @@ public:
 
     virtual Gate* Clone() override;
 
-    Gate *UpdateClicked_Override(int clickX, int clickY);
-
     //Class specific public methods
     void DisplaceGates(Vector2D displacement);
     void UpdateContaningArea() {m_contaningArea = containingArea();}
@@ -60,6 +58,7 @@ private:
     QRect m_deleteButton;
     QRect m_deleteAllButton;
     void DrawButtons(QPainter* painter);
+    bool CheckButtonClick(int clickX, int clickY);
 
     bool m_bDontDeleteGates = false;
 };

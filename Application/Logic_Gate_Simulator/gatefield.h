@@ -26,37 +26,48 @@ public:
     //Construction
     explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog);
      ~GateField() override;
+
+    //Gates
     void AddGate(Gate* go, bool newlySpawned = true, bool cameFromGateColleciton = false);
     void DeleteGate(Gate* g);
     void ForgetChild(Gate* g);
-    ClickMode GetCurrentClickMode();
+
+    //Saving
     bool SaveGateCollection(std::ofstream& saveStream);
     void StartSaveGateCollection(std::vector<Gate*> selectedGates);
-    void setZoomLevel(qreal zoom);
     bool SaveData();
+
+    //Actions
     void Undo();
     void Redo();
+    void setZoomLevel(qreal zoom);
 
     //Called if don't want the next gate to be clicked to be set as the selected gate
     void SkipNextGateSelectedCall();
 
+    //DLG_Home stuff
     void EditTextLabel(TextLabel *textLabelToEdit);
-
-    std::vector<Gate*>& GetGates();
-    void FinishWithGates();
-
     void UpdateGateSelected(Gate* g);
+
+    //Timer thread mutex bypass for m_allGates
+    std::vector<Gate*>& GetGates();
+    void FinishWithGates();    
 
     //Public vars
     bool Enabled = true;
     ClickMode CurrentClickMode;
+    ClickMode GetCurrentClickMode();
 
 signals:
 public slots:
 protected:
 private:
 
-    //Mouse event handlers
+    //Mouse event delegates
+    QPoint GetClickFromMouseEvent(QMouseEvent* mouseEvent) const;
+    void leftMouseClick(int clickX, int clickY);
+
+    //Click actions
     bool linkNodesClick(int clickX, int clickY);
     void deleteClick(int clickX, int clickY);
     bool dragClick(int clickX, int clickY);
@@ -64,8 +75,6 @@ private:
     bool defaultClick(int clickX, int clickY);
     void selectionClick(int clickX, int clickY);
     void panClick(int clickX, int clickY);
-    void leftMouseClick(int clickX, int clickY);
-    QPoint GetClickFromMouseEvent(QMouseEvent* mouseEvent) const;
 
     //Qt Events
     void mouseReleaseEvent(QMouseEvent *releaseEvent) override;

@@ -3,6 +3,7 @@
 
 #include "movingwidget.h"
 #include "QPushButton"
+#include "QTimer"
 
 namespace Ui {
 class Widget_AllGates;
@@ -16,9 +17,13 @@ class Widget_AllGates : public MovingWidget
 
 public:
     explicit Widget_AllGates(DLG_Home* parent = nullptr, bool show = false, QPoint loc = QPoint(0,0));
-    ~Widget_AllGates();
+    ~Widget_AllGates() override;
 
     void SetScrollPosition(float y);
+    virtual void show() override;
+
+protected:
+    virtual void wheelEvent(QWheelEvent *event) override;
 
 private slots:
     void on_btn_andGate_clicked();
@@ -34,20 +39,27 @@ private slots:
     void on_btn_numberOutputGate_clicked();
     void on_btn_GateEor_clicked();
     void on_btn_GateTriEor_clicked();
-
-    void on_btn_labelGate_clicked();
+    void on_btn_labelGate_clicked();    
 
 private:
-    Ui::Widget_AllGates *ui;
-
-    GateSlider* m_pGateSlider;
-
     struct WidgetAndPosition
     {
         QWidget* widget;
         QRect originalLayout;
     };
-    std::vector<WidgetAndPosition> m_buttons;
+
+    Ui::Widget_AllGates *ui;
+
+    GateSlider* m_pGateSlider;
+
+    //Scrolling
+    const int c_scrollSpeed = 10;
+    const int c_scrollMax = 100;
+    const int c_scrollMin = 0;
+    unsigned const int c_scrollDistance = c_scrollMax - c_scrollMin;
+    int m_scroll = 0;
+    QTimer m_scrollTimer;
+    std::vector<WidgetAndPosition> m_scrollWidgets;
 };
 
 #endif // WIDGET_ALLGATES_H

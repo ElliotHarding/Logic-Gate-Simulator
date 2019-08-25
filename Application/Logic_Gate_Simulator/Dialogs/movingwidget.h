@@ -12,6 +12,8 @@ public:
     MovingWidget(DLG_Home *parent, bool show = false, QPoint loc = QPoint(0,0));
     ~MovingWidget();
 
+    virtual void show(){ QWidget::show(); }
+
 protected:
     DLG_Home* m_pParent;
 };

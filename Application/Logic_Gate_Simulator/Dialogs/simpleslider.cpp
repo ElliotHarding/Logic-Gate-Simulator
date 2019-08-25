@@ -21,9 +21,6 @@ SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max, QColor slider
     m_maxPoint = QPoint(m_minPoint.x() + m_length, layout.height()/2);
 
     m_sliderPosition = m_minPoint;
-
-    //setAcceptDrops(true);
-    //setMouseTracking(true);
 }
 
 SimpleSlider::~SimpleSlider()
@@ -251,8 +248,8 @@ void VerticalSimpleSlider::mouseMoveEvent(QMouseEvent *event)
 float VerticalSimpleSlider::GetCurrentValue()
 {
     //Get how far slider is in terms of percentage from left
-    float distanceFromLeft = (m_sliderPosition.y() - m_minPoint.y());
-    float percentage = distanceFromLeft / m_length;
+    float distanceFromTop = (m_minPoint.y() - m_sliderPosition.y());
+    float percentage = distanceFromTop / m_length;
 
     //Apply same percentage across min - max difference
     return m_min + (m_minMaxDiff * percentage);
@@ -263,7 +260,7 @@ void VerticalSimpleSlider::SetValue(float val)
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromTop = val * lenghtPerUnit;
-    float pos = m_maxPoint.y() + distanceFromTop - c_margin;
+    float pos = m_maxPoint.y() + distanceFromTop;
 
     SetSliderPosition(pos);
 }

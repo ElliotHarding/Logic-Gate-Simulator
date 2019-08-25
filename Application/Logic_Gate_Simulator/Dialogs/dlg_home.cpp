@@ -63,7 +63,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
              //save layout
              QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
 
-             ui->layout_ZoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, this);
+             ui->layout_ZoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, 3, this);
 
              //set layout after construction
              dynamic_cast<SimpleSlider*>(ui->layout_ZoomSlider)->SetGeometry(layout);

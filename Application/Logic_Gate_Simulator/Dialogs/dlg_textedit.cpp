@@ -23,7 +23,7 @@ DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
     ui->btn_Underline->setFont(m_font.underline() ? m_fontUnderlined : m_fontDisabled);
 
     //Create & add font size slider
-    ui->widget = new FontSlider(1, 100, this);
+    ui->widget = new FontSlider(1, 100, 3, this);
 }
 
 DLG_TextEdit::~DLG_TextEdit()

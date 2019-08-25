@@ -7,7 +7,7 @@
 class SimpleSlider : public QWidget
 {
 public:
-    SimpleSlider(QWidget* pParent, float min, float max, QColor sliderCol = QColor(255,255,255));
+    SimpleSlider(QWidget* pParent, float min, float max, unsigned int scrollSpeed = 0, QColor sliderCol = QColor(255,255,255));
     ~SimpleSlider() override;
 
     virtual float GetCurrentValue();
@@ -22,6 +22,7 @@ protected:
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
+    virtual void wheelEvent(QWheelEvent *event) override;
 
     void UpdateSlider(float currentMousePos);
     virtual void SetSliderPosition(float val);
@@ -35,6 +36,9 @@ protected:
     QPoint m_sliderPosition;
     QPoint m_minPoint;
     QPoint m_maxPoint;
+
+    //Scrolling
+    unsigned int m_scrollSpeed;
 
     bool m_beingClicked;
 
@@ -52,7 +56,7 @@ class DLG_Home;
 class ZoomSlider : public SimpleSlider
 {
 public:
-    ZoomSlider(float min, float max, DLG_Home* parent);
+    ZoomSlider(float min, float max, unsigned int scrollSpeed, DLG_Home* parent);
     ~ZoomSlider();
 
 protected:
@@ -65,7 +69,7 @@ class DLG_TextEdit;
 class FontSlider : public SimpleSlider
 {
 public:
-    FontSlider(float min, float max, DLG_TextEdit* parent);
+    FontSlider(float min, float max, unsigned int scrollSpeed, DLG_TextEdit* parent);
     ~FontSlider();
 
 protected:
@@ -76,7 +80,7 @@ protected:
 class VerticalSimpleSlider : public SimpleSlider
 {
 public:
-    VerticalSimpleSlider(QWidget* pParent, float min, float max, QColor sliderCol = QColor(255,255,255));
+    VerticalSimpleSlider(QWidget* pParent, float min, float max, unsigned int scrollSpeed = 0, QColor sliderCol = QColor(255,255,255));
 
     virtual float GetCurrentValue() override;
     void SetValue(float val);

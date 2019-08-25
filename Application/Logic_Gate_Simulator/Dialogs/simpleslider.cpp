@@ -4,13 +4,14 @@
 #include "dlg_home.h"
 #include "dlg_textedit.h"
 
-SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max, QColor sliderCol) :
+SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max, unsigned int scrollSpeed, QColor sliderCol) :
     QWidget(pParent),
     m_sliderCol(sliderCol),
     m_max(max),
     m_min(min),    
     m_beingClicked(false),
-    m_minMaxDiff(max - min)
+    m_minMaxDiff(max - min),
+    m_scrollSpeed(scrollSpeed)
 {
     QRect layout = geometry();
 
@@ -98,6 +99,13 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
     painter.drawEllipse(m_sliderPosition, 5, 5);
 }
 
+void SimpleSlider::wheelEvent(QWheelEvent *event)
+{
+    const int direction = event->delta() > 0 ? m_scrollSpeed : -m_scrollSpeed;
+
+    UpdateSlider(m_sliderPosition.x() + direction);
+}
+
 void SimpleSlider::UpdateSlider(float currentMousePos)
 {
     SetSliderPosition(currentMousePos);
@@ -127,8 +135,8 @@ void SimpleSlider::SetSliderPosition(float val)
 //  FontSlider : SimpleSlider
 //
 
-FontSlider::FontSlider(float min, float max, DLG_TextEdit *parent) :
-    SimpleSlider (parent, min, max),
+FontSlider::FontSlider(float min, float max, unsigned int scrollSpeed,  DLG_TextEdit *parent) :
+    SimpleSlider (parent, min, max, scrollSpeed),
     m_pParent(parent)
 {
 }
@@ -150,8 +158,8 @@ void FontSlider::UpdateParent(float val)
 //  ZoomSlider : SimpleSlider
 //
 
-ZoomSlider::ZoomSlider(float min, float max, DLG_Home *parent) :
-    SimpleSlider (parent, min, max),
+ZoomSlider::ZoomSlider(float min, float max, unsigned int scrollSpeed, DLG_Home *parent) :
+    SimpleSlider (parent, min, max, scrollSpeed),
     m_pParent(parent)
 {
 }
@@ -172,7 +180,7 @@ void ZoomSlider::UpdateParent(float val)
 //
 
 GateSlider::GateSlider(float min, float max, Widget_AllGates *parent, QColor sliderCol) :
-    VerticalSimpleSlider (parent, min, max, sliderCol),
+    VerticalSimpleSlider (parent, min, max, 0, sliderCol),
     m_pParent(parent)
 {
 }
@@ -192,8 +200,8 @@ void GateSlider::UpdateParent(float val)
 //  VerticalSimpleSlider : SimpleSlider
 //
 
-VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, float min, float max, QColor sliderCol) :
-    SimpleSlider (pParent, min, max, sliderCol)
+VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, float min, float max, unsigned int scrollSpeed, QColor sliderCol) :
+    SimpleSlider (pParent, min, max, scrollSpeed, sliderCol)
 {
     QRect layout = geometry();
 

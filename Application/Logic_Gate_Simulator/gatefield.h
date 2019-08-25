@@ -37,6 +37,9 @@ public:
     void Undo();
     void Redo();
 
+    //Called if don't want the next gate to be clicked to be set as the selected gate
+    void SkipNextGateSelectedCall();
+
     void EditTextLabel(TextLabel *textLabelToEdit);
 
     std::vector<Gate*>& GetGates();
@@ -75,6 +78,9 @@ private:
     TimerThread* m_pTimerThread;
 
     DLG_Home* m_pParent;
+
+    //Causes next UpdateGateSelected call to not do anything
+    bool m_bSkipUpdateGateSelected = false;
 
     //Saving
     std::string m_name = "Unknown";

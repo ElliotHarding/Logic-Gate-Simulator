@@ -217,14 +217,14 @@ bool GateCollection::IsDragAll()
     return (bool)m_dragMode;
 }
 
-//Returns true if NO buttons we're clicked
+//Returns true if buttons we're clicked
 bool GateCollection::CheckButtonClick(int clickX, int clickY)
 {
     //Save button
     if(m_saveButton.contains(clickX, clickY))
     {
         m_pParentField->StartSaveGateCollection(m_gates);
-        return false;
+        return true;
     }
 
     //Delete button
@@ -238,7 +238,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         m_pParentField->ForgetChild(this);
         delete this;
 
-        return false;
+        return true;
     }
 
     //Delete all button
@@ -248,23 +248,26 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         m_pParentField->ForgetChild(this);
         delete this;
 
-        return false;
+        return true;
     }
 
     //Optimize button
     else if (m_optimize.contains(clickX, clickY))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates);
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 bool GateCollection::UpdateDrag(int clickX, int clickY)
 {
-    if (!CheckButtonClick(clickX,clickY))
-        return false;
+    if (CheckButtonClick(clickX,clickY))
+    {
+        m_pParentField->SkipNextGateSelectedCall();
+        return true;
+    }
 
     if(m_dragMode == DragIndividual)
     {
@@ -273,6 +276,7 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
         {
             if(gate->UpdateDrag(clickX, clickY))
             {
+                m_pParentField->SkipNextGateSelectedCall();
                 return true;
             }
         }
@@ -309,7 +313,7 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
 
 bool GateCollection::UpdateClicked(int clickX, int clickY)
 {
-    if(CheckButtonClick(clickX,clickY) && m_contaningArea.contains(QPoint(clickX,clickY)))
+    if(!CheckButtonClick(clickX,clickY) && m_contaningArea.contains(QPoint(clickX,clickY)))
     {
         if(m_dragMode == DragIndividual)
         {
@@ -319,14 +323,12 @@ bool GateCollection::UpdateClicked(int clickX, int clickY)
                 if(g->UpdateClicked(clickX, clickY))
                 {
                     m_pParentField->UpdateGateSelected(g);
-                    return false;
+                    m_pParentField->SkipNextGateSelectedCall();
+                    return true;
                 }
             }
-
-            return false;
         }
 
-        //Note: if return true, gate collection will be shown in DLG_GateInfo
         return true;
     }
 

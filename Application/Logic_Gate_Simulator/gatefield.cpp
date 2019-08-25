@@ -239,6 +239,21 @@ void GateField::Redo()
     update();
 }
 
+//Called if don't want the next gate to be clicked to be set as the selected gate
+void GateField::SkipNextGateSelectedCall()
+{
+    /*
+      Need GateCollection's UpdateClicked() to return true when clicked
+      (So that GateField::defaultClick() returns true, so that a selection isnt started)
+
+      But..
+
+      Don't want the true param to call UpdateGateSelected(), since clicked gates normally do this
+      Reason we don't want it is because it may be a subGate in the GateCollection that actually got clicked
+    */
+    m_bSkipUpdateGateSelected = true;
+}
+
 void GateField::EditTextLabel(TextLabel *textLabelToEdit)
 {
     m_pParent->EditTextLabel(textLabelToEdit);
@@ -559,7 +574,15 @@ bool GateField::defaultClick(int clickX, int clickY)
     {
         if(gate->UpdateClicked(clickX, clickY))
         {
-            UpdateGateSelected(gate);
+            if (m_bSkipUpdateGateSelected)
+            {
+                m_bSkipUpdateGateSelected = false;
+            }
+            else
+            {
+                UpdateGateSelected(gate);
+            }
+
             return true;
         }
     }
@@ -613,14 +636,7 @@ bool GateField::dragClick(int clickX, int clickY)
     //Already know which gate to drag
     if(m_dragGate != nullptr)
     {
-        if(m_dragGate->GetType() != GATE_COLLECTION)
-        {
-            m_dragGate->SetPosition(clickX, clickY);
-        }
-        else
-        {
-            m_dragGate->UpdateDrag(clickX, clickY);
-        }
+        m_dragGate->UpdateDrag(clickX, clickY);
 
         return true;
     }
@@ -633,15 +649,22 @@ bool GateField::dragClick(int clickX, int clickY)
         {
             //If found an object to drag,
             if(m_allGates[index]->UpdateDrag(clickX, clickY))
-            {
-                m_dragGate = m_allGates[index];
-
+            {                
                 //Move the dragged object to the front of the array.
                 //This way next loop the object will be checked first
                 //This means if you drag an object over another, the object being dragged wont switch
                 moveToFront(index, m_allGates);
 
-                UpdateGateSelected(m_allGates[index]);
+                if (m_bSkipUpdateGateSelected)
+                {
+                    m_bSkipUpdateGateSelected = false;
+                    m_bMouseDragging = false;
+                }
+                else
+                {
+                    m_dragGate = m_allGates[index];
+                    UpdateGateSelected(m_allGates[index]);
+                }
 
                 //Exit out of for loop so we don't drag multiple objects
                 return true;

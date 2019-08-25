@@ -30,32 +30,33 @@ public:
     Gate(GateType type, int width, int height, const char* iconLocation = nullptr);
     ~Gate() override;
 
+    virtual Gate* Clone() = 0;
+
+    //Generic functions
     virtual void UpdateGraphics(QPainter* painter) override;    
     virtual void UpdateOutput() = 0;
-
     virtual void SaveData(std::ofstream& storage);
     virtual bool DeleteClick(int clickX, int clickY);
-    virtual Gate* Clone() = 0;
 
     //Node functions
     virtual Node* GetClickedNode(int clickX, int clickY);
     virtual bool FindNodeWithId(id _id, Node*& node);
     virtual void AssignNewNodeIds();
     void DetachNodes();
+    virtual bool HasConnectedInputNodes();
+    virtual bool HasConnectedOutputNodes();
+    void GetDisconnectedInputNodes(std::vector<Node*>);
+    void GetDisconnectedOutputNodes(std::vector<Node*>);
 
+    //Geometry
     virtual int Left(){return m_layout.left();}
     virtual int Right(){return m_layout.right();}
     virtual int Top(){return m_layout.top();}
     virtual int Bottom(){return m_layout.bottom();}
 
+    //Hierarchy
     virtual void SetParent(GateField* gf);
     virtual GateField* GetParent();
-
-    virtual bool HasConnectedInputNodes();
-    virtual bool HasConnectedOutputNodes();
-
-    void GetDisconnectedInputNodes(std::vector<Node*>);
-    void GetDisconnectedOutputNodes(std::vector<Node*>);
 
     bool Enabled = true;
 

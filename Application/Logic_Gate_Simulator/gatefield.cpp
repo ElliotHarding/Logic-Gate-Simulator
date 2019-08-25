@@ -331,15 +331,15 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     if(click->buttons() & Qt::LeftButton)
     {
-        leftMouseClick(clickX, clickY);
+        rl_leftMouseClick(clickX, clickY);
     }
     else if(click->buttons() & Qt::RightButton)
     {
-        defaultClick(clickX,clickY);
+        rl_defaultClick(clickX,clickY);
     }
     else if(click->buttons() & Qt::MiddleButton)
     {
-        deleteClick(clickX,clickY);
+        rl_deleteClick(clickX,clickY);
     }
 
     m_lockAllGates.unlock();
@@ -348,40 +348,40 @@ void GateField::mousePressEvent(QMouseEvent *click)
     update();
 }
 
-void GateField::leftMouseClick(int clickX, int clickY)
+void GateField::rl_leftMouseClick(int clickX, int clickY)
 {
     switch (CurrentClickMode)
     {
     case CLICK_DELETE_GATE:
-        deleteClick(clickX,clickY);
+        rl_deleteClick(clickX,clickY);
         break;
 
     case CLICK_DELETE_LINK_NODES:
-        deleteLinkedNodesClick(clickX,clickY);
+        rl_deleteLinkedNodesClick(clickX,clickY);
         break;
 
     case CLICK_SELECTION:
-        selectionClick(clickX,clickY);
+        rl_selectionClick(clickX,clickY);
         break;
 
     case CLICK_PAN:
-        panClick(clickX, clickY);
+        rl_panClick(clickX, clickY);
         break;
 
     case CLICK_DEFAULT:
-        if(defaultClick(clickX,clickY))
+        if(rl_defaultClick(clickX,clickY))
             break;
 
     case CLICK_DRAG:
 
-        if(dragClick(clickX,clickY))
+        if(rl_dragClick(clickX,clickY))
             break;
 
     case CLICK_LINK_NODES:
 
-        if(!linkNodesClick(clickX, clickY))
+        if(!rl_linkNodesClick(clickX, clickY))
         {
-            selectionClick(clickX,clickY);
+            rl_selectionClick(clickX,clickY);
             m_pParent->SetCurrentClickMode(CLICK_SELECTION);
         }
 
@@ -398,7 +398,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
         case CLICK_DRAG:
 
             m_lockAllGates.lock();
-            dragClick(clickPos.x(), clickPos.y());
+            rl_dragClick(clickPos.x(), clickPos.y());
             m_lockAllGates.unlock();
 
         break;
@@ -407,7 +407,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
         case CLICK_PAN:
 
             m_lockAllGates.lock();
-            panClick(clickPos.x(), clickPos.y());
+            rl_panClick(clickPos.x(), clickPos.y());
             m_lockAllGates.unlock();
             break;
 
@@ -416,7 +416,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
             if (m_bMouseDragging)
             {
                 m_lockAllGates.lock();
-                selectionClick(clickPos.x(), clickPos.y());
+                rl_selectionClick(clickPos.x(), clickPos.y());
                 m_lockAllGates.unlock();
             }
 
@@ -536,7 +536,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     update();
 }
 
-bool GateField::linkNodesClick(int clickX, int clickY)
+bool GateField::rl_linkNodesClick(int clickX, int clickY)
 {
     for (Gate* g : m_allGates)
     {
@@ -555,7 +555,7 @@ bool GateField::linkNodesClick(int clickX, int clickY)
     return false;
 }
 
-void GateField::deleteLinkedNodesClick(int clickX, int clickY)
+void GateField::rl_deleteLinkedNodesClick(int clickX, int clickY)
 {
     Node* node;
     for (Gate* gate : m_allGates)
@@ -573,7 +573,7 @@ void GateField::deleteLinkedNodesClick(int clickX, int clickY)
     node = nullptr;
 }
 
-bool GateField::defaultClick(int clickX, int clickY)
+bool GateField::rl_defaultClick(int clickX, int clickY)
 {
     for (Gate* gate : m_allGates)
     {
@@ -595,7 +595,7 @@ bool GateField::defaultClick(int clickX, int clickY)
     return false;
 }
 
-void GateField::selectionClick(int clickX, int clickY)
+void GateField::rl_selectionClick(int clickX, int clickY)
 {
     //If start of new selection
     if(m_selectionTool == nullptr)
@@ -614,7 +614,7 @@ void GateField::selectionClick(int clickX, int clickY)
 
 }
 
-void GateField::deleteClick(int clickX, int clickY)
+void GateField::rl_deleteClick(int clickX, int clickY)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {     
@@ -633,7 +633,7 @@ void GateField::deleteClick(int clickX, int clickY)
     }
 }
 
-bool GateField::dragClick(int clickX, int clickY)
+bool GateField::rl_dragClick(int clickX, int clickY)
 {
     if(!m_bMouseDragging)
         return false;
@@ -683,7 +683,7 @@ bool GateField::dragClick(int clickX, int clickY)
     return false;
 }
 
-void GateField::panClick(int clickX, int clickY)
+void GateField::rl_panClick(int clickX, int clickY)
 {
     if(!m_bMouseDragging)
         return;

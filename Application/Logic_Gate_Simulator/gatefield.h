@@ -64,18 +64,20 @@ public slots:
 protected:
 private:
 
+    //Functions with rl_ require m_lockAllGates to be locked
+
     //Mouse event delegates
     QPoint GetClickFromMouseEvent(QMouseEvent* mouseEvent) const;
-    void leftMouseClick(int clickX, int clickY);
+    void rl_leftMouseClick(int clickX, int clickY);
 
     //Click actions
-    bool linkNodesClick(int clickX, int clickY);
-    void deleteClick(int clickX, int clickY);
-    bool dragClick(int clickX, int clickY);
-    void deleteLinkedNodesClick(int clickX, int clickY);
-    bool defaultClick(int clickX, int clickY);
-    void selectionClick(int clickX, int clickY);
-    void panClick(int clickX, int clickY);
+    bool rl_linkNodesClick(int clickX, int clickY);
+    void rl_deleteClick(int clickX, int clickY);
+    bool rl_dragClick(int clickX, int clickY);
+    void rl_deleteLinkedNodesClick(int clickX, int clickY);
+    bool rl_defaultClick(int clickX, int clickY);
+    void rl_selectionClick(int clickX, int clickY);
+    void rl_panClick(int clickX, int clickY);
 
     //Qt Events
     void mouseReleaseEvent(QMouseEvent *releaseEvent) override;

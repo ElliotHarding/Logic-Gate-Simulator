@@ -20,6 +20,7 @@ public:
     virtual void AssignNewNodeIds() override;
     virtual bool DeleteClick(int clickX, int clickY) override;
     virtual bool UpdateClicked(int clickX, int clickY) override;
+    virtual void SetParent(GateField* gf) override;
 
     virtual void SaveData(std::ofstream& storage) override;
     static void SaveData(std::ofstream& storage, std::vector<Gate*> gates);
@@ -39,6 +40,14 @@ public:
     //Drag mode
     void ToggleDragMode();
     bool IsDragAll();
+
+    void AddGate(Gate* g);
+    void ForgetGate(Gate* g);
+
+protected:
+    bool m_bIsNested = false;
+    GateCollection* m_pParentGateCollection;
+    void ProporgateParentAndCheckForNestedGates();
 
 private:
     //Vector of all the gates within collection

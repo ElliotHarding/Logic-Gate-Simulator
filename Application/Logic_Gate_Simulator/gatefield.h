@@ -44,6 +44,7 @@ public:
 
     //Called if don't want the next gate to be clicked to be set as the selected gate
     void SkipNextGateSelectedCall();
+    void StopDragging();
 
     //DLG_Home stuff
     void EditTextLabel(TextLabel *textLabelToEdit);

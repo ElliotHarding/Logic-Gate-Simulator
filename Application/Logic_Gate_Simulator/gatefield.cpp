@@ -254,6 +254,11 @@ void GateField::SkipNextGateSelectedCall()
     m_bSkipUpdateGateSelected = true;
 }
 
+void GateField::StopDragging()
+{
+    m_bMouseDragging = false;
+}
+
 void GateField::EditTextLabel(TextLabel *textLabelToEdit)
 {
     m_pParent->EditTextLabel(textLabelToEdit);
@@ -637,7 +642,6 @@ bool GateField::dragClick(int clickX, int clickY)
     if(m_dragGate != nullptr)
     {
         m_dragGate->UpdateDrag(clickX, clickY);
-
         return true;
     }
 
@@ -649,22 +653,26 @@ bool GateField::dragClick(int clickX, int clickY)
         {
             //If found an object to drag,
             if(m_allGates[index]->UpdateDrag(clickX, clickY))
-            {                
-                //Move the dragged object to the front of the array.
-                //This way next loop the object will be checked first
-                //This means if you drag an object over another, the object being dragged wont switch
-                moveToFront(index, m_allGates);
-
+            {
                 if (m_bSkipUpdateGateSelected)
                 {
                     m_bSkipUpdateGateSelected = false;
-                    m_bMouseDragging = false;
                 }
                 else
                 {
                     m_dragGate = m_allGates[index];
                     UpdateGateSelected(m_allGates[index]);
                 }
+
+                //UpdateDrag of gatecollection may delete the gate...
+                //Call this after check for resetting m_bSkipUpdateGateSelected
+                if (m_allGates.size() == 0)
+                    return true;
+
+                //Move the dragged object to the front of the array.
+                //This way next loop the object will be checked first
+                //This means if you drag an object over another, the object being dragged wont switch
+                moveToFront(index, m_allGates);
 
                 //Exit out of for loop so we don't drag multiple objects
                 return true;

@@ -7,11 +7,32 @@ GateCollection::GateCollection(std::vector<Gate*> gates) :
     Gate::Gate(GATE_COLLECTION, 0, 0)
 {
     m_gates = gates;
+    ProporgateParentAndCheckForNestedGates();
+}
+
+void GateCollection::SetParent(GateField *gf)
+{
+    m_pParentField = gf;
+
+    //Proporgate for nested gates
+    ProporgateParentAndCheckForNestedGates();
+}
+
+void GateCollection::ProporgateParentAndCheckForNestedGates()
+{
+    for (Gate* g : m_gates)
+    {
+        g->SetParent(m_pParentField);
+        if (g->GetType() == GATE_COLLECTION)
+        {
+            dynamic_cast<GateCollection*>(g)->m_bIsNested = true;
+            dynamic_cast<GateCollection*>(g)->m_pParentGateCollection = this;
+        }
+    }
 }
 
 GateCollection::~GateCollection()
 {
-
     //When deleted the gate collection filed can dump its contents onto the parent gatefield
     if(!m_bDontDeleteGates)
     {
@@ -23,27 +44,33 @@ GateCollection::~GateCollection()
         }
     }
 
-    //dump contents onto the parent gatefield
+    //dump contents onto the parent gatefield or parent gate collection...
     else
     {
-        if(m_pParentField)
+        //Dump onto parent GateCollection
+        if (m_bIsNested && m_pParentGateCollection)
         {
             for (Gate* g : m_gates)
-            {
+                m_pParentGateCollection->AddGate(&*g);
+        }
+
+        //Dump onto parent ParentField
+        else if (m_pParentField)
+        {
+            for (Gate* g : m_gates)
                 m_pParentField->AddGate(&*g, false, true);
-            }
+        }
 
-            //todo
-            //very lazy code.... fix up
-
-            const int size = m_gates.size();
-            for (int x = 0; x < size; x++)
-            {
-                m_gates.erase(m_gates.begin());
-            }
+        //Erase pointers to gates
+        const int size = m_gates.size();
+        for (int x = 0; x < size; x++)
+        {
+            m_gates.erase(m_gates.begin());
         }
     }
 
+    m_pParentGateCollection = nullptr;
+    m_pParentField = nullptr;
 }
 
 void GateCollection::UpdateOutput()
@@ -217,13 +244,49 @@ bool GateCollection::IsDragAll()
     return (bool)m_dragMode;
 }
 
+void GateCollection::AddGate(Gate *g)
+{
+    if (g->GetType() == GATE_COLLECTION)
+        dynamic_cast<GateCollection*>(g)->m_pParentGateCollection = this;
+
+    g->SetParent(m_pParentField);
+
+    m_gates.push_back(g);
+}
+
+void GateCollection::ForgetGate(Gate *g)
+{
+    for(size_t index = 0; index < m_gates.size(); index++)
+    {
+        if (m_gates[index] == g)
+        {
+            //Forget
+            m_gates.erase(m_gates.begin() + int8_t(index));
+            g = nullptr;
+
+            //Exit early
+            break;
+        }
+    }
+
+    //Update
+    for(Gate* gate : m_gates)
+    {
+        gate->UpdateOutput();
+    }
+}
+
 //Returns true if buttons we're clicked
 bool GateCollection::CheckButtonClick(int clickX, int clickY)
 {
     //Save button
     if(m_saveButton.contains(clickX, clickY))
     {
+        m_pParentField->SkipNextGateSelectedCall();
         m_pParentField->StartSaveGateCollection(m_gates);
+        m_pParentField->SkipNextGateSelectedCall();
+        m_pParentField->StopDragging();
+
         return true;
     }
 
@@ -235,9 +298,15 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         m_bDontDeleteGates = true;
 
         m_pParentField->UpdateGateSelected(nullptr);
-        m_pParentField->ForgetChild(this);
-        delete this;
+        m_pParentField->SkipNextGateSelectedCall();
+        m_pParentField->StopDragging();
 
+        if (m_bIsNested)
+            m_pParentGateCollection->ForgetGate(this);
+        else
+            m_pParentField->ForgetChild(this);
+
+        delete this;
         return true;
     }
 
@@ -245,9 +314,15 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     else if (m_deleteAllButton.contains(clickX, clickY))
     {
         m_pParentField->UpdateGateSelected(nullptr);
-        m_pParentField->ForgetChild(this);
-        delete this;
+        m_pParentField->SkipNextGateSelectedCall();
+        m_pParentField->StopDragging();
 
+        if (m_bIsNested)
+            m_pParentGateCollection->ForgetGate(this);
+        else
+            m_pParentField->ForgetChild(this);
+
+        delete this;
         return true;
     }
 
@@ -255,6 +330,8 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     else if (m_optimize.contains(clickX, clickY))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates);
+        m_pParentField->SkipNextGateSelectedCall();
+        m_pParentField->StopDragging();
         return true;
     }
 
@@ -264,10 +341,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
 bool GateCollection::UpdateDrag(int clickX, int clickY)
 {
     if (CheckButtonClick(clickX,clickY))
-    {
-        m_pParentField->SkipNextGateSelectedCall();
         return true;
-    }
 
     if(m_dragMode == DragIndividual)
     {
@@ -276,6 +350,7 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
         {
             if(gate->UpdateDrag(clickX, clickY))
             {
+                m_pParentField->UpdateGateSelected(gate);
                 m_pParentField->SkipNextGateSelectedCall();
                 return true;
             }

@@ -230,6 +230,6 @@ void DLG_GateInfo::on_btn_Edit_clicked()
 
     if(m_gateDisplayed->GetType() == GATE_TEXT_LABEL)
     {
-        dynamic_cast<TextLabel*>(m_gateDisplayed)->ShowTextEditor();
+        m_pParent->EditTextLabel(dynamic_cast<TextLabel*>(m_gateDisplayed));
     }
 }

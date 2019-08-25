@@ -24,9 +24,6 @@ public:
     //Text label functions
     void Update(QFont font, QString string);
 
-    //From dlg_gateEdit
-    void ShowTextEditor();
-
     QString GetString();
     QFont GetFont();
 
@@ -37,15 +34,15 @@ protected:
     #define EDIT_ZONE_WIDTH 8
     #define EDIT_ZONE_HEIGHT 8
     QRect m_editClickZone;
-
-    DLG_LabelGateEdit* m_pEditDlg;
 };
 
 class DLG_LabelGateEdit : public DLG_TextEdit
 {
 public:
-    DLG_LabelGateEdit(TextLabel* textLabel);
+    DLG_LabelGateEdit();
     ~DLG_LabelGateEdit();
+
+    void EditTextLabel(TextLabel* textLabel);
 
 protected:
     virtual void UpdateOverrideObject();

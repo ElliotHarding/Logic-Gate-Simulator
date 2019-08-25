@@ -3,27 +3,28 @@
 
 #include <qlayout.h>
 
-DLG_TextEdit::DLG_TextEdit(QString initalString, QFont initalFont) :
+DLG_TextEdit::DLG_TextEdit() :
     QDialog(),
-    m_savedString(initalString),
-    m_font(initalFont),
     ui(new Ui::DLG_TextEdit)
 {
     ui->setupUi(this);
     this->setLayout(new QHBoxLayout());
 
-    //Inital setup
-    ui->textEdit->setText(initalString);
-    ui->textEdit->setFont(m_font);
-
     m_fontBold.setBold(true);
     m_fontUnderlined.setUnderline(true);
 
-    ui->btn_Bold->setFont(m_font.bold() ? m_fontBold : m_fontDisabled);
-    ui->btn_Underline->setFont(m_font.underline() ? m_fontUnderlined : m_fontDisabled);
-
     //Create & add font size slider
     ui->widget = new FontSlider(1, 100, 3, this);
+}
+
+void DLG_TextEdit::Setup(QString initalString, QFont initalFont)
+{
+    m_savedString = initalString;
+    m_font = initalFont;
+
+    //Inital setup
+    ui->textEdit->setText(initalString);
+    ui->textEdit->setFont(m_font);
 }
 
 DLG_TextEdit::~DLG_TextEdit()

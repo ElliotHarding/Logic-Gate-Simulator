@@ -13,10 +13,10 @@
 #include "GateTimer.h"
 #include "gatecollection.h"
 
-
 class DLG_SaveGateCollection;
 class DLG_Home;
 class TimerThread;
+class TextLabel;
 
 class GateField : public QWidget
 {
@@ -36,6 +36,8 @@ public:
     bool SaveData();
     void Undo();
     void Redo();
+
+    void EditTextLabel(TextLabel *textLabelToEdit);
 
     std::vector<Gate*>& GetGates();
     void FinishWithGates();

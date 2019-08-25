@@ -239,6 +239,11 @@ void GateField::Redo()
     update();
 }
 
+void GateField::EditTextLabel(TextLabel *textLabelToEdit)
+{
+    m_pParent->EditTextLabel(textLabelToEdit);
+}
+
 void GateField::StartSaveGateCollection(std::vector<Gate*> selectedGates)
 {
     m_selectedGates = selectedGates;

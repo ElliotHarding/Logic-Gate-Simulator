@@ -13,17 +13,19 @@ class DLG_TextEdit : public QDialog
     Q_OBJECT
 
 public:
-    explicit DLG_TextEdit(QString initalString = "", QFont initalFont = QFont("Helvetica", 20));
+    explicit DLG_TextEdit();
     ~DLG_TextEdit();
 
     //Called by slider
-    void SetFontSize(float size);
+    void SetFontSize(float size);    
 
 protected:
     virtual void UpdateOverrideObject() = 0;
 
     QString m_savedString;
     QFont m_font;
+
+    void Setup(QString initalString = "", QFont initalFont = QFont("Helvetica", 20));
 
 private slots:
     void on_btn_Ok_clicked();

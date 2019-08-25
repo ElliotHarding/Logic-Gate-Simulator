@@ -48,6 +48,7 @@ public:
     void UpdateCustomGateListWidget();
     void SetCurrentClickMode(ClickMode clickMode);
     void ResetToPreviousClickMode();
+    void EditTextLabel(TextLabel* textLabelToEdit);
 
 private:
     Ui::DLG_Home *ui;
@@ -58,6 +59,7 @@ private:
     DLG_Message*            m_pDlgMessage;
     QFileDialog*            m_pDlgLoadGates;
     QInputDialog*           m_pDlgInput;
+    DLG_LabelGateEdit*      m_pDlgTextLabelEdit;
 
     //Gate widgets
     Widget_AllGates*    m_pWidgetAllGates;

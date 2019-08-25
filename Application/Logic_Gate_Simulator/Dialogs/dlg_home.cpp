@@ -47,6 +47,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
          m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
          m_pDlgGateInfo = new DLG_GateInfo(this);
          m_pDlgMessage = new DLG_Message(this);
+         m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
 
          //Gate widgets
          const QPoint c_GateWidgetPos = layoutGateWidget.topLeft();
@@ -145,6 +146,7 @@ DLG_Home::~DLG_Home()
     delete m_pDlgSaveGateCollection;
     delete m_pDlgGateInfo;
     delete m_pDlgMessage;
+    delete m_pDlgTextLabelEdit;
 
     //Delete gatefields
     for (GateField* gf : m_allGateFields)
@@ -298,6 +300,11 @@ void DLG_Home::ResetToPreviousClickMode()
     {
         SetCurrentClickMode(CLICK_DRAG);
     }
+}
+
+void DLG_Home::EditTextLabel(TextLabel *textLabelToEdit)
+{
+    m_pDlgTextLabelEdit->EditTextLabel(textLabelToEdit);
 }
 
 void DLG_Home::UpdateCustomGateListWidget()

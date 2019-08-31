@@ -93,9 +93,12 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
     painter.drawLine(m_minPoint, m_maxPoint);
 
     //Set slider colourSetZoomFactor
+    pen.setColor(Qt::darkGray);
     painter.setPen(pen);
 
     //Draw slider
+
+    painter.drawRect(m_sliderPosition.x() - 5, m_sliderPosition.y() + 5, 5, 5);
     painter.drawEllipse(m_sliderPosition, 5, 5);
 }
 

@@ -76,6 +76,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
 
     //Zooming
     painter.scale(m_zoomFactor, m_zoomFactor);
+    painter.translate(m_zoomFactor*m_zoomFactor, m_zoomFactor*m_zoomFactor);
 
     //If were currently selecting an area
     if(CurrentClickMode == CLICK_SELECTION && m_selectionTool)

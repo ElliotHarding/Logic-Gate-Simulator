@@ -115,7 +115,7 @@ bool Gate::HasConnectedOutputNodes()
     return false;
 }
 
-void Gate::GetDisconnectedInputNodes(std::vector<Node*> nodes)
+void Gate::GetDisconnectedInputNodes(std::vector<Node*>& nodes)
 {
     for (Node* n : m_nodes)
     {
@@ -127,7 +127,7 @@ void Gate::GetDisconnectedInputNodes(std::vector<Node*> nodes)
 
 }
 
-void Gate::GetDisconnectedOutputNodes(std::vector<Node*> nodes)
+void Gate::GetDisconnectedOutputNodes(std::vector<Node*>& nodes)
 {
     for (Node* n : m_nodes)
     {

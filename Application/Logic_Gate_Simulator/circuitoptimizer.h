@@ -32,7 +32,10 @@
 //Logic gates to boolean algebra
 */
 
-
+#define TRUE 1
+#define FALSE 0
+#define MAXVARS 7
+#define MAX 2048
 
 class CircuitOptimizer
 {
@@ -43,6 +46,16 @@ public:
 
 private:
 
+    //
+    // -- STRUCTS & TYPEDEFS --
+    //
+
+    struct BooleanExpression
+    {
+        std::vector<char> letter;
+        std::vector<bool> inverted;
+    };
+
     struct InputRunResults
     {
         std::vector<bool> in;
@@ -50,11 +63,28 @@ private:
     };
     typedef std::vector<CircuitOptimizer::InputRunResults> TruthTable;
 
-    static std::vector<Gate*> OptimizedCuircuitFromTruthTable(TruthTable tt);
+private:
 
-    static TruthTable TruthTableFromCircuit(std::vector<Gate*>& gates);
+    //
+    // -- Members --
+    //
 
-    static void FillCustomTruthTable(TruthTable& results, const size_t& numInputNodes);
+    static int minterm[MAX][MAX];
+    static int mask[MAX][MAX];		// mask of minterm
+    static int used[MAX][MAX];		// minterm used
+    static int result[MAX];		// results
+    static int primmask[MAX];		// mask for prime implicants
+    static int prim[MAX];			// prime implicant
+    static int wprim[MAX];			// essential prime implicant (TRUE/FALSE)
+    static int nwprim[MAX];		// needed not essential prime implicant
+
+    //
+    // -- Functions --
+    //
+
+    static bool TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTable& table, size_t numInputNodes);
+
+    static void FillCustomTruthTable(TruthTable& results, size_t& numInputNodes);
 
     static std::string DecimalToBinaryString(int a);
 
@@ -62,10 +92,19 @@ private:
                  std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
                  const size_t numInputNodes);
 
-    //Currently unused
-    static std::string OptimizeBooleanAlgebra(const std::string& initalString);
-    static std::string BooleanAlgebraFromTruthTable(TruthTable& results);
-    static std::vector<Gate*> CuircuitFromBooleanAlgebra(std::string algebraicString);
+    static std::vector<Gate*> CuircuitFromBooleanAlgebra(BooleanExpression algebraicString);
+
+    static bool OptimizedBooleanAlgebraFromTruthTable(int numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& result);
+
+    static int PopCount(unsigned x);
+
+    static int HammingWeight(int v1, int v2);
+
+    static void UpperTerm(int bitfield, int mask, int num, BooleanExpression& returnExpression);
+
+    static void LowerTerm(int mask, int num, BooleanExpression& returnExpression);
+
+    static int Contains(int value, int mask, int part, int partmask);
 };
 
 #endif // CIRCUITOPTIMIZER_H

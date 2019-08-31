@@ -45,8 +45,8 @@ public:
     void DetachNodes();
     virtual bool HasConnectedInputNodes();
     virtual bool HasConnectedOutputNodes();
-    void GetDisconnectedInputNodes(std::vector<Node*>);
-    void GetDisconnectedOutputNodes(std::vector<Node*>);
+    void GetDisconnectedInputNodes(std::vector<Node*>&);
+    void GetDisconnectedOutputNodes(std::vector<Node*>&);
 
     //Geometry
     virtual int Left(){return m_layout.left();}

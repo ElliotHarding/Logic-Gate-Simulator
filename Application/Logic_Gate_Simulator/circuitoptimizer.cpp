@@ -16,19 +16,19 @@ CircuitOptimizer::CircuitOptimizer()
 
 std::vector<Gate*> CircuitOptimizer::Optimize(std::vector<Gate*>& gates)
 {
-    int numInputNodes = 0;
+    size_t numInputNodes = 0;
     TruthTable tt;
-    if ( !TruthTableFromCircuit(gates, tt, numInputNodes) )
+    if ( !TruthTableFromCircuit( gates, tt, numInputNodes ) )
         return gates;
 
     BooleanExpression expression;
     if ( !OptimizedBooleanAlgebraFromTruthTable( numInputNodes, tt, expression ) )
         return gates;
 
-    return CuircuitFromBooleanAlgebra(expression);
+    return CuircuitFromBooleanAlgebra(expression, gates);
 }
 
-bool CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTable& table, size_t numInputNodes)
+bool CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTable& table, size_t& numInputNodes)
 {
     //Need to get all input nodes that are not connected & all output nodes that are not connected
     std::vector<Node*> inputNodes;
@@ -53,23 +53,25 @@ bool CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTab
     return true;
 }
 
-void CircuitOptimizer::GateRun(std::vector<InputRunResults>& inputRunResults, std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes, const size_t numInputNodes)
+void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes, const size_t numInputNodes)
 {
-    for (InputRunResults results : inputRunResults)
+    for (int index = 0; index < inputRunResults.size(); index++)
     {
         //Run it twice just to be sure. can probably remove this after
         for (int x = 0; x < 2; x++)
         {
             for (size_t x = 0; x < numInputNodes; x++)
             {
-                inputNodes[x]->SetValue(results.in[x]);
+                inputNodes[x]->SetValue(inputRunResults[index].in[x]);
             }
         }
+
+        inputRunResults.push_back(InputRunResults());
 
         //Store results
         for (Node* n : outputNodes)
         {
-            results.result.push_back(n->GetValue());
+            inputRunResults[index].result.push_back(n->GetValue());
         }
     }
 }
@@ -113,10 +115,10 @@ std::string CircuitOptimizer::DecimalToBinaryString(int a)
     return binary;
 }
 
-std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpression algebraicString)
+std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn)
 {
     //todo
-    return std::vector<Gate*>();
+    return defaultReturn;
 }
 
 
@@ -189,7 +191,7 @@ int CircuitOptimizer::Contains(int value, int mask, int part, int partmask)
     return FALSE;
 }
 
-bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(int numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& returnExpression)
+bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& returnExpression)
 {
     int pos = 0;
     int cur = 0;

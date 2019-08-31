@@ -82,19 +82,19 @@ private:
     // -- Functions --
     //
 
-    static bool TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTable& table, size_t numInputNodes);
+    static bool TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTable& table, size_t& numInputNodes);
 
     static void FillCustomTruthTable(TruthTable& results, size_t& numInputNodes);
 
     static std::string DecimalToBinaryString(int a);
 
-    static void GateRun(std::vector<InputRunResults>& inputRunResults,
+    static void GateRun(TruthTable& inputRunResults,
                  std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
                  const size_t numInputNodes);
 
-    static std::vector<Gate*> CuircuitFromBooleanAlgebra(BooleanExpression algebraicString);
+    static std::vector<Gate*> CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn);
 
-    static bool OptimizedBooleanAlgebraFromTruthTable(int numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& result);
+    static bool OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& result);
 
     static int PopCount(unsigned x);
 

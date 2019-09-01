@@ -179,7 +179,7 @@ Node::~Node()
 
 void Node::SetValue(bool val)
 {
-    m_bValue = val;
+    m_bValue = val;    
 
     if(m_nodeType == OutputNode)
     {
@@ -192,7 +192,12 @@ void Node::SetValue(bool val)
             }
          }
     }
-
+    else
+    {
+        //Having this here means can't update any input nodes in any UpdateOutput() functions
+        //otherwise circular code.
+        m_parent->UpdateOutput();
+    }
 }
 
 bool Node::GetValue()

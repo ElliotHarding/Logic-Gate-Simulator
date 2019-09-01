@@ -97,9 +97,7 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
     painter.setPen(pen);
 
     //Draw slider
-
-    painter.drawRect(m_sliderPosition.x() - 5, m_sliderPosition.y() + 5, 5, 5);
-    painter.drawEllipse(m_sliderPosition, 5, 5);
+    painter.drawLine(QPoint(m_sliderPosition.x() + 5, m_minPoint.y()), QPoint(m_sliderPosition.x() - 5, m_minPoint.y()));
 }
 
 void SimpleSlider::wheelEvent(QWheelEvent *event)
@@ -226,6 +224,26 @@ void VerticalSimpleSlider::SetGeometry(QRect layout)
     m_sliderPosition = m_minPoint;
 
     setGeometry(layout);
+}
+
+void VerticalSimpleSlider::paintEvent(QPaintEvent *paintEvent)
+{
+    QPainter painter(this);
+
+    //Paiting variables to be used
+    QPainterPath path;
+    QPen pen(m_sliderCol, 6);
+    painter.setPen(pen);
+
+    //Draw bar
+    painter.drawLine(m_minPoint, m_maxPoint);
+
+    //Set slider colourSetZoomFactor
+    pen.setColor(Qt::darkGray);
+    painter.setPen(pen);
+
+    //Draw slider
+    painter.drawLine(QPoint(m_minPoint.x(), m_sliderPosition.y() + 5), QPoint(m_minPoint.x(), m_sliderPosition.y() - 5));
 }
 
 void VerticalSimpleSlider::SetSliderPosition(float val)

@@ -90,7 +90,7 @@ private:
 
     static void GateRun(TruthTable& inputRunResults,
                  std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
-                 const size_t numInputNodes);
+                 const size_t numInputNodes, std::vector<Gate*>& gates);
 
     static std::vector<Gate*> CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn);
 

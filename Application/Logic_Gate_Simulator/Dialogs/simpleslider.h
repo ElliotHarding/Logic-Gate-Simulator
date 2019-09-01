@@ -89,6 +89,7 @@ public:
     virtual void UpdateParent(float val) override = 0;
 
 protected:
+    void paintEvent(QPaintEvent* paintEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
 

@@ -48,16 +48,17 @@ bool CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTab
 
     FillCustomTruthTable(table, numInputNodes);
 
-    GateRun(table, inputNodes, outputNodes, numInputNodes);
+    GateRun(table, inputNodes, outputNodes, numInputNodes, gates);
 
     return true;
 }
 
-void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes, const size_t numInputNodes)
+void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
+                               const size_t numInputNodes, std::vector<Gate*>& gates)
 {
     for (int index = 0; index < inputRunResults.size(); index++)
     {
-        //Run it twice just to be sure. can probably remove this after
+        //Run it twice just to be sure. can probably remove this after testing
         for (int x = 0; x < 2; x++)
         {
             for (size_t x = 0; x < numInputNodes; x++)
@@ -66,7 +67,8 @@ void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& 
             }
         }
 
-        inputRunResults.push_back(InputRunResults());
+        for (Gate* g : gates)
+            g->UpdateOutput();
 
         //Store results
         for (Node* n : outputNodes)

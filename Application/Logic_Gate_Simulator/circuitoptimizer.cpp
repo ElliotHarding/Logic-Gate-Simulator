@@ -242,7 +242,7 @@ bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, C
     //Iterate truth table results
     for ( x=0; x < pos; x++)
     {
-        if (truthTable[x].result[0])
+        if (truthTable[x].result)
         {
             mask[cur][0] = ((1 << numInputs)- 1);
             minterm[cur][0] = x;
@@ -327,7 +327,7 @@ bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, C
     }
 
     //find essential and not essential prime implicants
-    //all alle prime implicants are set to "not essential" so far
+    //all prime implicants are set to "not essential" so far
     //for all minterms
     for (y=0; y < pos; y++)
     {

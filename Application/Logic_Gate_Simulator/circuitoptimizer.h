@@ -84,13 +84,14 @@ private:
 
     static bool TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTable& table, size_t& numInputNodes);
 
-    static void FillCustomTruthTable(TruthTable& results, size_t& numInputNodes);
-
     static std::string DecimalToBinaryString(int a, size_t reqLen);
 
+    /*
+    static void FillCustomTruthTable(TruthTable& results, size_t& numInputNodes);
     static void GateRun(TruthTable& inputRunResults,
                  std::vector<Node*>& inputNodes, Node*& outputNode,
                  const size_t numInputNodes, std::vector<Gate*>& gates);
+                 */
 
     static std::vector<Gate*> CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn);
 

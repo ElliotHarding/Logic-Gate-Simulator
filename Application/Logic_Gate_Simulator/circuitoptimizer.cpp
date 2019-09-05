@@ -46,22 +46,26 @@ bool CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTab
     if (numInputNodes < 2 || numInputNodes == 0 || outputNodes.size() == 0)
         return false;
 
-    //Fill truth table with runs of the gates
-    FillCustomTruthTable(table, numInputNodes);
-
-    //Run the gates & store results
-    if (outputNodes.size() == 1)
-        GateRun(table, inputNodes, outputNodes[0], numInputNodes, gates);
-
-    else
+    const int size = pow(2, numInputNodes);
+    for (int i = 0; i < size; i++)
     {
-        //todo multi-output
-        return false;
+        table.push_back(RunOfGates());
+
+        const std::string bin = DecimalToBinaryString(i, numInputNodes);
+        for (size_t iNode = 0; iNode < bin.length(); iNode++)
+        {
+            const bool bIn = bin[iNode] == '0' ? true : false;
+            table[i].in.push_back(bIn);
+            inputNodes[iNode]->SetValue(bIn);
+        }
+
+        table[i].result = outputNodes[0]->GetValue();
     }
 
     return true;
 }
 
+/*
 void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& inputNodes, Node*& outputNode,
                                const size_t numInputNodes, std::vector<Gate*>& gates)
 {
@@ -76,9 +80,6 @@ void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& 
             }
         }
 
-        //for (Gate* g : gates)
-          //  g->UpdateOutput();
-
         //Store results
         inputRunResults[index].result = outputNode->GetValue();
     }
@@ -86,21 +87,17 @@ void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& 
 
 void CircuitOptimizer::FillCustomTruthTable(TruthTable &results, size_t& numInputNodes)
 {
-    int n = 3;
     int size = pow(2, numInputNodes);
     for (int i = 0; i < size; i++)
     {
         results.push_back(RunOfGates());
 
         const std::string bin = DecimalToBinaryString(i, numInputNodes);
-        //while (bin.length() < n)
-            //bin = "0" + bin;
-
         for (char c : bin)
-            results[results.size()-1].in.push_back(c == '0' ? true : false);
+            results[i].in.push_back(c == '0' ? true : false);
     }
-
 }
+*/
 
 std::string CircuitOptimizer::DecimalToBinaryString(int a, size_t reqLen)
 {

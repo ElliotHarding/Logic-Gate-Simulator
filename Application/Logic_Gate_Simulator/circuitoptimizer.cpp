@@ -43,17 +43,26 @@ bool CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTab
     numInputNodes = inputNodes.size();
 
     //Nothing to optimise
-    if (numInputNodes < 2 || numInputNodes == 0)
+    if (numInputNodes < 2 || numInputNodes == 0 || outputNodes.size() == 0)
         return false;
 
+    //Fill truth table with runs of the gates
     FillCustomTruthTable(table, numInputNodes);
 
-    GateRun(table, inputNodes, outputNodes, numInputNodes, gates);
+    //Run the gates & store results
+    if (outputNodes.size() == 1)
+        GateRun(table, inputNodes, outputNodes[0], numInputNodes, gates);
+
+    else
+    {
+        //todo multi-output
+        return false;
+    }
 
     return true;
 }
 
-void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
+void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& inputNodes, Node*& outputNode,
                                const size_t numInputNodes, std::vector<Gate*>& gates)
 {
     for (int index = 0; index < inputRunResults.size(); index++)
@@ -67,14 +76,11 @@ void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& 
             }
         }
 
-        for (Gate* g : gates)
-            g->UpdateOutput();
+        //for (Gate* g : gates)
+          //  g->UpdateOutput();
 
         //Store results
-        for (Node* n : outputNodes)
-        {
-            inputRunResults[index].result.push_back(n->GetValue());
-        }
+        inputRunResults[index].result = outputNode->GetValue();
     }
 }
 
@@ -84,7 +90,7 @@ void CircuitOptimizer::FillCustomTruthTable(TruthTable &results, size_t& numInpu
     int size = pow(2, numInputNodes);
     for (int i = 0; i < size; i++)
     {
-        results.push_back(InputRunResults());
+        results.push_back(RunOfGates());
 
         std::string bin = DecimalToBinaryString(i);
         while (bin.length() < n)

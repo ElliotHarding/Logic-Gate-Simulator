@@ -186,10 +186,10 @@ void Node::SetValue(bool val)
          for(Node* n : m_linkedNodes)
          {
             n->SetValue(m_bValue);
-            if(n->GetParent())
+            /*if(n->GetParent())
             {
                 n->GetParent()->UpdateOutput();
-            }
+            }*/
          }
     }
     else

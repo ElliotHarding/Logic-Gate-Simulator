@@ -56,12 +56,12 @@ private:
         std::vector<bool> inverted;
     };
 
-    struct InputRunResults
+    struct RunOfGates
     {
         std::vector<bool> in;
-        std::vector<bool> result;
+        bool result;
     };
-    typedef std::vector<CircuitOptimizer::InputRunResults> TruthTable;
+    typedef std::vector<RunOfGates> TruthTable;
 
 private:
 
@@ -89,7 +89,7 @@ private:
     static std::string DecimalToBinaryString(int a);
 
     static void GateRun(TruthTable& inputRunResults,
-                 std::vector<Node*>& inputNodes, std::vector<Node*>& outputNodes,
+                 std::vector<Node*>& inputNodes, Node*& outputNode,
                  const size_t numInputNodes, std::vector<Gate*>& gates);
 
     static std::vector<Gate*> CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn);

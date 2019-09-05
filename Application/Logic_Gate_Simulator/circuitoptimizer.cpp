@@ -96,13 +96,8 @@ void CircuitOptimizer::FillCustomTruthTable(TruthTable &results, size_t& numInpu
         while (bin.length() < n)
             bin = "0" + bin;
 
-        std::vector<bool> boolArray;
         for (char c : bin)
-        {
-            boolArray.push_back(c == '0' ? true : false);
-        }
-
-        results[results.size()-1].in = boolArray;
+            results[results.size()-1].in.push_back(c == '0' ? true : false);
     }
 
 }

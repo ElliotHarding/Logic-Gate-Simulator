@@ -663,17 +663,17 @@ bool GateField::rl_dragClick(int clickX, int clickY)
                 {
                     m_dragGate = m_allGates[index];
                     UpdateGateSelected(m_allGates[index]);
+
+                    //UpdateDrag of gatecollection may delete the gate...
+                    //Call this after check for resetting m_bSkipUpdateGateSelected
+                    if (m_allGates.size() == 0)
+                        return true;
+
+                    //Move the dragged object to the front of the array.
+                    //This way next loop the object will be checked first
+                    //This means if you drag an object over another, the object being dragged wont switch
+                    moveToFront(index, m_allGates);
                 }
-
-                //UpdateDrag of gatecollection may delete the gate...
-                //Call this after check for resetting m_bSkipUpdateGateSelected
-                if (m_allGates.size() == 0)
-                    return true;
-
-                //Move the dragged object to the front of the array.
-                //This way next loop the object will be checked first
-                //This means if you drag an object over another, the object being dragged wont switch
-                moveToFront(index, m_allGates);
 
                 //Exit out of for loop so we don't drag multiple objects
                 return true;

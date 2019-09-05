@@ -86,7 +86,7 @@ private:
 
     static void FillCustomTruthTable(TruthTable& results, size_t& numInputNodes);
 
-    static std::string DecimalToBinaryString(int a);
+    static std::string DecimalToBinaryString(int a, size_t reqLen);
 
     static void GateRun(TruthTable& inputRunResults,
                  std::vector<Node*>& inputNodes, Node*& outputNode,

@@ -70,9 +70,9 @@ void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& 
         //Run it twice just to be sure. can probably remove this after testing
         for (int x = 0; x < 2; x++)
         {
-            for (size_t x = 0; x < numInputNodes; x++)
+            for (size_t iNode = 0; iNode < numInputNodes; iNode++)
             {
-                inputNodes[x]->SetValue(inputRunResults[index].in[x]);
+                inputNodes[iNode]->SetValue(inputRunResults[index].in[iNode]);
             }
         }
 
@@ -92,9 +92,9 @@ void CircuitOptimizer::FillCustomTruthTable(TruthTable &results, size_t& numInpu
     {
         results.push_back(RunOfGates());
 
-        std::string bin = DecimalToBinaryString(i);
-        while (bin.length() < n)
-            bin = "0" + bin;
+        const std::string bin = DecimalToBinaryString(i, numInputNodes);
+        //while (bin.length() < n)
+            //bin = "0" + bin;
 
         for (char c : bin)
             results[results.size()-1].in.push_back(c == '0' ? true : false);
@@ -102,11 +102,11 @@ void CircuitOptimizer::FillCustomTruthTable(TruthTable &results, size_t& numInpu
 
 }
 
-std::string CircuitOptimizer::DecimalToBinaryString(int a)
+std::string CircuitOptimizer::DecimalToBinaryString(int a, size_t reqLen)
 {
     std::string binary = "";
     int mask = 1;
-    for(int i = 0; i < 31; i++)
+    for(int i = 0; i < reqLen; i++)
     {
         if((mask&a) >= 1)
             binary = "1"+binary;

@@ -40,7 +40,7 @@ public:
     //Actions
     void Undo();
     void Redo();
-    void setZoomLevel(qreal zoom);
+    void SetZoomLevel(qreal zoom, bool zoomCenter = true);
 
     //Called if don't want the next gate to be clicked to be set as the selected gate
     void SkipNextGateSelectedCall();
@@ -84,6 +84,7 @@ private:
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
+    void wheelEvent(QWheelEvent *event) override;
 
     void updateFunction();
 
@@ -115,6 +116,7 @@ private:
     //Zooming
     qreal m_zoomFactor;
     QPoint m_zoomLocation;
+    const qreal m_zoomScrollSpeed = 0.05;
 
     //Panning
     Vector2D m_screenPosDelta;

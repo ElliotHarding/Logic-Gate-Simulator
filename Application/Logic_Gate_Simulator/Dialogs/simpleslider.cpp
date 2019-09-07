@@ -43,7 +43,7 @@ void SimpleSlider::SetValue(float val)
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromLeft = val * lenghtPerUnit;
-    float pos = m_minPoint.x() + distanceFromLeft - c_margin;
+    float pos = m_minPoint.x() + distanceFromLeft - (c_margin * 2 + 4);
 
     SetSliderPosition(pos);
 }
@@ -172,7 +172,7 @@ ZoomSlider::~ZoomSlider()
 
 void ZoomSlider::UpdateParent(float val)
 {
-    m_pParent->SetZoomFactor(val, false);
+    m_pParent->SetZoomFactor(val, true, false);
 }
 
 

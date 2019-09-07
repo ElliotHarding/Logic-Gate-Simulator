@@ -40,7 +40,7 @@ public:
     ~DLG_Home();
 
     void SendUserMessage(QString message);
-    void SetZoomFactor(qreal zoomFactor, bool updateSlider = true);
+    void SetZoomFactor(qreal zoomFactor, bool zoomCenter = true, bool updateSlider = true);
     void AddGate(Gate* g);
     void GateSelected(Gate* g);
     void DeleteGate(Gate* g);
@@ -75,9 +75,10 @@ private:
     const int c_moveWidgetDistance = 160;
 
     //Zooming
-    qreal m_ZoomFactor;
+    qreal m_zoomFactor;
     const int c_maxZoom = 1;
     const qreal c_minZoom = 0.2;
+    const qreal c_incZoom = 0.1;
 
     //Gatefields
     int8_t m_iCurrentGateField;

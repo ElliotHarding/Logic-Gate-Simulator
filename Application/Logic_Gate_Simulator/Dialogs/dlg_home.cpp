@@ -7,7 +7,7 @@
 DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
-    m_ZoomFactor(0.5)
+    m_zoomFactor(0.5)
 {
 
     progressBar->setValue(20);
@@ -202,7 +202,7 @@ void DLG_Home::addGateField(QString& name)
 
 GateField *DLG_Home::createNewGateField(QString name)
 {
-    return new GateField(m_ZoomFactor, name.toStdString(), this, m_pDlgSaveGateCollection);
+    return new GateField(m_zoomFactor, name.toStdString(), this, m_pDlgSaveGateCollection);
 }
 
 QRect DLG_Home::accountForUIOffsetts(const QRect& rect)
@@ -388,35 +388,31 @@ void DLG_Home::SwitchWidgets(MovingWidget* newWidgetToShow)
 
 void DLG_Home::on_btn_zoomIn_clicked()
 {  
-    if(m_ZoomFactor < c_maxZoom)
-    {
-        m_ZoomFactor += 0.1;
-    }
-
-    SetZoomFactor(m_ZoomFactor);
+    SetZoomFactor(m_zoomFactor += c_incZoom);
 }
 void DLG_Home::on_btn_zoomOut_clicked()
 {
-    if(m_ZoomFactor > c_minZoom)
-    {
-        m_ZoomFactor -= 0.1;
-    }
-
-    SetZoomFactor(m_ZoomFactor);
+    SetZoomFactor(m_zoomFactor -= c_incZoom);
 }
 
 //Function works for local call & external call
-void DLG_Home::SetZoomFactor(qreal zoomFactor, bool updateSlider)
+void DLG_Home::SetZoomFactor(qreal zoomFactor, bool zoomCenter, bool updateSlider)
 {
-    if (m_ZoomFactor != zoomFactor)
+    if (m_zoomFactor != zoomFactor)
     {
-        m_ZoomFactor = zoomFactor;
+        //Make sure zoom factor is between c_maxZoom & c_minZoom
+        if(zoomFactor > c_maxZoom)
+            m_zoomFactor = c_maxZoom;
+        else if(zoomFactor < c_minZoom)
+            m_zoomFactor = c_minZoom;
+        else
+            m_zoomFactor = zoomFactor;
 
         if(updateSlider)
-            dynamic_cast<ZoomSlider*>(ui->layout_ZoomSlider)->SetValue(m_ZoomFactor);
+            dynamic_cast<ZoomSlider*>(ui->layout_ZoomSlider)->SetValue(m_zoomFactor);
 
         if(m_iCurrentGateField != -1)
-            m_allGateFields[size_t(m_iCurrentGateField)]->setZoomLevel(m_ZoomFactor);
+            m_allGateFields[size_t(m_iCurrentGateField)]->SetZoomLevel(m_zoomFactor, zoomCenter);
     }
 }
 

@@ -30,8 +30,8 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
         g.reserve(20);
     }
 
-    //Todo m_width & m_height or geometry()
-    m_zoomLocation = QPoint(402, 250);
+    const QRect geo = geometry();
+    m_zoomLocation = geo.center();
 
     m_pTimerThread->start();
 }
@@ -127,9 +127,17 @@ ClickMode GateField::GetCurrentClickMode()
     return CurrentClickMode;
 }
 
-void GateField::setZoomLevel(qreal zoom)
+void GateField::SetZoomLevel(qreal zoom, bool zoomCenter)
 {
     m_zoomFactor = zoom;
+
+    //Set m_zoomLocation to geo.center
+    if(zoomCenter)
+    {
+        const QRect geo = geometry();
+        m_zoomLocation = geo.center();
+    }
+
 
     //Call to redraw
     update();
@@ -539,6 +547,15 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 
     //Call to redraw
     update();
+}
+
+void GateField::wheelEvent(QWheelEvent *event)
+{
+    const qreal direction = event->delta() > 0 ? m_zoomScrollSpeed : -m_zoomScrollSpeed;
+
+    m_zoomLocation = event->pos();
+
+    m_pParent->SetZoomFactor(m_zoomFactor + direction, false, true);
 }
 
 bool GateField::rl_linkNodesClick(int clickX, int clickY)

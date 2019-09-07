@@ -169,6 +169,7 @@ void GateCollection::DrawButtons(QPainter *painter)
     painter->drawImage(m_deleteButton, deleteButton);
     painter->drawImage(m_saveButton, saveButton);
 
+    painter->setPen(QPen(Qt::black,0.5));
     painter->drawRect(m_optimize);
 }
 

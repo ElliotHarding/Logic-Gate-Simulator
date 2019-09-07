@@ -315,8 +315,7 @@ void GateField::AddGate(Gate* go, bool newlySpawned, bool cameFromGateColleciton
 
 
     //Call to redraw
-    //if(!cameFromGateColleciton)
-        update();
+    update();
 }
 
 void GateField::mousePressEvent(QMouseEvent *click)

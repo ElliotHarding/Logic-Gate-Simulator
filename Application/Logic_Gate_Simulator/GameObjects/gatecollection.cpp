@@ -138,16 +138,13 @@ bool GateCollection::DeleteClick(int clickX, int clickY)
 
 void GateCollection::UpdateGraphics(QPainter *painter)
 {
+    UpdateContaningArea();
+
     if (m_dragMode == DragAll)
          painter->fillRect(m_contaningArea, QColor(40,40,40,20));
 
     for(Gate* gate : m_gates)
-    {
-        //Draw gate
         gate->UpdateGraphics(painter);
-    }
-
-    UpdateContaningArea();
 
     DrawButtons(painter);
 

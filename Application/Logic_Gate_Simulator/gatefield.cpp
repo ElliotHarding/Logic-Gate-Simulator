@@ -315,7 +315,7 @@ void GateField::AddGate(Gate* go, bool newlySpawned, bool cameFromGateColleciton
 
 
     //Call to redraw
-    if(!cameFromGateColleciton)
+    //if(!cameFromGateColleciton)
         update();
 }
 

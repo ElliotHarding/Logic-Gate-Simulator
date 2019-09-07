@@ -547,17 +547,21 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     update();
 }
 
+//Handles mouse scroll for zooming, offsets gates based on mouse position
 void GateField::wheelEvent(QWheelEvent *event)
 {
     const QPoint scrollPos = QtPointToWorldPoint(event->pos());
     const qreal direction = event->delta() > 0 ? m_zoomScrollSpeed : -m_zoomScrollSpeed;
 
+    //Only offset gates if zoom factor actually changes
     if (m_pParent->SetZoomFactor(m_zoomFactor + direction, true))
     {
         //Calcualte vector between previous mouse pos and current
         const double offsetX = -scrollPos.x() * direction;
         const double offsetY = -scrollPos.y() * direction;
 
+        //Offset the gates
+        //Functions with rl_ require m_lockAllGates to be locked
         m_lockAllGates.lock();
         rl_offsetGates(offsetX, offsetY);
         m_lockAllGates.unlock();
@@ -754,6 +758,7 @@ void GateField::BackupGates()
     m_backupIndex = m_gateBackups.size() - 1;
 }
 
+//Functions with rl_ require m_lockAllGates to be locked
 void GateField::rl_offsetGates(double offsetX, double offsetY)
 {
     if(offsetX != 0 || offsetY != 0)

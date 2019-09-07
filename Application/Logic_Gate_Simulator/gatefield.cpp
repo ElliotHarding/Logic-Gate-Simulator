@@ -31,7 +31,7 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     }
 
     const QRect geo = geometry();
-    m_zoomLocation = geo.center();
+    m_centerScreen = geo.center();
 
     m_pTimerThread->start();
 }
@@ -79,7 +79,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
     //Zooming
-    painter.translate(m_zoomLocation.x(), m_zoomLocation.y());
+    painter.translate(m_centerScreen.x(), m_centerScreen.y());
     painter.scale(m_zoomFactor, m_zoomFactor);
 
     //If were currently selecting an area
@@ -135,7 +135,7 @@ void GateField::SetZoomLevel(qreal zoom, bool zoomCenter)
     if(zoomCenter)
     {
         const QRect geo = geometry();
-        m_zoomLocation = geo.center();
+        m_centerScreen = geo.center();
     }
 
 
@@ -321,7 +321,7 @@ void GateField::AddGate(Gate* go, bool newlySpawned, bool cameFromGateColleciton
 
 void GateField::mousePressEvent(QMouseEvent *click)
 {
-    const QPoint clickPos = GetClickFromMouseEvent(click);
+    const QPoint clickPos = QtPointToWorldPoint(click->pos());
     const int clickX = clickPos.x();
     const int clickY = clickPos.y();
 
@@ -404,7 +404,7 @@ void GateField::rl_leftMouseClick(int clickX, int clickY)
 
 void GateField::mouseMoveEvent(QMouseEvent *click)
 {
-    const QPoint clickPos = GetClickFromMouseEvent(click);
+    const QPoint clickPos = QtPointToWorldPoint(click->pos());
 
     switch (CurrentClickMode)
     {
@@ -450,7 +450,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 
 void GateField::mouseReleaseEvent(QMouseEvent* click)
 {
-    const QPoint clickPos = GetClickFromMouseEvent(click);
+    const QPoint clickPos = QtPointToWorldPoint(click->pos());
 
     m_bMouseDragging = false;
     m_dragGate = nullptr;
@@ -477,9 +477,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 
             //Remove gates from m_allgates
             for (Gate* g : m_selectedGates)
-            {
                 ForgetChild(g);
-            }
 
             //Add gate collection to m_allGates
             AddGate(collection, false, true);
@@ -551,11 +549,19 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 
 void GateField::wheelEvent(QWheelEvent *event)
 {
+    const QPoint scrollPos = QtPointToWorldPoint(event->pos());
     const qreal direction = event->delta() > 0 ? m_zoomScrollSpeed : -m_zoomScrollSpeed;
 
-    m_zoomLocation = event->pos();
+    if (m_pParent->SetZoomFactor(m_zoomFactor + direction, true))
+    {
+        //Calcualte vector between previous mouse pos and current
+        const double offsetX = -scrollPos.x() * direction;
+        const double offsetY = -scrollPos.y() * direction;
 
-    m_pParent->SetZoomFactor(m_zoomFactor + direction, false, true);
+        m_lockAllGates.lock();
+        rl_offsetGates(offsetX, offsetY);
+        m_lockAllGates.unlock();
+    }
 }
 
 bool GateField::rl_linkNodesClick(int clickX, int clickY)
@@ -714,16 +720,7 @@ void GateField::rl_panClick(int clickX, int clickY)
     const float offsetX = c_panSpeedMultiplier * (clickX - m_previousDragMousePos.x());
     const float offsetY = c_panSpeedMultiplier * (clickY - m_previousDragMousePos.y());
 
-    //Add to total delta
-    m_screenPosDelta.x += offsetX;
-    m_screenPosDelta.y += offsetY;
-
-    //Apply delta
-    if(offsetX != 0 || offsetY != 0)
-        for (Gate* g : m_allGates)
-        {
-            g->OffsetPosition(offsetX, offsetY);
-        }
+    rl_offsetGates(offsetX, offsetY);
 
     //Save current mouse pos as m_previousDragMousePos for next run
     m_previousDragMousePos = QPoint(clickX, clickY);
@@ -757,11 +754,25 @@ void GateField::BackupGates()
     m_backupIndex = m_gateBackups.size() - 1;
 }
 
-QPoint GateField::GetClickFromMouseEvent(QMouseEvent *mouseEvent) const
+void GateField::rl_offsetGates(double offsetX, double offsetY)
+{
+    if(offsetX != 0 || offsetY != 0)
+    {
+        //Add to total delta
+        m_screenPosDelta.x += offsetX;
+        m_screenPosDelta.y += offsetY;
+
+        //Apply delta
+        for (Gate* g : m_allGates)
+            g->OffsetPosition(offsetX, offsetY);
+    }
+}
+
+QPoint GateField::QtPointToWorldPoint(QPoint mousePoint) const
 {
     QTransform transform;
     transform.scale(m_zoomFactor, m_zoomFactor);
-    return transform.inverted().map(QPoint(mouseEvent->x() - m_zoomLocation.x(), mouseEvent->y() - m_zoomLocation.y()));
+    return transform.inverted().map(QPoint(mousePoint.x() - m_centerScreen.x(), mousePoint.y() - m_centerScreen.y()));
 }
 
 void GateField::UpdateGateSelected(Gate *g)

@@ -7,7 +7,7 @@
 DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
-    m_zoomFactor(0.5)
+    m_zoomFactor(-1)
 {
 
     progressBar->setValue(20);
@@ -396,24 +396,34 @@ void DLG_Home::on_btn_zoomOut_clicked()
 }
 
 //Function works for local call & external call
-void DLG_Home::SetZoomFactor(qreal zoomFactor, bool zoomCenter, bool updateSlider)
+//Returns false if zoom value did not change, or a range limit is reached
+bool DLG_Home::SetZoomFactor(qreal zoomFactor, bool updateSlider)
 {
+    bool retVal = false;
     if (m_zoomFactor != zoomFactor)
     {
         //Make sure zoom factor is between c_maxZoom & c_minZoom
         if(zoomFactor > c_maxZoom)
             m_zoomFactor = c_maxZoom;
+
         else if(zoomFactor < c_minZoom)
             m_zoomFactor = c_minZoom;
+
         else
+        {
+            retVal = true;
             m_zoomFactor = zoomFactor;
+        }
 
         if(updateSlider)
             dynamic_cast<ZoomSlider*>(ui->layout_ZoomSlider)->SetValue(m_zoomFactor);
 
         if(m_iCurrentGateField != -1)
-            m_allGateFields[size_t(m_iCurrentGateField)]->SetZoomLevel(m_zoomFactor, zoomCenter);
+            m_allGateFields[size_t(m_iCurrentGateField)]->SetZoomLevel(m_zoomFactor);
+
+        return retVal;
     }
+    return retVal;
 }
 
 

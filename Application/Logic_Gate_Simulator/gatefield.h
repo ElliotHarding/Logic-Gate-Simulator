@@ -67,7 +67,7 @@ private:
     //Functions with rl_ require m_lockAllGates to be locked
 
     //Mouse event delegates
-    QPoint GetClickFromMouseEvent(QMouseEvent* mouseEvent) const;
+    QPoint QtPointToWorldPoint(QPoint mousePoint) const;
     void rl_leftMouseClick(int clickX, int clickY);
 
     //Click actions
@@ -115,13 +115,14 @@ private:
 
     //Zooming
     qreal m_zoomFactor;
-    QPoint m_zoomLocation;
+    QPoint m_centerScreen;
     const qreal m_zoomScrollSpeed = 0.05;
 
     //Panning
     Vector2D m_screenPosDelta;
     QPoint m_previousDragMousePos;
     const float c_panSpeedMultiplier = 0.75;
+    void rl_offsetGates(double offsetX, double offsetY);
 
     //Dragging
     QPoint m_currentDragPoint = QPoint(0,0);

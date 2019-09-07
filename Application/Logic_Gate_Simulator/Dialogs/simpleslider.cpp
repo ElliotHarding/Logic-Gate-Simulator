@@ -172,7 +172,7 @@ ZoomSlider::~ZoomSlider()
 
 void ZoomSlider::UpdateParent(float val)
 {
-    m_pParent->SetZoomFactor(val, true, false);
+    m_pParent->SetZoomFactor(val, false);
 }
 
 

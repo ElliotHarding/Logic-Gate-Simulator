@@ -22,12 +22,16 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
 
     saveGateCollectionDialog->SetCurrentGateField(this);
 
+    //Reserve memory for gates
     m_allGates.reserve(20);
     m_gateBackups.reserve(20);
     for(std::vector<Gate*> g : m_gateBackups)
     {
         g.reserve(20);
     }
+
+    //Todo m_width & m_height or geometry()
+    m_zoomLocation = QPoint(402, 250);
 
     m_pTimerThread->start();
 }
@@ -75,8 +79,8 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
     //Zooming
+    painter.translate(m_zoomLocation.x(), m_zoomLocation.y());
     painter.scale(m_zoomFactor, m_zoomFactor);
-    painter.translate(m_zoomFactor*m_zoomFactor, m_zoomFactor*m_zoomFactor);
 
     //If were currently selecting an area
     if(CurrentClickMode == CLICK_SELECTION && m_selectionTool)
@@ -94,7 +98,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
         painter.drawLine(m_previousDragMousePos, m_currentDragPoint);
     }
 
-    m_lockAllGates.lock();
+    m_lockAllGates.lock();    
 
     //Paint in reverse order, so gate on top of vector get's painted last
     //So if we're dragging, the one we're dragging gets painted ontop of the others
@@ -125,10 +129,10 @@ ClickMode GateField::GetCurrentClickMode()
 
 void GateField::setZoomLevel(qreal zoom)
 {
-     m_zoomFactor = zoom;
+    m_zoomFactor = zoom;
 
-     //Call to redraw
-     update();
+    //Call to redraw
+    update();
 }
 
 bool GateField::SaveGateCollection(std::ofstream& saveStream)
@@ -740,7 +744,7 @@ QPoint GateField::GetClickFromMouseEvent(QMouseEvent *mouseEvent) const
 {
     QTransform transform;
     transform.scale(m_zoomFactor, m_zoomFactor);
-    return transform.inverted().map(QPoint(mouseEvent->x(), mouseEvent->y()));
+    return transform.inverted().map(QPoint(mouseEvent->x() - m_zoomLocation.x(), mouseEvent->y() - m_zoomLocation.y()));
 }
 
 void GateField::UpdateGateSelected(Gate *g)

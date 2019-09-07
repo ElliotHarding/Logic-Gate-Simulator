@@ -114,6 +114,7 @@ private:
 
     //Zooming
     qreal m_zoomFactor;
+    QPoint m_zoomLocation;
 
     //Panning
     Vector2D m_screenPosDelta;

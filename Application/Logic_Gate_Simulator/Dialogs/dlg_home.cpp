@@ -408,13 +408,16 @@ void DLG_Home::on_btn_zoomOut_clicked()
 //Function works for local call & external call
 void DLG_Home::SetZoomFactor(qreal zoomFactor, bool updateSlider)
 {
-    m_ZoomFactor = zoomFactor;
+    if (m_ZoomFactor != zoomFactor)
+    {
+        m_ZoomFactor = zoomFactor;
 
-    if(updateSlider)
-        dynamic_cast<ZoomSlider*>(ui->layout_ZoomSlider)->SetValue(m_ZoomFactor);
+        if(updateSlider)
+            dynamic_cast<ZoomSlider*>(ui->layout_ZoomSlider)->SetValue(m_ZoomFactor);
 
-    if(m_iCurrentGateField != -1)
-        m_allGateFields[size_t(m_iCurrentGateField)]->setZoomLevel(m_ZoomFactor);
+        if(m_iCurrentGateField != -1)
+            m_allGateFields[size_t(m_iCurrentGateField)]->setZoomLevel(m_ZoomFactor);
+    }
 }
 
 

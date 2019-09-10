@@ -1,4 +1,5 @@
 #include "circuitoptimizer.h"
+#include "allgates.h"
 #include <cmath>
 
 int CircuitOptimizer::minterm[MAX][MAX];
@@ -117,6 +118,169 @@ std::string CircuitOptimizer::DecimalToBinaryString(int a, size_t reqLen)
 
 std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn)
 {
+    std::vector<Gate*> gates;
+    //Node* currentOutputNode = nullptr;
+    /*
+    for (int i = 0; i < algebraicString.letter.size(); i++)
+    {
+        if (algebraicString.letter[i] > 'a' && algebraicString.letter[i] <= 'z')
+        {
+            if(i > 1)
+            {
+                Gate* newGate;
+
+                 //and
+                if (algebraicString.letter[i-1] > 'a' && algebraicString.letter[i-1] <= 'z')
+                {
+                    newGate = new GateAnd();
+
+                    //todo check if input is not-ed, if so attach a not gate beforehand
+                    //if both inputs are not-ed, create a not gate for afterwards
+
+
+                    algebraicString.letter.erase(algebraicString.letter.begin(),algebraicString.letter.begin()+2);
+                    algebraicString.inverted.erase(algebraicString.inverted.begin(), algebraicString.inverted.begin()+2);
+
+                    algebraicString.letter.insert(algebraicString.letter.begin(), std::to_string(gates.size()).c_str()[0]);
+                    algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
+                }
+
+                //or
+                else if (algebraicString.letter[i-1] == '+')
+                {
+                    newGate = new GateOr();
+
+                    //todo check if input is not-ed, if so attach a not gate beforehand
+                    //if both inputs are not-ed, create a not gate for afterwards
+
+                    //Check if previous is letter or already made gate
+                    if (algebraicString.letter[i-2] > ('0' -1) && algebraicString.letter[i-2] <= '9')
+                    {
+                        //Output of gate 1 or'ed with letter
+                    }
+
+                    else
+                    {
+                        algebraicString.letter.erase(algebraicString.letter.begin(),algebraicString.letter.begin()+3);
+                        algebraicString.inverted.erase(algebraicString.inverted.begin(), algebraicString.inverted.begin()+3);
+
+                        algebraicString.letter.insert(algebraicString.letter.begin(), std::to_string(gates.size()).c_str()[0]);
+                        algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
+                    }
+                }
+
+                //And'ed with another gate
+                else if (algebraicString.letter[i-1] > ('0' -1) && algebraicString.letter[i-1] <= '9')
+                {
+
+                }
+            }
+        }
+    }
+    */
+
+
+    for (size_t i = 0; i < algebraicString.letter.size(); i++)
+    {
+        if ((algebraicString.letter.size() > i + 1) &&
+            (isalpha(algebraicString.letter[i])) &&
+            (isalpha(algebraicString.letter[i+1])))
+        {
+            gates.push_back(new GateAnd());
+
+            algebraicString.letter.erase(algebraicString.letter.begin()+i,algebraicString.letter.begin()+i+1);
+            algebraicString.inverted.erase(algebraicString.inverted.begin()+i, algebraicString.inverted.begin()+i+1);
+
+            algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(gates.size()).c_str()[0]);
+            algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
+        }
+    }
+
+    for (int i = 0; i < algebraicString.letter.size(); i++)
+    {
+        if (algebraicString.letter.size() > i + 1 && (i > -1) &&
+            algebraicString.letter[i] == '+' &&
+            isalpha(algebraicString.letter[i-1]) &&
+            isalpha(algebraicString.letter[i+1]))
+        {
+            gates.push_back(new GateOr());
+
+            algebraicString.letter.erase(algebraicString.letter.begin()+i-1,algebraicString.letter.begin()+i+1);
+            algebraicString.inverted.erase(algebraicString.inverted.begin()+i-1, algebraicString.inverted.begin()+i+1);
+
+            algebraicString.letter.insert(algebraicString.letter.begin(), std::to_string(gates.size()).c_str()[0]);
+            algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
+        }
+    }
+
+    for (int i = 0; i < algebraicString.letter.size(); i++)
+    {
+        if (algebraicString.letter.size() < i + 1 &&
+            isalnum(algebraicString.letter[i]) &&
+            isalnum(algebraicString.letter[i+1]))
+        {
+            size_t iFirst = std::stoi(algebraicString.letter[i] + "");
+            size_t iSecond = std::stoi(algebraicString.letter[i] + "");
+
+            gates.push_back(new GateAnd());
+
+            std::vector<Node*> inputNodes;
+            gates[gates.size()-1]->GetDisconnectedInputNodes(inputNodes);
+
+            std::vector<Node*> outNodes;
+            gates[iFirst]->GetDisconnectedOutputNodes(outNodes);
+            gates[iSecond]->GetDisconnectedOutputNodes(outNodes);
+
+            outNodes[0]->LinkNode(inputNodes[0]);
+            inputNodes[0]->LinkNode(outNodes[0]);
+
+            outNodes[1]->LinkNode(inputNodes[1]);
+            inputNodes[1]->LinkNode(outNodes[1]);
+
+            algebraicString.letter.erase(algebraicString.letter.begin()+i,algebraicString.letter.begin()+i+1);
+            algebraicString.inverted.erase(algebraicString.inverted.begin()+i, algebraicString.inverted.begin()+i+1);
+
+            algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(gates.size()).c_str()[0]);
+            algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
+        }
+    }
+
+    for (int i = 0; i < algebraicString.letter.size(); i++)
+    {
+        if (algebraicString.letter.size() < i + 1 && (i > -1) &&
+            algebraicString.letter[i] == '+' &&
+            isalnum(algebraicString.letter[i+1]) &&
+            isalnum(algebraicString.letter[i-1]))
+        {
+            gates.push_back(new GateOr());
+
+            size_t iFirst = std::stoi(algebraicString.letter[i-1] + "");
+            size_t iSecond = std::stoi(algebraicString.letter[i+1] + "");
+
+            std::vector<Node*> inputNodes;
+            gates[gates.size()-1]->GetDisconnectedInputNodes(inputNodes);
+
+            std::vector<Node*> outNodes;
+            gates[iFirst]->GetDisconnectedOutputNodes(outNodes);
+            gates[iSecond]->GetDisconnectedOutputNodes(outNodes);
+
+            outNodes[0]->LinkNode(inputNodes[0]);
+            inputNodes[0]->LinkNode(outNodes[0]);
+
+            outNodes[1]->LinkNode(inputNodes[1]);
+            inputNodes[1]->LinkNode(outNodes[1]);
+
+            algebraicString.letter.erase(algebraicString.letter.begin()+i-1,algebraicString.letter.begin()+i+1);
+            algebraicString.inverted.erase(algebraicString.inverted.begin()+i-1, algebraicString.inverted.begin()+i+1);
+
+            algebraicString.letter.insert(algebraicString.letter.begin(), std::to_string(gates.size()).c_str()[0]);
+            algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
+        }
+    }
+
+    if (gates.size() > 1)
+        return gates;
+
     //todo
     return defaultReturn;
 }
@@ -405,7 +569,14 @@ bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, C
         if (wprim[x] == TRUE)
         {
             if (count > 0)
+            {
                 returnExpression.letter.push_back(' ');
+                returnExpression.letter.push_back('.');
+                returnExpression.letter.push_back(' ');
+                returnExpression.inverted.push_back(0);
+                returnExpression.inverted.push_back(0);
+                returnExpression.inverted.push_back(0);
+            }
 
             UpperTerm(prim[x], primmask[x], numInputs, returnExpression);
             count++;
@@ -413,7 +584,14 @@ bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, C
         else if ((wprim[x] == FALSE) && (nwprim[x] == TRUE))
         {
             if (count > 0)
+            {
                 returnExpression.letter.push_back(' ');
+                returnExpression.letter.push_back('.');
+                returnExpression.letter.push_back(' ');
+                returnExpression.inverted.push_back(0);
+                returnExpression.inverted.push_back(0);
+                returnExpression.inverted.push_back(0);
+            }
 
             UpperTerm(prim[x], primmask[x], numInputs, returnExpression);
             count++;
@@ -426,7 +604,10 @@ bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, C
         if (wprim[x] == TRUE)
         {
             if (count > 0)
+            {
                 returnExpression.letter.push_back('+');
+                returnExpression.inverted.push_back(0);
+            }
 
             LowerTerm(primmask[x], numInputs, returnExpression);
             count++;
@@ -435,7 +616,10 @@ bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, C
         else if ((wprim[x] == FALSE) && (nwprim[x] == TRUE))
         {
             if (count > 0)
+            {
                 returnExpression.letter.push_back('+');
+                returnExpression.inverted.push_back(0);
+            }
 
             LowerTerm(primmask[x], numInputs, returnExpression);
             count++;

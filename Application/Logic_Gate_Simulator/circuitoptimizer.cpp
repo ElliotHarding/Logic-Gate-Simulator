@@ -188,8 +188,8 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
         {
             gates.push_back(new GateAnd());
 
-            algebraicString.letter.erase(algebraicString.letter.begin()+i,algebraicString.letter.begin()+i+1);
-            algebraicString.inverted.erase(algebraicString.inverted.begin()+i, algebraicString.inverted.begin()+i+1);
+            algebraicString.letter.erase(algebraicString.letter.begin()+i,algebraicString.letter.begin()+i+2);
+            algebraicString.inverted.erase(algebraicString.inverted.begin()+i, algebraicString.inverted.begin()+i+2);
 
             algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(gates.size()).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
@@ -205,22 +205,22 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
         {
             gates.push_back(new GateOr());
 
-            algebraicString.letter.erase(algebraicString.letter.begin()+i-1,algebraicString.letter.begin()+i+1);
-            algebraicString.inverted.erase(algebraicString.inverted.begin()+i-1, algebraicString.inverted.begin()+i+1);
+            algebraicString.letter.erase(algebraicString.letter.begin()+i-1,algebraicString.letter.begin()+i+2);
+            algebraicString.inverted.erase(algebraicString.inverted.begin()+i-1, algebraicString.inverted.begin()+i+2);
 
-            algebraicString.letter.insert(algebraicString.letter.begin(), std::to_string(gates.size()).c_str()[0]);
+            algebraicString.letter.insert(algebraicString.letter.begin(), std::to_string(gates.size()-1).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
         }
     }
 
     for (int i = 0; i < algebraicString.letter.size(); i++)
     {
-        if (algebraicString.letter.size() < i + 1 &&
+        if (algebraicString.letter.size() > i + 1 &&
             isalnum(algebraicString.letter[i]) &&
             isalnum(algebraicString.letter[i+1]))
         {
-            size_t iFirst = std::stoi(algebraicString.letter[i] + "");
-            size_t iSecond = std::stoi(algebraicString.letter[i] + "");
+            size_t iFirst = IntFromChar(algebraicString.letter[i]);
+            size_t iSecond = IntFromChar(algebraicString.letter[i+1]);
 
             gates.push_back(new GateAnd());
 
@@ -237,8 +237,8 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
             outNodes[1]->LinkNode(inputNodes[1]);
             inputNodes[1]->LinkNode(outNodes[1]);
 
-            algebraicString.letter.erase(algebraicString.letter.begin()+i,algebraicString.letter.begin()+i+1);
-            algebraicString.inverted.erase(algebraicString.inverted.begin()+i, algebraicString.inverted.begin()+i+1);
+            algebraicString.letter.erase(algebraicString.letter.begin()+i,algebraicString.letter.begin()+i+2);
+            algebraicString.inverted.erase(algebraicString.inverted.begin()+i, algebraicString.inverted.begin()+i+2);
 
             algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(gates.size()).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
@@ -254,8 +254,8 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
         {
             gates.push_back(new GateOr());
 
-            size_t iFirst = std::stoi(algebraicString.letter[i-1] + "");
-            size_t iSecond = std::stoi(algebraicString.letter[i+1] + "");
+            size_t iFirst = IntFromChar(algebraicString.letter[i-1]);
+            size_t iSecond = IntFromChar(algebraicString.letter[i+1]);
 
             std::vector<Node*> inputNodes;
             gates[gates.size()-1]->GetDisconnectedInputNodes(inputNodes);
@@ -270,8 +270,8 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
             outNodes[1]->LinkNode(inputNodes[1]);
             inputNodes[1]->LinkNode(outNodes[1]);
 
-            algebraicString.letter.erase(algebraicString.letter.begin()+i-1,algebraicString.letter.begin()+i+1);
-            algebraicString.inverted.erase(algebraicString.inverted.begin()+i-1, algebraicString.inverted.begin()+i+1);
+            algebraicString.letter.erase(algebraicString.letter.begin()+i-1,algebraicString.letter.begin()+i+2);
+            algebraicString.inverted.erase(algebraicString.inverted.begin()+i-1, algebraicString.inverted.begin()+i+2);
 
             algebraicString.letter.insert(algebraicString.letter.begin(), std::to_string(gates.size()).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin(), false);
@@ -283,6 +283,13 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
 
     //todo
     return defaultReturn;
+}
+
+int CircuitOptimizer::IntFromChar(char c)
+{
+    std::string s;
+    s.push_back(c);
+    return stoi(s);
 }
 
 

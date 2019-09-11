@@ -95,6 +95,8 @@ private:
 
     static std::vector<Gate*> CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn);
 
+    static int IntFromChar(char c);
+
     static bool OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& result);
 
     static int PopCount(unsigned x);

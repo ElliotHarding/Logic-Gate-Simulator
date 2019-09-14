@@ -97,6 +97,8 @@ private:
 
     static int IntFromChar(char c);
 
+    static void CutBooleanExpression(BooleanExpression& expression, size_t iStart, size_t iEnd);
+
     static void LinkGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond);
 
     static bool OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& result);

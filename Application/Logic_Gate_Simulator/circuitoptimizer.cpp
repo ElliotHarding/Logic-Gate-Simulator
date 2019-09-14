@@ -118,6 +118,10 @@ std::string CircuitOptimizer::DecimalToBinaryString(int a, size_t reqLen)
 
 std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn)
 {
+    const int positionInc = 100;
+    const QPoint startCuircuitLocation = defaultReturn[0]->GetPosition();
+    QPoint cuircuitLocation = startCuircuitLocation;
+
     std::vector<Gate*> gates;
 
 FindLetterAnds:
@@ -127,15 +131,20 @@ FindLetterAnds:
             (isalpha(algebraicString.letter[i])) &&
             (isalpha(algebraicString.letter[i+1])))
         {
+            //Add new gate
             gates.push_back(new GateAnd());
+            const size_t iNew = gates.size()-1;
 
-            algebraicString.letter.erase(algebraicString.letter.begin()+i,algebraicString.letter.begin()+i+2);
-            algebraicString.inverted.erase(algebraicString.inverted.begin()+i, algebraicString.inverted.begin()+i+2);
+            //Set new gates position
+            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
+            cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
 
-            algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(gates.size()-1).c_str()[0]);
+            //Make adjuestments to algebraicString
+            CutBooleanExpression(algebraicString,i,i+2);
+            algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-            goto FindLetterAnds;
+           goto FindLetterAnds;
         }
     }
 
@@ -147,17 +156,25 @@ FindLetterOrs:
             isalpha(algebraicString.letter[i-1]) &&
             isalpha(algebraicString.letter[i+1]))
         {
+            //Add new gate
             gates.push_back(new GateOr());
+            const size_t iNew = gates.size()-1;
 
-            algebraicString.letter.erase(algebraicString.letter.begin()+i-1,algebraicString.letter.begin()+i+2);
-            algebraicString.inverted.erase(algebraicString.inverted.begin()+i-1, algebraicString.inverted.begin()+i+2);
+            //Set new gates position
+            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
+            cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
 
-            algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(gates.size()-1).c_str()[0]);
+            //Make adjuestments to algebraicString
+            CutBooleanExpression(algebraicString,i-1,i+2);
+            algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
             goto FindLetterOrs;
         }
     }
+
+    cuircuitLocation.setX(cuircuitLocation.x() + positionInc);
+    cuircuitLocation.setY(((cuircuitLocation.y() - startCuircuitLocation.y()) / 2) + startCuircuitLocation.y() - positionInc);
 
 FindAnds:
     for (int i = 0; i < algebraicString.letter.size(); i++)
@@ -168,14 +185,19 @@ FindAnds:
         {
             gates.push_back(new GateAnd());
 
+            //Link
             const size_t iNew = gates.size()-1;
             const size_t iFirst = IntFromChar(algebraicString.letter[i]);
             const size_t iSecond = IntFromChar(algebraicString.letter[i+1]);
             LinkGates(gates, iNew, iFirst, iSecond);
 
-            algebraicString.letter.erase(algebraicString.letter.begin()+i,algebraicString.letter.begin()+i+2);
-            algebraicString.inverted.erase(algebraicString.inverted.begin()+i, algebraicString.inverted.begin()+i+2);
+            //Set new position
+            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
+            cuircuitLocation.setX(cuircuitLocation.x() + positionInc);
+            cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
 
+            //Make adjuestments to algebraicString
+            CutBooleanExpression(algebraicString,i,i+2);
             if (algebraicString.letter.size() > 0)
             {
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
@@ -196,15 +218,19 @@ FindOrs:
         {
             gates.push_back(new GateOr());
 
+            //Link
             const size_t iNew = gates.size()-1;
             const size_t iFirst = IntFromChar(algebraicString.letter[i-1]);
             const size_t iSecond = IntFromChar(algebraicString.letter[i+1]);
-
             LinkGates(gates, iNew, iFirst, iSecond);
 
-            algebraicString.letter.erase(algebraicString.letter.begin()+i-1,algebraicString.letter.begin()+i+2);
-            algebraicString.inverted.erase(algebraicString.inverted.begin()+i-1, algebraicString.inverted.begin()+i+2);
+            //Set new position
+            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
+            cuircuitLocation.setX(cuircuitLocation.x() + positionInc);
+            cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
 
+            //Make adjuestments to algebraicString
+            CutBooleanExpression(algebraicString,i-1,i+2);
             if (algebraicString.letter.size() > 0)
             {
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
@@ -227,6 +253,12 @@ int CircuitOptimizer::IntFromChar(char c)
     std::string s;
     s.push_back(c);
     return stoi(s);
+}
+
+void CircuitOptimizer::CutBooleanExpression(CircuitOptimizer::BooleanExpression &expression, size_t iStart, size_t iEnd)
+{
+    expression.letter.erase(expression.letter.begin() + iStart, expression.letter.begin() + iEnd);
+    expression.inverted.erase(expression.inverted.begin() + iStart, expression.inverted.begin() + iEnd);
 }
 
 void CircuitOptimizer::LinkGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond)

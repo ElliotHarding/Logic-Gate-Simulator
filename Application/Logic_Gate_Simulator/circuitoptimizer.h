@@ -97,6 +97,8 @@ private:
 
     static int IntFromChar(char c);
 
+    static void LinkGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond);
+
     static bool OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& result);
 
     static int PopCount(unsigned x);

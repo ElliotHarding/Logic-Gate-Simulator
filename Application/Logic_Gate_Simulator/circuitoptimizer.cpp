@@ -133,11 +133,25 @@ FindLetterAnds:
         {
             //Add new gate
             gates.push_back(new GateAnd());
-            const size_t iNew = gates.size()-1;
+            size_t iNew = gates.size()-1;
 
             //Set new gates position
             gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
             cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
+
+            //Check for not gates
+            if (algebraicString.inverted[i] && algebraicString.inverted[i+1])
+            {
+                iNew = LinkNotGateAsOutput(gates, iNew);
+            }
+            else if (algebraicString.inverted[i])
+            {
+                LinkNotGateAsInput(gates, iNew, 0);
+            }
+            else if (algebraicString.inverted[i+1])
+            {
+                LinkNotGateAsInput(gates, iNew, 1);
+            }
 
             //Make adjuestments to algebraicString
             CutBooleanExpression(algebraicString,i,i+2);
@@ -158,11 +172,25 @@ FindLetterOrs:
         {
             //Add new gate
             gates.push_back(new GateOr());
-            const size_t iNew = gates.size()-1;
+            size_t iNew = gates.size()-1;
 
             //Set new gates position
             gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
             cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
+
+            //Check for not gates
+            if (algebraicString.inverted[i-1] && algebraicString.inverted[i+1])
+            {
+                iNew = LinkNotGateAsOutput(gates, iNew);
+            }
+            else if (algebraicString.inverted[i])
+            {
+                LinkNotGateAsInput(gates, iNew, 0);
+            }
+            else if (algebraicString.inverted[i+1])
+            {
+                LinkNotGateAsInput(gates, iNew, 1);
+            }
 
             //Make adjuestments to algebraicString
             CutBooleanExpression(algebraicString,i-1,i+2);
@@ -259,6 +287,37 @@ void CircuitOptimizer::CutBooleanExpression(CircuitOptimizer::BooleanExpression 
 {
     expression.letter.erase(expression.letter.begin() + iStart, expression.letter.begin() + iEnd);
     expression.inverted.erase(expression.inverted.begin() + iStart, expression.inverted.begin() + iEnd);
+}
+
+void CircuitOptimizer::LinkNotGateAsInput(std::vector<Gate*> &gates, size_t iGateToLinkTo, size_t iInputNode)
+{
+    gates.push_back(new GateNot());
+
+    std::vector<Node*> outNodes;
+    gates[gates.size() - 1]->GetDisconnectedOutputNodes(outNodes);
+
+    std::vector<Node*> inputNodes;
+    gates[iGateToLinkTo]->GetDisconnectedInputNodes(inputNodes);
+
+    outNodes[0]->LinkNode(inputNodes[iInputNode]);
+    inputNodes[iInputNode]->LinkNode(outNodes[0]);
+}
+
+size_t CircuitOptimizer::LinkNotGateAsOutput(std::vector<Gate*> &gates, size_t iGateToLinkTo)
+{
+    gates.push_back(new GateNot());
+    const size_t notIndex = gates.size() - 1;
+
+    std::vector<Node*> inputNodes;
+    gates[notIndex]->GetDisconnectedInputNodes(inputNodes);
+
+    std::vector<Node*> outputNodes;
+    gates[iGateToLinkTo]->GetDisconnectedInputNodes(outputNodes);
+
+    outputNodes[0]->LinkNode(inputNodes[0]);
+    inputNodes[0]->LinkNode(outputNodes[0]);
+
+    return notIndex;
 }
 
 void CircuitOptimizer::LinkGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond)

@@ -183,7 +183,7 @@ FindLetterOrs:
             {
                 iNew = LinkNotGateAsOutput(gates, iNew);
             }
-            else if (algebraicString.inverted[i])
+            else if (algebraicString.inverted[i-1])
             {
                 LinkNotGateAsInput(gates, iNew, 0);
             }

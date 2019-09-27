@@ -102,7 +102,8 @@ private:
     static void LinkNotGateAsInput(std::vector<Gate*> &gates, size_t iGateToLinkTo, size_t iInputNode);
     static size_t LinkNotGateAsOutput(std::vector<Gate*> &gates, size_t iGateToLinkTo);
 
-    static void LinkGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond);
+    static bool LinkThreeGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond);
+    static bool LinkTwoGates(std::vector<Gate *> &gates, size_t iFirst, size_t iSecond);
 
     static bool OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& result);
 

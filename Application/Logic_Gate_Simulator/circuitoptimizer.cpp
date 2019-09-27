@@ -124,7 +124,7 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
 
     std::vector<Gate*> gates;
 
-FindLetterAnds:
+FindAnds:
     for (size_t i = 0; i < algebraicString.letter.size(); i++)
     {
         if ((algebraicString.letter.size() > i + 1) &&
@@ -136,8 +136,8 @@ FindLetterAnds:
             size_t iNew = gates.size()-1;
 
             //Set new gates position
-            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
             cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
+            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());            
 
             //Check for not gates
             if (algebraicString.inverted[i] && algebraicString.inverted[i+1])
@@ -158,11 +158,39 @@ FindLetterAnds:
             algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-            goto FindLetterAnds;
+            goto FindAnds;
+        }
+
+        if (algebraicString.letter.size() > i + 1 &&
+            !isalpha(algebraicString.letter[i]) &&
+            !isalpha(algebraicString.letter[i+1]))
+        {
+            gates.push_back(new GateAnd());
+
+            //Link
+            const size_t iNew = gates.size()-1;
+            const size_t iFirst = IntFromChar(algebraicString.letter[i]);
+            const size_t iSecond = IntFromChar(algebraicString.letter[i+1]);
+            LinkThreeGates(gates, iNew, iFirst, iSecond);
+
+            //Set new position
+            cuircuitLocation.setX(cuircuitLocation.x() + positionInc);
+            cuircuitLocation.setY(((cuircuitLocation.y() - startCuircuitLocation.y()) / 2) + startCuircuitLocation.y() - positionInc);
+            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
+
+            //Make adjuestments to algebraicString
+            CutBooleanExpression(algebraicString,i,i+2);
+            if (algebraicString.letter.size() > 0)
+            {
+                algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
+                algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
+            }
+
+            goto FindAnds;
         }
 
         if ((algebraicString.letter.size() > i + 1) &&
-            (isalnum(algebraicString.letter[i])) &&
+            (!isalpha(algebraicString.letter[i])) &&
             (isalpha(algebraicString.letter[i+1])))
         {
             //Add new gate
@@ -171,16 +199,11 @@ FindLetterAnds:
             const size_t iGateToLink = IntFromChar(algebraicString.letter[i]);
 
             //link algebraicString.letter[i] to new GateAnd()
-            std::vector<Node*> outNodes;
-            gates[iGateToLink]->GetDisconnectedOutputNodes(outNodes);
-            std::vector<Node*> inputNodes;
-            gates[iNew]->GetDisconnectedInputNodes(inputNodes);
-            outNodes[0]->LinkNode(inputNodes[0]);
-            inputNodes[0]->LinkNode(outNodes[0]);
+            LinkTwoGates(gates, iGateToLink, iNew);
 
             //Set new gates position
-            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
             cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
+            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());            
 
             //Check for not gates in this case i will never be notted
             if (algebraicString.inverted[i+1])
@@ -193,11 +216,11 @@ FindLetterAnds:
             algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-            goto FindLetterAnds;
+            goto FindAnds;
         }
     }
 
-FindLetterOrs:
+FindOrs:
     for (int i = 0; i < algebraicString.letter.size(); i++)
     {
         if (algebraicString.letter.size() > i + 1 && (i > -1) &&
@@ -232,52 +255,13 @@ FindLetterOrs:
             algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-            goto FindLetterOrs;
+            goto FindOrs;
         }
-    }
 
-    cuircuitLocation.setX(cuircuitLocation.x() + positionInc);
-    cuircuitLocation.setY(((cuircuitLocation.y() - startCuircuitLocation.y()) / 2) + startCuircuitLocation.y() - positionInc);
-
-FindAnds:
-    for (int i = 0; i < algebraicString.letter.size(); i++)
-    {
-        if (algebraicString.letter.size() > i + 1 &&
-            isalnum(algebraicString.letter[i]) &&
-            isalnum(algebraicString.letter[i+1]))
-        {
-            gates.push_back(new GateAnd());
-
-            //Link
-            const size_t iNew = gates.size()-1;
-            const size_t iFirst = IntFromChar(algebraicString.letter[i]);
-            const size_t iSecond = IntFromChar(algebraicString.letter[i+1]);
-            LinkGates(gates, iNew, iFirst, iSecond);
-
-            //Set new position
-            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
-            cuircuitLocation.setX(cuircuitLocation.x() + positionInc);
-            cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
-
-            //Make adjuestments to algebraicString
-            CutBooleanExpression(algebraicString,i,i+2);
-            if (algebraicString.letter.size() > 0)
-            {
-                algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
-                algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
-            }
-
-            goto FindAnds;
-        }
-    }
-
-FindOrs:
-    for (int i = 0; i < algebraicString.letter.size(); i++)
-    {
         if (algebraicString.letter.size() < i + 1 && (i > -1) &&
             algebraicString.letter[i] == '+' &&
-            isalnum(algebraicString.letter[i+1]) &&
-            isalnum(algebraicString.letter[i-1]))
+            !isalpha(algebraicString.letter[i+1]) &&
+            !isalpha(algebraicString.letter[i-1]))
         {
             gates.push_back(new GateOr());
 
@@ -285,12 +269,46 @@ FindOrs:
             const size_t iNew = gates.size()-1;
             const size_t iFirst = IntFromChar(algebraicString.letter[i-1]);
             const size_t iSecond = IntFromChar(algebraicString.letter[i+1]);
-            LinkGates(gates, iNew, iFirst, iSecond);
+            LinkThreeGates(gates, iNew, iFirst, iSecond);
+
+            //Set new position
+            cuircuitLocation.setX(cuircuitLocation.x() + positionInc);
+            cuircuitLocation.setY(((cuircuitLocation.y() - startCuircuitLocation.y()) / 2) + startCuircuitLocation.y() - positionInc);
+            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
+
+            //Make adjuestments to algebraicString
+            CutBooleanExpression(algebraicString,i-1,i+2);
+            if (algebraicString.letter.size() > 0)
+            {
+                algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
+                algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
+            }
+
+            goto FindOrs;
+        }
+
+        if (algebraicString.letter.size() < i + 1 && (i > -1) &&
+            algebraicString.letter[i] == '+' &&
+            !isalpha(algebraicString.letter[i-1]) &&
+            isalpha(algebraicString.letter[i+1]))
+        {
+            gates.push_back(new GateOr());
+            const size_t iNew = gates.size()-1;
+            const size_t iGateToLink = IntFromChar(algebraicString.letter[i-1]);
+
+            //link algebraicString.letter[i-1] to new GateOr()
+            LinkTwoGates(gates, iGateToLink, iNew);
 
             //Set new position
             gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
             cuircuitLocation.setX(cuircuitLocation.x() + positionInc);
             cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
+
+            //Check for not gates in this case i will never be notted
+            if (algebraicString.inverted[i+1])
+            {
+                LinkNotGateAsInput(gates, iNew, 1);
+            }
 
             //Make adjuestments to algebraicString
             CutBooleanExpression(algebraicString,i-1,i+2);
@@ -355,7 +373,8 @@ size_t CircuitOptimizer::LinkNotGateAsOutput(std::vector<Gate*> &gates, size_t i
     return notIndex;
 }
 
-void CircuitOptimizer::LinkGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond)
+//Links iFirst's & iSecond's output nodes to input nodes of iLinkGate
+bool CircuitOptimizer::LinkThreeGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond)
 {
     std::vector<Node*> inputNodes;
     gates[iLinkGate]->GetDisconnectedInputNodes(inputNodes);
@@ -364,11 +383,28 @@ void CircuitOptimizer::LinkGates(std::vector<Gate *> &gates, size_t iLinkGate, s
     gates[iFirst]->GetDisconnectedOutputNodes(outNodes);
     gates[iSecond]->GetDisconnectedOutputNodes(outNodes);
 
-    outNodes[0]->LinkNode(inputNodes[0]);
-    inputNodes[0]->LinkNode(outNodes[0]);
+    const bool linkAA = outNodes[0]->LinkNode(inputNodes[0]);
+    const bool linkAB = inputNodes[0]->LinkNode(outNodes[0]);
 
-    outNodes[1]->LinkNode(inputNodes[1]);
-    inputNodes[1]->LinkNode(outNodes[1]);
+    const bool linkBA = outNodes[1]->LinkNode(inputNodes[1]);
+    const bool linkBB = inputNodes[1]->LinkNode(outNodes[1]);
+
+    return (linkAA & linkAB & linkBA & linkBB);
+}
+
+//Links iFirst's output node into iSecond's first free input node
+bool CircuitOptimizer::LinkTwoGates(std::vector<Gate*> &gates, size_t iFirst, size_t iSecond)
+{
+    std::vector<Node*> outNodes;
+    gates[iFirst]->GetDisconnectedOutputNodes(outNodes);
+
+    std::vector<Node*> inputNodes;
+    gates[iSecond]->GetDisconnectedInputNodes(inputNodes);
+
+    const bool linkA = outNodes[0]->LinkNode(inputNodes[0]);
+    const bool linkB = inputNodes[0]->LinkNode(outNodes[0]);
+
+    return (linkA & linkB);
 }
 
 

@@ -158,7 +158,42 @@ FindLetterAnds:
             algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
             algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-           goto FindLetterAnds;
+            goto FindLetterAnds;
+        }
+
+        if ((algebraicString.letter.size() > i + 1) &&
+            (isalnum(algebraicString.letter[i])) &&
+            (isalpha(algebraicString.letter[i+1])))
+        {
+            //Add new gate
+            gates.push_back(new GateAnd());
+            size_t iNew = gates.size()-1;
+            const size_t iGateToLink = IntFromChar(algebraicString.letter[i]);
+
+            //link algebraicString.letter[i] to new GateAnd()
+            std::vector<Node*> outNodes;
+            gates[iGateToLink]->GetDisconnectedOutputNodes(outNodes);
+            std::vector<Node*> inputNodes;
+            gates[iNew]->GetDisconnectedInputNodes(inputNodes);
+            outNodes[0]->LinkNode(inputNodes[0]);
+            inputNodes[0]->LinkNode(outNodes[0]);
+
+            //Set new gates position
+            gates[iNew]->SetPosition(cuircuitLocation.x(), cuircuitLocation.y());
+            cuircuitLocation.setY(cuircuitLocation.y() + positionInc);
+
+            //Check for not gates in this case i will never be notted
+            if (algebraicString.inverted[i+1])
+            {
+                LinkNotGateAsInput(gates, iNew, 1);
+            }
+
+            //Make adjuestments to algebraicString
+            CutBooleanExpression(algebraicString,i,i+2);
+            algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
+            algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
+
+            goto FindLetterAnds;
         }
     }
 

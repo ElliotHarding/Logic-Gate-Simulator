@@ -15,7 +15,7 @@ CircuitOptimizer::CircuitOptimizer()
 {
 }
 
-std::vector<Gate*> CircuitOptimizer::Optimize(std::vector<Gate*>& gates)
+std::vector<Gate*> CircuitOptimizer::Optimize(std::vector<Gate*>& gates, bool nandOnly)
 {
     size_t numInputNodes = 0;
     TruthTable tt;
@@ -26,7 +26,14 @@ std::vector<Gate*> CircuitOptimizer::Optimize(std::vector<Gate*>& gates)
     if ( !OptimizedBooleanAlgebraFromTruthTable( numInputNodes, tt, expression ) )
         return gates;
 
-    return CuircuitFromBooleanAlgebra(expression, gates);
+    if (nandOnly)
+    {
+        return NandCuircuitFromBooleanAlgebra(expression, gates);
+    }
+    else
+    {
+        return CuircuitFromBooleanAlgebra(expression, gates);
+    }
 }
 
 bool CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTable& table, size_t& numInputNodes)
@@ -345,6 +352,11 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
     if (gates.size() > 1)
         return gates;
 
+    return defaultReturn;
+}
+
+std::vector<Gate *> CircuitOptimizer::NandCuircuitFromBooleanAlgebra(CircuitOptimizer::BooleanExpression algebraicString, std::vector<Gate *> &defaultReturn)
+{
     //todo
     return defaultReturn;
 }

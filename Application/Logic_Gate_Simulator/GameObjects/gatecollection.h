@@ -63,6 +63,7 @@ private:
     DragMode m_dragMode = DragAll;
 
     QRect m_optimize;
+    QRect m_nandOptimize;
     QRect m_saveButton;
     QRect m_deleteButton;
     QRect m_deleteAllButton;

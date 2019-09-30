@@ -42,7 +42,7 @@ class CircuitOptimizer
 public:
     CircuitOptimizer();
 
-    static std::vector<Gate*> Optimize(std::vector<Gate*>& gates);
+    static std::vector<Gate*> Optimize(std::vector<Gate*>& gates, bool nandOnly);
 
 private:
 
@@ -94,6 +94,8 @@ private:
                  */
 
     static std::vector<Gate*> CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn);
+
+    static std::vector<Gate*> NandCuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn);
 
     static int IntFromChar(char c);
 

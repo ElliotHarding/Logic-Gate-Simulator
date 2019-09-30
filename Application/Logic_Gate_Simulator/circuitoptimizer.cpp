@@ -176,13 +176,13 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-                continue;
+                break;
             }
 
             //      gate & gate
             if (algebraicString.letter.size() > i + 1 &&
-                !isalpha(algebraicString.letter[i]) &&
-                !isalpha(algebraicString.letter[i+1]))
+                !isalpha(algebraicString.letter[i]) && algebraicString.letter[i] != '+' &&
+                !isalpha(algebraicString.letter[i+1] && algebraicString.letter[i+1] != '+'))
             {
                 gates.push_back(new GateAnd());
 
@@ -205,12 +205,12 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                     algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
                 }
 
-                continue;
+                break;
             }
 
             //      gate & letter
             if ((algebraicString.letter.size() > i + 1) &&
-                (!isalpha(algebraicString.letter[i])) &&
+                (!isalpha(algebraicString.letter[i])) && algebraicString.letter[i] != '+' &&
                 (isalpha(algebraicString.letter[i+1])))
             {
                 //Add new gate
@@ -236,7 +236,7 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-                continue;
+                break;
             }
 
             //      letter | letter
@@ -281,14 +281,14 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-                continue;
+                break;
             }
 
             //      gate | gate
             if (algebraicString.letter.size() < i + 1 && (i > -1) &&
                 algebraicString.letter[i] == '+' &&
-                !isalpha(algebraicString.letter[i+1]) &&
-                !isalpha(algebraicString.letter[i-1]))
+                !isalpha(algebraicString.letter[i+1]) && algebraicString.letter[i+1] != '+' &&
+                !isalpha(algebraicString.letter[i-1]) && algebraicString.letter[i-1] != '+')
             {
                 gates.push_back(new GateOr());
 
@@ -311,14 +311,14 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                     algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
                 }
 
-                continue;
+                break;
             }
 
 
             //      gate | letter
             if (algebraicString.letter.size() < i + 1 && (i > -1) &&
                 algebraicString.letter[i] == '+' &&
-                !isalpha(algebraicString.letter[i-1]) &&
+                !isalpha(algebraicString.letter[i-1]) && algebraicString.letter[i-1] != '+' &&
                 isalpha(algebraicString.letter[i+1]))
             {
                 gates.push_back(new GateOr());
@@ -345,6 +345,8 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                     algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                     algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
                 }
+
+                break;
             }
         }
     }
@@ -750,7 +752,7 @@ bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, C
     {
         if (wprim[x] == TRUE)
         {
-            if (count > 0)
+            /*if (count > 0)
             {
                 returnExpression.letter.push_back(' ');
                 returnExpression.letter.push_back('.');
@@ -758,14 +760,14 @@ bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, C
                 returnExpression.inverted.push_back(0);
                 returnExpression.inverted.push_back(0);
                 returnExpression.inverted.push_back(0);
-            }
+            }*/
 
             UpperTerm(prim[x], primmask[x], numInputs, returnExpression);
             count++;
         }
         else if ((wprim[x] == FALSE) && (nwprim[x] == TRUE))
         {
-            if (count > 0)
+            /*if (count > 0)
             {
                 returnExpression.letter.push_back(' ');
                 returnExpression.letter.push_back('.');
@@ -773,7 +775,7 @@ bool CircuitOptimizer::OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, C
                 returnExpression.inverted.push_back(0);
                 returnExpression.inverted.push_back(0);
                 returnExpression.inverted.push_back(0);
-            }
+            }*/
 
             UpperTerm(prim[x], primmask[x], numInputs, returnExpression);
             count++;

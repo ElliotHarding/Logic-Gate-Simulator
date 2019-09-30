@@ -132,10 +132,10 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
 
     while (algebraicString.letter.size() > 0)
     {
+
+        //      letter & letter
         for (size_t i = 0; i < algebraicString.letter.size(); i++)
         {
-
-            //      letter & letter
             if ((algebraicString.letter.size() > i + 1) &&
                 (isalpha(algebraicString.letter[i])) &&
                 (isalpha(algebraicString.letter[i+1])))
@@ -176,13 +176,16 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-                break;
+                //break;
             }
+        }
 
-            //      gate & gate
+        //      gate & gate
+        for (size_t i = 0; i < algebraicString.letter.size(); i++)
+        {
             if (algebraicString.letter.size() > i + 1 &&
                 !isalpha(algebraicString.letter[i]) && algebraicString.letter[i] != '+' &&
-                !isalpha(algebraicString.letter[i+1] && algebraicString.letter[i+1] != '+'))
+                !isalpha(algebraicString.letter[i+1]) && algebraicString.letter[i+1] != '+')
             {
                 gates.push_back(new GateAnd());
 
@@ -205,10 +208,13 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                     algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
                 }
 
-                break;
+                //break;
             }
+        }
 
-            //      gate & letter
+        //      gate & letter
+        for (size_t i = 0; i < algebraicString.letter.size(); i++)
+        {
             if ((algebraicString.letter.size() > i + 1) &&
                 (!isalpha(algebraicString.letter[i])) && algebraicString.letter[i] != '+' &&
                 (isalpha(algebraicString.letter[i+1])))
@@ -236,10 +242,13 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-                break;
+                //break;
             }
+        }
 
-            //      letter | letter
+        //      letter | letter
+        for (size_t i = 0; i < algebraicString.letter.size(); i++)
+        {
             if (algebraicString.letter.size() > i + 1 && (i > -1) &&
                 algebraicString.letter[i] == '+' &&
                 isalpha(algebraicString.letter[i-1]) &&
@@ -281,10 +290,13 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
-                break;
+                //break;
             }
+        }
 
-            //      gate | gate
+        //      gate | gate
+        for (size_t i = 0; i < algebraicString.letter.size(); i++)
+        {
             if (algebraicString.letter.size() < i + 1 && (i > -1) &&
                 algebraicString.letter[i] == '+' &&
                 !isalpha(algebraicString.letter[i+1]) && algebraicString.letter[i+1] != '+' &&
@@ -311,11 +323,13 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                     algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
                 }
 
-                break;
+                //break;
             }
+        }
 
-
-            //      gate | letter
+        //      gate | letter
+        for (size_t i = 0; i < algebraicString.letter.size(); i++)
+        {
             if (algebraicString.letter.size() < i + 1 && (i > -1) &&
                 algebraicString.letter[i] == '+' &&
                 !isalpha(algebraicString.letter[i-1]) && algebraicString.letter[i-1] != '+' &&
@@ -346,7 +360,7 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                     algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
                 }
 
-                break;
+                //break;
             }
         }
     }

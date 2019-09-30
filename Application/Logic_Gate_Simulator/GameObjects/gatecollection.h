@@ -66,6 +66,7 @@ private:
     QRect m_saveButton;
     QRect m_deleteButton;
     QRect m_deleteAllButton;
+    QRect m_dragAllButton;
     void DrawButtons(QPainter* painter);
     bool CheckButtonClick(int clickX, int clickY);
 

@@ -158,16 +158,19 @@ void GateCollection::DrawButtons(QPainter *painter)
     static const QImage deleteAllButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete-all.png").c_str());
     static const QImage saveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
     static const QImage deleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
+    static const QImage dragButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
     const int xyButtonSize = 40;
 
     m_deleteAllButton  = QRect(m_contaningArea.right() - xyButtonSize, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     m_deleteButton = QRect(m_contaningArea.right() - xyButtonSize*2, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     m_saveButton = QRect(m_contaningArea.right() - xyButtonSize*3, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_optimize = QRect(m_contaningArea.right() - xyButtonSize*4, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_dragAllButton = QRect(m_contaningArea.right() - xyButtonSize*4, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_optimize = QRect(m_contaningArea.right() - xyButtonSize*5, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
 
     painter->drawImage(m_deleteAllButton, deleteAllButton);
     painter->drawImage(m_deleteButton, deleteButton);
     painter->drawImage(m_saveButton, saveButton);
+    painter->drawImage(m_dragAllButton,dragButton);
 
     painter->setPen(QPen(Qt::black,0.5));
     painter->drawRect(m_optimize);
@@ -330,6 +333,12 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         m_gates = CircuitOptimizer::Optimize(m_gates);
         m_pParentField->SkipNextGateSelectedCall();
         m_pParentField->StopDragging();
+        return true;
+    }
+
+    else if (m_dragAllButton.contains(clickX, clickY))
+    {
+        ToggleDragMode();
         return true;
     }
 

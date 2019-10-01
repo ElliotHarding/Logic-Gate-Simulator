@@ -101,7 +101,7 @@ private:
 
     static void CutBooleanExpression(BooleanExpression& expression, size_t iStart, size_t iEnd);
 
-    static void LinkNotGateAsInput(std::vector<Gate*> &gates, size_t iGateToLinkTo, size_t iInputNode);
+    static void LinkNotGateAsInput(std::vector<Gate*> &gates, size_t iGateToLinkTo);
     static size_t LinkNotGateAsOutput(std::vector<Gate*> &gates, size_t iGateToLinkTo);
 
     static bool LinkThreeGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond);

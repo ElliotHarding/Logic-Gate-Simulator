@@ -162,13 +162,9 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 {
                     iNew = LinkNotGateAsOutput(gates, iNew);
                 }
-                else if (algebraicString.inverted[i])
+                else if (algebraicString.inverted[i] || algebraicString.inverted[i+1])
                 {
-                    LinkNotGateAsInput(gates, iNew, 0);
-                }
-                else if (algebraicString.inverted[i+1])
-                {
-                    LinkNotGateAsInput(gates, iNew, 1);
+                    LinkNotGateAsInput(gates, iNew);
                 }
 
                 //Make adjuestments to algebraicString
@@ -234,7 +230,7 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 //Check for not gates in this case 'i' will never be notted
                 if (algebraicString.inverted[i+1])
                 {
-                    LinkNotGateAsInput(gates, iNew, 1);
+                    LinkNotGateAsInput(gates, iNew);
                 }
 
                 //Make adjuestments to algebraicString
@@ -249,10 +245,10 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
         //      letter | letter
         for (size_t i = 0; i < algebraicString.letter.size(); i++)
         {
-            if (algebraicString.letter.size() > i + 1 && (i > -1) &&
-                algebraicString.letter[i] == '+' &&
-                isalpha(algebraicString.letter[i-1]) &&
-                isalpha(algebraicString.letter[i+1]))
+            if (algebraicString.letter.size() > i + 2 &&
+                isalpha(algebraicString.letter[i]) &&
+                algebraicString.letter[i+1] == '+' &&
+                isalpha(algebraicString.letter[i+2]))
             {
                 //Add new gate
                 gates.push_back(new GateOr());
@@ -272,21 +268,17 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 gates[iNew]->SetPosition(pos.x(), pos.y());
 
                 //Check for not gates
-                if (algebraicString.inverted[i-1] && algebraicString.inverted[i+1])
+                if (algebraicString.inverted[i] && algebraicString.inverted[i+2])
                 {
                     iNew = LinkNotGateAsOutput(gates, iNew);
                 }
-                else if (algebraicString.inverted[i-1])
+                else if (algebraicString.inverted[i] || algebraicString.inverted[i+2])
                 {
-                    LinkNotGateAsInput(gates, iNew, 0);
-                }
-                else if (algebraicString.inverted[i+1])
-                {
-                    LinkNotGateAsInput(gates, iNew, 1);
+                    LinkNotGateAsInput(gates, iNew);
                 }
 
                 //Make adjuestments to algebraicString
-                CutBooleanExpression(algebraicString,i-1,i+2);
+                CutBooleanExpression(algebraicString,i,i+3);
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
 
@@ -297,17 +289,17 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
         //      gate | gate
         for (size_t i = 0; i < algebraicString.letter.size(); i++)
         {
-            if (algebraicString.letter.size() < i + 1 && (i > -1) &&
-                algebraicString.letter[i] == '+' &&
-                !isalpha(algebraicString.letter[i+1]) && algebraicString.letter[i+1] != '+' &&
-                !isalpha(algebraicString.letter[i-1]) && algebraicString.letter[i-1] != '+')
+            if (algebraicString.letter.size() >= i + 2 &&
+                !isalpha(algebraicString.letter[i]) && algebraicString.letter[i] != '+' &&
+                algebraicString.letter[i+1] == '+' &&
+                !isalpha(algebraicString.letter[i+2]) && algebraicString.letter[i+2] != '+')
             {
                 gates.push_back(new GateOr());
 
                 //Link
                 const size_t iNew = gates.size()-1;
-                const size_t iFirst = IntFromChar(algebraicString.letter[i-1]);
-                const size_t iSecond = IntFromChar(algebraicString.letter[i+1]);
+                const size_t iFirst = IntFromChar(algebraicString.letter[i]);
+                const size_t iSecond = IntFromChar(algebraicString.letter[i+2]);
                 LinkThreeGates(gates, iNew, iFirst, iSecond);
 
                 //Set new position
@@ -316,7 +308,7 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 gates[iNew]->SetPosition(secondPoint.x() + positionInc, (secondPoint.y() - firstPoint.y())/2 + firstPoint.y());
 
                 //Make adjuestments to algebraicString
-                CutBooleanExpression(algebraicString,i-1,i+2);
+                CutBooleanExpression(algebraicString,i,i+3);
                 if (algebraicString.letter.size() > 0)
                 {
                     algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
@@ -330,14 +322,14 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
         //      gate | letter
         for (size_t i = 0; i < algebraicString.letter.size(); i++)
         {
-            if (algebraicString.letter.size() < i + 1 && (i > -1) &&
-                algebraicString.letter[i] == '+' &&
-                !isalpha(algebraicString.letter[i-1]) && algebraicString.letter[i-1] != '+' &&
-                isalpha(algebraicString.letter[i+1]))
+            if (algebraicString.letter.size() >= i + 2 &&
+                !isalpha(algebraicString.letter[i]) && algebraicString.letter[i] != '+' &&
+                algebraicString.letter[i+1] == '+' &&
+                isalpha(algebraicString.letter[i+2]))
             {
                 gates.push_back(new GateOr());
                 const size_t iNew = gates.size()-1;
-                const size_t iGateToLink = IntFromChar(algebraicString.letter[i-1]);
+                const size_t iGateToLink = IntFromChar(algebraicString.letter[i]);
 
                 //link algebraicString.letter[i-1] to new GateOr()
                 LinkTwoGates(gates, iGateToLink, iNew);
@@ -349,11 +341,11 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 //Check for not gates in this case i will never be notted
                 if (algebraicString.inverted[i+1])
                 {
-                    LinkNotGateAsInput(gates, iNew, 1);
+                    LinkNotGateAsInput(gates, iNew);
                 }
 
                 //Make adjuestments to algebraicString
-                CutBooleanExpression(algebraicString,i-1,i+2);
+                CutBooleanExpression(algebraicString,i,i+3);
                 if (algebraicString.letter.size() > 0)
                 {
                     algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
@@ -390,7 +382,7 @@ void CircuitOptimizer::CutBooleanExpression(CircuitOptimizer::BooleanExpression 
     expression.inverted.erase(expression.inverted.begin() + iStart, expression.inverted.begin() + iEnd);
 }
 
-void CircuitOptimizer::LinkNotGateAsInput(std::vector<Gate*> &gates, size_t iGateToLinkTo, size_t iInputNode)
+void CircuitOptimizer::LinkNotGateAsInput(std::vector<Gate*> &gates, size_t iGateToLinkTo)
 {
     gates.push_back(new GateNot());
     const QPoint previousGatePos = gates[gates.size() - 2]->GetPosition();
@@ -402,8 +394,8 @@ void CircuitOptimizer::LinkNotGateAsInput(std::vector<Gate*> &gates, size_t iGat
     std::vector<Node*> inputNodes;
     gates[iGateToLinkTo]->GetDisconnectedInputNodes(inputNodes);
 
-    outNodes[0]->LinkNode(inputNodes[iInputNode]);
-    inputNodes[iInputNode]->LinkNode(outNodes[0]);
+    inputNodes[0]->LinkNode(outNodes[0]);
+    outNodes[0]->LinkNode(inputNodes[0]);
 }
 
 size_t CircuitOptimizer::LinkNotGateAsOutput(std::vector<Gate*> &gates, size_t iGateToLinkTo)

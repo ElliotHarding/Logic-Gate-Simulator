@@ -1,7 +1,18 @@
 #include "gateeor.h"
 
 GateEor::GateEor(id inA, id inB, id out) :
-    Gate::Gate(GATE_EOR, GateEorWidth,GateEorHeight, std::string(":/Resources/Gates/gate-eor.png").c_str()),
+    Gate::Gate(GATE_EOR, GateEorWidth, GateEorHeight, std::string(":/Resources/Gates/gate-eor.png").c_str()),
+    m_inputA(this, InputNode, inA),
+    m_inputB(this, InputNode, inB),
+    m_output(this, OutputNode, out)
+{
+    m_nodes.push_back(&m_inputA);
+    m_nodes.push_back(&m_inputB);
+    m_nodes.push_back(&m_output);
+}
+
+GateEor::GateEor(bool notEorGate, GateType type, const char* iconLocation, id inA, id inB, id out) :
+    Gate::Gate(type, GateEorWidth,GateEorHeight, iconLocation),
     m_inputA(this, InputNode, inA),
     m_inputB(this, InputNode, inB),
     m_output(this, OutputNode, out)

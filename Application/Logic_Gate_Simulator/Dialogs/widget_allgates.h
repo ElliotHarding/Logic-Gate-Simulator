@@ -41,6 +41,12 @@ private slots:
     void on_btn_GateTriEor_clicked();
     void on_btn_labelGate_clicked();    
 
+    void on_btn_norGate_clicked();
+
+    void on_btn_nandGate_clicked();
+
+    void on_btn_xorGate_clicked();
+
 private:
     struct WidgetAndPosition
     {

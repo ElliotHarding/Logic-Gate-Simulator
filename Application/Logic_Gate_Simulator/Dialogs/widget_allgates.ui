@@ -60,7 +60,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>65</x>
-     <y>190</y>
+     <y>240</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -167,7 +167,7 @@ border:none;</string>
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>285</y>
+     <y>335</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -201,7 +201,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>320</y>
+     <y>370</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -235,7 +235,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>65</x>
-     <y>285</y>
+     <y>335</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -269,7 +269,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>65</x>
-     <y>320</y>
+     <y>370</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -371,7 +371,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>190</y>
+     <y>240</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -405,7 +405,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>175</y>
+     <y>225</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -418,7 +418,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>270</y>
+     <y>320</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -512,7 +512,7 @@ border:none;
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>230</y>
+     <y>280</y>
      <width>50</width>
      <height>40</height>
     </rect>
@@ -548,13 +548,124 @@ border:none;
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>360</y>
+     <y>410</y>
      <width>101</width>
      <height>16</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_nandGate">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>175</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:none;
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Gates/gate-nand.png</normaloff>:/Resources/Gates/gate-nand.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_norGate">
+   <property name="geometry">
+    <rect>
+     <x>65</x>
+     <y>135</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:none;
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Gates/gate-nor.png</normaloff>:/Resources/Gates/gate-nor.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_xorGate">
+   <property name="geometry">
+    <rect>
+     <x>65</x>
+     <y>175</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:none;
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Gates/gate-neor.png</normaloff>:/Resources/Gates/gate-neor.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <zorder>scrollSliderLayout</zorder>
@@ -575,6 +686,9 @@ border:none;
   <zorder>btn_GateTriEor</zorder>
   <zorder>btn_labelGate</zorder>
   <zorder>ln_3</zorder>
+  <zorder>btn_nandGate</zorder>
+  <zorder>btn_norGate</zorder>
+  <zorder>btn_xorGate</zorder>
  </widget>
  <resources>
   <include location="../resouces.qrc"/>

@@ -107,6 +107,8 @@ private:
     static bool LinkThreeGates(std::vector<Gate *> &gates, size_t iLinkGate, size_t iFirst, size_t iSecond);
     static bool LinkTwoGates(std::vector<Gate *> &gates, size_t iFirst, size_t iSecond);
 
+    static void SwitchGates(std::vector<Gate*> &gates, Gate* gateToSwitch, size_t indexToSwitch);
+
     static bool OptimizedBooleanAlgebraFromTruthTable(size_t numInputs, CircuitOptimizer::TruthTable truthTable, BooleanExpression& result);
 
     static int PopCount(unsigned x);

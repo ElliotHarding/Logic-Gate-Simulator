@@ -9,6 +9,10 @@
 #include "gateor.h"
 #include "gateeor.h"
 
+#include "gatenand.h"
+#include "gatenor.h"
+#include "gatexor.h"
+
 #include "gatetriand.h"
 #include "gatetrior.h"
 #include "gatetrieor.h"

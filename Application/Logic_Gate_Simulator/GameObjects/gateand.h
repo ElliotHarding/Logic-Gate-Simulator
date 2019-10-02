@@ -10,6 +10,8 @@ class GateAnd : public Gate
 {
 public:
     GateAnd(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
+    GateAnd(bool notAndGate, GateType type = GATE_AND, const char* iconLocation = std::string(":/Resources/Gates/gate-and.png").c_str(),
+            id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
     ~GateAnd() override;
 
     virtual void UpdateOutput() override;

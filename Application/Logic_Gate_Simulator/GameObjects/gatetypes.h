@@ -19,6 +19,9 @@ enum GateType
     GATE_NUMBER_OUT,
     GATE_FPGA,
     GATE_TEXT_LABEL,
+    GATE_NAND,
+    GATE_XOR,
+    GATE_NOR,
     GATE_NULL,
 };
 

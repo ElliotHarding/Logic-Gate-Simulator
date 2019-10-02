@@ -33,6 +33,9 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
     m_scrollWidgets.push_back({ui->ln_1, ui->ln_1->geometry()});
     m_scrollWidgets.push_back({ui->ln_2, ui->ln_2->geometry()});
     m_scrollWidgets.push_back({ui->btn_labelGate, ui->btn_labelGate->geometry()});
+    m_scrollWidgets.push_back({ui->btn_nandGate, ui->btn_nandGate->geometry()});
+    m_scrollWidgets.push_back({ui->btn_xorGate, ui->btn_xorGate->geometry()});
+    m_scrollWidgets.push_back({ui->btn_norGate, ui->btn_norGate->geometry()});
 
     SetScrollPosition(100);
     dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(0);
@@ -153,4 +156,22 @@ void Widget_AllGates::on_btn_labelGate_clicked()
 {
     if(m_pParent)
         m_pParent->AddGate(new TextLabel());
+}
+
+void Widget_AllGates::on_btn_norGate_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateNor());
+}
+
+void Widget_AllGates::on_btn_nandGate_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateNand());
+}
+
+void Widget_AllGates::on_btn_xorGate_clicked()
+{
+    if(m_pParent)
+        m_pParent->AddGate(new GateXor());
 }

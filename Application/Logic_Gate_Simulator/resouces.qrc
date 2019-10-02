@@ -38,5 +38,8 @@
         <file>Resources/Button Icons/gate-collection-delete.png</file>
         <file>Resources/Button Icons/gate-collection-save.png</file>
         <file>Resources/Button Icons/gate-collection-delete-all.png</file>
+        <file>Resources/Gates/gate-nand.png</file>
+        <file>Resources/Gates/gate-neor.png</file>
+        <file>Resources/Gates/gate-nor.png</file>
     </qresource>
 </RCC>

@@ -10,6 +10,8 @@ class GateOr : public Gate
 {
 public:
     GateOr(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
+    GateOr(bool notAndGate, GateType type = GATE_OR, const char* iconLocation = std::string(":/Resources/Gates/gate-or.png").c_str(),
+            id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
 
     virtual void UpdateOutput() override;
     virtual void SetPosition(int x, int y) override;

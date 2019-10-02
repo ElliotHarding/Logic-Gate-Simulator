@@ -73,40 +73,6 @@ bool CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTab
     return true;
 }
 
-/*
-void CircuitOptimizer::GateRun(TruthTable& inputRunResults, std::vector<Node*>& inputNodes, Node*& outputNode,
-                               const size_t numInputNodes, std::vector<Gate*>& gates)
-{
-    for (int index = 0; index < inputRunResults.size(); index++)
-    {
-        //Run it twice just to be sure. can probably remove this after testing
-        for (int x = 0; x < 2; x++)
-        {
-            for (size_t iNode = 0; iNode < numInputNodes; iNode++)
-            {
-                inputNodes[iNode]->SetValue(inputRunResults[index].in[iNode]);
-            }
-        }
-
-        //Store results
-        inputRunResults[index].result = outputNode->GetValue();
-    }
-}
-
-void CircuitOptimizer::FillCustomTruthTable(TruthTable &results, size_t& numInputNodes)
-{
-    int size = pow(2, numInputNodes);
-    for (int i = 0; i < size; i++)
-    {
-        results.push_back(RunOfGates());
-
-        const std::string bin = DecimalToBinaryString(i, numInputNodes);
-        for (char c : bin)
-            results[i].in.push_back(c == '0' ? true : false);
-    }
-}
-*/
-
 std::string CircuitOptimizer::DecimalToBinaryString(int a, size_t reqLen)
 {
     std::string binary = "";
@@ -400,34 +366,31 @@ void CircuitOptimizer::LinkNotGateAsInput(std::vector<Gate*> &gates, size_t iGat
 
 size_t CircuitOptimizer::LinkNotGateAsOutput(std::vector<Gate*> &gates, size_t iGateToLinkTo)
 {
-    size_t returnIndex;
-
     //If it's a gate type that has an opposite type (ie. And & Nand) switch it with its opposing type
     //Otherwise just add a not gate onto the end of the gate
     switch (gates[iGateToLinkTo]->GetType())
     {
         case GateType::GATE_AND:
-            goto WillRemove;
-            break;
+            SwitchGates(gates, new GateNand(), iGateToLinkTo);
+            return iGateToLinkTo;
 
         case GateType::GATE_OR:
-            goto WillRemove;
-            break;
+            SwitchGates(gates, new GateNor(), iGateToLinkTo);
+            return iGateToLinkTo;
 
         case GateType::GATE_EOR:
-            goto WillRemove;
-            break;
+            SwitchGates(gates, new GateXor(), iGateToLinkTo);
+            return iGateToLinkTo;
 
         default:
-WillRemove:
             gates.push_back(new GateNot());
-            returnIndex = gates.size() - 1;
+            const size_t iNewNot = gates.size() - 1;
 
             const QPoint previousGatePos = gates[gates.size() - 2]->GetPosition();
-            gates[returnIndex]->SetPosition(previousGatePos.x() + 100, previousGatePos.y());
+            gates[iNewNot]->SetPosition(previousGatePos.x() + 100, previousGatePos.y());
 
             std::vector<Node*> inputNodes;
-            gates[returnIndex]->GetDisconnectedInputNodes(inputNodes);
+            gates[iNewNot]->GetDisconnectedInputNodes(inputNodes);
 
             std::vector<Node*> outputNodes;
             gates[iGateToLinkTo]->GetDisconnectedOutputNodes(outputNodes);
@@ -435,10 +398,9 @@ WillRemove:
             outputNodes[0]->LinkNode(inputNodes[0]);
             inputNodes[0]->LinkNode(outputNodes[0]);
 
+            return iNewNot;
             break;
     }
-
-    return returnIndex;
 }
 
 //Links iFirst's & iSecond's output nodes to input nodes of iLinkGate
@@ -473,6 +435,14 @@ bool CircuitOptimizer::LinkTwoGates(std::vector<Gate*> &gates, size_t iFirst, si
     const bool linkB = inputNodes[0]->LinkNode(outNodes[0]);
 
     return (linkA & linkB);
+}
+
+void CircuitOptimizer::SwitchGates(std::vector<Gate *> &gates, Gate *gateToSwitch, size_t indexToSwitch)
+{
+    //Don't need to worry about nodes, function only called for gates not connected to anything
+
+    delete gates[indexToSwitch];
+    gates[indexToSwitch] = gateToSwitch;
 }
 
 

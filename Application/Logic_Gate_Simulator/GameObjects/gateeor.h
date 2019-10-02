@@ -10,6 +10,8 @@ class GateEor : public Gate
 {
 public:
     GateEor(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
+    GateEor(bool notEorGate, GateType type = GATE_EOR, const char* iconLocation = std::string(":/Resources/Gates/gate-eor.png").c_str(),
+            id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
 
     virtual void UpdateOutput() override;
     virtual void SetPosition(int x, int y) override;

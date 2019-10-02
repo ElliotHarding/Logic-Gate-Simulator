@@ -33,7 +33,10 @@ SOURCES += \
     Dialogs/dlg_textedit.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
+    GameObjects/gatenand.cpp \
+    GameObjects/gatenor.cpp \
     GameObjects/gatetrieor.cpp \
+    GameObjects/gatexor.cpp \
     GameObjects/textlabel.cpp \
     circuitoptimizer.cpp \
         main.cpp \
@@ -72,8 +75,11 @@ HEADERS += \
     Dialogs/dlg_textedit.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
+    GameObjects/gatenand.h \
+    GameObjects/gatenor.h \
     GameObjects/gatetrieor.h \
     GameObjects/gatetypes.h \
+    GameObjects/gatexor.h \
     GameObjects/textlabel.h \
     circuitoptimizer.h \
         mainwindow.h \

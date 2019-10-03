@@ -137,8 +137,6 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 CutBooleanExpression(algebraicString,i,i+2);
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
-
-                //break;
             }
         }
 
@@ -169,8 +167,6 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                     algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                     algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
                 }
-
-                //break;
             }
         }
 
@@ -203,8 +199,6 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 CutBooleanExpression(algebraicString,i,i+2);
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
-
-                //break;
             }
         }
 
@@ -247,8 +241,6 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 CutBooleanExpression(algebraicString,i,i+3);
                 algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                 algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
-
-                //break;
             }
         }
 
@@ -280,8 +272,6 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                     algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                     algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
                 }
-
-                //break;
             }
         }
 
@@ -317,8 +307,6 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                     algebraicString.letter.insert(algebraicString.letter.begin()+i, std::to_string(iNew).c_str()[0]);
                     algebraicString.inverted.insert(algebraicString.inverted.begin()+i, false);
                 }
-
-                //break;
             }
         }
     }

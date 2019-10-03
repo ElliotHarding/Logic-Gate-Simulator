@@ -253,7 +253,7 @@ void GateField::Redo()
 }
 
 //Called if don't want the next gate to be clicked to be set as the selected gate
-void GateField::SkipNextGateSelectedCall()
+void GateField::SkipNextGateSelectedCall(bool bStopDragging)
 {
     /*
       Need GateCollection's UpdateClicked() to return true when clicked
@@ -265,6 +265,9 @@ void GateField::SkipNextGateSelectedCall()
       Reason we don't want it is because it may be a subGate in the GateCollection that actually got clicked
     */
     m_bSkipUpdateGateSelected = true;
+
+    if (bStopDragging)
+        StopDragging();
 }
 
 void GateField::StopDragging()

@@ -41,5 +41,8 @@
         <file>Resources/Gates/gate-nand.png</file>
         <file>Resources/Gates/gate-neor.png</file>
         <file>Resources/Gates/gate-nor.png</file>
+        <file>Resources/Button Icons/gate-collection-nand.png</file>
+        <file>Resources/Button Icons/gate-collection-optimize.png</file>
+        <file>Resources/Button Icons/gate-collection-move-gates.png</file>
     </qresource>
 </RCC>

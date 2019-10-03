@@ -149,18 +149,23 @@ void GateCollection::UpdateGraphics(QPainter *painter)
     DrawButtons(painter);
 
     //Draw bounding box
-    painter->setPen(QPen(Qt::black,2));
-    painter->drawRect(m_contaningArea);
+    if (m_dragMode == DragIndividual)
+    {
+        painter->setPen(QPen(Qt::black,2));
+        painter->drawRect(m_contaningArea);
+    }
 }
 
 void GateCollection::DrawButtons(QPainter *painter)
 {
-    static const QImage deleteAllButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete-all.png").c_str());
-    static const QImage saveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
-    static const QImage deleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
-    static const QImage dragButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
-    const int xyButtonSize = 40;
+    static const QImage cImgDeleteAllButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete-all.png").c_str());
+    static const QImage cImgSaveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
+    static const QImage cImgDeleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
+    static const QImage cImgDragButton = QImage(std::string(":/Resources/Button Icons/gate-collection-move-gates.png").c_str());
+    static const QImage cImgOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
+    static const QImage cImgNandOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-nand.png").c_str());
 
+    const int xyButtonSize = 40;
     m_deleteAllButton  = QRect(m_contaningArea.right() - xyButtonSize, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     m_deleteButton = QRect(m_contaningArea.right() - xyButtonSize*2, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     m_saveButton = QRect(m_contaningArea.right() - xyButtonSize*3, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
@@ -168,14 +173,12 @@ void GateCollection::DrawButtons(QPainter *painter)
     m_optimize = QRect(m_contaningArea.right() - xyButtonSize*5, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     m_nandOptimize = QRect(m_contaningArea.right() - xyButtonSize*6, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
 
-    painter->drawImage(m_deleteAllButton, deleteAllButton);
-    painter->drawImage(m_deleteButton, deleteButton);
-    painter->drawImage(m_saveButton, saveButton);
-    painter->drawImage(m_dragAllButton,dragButton);
-
-    painter->setPen(QPen(Qt::black,0.5));
-    painter->drawRect(m_optimize);
-    painter->drawRect(m_nandOptimize);
+    painter->drawImage(m_deleteAllButton, cImgDeleteAllButton);
+    painter->drawImage(m_deleteButton, cImgDeleteButton);
+    painter->drawImage(m_saveButton, cImgSaveButton);
+    painter->drawImage(m_dragAllButton, cImgDragButton);
+    painter->drawImage(m_optimize, cImgOptimizeButton);
+    painter->drawImage(m_nandOptimize, cImgNandOptimizeButton);
 }
 
 Node *GateCollection::GetClickedNode(int clickX, int clickY)
@@ -287,8 +290,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     {
         m_pParentField->SkipNextGateSelectedCall();
         m_pParentField->StartSaveGateCollection(m_gates);
-        m_pParentField->SkipNextGateSelectedCall();
-        m_pParentField->StopDragging();
+        m_pParentField->SkipNextGateSelectedCall(true);
 
         return true;
     }
@@ -301,8 +303,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         m_bDontDeleteGates = true;
 
         m_pParentField->UpdateGateSelected(nullptr);
-        m_pParentField->SkipNextGateSelectedCall();
-        m_pParentField->StopDragging();
+        m_pParentField->SkipNextGateSelectedCall(true);
 
         if (m_bIsNested)
             m_pParentGateCollection->ForgetGate(this);
@@ -317,8 +318,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     else if (m_deleteAllButton.contains(clickX, clickY))
     {
         m_pParentField->UpdateGateSelected(nullptr);
-        m_pParentField->SkipNextGateSelectedCall();
-        m_pParentField->StopDragging();
+        m_pParentField->SkipNextGateSelectedCall(true);
 
         if (m_bIsNested)
             m_pParentGateCollection->ForgetGate(this);
@@ -333,24 +333,21 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     else if (m_optimize.contains(clickX, clickY))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates, false);
-        m_pParentField->SkipNextGateSelectedCall();
-        m_pParentField->StopDragging();
+        m_pParentField->SkipNextGateSelectedCall(true);
         return true;
     }
 
     else if (m_dragAllButton.contains(clickX, clickY))
     {
         ToggleDragMode();
-        m_pParentField->SkipNextGateSelectedCall();
-        m_pParentField->StopDragging();
+        m_pParentField->SkipNextGateSelectedCall(true);
         return true;
     }
 
     else if (m_nandOptimize.contains(clickX, clickY))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates, true);
-        m_pParentField->SkipNextGateSelectedCall();
-        m_pParentField->StopDragging();
+        m_pParentField->SkipNextGateSelectedCall(true);
         return true;
     }
 

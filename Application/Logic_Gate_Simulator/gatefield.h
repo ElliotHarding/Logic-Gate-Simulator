@@ -43,7 +43,7 @@ public:
     void SetZoomLevel(qreal zoom, bool zoomCenter = true);
 
     //Called if don't want the next gate to be clicked to be set as the selected gate
-    void SkipNextGateSelectedCall();
+    void SkipNextGateSelectedCall(bool stopDragging = false);
     void StopDragging();
 
     //DLG_Home stuff

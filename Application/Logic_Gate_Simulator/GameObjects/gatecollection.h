@@ -54,7 +54,7 @@ private:
     std::vector<Gate*> m_gates;
 
     //Number of pixels from border before gates are seen
-    const int c_borderBoxMargin = 30;
+    const int c_borderBoxMargin = 40;
 
     QRect containingArea();
     QRect m_contaningArea;

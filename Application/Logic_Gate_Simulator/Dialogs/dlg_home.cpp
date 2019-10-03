@@ -388,11 +388,11 @@ void DLG_Home::SwitchWidgets(MovingWidget* newWidgetToShow)
 
 void DLG_Home::on_btn_zoomIn_clicked()
 {  
-    SetZoomFactor(m_zoomFactor += c_incZoom);
+    SetZoomFactor(m_zoomFactor + c_incZoom);
 }
 void DLG_Home::on_btn_zoomOut_clicked()
 {
-    SetZoomFactor(m_zoomFactor -= c_incZoom);
+    SetZoomFactor(m_zoomFactor - c_incZoom);
 }
 
 //Function works for local call & external call

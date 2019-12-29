@@ -63,7 +63,7 @@
       <x>160</x>
       <y>37</y>
       <width>805</width>
-      <height>500</height>
+      <height>488</height>
      </rect>
     </property>
     <property name="font">
@@ -441,7 +441,7 @@ border:none;</string>
       <x>9</x>
       <y>350</y>
       <width>140</width>
-      <height>181</height>
+      <height>175</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -619,19 +619,6 @@ border:none;</string>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(85, 85, 85);</string>
     </property>
-    <widget class="Line" name="line">
-     <property name="geometry">
-      <rect>
-       <x>810</x>
-       <y>80</y>
-       <width>25</width>
-       <height>3</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
    </widget>
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">

@@ -3,6 +3,7 @@
 #include <QLayout>
 #include <QLibrary>
 #include "gatereader.h"
+#include "dlg_task.h"
 
 DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
@@ -131,6 +132,11 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
     progressBar->setValue(100);
     txtProgress->setText("Done!");
+
+    //test code
+    //DLG_Home* testTask = new DLG_Home();
+    dlg_task* testTask = new dlg_task();
+    testTask->show();
 }
 
 DLG_Home::DLG_Home(QWidget *parent):
@@ -526,17 +532,9 @@ void DLG_Home::on_btn_redo_clicked()
     if(m_iCurrentGateField != -1)
         m_allGateFields[size_t(m_iCurrentGateField)]->Redo();
 }
-#include "dlg_task.h"
+
 void DLG_Home::on_btn_newPage_clicked()
 {
-    //test code
-    //DLG_Home* testTask = new DLG_Home();
-    dlg_task* testTask = new dlg_task();
-    testTask->show();
-
-
-
-
     //Request page name
     bool ok;
     QString newPageName = m_pDlgInput->getText(this, tr("Edit Name"),

@@ -40,7 +40,6 @@ SOURCES += \
     GameObjects/textlabel.cpp \
     circuitoptimizer.cpp \
         main.cpp \
-        mainwindow.cpp \
         gatefield.cpp \
         gatereader.cpp \
         Dialogs/dlg_gateinfo.cpp \
@@ -82,7 +81,6 @@ HEADERS += \
     GameObjects/gatexor.h \
     GameObjects/textlabel.h \
     circuitoptimizer.h \
-        mainwindow.h \
         clickmode.h \
         gatereader.h \
         AllGates.h \

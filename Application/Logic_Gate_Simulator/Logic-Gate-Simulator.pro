@@ -30,7 +30,10 @@ INCLUDEPATH += \
 
 SOURCES += \
     Dialogs/dlg_message.cpp \
+    Dialogs/dlg_task.cpp \
     Dialogs/dlg_textedit.cpp \
+    Dialogs/dlg_viewtasks.cpp \
+    Dialogs/widget_taskview.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
     GameObjects/gatenand.cpp \
@@ -71,7 +74,10 @@ SOURCES += \
 
 HEADERS += \
     Dialogs/dlg_message.h \
+    Dialogs/dlg_task.h \
     Dialogs/dlg_textedit.h \
+    Dialogs/dlg_viewtasks.h \
+    Dialogs/widget_taskview.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
     GameObjects/gatenand.h \
@@ -119,12 +125,14 @@ FORMS += \
         Dialogs/dlg_home.ui \
         Dialogs/dlg_savegatecollection.ui \
     Dialogs/dlg_textedit.ui \
+    Dialogs/dlg_viewtasks.ui \
         Dialogs/widget_advanced.ui \
         Dialogs/widget_allgates.ui \
         Dialogs/widget_customgates.ui \
         Dialogs/widget_inputgates.ui \
         Dialogs/widget_standard.ui \
-    Dialogs/dlg_load.ui
+    Dialogs/dlg_load.ui \
+    Dialogs/widget_taskview.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -133,6 +133,95 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     txtProgress->setText("Done!");
 }
 
+DLG_Home::DLG_Home(QWidget *parent):
+    QMainWindow(parent),
+    ui(new Ui::DLG_Home),
+    m_zoomFactor(-1)
+{
+    ui->setupUi(this);
+
+    {
+        QLibrary lib( "Comctl32.dll" );
+        lib.setLoadHints( QLibrary::ResolveAllSymbolsHint );
+        lib.load();
+    }
+
+    //m_allGateFields.reserve(10);
+    {
+        setMouseTracking(true);
+        ui->PlayField->clear();
+    }
+
+    QRect layoutGateWidget = accountForUIOffsetts(ui->layout_GateWidget->geometry());
+    QRect layoutGateInfo = accountForUIOffsetts(ui->layout_Dlg_GateInfo->geometry());
+
+    //Construction
+    {
+         m_pDlgLoadGates = new QFileDialog(this);
+         m_pDlgInput = new QInputDialog(this);
+         m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
+         m_pDlgGateInfo = new DLG_GateInfo(this);
+         m_pDlgMessage = new DLG_Message(this);
+         m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
+
+         //Gate widgets
+         const QPoint c_GateWidgetPos = layoutGateWidget.topLeft();
+         m_pWidgetAllGates = new Widget_AllGates(this, true, c_GateWidgetPos);
+         m_pCurrentShownGateWidget = m_pWidgetAllGates;
+
+         m_pWidgetCustomGates = new Widget_CustomGates(this, false, c_GateWidgetPos);
+         m_pWidgetAdvancedGates = new Widget_Advanced(this, false, c_GateWidgetPos);
+         m_pWidgetStandardGates = new Widget_Standard(this, false, c_GateWidgetPos);
+         m_pWidgetInputGates = new Widget_InputGates(this, false, c_GateWidgetPos);
+
+         //m_zoomSlider :
+         {
+             //save layout
+             QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
+
+             ui->layout_ZoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, 3, this);
+
+             //set layout after construction
+             dynamic_cast<SimpleSlider*>(ui->layout_ZoomSlider)->SetGeometry(layout);
+
+             //setup
+             ui->layout_ZoomSlider->raise();
+             SetZoomFactor(0.5);
+        }
+
+        m_pDlgGateInfo->move(layoutGateInfo.topLeft());
+        m_pDlgGateInfo->raise();
+    }
+
+    //Add to layout
+    {
+        this->layout()->addWidget(m_pDlgGateInfo);
+        this->layout()->addWidget(m_pWidgetAllGates);
+        this->layout()->addWidget(m_pWidgetCustomGates);
+        this->layout()->addWidget(m_pWidgetAdvancedGates);
+        this->layout()->addWidget(m_pWidgetStandardGates);
+        this->layout()->addWidget(m_pWidgetInputGates);
+    }
+
+    //Connections
+    {
+         connect(ui->actionNew_page, SIGNAL(triggered()), this, SLOT(on_btn_newPage_clicked()));
+         connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
+         connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
+         connect(ui->actionPan, SIGNAL(triggered()), this, SLOT(on_btn_Pan_clicked()));
+         connect(ui->actionDrag, SIGNAL(triggered()), this, SLOT(on_btn_Drag_clicked()));
+         connect(ui->actionLink, SIGNAL(triggered()), this, SLOT(on_btn_link_clicked()));
+         connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
+         connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
+         connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(on_btn_undo_clicked()));
+         connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(on_btn_redo_clicked()));
+         connect(ui->actionZoom, SIGNAL(triggered()), this, SLOT(on_btn_zoomIn_clicked()));
+         connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(on_btn_Delete_clicked()));
+         connect(ui->actionZoom_2, SIGNAL(triggered()), this, SLOT(on_btn_zoomOut_clicked()));
+         connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
+    }
+}
+
 DLG_Home::~DLG_Home()
 {
     delete m_pWidgetAllGates;
@@ -437,8 +526,17 @@ void DLG_Home::on_btn_redo_clicked()
     if(m_iCurrentGateField != -1)
         m_allGateFields[size_t(m_iCurrentGateField)]->Redo();
 }
+#include "dlg_task.h"
 void DLG_Home::on_btn_newPage_clicked()
 {
+    //test code
+    //DLG_Home* testTask = new DLG_Home();
+    dlg_task* testTask = new dlg_task();
+    testTask->show();
+
+
+
+
     //Request page name
     bool ok;
     QString newPageName = m_pDlgInput->getText(this, tr("Edit Name"),

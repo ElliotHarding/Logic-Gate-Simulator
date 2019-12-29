@@ -37,6 +37,7 @@ class DLG_Home : public QMainWindow
 
 public:
     explicit DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget* parent = nullptr);
+    explicit DLG_Home(QWidget* parent = nullptr);
     ~DLG_Home();
 
     void SendUserMessage(QString message);
@@ -50,7 +51,7 @@ public:
     void ResetToPreviousClickMode();
     void EditTextLabel(TextLabel* textLabelToEdit);
 
-private:
+protected:
     Ui::DLG_Home *ui;
 
     //Dialogs

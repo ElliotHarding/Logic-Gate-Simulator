@@ -72,7 +72,9 @@ SOURCES += \
     GameObjects/gatetriand.cpp \
     Dialogs/movingwidget.cpp \
     GameObjects/gatetrior.cpp \
-    GameObjects/gatenumberoutput.cpp
+    GameObjects/gatenumberoutput.cpp \
+    truthtables.cpp \
+    truthtablewidgetbase.cpp
 
 HEADERS += \
     Dialogs/dlg_message.h \
@@ -121,7 +123,9 @@ HEADERS += \
     GameObjects/gatetriand.h \
     Dialogs/movingwidget.h \
     GameObjects/gatetrior.h \
-    GameObjects/gatenumberoutput.h
+    GameObjects/gatenumberoutput.h \
+    truthtables.h \
+    truthtablewidgetbase.h
 
 FORMS += \
     Dialogs/dlg_message.ui \

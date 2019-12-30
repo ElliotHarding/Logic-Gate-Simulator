@@ -2,12 +2,22 @@
 #define WIDGET_DOUBLEINPUTTRUTHTABLE_H
 
 #include <QWidget>
+#include "truthtablewidgetbase.h"
 
 namespace Ui {
 class Widget_DoubleInputTruthTable;
 }
 
-class Widget_DoubleInputTruthTable : public QWidget
+struct DoubleInputTruthTable
+{
+public:
+    static const int size = 4;
+    bool inputA[size] = {0,1,0,1};
+    bool inputB[size] = {0,0,1,1};
+    bool output[size];
+};
+
+class Widget_DoubleInputTruthTable : public TruthTableWidgetBase
 {
     Q_OBJECT
 
@@ -15,8 +25,13 @@ public:
     explicit Widget_DoubleInputTruthTable(QWidget *parent = nullptr);
     ~Widget_DoubleInputTruthTable();
 
+    void SetResults(bool results[]);
+    std::vector<bool> GetResults();
+    //void DisableTextEdit(bool disableTextEdit);
+
 private:
     Ui::Widget_DoubleInputTruthTable *ui;
+    void DisableTextEdit(bool disableTextEdit);
 };
 
 #endif // WIDGET_DOUBLEINPUTTRUTHTABLE_H

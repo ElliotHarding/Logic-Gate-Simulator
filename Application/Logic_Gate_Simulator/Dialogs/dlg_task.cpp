@@ -2,7 +2,7 @@
 #include "ui_dlg_task.h"
 #include "ui_dlg_home.h"
 
-dlg_task::dlg_task(QWidget *parent) :
+dlg_task::dlg_task(bool doubleTruthTable, bool taskToCreateCircuit, bool results[], QWidget *parent) :
     DLG_Home(parent)
 {
     ui->btn_newPage->hide();
@@ -19,16 +19,11 @@ dlg_task::dlg_task(QWidget *parent) :
     ui->btn_undo->hide();
     m_allGateFields.push_back(new GateField(m_zoomFactor, "Task", this, m_pDlgSaveGateCollection));
     m_iCurrentGateField = 0;
-    m_allGateFields[m_iCurrentGateField]->setStyleSheet("");
     m_allGateFields[m_iCurrentGateField]->setAutoFillBackground(true);
 
     QPalette pal = palette();
     pal.setColor(QPalette::Background, Qt::white);
     m_allGateFields[m_iCurrentGateField]->setPalette(pal);
-
-    this->layout()->addWidget(m_allGateFields[m_iCurrentGateField]);
-    m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 805, 486);
-    m_allGateFields[m_iCurrentGateField]->raise();
 
     QRect geoDrag = ui->btn_Drag->geometry();
     QRect geoPan = ui->btn_Pan->geometry();
@@ -48,9 +43,28 @@ dlg_task::dlg_task(QWidget *parent) :
     ui->btn_click->setGeometry(geoClick);
     ui->btn_Delete->setGeometry(geoDelete);
     ui->btn_DeleteLink->setGeometry(geoDeleteLink);
+
+    m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);    //805
+    m_allGateFields[m_iCurrentGateField]->raise();
+
+    if(doubleTruthTable)
+         m_pTruthTableWidget = new Widget_DoubleInputTruthTable();
+    else
+         m_pTruthTableWidget = new Widget_TripleInputTruthTable();
+
+    if(taskToCreateCircuit)
+        m_pTruthTableWidget->SetResults(results);
+
+    m_pTruthTableWidget->setGeometry(765, 100, 200, 310);
+    m_pTruthTableWidget->raise();
+    m_pTruthTableWidget->setAutoFillBackground(true);
+
+    this->layout()->addWidget(m_pTruthTableWidget);
+    this->layout()->addWidget(m_allGateFields[m_iCurrentGateField]);
 }
 
 dlg_task::~dlg_task()
 {
+    delete m_pTruthTableWidget;
     delete ui;
 }

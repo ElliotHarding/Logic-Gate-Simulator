@@ -2,12 +2,23 @@
 #define WIDGET_TRIPLEINPUTTRUTHTABLE_H
 
 #include <QWidget>
+#include "truthtablewidgetbase.h"
 
 namespace Ui {
 class Widget_TripleInputTruthTable;
 }
 
-class Widget_TripleInputTruthTable : public QWidget
+struct TripleInputTruthTable
+{
+public:
+    static const int size = 8;
+    bool inputA[size] = {0,0,0,0,1,1,1,1};
+    bool inputB[size] = {0,0,1,1,0,0,1,1};
+    bool inputC[size] = {0,1,0,1,0,1,0,1};
+    bool output[size];
+};
+
+class Widget_TripleInputTruthTable : public TruthTableWidgetBase
 {
     Q_OBJECT
 
@@ -15,8 +26,14 @@ public:
     explicit Widget_TripleInputTruthTable(QWidget *parent = nullptr);
     ~Widget_TripleInputTruthTable();
 
+    void SetResults(bool results[]);
+    std::vector<bool> GetResults();
+    //void DisableTextEdit(bool disableTextEdit);
+
 private:
     Ui::Widget_TripleInputTruthTable *ui;
+    void DisableTextEdit(bool disableTextEdit);
+
 };
 
 #endif // WIDGET_TRIPLEINPUTTRUTHTABLE_H

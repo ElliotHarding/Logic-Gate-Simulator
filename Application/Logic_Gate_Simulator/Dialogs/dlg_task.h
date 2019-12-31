@@ -22,6 +22,9 @@ protected:
     TruthTableWidgetBase* m_pTruthTableWidget;
     QPushButton* m_pBtnSubmit;
 
+private slots:
+    void onSubmitButtonClicked();
+
 };
 
 #endif // DLG_TASK_H

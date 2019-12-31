@@ -44,9 +44,6 @@ dlg_task::dlg_task(bool doubleTruthTable, bool taskToCreateCircuit, bool results
     ui->btn_Delete->setGeometry(geoDelete);
     ui->btn_DeleteLink->setGeometry(geoDeleteLink);
 
-    m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);    //805
-    m_allGateFields[m_iCurrentGateField]->raise();
-
     if(doubleTruthTable)
          m_pTruthTableWidget = new Widget_DoubleInputTruthTable(this);
     else
@@ -55,12 +52,17 @@ dlg_task::dlg_task(bool doubleTruthTable, bool taskToCreateCircuit, bool results
     if(taskToCreateCircuit)
         m_pTruthTableWidget->SetResults(results);
 
-    m_pTruthTableWidget->setGeometry(765, 130, 200, 310);
     m_pTruthTableWidget->raise();
     m_pTruthTableWidget->setAutoFillBackground(true);
 
     m_pBtnSubmit = new QPushButton("Submit", this);
-    m_pBtnSubmit->setGeometry(805, 450, 120, 40);
+
+    m_pTruthTableWidget->setGeometry(765, 110, 200, 350);
+    m_pBtnSubmit->setGeometry(805, 470, 120, 40);
+    m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);    //805
+    m_allGateFields[m_iCurrentGateField]->raise();
+
+    connect(m_pBtnSubmit, &QPushButton::clicked, this, &dlg_task::onSubmitButtonClicked);
 
     this->layout()->addWidget(m_pTruthTableWidget);
     this->layout()->addWidget(m_allGateFields[m_iCurrentGateField]);
@@ -70,5 +72,12 @@ dlg_task::dlg_task(bool doubleTruthTable, bool taskToCreateCircuit, bool results
 dlg_task::~dlg_task()
 {
     delete m_pTruthTableWidget;
+    delete m_pBtnSubmit;
+    delete m_allGateFields[m_iCurrentGateField];
     delete ui;
+}
+
+void dlg_task::onSubmitButtonClicked()
+{
+    int x = 0;
 }

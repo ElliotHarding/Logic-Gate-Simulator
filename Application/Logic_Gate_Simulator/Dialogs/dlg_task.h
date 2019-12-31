@@ -20,6 +20,7 @@ public:
 
 protected:
     TruthTableWidgetBase* m_pTruthTableWidget;
+    QPushButton* m_pBtnSubmit;
 
 };
 

@@ -55,12 +55,16 @@ dlg_task::dlg_task(bool doubleTruthTable, bool taskToCreateCircuit, bool results
     if(taskToCreateCircuit)
         m_pTruthTableWidget->SetResults(results);
 
-    m_pTruthTableWidget->setGeometry(765, 100, 200, 310);
+    m_pTruthTableWidget->setGeometry(765, 130, 200, 310);
     m_pTruthTableWidget->raise();
     m_pTruthTableWidget->setAutoFillBackground(true);
 
+    m_pBtnSubmit = new QPushButton("Submit", this);
+    m_pBtnSubmit->setGeometry(805, 450, 120, 40);
+
     this->layout()->addWidget(m_pTruthTableWidget);
     this->layout()->addWidget(m_allGateFields[m_iCurrentGateField]);
+    this->layout()->addWidget(m_pBtnSubmit);
 }
 
 dlg_task::~dlg_task()

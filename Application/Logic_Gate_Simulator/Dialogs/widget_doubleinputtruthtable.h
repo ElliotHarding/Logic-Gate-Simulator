@@ -27,11 +27,10 @@ public:
 
     void SetResults(bool results[]);
     std::vector<bool> GetResults();
-    //void DisableTextEdit(bool disableTextEdit);
 
 private:
     Ui::Widget_DoubleInputTruthTable *ui;
-    void DisableTextEdit(bool disableTextEdit);
+    void DisableTextEdit();
 };
 
 #endif // WIDGET_DOUBLEINPUTTRUTHTABLE_H

@@ -28,11 +28,10 @@ public:
 
     void SetResults(bool results[]);
     std::vector<bool> GetResults();
-    //void DisableTextEdit(bool disableTextEdit);
 
 private:
     Ui::Widget_TripleInputTruthTable *ui;
-    void DisableTextEdit(bool disableTextEdit);
+    void DisableTextEdit();
 
 };
 

@@ -2,8 +2,9 @@
 #include "ui_dlg_task.h"
 #include "ui_dlg_home.h"
 
-dlg_task::dlg_task(bool doubleTruthTable, bool taskToCreateCircuit, bool results[], QWidget *parent) :
-    DLG_Home(parent)
+dlg_task::dlg_task(Task task, , QWidget *parent) :
+    DLG_Home(parent),
+    m_task(task)
 {
     ui->btn_newPage->hide();
     ui->btn_Save->hide();
@@ -44,13 +45,13 @@ dlg_task::dlg_task(bool doubleTruthTable, bool taskToCreateCircuit, bool results
     ui->btn_Delete->setGeometry(geoDelete);
     ui->btn_DeleteLink->setGeometry(geoDeleteLink);
 
-    if(doubleTruthTable)
+    if(m_task.m_bDoubleTruthTable)
          m_pTruthTableWidget = new Widget_DoubleInputTruthTable(this);
     else
          m_pTruthTableWidget = new Widget_TripleInputTruthTable(this);
 
-    if(taskToCreateCircuit)
-        m_pTruthTableWidget->SetResults(results);
+    if(m_task.m_bCircuitTask)
+        m_pTruthTableWidget->SetResults(m_task.results);
 
     m_pTruthTableWidget->raise();
     m_pTruthTableWidget->setAutoFillBackground(true);
@@ -79,5 +80,9 @@ dlg_task::~dlg_task()
 
 void dlg_task::onSubmitButtonClicked()
 {
-    int x = 0;
+    if(m_task.Verify(m_pTruthTableWidget->GetAnswer()))
+    {
+
+    }
+
 }

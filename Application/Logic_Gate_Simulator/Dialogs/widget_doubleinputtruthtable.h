@@ -26,7 +26,7 @@ public:
     ~Widget_DoubleInputTruthTable();
 
     void SetResults(bool results[]);
-    std::vector<bool> GetResults();
+    std::vector<bool> GetAnswer();
 
 private:
     Ui::Widget_DoubleInputTruthTable *ui;

@@ -27,7 +27,7 @@ public:
     ~Widget_TripleInputTruthTable();
 
     void SetResults(bool results[]);
-    std::vector<bool> GetResults();
+    std::vector<bool> GetAnswer();
 
 private:
     Ui::Widget_TripleInputTruthTable *ui;
@@ -41,7 +41,6 @@ private:
     BinaryLabel* m_pLblResult6;
     BinaryLabel* m_pLblResult7;
     BinaryLabel* m_pLblResult8;
-
 };
 
 #endif // WIDGET_TRIPLEINPUTTRUTHTABLE_H

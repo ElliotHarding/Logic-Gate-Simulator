@@ -38,7 +38,7 @@ void Widget_DoubleInputTruthTable::SetResults(bool results[])
     DisableTextEdit();
 }
 
-std::vector<bool> Widget_DoubleInputTruthTable::GetResults()
+std::vector<bool> Widget_DoubleInputTruthTable::GetAnswer()
 {
     std::vector<bool> res;
     res.push_back(m_pLblResult1->GetValue());

@@ -66,7 +66,7 @@ void Widget_TripleInputTruthTable::SetResults(bool results[])
     DisableTextEdit();
 }
 
-std::vector<bool> Widget_TripleInputTruthTable::GetResults()
+std::vector<bool> Widget_TripleInputTruthTable::GetAnswer()
 {
     std::vector<bool> res;
     res.push_back(m_pLblResult1->GetValue());

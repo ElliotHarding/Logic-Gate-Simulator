@@ -13,7 +13,7 @@ public:
     TruthTableWidgetBase(QWidget *parent = nullptr);
 
     virtual void SetResults(bool results[]) = 0;
-    virtual std::vector<bool> GetResults() = 0;
+    virtual std::vector<bool> GetAnswer() = 0;
     //virtual void DisableTextEdit(bool disableTextEdit) = 0;
 };
 

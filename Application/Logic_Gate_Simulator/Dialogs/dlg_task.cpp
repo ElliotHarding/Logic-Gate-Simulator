@@ -2,7 +2,7 @@
 #include "ui_dlg_task.h"
 #include "ui_dlg_home.h"
 
-dlg_task::dlg_task(Task task, , QWidget *parent) :
+dlg_task::dlg_task(Task task, QWidget *parent) :
     DLG_Home(parent),
     m_task(task)
 {
@@ -80,9 +80,39 @@ dlg_task::~dlg_task()
 
 void dlg_task::onSubmitButtonClicked()
 {
-    if(m_task.Verify(m_pTruthTableWidget->GetAnswer()))
+    if(m_task.m_bCircuitTask)
     {
 
     }
+    else
+    {
+        unsigned int count = 0;
+        const std::vector<bool> answers = m_pTruthTableWidget->GetAnswer();
+        for (bool res : answers)
+        {
+            if(res != m_task.results[count])
+               return;//Failed todo
+            count++;
+        }
+    }
 
+
+}
+
+bool Task::Verify(std::vector<bool> answer)
+{
+    if(m_bCircuitTask)
+    {
+
+    }
+    else
+    {
+        unsigned int count = 0;
+        for (bool res : answer)
+        {
+            if(res != results[count])
+                return false;
+        }
+        return true;
+    }
 }

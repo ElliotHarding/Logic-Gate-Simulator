@@ -31,6 +31,12 @@ public:
 private:
     Ui::Widget_DoubleInputTruthTable *ui;
     void DisableTextEdit();
+
+    BinaryLabel* m_pLblResult1;
+    BinaryLabel* m_pLblResult2;
+    BinaryLabel* m_pLblResult3;
+    BinaryLabel* m_pLblResult4;
+
 };
 
 #endif // WIDGET_DOUBLEINPUTTRUTHTABLE_H

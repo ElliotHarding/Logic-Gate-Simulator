@@ -33,6 +33,15 @@ private:
     Ui::Widget_TripleInputTruthTable *ui;
     void DisableTextEdit();
 
+    BinaryLabel* m_pLblResult1;
+    BinaryLabel* m_pLblResult2;
+    BinaryLabel* m_pLblResult3;
+    BinaryLabel* m_pLblResult4;
+    BinaryLabel* m_pLblResult5;
+    BinaryLabel* m_pLblResult6;
+    BinaryLabel* m_pLblResult7;
+    BinaryLabel* m_pLblResult8;
+
 };
 
 #endif // WIDGET_TRIPLEINPUTTRUTHTABLE_H

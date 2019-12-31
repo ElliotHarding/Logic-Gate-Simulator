@@ -48,9 +48,9 @@ dlg_task::dlg_task(bool doubleTruthTable, bool taskToCreateCircuit, bool results
     m_allGateFields[m_iCurrentGateField]->raise();
 
     if(doubleTruthTable)
-         m_pTruthTableWidget = new Widget_DoubleInputTruthTable();
+         m_pTruthTableWidget = new Widget_DoubleInputTruthTable(this);
     else
-         m_pTruthTableWidget = new Widget_TripleInputTruthTable();
+         m_pTruthTableWidget = new Widget_TripleInputTruthTable(this);
 
     if(taskToCreateCircuit)
         m_pTruthTableWidget->SetResults(results);

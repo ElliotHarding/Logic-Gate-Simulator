@@ -17,10 +17,10 @@ Widget_DoubleInputTruthTable::Widget_DoubleInputTruthTable(QWidget *parent) :
     m_pLblResult3->setGeometry(140, 170, 31, 21);
     m_pLblResult4->setGeometry(140, 200, 31, 21);
 
-    m_pLblResult1->show();
-    m_pLblResult2->show();
-    m_pLblResult3->show();
-    m_pLblResult4->show();
+    m_pLblResult1->SetValue(0);
+    m_pLblResult2->SetValue(0);
+    m_pLblResult3->SetValue(0);
+    m_pLblResult4->SetValue(0);
 }
 
 Widget_DoubleInputTruthTable::~Widget_DoubleInputTruthTable()

@@ -25,14 +25,14 @@ Widget_TripleInputTruthTable::Widget_TripleInputTruthTable(QWidget *parent) :
     m_pLblResult7->setGeometry(170, 250, 31, 21);
     m_pLblResult8->setGeometry(170, 280, 31, 21);
 
-    m_pLblResult1->show();
-    m_pLblResult2->show();
-    m_pLblResult3->show();
-    m_pLblResult4->show();
-    m_pLblResult5->show();
-    m_pLblResult6->show();
-    m_pLblResult7->show();
-    m_pLblResult8->show();
+    m_pLblResult1->SetValue(0);
+    m_pLblResult2->SetValue(0);
+    m_pLblResult3->SetValue(0);
+    m_pLblResult4->SetValue(0);
+    m_pLblResult5->SetValue(0);
+    m_pLblResult6->SetValue(0);
+    m_pLblResult7->SetValue(0);
+    m_pLblResult8->SetValue(0);
 }
 
 Widget_TripleInputTruthTable::~Widget_TripleInputTruthTable()

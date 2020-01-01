@@ -142,7 +142,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     t.m_bCircuitTask = false;
     t.results = {{1,1,1,1},{1,1,1,1}};
 
-    std::vector<Task> tasks = {t};
+    std::vector<Task> tasks = {t,t,t,t,t,t,t};
 
     DLG_TaskManager* taskMan = new DLG_TaskManager(tasks, this);
     taskMan->show();

@@ -45,10 +45,7 @@ dlg_task::dlg_task(Task task, QWidget *parent) :
     ui->btn_Delete->setGeometry(geoDelete);
     ui->btn_DeleteLink->setGeometry(geoDeleteLink);
 
-    if(m_task.m_bDoubleTruthTable)
-         m_pTruthTableWidget = new Widget_DoubleInputTruthTable(this);
-    else
-         m_pTruthTableWidget = new Widget_TripleInputTruthTable(this);
+    m_pTruthTableWidget = new Widget_TruthTable(m_task.m_inputs, m_task.m_outputs, this);
 
     if(m_task.m_bCircuitTask)
         m_pTruthTableWidget->SetResults(m_task.results);
@@ -86,33 +83,16 @@ void dlg_task::onSubmitButtonClicked()
     }
     else
     {
-        unsigned int count = 0;
-        const std::vector<bool> answers = m_pTruthTableWidget->GetAnswer();
-        for (bool res : answers)
+        const std::vector<std::vector<bool>> answers = m_pTruthTableWidget->GetAnswer();
+        for (int iVec = 0; iVec < answers.size(); iVec++)
         {
-            if(res != m_task.results[count])
-               return;//Failed todo
-            count++;
+            for(int iRes = 0; iRes < answers[iVec].size(); iRes++)
+            {
+                if(answers[iVec][iRes] != m_task.results[iVec][iRes])
+                   return;//Failed todo
+            }
         }
     }
 
 
-}
-
-bool Task::Verify(std::vector<bool> answer)
-{
-    if(m_bCircuitTask)
-    {
-
-    }
-    else
-    {
-        unsigned int count = 0;
-        for (bool res : answer)
-        {
-            if(res != results[count])
-                return false;
-        }
-        return true;
-    }
 }

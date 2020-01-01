@@ -135,8 +135,12 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
     //test code
     //DLG_Home* testTask = new DLG_Home();
-    bool results[] = {false,false,false,false};
-    dlg_task* testTask = new dlg_task(false, false, results);
+    Task t;
+    //t.results = {false,false,false,false};
+    t.m_inputs = 2;
+    t.m_outputs = 2;
+    t.m_bCircuitTask = false;
+    dlg_task* testTask = new dlg_task(t);
     testTask->show();
 }
 

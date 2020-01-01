@@ -25,17 +25,19 @@ Widget_TruthTable::Widget_TruthTable(int iInputs, int iOutputs, QWidget *parent)
         numRows = 0;
 
     const int numCols = iInputs + iOutputs;
-    const int lblWidth = geometry().x()/numCols;
-    const int lblHeight = geometry().y()/(numRows+1); //+1 for title labels
+    const int lblWidth = 200/numCols;//geometry().x()/numCols;
+    const int lblHeight = 350/(numRows+1);//geometry().y()/(numRows+1); //+1 for title labels
+    const int offsetX = lblWidth/2;
+    const int offsetY = 0;
 
     //make titles
     for (int iCol = 0; iCol < numCols; iCol++)
     {
         QLabel* newLabel;
-        if(iCol <= iInputs)
+        if(iCol < iInputs)
         {
             //A, B, C...
-            newLabel = new QLabel(QString(char(52+iCol)) ,this);
+            newLabel = new QLabel(QString(char(65+iCol)) ,this);
         }
         else
         {
@@ -43,7 +45,7 @@ Widget_TruthTable::Widget_TruthTable(int iInputs, int iOutputs, QWidget *parent)
             newLabel = new QLabel(QString(char(120+iCol-iInputs)) ,this);
         }
 
-        newLabel->setGeometry(iCol * lblWidth, 0, lblWidth, lblHeight);
+        newLabel->setGeometry(offsetX + iCol * lblWidth, offsetY, lblWidth, lblHeight);
         m_labelBin.push_back(newLabel);
     }
 
@@ -53,20 +55,20 @@ Widget_TruthTable::Widget_TruthTable(int iInputs, int iOutputs, QWidget *parent)
         for (int iRow = 0; iRow < numRows; iRow++)
         {
             QLabel* newLabel = new QLabel("0", this);
-            newLabel->setGeometry(iCol * lblWidth, iRow * lblHeight + lblHeight, lblWidth, lblHeight);
+            newLabel->setGeometry(offsetX + iCol * lblWidth, offsetY + iRow * lblHeight + lblHeight, lblWidth, lblHeight);
             m_labelBin.push_back(newLabel);
         }
 
     }
 
     //Result rows
-    for(int iCol = iInputs+1; iCol < numCols; iCol++)
+    for(int iCol = iInputs; iCol < numCols; iCol++)
     {
         std::vector<BinaryLabel*> resultLabels;
         for(int iRow = 0; iRow < numRows; iRow++)
         {
             BinaryLabel* newLabel = new BinaryLabel(this);
-            newLabel->setGeometry(iCol * lblWidth, iRow * lblHeight + lblHeight, lblWidth, lblHeight);
+            newLabel->setGeometry(offsetX + iCol * lblWidth, offsetY + iRow * lblHeight + lblHeight, lblWidth, lblHeight);
             resultLabels.push_back(newLabel);
         }
 
@@ -132,6 +134,7 @@ void Widget_TruthTable::DisableTextEdit()
 
 BinaryLabel::BinaryLabel(QWidget *parent) : QLabel(parent)
 {
+    setText("0");
 }
 
 void BinaryLabel::SetValue(bool value)

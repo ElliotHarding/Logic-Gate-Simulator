@@ -10,6 +10,27 @@ class Widget_TruthTable;
 
 class BinaryLabel;
 
+/*
+struct TripleInputTruthTable
+{
+public:
+    static const int size = 8;
+    bool inputA[size] = {0,0,0,0,1,1,1,1};
+    bool inputB[size] = {0,0,1,1,0,0,1,1};
+    bool inputC[size] = {0,1,0,1,0,1,0,1};
+    bool output[size];
+};
+
+struct DoubleInputTruthTable
+{
+public:
+    static const int size = 4;
+    bool inputA[size] = {0,1,0,1};
+    bool inputB[size] = {0,0,1,1};
+    bool output[size];
+};
+*/
+
 class Widget_TruthTable : public QWidget
 {
     Q_OBJECT

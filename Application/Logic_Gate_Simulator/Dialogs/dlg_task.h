@@ -3,8 +3,7 @@
 
 #include <QMainWindow>
 #include "dlg_home.h"
-#include "widget_doubleinputtruthtable.h"
-#include "widget_tripleinputtruthtable.h"
+#include "widget_truthtable.h"
 
 namespace Ui {
 class dlg_task;
@@ -12,11 +11,10 @@ class dlg_task;
 
 struct Task
 {
-    bool m_bDoubleTruthTable;
+    int m_inputs = 2;
+    int m_outputs = 2;
     bool m_bCircuitTask;
-    bool results[]; //holds answer, if circuit task holds run results, else holds truth table results expected
-
-    bool Verify(std::vector<bool> answer);
+    std::vector<std::vector<bool>> results;//holds answer, if circuit task holds run results, else holds truth table results expected
 };
 
 class dlg_task : public DLG_Home
@@ -28,7 +26,7 @@ public:
     ~dlg_task();
 
 protected:
-    TruthTableWidgetBase* m_pTruthTableWidget;
+    Widget_TruthTable* m_pTruthTableWidget;
     QPushButton* m_pBtnSubmit;
     Task m_task;
 

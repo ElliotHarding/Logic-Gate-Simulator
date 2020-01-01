@@ -33,9 +33,7 @@ SOURCES += \
     Dialogs/dlg_task.cpp \
     Dialogs/dlg_textedit.cpp \
     Dialogs/dlg_viewtasks.cpp \
-    Dialogs/widget_doubleinputtruthtable.cpp \
     Dialogs/widget_taskview.cpp \
-    Dialogs/widget_tripleinputtruthtable.cpp \
     Dialogs/widget_truthtable.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
@@ -74,17 +72,14 @@ SOURCES += \
     Dialogs/movingwidget.cpp \
     GameObjects/gatetrior.cpp \
     GameObjects/gatenumberoutput.cpp \
-    truthtables.cpp \
-    truthtablewidgetbase.cpp
+    truthtables.cpp
 
 HEADERS += \
     Dialogs/dlg_message.h \
     Dialogs/dlg_task.h \
     Dialogs/dlg_textedit.h \
     Dialogs/dlg_viewtasks.h \
-    Dialogs/widget_doubleinputtruthtable.h \
     Dialogs/widget_taskview.h \
-    Dialogs/widget_tripleinputtruthtable.h \
     Dialogs/widget_truthtable.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
@@ -126,8 +121,7 @@ HEADERS += \
     Dialogs/movingwidget.h \
     GameObjects/gatetrior.h \
     GameObjects/gatenumberoutput.h \
-    truthtables.h \
-    truthtablewidgetbase.h
+    truthtables.h
 
 FORMS += \
     Dialogs/dlg_message.ui \

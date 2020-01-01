@@ -67,6 +67,22 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     this->layout()->addWidget(m_pTruthTableWidget);
     this->layout()->addWidget(m_allGateFields[m_iCurrentGateField]);
     this->layout()->addWidget(m_pBtnSubmit);
+
+    for (int x = 0; x < task.m_inputs; ++x)
+    {
+        GateToggle* newGate = new GateToggle();
+        newGate->SetPosition(20, 50 * x);//todo
+        m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
+        m_inputGates.push_back(newGate);
+    }
+
+    for(int x = 0; x < m_task.m_outputs; x++)
+    {
+        GateReciever* newGate = new GateReciever();
+        newGate->SetPosition(575, 50 * x);
+        m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
+        m_outputGates.push_back(newGate);
+    }
 }
 
 dlg_task::~dlg_task()

@@ -1,5 +1,6 @@
 #include "dlg_taskmanager.h"
 #include "ui_dlg_taskmanager.h"
+#include <math.h>
 
 DLG_TaskManager::DLG_TaskManager(std::vector<Task> tasks, QWidget *parent) :
     QMainWindow(parent),
@@ -7,6 +8,7 @@ DLG_TaskManager::DLG_TaskManager(std::vector<Task> tasks, QWidget *parent) :
     m_tasks(tasks)
 {
     ui->setupUi(this);
+    setWindowTitle("Tasks");
 
     const int taskBtnDimension = 60;
     const int taskBtnMargin = 10;
@@ -26,8 +28,8 @@ DLG_TaskManager::DLG_TaskManager(std::vector<Task> tasks, QWidget *parent) :
 
     const int iTasks = tasks.size();
     const int iCols = iTasks>6 ? 6 : iTasks;
-    const int iRows = (iTasks>6 ? 2 : 1);
-    setGeometry(250,250, (taskBtnMargin*(iCols+1)) + (taskBtnDimension*iCols), (taskBtnMargin*(iRows+1)) + (taskBtnDimension*iRows));
+    const int iRows = floor(iTasks/6) + 1;
+    setGeometry(700, 500, (taskBtnMargin*(iCols+1)) + (taskBtnDimension*iCols), (taskBtnMargin*(iRows+1)) + (taskBtnDimension*iRows));
 }
 
 DLG_TaskManager::~DLG_TaskManager()

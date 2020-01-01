@@ -18,6 +18,9 @@ public:
     virtual void SetPosition(int x, int y) override;
     virtual Gate* Clone() override;
 
+    //todo check needed
+    bool GetValue(){return m_input.GetValue();}
+
 protected:
 
     const int NODE_OFFSET_X = (GateRecieverWidth/2);

@@ -10,26 +10,31 @@ class Widget_TruthTable;
 
 class BinaryLabel;
 
-/*
-struct TripleInputTruthTable
+static const std::vector<std::vector<bool>> valuesFor4inputs =
 {
-public:
-    static const int size = 8;
-    bool inputA[size] = {0,0,0,0,1,1,1,1};
-    bool inputB[size] = {0,0,1,1,0,0,1,1};
-    bool inputC[size] = {0,1,0,1,0,1,0,1};
-    bool output[size];
+    {0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1},
+    {0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1},
+    {0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1},
+    {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1}
 };
 
-struct DoubleInputTruthTable
+static const std::vector<std::vector<bool>> valuesFor3inputs =
 {
-public:
-    static const int size = 4;
-    bool inputA[size] = {0,1,0,1};
-    bool inputB[size] = {0,0,1,1};
-    bool output[size];
+    {0,0,0,0,1,1,1,1},
+    {0,0,1,1,0,0,1,1},
+    {0,1,0,1,0,1,0,1}
 };
-*/
+
+static const std::vector<std::vector<bool>> valuesFor2inputs =
+{
+    {0,0,1,1},
+    {0,1,0,1}
+};
+
+static const std::vector<std::vector<bool>> valuesFor1inputs =
+{
+    {0,1}
+};
 
 class Widget_TruthTable : public QWidget
 {

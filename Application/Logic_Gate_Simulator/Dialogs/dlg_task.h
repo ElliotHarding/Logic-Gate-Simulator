@@ -29,6 +29,8 @@ protected:
     Widget_TruthTable* m_pTruthTableWidget;
     QPushButton* m_pBtnSubmit;
     Task m_task;
+    std::vector<GateToggle*> m_inputGates;
+    std::vector<GateReciever*> m_outputGates;
 
 private slots:
     void onSubmitButtonClicked();

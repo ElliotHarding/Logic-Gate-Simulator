@@ -79,7 +79,30 @@ void dlg_task::onSubmitButtonClicked()
 {
     if(m_task.m_bCircuitTask)
     {
+        std::vector<std::vector<bool>> inputs;
+        if(m_task.m_inputs == 1)
+            inputs = valuesFor1inputs;
+        else if(m_task.m_inputs == 2)
+            inputs = valuesFor2inputs;
+        else if(m_task.m_inputs == 3)
+            inputs = valuesFor3inputs;
+        else
+            inputs = valuesFor4inputs;
 
+        const int numRows = inputs[0].size();
+        for(int row = 0; row < numRows; row++)
+        {
+            for(int input = 0; input < m_task.m_inputs; input++)
+            {
+                m_inputGates[row]->SetPowerState(inputs[input][row]);
+            }
+
+            for (int output = 0; output < m_outputGates.size(); output++)
+            {
+                if (m_task.results[output][row] != m_outputGates[output]->GetValue())
+                    return; //todo failed
+            }
+        }
     }
     else
     {

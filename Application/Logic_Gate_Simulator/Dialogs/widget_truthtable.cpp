@@ -11,18 +11,34 @@ Widget_TruthTable::Widget_TruthTable(int iInputs, int iOutputs, QWidget *parent)
     pal.setColor(QPalette::Background, Qt::white);
     setPalette(pal);
 
-    //Calculate number of rows
+    //Calculate number of rows & get inputs based on number of inputs
     int numRows = 0;
+    std::vector<std::vector<bool>> inputs;
     if(iInputs == 1)
+    {
         numRows = 2;
+        inputs = valuesFor1inputs;
+    }
     else if(iInputs == 2)
+    {
         numRows = 4;
+        inputs = valuesFor2inputs;
+    }
     else if(iInputs == 3)
+    {
         numRows = 8;
+        inputs = valuesFor3inputs;
+    }
     else if(iInputs == 4)
-        numRows = 24;
+    {
+        numRows = 16;
+        inputs = valuesFor4inputs;
+    }
     else
+    {
         numRows = 0;
+        inputs = valuesFor1inputs;
+    }
 
     const int numCols = iInputs + iOutputs;
     const int lblWidth = 200/numCols;//geometry().x()/numCols;
@@ -54,11 +70,10 @@ Widget_TruthTable::Widget_TruthTable(int iInputs, int iOutputs, QWidget *parent)
     {
         for (int iRow = 0; iRow < numRows; iRow++)
         {
-            QLabel* newLabel = new QLabel("0", this);
+            QLabel* newLabel = new QLabel(QString::number(inputs[iCol][iRow]), this);
             newLabel->setGeometry(offsetX + iCol * lblWidth, offsetY + iRow * lblHeight + lblHeight, lblWidth, lblHeight);
             m_labelBin.push_back(newLabel);
         }
-
     }
 
     //Result rows

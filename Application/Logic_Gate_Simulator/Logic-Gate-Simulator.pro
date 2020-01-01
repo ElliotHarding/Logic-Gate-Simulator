@@ -31,6 +31,7 @@ INCLUDEPATH += \
 SOURCES += \
     Dialogs/dlg_message.cpp \
     Dialogs/dlg_task.cpp \
+    Dialogs/dlg_taskmanager.cpp \
     Dialogs/dlg_textedit.cpp \
     Dialogs/dlg_viewtasks.cpp \
     Dialogs/widget_taskview.cpp \
@@ -77,6 +78,7 @@ SOURCES += \
 HEADERS += \
     Dialogs/dlg_message.h \
     Dialogs/dlg_task.h \
+    Dialogs/dlg_taskmanager.h \
     Dialogs/dlg_textedit.h \
     Dialogs/dlg_viewtasks.h \
     Dialogs/widget_taskview.h \
@@ -128,17 +130,16 @@ FORMS += \
         Dialogs/dlg_gateinfo.ui \
         Dialogs/dlg_home.ui \
         Dialogs/dlg_savegatecollection.ui \
+    Dialogs/dlg_taskmanager.ui \
     Dialogs/dlg_textedit.ui \
     Dialogs/dlg_viewtasks.ui \
         Dialogs/widget_advanced.ui \
         Dialogs/widget_allgates.ui \
         Dialogs/widget_customgates.ui \
-    Dialogs/widget_doubleinputtruthtable.ui \
         Dialogs/widget_inputgates.ui \
         Dialogs/widget_standard.ui \
     Dialogs/dlg_load.ui \
     Dialogs/widget_taskview.ui \
-    Dialogs/widget_tripleinputtruthtable.ui \
     Dialogs/widget_truthtable.ui
 
 # Default rules for deployment.

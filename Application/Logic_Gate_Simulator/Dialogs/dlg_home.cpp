@@ -4,6 +4,7 @@
 #include <QLibrary>
 #include "gatereader.h"
 #include "dlg_task.h"
+#include "dlg_taskmanager.h"
 
 DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
@@ -134,14 +135,17 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     txtProgress->setText("Done!");
 
     //test code
-    //DLG_Home* testTask = new DLG_Home();
+
     Task t;
-    //t.results = {false,false,false,false};
     t.m_inputs = 2;
     t.m_outputs = 2;
     t.m_bCircuitTask = false;
-    dlg_task* testTask = new dlg_task(t);
-    testTask->show();
+    t.results = {{1,1,1,1},{1,1,1,1}};
+
+    std::vector<Task> tasks = {t};
+
+    DLG_TaskManager* taskMan = new DLG_TaskManager(tasks, this);
+    taskMan->show();
 }
 
 DLG_Home::DLG_Home(QWidget *parent):

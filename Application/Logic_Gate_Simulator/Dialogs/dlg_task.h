@@ -17,15 +17,18 @@ struct Task
     std::vector<std::vector<bool>> results;//holds answer, if circuit task holds run results, else holds truth table results expected
 };
 
+class DLG_TaskManager;
+
 class dlg_task : public DLG_Home
 {
     Q_OBJECT
 
 public:
-    explicit dlg_task(Task task, QWidget *parent = nullptr);
+    explicit dlg_task(DLG_TaskManager* pTaskManager, Task task, QWidget *parent = nullptr);
     ~dlg_task();
 
 protected:
+    DLG_TaskManager* m_pTaskManager;
     Widget_TruthTable* m_pTruthTableWidget;
     QPushButton* m_pBtnSubmit;
     Task m_task;

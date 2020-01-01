@@ -1,9 +1,11 @@
 #include "dlg_task.h"
 #include "ui_dlg_task.h"
 #include "ui_dlg_home.h"
+#include "dlg_taskmanager.h"
 
-dlg_task::dlg_task(Task task, QWidget *parent) :
+dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task, QWidget *parent) :
     DLG_Home(parent),
+    m_pTaskManager(pTaskManager),
     m_task(task)
 {
     ui->btn_newPage->hide();
@@ -69,9 +71,10 @@ dlg_task::dlg_task(Task task, QWidget *parent) :
 
 dlg_task::~dlg_task()
 {
+    m_pTaskManager = nullptr;
     delete m_pTruthTableWidget;
     delete m_pBtnSubmit;
-    delete m_allGateFields[m_iCurrentGateField];
+    //delete m_allGateFields[m_iCurrentGateField]; deleted via ~dlg_home
     delete ui;
 }
 
@@ -100,7 +103,10 @@ void dlg_task::onSubmitButtonClicked()
             for (int output = 0; output < m_outputGates.size(); output++)
             {
                 if (m_task.results[output][row] != m_outputGates[output]->GetValue())
-                    return; //todo failed
+                {
+                    SendUserMessage("Incorrect! Try again.");
+                    return;
+                }
             }
         }
     }
@@ -112,10 +118,13 @@ void dlg_task::onSubmitButtonClicked()
             for(int iRes = 0; iRes < answers[iVec].size(); iRes++)
             {
                 if(answers[iVec][iRes] != m_task.results[iVec][iRes])
-                   return;//Failed todo
+                {
+                    SendUserMessage("Incorrect! Try again.");
+                    return;
+                }
             }
         }
     }
 
-
+    m_pTaskManager->OnTaskCompleted();
 }

@@ -93,6 +93,23 @@ dlg_task::~dlg_task()
     delete m_pTruthTableWidget;
     delete m_pBtnSubmit;
     //delete m_allGateFields[m_iCurrentGateField]; deleted via ~dlg_home
+
+    std::vector<Gate*>& gates = m_allGateFields[m_iCurrentGateField]->GetGates();
+    gates.clear();
+    m_allGateFields[m_iCurrentGateField]->FinishWithGates();
+
+    for(int x = 0; x < m_outputGates.size(); x++)
+    {
+        delete m_outputGates[x];
+        m_outputGates[x] = nullptr;
+    }
+
+    for(int x = 0; x < m_inputGates.size(); x++)
+    {
+        delete m_inputGates[x];
+        m_inputGates[x] = nullptr;
+    }
+
     delete ui;
 }
 
@@ -110,23 +127,29 @@ void dlg_task::onSubmitButtonClicked()
         else
             inputs = valuesFor4inputs;
 
+        m_allGateFields[m_iCurrentGateField]->GetGates(); //call lock on gates
+
         const int numRows = inputs[0].size();
         for(int row = 0; row < numRows; row++)
         {
             for(int input = 0; input < m_task.m_inputs; input++)
             {
-                m_inputGates[row]->SetPowerState(inputs[input][row]);
+                m_inputGates[input]->SetPowerState(inputs[input][row]);
             }
 
             for (int output = 0; output < m_outputGates.size(); output++)
             {
-                if (m_task.results[output][row] != m_outputGates[output]->GetValue())
+                GateReciever* outputGate = m_outputGates[output];
+                if (m_task.results[output][row] != outputGate->GetValue())
                 {
                     SendUserMessage("Incorrect! Try again.");
+                    m_allGateFields[m_iCurrentGateField]->FinishWithGates();
                     return;
                 }
             }
         }
+
+        m_allGateFields[m_iCurrentGateField]->FinishWithGates();
     }
     else
     {

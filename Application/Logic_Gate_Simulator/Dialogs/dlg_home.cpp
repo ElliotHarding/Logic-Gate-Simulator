@@ -137,10 +137,10 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     //test code
 
     Task t;
-    t.m_inputs = 3;
+    t.m_inputs = 2;
     t.m_outputs = 1;
-    t.m_bCircuitTask = false;
-    t.results = {/*{1,1,1,1},*/{1,1,1,1}};
+    t.m_bCircuitTask = true;
+    t.results = {{0,0,0,1}};
 
     std::vector<Task> tasks = {t,t,t,t,t,t,t};
 

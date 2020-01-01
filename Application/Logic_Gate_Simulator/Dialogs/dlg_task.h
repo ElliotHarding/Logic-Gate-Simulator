@@ -15,6 +15,7 @@ struct Task
     int m_outputs = 2;
     bool m_bCircuitTask;
     std::vector<std::vector<bool>> results;//holds answer, if circuit task holds run results, else holds truth table results expected
+    bool m_bComplete = false;
 };
 
 class DLG_TaskManager;
@@ -24,7 +25,7 @@ class dlg_task : public DLG_Home
     Q_OBJECT
 
 public:
-    explicit dlg_task(DLG_TaskManager* pTaskManager, Task task, QWidget *parent = nullptr);
+    explicit dlg_task(DLG_TaskManager* pTaskManager, Task task);
     ~dlg_task();
 
 protected:

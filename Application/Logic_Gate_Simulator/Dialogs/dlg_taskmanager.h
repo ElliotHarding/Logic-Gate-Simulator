@@ -21,8 +21,13 @@ public:
 private:
     Ui::DLG_TaskManager *ui;
     dlg_task* m_pCurrentTask;
+    int m_iCurrentTask;
 
     std::vector<Task> m_tasks;
+    std::vector<QPushButton*> m_taskButtons;
+
+private slots:
+    void OnTaskClicked();
 };
 
 #endif // DLG_TASKMANAGER_H

@@ -3,8 +3,8 @@
 #include "ui_dlg_home.h"
 #include "dlg_taskmanager.h"
 
-dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task, QWidget *parent) :
-    DLG_Home(parent),
+dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
+    DLG_Home(pTaskManager),
     m_pTaskManager(pTaskManager),
     m_task(task)
 {

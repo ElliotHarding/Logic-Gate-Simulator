@@ -782,9 +782,17 @@ QComboBox::down-arrow {
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuNew_task">
+     <property name="title">
+      <string>New task</string>
+     </property>
+     <addaction name="actionCircuit_from_truth_table_task"/>
+     <addaction name="actionTruth_table_from_circuit_task"/>
+    </widget>
     <addaction name="actionNewPage"/>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
+    <addaction name="menuNew_task"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -929,6 +937,26 @@ QComboBox::down-arrow {
    </property>
    <property name="text">
     <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionNew_circuit_from_truth_table_task">
+   <property name="text">
+    <string>New Circuit from truth table task</string>
+   </property>
+  </action>
+  <action name="actionNew_truth_table_from_circuit_task">
+   <property name="text">
+    <string>New </string>
+   </property>
+  </action>
+  <action name="actionCircuit_from_truth_table_task">
+   <property name="text">
+    <string>Circuit from truth table task</string>
+   </property>
+  </action>
+  <action name="actionTruth_table_from_circuit_task">
+   <property name="text">
+    <string>Truth table from circuit task</string>
    </property>
   </action>
  </widget>

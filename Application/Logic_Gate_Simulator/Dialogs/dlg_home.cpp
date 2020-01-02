@@ -5,6 +5,7 @@
 #include "gatereader.h"
 #include "dlg_task.h"
 #include "dlg_taskmanager.h"
+#include "dlg_circuittaskdesignersetup.h"
 
 DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
@@ -110,20 +111,33 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
     //Connections
     {
-         connect(ui->actionNew_page, SIGNAL(triggered()), this, SLOT(on_btn_newPage_clicked()));
-         connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
-         connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
-         connect(ui->actionPan, SIGNAL(triggered()), this, SLOT(on_btn_Pan_clicked()));
-         connect(ui->actionDrag, SIGNAL(triggered()), this, SLOT(on_btn_Drag_clicked()));
-         connect(ui->actionLink, SIGNAL(triggered()), this, SLOT(on_btn_link_clicked()));
-         connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
-         connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
-         connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(on_btn_undo_clicked()));
-         connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(on_btn_redo_clicked()));
-         connect(ui->actionZoom, SIGNAL(triggered()), this, SLOT(on_btn_zoomIn_clicked()));
-         connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(on_btn_Delete_clicked()));
-         connect(ui->actionZoom_2, SIGNAL(triggered()), this, SLOT(on_btn_zoomOut_clicked()));
-         connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
+        connect(ui->actionNew_page, SIGNAL(triggered()), this, SLOT(on_btn_newPage_clicked()));
+        connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
+        connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
+        connect(ui->actionPan, SIGNAL(triggered()), this, SLOT(on_btn_Pan_clicked()));
+        connect(ui->actionDrag, SIGNAL(triggered()), this, SLOT(on_btn_Drag_clicked()));
+        connect(ui->actionLink, SIGNAL(triggered()), this, SLOT(on_btn_link_clicked()));
+        connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
+        connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
+        connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(on_btn_undo_clicked()));
+        connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(on_btn_redo_clicked()));
+        connect(ui->actionZoom, SIGNAL(triggered()), this, SLOT(on_btn_zoomIn_clicked()));
+        connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(on_btn_Delete_clicked()));
+        connect(ui->actionZoom_2, SIGNAL(triggered()), this, SLOT(on_btn_zoomOut_clicked()));
+        connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
+
+
+        //connect(ui->actionCircuit_from_truth_table_task, SIGNAL(triggered()), this, SLOT((on_btn_newCircuitTask())));
+        //connect(ui->actionTruth_table_from_circuit_task, SIGNAL(triggered()), this, SLOT((on_btn_newTruthTableTask())));
+
+        connect(ui->actionCircuit_from_truth_table_task, &QAction::triggered, [this]()
+        {
+             on_btn_newCircuitTask();
+        });
+        connect(ui->actionTruth_table_from_circuit_task, &QAction::triggered, [this]()
+        {
+             on_btn_newTruthTableTask();
+        });
     }
 
     {
@@ -216,24 +230,6 @@ DLG_Home::DLG_Home(QWidget *parent):
         this->layout()->addWidget(m_pWidgetAdvancedGates);
         this->layout()->addWidget(m_pWidgetStandardGates);
         this->layout()->addWidget(m_pWidgetInputGates);
-    }
-
-    //Connections
-    {
-         connect(ui->actionNew_page, SIGNAL(triggered()), this, SLOT(on_btn_newPage_clicked()));
-         connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
-         connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
-         connect(ui->actionPan, SIGNAL(triggered()), this, SLOT(on_btn_Pan_clicked()));
-         connect(ui->actionDrag, SIGNAL(triggered()), this, SLOT(on_btn_Drag_clicked()));
-         connect(ui->actionLink, SIGNAL(triggered()), this, SLOT(on_btn_link_clicked()));
-         connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(on_btn_load_clicked()));
-         connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(on_btn_Save_clicked()));
-         connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(on_btn_undo_clicked()));
-         connect(ui->actionRedo, SIGNAL(triggered()), this, SLOT(on_btn_redo_clicked()));
-         connect(ui->actionZoom, SIGNAL(triggered()), this, SLOT(on_btn_zoomIn_clicked()));
-         connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(on_btn_Delete_clicked()));
-         connect(ui->actionZoom_2, SIGNAL(triggered()), this, SLOT(on_btn_zoomOut_clicked()));
-         connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
     }
 }
 
@@ -540,6 +536,18 @@ void DLG_Home::on_btn_redo_clicked()
 {
     if(m_iCurrentGateField != -1)
         m_allGateFields[size_t(m_iCurrentGateField)]->Redo();
+}
+
+void DLG_Home::on_btn_newCircuitTask()
+{
+    DLG_CircuitTaskDesignerSetup* dlgCircuitTaskDesigner = new DLG_CircuitTaskDesignerSetup(this);
+    dlgCircuitTaskDesigner->show();
+    dlgCircuitTaskDesigner = nullptr;
+}
+
+void DLG_Home::on_btn_newTruthTableTask()
+{
+
 }
 
 void DLG_Home::on_btn_newPage_clicked()

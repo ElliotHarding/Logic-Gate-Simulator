@@ -21,10 +21,7 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     ui->line_8->hide();
     ui->btn_redo->hide();
     ui->btn_undo->hide();
-
-    QPalette pal = palette();
-    pal.setColor(QPalette::Background, Qt::white);
-    m_allGateFields[m_iCurrentGateField]->setPalette(pal);
+    //ui->menuBar->hide();
 
     QRect geoDrag = ui->btn_Drag->geometry();
     QRect geoPan = ui->btn_Pan->geometry();
@@ -53,11 +50,15 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     m_pTruthTableWidget->setAutoFillBackground(true);
     m_pTruthTableWidget->setGeometry(765, 110, 200, 350);
 
-    m_iCurrentGateField = 0;
     m_allGateFields.push_back(new GateField(m_zoomFactor, "Task", this, m_pDlgSaveGateCollection));
+    m_iCurrentGateField = 0;
     m_allGateFields[m_iCurrentGateField]->setAutoFillBackground(true);
     m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);
     m_allGateFields[m_iCurrentGateField]->raise();
+
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, Qt::white);
+    m_allGateFields[m_iCurrentGateField]->setPalette(pal);
 
     if(m_task.m_bCircuitTask)
     {

@@ -29,12 +29,12 @@ INCLUDEPATH += \
     GameObjects
 
 SOURCES += \
+    Dialogs/dlg_circuittaskdesigner.cpp \
+    Dialogs/dlg_circuittaskdesignersetup.cpp \
     Dialogs/dlg_message.cpp \
     Dialogs/dlg_task.cpp \
     Dialogs/dlg_taskmanager.cpp \
     Dialogs/dlg_textedit.cpp \
-    Dialogs/dlg_viewtasks.cpp \
-    Dialogs/widget_taskview.cpp \
     Dialogs/widget_truthtable.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
@@ -76,12 +76,12 @@ SOURCES += \
     truthtables.cpp
 
 HEADERS += \
+    Dialogs/dlg_circuittaskdesigner.h \
+    Dialogs/dlg_circuittaskdesignersetup.h \
     Dialogs/dlg_message.h \
     Dialogs/dlg_task.h \
     Dialogs/dlg_taskmanager.h \
     Dialogs/dlg_textedit.h \
-    Dialogs/dlg_viewtasks.h \
-    Dialogs/widget_taskview.h \
     Dialogs/widget_truthtable.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
@@ -126,20 +126,20 @@ HEADERS += \
     truthtables.h
 
 FORMS += \
+    Dialogs/dlg_circuittaskdesigner.ui \
+    Dialogs/dlg_circuittaskdesignersetup.ui \
     Dialogs/dlg_message.ui \
         Dialogs/dlg_gateinfo.ui \
         Dialogs/dlg_home.ui \
         Dialogs/dlg_savegatecollection.ui \
     Dialogs/dlg_taskmanager.ui \
     Dialogs/dlg_textedit.ui \
-    Dialogs/dlg_viewtasks.ui \
         Dialogs/widget_advanced.ui \
         Dialogs/widget_allgates.ui \
         Dialogs/widget_customgates.ui \
         Dialogs/widget_inputgates.ui \
         Dialogs/widget_standard.ui \
     Dialogs/dlg_load.ui \
-    Dialogs/widget_taskview.ui \
     Dialogs/widget_truthtable.ui
 
 # Default rules for deployment.

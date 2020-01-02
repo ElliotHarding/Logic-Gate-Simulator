@@ -292,6 +292,7 @@ std::vector<Gate*>& GateField::GetGates()
     m_lockAllGates.lock();
     return m_allGates;
 }
+
 void GateField::FinishWithGates()
 {
     m_lockAllGates.unlock();

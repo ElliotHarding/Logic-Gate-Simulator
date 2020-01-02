@@ -196,7 +196,8 @@ void Node::SetValue(bool val)
     {
         //Having this here means can't update any input nodes in any UpdateOutput() functions
         //otherwise circular code.
-        m_parent->UpdateOutput();
+        if(m_id > 0) //check m_id is > 0 incase this node is being deleted
+            m_parent->UpdateOutput();
     }
 }
 

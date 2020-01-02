@@ -59,7 +59,7 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
 
     m_pTruthTableWidget->setGeometry(765, 110, 200, 350);
     m_pBtnSubmit->setGeometry(805, 470, 120, 40);
-    m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);    //805
+    m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);
     m_allGateFields[m_iCurrentGateField]->raise();
 
     connect(m_pBtnSubmit, &QPushButton::clicked, this, &dlg_task::onSubmitButtonClicked);
@@ -92,23 +92,14 @@ dlg_task::~dlg_task()
     m_pTaskManager = nullptr;
     delete m_pTruthTableWidget;
     delete m_pBtnSubmit;
-    //delete m_allGateFields[m_iCurrentGateField]; deleted via ~dlg_home
-
-    std::vector<Gate*>& gates = m_allGateFields[m_iCurrentGateField]->GetGates();
-    gates.clear();
-    m_allGateFields[m_iCurrentGateField]->FinishWithGates();
 
     for(int x = 0; x < m_outputGates.size(); x++)
-    {
-        delete m_outputGates[x];
         m_outputGates[x] = nullptr;
-    }
 
     for(int x = 0; x < m_inputGates.size(); x++)
-    {
-        delete m_inputGates[x];
         m_inputGates[x] = nullptr;
-    }
+
+    //delete m_allGateFields[m_iCurrentGateField]; deleted via ~dlg_home
 
     delete ui;
 }

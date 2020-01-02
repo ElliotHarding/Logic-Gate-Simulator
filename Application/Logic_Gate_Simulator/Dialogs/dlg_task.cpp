@@ -2,6 +2,7 @@
 #include "ui_dlg_task.h"
 #include "ui_dlg_home.h"
 #include "dlg_taskmanager.h"
+#include "gatereader.h"
 
 dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     DLG_Home(pTaskManager),
@@ -20,9 +21,6 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     ui->line_8->hide();
     ui->btn_redo->hide();
     ui->btn_undo->hide();
-    m_allGateFields.push_back(new GateField(m_zoomFactor, "Task", this, m_pDlgSaveGateCollection));
-    m_iCurrentGateField = 0;
-    m_allGateFields[m_iCurrentGateField]->setAutoFillBackground(true);
 
     QPalette pal = palette();
     pal.setColor(QPalette::Background, Qt::white);
@@ -47,46 +45,61 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     ui->btn_Delete->setGeometry(geoDelete);
     ui->btn_DeleteLink->setGeometry(geoDeleteLink);
 
+    m_pBtnSubmit = new QPushButton("Submit", this);
+    m_pBtnSubmit->setGeometry(805, 470, 120, 40);
+
     m_pTruthTableWidget = new Widget_TruthTable(m_task.m_inputs, m_task.m_outputs, this);
-
-    if(m_task.m_bCircuitTask)
-        m_pTruthTableWidget->SetResults(m_task.results);
-
     m_pTruthTableWidget->raise();
     m_pTruthTableWidget->setAutoFillBackground(true);
-
-    m_pBtnSubmit = new QPushButton("Submit", this);
-
     m_pTruthTableWidget->setGeometry(765, 110, 200, 350);
-    m_pBtnSubmit->setGeometry(805, 470, 120, 40);
+
+    m_iCurrentGateField = 0;
+    m_allGateFields.push_back(new GateField(m_zoomFactor, "Task", this, m_pDlgSaveGateCollection));
+    m_allGateFields[m_iCurrentGateField]->setAutoFillBackground(true);
     m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);
     m_allGateFields[m_iCurrentGateField]->raise();
+
+    if(m_task.m_bCircuitTask)
+    {
+        m_pTruthTableWidget->SetResults(m_task.results);
+
+        std::ifstream saveFile = std::ifstream(m_task.m_circuitFileName.toUtf8());
+
+        GateReader reader;
+        reader.ReadGateField(saveFile, m_allGateFields[m_iCurrentGateField]);
+
+        std::vector<Gate*>& gates = m_allGateFields[m_iCurrentGateField]->GetGates();
+        for (Gate* g : gates)
+            g->SetUserDisabled();
+    }
+    else
+    {
+        int ylen = (486*2)/(m_task.m_inputs+1);
+        for (int x = 0; x < task.m_inputs; ++x)
+        {
+            GateToggle* newGate = new GateToggle();
+            newGate->SetPosition(5, ylen * (x + 1));
+            newGate->SetUserDisabled();
+            m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
+            m_inputGates.push_back(newGate);
+        }
+
+        ylen = (486*2)/(m_task.m_outputs+1);
+        for(int x = 0; x < m_task.m_outputs; x++)
+        {
+            GateReciever* newGate = new GateReciever();
+            newGate->SetPosition(1000, ylen * (x + 1));
+            newGate->SetUserDisabled();
+            m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
+            m_outputGates.push_back(newGate);
+        }
+    }
 
     connect(m_pBtnSubmit, &QPushButton::clicked, this, &dlg_task::onSubmitButtonClicked);
 
     this->layout()->addWidget(m_pTruthTableWidget);
     this->layout()->addWidget(m_allGateFields[m_iCurrentGateField]);
     this->layout()->addWidget(m_pBtnSubmit);
-
-    int ylen = (486*2)/(m_task.m_inputs+1);
-    for (int x = 0; x < task.m_inputs; ++x)
-    {
-        GateToggle* newGate = new GateToggle();
-        newGate->SetPosition(5, ylen * (x + 1));
-        newGate->SetUserDisabled();
-        m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
-        m_inputGates.push_back(newGate);
-    }
-
-    ylen = (486*2)/(m_task.m_outputs+1);
-    for(int x = 0; x < m_task.m_outputs; x++)
-    {
-        GateReciever* newGate = new GateReciever();
-        newGate->SetPosition(1000, ylen * (x + 1));
-        newGate->SetUserDisabled();
-        m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
-        m_outputGates.push_back(newGate);
-    }
 }
 
 dlg_task::~dlg_task()

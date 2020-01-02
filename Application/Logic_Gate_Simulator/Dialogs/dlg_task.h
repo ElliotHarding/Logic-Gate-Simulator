@@ -14,8 +14,11 @@ struct Task
     int m_inputs = 2;
     int m_outputs = 2;
     bool m_bCircuitTask;
-    std::vector<std::vector<bool>> results;//holds answer, if circuit task holds run results, else holds truth table results expected
     bool m_bComplete = false;
+    QString m_circuitFileName;
+
+    //holds answer, if circuit task holds run results, else holds truth table results expected
+    std::vector<std::vector<bool>> results;
 };
 
 class DLG_TaskManager;

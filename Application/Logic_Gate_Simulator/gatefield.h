@@ -86,7 +86,7 @@ private:
     void paintEvent(QPaintEvent* paintEvent) override;
     void wheelEvent(QWheelEvent *event) override;
 
-    void updateFunction();
+    void rl_updateFunction();
 
     TimerThread* m_pTimerThread;
 
@@ -105,7 +105,7 @@ private:
     void moveToFront(int index, std::vector<Gate*>& vec);
 
     //Gate backups for redo and undo functions
-    void BackupGates();
+    void rl_backupGates();
     std::vector<std::vector<Gate*>> m_gateBackups;
     const int c_maxNumberOfBackups = 10;
     int m_backupIndex = 0;

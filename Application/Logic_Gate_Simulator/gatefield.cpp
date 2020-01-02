@@ -113,7 +113,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
 
 //MAKE SURE m_lockAllGates is locked before calling!
 //Or re-implement...
-void GateField::updateFunction()
+void GateField::rl_updateFunction()
 {
     for (Gate* g : m_allGates)
     {
@@ -193,7 +193,7 @@ void GateField::DeleteGate(Gate* gateToDelete)
             delete gObject;
             gateToDelete = nullptr;
 
-            updateFunction();
+            rl_updateFunction();
 
             //Exit early
             break;
@@ -214,7 +214,7 @@ void GateField::ForgetChild(Gate* gateToDelete)
             m_allGates.erase(m_allGates.begin() + int8_t(index));
             gateToDelete = nullptr;
 
-            updateFunction();
+            rl_updateFunction();
 
             //Exit early
             break;
@@ -333,7 +333,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
     m_previousDragMousePos = QPoint(clickX,clickY);
     m_currentDragPoint = m_previousDragMousePos;
 
-    BackupGates();
+    rl_backupGates();
 
     //If was in the middle of linking, but then user changed click mode, forget
     //the middle step variable m_linkNodeA
@@ -659,7 +659,7 @@ void GateField::rl_deleteClick(int clickX, int clickY)
             m_allGates.erase(m_allGates.begin() + index);
             delete gObject;
 
-            updateFunction();
+            rl_updateFunction();
 
             UpdateGateSelected(nullptr);
             //Exit out of for so we dont delete more than one gameobject
@@ -742,7 +742,7 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 }
 
 //Function must be called when m_allGates is mutex locked
-void GateField::BackupGates()
+void GateField::rl_backupGates()
 {
     //Create backup of all gates
     std::vector<Gate*> backup;

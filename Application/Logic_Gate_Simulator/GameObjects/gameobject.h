@@ -12,6 +12,8 @@ public:
     GameObject(int width, int height, const char* iconLocation = nullptr);
     virtual ~GameObject();
 
+    void SetUserDisabled();
+
     virtual void UpdateGraphics(QPainter* painter);
     virtual bool UpdateClicked(int clickX, int clickY);
 
@@ -27,6 +29,8 @@ protected:
     QRect m_layout;
     int m_width;
     int m_height;
+
+    bool m_bUserDisabled = false;
 };
 
 class DragableGameObject : public GameObject

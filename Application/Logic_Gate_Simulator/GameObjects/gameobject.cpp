@@ -14,6 +14,11 @@ GameObject::~GameObject()
 {
 }
 
+void GameObject::SetUserDisabled()
+{
+    m_bUserDisabled = true;
+}
+
 void GameObject::UpdateGraphics(QPainter *painter)
 {
     painter->drawImage(m_layout,m_image);
@@ -21,6 +26,8 @@ void GameObject::UpdateGraphics(QPainter *painter)
 
 bool GameObject::UpdateClicked(int clickX, int clickY)
 {
+    if(m_bUserDisabled)
+        return false;
     return m_layout.contains(QPoint(clickX,clickY));
 }
 

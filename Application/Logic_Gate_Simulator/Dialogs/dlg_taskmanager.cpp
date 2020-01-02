@@ -2,17 +2,17 @@
 #include "ui_dlg_taskmanager.h"
 #include <math.h>
 
-DLG_TaskManager::DLG_TaskManager(std::vector<Task> tasks, QWidget *parent) :
+DLG_TaskManager::DLG_TaskManager(std::vector<std::string> taskNames, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::DLG_TaskManager),
-    m_tasks(tasks)
+    m_tasks(taskNames)
 {
     ui->setupUi(this);
     setWindowTitle("Tasks");
 
     const int taskBtnDimension = 60;
     const int taskBtnMargin = 10;
-    for (int x = 0; x < tasks.size(); x++)
+    for (int x = 0; x < m_tasks.size(); x++)
     {
         QPushButton* newTaskBtn = new QPushButton(QString::number(x), this);
         newTaskBtn->setObjectName(QString::number(x));
@@ -24,9 +24,10 @@ DLG_TaskManager::DLG_TaskManager(std::vector<Task> tasks, QWidget *parent) :
 
         connect(newTaskBtn, &QPushButton::clicked, this, &DLG_TaskManager::OnTaskClicked);
         m_taskButtons.push_back(newTaskBtn);
+        m_completedTasks.push_back(false);
     }
 
-    const int iTasks = tasks.size();
+    const int iTasks = m_tasks.size();
     const int iCols = iTasks>6 ? 6 : iTasks;
     const int iRows = floor(iTasks/6) + 1;
     setGeometry(700, 500, (taskBtnMargin*(iCols+1)) + (taskBtnDimension*iCols), (taskBtnMargin*(iRows+1)) + (taskBtnDimension*iRows));
@@ -46,7 +47,7 @@ void DLG_TaskManager::OnTaskCompleted()
     this->show();
     delete m_pCurrentTask;
     m_pCurrentTask = nullptr;
-    m_tasks[m_iCurrentTask].m_bComplete = true;
+    m_completedTasks[m_iCurrentTask] = true;
 
     QPalette pal = m_taskButtons[m_iCurrentTask]->palette();
     pal.setColor(QPalette::Button, QColor(Qt::green));
@@ -57,7 +58,7 @@ void DLG_TaskManager::OnTaskCompleted()
     bool allComplete = true;
     for(int x = 0; x < m_tasks.size(); x++)
     {
-        if(!m_tasks[x].m_bComplete)
+        if(!m_completedTasks[x])
         {
             allComplete = false;
             break;

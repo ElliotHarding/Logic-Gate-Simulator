@@ -15,7 +15,6 @@ struct Task
     int m_outputs = 2;
     bool m_bCircuitTask;
     bool m_bComplete = false;
-    std::string m_fileName;
 
     //holds answer, if circuit task holds run results, else holds truth table results expected
     std::vector<std::vector<bool>> results;

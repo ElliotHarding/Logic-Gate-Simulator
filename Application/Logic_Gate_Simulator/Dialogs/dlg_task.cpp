@@ -29,7 +29,7 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string taskFileName) :
 
     //Read task file
 
-    std::ifstream taskFile = std::ifstream(m_task.m_fileName);
+    std::ifstream taskFile = std::ifstream(taskFileName);
 
     std::string readString;
     taskFile >> readString;
@@ -174,7 +174,7 @@ void dlg_task::onSubmitButtonClicked()
     m_pTaskManager->OnTaskCompleted();
 }
 
-int GateReader::tryStoi(std::string s, int defaultVal)
+int dlg_task::tryStoi(std::string s, int defaultVal)
 {
     try
     {

@@ -13,7 +13,7 @@ class DLG_TaskManager : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit DLG_TaskManager(std::vector<Task> tasks, QWidget *parent = nullptr);
+    explicit DLG_TaskManager(std::vector<std::string> taskNames, QWidget *parent = nullptr);
     ~DLG_TaskManager();
 
     void OnTaskCompleted();
@@ -23,7 +23,8 @@ private:
     dlg_task* m_pCurrentTask;
     int m_iCurrentTask;
 
-    std::vector<Task> m_tasks;
+    std::vector<bool> m_completedTasks;
+    std::vector<std::string> m_tasks;
     std::vector<QPushButton*> m_taskButtons;
 
 private slots:

@@ -149,14 +149,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     txtProgress->setText("Done!");
 
     //test code
-
-    Task t;
-    t.m_inputs = 2;
-    t.m_outputs = 1;
-    t.m_bCircuitTask = true;
-    t.results = {{0,0,0,1}};
-
-    std::vector<Task> tasks = {t,t,t,t,t,t,t};
+    std::vector<std::string> tasks = {"C:\\Users\\User\\Documents\\Github\\Logic-Gate-Simulator\\Application\\build-Logic-Gate-Simulator-Desktop_Qt_5_12_2_MinGW_32_bit-Debug\\debug\\todo.GATEFEILD"};
 
     DLG_TaskManager* taskMan = new DLG_TaskManager(tasks, this);
     taskMan->show();

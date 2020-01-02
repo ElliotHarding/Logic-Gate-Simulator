@@ -25,8 +25,37 @@ DLG_TruthTableTaskDesigner::DLG_TruthTableTaskDesigner(int iInputs, int iOutputs
     m_task.m_outputs = iOutputs;
     m_task.m_bCircuitTask = false;
 
+    int ylen = (486*2)/(m_task.m_inputs+1);
+    for (int x = 0; x < iInputs; ++x)
+    {
+        GateToggle* newGate = new GateToggle();
+        newGate->SetPosition(5, ylen * (x + 1));
+        newGate->SetUserDisabled();
+        m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
+        m_inputGates.push_back(newGate);
+    }
 
-    //todo inputs & outputs
+    ylen = (486*2)/(m_task.m_outputs+1);
+    for(int x = 0; x < iOutputs; x++)
+    {
+        GateReciever* newGate = new GateReciever();
+        newGate->SetPosition(1000, ylen * (x + 1));
+        newGate->SetUserDisabled();
+        m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
+        m_outputGates.push_back(newGate);
+    }
+}
+
+DLG_TruthTableTaskDesigner::~DLG_TruthTableTaskDesigner()
+{
+    for (int x = 0; x < m_inputGates.size(); x++)
+    {
+        m_inputGates[x] = nullptr;
+    }
+    for (int x = 0; x < m_outputGates.size(); x++)
+    {
+        m_outputGates[x] = nullptr;
+    }
 }
 
 void DLG_TruthTableTaskDesigner::onSubmitButton()

@@ -10,6 +10,8 @@ public:
     explicit DLG_TruthTableTaskDesigner(int iInputs, int iOutputs);
     ~DLG_TruthTableTaskDesigner();
 
+    std::vector<GateToggle*> m_inputGates;
+    std::vector<GateReciever*> m_outputGates;
     QPushButton* m_pBtnSubmit;
     Task m_task;
 

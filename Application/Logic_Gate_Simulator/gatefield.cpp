@@ -177,6 +177,19 @@ bool GateField::SaveData()
     return false;
 }
 
+void GateField::SaveData(std::ofstream& saveFile)
+{
+    m_lockAllGates.lock();
+    for (size_t index = 0; index < m_allGates.size(); index++)
+    {
+        m_allGates[index]->SaveData(saveFile);
+    }
+    m_lockAllGates.unlock();
+
+    //Close
+    saveFile.close();
+}
+
 void GateField::DeleteGate(Gate* gateToDelete)
 {
     m_lockAllGates.lock();

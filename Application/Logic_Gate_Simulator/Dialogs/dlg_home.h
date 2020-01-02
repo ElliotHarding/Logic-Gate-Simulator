@@ -37,7 +37,7 @@ class DLG_Home : public QMainWindow
 
 public:
     explicit DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget* parent = nullptr);
-    explicit DLG_Home(QWidget* parent = nullptr);
+    explicit DLG_Home(QWidget* parent = nullptr); //For overriding functions
     ~DLG_Home();
 
     void SendUserMessage(QString message);
@@ -113,9 +113,6 @@ private slots:
 
     void on_btn_undo_clicked();
     void on_btn_redo_clicked();
-
-    void on_btn_newCircuitTask();
-    void on_btn_newTruthTableTask();
 
     //Gate widget switching
     void on_comboBox_currentIndexChanged(int index);

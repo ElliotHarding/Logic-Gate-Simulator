@@ -36,6 +36,7 @@ public:
     bool SaveGateCollection(std::ofstream& saveStream);
     void StartSaveGateCollection(std::vector<Gate*> selectedGates);
     bool SaveData();
+    void SaveData(std::ofstream& saveFile);
 
     //Actions
     void Undo();

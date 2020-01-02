@@ -35,6 +35,7 @@ SOURCES += \
     Dialogs/dlg_task.cpp \
     Dialogs/dlg_taskmanager.cpp \
     Dialogs/dlg_textedit.cpp \
+    Dialogs/dlg_truthtabletaskdesigner.cpp \
     Dialogs/widget_truthtable.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
@@ -82,6 +83,7 @@ HEADERS += \
     Dialogs/dlg_task.h \
     Dialogs/dlg_taskmanager.h \
     Dialogs/dlg_textedit.h \
+    Dialogs/dlg_truthtabletaskdesigner.h \
     Dialogs/widget_truthtable.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \

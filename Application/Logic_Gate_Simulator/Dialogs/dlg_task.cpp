@@ -9,41 +9,6 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     m_pTaskManager(pTaskManager),
     m_task(task)
 {
-    ui->btn_newPage->hide();
-    ui->btn_Save->hide();
-    ui->btn_load->hide();
-    ui->PlayField->hide();
-    ui->layout_ZoomSlider->hide();
-    ui->btn_zoomIn->hide();
-    ui->btn_zoomOut->hide();
-    ui->line_3->hide();
-    ui->line_6->hide();
-    ui->line_8->hide();
-    ui->btn_redo->hide();
-    ui->btn_undo->hide();
-    delete ui->menuFile;
-    delete ui->menuEdit;
-    delete ui->menuTools;
-
-    QRect geoDrag = ui->btn_Drag->geometry();
-    QRect geoPan = ui->btn_Pan->geometry();
-    QRect geoClick = ui->btn_click->geometry();
-    QRect geoDelete = ui->btn_Delete->geometry();
-    QRect geoDeleteLink = ui->btn_DeleteLink->geometry();
-
-    const int yOffset = -130;
-    geoDrag.setY(geoDrag.y() + yOffset);
-    geoPan.setY(geoPan.y() + yOffset);
-    geoClick.setY(geoClick.y() + yOffset);
-    geoDelete.setY(geoDelete.y() + yOffset);
-    geoDeleteLink.setY(geoDeleteLink.y() + yOffset);
-
-    ui->btn_Drag->setGeometry(geoDrag);
-    ui->btn_Pan->setGeometry(geoPan);
-    ui->btn_click->setGeometry(geoClick);
-    ui->btn_Delete->setGeometry(geoDelete);
-    ui->btn_DeleteLink->setGeometry(geoDeleteLink);
-
     m_pBtnSubmit = new QPushButton("Submit", this);
     m_pBtnSubmit->setGeometry(805, 470, 120, 40);
 
@@ -66,7 +31,7 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     {
         m_pTruthTableWidget->SetResults(m_task.results);
 
-        std::ifstream saveFile = std::ifstream(m_task.m_circuitFileName.toUtf8());
+        std::ifstream saveFile = std::ifstream(m_task.m_fileName);
 
         GateReader reader;
         reader.ReadGateField(saveFile, m_allGateFields[m_iCurrentGateField]);

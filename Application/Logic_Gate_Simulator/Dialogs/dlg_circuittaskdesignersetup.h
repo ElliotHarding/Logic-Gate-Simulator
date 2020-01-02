@@ -12,7 +12,7 @@ class DLG_CircuitTaskDesignerSetup : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit DLG_CircuitTaskDesignerSetup(QWidget *parent = nullptr);
+    explicit DLG_CircuitTaskDesignerSetup(bool circuitTask, QWidget *parent = nullptr);
     ~DLG_CircuitTaskDesignerSetup();
 
 private slots:
@@ -20,6 +20,7 @@ private slots:
 
 private:
     Ui::DLG_CircuitTaskDesignerSetup *ui;
+    bool m_bCircuitTask;
 };
 
 #endif // DLG_CIRCUITTASKDESIGNERSETUP_H

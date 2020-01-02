@@ -3,9 +3,10 @@
 #include "dlg_message.h"
 #include "dlg_circuittaskdesigner.h"
 
-DLG_CircuitTaskDesignerSetup::DLG_CircuitTaskDesignerSetup(QWidget *parent) :
+DLG_CircuitTaskDesignerSetup::DLG_CircuitTaskDesignerSetup(bool circuitTask, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::DLG_CircuitTaskDesignerSetup)
+    ui(new Ui::DLG_CircuitTaskDesignerSetup),
+    m_bCircuitTask(circuitTask)
 {
     ui->setupUi(this);
 }
@@ -29,8 +30,16 @@ void DLG_CircuitTaskDesignerSetup::on_btn_ok_clicked()
             return;
         }
 
-        DLG_CircuitTaskDesigner* dlgCircuitDesigner = new DLG_CircuitTaskDesigner(inputs, outputs);
-        dlgCircuitDesigner->show();
+        if(m_bCircuitTask)
+        {
+            DLG_CircuitTaskDesigner* dlgCircuitDesigner = new DLG_CircuitTaskDesigner(inputs, outputs);
+            dlgCircuitDesigner->show();
+        }
+        else
+        {
+
+        }
+
         delete this;
     }
     catch (...)

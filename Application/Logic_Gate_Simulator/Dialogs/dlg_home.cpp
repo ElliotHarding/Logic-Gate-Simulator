@@ -126,17 +126,17 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
         connect(ui->actionZoom_2, SIGNAL(triggered()), this, SLOT(on_btn_zoomOut_clicked()));
         connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
 
-
-        //connect(ui->actionCircuit_from_truth_table_task, SIGNAL(triggered()), this, SLOT((on_btn_newCircuitTask())));
-        //connect(ui->actionTruth_table_from_circuit_task, SIGNAL(triggered()), this, SLOT((on_btn_newTruthTableTask())));
-
         connect(ui->actionCircuit_from_truth_table_task, &QAction::triggered, [this]()
         {
-             on_btn_newCircuitTask();
+            DLG_CircuitTaskDesignerSetup* dlgCircuitTaskDesigner = new DLG_CircuitTaskDesignerSetup(true, this);
+            dlgCircuitTaskDesigner->show();
+            dlgCircuitTaskDesigner = nullptr;
         });
         connect(ui->actionTruth_table_from_circuit_task, &QAction::triggered, [this]()
         {
-             on_btn_newTruthTableTask();
+            DLG_CircuitTaskDesignerSetup* dlgCircuitTaskDesigner = new DLG_CircuitTaskDesignerSetup(false, this);
+            dlgCircuitTaskDesigner->show();
+            dlgCircuitTaskDesigner = nullptr;
         });
     }
 
@@ -224,6 +224,41 @@ DLG_Home::DLG_Home(QWidget *parent):
         this->layout()->addWidget(m_pWidgetStandardGates);
         this->layout()->addWidget(m_pWidgetInputGates);
     }
+
+    ui->btn_newPage->hide();
+    ui->btn_Save->hide();
+    ui->btn_load->hide();
+    ui->PlayField->hide();
+    ui->layout_ZoomSlider->hide();
+    ui->btn_zoomIn->hide();
+    ui->btn_zoomOut->hide();
+    ui->line_3->hide();
+    ui->line_6->hide();
+    ui->line_8->hide();
+    ui->btn_redo->hide();
+    ui->btn_undo->hide();
+    ui->menuFile->clear();
+    delete ui->menuEdit;
+    delete ui->menuTools;
+
+    QRect geoDrag = ui->btn_Drag->geometry();
+    QRect geoPan = ui->btn_Pan->geometry();
+    QRect geoClick = ui->btn_click->geometry();
+    QRect geoDelete = ui->btn_Delete->geometry();
+    QRect geoDeleteLink = ui->btn_DeleteLink->geometry();
+
+    const int yOffset = -130;
+    geoDrag.setY(geoDrag.y() + yOffset);
+    geoPan.setY(geoPan.y() + yOffset);
+    geoClick.setY(geoClick.y() + yOffset);
+    geoDelete.setY(geoDelete.y() + yOffset);
+    geoDeleteLink.setY(geoDeleteLink.y() + yOffset);
+
+    ui->btn_Drag->setGeometry(geoDrag);
+    ui->btn_Pan->setGeometry(geoPan);
+    ui->btn_click->setGeometry(geoClick);
+    ui->btn_Delete->setGeometry(geoDelete);
+    ui->btn_DeleteLink->setGeometry(geoDeleteLink);
 }
 
 DLG_Home::~DLG_Home()
@@ -529,18 +564,6 @@ void DLG_Home::on_btn_redo_clicked()
 {
     if(m_iCurrentGateField != -1)
         m_allGateFields[size_t(m_iCurrentGateField)]->Redo();
-}
-
-void DLG_Home::on_btn_newCircuitTask()
-{
-    DLG_CircuitTaskDesignerSetup* dlgCircuitTaskDesigner = new DLG_CircuitTaskDesignerSetup(this);
-    dlgCircuitTaskDesigner->show();
-    dlgCircuitTaskDesigner = nullptr;
-}
-
-void DLG_Home::on_btn_newTruthTableTask()
-{
-
 }
 
 void DLG_Home::on_btn_newPage_clicked()

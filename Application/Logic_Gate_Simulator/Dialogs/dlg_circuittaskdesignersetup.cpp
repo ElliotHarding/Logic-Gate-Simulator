@@ -2,6 +2,7 @@
 #include "ui_dlg_circuittaskdesignersetup.h"
 #include "dlg_message.h"
 #include "dlg_circuittaskdesigner.h"
+#include "dlg_truthtabletaskdesigner.h"
 
 DLG_CircuitTaskDesignerSetup::DLG_CircuitTaskDesignerSetup(bool circuitTask, QWidget *parent) :
     QMainWindow(parent),
@@ -32,12 +33,13 @@ void DLG_CircuitTaskDesignerSetup::on_btn_ok_clicked()
 
         if(m_bCircuitTask)
         {
-            DLG_CircuitTaskDesigner* dlgCircuitDesigner = new DLG_CircuitTaskDesigner(inputs, outputs);
-            dlgCircuitDesigner->show();
+            DLG_CircuitTaskDesigner* dlgCircuitTaskDesigner = new DLG_CircuitTaskDesigner(inputs, outputs);
+            dlgCircuitTaskDesigner->show();
         }
         else
         {
-
+            DLG_TruthTableTaskDesigner* dlgTruthTableTaskDesigner = new DLG_TruthTableTaskDesigner(inputs, outputs);
+            dlgTruthTableTaskDesigner->show();
         }
 
         delete this;

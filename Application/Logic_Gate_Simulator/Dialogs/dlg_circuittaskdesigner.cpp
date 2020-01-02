@@ -32,8 +32,8 @@ void DLG_CircuitTaskDesigner::on_btn_done_clicked()
                                                  | QFileDialog::DontResolveSymlinks);
     std::ofstream saveFile(dir.toStdString() + "/" + "todo" + ".GateField");
 
-    saveFile << "0" << std::endl << m_newTask.m_inputs << std::endl << m_newTask.m_outputs << std::endl;
-    saveFile << "{" << std::endl;
+    saveFile << "1" << std::endl << m_newTask.m_inputs << std::endl << m_newTask.m_outputs << std::endl;
+    saveFile << "{{" << std::endl;
     for (std::vector<bool> vector : m_newTask.results)
     {
         saveFile << "{" << std::endl;
@@ -41,9 +41,9 @@ void DLG_CircuitTaskDesigner::on_btn_done_clicked()
         {
             saveFile << b << std::endl;
         }
-        saveFile << "}" << std::endl;
     }
-    saveFile << "}" << std::endl;
+    saveFile << "--" << std::endl;
+
 
     delete this;
 }

@@ -28,7 +28,7 @@ class dlg_task : public DLG_Home
     Q_OBJECT
 
 public:
-    explicit dlg_task(DLG_TaskManager* pTaskManager, Task task);
+    explicit dlg_task(DLG_TaskManager* pTaskManager, std::string taskFileName);
     ~dlg_task();
 
 protected:
@@ -38,6 +38,8 @@ protected:
     Task m_task;
     std::vector<GateToggle*> m_inputGates;
     std::vector<GateReciever*> m_outputGates;
+
+    int tryStoi(std::string, int);
 
 private slots:
     void onSubmitButtonClicked();

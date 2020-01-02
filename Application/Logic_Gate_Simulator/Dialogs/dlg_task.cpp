@@ -4,10 +4,9 @@
 #include "dlg_taskmanager.h"
 #include "gatereader.h"
 
-dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
+dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string taskFileName) :
     DLG_Home(pTaskManager),
-    m_pTaskManager(pTaskManager),
-    m_task(task)
+    m_pTaskManager(pTaskManager)
 {
     m_pBtnSubmit = new QPushButton("Submit", this);
     m_pBtnSubmit->setGeometry(805, 470, 120, 40);
@@ -27,25 +26,25 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     pal.setColor(QPalette::Background, Qt::white);
     m_allGateFields[m_iCurrentGateField]->setPalette(pal);
 
+
+    //Read task file
+
+    std::ifstream taskFile = std::ifstream(m_task.m_fileName);
+
+    std::string readString;
+    taskFile >> readString;
+    m_task.m_bCircuitTask = tryStoi(readString, 1);
+
+    taskFile >> readString;
+    m_task.m_inputs = tryStoi(readString, 1);
+
+    taskFile >> readString;
+    m_task.m_outputs = tryStoi(readString, 1);
+
     if(m_task.m_bCircuitTask)
     {
-        m_pTruthTableWidget->SetResults(m_task.results);
-
-        std::ifstream saveFile = std::ifstream(m_task.m_fileName);
-
-        GateReader reader;
-        reader.ReadGateField(saveFile, m_allGateFields[m_iCurrentGateField]);
-
-        std::vector<Gate*>& gates = m_allGateFields[m_iCurrentGateField]->GetGates();
-        for (Gate* g : gates)
-            g->SetUserDisabled();
-
-        m_allGateFields[m_iCurrentGateField]->FinishWithGates();
-    }
-    else
-    {
         int ylen = (486*2)/(m_task.m_inputs+1);
-        for (int x = 0; x < task.m_inputs; ++x)
+        for (int x = 0; x < m_task.m_inputs; ++x)
         {
             GateToggle* newGate = new GateToggle();
             newGate->SetPosition(5, ylen * (x + 1));
@@ -63,6 +62,35 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
             m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
             m_outputGates.push_back(newGate);
         }
+
+        //read bools
+        std::vector<std::vector<bool>> results;
+        results.push_back(std::vector<bool>());
+
+        taskFile >> readString;
+        taskFile >> readString;
+        while(readString != "--")
+        {
+            if(readString == "{")
+            {
+                results.push_back(std::vector<bool>());
+            }
+            results[results.size()].push_back(tryStoi(readString, 0));
+        }
+
+        m_task.results = results;
+        m_pTruthTableWidget->SetResults(m_task.results);
+    }
+    else
+    {
+        GateReader reader;
+        reader.ReadGateField(taskFile, m_allGateFields[m_iCurrentGateField]);
+
+        std::vector<Gate*>& gates = m_allGateFields[m_iCurrentGateField]->GetGates();
+        for (Gate* g : gates)
+            g->SetUserDisabled();
+
+        m_allGateFields[m_iCurrentGateField]->FinishWithGates();
     }
 
     connect(m_pBtnSubmit, &QPushButton::clicked, this, &dlg_task::onSubmitButtonClicked);
@@ -144,4 +172,16 @@ void dlg_task::onSubmitButtonClicked()
     }
 
     m_pTaskManager->OnTaskCompleted();
+}
+
+int GateReader::tryStoi(std::string s, int defaultVal)
+{
+    try
+    {
+        return std::stoi(s);
+    }
+    catch (...)
+    {
+        return defaultVal;
+    }
 }

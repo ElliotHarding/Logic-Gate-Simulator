@@ -68,7 +68,7 @@ void DLG_TruthTableTaskDesigner::onSubmitButton()
     std::ofstream saveFile(dir.toStdString() + "/" + "todo" + ".GateField");
 
     //state that its a truth table task with 1
-    saveFile << "1" << std::endl << m_task.m_inputs << std::endl << m_task.m_outputs << std::endl;
+    saveFile << "0" << std::endl << m_task.m_inputs << std::endl << m_task.m_outputs << std::endl << std::endl;
 
     //save gates
     m_allGateFields[m_iCurrentGateField]->SaveData(saveFile);

@@ -197,7 +197,6 @@ void Node::SetValue(bool val)
         //Having this here means can't update any input nodes in any UpdateOutput() functions
         //otherwise circular code.
 
-
         //So when gatefeild is being deleted, m_parent causes crash cuz not deleted yet
         //think solution would be to implement a clone function for nodes, but it's alot of effort
         //just for this fix, when the solution of checking if m_id > 0 seems to work

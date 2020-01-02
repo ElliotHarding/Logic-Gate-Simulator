@@ -170,13 +170,6 @@ DLG_Home::DLG_Home(QWidget *parent):
     ui->setupUi(this);
 
     {
-        QLibrary lib( "Comctl32.dll" );
-        lib.setLoadHints( QLibrary::ResolveAllSymbolsHint );
-        lib.load();
-    }
-
-    //m_allGateFields.reserve(10);
-    {
         setMouseTracking(true);
         ui->PlayField->clear();
     }

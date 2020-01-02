@@ -21,7 +21,9 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
     ui->line_8->hide();
     ui->btn_redo->hide();
     ui->btn_undo->hide();
-    //ui->menuBar->hide();
+    delete ui->menuFile;
+    delete ui->menuEdit;
+    delete ui->menuTools;
 
     QRect geoDrag = ui->btn_Drag->geometry();
     QRect geoPan = ui->btn_Pan->geometry();
@@ -72,6 +74,8 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, Task task) :
         std::vector<Gate*>& gates = m_allGateFields[m_iCurrentGateField]->GetGates();
         for (Gate* g : gates)
             g->SetUserDisabled();
+
+        m_allGateFields[m_iCurrentGateField]->FinishWithGates();
     }
     else
     {

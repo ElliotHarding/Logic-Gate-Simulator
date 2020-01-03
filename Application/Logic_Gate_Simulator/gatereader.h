@@ -18,7 +18,7 @@ struct NodeAndIds {Node* pNode; int id; std::vector<int> linkedIds;};
 class GateReader
 {
 public:
-    bool ReadGateField(std::ifstream& gateStream, GateField* gf);
+    bool ReadGateField(std::ifstream& gateStream, GateField* gf, bool setNewlySpawned = true);
     bool ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection);
 
 private:

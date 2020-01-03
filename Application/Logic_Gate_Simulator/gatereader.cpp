@@ -1,6 +1,6 @@
 #include "gatereader.h"
 
-bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
+bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf, bool setNewlySpawned)
 {
     if(!gf)
         return false;
@@ -11,7 +11,7 @@ bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
     for (Gate* gate : gates)
     {
         gate->AssignNewNodeIds();
-        gf->AddGate(gate);
+        gf->AddGate(gate, setNewlySpawned);
     }
 
     return true;

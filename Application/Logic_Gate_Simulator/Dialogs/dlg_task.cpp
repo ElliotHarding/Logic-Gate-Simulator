@@ -92,7 +92,7 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
     else
     {
         GateReader reader;
-        reader.ReadGateField(taskFile, m_allGateFields[m_iCurrentGateField]);
+        reader.ReadGateField(taskFile, m_allGateFields[m_iCurrentGateField], false);
 
         std::vector<Gate*>& gates = m_allGateFields[m_iCurrentGateField]->GetGates();
         for (Gate* g : gates)

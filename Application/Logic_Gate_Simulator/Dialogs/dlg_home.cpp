@@ -273,7 +273,8 @@ DLG_Home::~DLG_Home()
     //Delete gatefields
     for (GateField* gf : m_allGateFields)
     {
-        delete gf;
+        //delete gf;
+        gf = nullptr;
     }
 
     delete ui;

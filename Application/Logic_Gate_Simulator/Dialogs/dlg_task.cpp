@@ -96,7 +96,14 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
 
         std::vector<Gate*>& gates = m_allGateFields[m_iCurrentGateField]->GetGates();
         for (Gate* g : gates)
+        {
+            if(g->GetType() == GateType::GATE_EMMITTER)
+                m_inputGates.push_back(dynamic_cast<GateToggle*>(g));
+            else if(g->GetType() == GateType::GATE_RECIEVER)
+                m_outputGates.push_back(dynamic_cast<GateReciever*>(g));
+
             g->SetUserDisabled();
+        }
 
         m_allGateFields[m_iCurrentGateField]->FinishWithGates();
     }
@@ -127,57 +134,58 @@ dlg_task::~dlg_task()
 
 void dlg_task::onSubmitButtonClicked()
 {
-    if(m_task.m_bCircuitTask)
-    {
-        std::vector<std::vector<bool>> inputs;
-        if(m_task.m_inputs == 1)
-            inputs = valuesFor1inputs;
-        else if(m_task.m_inputs == 2)
-            inputs = valuesFor2inputs;
-        else if(m_task.m_inputs == 3)
-            inputs = valuesFor3inputs;
-        else
-            inputs = valuesFor4inputs;
-
-        m_allGateFields[m_iCurrentGateField]->GetGates(); //call lock on gates
-
-        const int numRows = inputs[0].size();
-        for(int row = 0; row < numRows; row++)
-        {
-            for(int input = 0; input < m_task.m_inputs; input++)
-            {
-                m_inputGates[input]->SetPowerState(inputs[input][row]);
-            }
-
-            for (int output = 0; output < m_outputGates.size(); output++)
-            {
-                GateReciever* outputGate = m_outputGates[output];
-                if (m_task.results[output][row] != outputGate->GetValue())
-                {
-                    SendUserMessage("Incorrect! Try again.");
-                    m_allGateFields[m_iCurrentGateField]->FinishWithGates();
-                    return;
-                }
-            }
-        }
-
-        m_allGateFields[m_iCurrentGateField]->FinishWithGates();
-    }
+    std::vector<std::vector<bool>> inputs;
+    if(m_task.m_inputs == 1)
+        inputs = valuesFor1inputs;
+    else if(m_task.m_inputs == 2)
+        inputs = valuesFor2inputs;
+    else if(m_task.m_inputs == 3)
+        inputs = valuesFor3inputs;
     else
+        inputs = valuesFor4inputs;
+
+    std::vector<std::vector<bool>> answers;
+    if(m_task.m_bCircuitTask)
+        answers = m_task.results;
+    else
+        answers = m_pTruthTableWidget->GetAnswer();
+
+    m_allGateFields[m_iCurrentGateField]->GetGates(); //call lock on gates
+
+    const int numRows = inputs[0].size();
+    for(int row = 0; row < numRows; row++)
     {
-        const std::vector<std::vector<bool>> answers = m_pTruthTableWidget->GetAnswer();
-        for (int iVec = 0; iVec < answers.size(); iVec++)
+        for(int input = 0; input < m_task.m_inputs; input++)
         {
-            for(int iRes = 0; iRes < answers[iVec].size(); iRes++)
+            m_inputGates[input]->SetPowerState(inputs[input][row]);
+        }
+
+        for (int output = 0; output < m_outputGates.size(); output++)
+        {
+            GateReciever* outputGate = m_outputGates[output];
+            if (answers[output][row] != outputGate->GetValue())
             {
-                if(answers[iVec][iRes] != m_task.results[iVec][iRes])
-                {
-                    SendUserMessage("Incorrect! Try again.");
-                    return;
-                }
+                SendUserMessage("Incorrect! Try again.");
+                m_allGateFields[m_iCurrentGateField]->FinishWithGates();
+                return;
             }
         }
     }
+
+    m_allGateFields[m_iCurrentGateField]->FinishWithGates();
+
+    /*
+    for (int iVec = 0; iVec < answers.size(); iVec++)
+    {
+        for(int iRes = 0; iRes < answers[iVec].size(); iRes++)
+        {
+            if(answers[iVec][iRes] != m_task.results[iVec][iRes])
+            {
+                SendUserMessage("Incorrect! Try again.");
+                return;
+            }
+        }
+    }*/
 
     m_pTaskManager->OnTaskCompleted();
 }

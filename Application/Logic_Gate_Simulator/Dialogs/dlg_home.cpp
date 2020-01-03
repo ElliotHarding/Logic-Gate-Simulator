@@ -149,7 +149,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     txtProgress->setText("Done!");
 
     //test code
-    std::vector<std::string> tasks = {"C:\\Users\\User\\Documents\\Github\\Logic-Gate-Simulator\\Application\\build-Logic-Gate-Simulator-Desktop_Qt_5_12_2_MinGW_32_bit-Debug\\debug\\todo.GATEFEILD"};
+    std::vector<std::string> tasks = {"C:/todo1.GateField", "C:/todo.GateField"};
 
     DLG_TaskManager* taskMan = new DLG_TaskManager(tasks, this);
     taskMan->show();

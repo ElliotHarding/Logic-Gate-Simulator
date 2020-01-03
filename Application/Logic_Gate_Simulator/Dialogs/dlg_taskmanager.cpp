@@ -79,7 +79,11 @@ void DLG_TaskManager::OnTaskClicked()
     m_iCurrentTask = senderObjName.toInt();
 
     //Run task
-    m_pCurrentTask = new dlg_task(this, m_tasks[m_iCurrentTask]);
-    m_pCurrentTask->show();
-    this->hide();
+    bool succeded = true;
+    m_pCurrentTask = new dlg_task(this, &m_tasks[m_iCurrentTask], succeded);
+    if(succeded)
+    {
+        m_pCurrentTask->show();
+        this->hide();
+    }
 }

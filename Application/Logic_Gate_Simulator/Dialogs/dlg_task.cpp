@@ -4,10 +4,31 @@
 #include "dlg_taskmanager.h"
 #include "gatereader.h"
 
-dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string taskFileName) :
+dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, bool& succeded) :
     DLG_Home(pTaskManager),
     m_pTaskManager(pTaskManager)
 {
+    //Read task file
+
+    std::ifstream taskFile = std::ifstream(*taskFileName);
+
+    if(!taskFile.is_open())
+    {
+        delete this;
+        succeded = false;
+        return;
+    }
+
+    std::string readString;
+    taskFile >> readString;
+    m_task.m_bCircuitTask = tryStoi(readString, 1);
+
+    taskFile >> readString;
+    m_task.m_inputs = tryStoi(readString, 1);
+
+    taskFile >> readString;
+    m_task.m_outputs = tryStoi(readString, 1);
+
     m_pBtnSubmit = new QPushButton("Submit", this);
     m_pBtnSubmit->setGeometry(805, 470, 120, 40);
 
@@ -25,21 +46,6 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string taskFileName) :
     QPalette pal = palette();
     pal.setColor(QPalette::Background, Qt::white);
     m_allGateFields[m_iCurrentGateField]->setPalette(pal);
-
-
-    //Read task file
-
-    std::ifstream taskFile = std::ifstream(taskFileName);
-
-    std::string readString;
-    taskFile >> readString;
-    m_task.m_bCircuitTask = tryStoi(readString, 1);
-
-    taskFile >> readString;
-    m_task.m_inputs = tryStoi(readString, 1);
-
-    taskFile >> readString;
-    m_task.m_outputs = tryStoi(readString, 1);
 
     if(m_task.m_bCircuitTask)
     {
@@ -69,13 +75,15 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string taskFileName) :
 
         taskFile >> readString;
         taskFile >> readString;
+        taskFile >> readString;
         while(readString != "--")
         {
             if(readString == "{")
             {
                 results.push_back(std::vector<bool>());
             }
-            results[results.size()].push_back(tryStoi(readString, 0));
+            results[results.size()-1].push_back(tryStoi(readString, 0));
+            taskFile >> readString;
         }
 
         m_task.results = results;

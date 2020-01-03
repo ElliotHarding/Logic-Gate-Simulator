@@ -27,7 +27,7 @@ class dlg_task : public DLG_Home
     Q_OBJECT
 
 public:
-    explicit dlg_task(DLG_TaskManager* pTaskManager, std::string taskFileName);
+    explicit dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, bool& succeded);
     ~dlg_task();
 
 protected:

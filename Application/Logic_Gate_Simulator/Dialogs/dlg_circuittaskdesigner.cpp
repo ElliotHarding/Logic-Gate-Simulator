@@ -1,6 +1,7 @@
 #include "dlg_circuittaskdesigner.h"
 #include "ui_dlg_circuittaskdesigner.h"
 #include <QLayout>
+#include "filelocations.h"
 
 DLG_CircuitTaskDesigner::DLG_CircuitTaskDesigner(int inputs, int outputs, QWidget *parent) :
     QMainWindow(parent),
@@ -26,11 +27,25 @@ void DLG_CircuitTaskDesigner::on_btn_done_clicked()
 {
     m_newTask.results = m_pTruthTable->GetAnswer();
 
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                 "/tasks",
-                                                 QFileDialog::ShowDirsOnly
-                                                 | QFileDialog::DontResolveSymlinks);
-    std::ofstream saveFile(dir.toStdString() + "/" + "todo" + ".GateField");
+    QStringList nameFilter("*.GateField");
+    QDir directory(c_tasksLocation);
+    QStringList fileList = directory.entryList(nameFilter);
+    bool goodFileName = false;
+    int fileNameInt = -1;
+    std::string fileNameString = std::to_string(fileNameInt) + ".GateField";
+    while (goodFileName == false)
+    {
+        fileNameString = std::to_string(++fileNameInt) + ".GateField";
+
+        goodFileName = true;
+        for (QString file : fileList)
+        {
+            if(file.toStdString() == fileNameString)
+                goodFileName = false;
+        }
+    }
+
+    std::ofstream saveFile(c_tasksLocation.toStdString() + fileNameString);
 
     saveFile << "1" << std::endl << m_newTask.m_inputs << std::endl << m_newTask.m_outputs << std::endl;
     saveFile << "{{" << std::endl;

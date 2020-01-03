@@ -1,4 +1,5 @@
 #include "dlg_truthtabletaskdesigner.h"
+#include "filelocations.h"
 
 DLG_TruthTableTaskDesigner::DLG_TruthTableTaskDesigner(int iInputs, int iOutputs) :
     DLG_Home(nullptr)
@@ -60,12 +61,25 @@ DLG_TruthTableTaskDesigner::~DLG_TruthTableTaskDesigner()
 
 void DLG_TruthTableTaskDesigner::onSubmitButton()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                 "/tasks",
-                                                 QFileDialog::ShowDirsOnly
-                                                 | QFileDialog::DontResolveSymlinks);
+    QStringList nameFilter("*.GateField");
+    QDir directory(c_tasksLocation);
+    QStringList fileList = directory.entryList(nameFilter);
+    bool goodFileName = false;
+    int fileNameInt = -1;
+    std::string fileNameString = std::to_string(fileNameInt) + ".GateField";
+    while (goodFileName == false)
+    {
+        fileNameString = std::to_string(++fileNameInt) + ".GateField";
 
-    std::ofstream saveFile(dir.toStdString() + "/" + "todo" + ".GateField");
+        goodFileName = true;
+        for (QString file : fileList)
+        {
+            if(file.toStdString() == fileNameString)
+                goodFileName = false;
+        }
+    }
+
+    std::ofstream saveFile(c_tasksLocation.toStdString() + fileNameString);
 
     //state that its a truth table task with 1
     saveFile << "0" << std::endl << m_task.m_inputs << std::endl << m_task.m_outputs << std::endl << std::endl;

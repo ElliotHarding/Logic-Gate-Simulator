@@ -234,25 +234,21 @@ DLG_Home::DLG_Home(QWidget *parent):
     ui->menuFile->clear();
     delete ui->menuEdit;
     delete ui->menuTools;
+    ui->btn_Pan->hide();
 
-    QRect geoDrag = ui->btn_Drag->geometry();
-    QRect geoPan = ui->btn_Pan->geometry();
-    QRect geoClick = ui->btn_click->geometry();
-    QRect geoDelete = ui->btn_Delete->geometry();
-    QRect geoDeleteLink = ui->btn_DeleteLink->geometry();
+    const QRect geoDrag = ui->btn_Drag->geometry();
+    //const QRect geoPan = ui->btn_Pan->geometry();
+    const QRect geoClick = ui->btn_click->geometry();
+    const QRect geoDelete = ui->btn_Delete->geometry();
+    const QRect geoDeleteLink = ui->btn_DeleteLink->geometry();
 
-    const int yOffset = -130;
-    geoDrag.setY(geoDrag.y() + yOffset);
-    geoPan.setY(geoPan.y() + yOffset);
-    geoClick.setY(geoClick.y() + yOffset);
-    geoDelete.setY(geoDelete.y() + yOffset);
-    geoDeleteLink.setY(geoDeleteLink.y() + yOffset);
-
-    ui->btn_Drag->setGeometry(geoDrag);
-    ui->btn_Pan->setGeometry(geoPan);
-    ui->btn_click->setGeometry(geoClick);
-    ui->btn_Delete->setGeometry(geoDelete);
-    ui->btn_DeleteLink->setGeometry(geoDeleteLink);
+    int yOffset = -80;
+    ui->btn_Drag->setGeometry(geoDrag.x(), geoDrag.y() + yOffset, geoDrag.width(), geoDrag.height());
+    //ui->btn_Pan->setGeometry(geoPan.x(), geoPan.y() + yOffset, geoPan.width(), geoPan.height());
+    yOffset-=40;
+    ui->btn_click->setGeometry(geoClick.x(), geoClick.y() + yOffset, geoClick.width(), geoClick.height());
+    ui->btn_Delete->setGeometry(geoDelete.x(), geoDelete.y() + yOffset, geoDelete.width(), geoDelete.height());
+    ui->btn_DeleteLink->setGeometry(geoDeleteLink.x(), geoDeleteLink.y() + yOffset, geoDeleteLink.width(), geoDeleteLink.height());
 }
 
 DLG_Home::~DLG_Home()

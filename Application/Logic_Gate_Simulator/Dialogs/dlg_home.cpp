@@ -237,14 +237,12 @@ DLG_Home::DLG_Home(QWidget *parent):
     ui->btn_Pan->hide();
 
     const QRect geoDrag = ui->btn_Drag->geometry();
-    //const QRect geoPan = ui->btn_Pan->geometry();
     const QRect geoClick = ui->btn_click->geometry();
     const QRect geoDelete = ui->btn_Delete->geometry();
     const QRect geoDeleteLink = ui->btn_DeleteLink->geometry();
 
-    int yOffset = -80;
+    int yOffset = -60;
     ui->btn_Drag->setGeometry(geoDrag.x(), geoDrag.y() + yOffset, geoDrag.width(), geoDrag.height());
-    //ui->btn_Pan->setGeometry(geoPan.x(), geoPan.y() + yOffset, geoPan.width(), geoPan.height());
     yOffset-=40;
     ui->btn_click->setGeometry(geoClick.x(), geoClick.y() + yOffset, geoClick.width(), geoClick.height());
     ui->btn_Delete->setGeometry(geoDelete.x(), geoDelete.y() + yOffset, geoDelete.width(), geoDelete.height());

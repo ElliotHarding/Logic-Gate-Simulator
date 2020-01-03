@@ -4,13 +4,14 @@
 
 #include <QApplication>
 
-GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog) :
+GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections) :
     QWidget(parent),
     m_pParent(parent),
     m_name(name),
     m_zoomFactor(zoomFactor),
     m_pDlgSaveGateCollection(saveGateCollectionDialog),
-    m_pTimerThread(new TimerThread(this))
+    m_pTimerThread(new TimerThread(this)),
+    m_bDisableGateCollections(disableGateCollections)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -83,7 +84,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     painter.scale(m_zoomFactor, m_zoomFactor);
 
     //If were currently selecting an area
-    if(CurrentClickMode == CLICK_SELECTION && m_selectionTool)
+    if(CurrentClickMode == CLICK_SELECTION && m_selectionTool && !m_bDisableGateCollections)
     {
         QPen pen(Qt::blue, 2);
         painter.setPen(pen);
@@ -472,7 +473,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     m_dragGate = nullptr;
 
     //If ending a selection
-    if( m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION)
+    if( m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION && !m_bDisableGateCollections)
     {
         m_selectedGates.clear();
         m_lockAllGates.lock();

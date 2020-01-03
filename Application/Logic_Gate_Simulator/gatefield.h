@@ -24,7 +24,7 @@ class GateField : public QWidget
 public:
 
     //Construction
-    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog);
+    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections = false);
      ~GateField() override;
 
     //Gates
@@ -92,6 +92,9 @@ private:
     TimerThread* m_pTimerThread;
 
     DLG_Home* m_pParent;
+
+    //DLG_Task settings
+    bool m_bDisableGateCollections;
 
     //Causes next UpdateGateSelected call to not do anything
     bool m_bSkipUpdateGateSelected = false;

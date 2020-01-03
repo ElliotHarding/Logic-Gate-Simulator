@@ -226,7 +226,20 @@ void Node::UpdateGraphics(QPainter* painter)
 
         for (Node* n : m_linkedNodes)
         {
-            painter->drawLine(n->GetPosition(),GetPosition());
+            //Find longest delta (x or y)
+            const QPoint n1 = GetPosition();
+            const QPoint n2 = n->GetPosition();
+            QPoint midpoint;
+
+            //Check X is longest delta
+            if(abs(n1.x() - n2.x()) > abs(n1.y() - n2.y()))
+                midpoint = QPoint(n1.x(), n2.y());
+
+            else //Y is longest delta
+                midpoint = QPoint(n2.x(), n1.y());
+
+            painter->drawLine(n1, midpoint);
+            painter->drawLine(n2, midpoint);
         }
     }
 

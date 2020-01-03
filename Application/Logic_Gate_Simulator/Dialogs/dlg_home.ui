@@ -793,6 +793,7 @@ QComboBox::down-arrow {
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
     <addaction name="menuNew_task"/>
+    <addaction name="actionView_Tasks"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -957,6 +958,11 @@ QComboBox::down-arrow {
   <action name="actionTruth_table_from_circuit_task">
    <property name="text">
     <string>Truth table from circuit task</string>
+   </property>
+  </action>
+  <action name="actionView_Tasks">
+   <property name="text">
+    <string>View Tasks</string>
    </property>
   </action>
  </widget>

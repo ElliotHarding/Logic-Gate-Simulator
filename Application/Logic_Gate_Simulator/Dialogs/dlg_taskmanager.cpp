@@ -38,7 +38,10 @@ DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
     const int iTasks = m_tasks.size();
     const int iCols = iTasks>6 ? 6 : iTasks;
     const int iRows = floor(iTasks/6) + 1;
-    setGeometry(700, 500, (taskBtnMargin*(iCols+1)) + (taskBtnDimension*iCols), (taskBtnMargin*(iRows+1)) + (taskBtnDimension*iRows));
+    int width = (taskBtnMargin*(iCols+1)) + (taskBtnDimension*iCols);
+    if (width < 3 * taskBtnDimension)
+        width = 3 * taskBtnDimension;
+    setGeometry(700, 500, width, (taskBtnMargin*(iRows+1)) + (taskBtnDimension*iRows));
 }
 
 DLG_TaskManager::~DLG_TaskManager()

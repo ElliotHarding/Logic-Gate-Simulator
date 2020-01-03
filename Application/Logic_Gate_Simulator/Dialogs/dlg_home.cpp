@@ -139,6 +139,12 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
             dlgCircuitTaskDesigner->show();
             dlgCircuitTaskDesigner = nullptr;
         });
+        connect(ui->actionView_Tasks, &QAction::triggered, [this]()
+        {
+            DLG_TaskManager* taskMan = new DLG_TaskManager(this);
+            taskMan->show();
+        });
+
     }
 
     {
@@ -148,10 +154,6 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
     progressBar->setValue(100);
     txtProgress->setText("Done!");
-
-    //test code
-    DLG_TaskManager* taskMan = new DLG_TaskManager(this);
-    taskMan->show();
 }
 
 DLG_Home::DLG_Home(QWidget *parent):

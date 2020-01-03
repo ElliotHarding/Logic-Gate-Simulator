@@ -6,6 +6,7 @@
 #include "dlg_task.h"
 #include "dlg_taskmanager.h"
 #include "dlg_circuittaskdesignersetup.h"
+#include "filelocations.h"
 
 DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
@@ -149,9 +150,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     txtProgress->setText("Done!");
 
     //test code
-    std::vector<std::string> tasks = {"C:/todo1.GateField", "C:/todo.GateField"};
-
-    DLG_TaskManager* taskMan = new DLG_TaskManager(tasks, this);
+    DLG_TaskManager* taskMan = new DLG_TaskManager(this);
     taskMan->show();
 }
 

@@ -118,8 +118,12 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
 dlg_task::~dlg_task()
 {
     m_pTaskManager = nullptr;
-    delete m_pTruthTableWidget;
-    delete m_pBtnSubmit;
+
+    if(m_pTruthTableWidget)
+        delete m_pTruthTableWidget;
+
+    if(m_pBtnSubmit)
+        delete m_pBtnSubmit;
 
     for(int x = 0; x < m_outputGates.size(); x++)
         m_outputGates[x] = nullptr;

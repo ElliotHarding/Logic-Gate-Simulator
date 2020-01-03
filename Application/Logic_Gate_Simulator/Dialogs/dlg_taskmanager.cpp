@@ -1,14 +1,22 @@
 #include "dlg_taskmanager.h"
 #include "ui_dlg_taskmanager.h"
 #include <math.h>
+#include "filelocations.h"
 
-DLG_TaskManager::DLG_TaskManager(std::vector<std::string> taskNames, QWidget *parent) :
+DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::DLG_TaskManager),
-    m_tasks(taskNames)
+    ui(new Ui::DLG_TaskManager)
 {
     ui->setupUi(this);
     setWindowTitle("Tasks");
+
+    QStringList nameFilter("*.GateField");
+    QDir directory(c_tasksLocation);
+    QStringList fileList = directory.entryList(nameFilter);
+    for (QString file : fileList)
+    {
+        m_tasks.push_back(c_tasksLocation.toStdString() + file.toStdString());
+    }
 
     const int taskBtnDimension = 60;
     const int taskBtnMargin = 10;

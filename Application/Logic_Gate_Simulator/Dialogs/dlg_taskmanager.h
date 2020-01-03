@@ -13,7 +13,7 @@ class DLG_TaskManager : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit DLG_TaskManager(std::vector<std::string> taskNames, QWidget *parent = nullptr);
+    explicit DLG_TaskManager(QWidget *parent = nullptr);
     ~DLG_TaskManager();
 
     void OnTaskCompleted();

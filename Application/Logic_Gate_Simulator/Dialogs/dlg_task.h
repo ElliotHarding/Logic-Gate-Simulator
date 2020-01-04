@@ -40,6 +40,9 @@ protected:
 
     int tryStoi(std::string, int);
 
+private:
+    void closeEvent(QCloseEvent *event);
+
 private slots:
     void onSubmitButtonClicked();
 

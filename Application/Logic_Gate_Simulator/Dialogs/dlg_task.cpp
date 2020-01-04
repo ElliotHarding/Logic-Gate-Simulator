@@ -3,6 +3,7 @@
 #include "ui_dlg_home.h"
 #include "dlg_taskmanager.h"
 #include "gatereader.h"
+#include "widget_text.h"
 
 dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, bool& succeded) :
     DLG_Home(pTaskManager),
@@ -29,26 +30,25 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
     taskFile >> readString;
     m_task.m_outputs = tryStoi(readString, 1);
 
-    m_pBtnSubmit = new QPushButton("Submit", this);
-    m_pBtnSubmit->setGeometry(805, 470, 120, 40);
-
     m_pTruthTableWidget = new Widget_TruthTable(m_task.m_inputs, m_task.m_outputs, this);
     m_pTruthTableWidget->raise();
     m_pTruthTableWidget->setAutoFillBackground(true);
-    m_pTruthTableWidget->setGeometry(765, 110, 200, 350);
 
     m_allGateFields.push_back(new GateField(m_zoomFactor, "Task", this, m_pDlgSaveGateCollection, true));
     m_iCurrentGateField = 0;
     m_allGateFields[m_iCurrentGateField]->setAutoFillBackground(true);
-    m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);
     m_allGateFields[m_iCurrentGateField]->raise();
 
     QPalette pal = palette();
     pal.setColor(QPalette::Background, Qt::white);
     m_allGateFields[m_iCurrentGateField]->setPalette(pal);
 
+    Widget_Text* taskInfo;
+
     if(m_task.m_bCircuitTask)
     {
+        taskInfo = new Widget_Text("Create the circuit that matches \nthe truth table", this);
+
         int ylen = (486*2)/(m_task.m_inputs+1);
         for (int x = 0; x < m_task.m_inputs; ++x)
         {
@@ -91,6 +91,8 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
     }
     else
     {
+        taskInfo = new Widget_Text("Fill the truth table to match \nthe circuit", this);
+
         GateReader reader;
         reader.ReadGateField(taskFile, m_allGateFields[m_iCurrentGateField], false);
 
@@ -107,6 +109,13 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
 
         m_allGateFields[m_iCurrentGateField]->FinishWithGates();
     }
+
+    m_pBtnSubmit = new QPushButton("Submit", this);
+
+    taskInfo->setGeometry(765, 65, 200, 70);
+    m_pTruthTableWidget->setGeometry(765, 143, 200, 350);
+    m_pBtnSubmit->setGeometry(805, 503, 120, 40);
+    m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);
 
     connect(m_pBtnSubmit, &QPushButton::clicked, this, &dlg_task::onSubmitButtonClicked);
 
@@ -189,4 +198,10 @@ int dlg_task::tryStoi(std::string s, int defaultVal)
     {
         return defaultVal;
     }
+}
+
+void dlg_task::closeEvent(QCloseEvent *event)
+{
+    m_pTaskManager->show();
+    event->accept();
 }

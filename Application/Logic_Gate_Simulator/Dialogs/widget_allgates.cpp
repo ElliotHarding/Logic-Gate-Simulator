@@ -52,7 +52,14 @@ void Widget_AllGates::SetScrollPosition(float y)
     for (WidgetAndPosition widget : m_scrollWidgets)
     {
         const int newTop = widget.originalLayout.top() + m_scroll - c_scrollDistance;
-        const QRect scrolledLayout = QRect(widget.originalLayout.left(), (newTop > 1) ? newTop : 1, widget.originalLayout.width(), widget.originalLayout.height());
+
+        //Inefficient... (couldn't get layering of qobjects working) hide when above 6
+        if(newTop < 7)
+            widget.widget->hide();
+        else
+            widget.widget->show();
+
+        const QRect scrolledLayout = QRect(widget.originalLayout.left(), newTop, widget.originalLayout.width(), widget.originalLayout.height());
         widget.widget->setGeometry(scrolledLayout);
     }
 }

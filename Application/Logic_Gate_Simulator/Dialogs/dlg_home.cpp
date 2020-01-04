@@ -144,7 +144,6 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
             DLG_TaskManager* taskMan = new DLG_TaskManager(this);
             taskMan->show();
         });
-
     }
 
     {

@@ -125,11 +125,9 @@ dlg_task::~dlg_task()
     if(m_pBtnSubmit)
         delete m_pBtnSubmit;
 
-    for(int x = 0; x < m_outputGates.size(); x++)
-        m_outputGates[x] = nullptr;
-
-    for(int x = 0; x < m_inputGates.size(); x++)
-        m_inputGates[x] = nullptr;
+    //Actual pointers get cleared by gatefield
+    m_outputGates.clear();
+    m_inputGates.clear();
 
     //delete m_allGateFields[m_iCurrentGateField]; deleted via ~dlg_home
 
@@ -177,19 +175,6 @@ void dlg_task::onSubmitButtonClicked()
     }
 
     m_allGateFields[m_iCurrentGateField]->FinishWithGates();
-
-    /*
-    for (int iVec = 0; iVec < answers.size(); iVec++)
-    {
-        for(int iRes = 0; iRes < answers[iVec].size(); iRes++)
-        {
-            if(answers[iVec][iRes] != m_task.results[iVec][iRes])
-            {
-                SendUserMessage("Incorrect! Try again.");
-                return;
-            }
-        }
-    }*/
 
     m_pTaskManager->OnTaskCompleted();
 }

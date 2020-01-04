@@ -70,6 +70,9 @@ protected:
     Widget_InputGates*  m_pWidgetInputGates;
     MovingWidget* m_pCurrentShownGateWidget = nullptr;
 
+    //Construction
+    void InitalizeDialogsAndWidgets();
+
     //Widget animations
     void SwitchWidgets(MovingWidget* w1);
     const int c_moveWidgetsIncrement = 2;
@@ -91,6 +94,7 @@ protected:
 
     QString PathToFileName(const QString);
 
+    //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
     ClickMode m_previousClickMode = CLICK_DRAG;
 

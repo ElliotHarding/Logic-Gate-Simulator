@@ -41,74 +41,8 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
         ui->PlayField->clear();
     }
 
-    QRect layoutGateWidget = accountForUIOffsetts(ui->layout_GateWidget->geometry());
-    QRect layoutGateInfo = accountForUIOffsetts(ui->layout_Dlg_GateInfo->geometry());
-
     //Construction
-    {
-         m_pDlgLoadGates = new QFileDialog(this);
-         m_pDlgInput = new QInputDialog(this);
-         m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
-         m_pDlgGateInfo = new DLG_GateInfo(this);
-         m_pDlgMessage = new DLG_Message(this);
-         m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
-
-         //Gate widgets
-         const QPoint c_GateWidgetPos = layoutGateWidget.topLeft();
-         m_pWidgetAllGates = new Widget_AllGates(this, true, c_GateWidgetPos);
-         m_pCurrentShownGateWidget = m_pWidgetAllGates;
-
-         m_pWidgetCustomGates = new Widget_CustomGates(this, false, c_GateWidgetPos);
-         m_pWidgetAdvancedGates = new Widget_Advanced(this, false, c_GateWidgetPos);
-         m_pWidgetStandardGates = new Widget_Standard(this, false, c_GateWidgetPos);
-         m_pWidgetInputGates = new Widget_InputGates(this, false, c_GateWidgetPos);
-
-         //m_zoomSlider :
-         {
-             //save layout
-             QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
-
-             ui->layout_ZoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, 3, this);
-
-             //set layout after construction
-             dynamic_cast<SimpleSlider*>(ui->layout_ZoomSlider)->SetGeometry(layout);
-
-             //setup
-             ui->layout_ZoomSlider->raise();
-             SetZoomFactor(0.5);
-        }
-
-        m_pDlgGateInfo->move(layoutGateInfo.topLeft());
-        m_pDlgGateInfo->raise();
-    }
-
-    //Add to layout
-    {
-        this->layout()->addWidget(m_pDlgGateInfo);
-        this->layout()->addWidget(m_pWidgetAllGates);
-        this->layout()->addWidget(m_pWidgetCustomGates);
-        this->layout()->addWidget(m_pWidgetAdvancedGates);
-        this->layout()->addWidget(m_pWidgetStandardGates);
-        this->layout()->addWidget(m_pWidgetInputGates);
-    }
-
-    //Positiong for gate widgets
-    {
-        /*
-        const QPoint c_GateWidgetPosShowing = layoutGateWidget.topLeft();
-        const QPoint c_GateWidgetPosHidden = QPoint(c_GateWidgetPosShowing.x() - c_moveWidgetDistance, c_GateWidgetPosShowing.y());
-
-        m_pWidgetCustomGates->move(c_GateWidgetPosHidden);
-        m_pWidgetAdvancedGates->move(c_GateWidgetPosHidden);
-        m_pWidgetStandardGates->move(c_GateWidgetPosHidden);
-        m_pWidgetInputGates->move(c_GateWidgetPosHidden);
-
-        //Set current shown gate widget
-        m_pWidgetAllGates->move(c_GateWidgetPosShowing);
-        m_pWidgetAllGates->raise();
-        m_pCurrentShownGateWidget = m_pWidgetAllGates;
-        */
-    }
+    InitalizeDialogsAndWidgets();
 
     //Connections
     {
@@ -155,7 +89,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     txtProgress->setText("Done!");
 }
 
-DLG_Home::DLG_Home(QWidget *parent):
+DLG_Home::DLG_Home(QWidget *parent): //Constructor for overriding classes
     QMainWindow(parent),
     ui(new Ui::DLG_Home),
     m_zoomFactor(-1)
@@ -167,57 +101,9 @@ DLG_Home::DLG_Home(QWidget *parent):
         ui->PlayField->clear();
     }
 
-    QRect layoutGateWidget = accountForUIOffsetts(ui->layout_GateWidget->geometry());
-    QRect layoutGateInfo = accountForUIOffsetts(ui->layout_Dlg_GateInfo->geometry());
+    InitalizeDialogsAndWidgets();
 
-    //Construction
-    {
-         m_pDlgLoadGates = new QFileDialog(this);
-         m_pDlgInput = new QInputDialog(this);
-         m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
-         m_pDlgGateInfo = new DLG_GateInfo(this);
-         m_pDlgMessage = new DLG_Message(this);
-         m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
-
-         //Gate widgets
-         const QPoint c_GateWidgetPos = layoutGateWidget.topLeft();
-         m_pWidgetAllGates = new Widget_AllGates(this, true, c_GateWidgetPos);
-         m_pCurrentShownGateWidget = m_pWidgetAllGates;
-
-         m_pWidgetCustomGates = new Widget_CustomGates(this, false, c_GateWidgetPos);
-         m_pWidgetAdvancedGates = new Widget_Advanced(this, false, c_GateWidgetPos);
-         m_pWidgetStandardGates = new Widget_Standard(this, false, c_GateWidgetPos);
-         m_pWidgetInputGates = new Widget_InputGates(this, false, c_GateWidgetPos);
-
-         //m_zoomSlider :
-         {
-             //save layout
-             QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
-
-             ui->layout_ZoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, 3, this);
-
-             //set layout after construction
-             dynamic_cast<SimpleSlider*>(ui->layout_ZoomSlider)->SetGeometry(layout);
-
-             //setup
-             ui->layout_ZoomSlider->raise();
-             SetZoomFactor(0.5);
-        }
-
-        m_pDlgGateInfo->move(layoutGateInfo.topLeft());
-        m_pDlgGateInfo->raise();
-    }
-
-    //Add to layout
-    {
-        this->layout()->addWidget(m_pDlgGateInfo);
-        this->layout()->addWidget(m_pWidgetAllGates);
-        this->layout()->addWidget(m_pWidgetCustomGates);
-        this->layout()->addWidget(m_pWidgetAdvancedGates);
-        this->layout()->addWidget(m_pWidgetStandardGates);
-        this->layout()->addWidget(m_pWidgetInputGates);
-    }
-
+    //Set UI as basic:
     ui->btn_newPage->hide();
     ui->btn_Save->hide();
     ui->btn_load->hide();
@@ -246,6 +132,47 @@ DLG_Home::DLG_Home(QWidget *parent):
     ui->btn_click->setGeometry(geoClick.x(), geoClick.y() + yOffset, geoClick.width(), geoClick.height());
     ui->btn_Delete->setGeometry(geoDelete.x(), geoDelete.y() + yOffset, geoDelete.width(), geoDelete.height());
     ui->btn_DeleteLink->setGeometry(geoDeleteLink.x(), geoDeleteLink.y() + yOffset, geoDeleteLink.width(), geoDeleteLink.height());
+}
+
+void DLG_Home::InitalizeDialogsAndWidgets()
+{
+    QRect layoutGateWidget = accountForUIOffsetts(ui->layout_GateWidget->geometry());
+    QRect layoutGateInfo = accountForUIOffsetts(ui->layout_Dlg_GateInfo->geometry());
+
+    m_pDlgLoadGates = new QFileDialog(this);
+    m_pDlgInput = new QInputDialog(this);
+    m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
+    m_pDlgGateInfo = new DLG_GateInfo(this);
+    m_pDlgMessage = new DLG_Message(this);
+    m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
+
+    //Gate widgets
+    const QPoint c_GateWidgetPos = layoutGateWidget.topLeft();
+    m_pWidgetAllGates = new Widget_AllGates(this, true, c_GateWidgetPos);
+    m_pCurrentShownGateWidget = m_pWidgetAllGates;
+
+    m_pWidgetCustomGates = new Widget_CustomGates(this, false, c_GateWidgetPos);
+    m_pWidgetAdvancedGates = new Widget_Advanced(this, false, c_GateWidgetPos);
+    m_pWidgetStandardGates = new Widget_Standard(this, false, c_GateWidgetPos);
+    m_pWidgetInputGates = new Widget_InputGates(this, false, c_GateWidgetPos);
+
+    //m_zoomSlider :
+    {
+        //save layout
+        QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
+
+        ui->layout_ZoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, 3, this);
+
+        //set layout after construction
+        dynamic_cast<SimpleSlider*>(ui->layout_ZoomSlider)->SetGeometry(layout);
+
+        //setup
+        ui->layout_ZoomSlider->raise();
+        SetZoomFactor(0.5);
+    }
+
+    m_pDlgGateInfo->move(layoutGateInfo.topLeft());
+    m_pDlgGateInfo->raise();
 }
 
 DLG_Home::~DLG_Home()
@@ -471,33 +398,6 @@ void DLG_Home::SwitchWidgets(MovingWidget* newWidgetToShow)
 
         m_pCurrentShownGateWidget = newWidgetToShow;
     }
-
-    //Old style animation:
-    /*
-    if(m_pCurrentShownGateWidget && newWidgetToShow != m_pCurrentShownGateWidget)
-    {
-        newWidgetToShow->raise();
-
-        for (int moved = 0; moved < c_moveWidgetDistance; moved += c_moveWidgetsIncrement)
-        {
-            //Retract current shown widget
-            const QRect currentGeo = m_pCurrentShownGateWidget->geometry();
-            m_pCurrentShownGateWidget->move(currentGeo.left() - c_moveWidgetsIncrement, currentGeo.top());
-
-            //Move out new one to show
-            const QRect newWidgetGeometry = newWidgetToShow->geometry();
-            newWidgetToShow->move(newWidgetGeometry.left() + c_moveWidgetsIncrement, newWidgetGeometry.top());
-
-            //Force redraw on the widgets. Drawing new one last (on top)
-            m_pCurrentShownGateWidget->repaint();
-            newWidgetToShow->repaint();
-
-            //QThread::msleep(1);
-        }
-
-        m_pCurrentShownGateWidget = newWidgetToShow;
-    }
-    */
 }
 
 // -- OTHER BUTTON HANDLERS --

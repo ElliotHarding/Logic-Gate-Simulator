@@ -9,6 +9,11 @@ DLG_CircuitTaskDesigner::DLG_CircuitTaskDesigner(int inputs, int outputs, QWidge
 {
     ui->setupUi(this);
 
+    setAutoFillBackground(true);
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, Qt::white);
+    setPalette(pal);
+
     m_pTruthTable = new Widget_TruthTable(inputs, outputs, this);
     m_pTruthTable->setAutoFillBackground(true);
     m_pTruthTable->setGeometry(0, 0, 200, 350);

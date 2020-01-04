@@ -412,7 +412,8 @@ void GateField::rl_leftMouseClick(int clickX, int clickY)
         if(!rl_linkNodesClick(clickX, clickY))
         {
             rl_selectionClick(clickX,clickY);
-            m_pParent->SetCurrentClickMode(CLICK_SELECTION);
+            if(!m_bDisableGateCollections)
+                m_pParent->SetCurrentClickMode(CLICK_SELECTION);
         }
 
         break;

@@ -7,7 +7,7 @@ DLG_TruthTableTaskDesigner::DLG_TruthTableTaskDesigner(int iInputs, int iOutputs
     m_pBtnSubmit = new QPushButton("Submit", this);
     m_pBtnSubmit->setGeometry(805, 470, 120, 40);
 
-    m_allGateFields.push_back(new GateField(m_zoomFactor, "Task", this, m_pDlgSaveGateCollection));
+    m_allGateFields.push_back(new GateField(m_zoomFactor, "Task", this, m_pDlgSaveGateCollection, true));
     m_iCurrentGateField = 0;
     m_allGateFields[m_iCurrentGateField]->setAutoFillBackground(true);
     m_allGateFields[m_iCurrentGateField]->setGeometry(160, 65, 595, 486);

@@ -240,7 +240,7 @@ void DLG_Home::addGateField(QString& name)
 {
     GateField* newGF = createNewGateField(name);
     m_allGateFields.push_back(newGF);
-    m_iCurrentGateField = int8_t(m_allGateFields.size());
+    m_iCurrentGateField = int8_t(m_allGateFields.size()-1);
     ui->PlayField->addTab(newGF,tr(name.toUtf8()));
 }
 

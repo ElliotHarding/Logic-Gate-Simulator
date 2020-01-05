@@ -19,7 +19,7 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     m_screenPosDelta.x = 0;
     m_screenPosDelta.y = 0;
 
-    m_pParent->SetCurrentClickMode(CLICK_DRAG);
+    //m_pParent->SetCurrentClickMode(CLICK_DRAG);
 
     saveGateCollectionDialog->SetCurrentGateField(this);
 

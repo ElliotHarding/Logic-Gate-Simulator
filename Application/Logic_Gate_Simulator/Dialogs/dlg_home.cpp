@@ -191,11 +191,12 @@ DLG_Home::~DLG_Home()
     delete m_pDlgTextLabelEdit;
 
     //Delete gatefields
-    for (GateField* gf : m_allGateFields)
+    /*for (GateField* gf : m_allGateFields)
     {
         //delete gf;
         gf = nullptr;
-    }
+    }*/
+    m_allGateFields.clear(); //deleted via qt
 
     delete ui;
 }

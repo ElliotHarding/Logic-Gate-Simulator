@@ -24,6 +24,11 @@ DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
     {
         QPushButton* newTaskBtn = new QPushButton(QString::number(x), this);
         newTaskBtn->setObjectName(QString::number(x));
+        newTaskBtn->setStyleSheet(QString::fromUtf8("QPushButton{"
+                                                    "border-style: solid;"
+                                                    "border-color: black;"
+                                                    "border-width: 2px;"
+                                                    "border-radius: 10px;}"));
 
         if(x < 6)
             newTaskBtn->setGeometry(taskBtnMargin+(taskBtnMargin*x)+(taskBtnDimension*x), taskBtnMargin, taskBtnDimension, taskBtnDimension);

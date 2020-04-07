@@ -4,10 +4,11 @@
 
 #include <QApplication>
 
-GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections) :
+GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections, bool bDisableGateBackup) :
     QWidget(parent),
     m_pParent(parent),
     m_name(name),
+    m_bDisableGateBackup(bDisableGateBackup),
     m_zoomFactor(zoomFactor),
     m_pDlgSaveGateCollection(saveGateCollectionDialog),
     m_pTimerThread(new TimerThread(this)),
@@ -759,6 +760,9 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 //Function must be called when m_allGates is mutex locked
 void GateField::rl_backupGates()
 {
+    if (m_bDisableGateBackup)
+        return;
+
     //Create backup of all gates
     std::vector<Gate*> backup;
     for(Gate* g : m_allGates)

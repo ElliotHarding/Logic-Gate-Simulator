@@ -24,7 +24,7 @@ class GateField : public QWidget
 public:
 
     //Construction
-    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections = false);
+    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections = false, bool disableGateBackup = false);
      ~GateField() override;
 
     //Gates
@@ -105,12 +105,13 @@ private:
     //Gates
     QMutex m_lockAllGates;
     std::vector<Gate*> m_allGates;
-    Gate* m_dragGate = nullptr;
+    Gate* m_dragGate = nullptr;    
     void moveToFront(int index, std::vector<Gate*>& vec);
 
     //Gate backups for redo and undo functions
     void rl_backupGates();
     std::vector<std::vector<Gate*>> m_gateBackups;
+    bool m_bDisableGateBackup;
     const int c_maxNumberOfBackups = 10;
     int m_backupIndex = 0;
 

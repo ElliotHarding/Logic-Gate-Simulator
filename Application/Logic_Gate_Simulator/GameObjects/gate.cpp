@@ -201,7 +201,7 @@ void Node::SetValue(bool val)
         //think solution would be to implement a clone function for nodes, but it's alot of effort
         //just for this fix, when the solution of checking if m_id > 0 seems to work
 
-        //m_id is > 0 incase this node is being deleted
+        //m_id is > 0 to check incase this node is being deleted
         if(m_id > 0)
             m_parent->UpdateOutput();
     }

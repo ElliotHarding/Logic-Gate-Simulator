@@ -10,6 +10,7 @@ DLG_CircuitTaskDesignerSetup::DLG_CircuitTaskDesignerSetup(bool circuitTask, QWi
     m_bCircuitTask(circuitTask)
 {
     ui->setupUi(this);
+    setWindowTitle("-");
 }
 
 DLG_CircuitTaskDesignerSetup::~DLG_CircuitTaskDesignerSetup()

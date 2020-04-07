@@ -8,6 +8,7 @@ DLG_CircuitTaskDesigner::DLG_CircuitTaskDesigner(int inputs, int outputs, QWidge
     ui(new Ui::DLG_CircuitTaskDesigner)
 {
     ui->setupUi(this);
+    setWindowTitle("-");
 
     setAutoFillBackground(true);
     QPalette pal = palette();
@@ -35,6 +36,8 @@ void DLG_CircuitTaskDesigner::on_btn_done_clicked()
     QStringList nameFilter("*.GateField");
     QDir directory(c_tasksLocation);
     QStringList fileList = directory.entryList(nameFilter);
+
+    //Find file name by iterating through existing files until number of free found
     bool goodFileName = false;
     int fileNameInt = -1;
     std::string fileNameString = std::to_string(fileNameInt) + ".GateField";

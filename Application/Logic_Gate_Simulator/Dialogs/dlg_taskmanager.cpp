@@ -71,6 +71,10 @@ void DLG_TaskManager::OnTaskCompleted()
     m_taskButtons[m_iCurrentTask]->setPalette(pal);
     m_taskButtons[m_iCurrentTask]->update();
 
+    QPainterPath path;
+    path.addRoundedRect(m_taskButtons[m_iCurrentTask]->rect(), 10, 10);
+    m_taskButtons[m_iCurrentTask]->setMask(path.toFillPolygon().toPolygon());
+
     bool allComplete = true;
     for(int x = 0; x < m_tasks.size(); x++)
     {

@@ -1,5 +1,5 @@
 #include "dlg_task.h"
-#include "ui_dlg_task.h"
+//#include "ui_dlg_task.h"
 #include "ui_dlg_home.h"
 #include "dlg_taskmanager.h"
 #include "gatereader.h"
@@ -176,6 +176,13 @@ void dlg_task::onSubmitButtonClicked()
             GateReciever* outputGate = m_outputGates[output];
             if (answers[output][row] != outputGate->GetValue())
             {
+                //Incorrect ~ reset
+                for(int input = 0; input < m_task.m_inputs; input++)
+                {
+                    m_inputGates[input]->SetPowerState(0);
+                }
+
+                //Notify user
                 SendUserMessage("Incorrect! Try again.");
                 m_allGateFields[m_iCurrentGateField]->FinishWithGates();
                 return;

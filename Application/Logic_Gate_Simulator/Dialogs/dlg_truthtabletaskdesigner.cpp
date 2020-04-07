@@ -61,25 +61,27 @@ DLG_TruthTableTaskDesigner::~DLG_TruthTableTaskDesigner()
 
 void DLG_TruthTableTaskDesigner::onSubmitButton()
 {
+    //Look through existing task files to find new unique filename
     QStringList nameFilter("*.GateField");
     QDir directory(c_tasksLocation);
     QStringList fileList = directory.entryList(nameFilter);
     bool goodFileName = false;
     int fileNameInt = -1;
-    std::string fileNameString = std::to_string(fileNameInt) + ".GateField";
+    std::string fileNameString = std::to_string(fileNameInt);
     while (goodFileName == false)
     {
-        fileNameString = std::to_string(++fileNameInt) + ".GateField";
+        fileNameString = std::to_string(++fileNameInt);
 
         goodFileName = true;
         for (QString file : fileList)
         {
-            if(file.toStdString() == fileNameString)
+            QString nameOfFileToCheck = file.split(".")[0];
+            if(nameOfFileToCheck.toStdString() == fileNameString)
                 goodFileName = false;
         }
     }
 
-    std::ofstream saveFile(c_tasksLocation.toStdString() + fileNameString);
+    std::ofstream saveFile(c_tasksLocation.toStdString() + fileNameString + ".U.GateField");
 
     //state that its a truth table task with 1
     saveFile << "0" << std::endl << m_task.m_inputs << std::endl << m_task.m_outputs << std::endl << std::endl;

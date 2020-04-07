@@ -33,27 +33,27 @@ void DLG_CircuitTaskDesigner::on_btn_done_clicked()
 {
     m_newTask.results = m_pTruthTable->GetAnswer();
 
+    //Look through existing task files to find new unique filename
     QStringList nameFilter("*.GateField");
     QDir directory(c_tasksLocation);
     QStringList fileList = directory.entryList(nameFilter);
-
-    //Find file name by iterating through existing files until number of free found
     bool goodFileName = false;
     int fileNameInt = -1;
-    std::string fileNameString = std::to_string(fileNameInt) + ".GateField";
+    std::string fileNameString = std::to_string(fileNameInt);
     while (goodFileName == false)
     {
-        fileNameString = std::to_string(++fileNameInt) + ".GateField";
+        fileNameString = std::to_string(++fileNameInt);
 
         goodFileName = true;
         for (QString file : fileList)
         {
-            if(file.toStdString() == fileNameString)
+            QString nameOfFileToCheck = file.split(".")[0];
+            if(nameOfFileToCheck.toStdString() == fileNameString)
                 goodFileName = false;
         }
     }
 
-    std::ofstream saveFile(c_tasksLocation.toStdString() + fileNameString);
+    std::ofstream saveFile(c_tasksLocation.toStdString() + fileNameString + ".U.GateField");
 
     saveFile << "1" << std::endl << m_newTask.m_inputs << std::endl << m_newTask.m_outputs << std::endl;
     saveFile << "{{" << std::endl;

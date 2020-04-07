@@ -27,8 +27,12 @@ private:
     std::vector<std::string> m_tasks;
     std::vector<QPushButton*> m_taskButtons;
 
+    void MarkTaskButtonComplete(QPushButton*&, bool complete);
+    void SetTaskCompletionState(QString filename, bool complete);
+
 private slots:
     void OnTaskClicked();
+    void OnResetCompleted();
 };
 
 #endif // DLG_TASKMANAGER_H

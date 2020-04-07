@@ -16,6 +16,9 @@ DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
     for (QString file : fileList)
     {
         m_tasks.push_back(c_tasksLocation.toStdString() + file.toStdString());
+
+        QStringList fileNumberAndIsComplete = file.split(".");
+        m_completedTasks.push_back((fileNumberAndIsComplete.at(1) == "C"));
     }
 
     const int taskBtnDimension = 60;
@@ -24,20 +27,16 @@ DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
     {
         QPushButton* newTaskBtn = new QPushButton(QString::number(x), this);
         newTaskBtn->setObjectName(QString::number(x));
-        newTaskBtn->setStyleSheet(QString::fromUtf8("QPushButton{"
-                                                    "border-style: solid;"
-                                                    "border-color: black;"
-                                                    "border-width: 2px;"
-                                                    "border-radius: 10px;}"));
 
         if(x < 6)
-            newTaskBtn->setGeometry(taskBtnMargin+(taskBtnMargin*x)+(taskBtnDimension*x), taskBtnMargin, taskBtnDimension, taskBtnDimension);
+            newTaskBtn->setGeometry(taskBtnMargin+(taskBtnMargin*x)+(taskBtnDimension*x)+100, taskBtnMargin, taskBtnDimension, taskBtnDimension);
         else
-             newTaskBtn->setGeometry(taskBtnMargin+(taskBtnMargin*(x-6))+(taskBtnDimension*(x-6)), taskBtnDimension + taskBtnMargin * 2, taskBtnDimension, taskBtnDimension);
+             newTaskBtn->setGeometry(taskBtnMargin+(taskBtnMargin*(x-6))+(taskBtnDimension*(x-6))+100, taskBtnDimension + taskBtnMargin * 2, taskBtnDimension, taskBtnDimension);
+
+        MarkTaskButtonComplete(newTaskBtn, (m_completedTasks[x] == true));
 
         connect(newTaskBtn, &QPushButton::clicked, this, &DLG_TaskManager::OnTaskClicked);
         m_taskButtons.push_back(newTaskBtn);
-        m_completedTasks.push_back(false);
     }
 
     const int iTasks = m_tasks.size();
@@ -47,8 +46,13 @@ DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
     int width = (taskBtnMargin*(iCols+1)) + (taskBtnDimension*iCols);
     if (width < 4 * taskBtnDimension)
         width = 4 * taskBtnDimension;
-    //setGeometry(700, 500, width, height);
+
     setFixedSize(width, height);
+
+    //connect(ui->menuRest_Completed, SIGNAL(&QAction::triggered()), this, SLOT(OnResetCompleted()));
+    QPushButton* resetTasksButton = new QPushButton("Reset Completed", this);
+    resetTasksButton->setGeometry(10, 10, 100, 30);
+    connect(resetTasksButton, &QPushButton::clicked, this, &DLG_TaskManager::OnResetCompleted);
 }
 
 DLG_TaskManager::~DLG_TaskManager()
@@ -67,15 +71,8 @@ void DLG_TaskManager::OnTaskCompleted()
     m_pCurrentTask = nullptr;
     m_completedTasks[m_iCurrentTask] = true;
 
-    QPalette pal = m_taskButtons[m_iCurrentTask]->palette();
-    pal.setColor(QPalette::Button, QColor(Qt::green));
-    m_taskButtons[m_iCurrentTask]->setAutoFillBackground(true);
-    m_taskButtons[m_iCurrentTask]->setPalette(pal);
-    m_taskButtons[m_iCurrentTask]->update();
-
-    QPainterPath path;
-    path.addRoundedRect(m_taskButtons[m_iCurrentTask]->rect(), 10, 10);
-    m_taskButtons[m_iCurrentTask]->setMask(path.toFillPolygon().toPolygon());
+    SetTaskCompletionState(QString::fromStdString(m_tasks[m_iCurrentTask]), true);
+    MarkTaskButtonComplete(m_taskButtons[m_iCurrentTask], true);
 
     bool allComplete = true;
     for(int x = 0; x < m_tasks.size(); x++)
@@ -93,6 +90,39 @@ void DLG_TaskManager::OnTaskCompleted()
     }
 }
 
+void DLG_TaskManager::MarkTaskButtonComplete(QPushButton*& pb, bool complete)
+{
+    if(!complete)
+    {
+        pb->setStyleSheet(QString::fromUtf8("QPushButton{"
+                                                    "border-style: solid;"
+                                                    "border-color: black;"
+                                                    "border-width: 2px;"
+                                                    "border-radius: 10px;}"));
+    }
+    else
+    {
+        QPainterPath path;
+        path.addRoundedRect(pb->rect(), 10, 10);
+        pb->setMask(path.toFillPolygon().toPolygon());
+
+        pb->setStyleSheet(QString::fromUtf8("QPushButton{"
+                                                    "border-style: solid;"
+                                                    "border-color: black;"
+                                                    "border-width: 2px;"
+                                                    "border-radius: 10px;"
+                                                    "background-color: green}"));
+    }
+}
+
+void DLG_TaskManager::SetTaskCompletionState(QString filename, bool complete)
+{
+    QStringList fileNumberAndIsComplete = filename.split(".");
+    const std::string oldFileName = filename.toStdString().c_str();
+    const std::string newFileName = fileNumberAndIsComplete[0].toStdString() + (complete ? ".C" : ".U") + ".GateField";
+    std::rename(oldFileName.c_str(), newFileName.c_str());
+}
+
 void DLG_TaskManager::OnTaskClicked()
 {
     //Get task number from btn that triggered function call
@@ -107,5 +137,14 @@ void DLG_TaskManager::OnTaskClicked()
     {
         m_pCurrentTask->show();
         this->hide();
+    }
+}
+
+void DLG_TaskManager::OnResetCompleted()
+{
+    for(int i = 0; i < m_tasks.size(); i++)
+    {
+        SetTaskCompletionState(QString::fromStdString(m_tasks[i]), false);
+        MarkTaskButtonComplete(m_taskButtons[i], false);
     }
 }

@@ -170,15 +170,15 @@ void GateCollection::DrawButtons(QPainter *painter)
     m_deleteButton = QRect(m_contaningArea.right() - xyButtonSize*2, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     m_saveButton = QRect(m_contaningArea.right() - xyButtonSize*3, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     m_dragAllButton = QRect(m_contaningArea.right() - xyButtonSize*4, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_optimize = QRect(m_contaningArea.right() - xyButtonSize*5, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_nandOptimize = QRect(m_contaningArea.right() - xyButtonSize*6, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    //m_optimize = QRect(m_contaningArea.right() - xyButtonSize*5, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    //m_nandOptimize = QRect(m_contaningArea.right() - xyButtonSize*6, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
 
     painter->drawImage(m_deleteAllButton, cImgDeleteAllButton);
     painter->drawImage(m_deleteButton, cImgDeleteButton);
     painter->drawImage(m_saveButton, cImgSaveButton);
     painter->drawImage(m_dragAllButton, cImgDragButton);
-    painter->drawImage(m_optimize, cImgOptimizeButton);
-    painter->drawImage(m_nandOptimize, cImgNandOptimizeButton);
+    //painter->drawImage(m_optimize, cImgOptimizeButton);
+    //painter->drawImage(m_nandOptimize, cImgNandOptimizeButton);
 }
 
 Node *GateCollection::GetClickedNode(int clickX, int clickY)
@@ -329,13 +329,13 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         return true;
     }
 
-    //Optimize button
+    /* //Optimize button
     else if (m_optimize.contains(clickX, clickY))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates, false);
         m_pParentField->SkipNextGateSelectedCall(true);
         return true;
-    }
+    }*/
 
     else if (m_dragAllButton.contains(clickX, clickY))
     {
@@ -343,13 +343,13 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         m_pParentField->SkipNextGateSelectedCall(true);
         return true;
     }
-
+    /*
     else if (m_nandOptimize.contains(clickX, clickY))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates, true);
         m_pParentField->SkipNextGateSelectedCall(true);
         return true;
-    }
+    }*/
 
     return false;
 }

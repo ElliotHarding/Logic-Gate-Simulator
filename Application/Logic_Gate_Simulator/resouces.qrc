@@ -44,5 +44,6 @@
         <file>Resources/Button Icons/gate-collection-nand.png</file>
         <file>Resources/Button Icons/gate-collection-optimize.png</file>
         <file>Resources/Button Icons/gate-collection-move-gates.png</file>
+        <file>Resources/Button Icons/icon-tasks.png</file>
     </qresource>
 </RCC>

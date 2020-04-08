@@ -75,8 +75,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
         });
         connect(ui->actionView_Tasks, &QAction::triggered, [this]()
         {
-            DLG_TaskManager* taskMan = new DLG_TaskManager(this);
-            taskMan->show();
+            on_btn_tasks_clicked();
         });
     }
 
@@ -491,6 +490,12 @@ void DLG_Home::on_btn_Save_clicked()
     {
         SendUserMessage("Saving a page failed!");
     }
+}
+
+void DLG_Home::on_btn_tasks_clicked()
+{
+    DLG_TaskManager* taskMan = new DLG_TaskManager(this);
+    taskMan->show();
 }
 
 void DLG_Home::on_btn_load_clicked()

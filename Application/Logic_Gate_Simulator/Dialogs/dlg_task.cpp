@@ -1,6 +1,6 @@
 #include "dlg_task.h"
 //#include "ui_dlg_task.h"
-#include "ui_dlg_home.h"
+//#include "ui_dlg_home.h"
 #include "dlg_taskmanager.h"
 #include "gatereader.h"
 #include "widget_text.h"

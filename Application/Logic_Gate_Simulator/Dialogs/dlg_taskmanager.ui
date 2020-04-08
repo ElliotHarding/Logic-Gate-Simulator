@@ -14,23 +14,6 @@
    <string>Tasks</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuRest_Completed">
-    <property name="title">
-     <string>Options</string>
-    </property>
-    <addaction name="actionReset_Completed"/>
-   </widget>
-   <addaction name="menuRest_Completed"/>
-  </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionReset_Completed">
    <property name="text">

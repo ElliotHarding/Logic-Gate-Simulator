@@ -33,6 +33,7 @@ private:
 private slots:
     void OnTaskClicked();
     void OnResetCompleted();
+    void OnViewTasks();
 };
 
 #endif // DLG_TASKMANAGER_H

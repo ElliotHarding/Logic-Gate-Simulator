@@ -2,6 +2,7 @@
 #include "ui_dlg_taskmanager.h"
 #include <math.h>
 #include "filelocations.h"
+#include "QDesktopServices"
 
 DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
     QMainWindow(parent),
@@ -21,6 +22,7 @@ DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
         m_completedTasks.push_back((fileNumberAndIsComplete.at(1) == "C"));
     }
 
+    const int menuButtonSpace = 30;
     const int taskBtnDimension = 60;
     const int taskBtnMargin = 10;
     for (int x = 0; x < m_tasks.size(); x++)
@@ -29,9 +31,9 @@ DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
         newTaskBtn->setObjectName(QString::number(x));
 
         if(x < 6)
-            newTaskBtn->setGeometry(taskBtnMargin+(taskBtnMargin*x)+(taskBtnDimension*x)+100, taskBtnMargin, taskBtnDimension, taskBtnDimension);
+            newTaskBtn->setGeometry(taskBtnMargin+(taskBtnMargin*x)+(taskBtnDimension*x), taskBtnMargin + menuButtonSpace, taskBtnDimension, taskBtnDimension);
         else
-             newTaskBtn->setGeometry(taskBtnMargin+(taskBtnMargin*(x-6))+(taskBtnDimension*(x-6))+100, taskBtnDimension + taskBtnMargin * 2, taskBtnDimension, taskBtnDimension);
+             newTaskBtn->setGeometry(taskBtnMargin+(taskBtnMargin*(x-6))+(taskBtnDimension*(x-6)), taskBtnDimension + menuButtonSpace + taskBtnMargin * 2, taskBtnDimension, taskBtnDimension);
 
         MarkTaskButtonComplete(newTaskBtn, (m_completedTasks[x] == true));
 
@@ -42,17 +44,20 @@ DLG_TaskManager::DLG_TaskManager(QWidget *parent) :
     const int iTasks = m_tasks.size();
     const int iCols = iTasks>6 ? 6 : iTasks;
     const int iRows = floor(iTasks/7) + 1;
-    const int height = (taskBtnMargin*(iRows+1)) + (taskBtnDimension*iRows);
+    const int height = (taskBtnMargin*(iRows+1)) + (taskBtnDimension*iRows) + menuButtonSpace;
     int width = (taskBtnMargin*(iCols+1)) + (taskBtnDimension*iCols);
     if (width < 4 * taskBtnDimension)
         width = 4 * taskBtnDimension;
 
     setFixedSize(width, height);
 
-    //connect(ui->menuRest_Completed, SIGNAL(&QAction::triggered()), this, SLOT(OnResetCompleted()));
     QPushButton* resetTasksButton = new QPushButton("Reset Completed", this);
-    resetTasksButton->setGeometry(10, 10, 100, 30);
+    resetTasksButton->setGeometry(10, 10, 100, 25);
     connect(resetTasksButton, &QPushButton::clicked, this, &DLG_TaskManager::OnResetCompleted);
+
+    QPushButton* viewTasksButton = new QPushButton("View Tasks", this);
+    viewTasksButton->setGeometry(115, 10, 100, 25);
+    connect(viewTasksButton, &QPushButton::clicked, this, &DLG_TaskManager::OnViewTasks);
 }
 
 DLG_TaskManager::~DLG_TaskManager()
@@ -147,4 +152,9 @@ void DLG_TaskManager::OnResetCompleted()
         SetTaskCompletionState(QString::fromStdString(m_tasks[i]), false);
         MarkTaskButtonComplete(m_taskButtons[i], false);
     }
+}
+
+void DLG_TaskManager::OnViewTasks()
+{
+    QDesktopServices::openUrl(QUrl::fromLocalFile(c_tasksLocation));
 }

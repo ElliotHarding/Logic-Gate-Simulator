@@ -19,7 +19,7 @@ CXXFLAGS      = -fno-keep-inline-dllexport -g -Wall -Wextra -Wextra -fexceptions
 INCPATH       = -I..\Tests -I. -I..\..\..\Logic_Gate_Simulator -I..\..\Dialogs -I..\..\GameObjects -IC:\Qt\5.14.2\mingw73_32\include -IC:\Qt\5.14.2\mingw73_32\include\QtWidgets -IC:\Qt\5.14.2\mingw73_32\include\QtGui -IC:\Qt\5.14.2\mingw73_32\include\QtANGLE -IC:\Qt\5.14.2\mingw73_32\include\QtTest -IC:\Qt\5.14.2\mingw73_32\include\QtCore -Idebug -IC:\Qt\5.14.2\mingw73_32\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-subsystem,console -mthreads
-LIBS        =        C:\Qt\5.14.2\mingw73_32\lib\libQt5Widgets.a C:\Qt\5.14.2\mingw73_32\lib\libQt5Gui.a C:\Qt\5.14.2\mingw73_32\lib\libQt5Test.a C:\Qt\5.14.2\mingw73_32\lib\libQt5Core.a   
+LIBS        =        ..\..\..\build-Logic-Gate-Simulator-Desktop_Qt_5_14_2_MinGW_32_bit-Debug\debug\gate.o ..\..\..\build-Logic-Gate-Simulator-Desktop_Qt_5_14_2_MinGW_32_bit-Debug\debug\gateand.o ..\..\..\build-Logic-Gate-Simulator-Desktop_Qt_5_14_2_MinGW_32_bit-Debug\debug\gameobject.o C:\Qt\5.14.2\mingw73_32\lib\libQt5Widgets.a C:\Qt\5.14.2\mingw73_32\lib\libQt5Gui.a C:\Qt\5.14.2\mingw73_32\lib\libQt5Test.a C:\Qt\5.14.2\mingw73_32\lib\libQt5Core.a   
 QMAKE         = C:\Qt\5.14.2\mingw73_32\bin\qmake.exe
 DEL_FILE      = del
 CHK_DIR_EXISTS= if not exist
@@ -54,7 +54,7 @@ SOURCES       = ..\Tests\Tests.cpp debug\moc_Tests.cpp
 OBJECTS       = debug/Tests.o \
 		debug/moc_Tests.o
 
-DIST          =  ..\Tests\Tests.h ..\Tests\Tests.cpp
+DIST          = ../../../build-Logic-Gate-Simulator-Desktop_Qt_5_14_2_MinGW_32_bit-Debug/debug/ ..\Tests\Tests.h ..\Tests\Tests.cpp
 QMAKE_TARGET  = Tests
 DESTDIR        = debug\ #avoid trailing-slash linebreak
 TARGET         = Tests.exe

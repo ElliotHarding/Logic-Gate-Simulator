@@ -12,7 +12,12 @@ public:
     ~Tests();
 
 private slots:
-    void test_case1();
+    void test_andGate();
+    void test_orGate();
+    void test_notGate();
+    void test_xorGate();
+    void test_norGate();
+    void test_nodeLink();
 
 };
 

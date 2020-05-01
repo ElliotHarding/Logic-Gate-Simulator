@@ -47,7 +47,6 @@ SOURCES += \
     GameObjects/gatetrieor.cpp \
     GameObjects/gatexor.cpp \
     GameObjects/textlabel.cpp \
-    Tests/Tests/Tests.cpp \
     circuitoptimizer.cpp \
         main.cpp \
         gatefield.cpp \
@@ -98,7 +97,6 @@ HEADERS += \
     GameObjects/gatetypes.h \
     GameObjects/gatexor.h \
     GameObjects/textlabel.h \
-    Tests/Tests/Tests.h \
     circuitoptimizer.h \
         clickmode.h \
         gatereader.h \

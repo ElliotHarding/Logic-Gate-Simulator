@@ -248,14 +248,16 @@ Makefile: ../Tests/Tests.pro C:/Qt/5.14.2/mingw73_32/mkspecs/win32-g++/qmake.con
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/resolve_config.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/exclusive_builds_post.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/default_post.prf \
+		C:/Qt/5.14.2/mingw73_32/mkspecs/features/win32/console.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/testcase.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/warn_on.prf \
-		C:/Qt/5.14.2/mingw73_32/mkspecs/features/win32/console.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/qt.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/resources_functions.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/resources.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/moc.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/testlib_defines.prf \
+		C:/Qt/5.14.2/mingw73_32/mkspecs/features/win32/opengl.prf \
+		C:/Qt/5.14.2/mingw73_32/mkspecs/features/uic.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/qml_debug.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/precompile_header.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/qmake_use.prf \
@@ -265,6 +267,8 @@ Makefile: ../Tests/Tests.pro C:/Qt/5.14.2/mingw73_32/mkspecs/win32-g++/qmake.con
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/yacc.prf \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/lex.prf \
 		../Tests/Tests.pro \
+		C:/Qt/5.14.2/mingw73_32/lib/Qt5Widgets.prl \
+		C:/Qt/5.14.2/mingw73_32/lib/Qt5Gui.prl \
 		C:/Qt/5.14.2/mingw73_32/lib/Qt5Test.prl \
 		C:/Qt/5.14.2/mingw73_32/lib/Qt5Core.prl \
 		C:/Qt/5.14.2/mingw73_32/mkspecs/features/build_pass.prf
@@ -447,14 +451,16 @@ C:/Qt/5.14.2/mingw73_32/mkspecs/features/win32/default_pre.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/resolve_config.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/exclusive_builds_post.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/default_post.prf:
+C:/Qt/5.14.2/mingw73_32/mkspecs/features/win32/console.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/testcase.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/warn_on.prf:
-C:/Qt/5.14.2/mingw73_32/mkspecs/features/win32/console.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/qt.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/resources_functions.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/resources.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/moc.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/testlib_defines.prf:
+C:/Qt/5.14.2/mingw73_32/mkspecs/features/win32/opengl.prf:
+C:/Qt/5.14.2/mingw73_32/mkspecs/features/uic.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/qml_debug.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/precompile_header.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/qmake_use.prf:
@@ -464,6 +470,8 @@ C:/Qt/5.14.2/mingw73_32/mkspecs/features/exceptions.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/yacc.prf:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/lex.prf:
 ../Tests/Tests.pro:
+C:/Qt/5.14.2/mingw73_32/lib/Qt5Widgets.prl:
+C:/Qt/5.14.2/mingw73_32/lib/Qt5Gui.prl:
 C:/Qt/5.14.2/mingw73_32/lib/Qt5Test.prl:
 C:/Qt/5.14.2/mingw73_32/lib/Qt5Core.prl:
 C:/Qt/5.14.2/mingw73_32/mkspecs/features/build_pass.prf:

@@ -34,6 +34,7 @@ GateAnd::~GateAnd()
 
 void GateAnd::UpdateOutput()
 {
+    //Perform AND operation on two input nodes
     const bool sum = m_inputA.GetValue() & m_inputB.GetValue();
 
     //set output node value

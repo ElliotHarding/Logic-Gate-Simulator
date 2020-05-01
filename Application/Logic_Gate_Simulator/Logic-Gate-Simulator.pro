@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++11
+#CONFIG += testlib
 
 INCLUDEPATH += \
     Dialogs \
@@ -45,6 +47,7 @@ SOURCES += \
     GameObjects/gatetrieor.cpp \
     GameObjects/gatexor.cpp \
     GameObjects/textlabel.cpp \
+    Tests/unit_tests.cpp \
     circuitoptimizer.cpp \
         main.cpp \
         gatefield.cpp \
@@ -95,6 +98,7 @@ HEADERS += \
     GameObjects/gatetypes.h \
     GameObjects/gatexor.h \
     GameObjects/textlabel.h \
+    Tests/unit_tests.h \
     circuitoptimizer.h \
         clickmode.h \
         gatereader.h \

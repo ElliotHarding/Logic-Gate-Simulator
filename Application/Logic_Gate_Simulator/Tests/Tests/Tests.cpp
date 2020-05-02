@@ -75,6 +75,31 @@ void Tests::test_notGate()
     QCOMPARE(outputNodes[0]->GetValue(), true);
 }
 
+void Tests::test_eorGate()
+{
+    GateEor eorGate;
+
+    std::vector<Node*> inputNodes;
+    std::vector<Node*> outputNodes;
+    dynamic_cast<Gate*>(&eorGate)->GetDisconnectedInputNodes(inputNodes);
+    dynamic_cast<Gate*>(&eorGate)->GetDisconnectedOutputNodes(outputNodes);
+
+    inputNodes[0]->SetValue(true);
+    inputNodes[1]->SetValue(true);
+    eorGate.UpdateOutput();
+    QCOMPARE(outputNodes[0]->GetValue(), false);
+
+    inputNodes[0]->SetValue(false);
+    inputNodes[1]->SetValue(true);
+    eorGate.UpdateOutput();
+    QCOMPARE(outputNodes[0]->GetValue(), true);
+
+    inputNodes[0]->SetValue(false);
+    inputNodes[1]->SetValue(false);
+    eorGate.UpdateOutput();
+    QCOMPARE(outputNodes[0]->GetValue(), false);
+}
+
 void Tests::test_xorGate()
 {
     GateXor xorGate;
@@ -87,17 +112,17 @@ void Tests::test_xorGate()
     inputNodes[0]->SetValue(true);
     inputNodes[1]->SetValue(true);
     xorGate.UpdateOutput();
-    QCOMPARE(outputNodes[0]->GetValue(), false);
+    QCOMPARE(outputNodes[0]->GetValue(), true);
 
     inputNodes[0]->SetValue(false);
     inputNodes[1]->SetValue(true);
     xorGate.UpdateOutput();
-    QCOMPARE(outputNodes[0]->GetValue(), true);
+    QCOMPARE(outputNodes[0]->GetValue(), false);
 
     inputNodes[0]->SetValue(false);
     inputNodes[1]->SetValue(false);
     xorGate.UpdateOutput();
-    QCOMPARE(outputNodes[0]->GetValue(), false);
+    QCOMPARE(outputNodes[0]->GetValue(), true);
 }
 
 void Tests::test_norGate()

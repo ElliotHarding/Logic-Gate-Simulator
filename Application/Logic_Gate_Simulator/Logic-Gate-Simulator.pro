@@ -48,30 +48,30 @@ SOURCES += \
     GameObjects/gatexor.cpp \
     GameObjects/textlabel.cpp \
     circuitoptimizer.cpp \
-        main.cpp \
-        gatefield.cpp \
-        gatereader.cpp \
-        Dialogs/dlg_gateinfo.cpp \
-        Dialogs/dlg_home.cpp \
-        Dialogs/dlg_savegatecollection.cpp \
-        Dialogs/simpleslider.cpp \
-        Dialogs/widget_advanced.cpp \
-        Dialogs/widget_allgates.cpp \
-        Dialogs/widget_customgates.cpp \
-        Dialogs/widget_inputgates.cpp \
-        Dialogs/widget_standard.cpp \
-        GameObjects/gameobject.cpp \
-        GameObjects/gate.cpp \
-        GameObjects/gateand.cpp \
-        GameObjects/gatecollection.cpp \
-        GameObjects/gateconstantactive.cpp \
-        GameObjects/GateConstantInactive.cpp \
-        GameObjects/gatenot.cpp \
-        GameObjects/gateor.cpp \
-        GameObjects/GateReciever.cpp \
-        GameObjects/GateSingleOutput.cpp \
-        GameObjects/GateTimer.cpp \
-        GameObjects/GateToggle.cpp \
+    main.cpp \
+    gatefield.cpp \
+    gatereader.cpp \
+    Dialogs/dlg_gateinfo.cpp \
+    Dialogs/dlg_home.cpp \
+    Dialogs/dlg_savegatecollection.cpp \
+    Dialogs/simpleslider.cpp \
+    Dialogs/widget_advanced.cpp \
+    Dialogs/widget_allgates.cpp \
+    Dialogs/widget_customgates.cpp \
+    Dialogs/widget_inputgates.cpp \
+    Dialogs/widget_standard.cpp \
+    GameObjects/gameobject.cpp \
+    GameObjects/gate.cpp \
+    GameObjects/gateand.cpp \
+    GameObjects/gatecollection.cpp \
+    GameObjects/gateconstantactive.cpp \
+    GameObjects/GateConstantInactive.cpp \
+    GameObjects/gatenot.cpp \
+    GameObjects/gateor.cpp \
+    GameObjects/GateReciever.cpp \
+    GameObjects/GateSingleOutput.cpp \
+    GameObjects/GateTimer.cpp \
+    GameObjects/GateToggle.cpp \
     Dialogs/dlg_load.cpp \
     GameObjects/gatetriand.cpp \
     Dialogs/movingwidget.cpp \
@@ -98,32 +98,32 @@ HEADERS += \
     GameObjects/gatexor.h \
     GameObjects/textlabel.h \
     circuitoptimizer.h \
-        clickmode.h \
-        gatereader.h \
-        AllGates.h \
-        filelocations.h \
-        gatefield.h \
-        Dialogs/dlg_gateinfo.h \
-        Dialogs/dlg_home.h \
-        Dialogs/dlg_savegatecollection.h \
-        Dialogs/simpleslider.h \
-        Dialogs/widget_advanced.h \
-        Dialogs/widget_allgates.h \
-        Dialogs/widget_customgates.h \
-        Dialogs/widget_inputgates.h \
-        Dialogs/widget_standard.h \
-        GameObjects/gameobject.h \
-        GameObjects/gate.h \
-        GameObjects/gateand.h \
-        GameObjects/gatecollection.h \
-        GameObjects/GateConstantActive.h \
-        GameObjects/GateConstantInactive.h \
-        GameObjects/gatenot.h \
-        GameObjects/gateor.h \
-        GameObjects/GateReciever.h \
-        GameObjects/GateSingleOutput.h \
-        GameObjects/GateTimer.h \
-        GameObjects/GateToggle.h \
+    clickmode.h \
+    gatereader.h \
+    AllGates.h \
+    filelocations.h \
+    gatefield.h \
+    Dialogs/dlg_gateinfo.h \
+    Dialogs/dlg_home.h \
+    Dialogs/dlg_savegatecollection.h \
+    Dialogs/simpleslider.h \
+    Dialogs/widget_advanced.h \
+    Dialogs/widget_allgates.h \
+    Dialogs/widget_customgates.h \
+    Dialogs/widget_inputgates.h \
+    Dialogs/widget_standard.h \
+    GameObjects/gameobject.h \
+    GameObjects/gate.h \
+    GameObjects/gateand.h \
+    GameObjects/gatecollection.h \
+    GameObjects/GateConstantActive.h \
+    GameObjects/GateConstantInactive.h \
+    GameObjects/gatenot.h \
+    GameObjects/gateor.h \
+    GameObjects/GateReciever.h \
+    GameObjects/GateSingleOutput.h \
+    GameObjects/GateTimer.h \
+    GameObjects/GateToggle.h \
     Dialogs/dlg_load.h \
     GameObjects/gatetriand.h \
     Dialogs/movingwidget.h \

@@ -49,9 +49,10 @@ protected:
     GateCollection* m_pParentGateCollection;
     void ProporgateParentAndCheckForNestedGates();
 
-private:
     //Vector of all the gates within collection
     std::vector<Gate*> m_gates;
+
+private:
 
     //Number of pixels from border before gates are seen
     const int c_borderBoxMargin = 40;

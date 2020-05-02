@@ -369,9 +369,90 @@ void Tests::test_circuit()
     QCOMPARE(triAndOutputs[0]->GetValue(), true);
 }
 
+#include "gatereader.h"
 void Tests::test_save_load()
 {
+    //Circuits gates
+    GateToggle toggle1;
+    GateToggle toggle2;
+    GateToggle toggle3;
+    GateNand nand;
+    GateNor nor;
+    GateTriAnd triAnd;
 
+    //Get nodes
+    std::vector<Node*> nandInputs;
+    std::vector<Node*> nandOutputs;
+    std::vector<Node*> norInputs;
+    std::vector<Node*> norOutputs;
+    std::vector<Node*> triAndInputs;
+    std::vector<Node*> triAndOutputs;
+    std::vector<Node*> toggle1Node;
+    std::vector<Node*> toggle2Node;
+    std::vector<Node*> toggle3Node;
+    dynamic_cast<Gate*>(&nand)->GetDisconnectedInputNodes(nandInputs);
+    dynamic_cast<Gate*>(&nand)->GetDisconnectedOutputNodes(nandOutputs);
+    dynamic_cast<Gate*>(&nor)->GetDisconnectedInputNodes(norInputs);
+    dynamic_cast<Gate*>(&nor)->GetDisconnectedOutputNodes(norOutputs);
+    dynamic_cast<Gate*>(&triAnd)->GetDisconnectedInputNodes(triAndInputs);
+    dynamic_cast<Gate*>(&triAnd)->GetDisconnectedOutputNodes(triAndOutputs);
+    dynamic_cast<Gate*>(&toggle1)->GetDisconnectedOutputNodes(toggle1Node);
+    dynamic_cast<Gate*>(&toggle2)->GetDisconnectedOutputNodes(toggle2Node);
+    dynamic_cast<Gate*>(&toggle3)->GetDisconnectedOutputNodes(toggle3Node);
+
+    //Link circuit
+    toggle1Node[0]->LinkNode(nandInputs[0]);
+    toggle1Node[0]->LinkNode(norInputs[0]);
+    toggle2Node[0]->LinkNode(nandInputs[1]);
+    toggle2Node[0]->LinkNode(norInputs[1]);
+
+    nandOutputs[0]->LinkNode(triAndInputs[0]);
+    toggle3Node[0]->LinkNode(triAndInputs[1]);
+    norOutputs[0]->LinkNode(triAndInputs[2]);
+
+    std::vector<Gate*> gates;
+    gates.push_back(&toggle1);
+    gates.push_back(&toggle2);
+    gates.push_back(&toggle3);
+    gates.push_back(&nand);
+    gates.push_back(&nor);
+    gates.push_back(&triAnd);
+
+    if(!QDir("Saves").exists())
+        QDir().mkdir("Saves");
+
+    //Save
+    std::ofstream newGateCollection("Saves/test.CustomGate");
+    if(newGateCollection.is_open())
+    {
+        GateCollection::SaveData(newGateCollection, gates);
+        newGateCollection.close();
+
+        //Load
+        std::ifstream customGateFile("Saves/test.CustomGate");
+        if(customGateFile.is_open())
+        {
+            GateCollection* cg;
+            static GateReader gReader;
+            QCOMPARE(gReader.ReadGateCollection(customGateFile, cg), true);
+
+            std::vector<Gate*> loadedGates = dynamic_cast<Test_GateCollection*>(cg)->GetGates();
+
+            //Test results - (0,0,1 --> 1)
+            dynamic_cast<GateToggle*>(loadedGates[0])->SetPowerState(0);
+            dynamic_cast<GateToggle*>(loadedGates[1])->SetPowerState(0);
+            dynamic_cast<GateToggle*>(loadedGates[2])->SetPowerState(1);
+
+            loadedGates[3]->UpdateOutput();
+            loadedGates[4]->UpdateOutput();
+            loadedGates[5]->UpdateOutput();
+
+            std::vector<Node*> output;
+            loadedGates[5]->GetDisconnectedOutputNodes(output);
+
+            QCOMPARE(output[0]->GetValue(), true);
+        }
+    }
 }
 
 QTEST_APPLESS_MAIN(Tests)

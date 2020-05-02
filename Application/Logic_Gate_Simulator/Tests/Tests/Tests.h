@@ -11,6 +11,16 @@ class Tests : public QObject
 
 public:
 
+    class Test_GateCollection : public GateCollection
+    {
+    public:
+        Test_GateCollection(std::vector<Gate*> gates) : GateCollection(gates) {}
+        std::vector<Gate*> GetGates()
+        {
+            return m_gates;
+        }
+    };
+
 private slots:
     //Gate tests
     void test_andGate();

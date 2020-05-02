@@ -1,15 +1,4 @@
 #include "Tests.h"
-#include "allgates.h"
-
-Tests::Tests()
-{
-
-}
-
-Tests::~Tests()
-{
-
-}
 
 void Tests::test_andGate()
 {

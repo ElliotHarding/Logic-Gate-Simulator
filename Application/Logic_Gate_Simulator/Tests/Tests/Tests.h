@@ -2,14 +2,14 @@
 #define TESTS_H
 
 #include <QtTest>
+#include "dlg_home.h"
+#include "allgates.h"
 
 class Tests : public QObject
 {
     Q_OBJECT
 
 public:
-    Tests();
-    ~Tests();
 
 private slots:
     void test_andGate();

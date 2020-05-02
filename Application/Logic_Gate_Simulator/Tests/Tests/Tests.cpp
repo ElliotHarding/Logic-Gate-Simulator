@@ -102,12 +102,49 @@ void Tests::test_xorGate()
 
 void Tests::test_norGate()
 {
+    GateNor norGate;
 
+    std::vector<Node*> inputNodes;
+    std::vector<Node*> outputNodes;
+    dynamic_cast<Gate*>(&norGate)->GetDisconnectedInputNodes(inputNodes);
+    dynamic_cast<Gate*>(&norGate)->GetDisconnectedOutputNodes(outputNodes);
+
+    inputNodes[0]->SetValue(true);
+    inputNodes[1]->SetValue(true);
+    norGate.UpdateOutput();
+    QCOMPARE(outputNodes[0]->GetValue(), false);
+
+    inputNodes[0]->SetValue(false);
+    inputNodes[1]->SetValue(true);
+    norGate.UpdateOutput();
+    QCOMPARE(outputNodes[0]->GetValue(), false);
+
+    inputNodes[0]->SetValue(false);
+    inputNodes[1]->SetValue(false);
+    norGate.UpdateOutput();
+    QCOMPARE(outputNodes[0]->GetValue(), true);
 }
 
 void Tests::test_nodeLink()
 {
+    GateReciever reciever;
+    GateToggle toggle;
 
+    std::vector<Node*> inputNode;
+    std::vector<Node*> outputNode;
+    dynamic_cast<Gate*>(&reciever)->GetDisconnectedInputNodes(inputNode);
+    dynamic_cast<Gate*>(&toggle)->GetDisconnectedOutputNodes(outputNode);
+
+    inputNode[0]->LinkNode(outputNode[0]);
+
+    toggle.SetPowerState(1);
+    toggle.UpdateOutput();
+    QCOMPARE(outputNode[0]->GetValue(), true);
+
+
+    toggle.SetPowerState(0);
+    toggle.UpdateOutput();
+    QCOMPARE(outputNode[0]->GetValue(), false);
 }
 
 QTEST_APPLESS_MAIN(Tests)

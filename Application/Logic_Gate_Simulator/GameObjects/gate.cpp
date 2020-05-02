@@ -318,7 +318,9 @@ void Node::DetachNode()
 
         if(m_nodeType == OutputNode)
         {
-            n->SetValue(0);
+            //TODO CHECK ~ MIGHT BE NEEDED, BUT TESTING REQUIRED REMOVEVAL
+            //TECHNICALLY UPDATED FUNCITON IS CALLED AFTER THIS...
+            //n->SetValue(0);
         }
 
         n = nullptr;

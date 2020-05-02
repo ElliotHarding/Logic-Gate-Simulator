@@ -16,8 +16,16 @@ GateTriEor::GateTriEor(id inA, id inB, id inC, id out) :
 void GateTriEor::UpdateOutput()
 {
     const bool sum = m_inputA.GetValue() ^ m_inputB.GetValue() ^ m_inputC.GetValue();
-
     m_output.SetValue(sum);
+
+    if (m_inputA.GetValue() & m_inputB.GetValue() & m_inputC.GetValue())
+    {
+
+    }
+    else
+    {
+
+    }
 }
 
 void GateTriEor::SetPosition(int x, int y)

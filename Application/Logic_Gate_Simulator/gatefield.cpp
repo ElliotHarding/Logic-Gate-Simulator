@@ -66,7 +66,10 @@ GateField::~GateField()
         {
             delete g[index];
         }
+        g.clear();
     }
+    m_allGates.clear();
+    m_gateBackups.clear();
     m_lockAllGates.unlock();
 
     delete m_linkNodeA;

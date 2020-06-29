@@ -511,6 +511,12 @@ void DLG_Home::on_btn_load_clicked()
         //Open file
         saveFile = std::ifstream(file.toUtf8());
 
+        if(!file.contains(".GateField"))
+        {
+            m_pDlgMessage->ShowMessage("File not in gatefield format.");
+            continue;
+        }
+
         bool failed = false;
 
         if(saveFile.is_open())

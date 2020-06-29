@@ -11,7 +11,7 @@ GateOr::GateOr(id inA, id inB, id out) :
     m_nodes.push_back(&m_output);
 }
 
-GateOr::GateOr(bool notAndGate, GateType type, const char* iconLocation, id inA, id inB, id out) :
+GateOr::GateOr(bool norGate, GateType type, const char* iconLocation, id inA, id inB, id out) :
     Gate::Gate(type, GateOrWidth, GateOrHeight, iconLocation),
     m_inputA(this, InputNode, inA),
     m_inputB(this, InputNode, inB),

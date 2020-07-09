@@ -1,0 +1,28 @@
+#ifndef GATETYPES_H
+#define GATETYPES_H
+
+enum GateType
+{
+    GATE_AND,
+    GATE_OR,
+    GATE_NOT,
+    GATE_EOR,
+    GATE_EMMITTER,
+    GATE_RECIEVER,
+    GATE_CONST_ACTIVE,
+    GATE_CONST_INACTIVE,
+    GATE_COLLECTION,
+    GATE_TIMER,
+    GATE_TRI_AND,
+    GATE_TRI_OR,
+    GATE_TRI_EOR,
+    GATE_NUMBER_OUT,
+    GATE_FPGA,
+    GATE_TEXT_LABEL,
+    GATE_NAND,
+    GATE_XOR,
+    GATE_NOR,
+    GATE_NULL,
+};
+
+#endif // GATETYPES_H

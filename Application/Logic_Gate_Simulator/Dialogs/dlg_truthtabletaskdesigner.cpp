@@ -26,10 +26,13 @@ DLG_TruthTableTaskDesigner::DLG_TruthTableTaskDesigner(int iInputs, int iOutputs
     m_task.m_outputs = iOutputs;
     m_task.m_bCircuitTask = false;
 
+    int outId = 999;
+    int inId = 111;
+
     int ylen = (486*2)/(m_task.m_inputs+1);
     for (int x = 0; x < iInputs; ++x)
     {
-        GateToggle* newGate = new GateToggle();
+        GateToggle* newGate = new GateToggle(outId++);
         newGate->SetPosition(5, ylen * (x + 1));
         //newGate->SetUserDisabled();
         m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
@@ -39,7 +42,7 @@ DLG_TruthTableTaskDesigner::DLG_TruthTableTaskDesigner(int iInputs, int iOutputs
     ylen = (486*2)/(m_task.m_outputs+1);
     for(int x = 0; x < iOutputs; x++)
     {
-        GateReciever* newGate = new GateReciever();
+        GateReciever* newGate = new GateReciever(inId++);
         newGate->SetPosition(1000, ylen * (x + 1));
         //newGate->SetUserDisabled();
         m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
@@ -61,9 +64,12 @@ DLG_TruthTableTaskDesigner::~DLG_TruthTableTaskDesigner()
 
 void DLG_TruthTableTaskDesigner::onSubmitButton()
 {
-    //Look through existing task files to find new unique filename
     QStringList nameFilter("*.GateField");
     QDir directory(c_tasksLocation);
+    if(!QDir(c_tasksLocation).exists())
+        QDir().mkdir(c_tasksLocation);
+
+    //Look through existing task files to find new unique filename
     QStringList fileList = directory.entryList(nameFilter);
     bool goodFileName = false;
     int fileNameInt = -1;

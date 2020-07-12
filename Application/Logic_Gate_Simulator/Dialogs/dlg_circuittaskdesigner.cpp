@@ -33,9 +33,13 @@ void DLG_CircuitTaskDesigner::on_btn_done_clicked()
 {
     m_newTask.results = m_pTruthTable->GetAnswer();
 
-    //Look through existing task files to find new unique filename
+
     QStringList nameFilter("*.GateField");
     QDir directory(c_tasksLocation);
+    if(!QDir(c_tasksLocation).exists())
+        QDir().mkdir(c_tasksLocation);
+
+    //Look through existing task files to find new unique filename
     QStringList fileList = directory.entryList(nameFilter);
     bool goodFileName = false;
     int fileNameInt = -1;

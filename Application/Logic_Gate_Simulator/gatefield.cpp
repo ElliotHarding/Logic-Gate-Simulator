@@ -4,7 +4,7 @@
 
 #include <QApplication>
 
-GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections, bool bDisableGateBackup) :
+GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections, bool bDisableGateBackup, bool bDisableZoom) :
     QWidget(parent),
     m_pParent(parent),
     m_name(name),
@@ -12,7 +12,8 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     m_zoomFactor(zoomFactor),
     m_pDlgSaveGateCollection(saveGateCollectionDialog),
     m_pTimerThread(new TimerThread(this)),
-    m_bDisableGateCollections(disableGateCollections)
+    m_bDisableGateCollections(disableGateCollections),
+    m_bDisableZoom(bDisableZoom)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -134,6 +135,9 @@ ClickMode GateField::GetCurrentClickMode()
 
 void GateField::SetZoomLevel(qreal zoom, bool zoomCenter)
 {
+    if(m_bDisableZoom)
+        return;
+
     m_zoomFactor = zoom;
 
     //Set m_zoomLocation to geo.center
@@ -572,6 +576,9 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 //Handles mouse scroll for zooming, offsets gates based on mouse position
 void GateField::wheelEvent(QWheelEvent *event)
 {
+    if(m_bDisableZoom)
+        return;
+
     const QPoint scrollPos = QtPointToWorldPoint(event->pos());
     const qreal direction = event->delta() > 0 ? m_zoomScrollSpeed : -m_zoomScrollSpeed;
 

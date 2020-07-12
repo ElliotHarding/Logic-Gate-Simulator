@@ -24,7 +24,7 @@ class GateField : public QWidget
 public:
 
     //Construction
-    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections = false, bool disableGateBackup = false);
+    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections = false, bool disableGateBackup = false, bool disableZoom = false);
      ~GateField() override;
 
     //Gates
@@ -120,6 +120,7 @@ private:
 
     //Zooming
     qreal m_zoomFactor;
+    bool m_bDisableZoom = false;
     QPoint m_centerScreen;
     const qreal m_zoomScrollSpeed = 0.05;
 

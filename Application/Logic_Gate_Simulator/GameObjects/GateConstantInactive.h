@@ -6,7 +6,7 @@
 class GateConstantInactive : public GateSingleOutput
 {
 public:
-    GateConstantInactive(const uint& x, const uint& y, QWidget* pParent = nullptr, const id& out = idGenerator());
+    GateConstantInactive(const uint& x, const uint& y, const id& out = idGenerator());
 
     virtual void UpdateOutput() override;
     virtual Gate* Clone() override;

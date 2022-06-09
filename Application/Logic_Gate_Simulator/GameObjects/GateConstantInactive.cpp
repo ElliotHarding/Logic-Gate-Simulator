@@ -1,9 +1,7 @@
 #include "GateConstantInactive.h"
 
-#include <QWidget>
-
-GateConstantInactive::GateConstantInactive(const uint& x, const uint& y, QWidget* pParent, const id& out) :
-    GateSingleOutput::GateSingleOutput(x, y, GATE_CONST_INACTIVE, out, pParent)
+GateConstantInactive::GateConstantInactive(const uint& x, const uint& y, const id& out) :
+    GateSingleOutput::GateSingleOutput(x, y, GATE_CONST_INACTIVE, out)
 {
 }
 
@@ -14,9 +12,9 @@ void GateConstantInactive::UpdateOutput()
 
 Gate *GateConstantInactive::Clone()
 {
-    GateConstantInactive* clone = new GateConstantInactive(geometry().x(), geometry().y());
+    GateConstantInactive* clone = new GateConstantInactive(m_geometry.x(), m_geometry.y(), m_pOutput->id());
 
-    //Clone nodes //Todo : not really cloning atm..
+    //Clone nodes //Todo : not really cloning node atm..
     clone->m_pOutput = m_pOutput;
 
     return clone;

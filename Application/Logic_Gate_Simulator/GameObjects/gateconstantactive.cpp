@@ -1,7 +1,7 @@
 #include "GateConstantActive.h"
 
-GateConstantActive::GateConstantActive(const uint& x, const uint& y, QWidget* pParent, const id& out) :
-    GateSingleOutput::GateSingleOutput(x, y, GATE_CONST_ACTIVE, out, pParent)
+GateConstantActive::GateConstantActive(const uint& x, const uint& y, const id& out) :
+    GateSingleOutput::GateSingleOutput(x, y, GATE_CONST_ACTIVE, out)
 {
     m_pOutput->setValue(1);
 }
@@ -12,9 +12,9 @@ void GateConstantActive::UpdateOutput()
 
 Gate *GateConstantActive::Clone()
 {
-    GateConstantActive* clone = new GateConstantActive(geometry().x(), geometry().y());
+    GateConstantActive* clone = new GateConstantActive(m_geometry.x(), m_geometry.y(), m_pOutput->id());
 
-    //Clone nodes
+    //Clone nodes - //Todo : not actually cloning at the moment... just making another pointer
     clone->m_pOutput = m_pOutput;
 
     return clone;

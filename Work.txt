@@ -6,3 +6,5 @@ on the gameobject click
 check with gameobject:: SetUserDisabled for clicking stuff
 
 is updateoutput needed?
+
+todo put detach nodes in ~Gate()

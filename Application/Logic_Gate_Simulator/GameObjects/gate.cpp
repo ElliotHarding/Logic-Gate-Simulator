@@ -55,11 +55,6 @@ void Gate::AssignNewNodeIds()
     }
 }
 
-bool Gate::DeleteClick(int clickX, int clickY)
-{
-    return UpdateClicked(clickX, clickY);
-}
-
 void Gate::SetParent(GateField* gf)
 {
     m_pParentField = gf;
@@ -125,8 +120,8 @@ void Gate::SaveGeneralData(std::ofstream &storage)
     storage << SAVE_TAG_GATE
             with std::to_string(m_type)
             with std::to_string(Enabled)
-            with std::to_string(GetPosition().x())
-            with std::to_string(GetPosition().y())
+            with std::to_string(geometry().x())
+            with std::to_string(geometry().y())
             << std::endl;
 }
 
@@ -143,7 +138,7 @@ void Gate::DetachNodes()
 //
 
 Node::Node(Gate *parent, NodeType type, int id) :
-    GameObject::GameObject(15,15),
+    GameObject::GameObject(parent, 15, 15),
     m_bValue(0),
     m_parent(parent),
     m_id(id),
@@ -198,38 +193,6 @@ Gate* Node::GetParent()
     return m_parent;
 }
 
-void Node::UpdateGraphics(QPainter* painter)
-{
-    //if linked draw line between node and linked nodes
-    if(m_nodeType == OutputNode)
-    {
-        painter->setPen(QPen(Qt::black, 1));
-
-        for (Node* n : m_linkedNodes)
-        {
-            //Find longest delta (x or y)
-            const QPoint n1 = GetPosition();
-            const QPoint n2 = n->GetPosition();
-            QPoint midpoint;
-
-            //Check X is longest delta
-            if(abs(n1.x() - n2.x()) > abs(n1.y() - n2.y()))
-                midpoint = QPoint(n1.x(), n2.y());
-
-            else //Y is longest delta
-                midpoint = QPoint(n2.x(), n1.y());
-
-            painter->drawLine(n1, midpoint);
-            painter->drawLine(n2, midpoint);
-        }
-    }
-
-    //Draw node
-    painter->setPen(QPen(Qt::black,5));
-    QPoint position(GetPosition());
-    painter->drawEllipse(position,5,5);
-}
-
 void Node::SaveData(std::ofstream &storage)
 {
     std::string linkedNodeIds = GetLinkedNodesIds();
@@ -251,6 +214,52 @@ bool Node::IsLinked()
     return m_linked;
 }
 
+void Node::paintEvent(QPaintEvent*)
+{
+    QPainter painter(this);
+
+    const QPoint localCenter = QPoint(geometry().width()/2, geometry().height()/2);
+
+    //if linked draw line between node and linked nodes
+    if(m_nodeType == OutputNode && !m_linkedNodes.empty())
+    {
+        painter.setPen(QPen(Qt::black, 1));
+
+        for (Node* n : m_linkedNodes)
+        {
+            //Find longest delta (x or y)
+            const QPoint n1 = localCenter;
+            const QPoint n2 = geometry().center() - n->geometry().center();
+
+            QPoint midpoint;
+
+            //Check X is longest delta
+            if(abs(n1.x() - n2.x()) > abs(n1.y() - n2.y()))
+                midpoint = QPoint(n1.x(), n2.y());
+
+            else //Y is longest delta
+                midpoint = QPoint(n2.x(), n1.y());
+
+            painter.drawLine(n1, midpoint);
+            painter.drawLine(n2, midpoint);
+        }
+    }
+
+    //Draw node
+    painter.setPen(QPen(Qt::black,5));
+    painter.drawEllipse(localCenter, 5, 5);
+}
+
+void Node::mousePressEvent(QMouseEvent*)
+{
+    emit onClicked(this);
+}
+
+void Node::mouseReleaseEvent(QMouseEvent*)
+{
+    emit onReleased(this);
+}
+
 std::string Node::GetLinkedNodesIds()
 {
     if(m_linkedNodes.size() == 0)
@@ -265,6 +274,7 @@ std::string Node::GetLinkedNodesIds()
     return ids;
 }
 
+//Todo : why *&
 bool Node::LinkNode(Node*& n)
 {
     //Check if already linked
@@ -278,7 +288,7 @@ bool Node::LinkNode(Node*& n)
 
     m_linked = true;
     m_linkedNodes.push_back(n);
-    m_parent->UpdateOutput();
+    m_parent->UpdateOutput();//Todo : check if only when input node is needed
 
     return true;
 }

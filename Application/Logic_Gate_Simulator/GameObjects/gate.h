@@ -35,7 +35,6 @@ public:
     //Generic functions   
     virtual void UpdateOutput() = 0;
     virtual void SaveData(std::ofstream& storage);
-    virtual bool DeleteClick(int clickX, int clickY);
 
     //Node functions
     virtual bool FindNodeWithId(const id& id, Node*& node);
@@ -45,12 +44,6 @@ public:
     virtual bool HasConnectedOutputNodes();
     void GetDisconnectedInputNodes(std::vector<Node*>&);
     void GetDisconnectedOutputNodes(std::vector<Node*>&);
-
-    //Geometry
-    virtual int Left(){return m_layout.left();}
-    virtual int Right(){return m_layout.right();}
-    virtual int Top(){return m_layout.top();}
-    virtual int Bottom(){return m_layout.bottom();}
 
     //Hierarchy
     virtual void SetParent(GateField* gf);
@@ -88,9 +81,7 @@ public:
     void DetachNode();
 
     //returns Gate that node is attached to
-    Gate* GetParent();
-
-    virtual void UpdateGraphics(QPainter* painter) override;
+    Gate* GetParent();//Todo : might be able to delete this when linking reworked
 
     void SaveData(std::ofstream& storage);
 
@@ -100,6 +91,15 @@ public:
 
     int m_id;
     NodeType m_nodeType = InputNode;
+
+signals:
+    void onClicked(Node* pNode);
+    void onReleased(Node* pNode);
+
+protected:
+    void paintEvent(QPaintEvent* paintEvent) override;
+    void mousePressEvent(QMouseEvent* mouseEvent) override;
+    void mouseReleaseEvent(QMouseEvent* mouseEvent) override;
 
 private:
     std::vector<Node*> m_linkedNodes;

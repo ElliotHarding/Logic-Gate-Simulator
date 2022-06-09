@@ -7,8 +7,10 @@
 /*
     Toggles input on/off
  */
-class GateTimer : public GateSingleOutput
+class GateTimer : public GateSingleOutput, public QObject
 {
+    Q_OBJECT
+
 public:
     GateTimer(id out = idGenerator());
 
@@ -17,17 +19,17 @@ public:
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual Gate* Clone() override;
 
-    bool CheckTimer();
-
-    void setFrequency(int frequency) {m_frequency = frequency;}
+    void setFrequency(int frequency);
     int getFrequency() {return m_frequency;}
+
+private slots:
+    void onTick();
 
 protected:
 
     //Toggle functionality
     int m_frequency = 500;
-    int m_remaningTime;
 
-    const QFont m_font;
+    QTimer* m_pTimer = nullptr;
 };
 #endif // GATETIMER_H

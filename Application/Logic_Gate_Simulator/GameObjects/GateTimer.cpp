@@ -8,12 +8,20 @@
 #include "GateTimer.h"
 #include "gatefield.h"
 
+namespace Settings
+{
+const QFont TimerFont = QFont("Helvetica", 5);
+}
+
 GateTimer::GateTimer(id out) :
-    GateSingleOutput::GateSingleOutput(GATE_TIMER, out),
-    m_font("Helvetica", 5),
-    m_remaningTime(m_frequency)
+    GateSingleOutput::GateSingleOutput(GATE_TIMER, out)
 {
     m_output.SetValue(0);
+
+    m_pTimer = new QTimer();
+    m_pTimer->setTimerType(Qt::PreciseTimer);
+    QObject::connect(m_pTimer, SIGNAL(timeout()), this, SLOT(onTick()));
+    m_pTimer->start(m_frequency);
 }
 
 void GateTimer::UpdateOutput()
@@ -41,7 +49,7 @@ void GateTimer::UpdateGraphics(QPainter *painter)
     const QPoint pos = GetPosition();
     const std::string frequency = std::to_string(m_frequency) + "Mhz";
 
-    painter->setFont(m_font);
+    painter->setFont(Settings::TimerFont);
     painter->drawText(pos.x() - GateSingleOutputWidth/3, pos.y() - (GateSingleOutputHeight/4), QString::fromStdString(frequency));
 }
 
@@ -61,15 +69,15 @@ Gate *GateTimer::Clone()
     return clone;
 }
 
-bool GateTimer::CheckTimer()
+void GateTimer::setFrequency(int frequency)
 {
-    //If timer timed out, reset & switch output
-    if(m_remaningTime-- < 1)
-    {
-        m_remaningTime = m_frequency;
-        m_output.SetValue(!m_output.GetValue());
-        return true;
-    }
-    return false;
+    m_frequency = frequency;
+    m_pTimer->stop();
+    m_pTimer->start(m_frequency);
+}
+
+void GateTimer::onTick()
+{
+    m_output.SetValue(!m_output.GetValue());
 }
 

@@ -5,7 +5,6 @@ namespace Settings
 ///Dimensions
 const uint GateRecieverWidth = 24;
 const uint GateRecieverHeight = 24;
-const QRect DrawLayout(0, 0, GateRecieverWidth, GateRecieverHeight);
 
 ///Node positions
 const uint NodeOffsetX = GateRecieverWidth/2;
@@ -38,25 +37,23 @@ Gate* GateReciever::Clone()
     return clone;
 }
 
-void GateReciever::paintEvent(QPaintEvent*)
+void GateReciever::draw(QPainter& painter)
 {
-    QPainter painter(this);
-
     //Draw center
     //Fill with red if active
     if(m_pInput->value())
     {
         painter.setPen(QPen(Settings::ActiveColor, Settings::GateRecieverWidth));
-        painter.drawEllipse(Settings::DrawLayout);
+        painter.drawEllipse(m_geometry);
     }
     else
     {
         painter.setPen(QPen(Settings::UnActiveColor, Settings::GateRecieverWidth));
-        painter.drawEllipse(Settings::DrawLayout);
+        painter.drawEllipse(m_geometry);
     }
 
     //Draw border
     painter.setPen(QPen(Qt::lightGray, Settings::BorderSize));
-    painter.drawEllipse(Settings::DrawLayout.center(), Settings::GateRecieverWidth, Settings::GateRecieverHeight);
+    painter.drawEllipse(m_geometry.center(), Settings::GateRecieverWidth, Settings::GateRecieverHeight);
 }
 

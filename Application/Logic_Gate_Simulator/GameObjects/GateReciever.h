@@ -13,12 +13,10 @@ public:
 
     virtual void UpdateOutput() override;
     virtual Gate* Clone() override;
+    virtual void draw(QPainter& painter) override;
 
     //Todo : check needed
     bool GetValue(){return m_pInput->value();}
-
-protected:
-    void paintEvent(QPaintEvent* paintEvent) override;
 
 private:
     Node* m_pInput;

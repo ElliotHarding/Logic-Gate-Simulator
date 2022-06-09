@@ -29,7 +29,7 @@ void GateReciever::UpdateOutput()
 {
 }
 
-Gate *GateReciever::Clone()
+Gate* GateReciever::Clone()
 {
     GateReciever* clone = new GateReciever(geometry().x(), geometry().y());
 

@@ -71,32 +71,6 @@ GateField *Gate::GetParent()
     return m_pParentField;
 }
 
-bool Gate::HasConnectedInputNodes()
-{
-    for (Node* n : m_nodes)
-    {
-        if (n->m_nodeType == NodeType::InputNode && n->IsLinked())
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool Gate::HasConnectedOutputNodes()
-{
-    for (Node* n : m_nodes)
-    {
-        if (n->m_nodeType == NodeType::OutputNode && n->IsLinked())
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 void Gate::GetDisconnectedInputNodes(std::vector<Node*>& nodes)
 {
     for (Node* n : m_nodes)
@@ -150,6 +124,11 @@ Node::Node(Gate* pParent, const uint& x, const uint& y, const NodeType& type, in
     m_id(nodeId),
     m_nodeType(type)
 {
+}
+
+Node& Node::operator=(const Node &otherNode)
+{
+    Node newNode = Node();
 }
 
 Node::~Node()
@@ -210,14 +189,19 @@ void Node::SaveData(std::ofstream &storage)
             << std::endl;
 }
 
-void Node::GenNewID()
+void Node::genNewID()
 {
     m_id = idGenerator();
 }
 
-bool Node::IsLinked()
+NodeType Node::type() const
 {
-    return m_linked;
+    return m_nodeType;
+}
+
+uint Node::id() const
+{
+    return m_id;
 }
 
 void Node::paintEvent(QPaintEvent*)

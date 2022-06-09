@@ -40,8 +40,6 @@ public:
     virtual bool FindNodeWithId(const id& id, Node*& node);
     virtual void AssignNewNodeIds();
     void DetachNodes();
-    virtual bool HasConnectedInputNodes();
-    virtual bool HasConnectedOutputNodes();
     void GetDisconnectedInputNodes(std::vector<Node*>&);
     void GetDisconnectedOutputNodes(std::vector<Node*>&);
 
@@ -70,27 +68,29 @@ enum NodeType
 class Node : public GameObject
 {
 public:
+    ///Construction/destruction
     Node(Gate* pParent, const uint& x, const uint& y, const NodeType& type, int nodeId = idGenerator());
+    Node& operator=(const Node& otherNode);
     ~Node();
 
+    ///Value
     void SetValue(bool val);
     bool GetValue();
 
-    //Linked nodes
+    ///Linked nodes
     bool LinkNode(Node*& n);
     void DetachNode();
 
-    //returns Gate that node is attached to
+    ///Id
+    void genNewID();
+    uint id() const;
+
+    ///Type
+    NodeType type() const;
+
     Gate* GetParent();//Todo : might be able to delete this when linking reworked
 
     void SaveData(std::ofstream& storage);
-
-    void GenNewID();
-
-    bool IsLinked();
-
-    int m_id;
-    NodeType m_nodeType = InputNode;
 
 signals:
     void onClicked(Node* pNode);
@@ -102,15 +102,19 @@ protected:
     void mouseReleaseEvent(QMouseEvent* mouseEvent) override;
 
 private:
+    ///Linked properties
     std::vector<Node*> m_linkedNodes;
-    Gate* m_parent = nullptr;
-
+    bool m_linked = false;
     std::string GetLinkedNodesIds();
+
+    Gate* m_parent = nullptr;    
 
     //Stored value
     bool m_bValue;
 
-    bool m_linked = false;
+    int m_id;
+
+    NodeType m_nodeType = InputNode;
 };
 
 

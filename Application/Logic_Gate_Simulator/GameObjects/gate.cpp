@@ -5,6 +5,8 @@ namespace Settings
 {
 const uint NodeWidth = 15;
 const uint NodeHeight = 15;
+const uint NodeDrawSize = 5;
+const QPoint LocalNodeCenter(NodeWidth/2, NodeHeight/2);
 }
 
 #define with << std::endl <<
@@ -193,8 +195,6 @@ void Node::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
-    const QPoint localCenter = QPoint(geometry().width()/2, geometry().height()/2);
-
     //if linked draw line between node and linked nodes
     if(m_nodeType == OutputNode && !m_linkedNodes.empty())
     {
@@ -203,7 +203,7 @@ void Node::paintEvent(QPaintEvent*)
         for (Node* n : m_linkedNodes)
         {
             //Find longest delta (x or y)
-            const QPoint n1 = localCenter;
+            const QPoint n1 = Settings::LocalNodeCenter;
             const QPoint n2 = geometry().center() - n->geometry().center();
 
             QPoint midpoint;
@@ -221,8 +221,8 @@ void Node::paintEvent(QPaintEvent*)
     }
 
     //Draw node
-    painter.setPen(QPen(Qt::black,5));
-    painter.drawEllipse(localCenter, 5, 5);
+    painter.setPen(QPen(Qt::black, Settings::NodeDrawSize));
+    painter.drawEllipse(Settings::LocalNodeCenter, Settings::NodeDrawSize, Settings::NodeDrawSize);
 }
 
 void Node::mousePressEvent(QMouseEvent*)

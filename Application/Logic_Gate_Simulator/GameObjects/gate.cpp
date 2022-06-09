@@ -19,9 +19,11 @@ Gate::Gate(QWidget* pParent, GateType type, const uint& x, const uint& y, const 
 
 Gate::~Gate()
 {
+    DetachNodes();
+
     for (size_t index = 0; index < m_nodes.size(); index++)
     {
-        m_nodes[index] = nullptr;
+        delete m_nodes[index];
     }
     m_nodes.clear();
 

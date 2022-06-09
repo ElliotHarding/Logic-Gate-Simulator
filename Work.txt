@@ -9,6 +9,8 @@ is updateoutput needed?
 
 todo put detach nodes in ~Gate()
 
+GateReciever(const uint& x, const uint& y, QWidget* pParent = nullptr, id out = idGenerator());
+
 protected:
     void paintEvent(QPaintEvent* paintEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;

@@ -2,7 +2,6 @@
 #define DLG_GATEINFO_H
 
 #include <QWidget>
-#include <QMutex>
 
 //Forward declerations
 namespace Ui {

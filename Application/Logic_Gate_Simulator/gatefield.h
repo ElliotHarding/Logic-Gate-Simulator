@@ -6,6 +6,8 @@
 #include <QDragMoveEvent>
 #include <QRubberBand>
 #include <QMainWindow>
+#include <QMutex>
+#include <QThread>
 
 #include "clickmode.h"
 #include "gate.h"
@@ -146,7 +148,6 @@ private:
     const int SPAWN_Y = 300;
 };
 
-#include <QThread>
 class TimerThread : public QThread
 {
 public:

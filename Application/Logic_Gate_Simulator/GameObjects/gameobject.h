@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QImage>
 #include <QPainter>
-#include <QMutex>
 
 class GameObject
 {

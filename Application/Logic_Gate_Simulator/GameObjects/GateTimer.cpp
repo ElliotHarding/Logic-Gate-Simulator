@@ -24,6 +24,14 @@ GateTimer::GateTimer(id out) :
     m_pTimer->start(m_frequency);
 }
 
+GateTimer::~GateTimer()
+{
+    m_pTimer->stop();
+    delete m_pTimer;
+
+    GateSingleOutput::~GateSingleOutput();
+}
+
 void GateTimer::UpdateOutput()
 {
     //None, check CheckTimer functionality (Called by parent gatefield)

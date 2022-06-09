@@ -17,7 +17,6 @@
 
 class DLG_SaveGateCollection;
 class DLG_Home;
-class TimerThread;
 class TextLabel;
 
 class GateField : public QWidget
@@ -91,8 +90,6 @@ private:
 
     void rl_updateFunction();
 
-    TimerThread* m_pTimerThread;
-
     DLG_Home* m_pParent;
 
     //DLG_Task settings
@@ -146,18 +143,6 @@ private:
     //Coords of newly spawned gate
     const int SPAWN_X = 300;
     const int SPAWN_Y = 300;
-};
-
-class TimerThread : public QThread
-{
-public:
-    TimerThread(GateField* parent);
-
-    void InitStop();
-    void run();
-private:
-    GateField* m_pGateField;
-    bool m_bStop;
 };
 
 #endif // GATEFIELD_H

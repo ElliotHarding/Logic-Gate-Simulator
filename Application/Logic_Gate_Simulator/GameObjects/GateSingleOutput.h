@@ -3,27 +3,20 @@
 
 #include "gate.h"
 
-#define GateSingleOutputWidth 34
-#define GateSingleOutputHeight 34
-#define BorderWidth 7
-
 /*
     Inherited by gates with single output
 */
 class GateSingleOutput : public Gate
 {
 public:
-    GateSingleOutput(GateType type, id nodeId);
+    GateSingleOutput(const uint& x, const uint& y, const GateType& type, const id& nodeId, QWidget* pParent = nullptr);
 
     virtual void UpdateOutput() override = 0;
-    virtual void UpdateGraphics(QPainter* painter) override;
-    virtual void SetPosition(int x, int y) override;
 
 protected:
+    void paintEvent(QPaintEvent* paintEvent) override;
 
-    const int NODE_OFFSET_X = GateSingleOutputWidth/2;
-    const int NODE_OFFSET_Y = GateSingleOutputHeight/2;
-    Node m_output;
+    Node* m_pOutput;
 };
 
 #endif // GATESINGLEOUTPUT_H

@@ -1,36 +1,41 @@
 #include "GateSingleOutput.h"
 
-GateSingleOutput::GateSingleOutput(GateType type, id nodeId) :
-    Gate::Gate(type, GateSingleOutputWidth, GateSingleOutputHeight),
-    m_output(this, OutputNode, nodeId)
+namespace Settings
 {
-    m_nodes.push_back(&m_output);
+///Dimensions
+const uint GateSingleOutputWidth = 34;
+const uint GateSingleOutputHeight = 34;
+
+///Node positions
+const uint NodeOffsetX = GateSingleOutputWidth/2;
+const uint NodeOffsetY = GateSingleOutputHeight/2;
+
+///Graphics
+const uint BorderSize = 7;
+const uint ButtonsSize = 20;
+const uint GateSize = 10;
+const QRect DrawLayoutIn(BorderSize, BorderSize, GateSingleOutputWidth-BorderSize*2, GateSingleOutputHeight-BorderSize*2);
+const QRect DrawLayout(0, 0, GateSingleOutputWidth, GateSingleOutputHeight);
+const QColor ActiveColor = Qt::red;
+const QColor InActiveColor = Qt::lightGray;
 }
 
-void GateSingleOutput::UpdateGraphics(QPainter *painter)
+GateSingleOutput::GateSingleOutput(const uint& x, const uint& y, const GateType& type, const id& nodeId, QWidget* pParent) :
+    Gate::Gate(pParent, type, x, y, Settings::GateSingleOutputWidth, Settings::GateSingleOutputHeight),
+    m_pOutput(new Node(this, Settings::NodeOffsetX, Settings::NodeOffsetY, OutputNode, nodeId))
 {
+    m_nodes.push_back(m_pOutput);
+}
+
+void GateSingleOutput::paintEvent(QPaintEvent*)
+{
+    QPainter painter(this);
+
     //Draw gate
-    painter->setPen(QPen(Qt::lightGray, 10));
-    painter->drawRect(m_layout);
+    painter.setPen(QPen(Qt::lightGray, Settings::GateSize));
+    painter.drawRect(Settings::DrawLayoutIn);
 
     //Draw active/inactive buttons
-    QRect activeRect = m_layout;
-    activeRect.setLeft(activeRect.left() + BorderWidth);
-    activeRect.setRight(activeRect.right() - BorderWidth);
-    activeRect.setTop(activeRect.top() + BorderWidth);
-    activeRect.setBottom(activeRect.bottom() - BorderWidth);
-
-    painter->setPen(QPen(m_output.GetValue() ? Qt::red : Qt::lightGray, 20));
-    painter->drawRect(activeRect);
-
-    //Draw nodes
-    m_output.UpdateGraphics(painter);
-
-}
-
-void GateSingleOutput::SetPosition(int x, int y)
-{
-    GameObject::SetPosition(x,y);
-
-    m_output.SetPosition(m_layout.x() + NODE_OFFSET_X, m_layout.y() + NODE_OFFSET_Y);
+    painter.setPen(QPen(m_pOutput->value() ? Settings::ActiveColor : Settings::InActiveColor, Settings::ButtonsSize));
+    painter.drawRect(Settings::DrawLayout);
 }

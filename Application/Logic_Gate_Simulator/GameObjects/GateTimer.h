@@ -7,7 +7,7 @@
 /*
     Toggles input on/off
  */
-class GateTimer : public GateSingleOutput, public QObject
+class GateTimer : public QObject, public GateSingleOutput
 {
     Q_OBJECT
 

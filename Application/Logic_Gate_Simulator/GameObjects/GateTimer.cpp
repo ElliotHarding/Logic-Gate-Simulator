@@ -28,8 +28,6 @@ GateTimer::~GateTimer()
 {
     m_pTimer->stop();
     delete m_pTimer;
-
-    GateSingleOutput::~GateSingleOutput();
 }
 
 void GateTimer::UpdateOutput()

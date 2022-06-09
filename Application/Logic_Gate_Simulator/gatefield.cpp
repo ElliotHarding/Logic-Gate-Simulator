@@ -11,7 +11,6 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     m_bDisableGateBackup(bDisableGateBackup),
     m_zoomFactor(zoomFactor),
     m_pDlgSaveGateCollection(saveGateCollectionDialog),
-    m_pTimerThread(new TimerThread(this)),
     m_bDisableGateCollections(disableGateCollections),
     m_bDisableZoom(bDisableZoom)
 {
@@ -35,21 +34,11 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
 
     const QRect geo = geometry();
     m_centerScreen = geo.center();
-
-    m_pTimerThread->start();
 }
 
 GateField::~GateField()
 {
     Enabled = false;
-
-    m_pTimerThread->InitStop();
-
-    //VERY VERY VERY VERY VERY BAD
-    QThread::msleep(10);
-
-    m_pTimerThread->quit();
-    delete m_pTimerThread;
 
     //Belongs to parent DLG_Home
     m_pDlgSaveGateCollection = nullptr;

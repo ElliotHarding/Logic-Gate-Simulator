@@ -21,7 +21,6 @@ GateReciever::GateReciever(const uint& x, const uint& y, QWidget* pParent, id in
     Gate::Gate(pParent, GateType::GATE_RECIEVER, x, y, Settings::GateRecieverWidth, Settings::GateRecieverHeight),
     m_pInput(new Node(this, Settings::NodeOffsetX, Settings::NodeOffsetY, InputNode, inputNode))
 {
-    m_pInput->setValue(0);
     m_nodes.push_back(m_pInput);
 }
 

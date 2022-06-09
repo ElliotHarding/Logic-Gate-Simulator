@@ -1,30 +1,21 @@
 #include "GateConstantActive.h"
 
-GateConstantActive::GateConstantActive(id out) :
-    GateSingleOutput::GateSingleOutput(GATE_CONST_ACTIVE, out)
+GateConstantActive::GateConstantActive(const uint& x, const uint& y, QWidget* pParent, const id& out) :
+    GateSingleOutput::GateSingleOutput(x, y, GATE_CONST_ACTIVE, out, pParent)
 {
-    m_output.SetValue(1);
+    m_pOutput->setValue(1);
 }
-
-GateConstantActive::~GateConstantActive()
-{
-}
-
 void GateConstantActive::UpdateOutput()
 {
-    m_output.SetValue(1);
+    m_pOutput->setValue(1);
 }
 
 Gate *GateConstantActive::Clone()
 {
-    GateConstantActive* clone = new GateConstantActive();
-
-    //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    GateConstantActive* clone = new GateConstantActive(geometry().x(), geometry().y());
 
     //Clone nodes
-    clone->m_output = m_output;
+    clone->m_pOutput = m_pOutput;
 
     return clone;
 }

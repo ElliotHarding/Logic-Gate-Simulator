@@ -1,3 +1,5 @@
+BIG TODO: cloning nodes needs to be managed in terms of linking. Also clearing backups without deleting is wasting memory.
+
 check finishWithGates
 
 somehow update UpdateGateSelected(

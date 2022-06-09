@@ -17,8 +17,8 @@ const QColor UnActiveColor = Qt::white;
 const uint BorderSize = 3;
 }
 
-GateReciever::GateReciever(const uint& x, const uint& y, QWidget* pParent, id inputNode) :
-    Gate::Gate(pParent, GateType::GATE_RECIEVER, x, y, Settings::GateRecieverWidth, Settings::GateRecieverHeight),
+GateReciever::GateReciever(const uint& x, const uint& y, const id& inputNode) :
+    Gate::Gate(GateType::GATE_RECIEVER, x, y, Settings::GateRecieverWidth, Settings::GateRecieverHeight),
     m_pInput(new Node(this, Settings::NodeOffsetX, Settings::NodeOffsetY, InputNode, inputNode))
 {
     m_nodes.push_back(m_pInput);
@@ -30,9 +30,9 @@ void GateReciever::UpdateOutput()
 
 Gate* GateReciever::Clone()
 {
-    GateReciever* clone = new GateReciever(geometry().x(), geometry().y());
+    GateReciever* clone = new GateReciever(m_geometry.x(), m_geometry.y(), m_pInput->id());
 
-    //Clone nodes
+    //Clone nodes //Todo : not actaully cloning atm...
     clone->m_pInput = m_pInput;
 
     return clone;

@@ -1,30 +1,23 @@
 #include "GateConstantInactive.h"
 
-GateConstantInactive::GateConstantInactive(id out) :
-    GateSingleOutput::GateSingleOutput(GATE_CONST_INACTIVE, out)
-{
-    m_output.SetValue(0);
-}
+#include <QWidget>
 
-GateConstantInactive::~GateConstantInactive()
+GateConstantInactive::GateConstantInactive(const uint& x, const uint& y, QWidget* pParent, const id& out) :
+    GateSingleOutput::GateSingleOutput(x, y, GATE_CONST_INACTIVE, out, pParent)
 {
 }
 
 void GateConstantInactive::UpdateOutput()
 {
-    m_output.SetValue(0);
+    m_pOutput->setValue(0);
 }
 
 Gate *GateConstantInactive::Clone()
 {
-    GateConstantInactive* clone = new GateConstantInactive();
+    GateConstantInactive* clone = new GateConstantInactive(geometry().x(), geometry().y());
 
-    //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
-
-    //Clone nodes
-    clone->m_output = m_output;
+    //Clone nodes //Todo : not really cloning atm..
+    clone->m_pOutput = m_pOutput;
 
     return clone;
 }

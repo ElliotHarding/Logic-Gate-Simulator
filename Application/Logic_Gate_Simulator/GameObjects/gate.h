@@ -104,7 +104,6 @@ protected:
 private:
     ///Linked properties
     std::vector<Node*> m_linkedNodes;
-    bool m_linked = false;
     std::string GetLinkedNodesIds();
 
     Gate* m_pParent = nullptr;

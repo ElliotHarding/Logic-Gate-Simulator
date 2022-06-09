@@ -261,7 +261,6 @@ bool Node::LinkNode(Node*& n)
         }
     }
 
-    m_linked = true;
     m_linkedNodes.push_back(n);
     m_pParent->UpdateOutput();//Todo : check if only when input node is needed
 
@@ -297,5 +296,4 @@ void Node::DetachNode()
         n = nullptr;
     }
     m_linkedNodes.clear();
-    m_linked = false;
 }

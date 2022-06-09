@@ -13,10 +13,10 @@
 #include "GateTimer.h"
 #include "gatecollection.h"
 
-
 class DLG_SaveGateCollection;
 class DLG_Home;
 class TimerThread;
+class TextLabel;
 
 class GateField : public QWidget
 {
@@ -24,54 +24,80 @@ class GateField : public QWidget
 public:
 
     //Construction
-    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog);
+    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections = false, bool disableGateBackup = false, bool disableZoom = false);
      ~GateField() override;
-    void AddGate(Gate* go, bool newlySpawned = true);
+
+    //Gates
+    void AddGate(Gate* go, bool newlySpawned = true, bool cameFromGateColleciton = false);
     void DeleteGate(Gate* g);
-    void setCurrentClickMode(ClickMode clickMode);
-    ClickMode GetCurrentClickMode();
+    void ForgetChild(Gate* g);
+
+    //Saving
     bool SaveGateCollection(std::ofstream& saveStream);
-    void setZoomLevel(qreal zoom);
+    void StartSaveGateCollection(std::vector<Gate*> selectedGates);
     bool SaveData();
+    void SaveData(std::ofstream& saveFile);
+
+    //Actions
     void Undo();
     void Redo();
+    void SetZoomLevel(qreal zoom, bool zoomCenter = true);
 
+    //Called if don't want the next gate to be clicked to be set as the selected gate
+    void SkipNextGateSelectedCall(bool stopDragging = false);
+    void StopDragging();
+
+    //DLG_Home stuff
+    void EditTextLabel(TextLabel *textLabelToEdit);
+    void UpdateGateSelected(Gate* g);
+
+    //Timer thread mutex bypass for m_allGates
     std::vector<Gate*>& GetGates();
-    void FinishWithGates();
+    void FinishWithGates();    
 
+    //Public vars
     bool Enabled = true;
+    ClickMode CurrentClickMode;
+    ClickMode GetCurrentClickMode();
 
 signals:
 public slots:
 protected:
 private:
 
-    //Mouse event handlers
-    void linkNodesClick(int clickX, int clickY);
-    void deleteClick(int clickX, int clickY);
-    void dragClick(int clickX, int clickY);
-    void deleteLinkedNodesClick(int clickX, int clickY);
-    void defaultClick(int clickX, int clickY);
-    void selectionClick(int clickX, int clickY);
-    void panClick(int clickX, int clickY);
+    //Functions with rl_ require m_lockAllGates to be locked
 
-    //Events
+    //Mouse event delegates
+    QPoint QtPointToWorldPoint(QPoint mousePoint) const;
+    void rl_leftMouseClick(int clickX, int clickY);
+
+    //Click actions
+    bool rl_linkNodesClick(int clickX, int clickY);
+    void rl_deleteClick(int clickX, int clickY);
+    bool rl_dragClick(int clickX, int clickY);
+    void rl_deleteLinkedNodesClick(int clickX, int clickY);
+    bool rl_defaultClick(int clickX, int clickY);
+    void rl_selectionClick(int clickX, int clickY);
+    void rl_panClick(int clickX, int clickY);
+
+    //Qt Events
     void mouseReleaseEvent(QMouseEvent *releaseEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* paintEvent) override;
+    void wheelEvent(QWheelEvent *event) override;
 
-    void leftMouseClick(int clickX, int clickY);
-    void rightMouseClick(int clickX, int clickY);
-    void middleMouseClick(int clickX, int clickY);
-
-    void updateFunction();
+    void rl_updateFunction();
 
     TimerThread* m_pTimerThread;
 
-    //Communication with parent dialog (DLG_Home instance)
     DLG_Home* m_pParent;
-    void updateGateSelected(Gate* g);
+
+    //DLG_Task settings
+    bool m_bDisableGateCollections;
+
+    //Causes next UpdateGateSelected call to not do anything
+    bool m_bSkipUpdateGateSelected = false;
 
     //Saving
     std::string m_name = "Unknown";
@@ -79,12 +105,13 @@ private:
     //Gates
     QMutex m_lockAllGates;
     std::vector<Gate*> m_allGates;
-    Gate* m_dragGate = nullptr;
+    Gate* m_dragGate = nullptr;    
     void moveToFront(int index, std::vector<Gate*>& vec);
 
     //Gate backups for redo and undo functions
-    void BackupGates();
+    void rl_backupGates();
     std::vector<std::vector<Gate*>> m_gateBackups;
+    bool m_bDisableGateBackup;
     const int c_maxNumberOfBackups = 10;
     int m_backupIndex = 0;
 
@@ -93,15 +120,18 @@ private:
 
     //Zooming
     qreal m_zoomFactor;
-    QPoint GetClickFromMouseEvent(QMouseEvent* mouseEvent) const;
+    bool m_bDisableZoom = false;
+    QPoint m_centerScreen;
+    const qreal m_zoomScrollSpeed = 0.05;
 
     //Panning
     Vector2D m_screenPosDelta;
     QPoint m_previousDragMousePos;
     const float c_panSpeedMultiplier = 0.75;
+    void rl_offsetGates(double offsetX, double offsetY);
 
-    //Clicking
-    ClickMode m_currentClickMode = CLICK_DRAG;
+    //Dragging
+    QPoint m_currentDragPoint = QPoint(0,0);
     bool m_bMouseDragging = false;
 
     //Selecting

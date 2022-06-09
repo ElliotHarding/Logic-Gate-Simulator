@@ -18,12 +18,13 @@ public:
 
     void setUserDisabled();
 
-private:
-    QImage m_image;
-
+protected:
     QRect m_geometry;
 
-    bool m_bUserDisabled = false;
+    bool m_bEnabled = false;
+
+private:
+    QImage m_image;
 };
 
 #endif // GAMEOBJECT_H

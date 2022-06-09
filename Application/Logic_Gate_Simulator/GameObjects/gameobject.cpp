@@ -9,7 +9,7 @@ GameObject::GameObject(const uint& x, const uint& y, const uint& width, const ui
 
 bool GameObject::checkClicked(const int &x, const int &y)
 {
-    return !m_bUserDisabled && m_geometry.contains(QPoint(x,y));
+    return m_bEnabled && m_geometry.contains(QPoint(x,y));
 }
 
 void GameObject::setPosition(const int& x, const int& y)
@@ -24,5 +24,5 @@ void GameObject::draw(QPainter& painter)
 
 void GameObject::setUserDisabled()
 {
-    m_bUserDisabled = true;
+    m_bEnabled = false;
 }

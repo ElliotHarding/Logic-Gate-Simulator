@@ -27,7 +27,7 @@ class GateField;
 class Gate : public GameObject
 {
 public:
-    Gate(QWidget* pParent, GateType type, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
+    Gate(GateType type, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
     ~Gate();
 
     virtual Gate* Clone() = 0;
@@ -46,8 +46,6 @@ public:
     //Hierarchy
     virtual void SetParent(GateField* gf);
     virtual GateField* GetParent();
-
-    bool Enabled = true;
 
     GateType GetType() {return m_type;}
 
@@ -72,6 +70,8 @@ public:
     Node(Gate* pParent, const uint& x, const uint& y, const NodeType& type, int nodeId = idGenerator());
     ~Node();
 
+    virtual void draw(QPainter& painter);
+
     ///Value
     void setValue(bool val);
     bool value();
@@ -91,15 +91,6 @@ public:
     Gate* GetParent();//Todo : might be able to delete this when linking reworked
 
     void SaveData(std::ofstream& storage);
-
-signals:
-    void onClicked(Node* pNode);
-    void onReleased(Node* pNode);
-
-protected:
-    void paintEvent(QPaintEvent* paintEvent) override;
-    void mousePressEvent(QMouseEvent* mouseEvent) override;
-    void mouseReleaseEvent(QMouseEvent* mouseEvent) override;
 
 private:
     ///Linked properties

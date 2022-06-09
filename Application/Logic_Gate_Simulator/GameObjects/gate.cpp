@@ -1,10 +1,16 @@
 #include "gate.h"
 #include "gatecollection.h"
 
+namespace Settings
+{
+const uint NodeWidth = 15;
+const uint NodeHeight = 15;
+}
+
 #define with << std::endl <<
 
-Gate::Gate(QWidget* pParent, GateType type, int width, int height, const char* iconLocation) :
-    GameObject::GameObject(pParent, width, height, iconLocation),
+Gate::Gate(QWidget* pParent, GateType type, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation) :
+    GameObject::GameObject(pParent, x, y, width, height, pIconLocation),
     m_type(type)
 {
 }
@@ -137,11 +143,11 @@ void Gate::DetachNodes()
 // -- NODE IMPLEMENTATION --
 //
 
-Node::Node(Gate *parent, NodeType type, int id) :
-    GameObject::GameObject(parent, 15, 15),
+Node::Node(Gate* pParent, const uint& x, const uint& y, const NodeType& type, int nodeId) :
+    GameObject::GameObject(pParent, x, y, Settings::NodeWidth, Settings::NodeHeight),
     m_bValue(0),
-    m_parent(parent),
-    m_id(id),
+    m_parent(pParent),
+    m_id(nodeId),
     m_nodeType(type)
 {
 }

@@ -12,10 +12,12 @@ class GameObject : public QWidget
     Q_OBJECT
 
 public:
-    GameObject(QWidget* pParent, int width, int height, const char* iconLocation = nullptr);
+    GameObject(QWidget* pParent, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
     ~GameObject();
 
-    void SetUserDisabled();
+    virtual void setPosition(const uint& x, const uint& y);
+
+    void setUserDisabled();
 
 signals:
     void onClicked(GameObject* pGo);

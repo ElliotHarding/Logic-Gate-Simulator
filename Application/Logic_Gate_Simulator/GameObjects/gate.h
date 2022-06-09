@@ -27,7 +27,7 @@ class GateField;
 class Gate : public GameObject
 {
 public:
-    Gate(QWidget* pParent, GateType type, int width, int height, const char* iconLocation = nullptr);
+    Gate(QWidget* pParent, GateType type, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
     ~Gate();
 
     virtual Gate* Clone() = 0;
@@ -70,7 +70,7 @@ enum NodeType
 class Node : public GameObject
 {
 public:
-    Node(Gate* parent, NodeType type, int nodeId = idGenerator());
+    Node(Gate* pParent, const uint& x, const uint& y, const NodeType& type, int nodeId = idGenerator());
     ~Node();
 
     void SetValue(bool val);

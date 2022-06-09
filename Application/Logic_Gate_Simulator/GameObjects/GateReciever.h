@@ -1,9 +1,7 @@
 #ifndef GATEOUTPUTBOX_H
 #define GATEOUTPUTBOX_H
 
-#include "Gate.h"
-#define GateRecieverWidth 24
-#define GateRecieverHeight 24
+#include "gate.h"
 
 /*
     Recieves input
@@ -11,20 +9,18 @@
 class GateReciever : public Gate
 {
 public:
-    GateReciever(id out = idGenerator());
+    GateReciever(const uint& x, const uint& y, QWidget* pParent = nullptr, id out = idGenerator());
 
     virtual void UpdateOutput() override;
-    virtual void UpdateGraphics(QPainter* painter) override;
-    virtual void SetPosition(int x, int y) override;
     virtual Gate* Clone() override;
 
     //todo check needed
     bool GetValue(){return m_input.GetValue();}
 
 protected:
+    void paintEvent(QPaintEvent* paintEvent) override;
 
-    const int NODE_OFFSET_X = (GateRecieverWidth/2);
-    const int NODE_OFFSET_Y = (GateRecieverHeight/2);
+private:
     Node m_input;
 };
 

@@ -1,12 +1,11 @@
 #include "gameobject.h"
 
-GameObject::GameObject(QWidget* pParent, int width, int height, const char* iconLocation) : QWidget(pParent)
+GameObject::GameObject(QWidget* pParent, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation) : QWidget(pParent)
 {
-    if(iconLocation != nullptr)
-        m_image = QImage(iconLocation);
+    if(pIconLocation != nullptr)
+        m_image = QImage(pIconLocation);
 
-    //Todo - check settings position
-    setGeometry(0, 0, width, height);
+    setGeometry(x, y, width, height);
     show();
 }
 
@@ -14,7 +13,12 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::SetUserDisabled()
+void GameObject::setPosition(const uint& x, const uint& y)
+{
+    setGeometry(x - geometry().width()/2, y - geometry().height()/2, geometry().width(), geometry().height());
+}
+
+void GameObject::setUserDisabled()
 {
     m_bUserDisabled = true;
 }

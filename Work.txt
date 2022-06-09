@@ -8,3 +8,8 @@ check with gameobject:: SetUserDisabled for clicking stuff
 is updateoutput needed?
 
 todo put detach nodes in ~Gate()
+
+protected:
+    void paintEvent(QPaintEvent* paintEvent) override;
+    void mousePressEvent(QMouseEvent* mouseEvent) override;
+    void mouseReleaseEvent(QMouseEvent* mouseEvent) override;

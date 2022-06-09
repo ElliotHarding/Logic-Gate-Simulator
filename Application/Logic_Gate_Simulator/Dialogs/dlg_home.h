@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QMouseEvent>
-#include <QThread>
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QProgressBar>
@@ -25,7 +24,6 @@
 #include "widget_standard.h"
 
 class QMouseEvent;
-class LogicUpdateThread;
 
 namespace Ui {
 class DLG_Home;

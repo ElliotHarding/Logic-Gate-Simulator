@@ -28,7 +28,7 @@ class Gate : public DragableGameObject
 {
 public:
     Gate(GateType type, int width, int height, const char* iconLocation = nullptr);
-    ~Gate() override;
+    ~Gate();
 
     virtual Gate* Clone() = 0;
 
@@ -81,7 +81,7 @@ class Node : public GameObject
 {
 public:
     Node(Gate* parent, NodeType type, int nodeId = idGenerator());
-    ~Node() override;
+    ~Node();
 
     void SetValue(bool val);
     bool GetValue();

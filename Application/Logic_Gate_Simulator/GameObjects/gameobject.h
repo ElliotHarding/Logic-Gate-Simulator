@@ -9,7 +9,7 @@ class GameObject
 {
 public:
     GameObject(int width, int height, const char* iconLocation = nullptr);
-    virtual ~GameObject();
+    ~GameObject();
 
     void SetUserDisabled();
 

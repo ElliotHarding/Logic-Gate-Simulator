@@ -9,7 +9,7 @@ class GateCollection : public Gate
 {
 public:
     GateCollection(std::vector<Gate*> gates);
-    ~GateCollection() override;
+    ~GateCollection();
 
     virtual void UpdateOutput() override;
     virtual void UpdateGraphics(QPainter* painter) override;

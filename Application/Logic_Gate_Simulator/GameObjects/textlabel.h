@@ -9,7 +9,7 @@ class TextLabel : public Gate
 {
 public:
     TextLabel();
-    ~TextLabel() override;
+    ~TextLabel();
 
     //Game Object overrides
     virtual void UpdateGraphics(QPainter* painter) override;

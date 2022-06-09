@@ -12,7 +12,7 @@ public:
     GateAnd(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
     GateAnd(bool notAndGate, GateType type = GATE_AND, const char* iconLocation = std::string(":/Resources/Gates/gate-and.png").c_str(),
             id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
-    ~GateAnd() override;
+    ~GateAnd();
 
     virtual void UpdateOutput() override;
     virtual void SetPosition(int x, int y) override;

@@ -38,7 +38,7 @@ class GateFPGA : public Gate
 {
 public:
     GateFPGA();
-    ~GateFPGA() override;
+    ~GateFPGA();
 
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual bool UpdateClicked(int clickX, int clickY) override;

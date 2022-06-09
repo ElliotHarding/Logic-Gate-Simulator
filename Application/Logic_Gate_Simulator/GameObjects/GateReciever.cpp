@@ -19,10 +19,10 @@ const uint BorderSize = 3;
 
 GateReciever::GateReciever(const uint& x, const uint& y, QWidget* pParent, id inputNode) :
     Gate::Gate(pParent, GateType::GATE_RECIEVER, x, y, Settings::GateRecieverWidth, Settings::GateRecieverHeight),
-    m_input(this, Settings::NodeOffsetX, Settings::NodeOffsetY, InputNode, inputNode)
+    m_pInput(new Node(this, Settings::NodeOffsetX, Settings::NodeOffsetY, InputNode, inputNode))
 {
-    m_input.SetValue(0);
-    m_nodes.push_back(&m_input);
+    m_pInput->setValue(0);
+    m_nodes.push_back(m_pInput);
 }
 
 void GateReciever::UpdateOutput()
@@ -34,7 +34,7 @@ Gate* GateReciever::Clone()
     GateReciever* clone = new GateReciever(geometry().x(), geometry().y());
 
     //Clone nodes
-    clone->m_input = m_input;
+    clone->m_pInput = m_pInput;
 
     return clone;
 }
@@ -45,7 +45,7 @@ void GateReciever::paintEvent(QPaintEvent*)
 
     //Draw center
     //Fill with red if active
-    if(m_input.GetValue())
+    if(m_pInput->value())
     {
         painter.setPen(QPen(Settings::ActiveColor, Settings::GateRecieverWidth));
         painter.drawEllipse(Settings::DrawLayout);

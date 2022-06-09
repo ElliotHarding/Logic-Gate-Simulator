@@ -70,20 +70,20 @@ class Node : public GameObject
 public:
     ///Construction/destruction
     Node(Gate* pParent, const uint& x, const uint& y, const NodeType& type, int nodeId = idGenerator());
-    Node& operator=(const Node& otherNode);
     ~Node();
 
     ///Value
-    void SetValue(bool val);
-    bool GetValue();
+    void setValue(bool val);
+    bool value();
 
     ///Linked nodes
     bool LinkNode(Node*& n);
+    bool isLinked();
     void DetachNode();
 
     ///Id
     void genNewID();
-    uint id() const;
+    id id() const;
 
     ///Type
     NodeType type() const;
@@ -107,7 +107,7 @@ private:
     bool m_linked = false;
     std::string GetLinkedNodesIds();
 
-    Gate* m_parent = nullptr;    
+    Gate* m_pParent = nullptr;
 
     //Stored value
     bool m_bValue;

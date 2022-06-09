@@ -14,14 +14,14 @@ public:
     virtual void UpdateOutput() override;
     virtual Gate* Clone() override;
 
-    //todo check needed
-    bool GetValue(){return m_input.GetValue();}
+    //Todo : check needed
+    bool GetValue(){return m_pInput->value();}
 
 protected:
     void paintEvent(QPaintEvent* paintEvent) override;
 
 private:
-    Node m_input;
+    Node* m_pInput;
 };
 
 #endif // GATEOUTPUTBOX_H

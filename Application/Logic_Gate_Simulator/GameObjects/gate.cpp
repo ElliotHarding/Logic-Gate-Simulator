@@ -44,7 +44,7 @@ bool Gate::FindNodeWithId(const id& id, Node*& node)
 {
     for (size_t index = 0; index < m_nodes.size(); index++)
     {
-        if(m_nodes[index]->m_id == id)
+        if(m_nodes[index]->id() == id)
         {
             node = &*m_nodes[index];
             return true;
@@ -57,7 +57,7 @@ void Gate::AssignNewNodeIds()
 {
     for (Node* n : m_nodes)
     {
-        n->GenNewID();
+        n->genNewID();
     }
 }
 
@@ -75,7 +75,7 @@ void Gate::GetDisconnectedInputNodes(std::vector<Node*>& nodes)
 {
     for (Node* n : m_nodes)
     {
-        if (n->m_nodeType == NodeType::InputNode && !n->IsLinked())
+        if (n->type() == NodeType::InputNode && !n->isLinked())
         {
             nodes.push_back(n);
         }
@@ -87,7 +87,7 @@ void Gate::GetDisconnectedOutputNodes(std::vector<Node*>& nodes)
 {
     for (Node* n : m_nodes)
     {
-        if (n->m_nodeType == NodeType::OutputNode && !n->IsLinked())
+        if (n->type() == NodeType::OutputNode && !n->isLinked())
         {
             nodes.push_back(n);
         }
@@ -120,25 +120,20 @@ void Gate::DetachNodes()
 Node::Node(Gate* pParent, const uint& x, const uint& y, const NodeType& type, int nodeId) :
     GameObject::GameObject(pParent, x, y, Settings::NodeWidth, Settings::NodeHeight),
     m_bValue(0),
-    m_parent(pParent),
+    m_pParent(pParent),
     m_id(nodeId),
     m_nodeType(type)
 {
 }
 
-Node& Node::operator=(const Node &otherNode)
-{
-    Node newNode = Node();
-}
-
 Node::~Node()
 {
-    m_parent = nullptr;
+    m_pParent = nullptr;
 
     DetachNode();
 }
 
-void Node::SetValue(bool val)
+void Node::setValue(bool val)
 {
     m_bValue = val;    
 
@@ -146,36 +141,26 @@ void Node::SetValue(bool val)
     {
          for(Node* n : m_linkedNodes)
          {
-            n->SetValue(m_bValue);
-            /*if(n->GetParent())
-            {
-                n->GetParent()->UpdateOutput();
-            }*/
+            n->setValue(m_bValue);
          }
     }
     else
     {
-        //Having this here means can't update any input nodes in any UpdateOutput() functions
-        //otherwise circular code.
-
-        //So when gatefeild is being deleted, m_parent causes crash cuz not deleted yet
-        //think solution would be to implement a clone function for nodes, but it's alot of effort
-        //just for this fix, when the solution of checking if m_id > 0 seems to work
-
+        //Todo : check if this if statement is needed
         //m_id is > -1 to check incase this node is being deleted
         if(m_id > -1)
-            m_parent->UpdateOutput();
+            m_pParent->UpdateOutput();
     }
 }
 
-bool Node::GetValue()
+bool Node::value()
 {
     return m_bValue;
 }
 
 Gate* Node::GetParent()
 {
-    return m_parent;
+    return m_pParent;
 }
 
 void Node::SaveData(std::ofstream &storage)
@@ -199,7 +184,7 @@ NodeType Node::type() const
     return m_nodeType;
 }
 
-uint Node::id() const
+id Node::id() const
 {
     return m_id;
 }
@@ -278,9 +263,14 @@ bool Node::LinkNode(Node*& n)
 
     m_linked = true;
     m_linkedNodes.push_back(n);
-    m_parent->UpdateOutput();//Todo : check if only when input node is needed
+    m_pParent->UpdateOutput();//Todo : check if only when input node is needed
 
     return true;
+}
+
+bool Node::isLinked()
+{
+    return !m_linkedNodes.empty();
 }
 
 void Node::DetachNode()
@@ -301,7 +291,7 @@ void Node::DetachNode()
         {
             //TODO CHECK ~ MIGHT BE NEEDED, BUT TESTING REQUIRED REMOVEVAL
             //TECHNICALLY UPDATED FUNCITON IS CALLED AFTER THIS...
-            n->SetValue(0);
+            n->setValue(0);
         }
 
         n = nullptr;

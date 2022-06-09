@@ -1,36 +1,15 @@
 BIG TODO: cloning nodes needs to be managed in terms of linking. Also clearing backups without deleting is wasting memory.
 
-check finishWithGates
-
-somehow update UpdateGateSelected(
-on the gameobject click
-
-check with gameobject:: SetUserDisabled for clicking stuff
-
-is updateoutput needed?
-
-todo put detach nodes in ~Gate()
-
-GateReciever(const uint& x, const uint& y, QWidget* pParent = nullptr, id out = idGenerator());
-
-protected:
-    void paintEvent(QPaintEvent* paintEvent) override;
-    void mousePressEvent(QMouseEvent* mouseEvent) override;
-    void mouseReleaseEvent(QMouseEvent* mouseEvent) override;
-
-namespace Settings
+bool GateFPGA::UpdateClicked(int clickX, int clickY)
 {
-///Dimensions
-const uint GateRecieverWidth = 24;
-const uint GateRecieverHeight = 24;
-const QRect DrawLayout(0, 0, GateRecieverWidth, GateRecieverHeight);
+    bool ret = Gate::UpdateClicked(clickX, clickY);
+    if(ret)
+    {
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
+        {
+            OpenEditor();
+        }
+    }
 
-///Node positions
-const uint NodeOffsetX = GateRecieverWidth/2;
-const uint NodeOffsetY = GateRecieverHeight/2;
-
-///Graphics
-const QColor ActiveColor = Qt::red;
-const QColor UnActiveColor = Qt::white;
-const uint BorderSize = 3;
+    return ret;
 }

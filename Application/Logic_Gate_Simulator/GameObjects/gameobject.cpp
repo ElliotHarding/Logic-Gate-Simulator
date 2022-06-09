@@ -1,21 +1,24 @@
 #include "gameobject.h"
 
-GameObject::GameObject(QWidget* pParent, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation) : QWidget(pParent)
+GameObject::GameObject(const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation) :
+    m_geometry(x, y, width, height)
 {
     if(pIconLocation != nullptr)
         m_image = QImage(pIconLocation);
-
-    setGeometry(x, y, width, height);
-    show();
 }
 
 GameObject::~GameObject()
 {
 }
 
-void GameObject::setPosition(const uint& x, const uint& y)
+bool GameObject::checkClicked(const int &x, const int &y)
 {
-    setGeometry(x - geometry().width()/2, y - geometry().height()/2, geometry().width(), geometry().height());
+    return m_geometry.contains(QPoint(x,y));
+}
+
+void GameObject::setPosition(const int& x, const int& y)
+{
+    m_geometry = QRect(x, y, m_geometry.width(), m_geometry.height());
 }
 
 void GameObject::setUserDisabled()

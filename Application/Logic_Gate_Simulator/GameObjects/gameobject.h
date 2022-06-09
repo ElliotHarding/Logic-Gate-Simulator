@@ -7,29 +7,24 @@
 #include <QPainter>
 #include <QMouseEvent>
 
-class GameObject : public QWidget
+class GameObject
 {
-    Q_OBJECT
-
 public:
-    GameObject(QWidget* pParent, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
+    GameObject(const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
     ~GameObject();
 
-    virtual void setPosition(const uint& x, const uint& y);
+    virtual void setPosition(const int& x, const int& y);
+
+    virtual void updateGraphics(QPainter* painter);
+
+    virtual bool checkClicked(const int& x, const int& y);
 
     void setUserDisabled();
 
-signals:
-    void onClicked(GameObject* pGo);
-    void onReleased(GameObject* pGo);
-
-protected:
-    void paintEvent(QPaintEvent* paintEvent) override;
-    void mousePressEvent(QMouseEvent* mouseEvent) override;
-    void mouseReleaseEvent(QMouseEvent* mouseEvent) override;
-
 private:
     QImage m_image;
+
+    QRect m_geometry;
 
     bool m_bUserDisabled = false;
 };

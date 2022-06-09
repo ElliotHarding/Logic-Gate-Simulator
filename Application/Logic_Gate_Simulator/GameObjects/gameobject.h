@@ -17,9 +17,14 @@ public:
 
     void SetUserDisabled();
 
+signals:
+    void onClicked(GameObject* pGo);
+    void onReleased(GameObject* pGo);
+
 protected:
     void paintEvent(QPaintEvent* paintEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
+    void mouseReleaseEvent(QMouseEvent* mouseEvent) override;
 
 private:
     QImage m_image;

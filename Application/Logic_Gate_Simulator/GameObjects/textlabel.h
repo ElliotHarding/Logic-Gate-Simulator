@@ -18,7 +18,7 @@ public:
     virtual Gate* Clone() override;
 
     //Gate overrides
-    virtual void AssignNewNodeIds() override {}
+    virtual void AssignNewNodeIds() override {}//Todo : just use Gate::Assign
     virtual void UpdateOutput() override {}
 
     //Text label functions

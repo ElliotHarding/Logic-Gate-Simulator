@@ -1,0 +1,8 @@
+check finishWithGates
+
+somehow update UpdateGateSelected(
+on the gameobject click
+
+check with gameobject:: SetUserDisabled for clicking stuff
+
+is updateoutput needed?

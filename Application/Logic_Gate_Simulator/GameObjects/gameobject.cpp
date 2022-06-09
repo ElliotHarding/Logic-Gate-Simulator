@@ -25,11 +25,18 @@ void GameObject::paintEvent(QPaintEvent*)
     painter.drawImage(QRect(0, 0, geometry().width(), geometry().height()), m_image);
 }
 
-void GameObject::mousePressEvent(QMouseEvent *mouseEvent)
+void GameObject::mousePressEvent(QMouseEvent*)
 {
     if(!m_bUserDisabled)
     {
-        //Todo : this only drags when mouse is inside gameobject.
-        setGeometry(geometry().translated(mouseEvent->pos().x() - geometry().width()/2, mouseEvent->pos().y() - geometry().height()/2));
+        emit onClicked(this);
+    }
+}
+
+void GameObject::mouseReleaseEvent(QMouseEvent*)
+{
+    if(!m_bUserDisabled)
+    {
+        emit onReleased(this);
     }
 }

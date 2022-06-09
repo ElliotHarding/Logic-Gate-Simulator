@@ -3,8 +3,8 @@
 
 #define with << std::endl <<
 
-Gate::Gate(GateType type, int width, int height, const char* iconLocation) :
-    DragableGameObject::DragableGameObject(width, height, iconLocation),
+Gate::Gate(QWidget* pParent, GateType type, int width, int height, const char* iconLocation) :
+    GameObject::GameObject(pParent, width, height, iconLocation),
     m_type(type)
 {
 }
@@ -20,16 +20,6 @@ Gate::~Gate()
     m_pParentField = nullptr;
 }
 
-void Gate::UpdateGraphics(QPainter* painter)
-{
-    GameObject::UpdateGraphics(painter);
-
-    for (Node* n : m_nodes)
-    {
-        n->UpdateGraphics(painter);
-    }
-}
-
 void Gate::SaveData(std::ofstream &storage)
 {
     SaveGeneralData(storage);
@@ -43,21 +33,12 @@ void Gate::SaveData(std::ofstream &storage)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
-Node *Gate::GetClickedNode(int clickX, int clickY)
-{
-    for (Node* n : m_nodes)
-    {
-        if(n->UpdateClicked(clickX, clickY))
-            return n;
-    }
-    return nullptr;
-}
-
-bool Gate::FindNodeWithId(id _id, Node*& node)
+//Todo : why is there a *&
+bool Gate::FindNodeWithId(const id& id, Node*& node)
 {
     for (size_t index = 0; index < m_nodes.size(); index++)
     {
-        if(m_nodes[index]->m_id == _id)
+        if(m_nodes[index]->m_id == id)
         {
             node = &*m_nodes[index];
             return true;

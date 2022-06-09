@@ -24,23 +24,21 @@ typedef int id;
 class Node;
 class GateField;
 
-class Gate : public DragableGameObject
+class Gate : public GameObject
 {
 public:
-    Gate(GateType type, int width, int height, const char* iconLocation = nullptr);
+    Gate(QWidget* pParent, GateType type, int width, int height, const char* iconLocation = nullptr);
     ~Gate();
 
     virtual Gate* Clone() = 0;
 
-    //Generic functions
-    virtual void UpdateGraphics(QPainter* painter) override;    
+    //Generic functions   
     virtual void UpdateOutput() = 0;
     virtual void SaveData(std::ofstream& storage);
     virtual bool DeleteClick(int clickX, int clickY);
 
     //Node functions
-    virtual Node* GetClickedNode(int clickX, int clickY);
-    virtual bool FindNodeWithId(id _id, Node*& node);
+    virtual bool FindNodeWithId(const id& id, Node*& node);
     virtual void AssignNewNodeIds();
     void DetachNodes();
     virtual bool HasConnectedInputNodes();
@@ -63,7 +61,6 @@ public:
     GateType GetType() {return m_type;}
 
 protected:
-
     void SaveGeneralData(std::ofstream& storage);
 
     GateType m_type;

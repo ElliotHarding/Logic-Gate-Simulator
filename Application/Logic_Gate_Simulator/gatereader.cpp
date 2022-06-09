@@ -10,7 +10,7 @@ bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf, bool se
     //Add loaded gates into gf
     for (Gate* gate : gates)
     {
-        gate->AssignNewNodeIds();
+        gate->AssignNewNodeIds();//Todo : do we need this?
         gf->AddGate(gate, setNewlySpawned);
     }
 

@@ -7,13 +7,9 @@ GameObject::GameObject(const uint& x, const uint& y, const uint& width, const ui
         m_image = QImage(pIconLocation);
 }
 
-GameObject::~GameObject()
-{
-}
-
 bool GameObject::checkClicked(const int &x, const int &y)
 {
-    return m_geometry.contains(QPoint(x,y));
+    return !m_bUserDisabled && m_geometry.contains(QPoint(x,y));
 }
 
 void GameObject::setPosition(const int& x, const int& y)
@@ -21,29 +17,12 @@ void GameObject::setPosition(const int& x, const int& y)
     m_geometry = QRect(x, y, m_geometry.width(), m_geometry.height());
 }
 
+void GameObject::draw(QPainter& painter)
+{
+    painter.drawImage(m_geometry, m_image);
+}
+
 void GameObject::setUserDisabled()
 {
     m_bUserDisabled = true;
-}
-
-void GameObject::paintEvent(QPaintEvent*)
-{
-    QPainter painter(this);
-    painter.drawImage(QRect(0, 0, geometry().width(), geometry().height()), m_image);
-}
-
-void GameObject::mousePressEvent(QMouseEvent*)
-{
-    if(!m_bUserDisabled)
-    {
-        emit onClicked(this);
-    }
-}
-
-void GameObject::mouseReleaseEvent(QMouseEvent*)
-{
-    if(!m_bUserDisabled)
-    {
-        emit onReleased(this);
-    }
 }

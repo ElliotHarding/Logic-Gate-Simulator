@@ -25,8 +25,8 @@ class GateField : public QWidget
 public:
 
     //Construction
-    explicit GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections = false, bool disableGateBackup = false, bool disableZoom = false);
-     ~GateField() override;
+    GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections = false, bool disableGateBackup = false, bool disableZoom = false);
+    ~GateField();
 
     //Gates
     void AddGate(Gate* go, bool newlySpawned = true, bool cameFromGateColleciton = false);

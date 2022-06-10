@@ -11,6 +11,7 @@ public:
     GameObject(const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
 
     virtual void setPosition(const int& x, const int& y);
+    virtual QPoint position() const;
 
     virtual void draw(QPainter& painter);
 

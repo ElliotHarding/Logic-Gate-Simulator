@@ -27,6 +27,11 @@ void GameObject::setPosition(const int& x, const int& y)
     m_geometry = QRect(x - m_geometry.width()/2, y - m_geometry.height()/2, m_geometry.width(), m_geometry.height());
 }
 
+QPoint GameObject::position() const
+{
+    return m_geometry.center();
+}
+
 void GameObject::draw(QPainter& painter)
 {
     painter.drawImage(m_geometry, m_image);

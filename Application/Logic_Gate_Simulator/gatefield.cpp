@@ -4,6 +4,11 @@
 
 #include <QApplication>
 
+namespace Settings
+{
+const QPen LinkingNodeLine(Qt::blue, 2);
+}
+
 GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections, bool bDisableGateBackup, bool bDisableZoom) :
     QWidget(parent),
     m_pParent(parent),
@@ -86,11 +91,10 @@ void GateField::paintEvent(QPaintEvent*)
     }
 
     //If were in the middle of linking
-    if(CurrentClickMode == CLICK_LINK_NODES && m_linkNodeA)
+    if(m_linkNodeA)
     {
-        QPen pen(Qt::blue, 2);
-        painter.setPen(pen);
-        painter.drawLine(m_previousDragMousePos, m_currentLinkDragPoint);
+        painter.setPen(Settings::LinkingNodeLine);
+        painter.drawLine(m_linkNodeA->position(), m_currentMousePos);
     }
 
     //Paint in reverse order, so gate on top of vector get's painted last
@@ -259,7 +263,6 @@ void GateField::mousePressEvent(QMouseEvent *click)
     //Update variables
     m_bMouseDown = true;
     m_previousDragMousePos = clickPos; //Todo : probably dont need these previous and current anymore.
-    m_currentLinkDragPoint = m_previousDragMousePos;
 
     rl_backupGates();
 
@@ -318,14 +321,7 @@ void GateField::rl_leftMouseClick(int clickX, int clickY)
         break;
 
     case CLICK_LINK_NODES:
-
-        if(!rl_linkNodesClick(clickX, clickY))
-        {
-            rl_selectionClick(clickX,clickY);
-            if(!m_bDisableGateCollections)
-                m_pParent->SetCurrentClickMode(CLICK_SELECTION);
-        }
-
+        checkStartLink(clickX, clickY);
         break;
     }
 }
@@ -343,13 +339,11 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
             }
             break;
 
-
         case CLICK_PAN:
             rl_panClick(clickPos.x(), clickPos.y());
             break;
 
         case CLICK_SELECTION:
-
             if (m_bMouseDown)
             {
                 rl_selectionClick(clickPos.x(), clickPos.y());
@@ -357,7 +351,10 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
             break;
 
         case CLICK_LINK_NODES:
-            m_currentLinkDragPoint = clickPos;
+            if(m_linkNodeA)
+            {
+                m_currentMousePos = clickPos;
+            }
             break;
 
         default:
@@ -494,7 +491,7 @@ void GateField::wheelEvent(QWheelEvent *event)
     }
 }
 
-bool GateField::rl_linkNodesClick(int clickX, int clickY)
+void GateField::checkStartLink(const int& clickX, const int& clickY)
 {
     for (Gate* g : m_allGates)
     {
@@ -505,10 +502,9 @@ bool GateField::rl_linkNodesClick(int clickX, int clickY)
 
             //Change cursor as started linking
             m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
-            return true;
+            return;
         }
     }
-    return false;
 }
 
 void GateField::rl_deleteLinkedNodesClick(int clickX, int clickY)

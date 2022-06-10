@@ -57,15 +57,12 @@ signals:
 public slots:
 protected:
 private:
-
-    //Functions with rl_ require m_lockAllGates to be locked
-
     //Mouse event delegates
     QPoint QtPointToWorldPoint(QPoint mousePoint) const;
     void rl_leftMouseClick(int clickX, int clickY);
 
     //Click actions
-    bool rl_linkNodesClick(int clickX, int clickY);
+    void checkStartLink(const int& clickX, const int& clickY);
     void rl_deleteClick(int clickX, int clickY);
     void checkStartDrag(const int& clickX, const int& clickY);
     void rl_deleteLinkedNodesClick(int clickX, int clickY);
@@ -103,7 +100,7 @@ private:
 
     //Temps for multi step linking and unlinking
     Node* m_linkNodeA = nullptr;
-    QPoint m_currentLinkDragPoint = QPoint(0,0);
+    QPoint m_currentMousePos;
 
     //Zooming
     qreal m_zoomFactor;

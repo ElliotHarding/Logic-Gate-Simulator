@@ -17,8 +17,7 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     m_bDisableGateBackup(bDisableGateBackup),
     m_zoomFactor(zoomFactor),
     m_pDlgSaveGateCollection(saveGateCollectionDialog),
-    m_bDisableGateCollections(disableGateCollections),
-    m_bDisableZoom(bDisableZoom)
+    m_bDisableGateCollections(disableGateCollections)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -123,11 +122,7 @@ ClickMode GateField::GetCurrentClickMode()
 
 void GateField::SetZoomLevel(qreal zoom)
 {
-    if(m_bDisableZoom)
-        return;
-
     m_zoomFactor = zoom;
-
     update();
 }
 
@@ -428,9 +423,6 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 //Handles mouse scroll for zooming, offsets gates based on mouse position
 void GateField::wheelEvent(QWheelEvent *event)
 {
-    if(m_bDisableZoom)
-        return;
-
     const qreal direction = event->delta() > 0 ? m_zoomScrollSpeed : -m_zoomScrollSpeed;
 
     //Todo : seems stupid to set zoom factor for all gatefeilds
@@ -444,7 +436,7 @@ void GateField::wheelEvent(QWheelEvent *event)
         const double offsetY = -scrollPos.y() * direction;
 
         //Offset the gates
-        rl_offsetGates(offsetX, offsetY);
+        offsetGates(offsetX, offsetY);
     }
 }
 
@@ -617,7 +609,7 @@ void GateField::rl_panClick(int clickX, int clickY)
     const float offsetX = c_panSpeedMultiplier * (clickX - m_previousDragMousePos.x());
     const float offsetY = c_panSpeedMultiplier * (clickY - m_previousDragMousePos.y());
 
-    rl_offsetGates(offsetX, offsetY);
+    offsetGates(offsetX, offsetY);
 
     //Save current mouse pos as m_previousDragMousePos for next run
     m_previousDragMousePos = QPoint(clickX, clickY);
@@ -653,19 +645,15 @@ void GateField::rl_backupGates()
     m_backupIndex = m_gateBackups.size() - 1;
 }
 
-//Functions with rl_ require m_lockAllGates to be locked
-void GateField::rl_offsetGates(double offsetX, double offsetY)
+void GateField::offsetGates(const double& offsetX, const double& offsetY)
 {
-    if(offsetX != 0 || offsetY != 0)
-    {
-        //Add to total delta
-        m_screenPosDelta.x += offsetX;
-        m_screenPosDelta.y += offsetY;
+    //Add to total delta
+    m_screenPosDelta.x += offsetX;
+    m_screenPosDelta.y += offsetY;
 
-        //Apply delta
-        for (Gate* g : m_allGates)
-            g->offsetPosition(offsetX, offsetY);
-    }
+    //Apply delta
+    for (Gate* g : m_allGates)
+        g->offsetPosition(offsetX, offsetY);
 }
 
 QPoint GateField::QtPointToWorldPoint(QPoint mousePoint) const

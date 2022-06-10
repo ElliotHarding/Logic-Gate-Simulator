@@ -105,7 +105,6 @@ private:
 
     //Zooming
     qreal m_zoomFactor;
-    bool m_bDisableZoom = false;
     const qreal m_zoomScrollSpeed = 0.05;
 
     //Panning
@@ -113,7 +112,7 @@ private:
     Vector2D m_screenPosDelta;
     QPoint m_previousDragMousePos;
     const float c_panSpeedMultiplier = 0.75;
-    void rl_offsetGates(double offsetX, double offsetY);
+    void offsetGates(const double& offsetX, const double& offsetY);
 
     //Dragging
     bool m_bMouseDown = false;

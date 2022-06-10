@@ -5,11 +5,11 @@ namespace Settings
 const uint GateNotHeight = 50;
 const uint GateNotWidth = 100;
 
-const int NodeOffsetX_a = -5;
-const int NodeOffsetY_a = (GateNotHeight/2);
+const int NodeOffsetX_a = -55;
+const int NodeOffsetY_a = 0;
 
-const int NodeOffsetX_b = GateNotWidth + 5;
-const int NodeOffsetY_b = (GateNotHeight/2);
+const int NodeOffsetX_b = 55;
+const int NodeOffsetY_b = 0;
 }
 
 GateNot::GateNot(const int &x, const int &y, const id &in, const id &out) :

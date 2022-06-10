@@ -18,16 +18,16 @@ public:
 
 protected:
 
-    const int M_INPUTa_OFFSET_X = -5;
-    const int M_INPUTa_OFFSET_Y = (GateTriEorHeight/2) - 11;
+    const int m_pInputA_OFFSET_X = -5;
+    const int m_pInputA_OFFSET_Y = (GateTriEorHeight/2) - 11;
     Node* m_pInputA;
 
-    const int M_INPUTb_OFFSET_X = -5;
-    const int M_INPUTb_OFFSET_Y = GateTriEorHeight/2;
+    const int m_pInputB_OFFSET_X = -5;
+    const int m_pInputB_OFFSET_Y = GateTriEorHeight/2;
     Node* m_pInputB;
 
-    const int M_INPUTc_OFFSET_X = -5;
-    const int M_INPUTc_OFFSET_Y = GateTriEorHeight - 13;
+    const int m_pInputC_OFFSET_X = -5;
+    const int m_pInputC_OFFSET_Y = GateTriEorHeight - 13;
     Node* m_pInputC;
 
     const int M_OUTPUT_OFFSET_X = GateTriEorWidth + 5;

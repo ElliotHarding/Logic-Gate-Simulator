@@ -1,38 +1,38 @@
 #include "gatenot.h"
 
-GateNot::GateNot(id in, id out) :
-    Gate::Gate(GATE_NOT, GateNotWidth,GateNotHeight,std::string(":/Resources/Gates/gate-not.png").c_str()),
-    m_input(this,InputNode,in),
-    m_output(this,OutputNode,out)
+namespace Settings
 {
-    m_nodes.push_back(&m_input);
+const uint GateNotHeight = 50;
+const uint GateNotWidth = 100;
+
+const int NodeOffsetX_a = -5;
+const int NodeOffsetY_a = (GateNotHeight/2);
+
+const int NodeOffsetX_b = GateNotWidth + 5;
+const int NodeOffsetY_b = (GateNotHeight/2);
+}
+
+GateNot::GateNot(const int &x, const int &y, const id &in, const id &out) :
+    Gate::Gate(GATE_NOT, x, y, Settings::GateNotWidth, Settings::GateNotHeight, std::string(":/Resources/Gates/gate-not.png").c_str()),
+    m_pInput(new Node(this, Settings::NodeOffsetX_a, Settings::NodeOffsetY_a, InputNode, in)),
+    m_pOutput(new Node(this, Settings::NodeOffsetX_b, Settings::NodeOffsetY_b, OutputNode, out))
+{
+    m_nodes.push_back(m_pInput);
     m_nodes.push_back(m_pOutput);
 }
 
 void GateNot::UpdateOutput()
 {
-    m_output.SetValue(!(m_input.GetValue()));
-}
-
-void GateNot::SetPosition(int x, int y)
-{
-    GameObject::SetPosition(x,y);
-
-    m_input.SetPosition(m_layout.x() + M_INPUT_OFFSET_X, m_layout.y() + M_INPUT_OFFSET_Y);
-    m_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
+    m_pOutput->setValue(!(m_pInput->value()));
 }
 
 Gate *GateNot::Clone()
 {
-    GateNot* clone = new GateNot();
-
-    //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    GateNot* clone = new GateNot(m_geometry.x(), m_geometry.y(), m_pInput->id(), m_pOutput->id());
 
     //Clone nodes
     clone->m_pOutput = m_pOutput;
-    clone->m_input = m_input;
+    clone->m_pInput = m_pInput;
 
     return clone;
 }

@@ -18,7 +18,7 @@ void GateTriOr::UpdateOutput()
     const bool sum = m_pInputA->value() || m_pInputB->value() || m_inputC.GetValue();
 
     //set output node value
-    m_output.SetValue(sum);
+    m_pOutput->setValue(sum);
 }
 
 void GateTriOr::SetPosition(int x, int y)

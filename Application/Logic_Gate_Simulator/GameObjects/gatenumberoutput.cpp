@@ -21,7 +21,6 @@ const int NodeOffsetY_d = (HeightStep * 4) - 25;
 
 const QFont NumberFont = QFont("Helvetica", 40);
 const QFontMetrics NumberFontMetrics(NumberFont);
-const uint FontHeightOffset = NumberFontMetrics.height()/4;
 }
 
 GateNumberOutput::GateNumberOutput(const int &x, const int &y, const id &inA, const id &inB, const id &inC, const id &inD) :
@@ -52,7 +51,7 @@ void GateNumberOutput::draw(QPainter& painter)
 
     painter.setFont(Settings::NumberFont);
 
-    const QPoint textPosition = QPoint(position().x(), position().y() + Settings::FontHeightOffset);
+    const QPoint textPosition = QPoint(position().x(), position().y() + Settings::NumberFontMetrics.height()/4);
     painter.drawText(textPosition, QString::number(m_output));
 }
 

@@ -8,6 +8,7 @@ const uint MaxToggleFrequencyMs = 2;
 
 ///Text
 const QFont DisplayFont = QFont("Helvetica", 7);
+const QFontMetrics DisplayFontMetrics(DisplayFont);
 const QColor DisplayTextColor = Qt::black;
 }
 
@@ -55,10 +56,8 @@ void GateToggle::draw(QPainter& painter)
 
     painter.setPen(QPen(Settings::DisplayTextColor, 1));
     painter.setFont(Settings::DisplayFont);
-
-    //Todo : calcualte pos correctly
-    painter.drawText(m_geometry.x() - 7,
-                      m_geometry.y() - 10,
+    painter.drawText(position().x(),
+                      position().y() - Settings::DisplayFontMetrics.height()/4,
                       m_pOutput->value() ? "On" : "Off");
 }
 

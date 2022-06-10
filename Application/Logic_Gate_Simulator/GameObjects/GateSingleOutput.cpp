@@ -7,8 +7,8 @@ const uint GateSingleOutputWidth = 34;
 const uint GateSingleOutputHeight = 34;
 
 ///Node positions
-const uint NodeOffsetX = GateSingleOutputWidth/2;
-const uint NodeOffsetY = GateSingleOutputHeight/2;
+const uint NodeOffsetX = 0;
+const uint NodeOffsetY = 0;
 
 ///Graphics
 const uint BorderSize = 7;

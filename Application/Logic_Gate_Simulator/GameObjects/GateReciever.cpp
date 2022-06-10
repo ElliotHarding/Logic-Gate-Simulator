@@ -7,13 +7,14 @@ const uint GateRecieverWidth = 24;
 const uint GateRecieverHeight = 24;
 
 ///Node positions
-const uint NodeOffsetX = GateRecieverWidth/2;
-const uint NodeOffsetY = GateRecieverHeight/2;
+const uint NodeOffsetX = 0;
+const uint NodeOffsetY = 0;
 
 ///Graphics
 const QColor ActiveColor = Qt::red;
 const QColor UnActiveColor = Qt::white;
 const uint BorderSize = 3;
+const QPen BorderPen(Qt::lightGray, Settings::BorderSize);
 }
 
 GateReciever::GateReciever(const uint& x, const uint& y, const id& inputNode) :
@@ -53,7 +54,7 @@ void GateReciever::draw(QPainter& painter)
     }
 
     //Draw border
-    painter.setPen(QPen(Qt::lightGray, Settings::BorderSize));
+    painter.setPen(Settings::BorderPen);
     painter.drawEllipse(m_geometry.center(), Settings::GateRecieverWidth, Settings::GateRecieverHeight);
 
     drawNodes(painter);

@@ -11,10 +11,7 @@
 namespace Settings
 {
 const QFont TimerFont = QFont("Helvetica", 5);
-
-///Dimensions
-const uint GateSingleOutputWidth = 34;
-const uint GateSingleOutputHeight = 34;
+const QFontMetrics TimerFontMetrics(TimerFont);
 }
 
 GateTimer::GateTimer(const int& x, const int& y, const id& out) :
@@ -54,12 +51,8 @@ void GateTimer::draw(QPainter& painter)
 {
     GateSingleOutput::draw(painter);
 
-    const std::string frequency = std::to_string(m_frequency) + "Mhz";
-
     painter.setFont(Settings::TimerFont);
-
-    //Todo : fix this with qfont info thingy
-    painter.drawText(m_geometry.x() - Settings::GateSingleOutputWidth/3, m_geometry.y() - (Settings::GateSingleOutputHeight/4), QString::fromStdString(frequency));
+    painter.drawText(position().x(), position().y() - (Settings::TimerFontMetrics.height()/4), QString::number(m_frequency) + "Mhz");
 }
 
 Gate *GateTimer::Clone()

@@ -8,13 +8,13 @@ class DLG_LabelGateEdit;
 class TextLabel : public Gate
 {
 public:
-    TextLabel();
+    TextLabel(const int &x, const int &y);
     ~TextLabel();
 
     //Game Object overrides
-    virtual void UpdateGraphics(QPainter* painter) override;
-    virtual bool UpdateDrag(int clickX, int clickY) override;
-    virtual void setPosition(int x, int y) override;
+    virtual void draw(QPainter& painter) override;
+    virtual GameObject* checkClicked(const int& x, const int& y) override;
+    virtual void setPosition(const int& x, const int& y) override;
     virtual Gate* Clone() override;
 
     //Gate overrides
@@ -22,7 +22,7 @@ public:
     virtual void UpdateOutput() override {}
 
     //Text label functions
-    void Update(QFont font, QString string);
+    void Update(const QFont& font, const QString& string);
 
     QString GetString();
     QFont GetFont();
@@ -30,9 +30,6 @@ public:
 protected:
     QString m_string;
     QFont m_font;
-
-    #define EDIT_ZONE_WIDTH 8
-    #define EDIT_ZONE_HEIGHT 8
     QRect m_editClickZone;
 };
 

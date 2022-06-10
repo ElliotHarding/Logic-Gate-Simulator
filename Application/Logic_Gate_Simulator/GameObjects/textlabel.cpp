@@ -2,11 +2,24 @@
 #include "dlg_textedit.h"
 #include "gatefield.h"
 
-TextLabel::TextLabel() :
-    Gate(GATE_TEXT_LABEL, 20,20),
+namespace Settings
+{
+const uint SizeX = 20;
+const uint SizeY = 20;
+
+const uint EditZoneWidth = 8;
+const uint EditZoneHeight = 8;
+
+const QFont TextFont("Helvetica", 15);
+
+const QColor EditZoneColor = Qt::gray;
+}
+
+TextLabel::TextLabel(const int &x, const int &y) :
+    Gate(GATE_TEXT_LABEL, x, y, Settings::SizeX, Settings::SizeY),
     m_string("Label"),
-    m_font("Helvetica", 15),
-    m_editClickZone(QRect(0,0,EDIT_ZONE_WIDTH,EDIT_ZONE_WIDTH))
+    m_font(Settings::TextFont),
+    m_editClickZone(QRect(0,0, Settings::EditZoneWidth, Settings::EditZoneHeight))
 {
     Update(m_font, m_string);
 }
@@ -16,60 +29,53 @@ TextLabel::~TextLabel()
     m_pParentField = nullptr;
 }
 
-void TextLabel::UpdateGraphics(QPainter *painter)
+void TextLabel::draw(QPainter& painter)
 {
-    painter->fillRect(m_editClickZone, QBrush(Qt::gray));
+    painter.fillRect(m_editClickZone, QBrush(Settings::EditZoneColor));
 
-    painter->setFont(m_font);
-    painter->drawText(m_layout, m_string);
+    painter.setFont(m_font);
+    painter.drawText(m_geometry, m_string);
 }
 
-bool TextLabel::UpdateDrag(int clickX, int clickY)
+GameObject *TextLabel::checkClicked(const int &x, const int &y)
 {
-    //When a textlabel is clicked on its editor opens up
-    if(m_editClickZone.contains(clickX, clickY))
+    if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
     {
-        m_pParentField->EditTextLabel(this);
-        return false;
+        if(m_editClickZone.contains(x, y))
+        {
+            m_pParentField->EditTextLabel(this);
+        }
+        return nullptr;
     }
 
-    else
-        return Gate::UpdateDrag(clickX, clickY);
+    return Gate::checkClicked(x, y);
 }
 
-void TextLabel::setPosition(int x, int y)
+void TextLabel::setPosition(const int& x, const int& y)
 {
     Gate::setPosition(x, y);
 
-    m_editClickZone = QRect(Right(), Top(), EDIT_ZONE_WIDTH, EDIT_ZONE_HEIGHT);
+    m_editClickZone = QRect(geometry().right(), geometry().top(), Settings::EditZoneWidth, Settings::EditZoneHeight);
 }
 
 Gate* TextLabel::Clone()
 {
-    TextLabel* clone = new TextLabel();
-
+    TextLabel* clone = new TextLabel(m_geometry.x(), m_geometry.y());
     clone->Update(m_font, m_string);
-
-    //Clone position
-    QPoint pos = position();
-    clone->setPosition(pos.x(), pos.y());
 
     return clone;
 }
 
-void TextLabel::Update(QFont font, QString string)
+void TextLabel::Update(const QFont& font, const QString& string)
 {
     m_string = string;
     m_font = font;
 
-    QFontMetrics fm(m_font);
+    const QFontMetrics textFontMetrics(m_font);
 
     //Update dimensions since text has changed:
-    m_width = fm.width(m_string);
-    m_height = fm.height();
-
-    //Rests everything due to changed m_width & m_height
-    setPosition(position().x(), position().y());
+    m_geometry.setWidth(textFontMetrics.width(m_string));
+    m_geometry.setHeight(textFontMetrics.height());
 }
 
 QString TextLabel::GetString()

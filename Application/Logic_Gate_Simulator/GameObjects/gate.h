@@ -38,7 +38,8 @@ public:
 
     ///Position stuff
     virtual void setPosition(const int& x, const int& y);
-    QPoint getPosition();
+    QPoint position() const;
+    QRect geometry() const;
 
     //Node functions
     virtual bool FindNodeWithId(const id& id, Node*& node);

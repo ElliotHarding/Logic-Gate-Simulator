@@ -66,9 +66,14 @@ void Gate::setPosition(const int &x, const int &y)
 
 }
 
-QPoint Gate::getPosition()
+QPoint Gate::position() const
 {
     return m_geometry.topLeft();
+}
+
+QRect Gate::geometry() const
+{
+    return m_geometry;
 }
 
 //Todo : why is there a *&

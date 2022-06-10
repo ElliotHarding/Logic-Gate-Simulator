@@ -12,7 +12,7 @@ public:
     ~GateCollection();
 
     virtual void UpdateOutput() override;
-    virtual void UpdateGraphics(QPainter* painter) override;
+    virtual void draw(QPainter* painter) override;
     virtual bool UpdateDrag(int clickX, int clickY) override;
     virtual Node *GetClickedNode(int clickX, int clickY) override;
     virtual bool FindNodeWithId(id _id, Node*& n) override;
@@ -29,7 +29,7 @@ public:
 
     //Class specific public methods
     void DisplaceGates(Vector2D displacement);
-    void UpdateContaningArea() {m_contaningArea = containingArea();}
+    void UpdateContaningArea();
 
     //Call UpdateContaningArea() before calling any of these
     virtual int Left() override {return m_contaningArea.left() + c_borderBoxMargin;}
@@ -56,9 +56,6 @@ private:
 
     //Number of pixels from border before gates are seen
     const int c_borderBoxMargin = 40;
-
-    QRect containingArea();
-    QRect m_contaningArea;
 
     enum DragMode{DragIndividual,DragAll};
     DragMode m_dragMode = DragAll;

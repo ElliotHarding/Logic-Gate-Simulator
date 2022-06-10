@@ -3,10 +3,16 @@
 #include "gatefield.h"
 #include "circuitoptimizer.h"
 
+namespace Settings
+{
+
+}
+
 GateCollection::GateCollection(std::vector<Gate*> gates) :
-    Gate::Gate(GATE_COLLECTION, 0, 0)
+    Gate::Gate(GATE_COLLECTION, 0, 0, 0, 0)
 {
     m_gates = gates;
+    UpdateContaningArea();
     ProporgateParentAndCheckForNestedGates();
 }
 
@@ -240,6 +246,59 @@ void GateCollection::DisplaceGates(Vector2D displacement)
     }
 }
 
+void GateCollection::UpdateContaningArea()
+{
+    //Variables specifying boundaries of GateCollection
+    //To be used to draw bounding box
+    int MINX = std::numeric_limits<int>::max();
+    int MINY = std::numeric_limits<int>::max();
+    int MAXX = std::numeric_limits<int>::min();
+    int MAXY = std::numeric_limits<int>::min();
+
+    for(Gate* gate : m_gates)
+    {
+        if(gate->GetType() == GATE_COLLECTION)
+        {
+            if(dynamic_cast<GateCollection*>(gate))
+                dynamic_cast<GateCollection*>(gate)->UpdateContaningArea();
+
+            if(gate->geometry().bottom() < MINY)
+            {
+                MINY = gate->geometry().bottom() + c_borderBoxMargin;
+            }
+
+            if(gate->geometry().top() > MAXY)
+            {
+                MAXY = gate->geometry().top() - c_borderBoxMargin;
+            }
+        }
+        else
+        {
+            if(gate->geometry().top() < MINY)
+            {
+                MINY = gate->geometry().top() - c_borderBoxMargin;
+            }
+
+            if(gate->geometry().bottom() > MAXY)
+            {
+                MAXY = gate->geometry().bottom() + c_borderBoxMargin;
+            }
+        }
+
+        if(gate->geometry().left() < MINX)
+        {
+            MINX = gate->geometry().left() - c_borderBoxMargin;
+        }
+
+        if(gate->geometry().right() > MAXX)
+        {
+            MAXX = gate->geometry().right() + c_borderBoxMargin;
+        }
+    }
+
+    m_geometry = QRect(QPoint(MINX, MAXY), QPoint(MAXX, MINY));
+}
+
 void GateCollection::ToggleDragMode()
 {
     m_dragMode = (bool)m_dragMode ? DragIndividual : DragAll;
@@ -443,57 +502,4 @@ Gate *GateCollection::Clone()
     clone->m_contaningArea = m_contaningArea;
 
     return clone;
-}
-
-QRect GateCollection::containingArea()
-{
-    //Variables specifying boundaries of GateCollection
-    //To be used to draw bounding box
-    int MINX = 99999;
-    int MINY = 99999;
-    int MAXX = -99999;
-    int MAXY = -99999;
-
-    for(Gate* gate : m_gates)
-    {
-        if(gate->GetType() == GATE_COLLECTION)
-        {
-            if(dynamic_cast<GateCollection*>(gate))
-                dynamic_cast<GateCollection*>(gate)->UpdateContaningArea();
-
-            if(gate->Bottom() < MINY)
-            {
-                MINY = gate->Bottom() + c_borderBoxMargin;
-            }
-
-            if(gate->Top() > MAXY)
-            {
-                MAXY = gate->Top() - c_borderBoxMargin;
-            }
-        }
-        else
-        {
-            if(gate->Top() < MINY)
-            {
-                MINY = gate->Top() - c_borderBoxMargin;
-            }
-
-            if(gate->Bottom() > MAXY)
-            {
-                MAXY = gate->Bottom() + c_borderBoxMargin;
-            }
-        }
-
-        if(gate->Left() < MINX)
-        {
-            MINX = gate->Left() - c_borderBoxMargin;
-        }
-
-        if(gate->Right() > MAXX)
-        {
-            MAXX = gate->Right() + c_borderBoxMargin;
-        }
-    }
-
-    return QRect(QPoint(MINX, MAXY), QPoint(MAXX, MINY));
 }

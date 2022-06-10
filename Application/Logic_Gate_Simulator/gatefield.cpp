@@ -309,25 +309,13 @@ void GateField::FinishWithGates()
     m_lockAllGates.unlock();
 }
 
-void GateField::AddGate(Gate* go, bool newlySpawned, bool cameFromGateColleciton)
+void GateField::AddGate(Gate* go, bool newlySpawned)
 {
-    if(cameFromGateColleciton)
-    {
-        go->SetParent(this);
-        m_allGates.push_back(go);
-    }
-    else
-    {
-        if(newlySpawned)
-            go->setPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
+    go->SetParent(this);
+    m_allGates.push_back(go);
 
-        go->SetParent(this);
-
-        m_lockAllGates.lock();
-        m_allGates.push_back(go);
-        m_lockAllGates.unlock();
-    }
-
+    if(newlySpawned)
+        go->setPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
 
     //Call to redraw
     update();
@@ -495,7 +483,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
                 ForgetChild(g);
 
             //Add gate collection to m_allGates
-            AddGate(collection, false, true);
+            AddGate(collection, false);
         }
 
         //Disactivate selection

@@ -81,7 +81,7 @@ GateCollection::~GateCollection()
         else if (m_pParentField)
         {
             for (Gate* g : m_gates)
-                m_pParentField->AddGate(&*g, false, true);
+                m_pParentField->AddGate(&*g, false);
         }
 
         //Check if something went wrong

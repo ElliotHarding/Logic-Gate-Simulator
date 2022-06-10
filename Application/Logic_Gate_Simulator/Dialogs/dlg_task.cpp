@@ -54,7 +54,7 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
         {
             GateToggle* newGate = new GateToggle(5, ylen * (x + 1));
             newGate->setEnabled(false);
-            m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
+            m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false);
             m_inputGates.push_back(newGate);
         }
 
@@ -63,7 +63,7 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
         {
             GateReciever* newGate = new GateReciever(1000, ylen * (x + 1));
             newGate->setEnabled(false);
-            m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
+            m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false);
             m_outputGates.push_back(newGate);
         }
 

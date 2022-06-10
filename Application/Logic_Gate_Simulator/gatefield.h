@@ -29,7 +29,7 @@ public:
     ~GateField();
 
     //Gates
-    void AddGate(Gate* go, bool newlySpawned = true, bool cameFromGateColleciton = false);
+    void AddGate(Gate* go, bool newlySpawned = true);
     void DeleteGate(Gate* g);
     void ForgetChild(Gate* g);
 

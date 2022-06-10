@@ -106,7 +106,12 @@ void GateField::rl_updateFunction()
 
 ClickMode GateField::GetCurrentClickMode()
 {
-    return CurrentClickMode;
+    return m_currentClickMode;
+}
+
+void GateField::setCurrentClickMode(const ClickMode& mode)
+{
+    m_currentClickMode = mode;
 }
 
 void GateField::SetZoomLevel(qreal zoom)
@@ -259,7 +264,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     if(click->buttons() & Qt::LeftButton)
     {
-        switch (CurrentClickMode)
+        switch (m_currentClickMode)
         {
         case CLICK_DELETE_GATE:
             checkDelete(clickX,clickY);
@@ -309,7 +314,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 {
     const QPoint clickPos = QtPointToWorldPoint(click->pos());
 
-    switch (CurrentClickMode)
+    switch (m_currentClickMode)
     {
         case CLICK_DRAG:
             if(m_pDraggingGate)

@@ -296,7 +296,7 @@ void DLG_Home::SetCurrentClickMode(ClickMode clickMode)
     m_currentClickMode = clickMode;
 
     if(m_iCurrentGateField != -1)
-        m_allGateFields[size_t(m_iCurrentGateField)]->CurrentClickMode = clickMode;
+        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(clickMode);
 
     switch (clickMode)
     {

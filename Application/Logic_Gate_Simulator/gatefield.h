@@ -48,10 +48,9 @@ public:
     void EditTextLabel(TextLabel *textLabelToEdit);
     void UpdateGateSelected(Gate* g);   
 
-    //Public vars
-    bool Enabled = true;
-    ClickMode CurrentClickMode;
+    ///Click mode
     ClickMode GetCurrentClickMode();
+    void setCurrentClickMode(const ClickMode& mode);
 
 signals:
 public slots:
@@ -116,9 +115,10 @@ private:
     //Selecting
     QRubberBand* m_pSelectionTool = nullptr;
     QPoint m_selectionToolOrigin;
-    const QColor selectionAreaColor = Qt::blue;
-    std::vector<Gate*> m_selectedGates;
+    std::vector<Gate*> m_selectedGates;//Todo : check
     DLG_SaveGateCollection* m_pDlgSaveGateCollection;
+
+    ClickMode m_currentClickMode;
 
     //Coords of newly spawned gate
     const int SPAWN_X = 300;

@@ -457,6 +457,8 @@ bool GateField::checkStartLink(const int& clickX, const int& clickY)
         {
             m_linkNodeA = dynamic_cast<Node*>(pPossibleClickedNode);
 
+            m_currentMousePos = m_linkNodeA->position();
+
             //Change cursor as started linking
             m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
             return true;

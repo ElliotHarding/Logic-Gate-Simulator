@@ -16,7 +16,7 @@ public:
 
     virtual GameObject* checkClicked(const int& x, const int& y);
 
-    void setUserDisabled();
+    void setEnabled(const bool enabled);
 
 protected:
     QRect m_geometry;

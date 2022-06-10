@@ -12,6 +12,11 @@ GameObject* GameObject::checkClicked(const int &x, const int &y)
     return m_bEnabled && m_geometry.contains(QPoint(x,y)) ? this : nullptr;
 }
 
+void GameObject::setEnabled(const bool enabled)
+{
+    m_bEnabled = enabled;
+}
+
 void GameObject::setPosition(const int& x, const int& y)
 {
     m_geometry = QRect(x, y, m_geometry.width(), m_geometry.height());
@@ -20,9 +25,4 @@ void GameObject::setPosition(const int& x, const int& y)
 void GameObject::draw(QPainter& painter)
 {
     painter.drawImage(m_geometry, m_image);
-}
-
-void GameObject::setUserDisabled()
-{
-    m_bEnabled = false;
 }

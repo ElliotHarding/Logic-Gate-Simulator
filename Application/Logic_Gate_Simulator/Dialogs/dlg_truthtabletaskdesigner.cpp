@@ -32,8 +32,7 @@ DLG_TruthTableTaskDesigner::DLG_TruthTableTaskDesigner(int iInputs, int iOutputs
     int ylen = (486*2)/(m_task.m_inputs+1);
     for (int x = 0; x < iInputs; ++x)
     {
-        GateToggle* newGate = new GateToggle(outId++);
-        newGate->setPosition(5, ylen * (x + 1));
+        GateToggle* newGate = new GateToggle(5, ylen * (x + 1), outId++);
         //newGate->SetUserDisabled();
         m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
         m_inputGates.push_back(newGate);
@@ -42,8 +41,7 @@ DLG_TruthTableTaskDesigner::DLG_TruthTableTaskDesigner(int iInputs, int iOutputs
     ylen = (486*2)/(m_task.m_outputs+1);
     for(int x = 0; x < iOutputs; x++)
     {
-        GateReciever* newGate = new GateReciever(inId++);
-        newGate->setPosition(1000, ylen * (x + 1));
+        GateReciever* newGate = new GateReciever(1000, ylen * (x + 1), inId++);
         //newGate->SetUserDisabled();
         m_allGateFields[m_iCurrentGateField]->AddGate(newGate, false, false);
         m_outputGates.push_back(newGate);

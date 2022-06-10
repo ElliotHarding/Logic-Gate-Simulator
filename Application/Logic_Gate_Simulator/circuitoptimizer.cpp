@@ -64,10 +64,10 @@ bool CircuitOptimizer::TruthTableFromCircuit(std::vector<Gate*>& gates, TruthTab
         {
             const bool bIn = bin[iNode] == '0' ? true : false;
             table[i].in.push_back(bIn);
-            inputNodes[iNode]->SetValue(bIn);
+            inputNodes[iNode]->setValue(bIn);
         }
 
-        table[i].result = outputNodes[0]->GetValue();
+        table[i].result = outputNodes[0]->value();
     }
 
     return true;

@@ -82,7 +82,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n2 = readNode(gateStream);
         NodeIds n3 = readNode(gateStream);
 
-        rGate = new GateAnd(n1.id, n2.id, n3.id);
+        rGate = new GateAnd(stoi(posX), stoi(posY), n1.id, n2.id, n3.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
@@ -97,7 +97,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n2 = readNode(gateStream);
         NodeIds n3 = readNode(gateStream);
 
-        rGate = new GateOr(n1.id, n2.id, n3.id);
+        rGate = new GateOr(stoi(posX), stoi(posY), n1.id, n2.id, n3.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
@@ -125,7 +125,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n1 = readNode(gateStream);
         NodeIds n2 = readNode(gateStream);
 
-        rGate = new GateNot(n1.id, n2.id);
+        rGate = new GateNot(stoi(posX), stoi(posY), n1.id, n2.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
@@ -136,7 +136,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     {
         NodeIds n1 = readNode(gateStream);
 
-        rGate = new GateToggle(n1.id);
+        rGate = new GateToggle(stoi(posX), stoi(posY), n1.id);
 
         linkInfo.push_back(n1);
         break;
@@ -146,7 +146,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     {
         NodeIds n1 = readNode(gateStream);
 
-        rGate = new GateReciever(n1.id);
+        rGate = new GateReciever(stoi(posX), stoi(posY), n1.id);
 
         linkInfo.push_back(n1);
         break;
@@ -156,7 +156,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     {
         NodeIds n1 = readNode(gateStream);
 
-        rGate = new GateConstantActive(n1.id);
+        rGate = new GateConstantActive(stoi(posX), stoi(posY), n1.id);
 
         linkInfo.push_back(n1);
         break;
@@ -166,7 +166,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     {
         NodeIds n1 = readNode(gateStream);
 
-        rGate = new GateConstantInactive(n1.id);
+        rGate = new GateConstantInactive(stoi(posX), stoi(posY), n1.id);
 
         linkInfo.push_back(n1);
         break;
@@ -179,7 +179,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         std::string frequency;
         gateStream >> frequency;
 
-        rGate = new GateTimer(n1.id);
+        rGate = new GateTimer(stoi(posX), stoi(posY), n1.id);
         dynamic_cast<GateTimer*>(rGate)->setFrequency(tryStoi(frequency, 500));
 
         linkInfo.push_back(n1);
@@ -193,7 +193,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n3 = readNode(gateStream);
         NodeIds n4 = readNode(gateStream);
 
-        rGate = new GateTriOr(n1.id, n2.id, n3.id, n4.id);
+        rGate = new GateTriOr(stoi(posX), stoi(posY), n1.id, n2.id, n3.id, n4.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
@@ -209,7 +209,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n3 = readNode(gateStream);
         NodeIds n4 = readNode(gateStream);
 
-        rGate = new GateTriAnd(n1.id, n2.id, n3.id, n4.id);
+        rGate = new GateTriAnd(stoi(posX), stoi(posY), n1.id, n2.id, n3.id, n4.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
@@ -225,7 +225,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n3 = readNode(gateStream);
         NodeIds n4 = readNode(gateStream);
 
-        rGate = new GateTriEor(n1.id, n2.id, n3.id, n4.id);
+        rGate = new GateTriEor(stoi(posX), stoi(posY), n1.id, n2.id, n3.id, n4.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
@@ -241,7 +241,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n3 = readNode(gateStream);
         NodeIds n4 = readNode(gateStream);
 
-        rGate = new GateNumberOutput(n1.id, n2.id, n3.id, n4.id);
+        rGate = new GateNumberOutput(stoi(posX), stoi(posY), n1.id, n2.id, n3.id, n4.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
@@ -256,7 +256,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         NodeIds n2 = readNode(gateStream);
         NodeIds n3 = readNode(gateStream);
 
-        rGate = new GateEor(n1.id, n2.id, n3.id);
+        rGate = new GateEor(stoi(posX), stoi(posY), n1.id, n2.id, n3.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);
@@ -275,10 +275,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     //Enabled
     bool isEnabled = false;
     tryStoi(enabled, isEnabled);
-    rGate->Enabled = isEnabled;
-
-    //Position
-    rGate->setPosition(stoi(posX),stoi(posY));
+    rGate->setEnabled(isEnabled);
 
     //Read off </GATE> tag, but it's already been read for GateCollections
     if(rGate->GetType() != GateType::GATE_COLLECTION)

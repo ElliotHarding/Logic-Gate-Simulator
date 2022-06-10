@@ -104,8 +104,6 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
 
             g->setEnabled(false);
         }
-
-        m_allGateFields[m_iCurrentGateField]->FinishWithGates();
     }
 
     m_pBtnSubmit = new QPushButton("Submit", this);
@@ -159,8 +157,6 @@ void dlg_task::onSubmitButtonClicked()
     else
         answers = m_pTruthTableWidget->GetAnswer();
 
-    m_allGateFields[m_iCurrentGateField]->GetGates(); //call lock on gates
-
     const int numRows = inputs[0].size();
     for(int row = 0; row < numRows; row++)
     {
@@ -182,13 +178,10 @@ void dlg_task::onSubmitButtonClicked()
 
                 //Notify user
                 SendUserMessage("Incorrect! Try again.");
-                m_allGateFields[m_iCurrentGateField]->FinishWithGates();
                 return;
             }
         }
     }
-
-    m_allGateFields[m_iCurrentGateField]->FinishWithGates();
 
     m_pTaskManager->OnTaskCompleted();
 }

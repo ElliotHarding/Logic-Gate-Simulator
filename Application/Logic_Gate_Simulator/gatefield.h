@@ -28,6 +28,7 @@ public:
     ~GateField();
 
     //Gates
+    std::vector<Gate*>& GetGates();
     void AddGate(Gate* go, bool newlySpawned = true);
     void DeleteGate(Gate* g);
     void ForgetChild(Gate* g);

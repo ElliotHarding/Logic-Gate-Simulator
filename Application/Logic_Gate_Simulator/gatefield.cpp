@@ -66,6 +66,11 @@ GateField::~GateField()
         delete m_selectionTool;
 }
 
+std::vector<Gate*>& GateField::GetGates()
+{
+    return m_allGates;
+}
+
 void GateField::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);

@@ -254,7 +254,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
     if(m_pLinkNodeA)
     {
         m_pLinkNodeA = nullptr;
-        m_pParent->ResetToPreviousClickMode();
+        m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
     }
 
     if(click->buttons() & Qt::LeftButton)

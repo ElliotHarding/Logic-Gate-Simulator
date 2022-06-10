@@ -46,7 +46,6 @@ public:
     void SelectionToolClicked();
     void UpdateCustomGateListWidget();
     void SetCurrentClickMode(ClickMode clickMode);
-    void ResetToPreviousClickMode();
     void EditTextLabel(TextLabel* textLabelToEdit);
 
 protected:
@@ -94,7 +93,6 @@ protected:
 
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
-    ClickMode m_previousClickMode = CLICK_DRAG;
 
 private slots:
 

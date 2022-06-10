@@ -293,7 +293,6 @@ void DLG_Home::on_btn_click_clicked()
 }
 void DLG_Home::SetCurrentClickMode(ClickMode clickMode)
 {
-    m_previousClickMode = m_currentClickMode;
     m_currentClickMode = clickMode;
 
     if(m_iCurrentGateField != -1)
@@ -328,20 +327,6 @@ void DLG_Home::SetCurrentClickMode(ClickMode clickMode)
     case CLICK_DEFAULT:
         QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
         break;
-    }
-
-    m_previousClickMode = clickMode;
-}
-
-void DLG_Home::ResetToPreviousClickMode() //Todo : check if needed
-{
-    if(m_previousClickMode != CLICK_LINK_NODES)
-    {
-        SetCurrentClickMode(m_previousClickMode);
-    }
-    else
-    {
-        SetCurrentClickMode(CLICK_DRAG);
     }
 }
 

@@ -62,7 +62,8 @@ GateField::~GateField()
     m_allGates.clear();
     m_gateBackups.clear();
 
-    delete m_linkNodeA;
+    if(m_linkNodeA)
+        delete m_linkNodeA;
 
     if(m_selectionTool)
         delete m_selectionTool;
@@ -370,6 +371,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 {
     m_bMouseDown = false;
 
+    //If ending a dragging session
     if(m_pDraggingGate)
     {
         m_pDraggingGate = nullptr;
@@ -377,6 +379,14 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     }
 
     const QPoint clickPos = QtPointToWorldPoint(click->pos());
+
+    //Check if ending a link attempt
+    if(m_linkNodeA)
+    {
+        checkEndLink(clickPos.x(), clickPos.y());
+        m_linkNodeA = nullptr;
+        update();
+    }
 
     //If ending a selection
     if(m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION && !m_bDisableGateCollections)
@@ -409,63 +419,10 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         m_selectionTool = nullptr;
 
         m_pParent->SetCurrentClickMode(CLICK_DRAG);
+
+        //Call to redraw
+        update();
     }
-
-    //Check if ending a link
-    if(CurrentClickMode == CLICK_LINK_NODES)
-    {
-        //Change cursor as finished linking
-        m_pParent->ResetToPreviousClickMode();
-
-        for (Gate* g : m_allGates)
-        {
-            GameObject* pPossibleClickedNode = g->checkClicked(clickPos.x(), clickPos.y());
-            if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode) && m_linkNodeA)
-            {
-                Node* node = dynamic_cast<Node*>(pPossibleClickedNode);
-
-                //Check not same node types
-                if(node->type() == m_linkNodeA->type())
-                {
-                    m_pParent->SendUserMessage("Cant link to nodes of same type");
-                    return;
-                }
-
-                //Check both dont have same parent
-                if(node->GetParent() == m_linkNodeA->GetParent())
-                    return;
-
-                //link nodes & update parent gates (inside LinkNode())
-                bool n1Linked = node->LinkNode(m_linkNodeA);
-                bool n2Linked = m_linkNodeA->LinkNode(node);
-
-                if(!n1Linked && !n2Linked)
-                {
-                    if(n1Linked)
-                    {
-                        node->DetachNode();
-                    }
-
-                    if(n2Linked)
-                    {
-                        m_linkNodeA->DetachNode();
-                    }
-                }
-
-                //link successful
-                else
-                {
-                    m_linkNodeA = nullptr;
-                }
-
-                node = nullptr;
-                return;
-            }
-        }
-    }
-
-    //Call to redraw
-    update();
 }
 
 //Handles mouse scroll for zooming, offsets gates based on mouse position
@@ -503,6 +460,48 @@ void GateField::checkStartLink(const int& clickX, const int& clickY)
             //Change cursor as started linking
             m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
             return;
+        }
+    }
+}
+
+void GateField::checkEndLink(const int &clickX, const int &clickY)
+{
+    for (Gate* g : m_allGates)
+    {
+        GameObject* pPossibleClickedNode = g->checkClicked(clickX, clickY);
+        if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
+        {
+            Node* node = dynamic_cast<Node*>(pPossibleClickedNode);
+
+            //Check not same node types
+            if(node->type() == m_linkNodeA->type())
+            {
+                m_pParent->SendUserMessage("Cant link to nodes of same type");
+                return;
+            }
+
+            //Check both dont have same parent
+            if(node->GetParent() == m_linkNodeA->GetParent())
+            {
+                return;
+            }
+
+            //link nodes & update parent gates (inside LinkNode())
+            bool n1Linked = node->LinkNode(m_linkNodeA);
+            bool n2Linked = m_linkNodeA->LinkNode(node);
+
+            if(!n1Linked && !n2Linked)
+            {
+                if(n1Linked)
+                {
+                    node->DetachNode();
+                }
+
+                if(n2Linked)
+                {
+                    m_linkNodeA->DetachNode();
+                }
+            }
         }
     }
 }

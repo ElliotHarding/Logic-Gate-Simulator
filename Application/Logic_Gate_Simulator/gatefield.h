@@ -63,6 +63,7 @@ private:
 
     //Click actions
     void checkStartLink(const int& clickX, const int& clickY);
+    void checkEndLink(const int& clickX, const int& clickY);
     void rl_deleteClick(int clickX, int clickY);
     void checkStartDrag(const int& clickX, const int& clickY);
     void rl_deleteLinkedNodesClick(int clickX, int clickY);

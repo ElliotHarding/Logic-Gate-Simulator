@@ -301,7 +301,6 @@ std::string Node::GetLinkedNodesIds()
     return ids;
 }
 
-//Todo : why *&
 bool Node::LinkNode(Node*& n)
 {
     //Check if already linked

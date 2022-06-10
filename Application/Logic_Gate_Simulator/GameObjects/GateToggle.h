@@ -14,7 +14,6 @@ public:
 
     virtual void UpdateOutput() override;
     virtual GameObject* checkClicked(const int& x, const int& y) override;
-    virtual void draw(QPainter& painter) override;
     virtual Gate* Clone() override;
 
     void SaveData(std::ofstream& storage) override;

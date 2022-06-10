@@ -8,12 +8,6 @@
 #include "GateTimer.h"
 #include "gatefield.h"
 
-namespace Settings
-{
-const QFont TimerFont = QFont("Helvetica", 5);
-const QFontMetrics TimerFontMetrics(TimerFont);
-}
-
 GateTimer::GateTimer(const int& x, const int& y, const id& out) :
     GateSingleOutput::GateSingleOutput(x, y, GATE_TIMER, out)
 {
@@ -45,14 +39,6 @@ void GateTimer::SaveData(std::ofstream &storage)
     m_pOutput->SaveData(storage);
 
     storage << END_SAVE_TAG_GATE << std::endl;
-}
-
-void GateTimer::draw(QPainter& painter)
-{
-    GateSingleOutput::draw(painter);
-
-    painter.setFont(Settings::TimerFont);
-    painter.drawText(position().x(), position().y() - (Settings::TimerFontMetrics.height()/4), QString::number(m_frequency) + "Mhz");
 }
 
 Gate *GateTimer::Clone()

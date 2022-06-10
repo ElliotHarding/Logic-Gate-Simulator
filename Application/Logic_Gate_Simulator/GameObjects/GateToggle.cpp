@@ -5,11 +5,6 @@ namespace Settings
 {
 ///Functionality
 const uint MaxToggleFrequencyMs = 2;
-
-///Text
-const QFont DisplayFont = QFont("Helvetica", 7);
-const QFontMetrics DisplayFontMetrics(DisplayFont);
-const QColor DisplayTextColor = Qt::black;
 }
 
 GateToggle::GateToggle(const int& x, const int& y, const id& out) :
@@ -48,17 +43,6 @@ void GateToggle::ToggleOutputState()
     m_toggleStateTimer.stop();
     m_toggleStateTimer.start(Settings::MaxToggleFrequencyMs);
     m_pOutput->setValue(!m_pOutput->value());
-}
-
-void GateToggle::draw(QPainter& painter)
-{
-    GateSingleOutput::draw(painter);
-
-    painter.setPen(QPen(Settings::DisplayTextColor, 1));
-    painter.setFont(Settings::DisplayFont);
-    painter.drawText(position().x(),
-                      position().y() - Settings::DisplayFontMetrics.height()/4,
-                      m_pOutput->value() ? "On" : "Off");
 }
 
 Gate *GateToggle::Clone()

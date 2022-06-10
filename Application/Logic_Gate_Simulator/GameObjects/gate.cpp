@@ -48,6 +48,21 @@ void Gate::SaveData(std::ofstream &storage)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
+void Gate::setPosition(const int &x, const int &y)
+{
+    GameObject::setPosition(x, y);
+    for (Node* n : m_nodes)
+    {
+        n->setPosition(x, y);
+    }
+
+}
+
+QPoint Gate::getPosition()
+{
+    return m_geometry.topLeft();
+}
+
 //Todo : why is there a *&
 bool Gate::FindNodeWithId(const id& id, Node*& node)
 {
@@ -126,12 +141,14 @@ void Gate::DetachNodes()
 // -- NODE IMPLEMENTATION --
 //
 
-Node::Node(Gate* pParent, const uint& x, const uint& y, const NodeType& type, int nodeId) :
-    GameObject::GameObject(pParent, x, y, Settings::NodeWidth, Settings::NodeHeight),
+Node::Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeType& type, int nodeId) :
+    GameObject::GameObject(pParent->getPosition().x() + offsetX, pParent->getPosition().y() + offsetY, Settings::NodeWidth, Settings::NodeHeight),
     m_bValue(0),
     m_pParent(pParent),
     m_id(nodeId),
-    m_nodeType(type)
+    m_nodeType(type),
+    m_offsetX(offsetX),
+    m_offsetY(offsetY)
 {
 }
 
@@ -172,6 +189,11 @@ void Node::draw(QPainter& painter)
     //Draw node
     painter.setPen(QPen(Settings::NodeColor, Settings::NodeDrawSize));
     painter.drawEllipse(m_geometry.center(), Settings::NodeDrawSize, Settings::NodeDrawSize);
+}
+
+void Node::setPosition(const int &x, const int &y)
+{
+    GameObject::setPosition(x + m_offsetX, y + m_offsetY);
 }
 
 void Node::setValue(bool val)

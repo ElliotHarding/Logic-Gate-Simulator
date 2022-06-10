@@ -56,4 +56,3 @@ void GateReciever::draw(QPainter& painter)
     painter.setPen(QPen(Qt::lightGray, Settings::BorderSize));
     painter.drawEllipse(m_geometry.center(), Settings::GateRecieverWidth, Settings::GateRecieverHeight);
 }
-

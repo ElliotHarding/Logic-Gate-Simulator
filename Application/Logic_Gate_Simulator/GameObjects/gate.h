@@ -35,6 +35,8 @@ public:
     //Generic functions   
     virtual void UpdateOutput() = 0;
     virtual void SaveData(std::ofstream& storage);
+    virtual void setPosition(const int& x, const int& y);
+    QPoint getPosition();
 
     //Node functions
     virtual bool FindNodeWithId(const id& id, Node*& node);
@@ -67,10 +69,11 @@ class Node : public GameObject
 {
 public:
     ///Construction/destruction
-    Node(Gate* pParent, const uint& x, const uint& y, const NodeType& type, int nodeId = idGenerator());
+    Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeType& type, int nodeId = idGenerator());
     ~Node();
 
     virtual void draw(QPainter& painter);
+    virtual void setPosition(const int& x, const int& y);
 
     ///Value
     void setValue(bool val);
@@ -98,6 +101,10 @@ private:
     std::string GetLinkedNodesIds();
 
     Gate* m_pParent = nullptr;
+
+    ///Positional offset from parent gate
+    const int m_offsetX;
+    const int m_offsetY;
 
     //Stored value
     bool m_bValue;

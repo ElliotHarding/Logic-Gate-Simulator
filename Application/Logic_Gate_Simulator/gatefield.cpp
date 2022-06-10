@@ -7,6 +7,7 @@
 namespace Settings
 {
 const QPen LinkingNodeLine(Qt::blue, 2);
+const QPen SelectionBorder(Qt::blue, 2);
 }
 
 GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections, bool bDisableGateBackup, bool bDisableZoom) :
@@ -86,8 +87,7 @@ void GateField::paintEvent(QPaintEvent*)
     //If were currently selecting an area
     if(CurrentClickMode == CLICK_SELECTION && m_selectionTool && !m_bDisableGateCollections)
     {
-        QPen pen(Qt::blue, 2);
-        painter.setPen(pen);
+        painter.setPen(Settings::SelectionBorder);
         painter.drawRect(m_selectionTool->geometry());
     }
 

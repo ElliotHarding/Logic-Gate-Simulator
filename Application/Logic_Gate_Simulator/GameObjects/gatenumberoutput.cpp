@@ -7,19 +7,21 @@ const uint GateNumberOutputWidth = 100;
 
 const uint HeightStep (GateNumberOutputHeight/5);
 
-const int NodeOffsetX_a = 0;
-const int NodeOffsetY_a = (HeightStep * 1) - 5;
+const int NodeOffsetX_a = -50;
+const int NodeOffsetY_a = (HeightStep * 1) - 25;
 
-const int NodeOffsetX_b = 0;
-const int NodeOffsetY_b = (HeightStep * 2) - 5;
+const int NodeOffsetX_b = -50;
+const int NodeOffsetY_b = (HeightStep * 2) - 25;
 
-const int NodeOffsetX_c = 0;
-const int NodeOffsetY_c = (HeightStep * 3) - 5;
+const int NodeOffsetX_c = -50;
+const int NodeOffsetY_c = (HeightStep * 3) - 25;
 
-const int NodeOffsetX_d = 0;
-const int NodeOffsetY_d = (HeightStep * 4) - 5;
+const int NodeOffsetX_d = -50;
+const int NodeOffsetY_d = (HeightStep * 4) - 25;
 
 const QFont NumberFont = QFont("Helvetica", 40);
+const QFontMetrics NumberFontMetrics(NumberFont);
+const uint FontHeightOffset = NumberFontMetrics.height()/4;
 }
 
 GateNumberOutput::GateNumberOutput(const int &x, const int &y, const id &inA, const id &inB, const id &inC, const id &inD) :
@@ -50,9 +52,7 @@ void GateNumberOutput::draw(QPainter& painter)
 
     painter.setFont(Settings::NumberFont);
 
-    //Todo : do proper position calculation based on font
-    const QPoint textPosition = QPoint(position().x() - 6,
-                                       m_geometry.bottom() - (m_geometry.height()/4) + 2);
+    const QPoint textPosition = QPoint(position().x(), position().y() + Settings::FontHeightOffset);
     painter.drawText(textPosition, QString::number(m_output));
 }
 

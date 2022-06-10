@@ -5,14 +5,14 @@ namespace Settings
 const uint GateEorHeight = 50;
 const uint GateEorWidth = 100;
 
-const int NodeOffsetX_a = -5;
-const int NodeOffsetY_a = (GateEorHeight/2) - 12;
+const int NodeOffsetX_a = -55;
+const int NodeOffsetY_a = 13;
 
-const int NodeOffsetX_b = -5;
-const int NodeOffsetY_b = GateEorHeight - 12;
+const int NodeOffsetX_b = -55;
+const int NodeOffsetY_b = -13;
 
-const int NodeOffsetX_c = GateEorWidth + 5;
-const int NodeOffsetY_c = (GateEorHeight/2);
+const int NodeOffsetX_c = 60;
+const int NodeOffsetY_c = 0;
 }
 
 GateEor::GateEor(const int& x, const int& y, const id& inA, const id& inB, const id& out) :

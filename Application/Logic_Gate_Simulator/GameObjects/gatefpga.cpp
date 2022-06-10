@@ -1,64 +1,81 @@
 #include "gatefpga.h"
 #include "gatefield.h"
 
-GateFPGA::GateFPGA() :
-    Gate::Gate(GATE_FPGA, GateFpgaWidth, GateFpgaHeight),
+namespace Settings
+{
+const uint GateFpgaWidth = 100;
+const uint GateFpgaHeight = 100;
+const uint GateFpgaBorderWidth = 10;
+
+const int InputNodesXpos = -5;
+const int OutputNodesXpos = GateFpgaWidth + 5;
+const int GapBetweenNodesY = 11;
+
+const QColor BorderColor = Qt::darkGray;
+const QColor FillColor = Qt::lightGray;
+}
+
+GateFPGA::GateFPGA(const int& x, const int& y) :
+    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
     m_pDlgEdit(new DLG_FPGA(this))
 {
     for (size_t x = 0; x < 10; x++)
     {
-        m_inputNodes.push_back(Node(this, InputNode));
-        m_nodes.push_back(&m_inputNodes[x]);
+        m_inputNodes.push_back(new Node(this, Settings::InputNodesXpos, x * Settings::GapBetweenNodesY, InputNode));
+        m_nodes.push_back(m_inputNodes[x]);
 
-        m_outputNodes.push_back(Node(this, OutputNode));
-        m_nodes.push_back(&m_outputNodes[x]);
+        m_outputNodes.push_back(new Node(this, Settings::OutputNodesXpos, x * Settings::GapBetweenNodesY, OutputNode));
+        m_nodes.push_back(m_outputNodes[x]);
     }
 }
 
 GateFPGA::~GateFPGA()
 {
     delete m_pDlgEdit;
+
+    m_inputNodes.clear();
+    m_outputNodes.clear();
 }
 
-void GateFPGA::UpdateGraphics(QPainter *painter)
+void GateFPGA::draw(QPainter& painter)
 {
     //Draw gate
-    painter->setPen(QPen(Qt::darkGray, GateFpgaBorderWidth * 2));
-    painter->drawRect(m_layout);
+    painter.setPen(QPen(Settings::BorderColor, Settings::GateFpgaBorderWidth * 2));
+    painter.drawRect(m_geometry);
 
     //MiniRect
-    QRect miniRect = m_layout;
-    miniRect.setLeft(miniRect.left() + GateFpgaBorderWidth);
-    miniRect.setRight(miniRect.right() - GateFpgaBorderWidth);
-    miniRect.setTop(miniRect.top() + GateFpgaBorderWidth);
-    miniRect.setBottom(miniRect.bottom() - GateFpgaBorderWidth);
+    QRect miniRect;
+    miniRect.setLeft(m_geometry.left() + Settings::GateFpgaBorderWidth);
+    miniRect.setRight(m_geometry.right() - Settings::GateFpgaBorderWidth);
+    miniRect.setTop(m_geometry.top() + Settings::GateFpgaBorderWidth);
+    miniRect.setBottom(m_geometry.bottom() - Settings::GateFpgaBorderWidth);
 
-    painter->fillRect(miniRect, QBrush(Qt::lightGray));
+    painter.fillRect(miniRect, QBrush(Settings::FillColor));
 
-    //Draw nodes
-    for (Node n : m_inputNodes)
-    {
-        n.UpdateGraphics(painter);
-    }
-    for (Node n : m_outputNodes)
-    {
-        n.UpdateGraphics(painter);
-    }
+    drawNodes(painter);
 }
 
-void GateFPGA::setPosition(int x, int y)
+GameObject *GateFPGA::checkClicked(const int &x, const int &y)
 {
-    GameObject::setPosition(x,y);
-
-    for (size_t index = 0; index < m_inputNodes.size(); index++)
+    for (Node* n : m_nodes)
     {
-        m_inputNodes[index].setPosition(m_layout.x() + INPUT_NODES_X, m_layout.y() + (index * NODES_Y_DIFF));
+        GameObject* pPossibleClickedNode = n->checkClicked(x, y);
+        if(pPossibleClickedNode != nullptr)
+        {
+            return pPossibleClickedNode;
+        }
     }
 
-    for (size_t index = 0; index < m_outputNodes.size(); index++)
+    if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
     {
-        m_outputNodes[index].setPosition(m_layout.x() + OUTPUT_NODES_X, m_layout.y()+ (index * NODES_Y_DIFF));
+        if(m_geometry.contains(QPoint(x, y)))
+        {
+            OpenEditor();
+        }
+        return nullptr;
     }
+
+    return GameObject::checkClicked(x, y);
 }
 
 void GateFPGA::SaveData(std::ofstream& storage)
@@ -76,20 +93,6 @@ void GateFPGA::SaveData(std::ofstream& storage)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
-bool GateFPGA::UpdateClicked(int clickX, int clickY)
-{
-    bool ret = Gate::UpdateClicked(clickX, clickY);
-    if(ret)
-    {
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            OpenEditor();
-        }
-    }
-
-    return ret;
-}
-
 void GateFPGA::UpdateOutput()
 {
     m_updateScript.CalculateOutput(m_inputNodes, m_outputNodes);
@@ -97,14 +100,10 @@ void GateFPGA::UpdateOutput()
 
 Gate *GateFPGA::Clone()
 {
-    GateFPGA* clone = new GateFPGA();
+    GateFPGA* clone = new GateFPGA(m_geometry.x(), m_geometry.y());
 
     clone->m_inputNodes = m_inputNodes;
     clone->m_outputNodes = m_outputNodes;
-
-    //Clone position
-    const QPoint pos = position();
-    clone->setPosition(pos.x(), pos.y());
 
     clone->m_updateScript = m_updateScript;
 
@@ -126,7 +125,7 @@ UpdateScript::UpdateScript()
 
 }
 
-void UpdateScript::CalculateOutput(std::vector<Node>& in, std::vector<Node>& out)
+void UpdateScript::CalculateOutput(std::vector<Node*>& in, std::vector<Node*>& out)
 {
 
 }
@@ -149,7 +148,7 @@ DLG_FPGA::DLG_FPGA(GateFPGA *parent) :
 {
 }
 
-void DLG_FPGA::EditFpgaScript(UpdateScript* updateScript)
+void DLG_FPGA::EditFpgaScript(UpdateScript* pUpdateScript)
 {
     show();
 }

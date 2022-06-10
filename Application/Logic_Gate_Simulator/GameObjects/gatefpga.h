@@ -1,10 +1,6 @@
 #ifndef GATEFPGA_H
 #define GATEFPGA_H
 
-#define GateFpgaWidth 100
-#define GateFpgaHeight 100
-#define GateFpgaBorderWidth 10
-
 #include <QDialog>
 #include "gate.h"
 
@@ -16,7 +12,7 @@ class DLG_FPGA : public QDialog
 public:
     DLG_FPGA(GateFPGA* parent);
 
-    void EditFpgaScript(UpdateScript* updateScript);
+    void EditFpgaScript(UpdateScript* pUpdateScript);
 
 protected:
     GateFPGA* m_pParentGate;
@@ -28,7 +24,7 @@ class UpdateScript
 public:
     UpdateScript();
 
-    void CalculateOutput(std::vector<Node>& in, std::vector<Node>& out);
+    void CalculateOutput(std::vector<Node*>& in, std::vector<Node*>& out);
     void SaveData(std::ofstream& storage);
 protected:
 
@@ -37,13 +33,12 @@ protected:
 class GateFPGA : public Gate
 {
 public:
-    GateFPGA();
+    GateFPGA(const int& x, const int& y);
     ~GateFPGA();
 
-    virtual void UpdateGraphics(QPainter* painter) override;
-    virtual bool UpdateClicked(int clickX, int clickY) override;
+    virtual void draw(QPainter& painter) override;
+    virtual GameObject* checkClicked(const int& x, const int& y) override;
     virtual void UpdateOutput() override;
-    virtual void setPosition(int x, int y) override;
     virtual void SaveData(std::ofstream& storage) override;
     virtual Gate* Clone() override;
 
@@ -55,13 +50,9 @@ protected:
 
     DLG_FPGA* m_pDlgEdit;
 
-    //Nodes:
-    const int INPUT_NODES_X = -5;
-    const int OUTPUT_NODES_X = GateFpgaWidth + 5;
-    const int NODES_Y_DIFF = 11;
-
-    std::vector<Node> m_inputNodes;
-    std::vector<Node> m_outputNodes;
+    ///Nodes
+    std::vector<Node*> m_inputNodes;
+    std::vector<Node*> m_outputNodes;
 };
 
 #endif // GATEFPGA_H

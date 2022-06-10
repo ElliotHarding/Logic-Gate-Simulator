@@ -28,14 +28,14 @@ void GateTriEor::UpdateOutput()
     }
 }
 
-void GateTriEor::SetPosition(int x, int y)
+void GateTriEor::setPosition(int x, int y)
 {
-    GameObject::SetPosition(x,y);
+    GameObject::setPosition(x,y);
 
-    m_inputA.SetPosition(m_layout.x() + M_INPUTa_OFFSET_X, m_layout.y() + M_INPUTa_OFFSET_Y);
-    m_inputB.SetPosition(m_layout.x() + M_INPUTb_OFFSET_X, m_layout.y() + M_INPUTb_OFFSET_Y);
-    m_inputC.SetPosition(m_layout.x() + M_INPUTc_OFFSET_X, m_layout.y() + M_INPUTc_OFFSET_Y);
-    m_output.SetPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
+    m_inputA.setPosition(m_layout.x() + M_INPUTa_OFFSET_X, m_layout.y() + M_INPUTa_OFFSET_Y);
+    m_inputB.setPosition(m_layout.x() + M_INPUTb_OFFSET_X, m_layout.y() + M_INPUTb_OFFSET_Y);
+    m_inputC.setPosition(m_layout.x() + M_INPUTc_OFFSET_X, m_layout.y() + M_INPUTc_OFFSET_Y);
+    m_output.setPosition(m_layout.x() + M_OUTPUT_OFFSET_X, m_layout.y() + M_OUTPUT_OFFSET_Y);
 }
 
 Gate *GateTriEor::Clone()
@@ -43,8 +43,8 @@ Gate *GateTriEor::Clone()
     GateTriEor* clone = new GateTriEor();
 
     //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    QPoint pos = position();
+    clone->setPosition(pos.x(), pos.y());
 
     //Clone nodes
     clone->m_pInputA = m_pInputA;

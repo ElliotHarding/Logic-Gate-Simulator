@@ -29,14 +29,14 @@ void GateNumberOutput::UpdateOutput()
     m_outputText = QString::fromStdString(stream.str());
 }
 
-void GateNumberOutput::SetPosition(int x, int y)
+void GateNumberOutput::setPosition(int x, int y)
 {
-    GameObject::SetPosition(x,y);
+    GameObject::setPosition(x,y);
 
-    m_inputA.SetPosition(m_layout.x() + M_INPUTa_OFFSET_X, m_layout.y() + M_INPUTa_OFFSET_Y);
-    m_inputB.SetPosition(m_layout.x() + M_INPUTb_OFFSET_X, m_layout.y() + M_INPUTb_OFFSET_Y);
-    m_inputC.SetPosition(m_layout.x() + M_INPUTc_OFFSET_X, m_layout.y() + M_INPUTc_OFFSET_Y);
-    m_inputD.SetPosition(m_layout.x() + M_INPUTd_OFFSET_X, m_layout.y() + M_INPUTd_OFFSET_Y);
+    m_inputA.setPosition(m_layout.x() + M_INPUTa_OFFSET_X, m_layout.y() + M_INPUTa_OFFSET_Y);
+    m_inputB.setPosition(m_layout.x() + M_INPUTb_OFFSET_X, m_layout.y() + M_INPUTb_OFFSET_Y);
+    m_inputC.setPosition(m_layout.x() + M_INPUTc_OFFSET_X, m_layout.y() + M_INPUTc_OFFSET_Y);
+    m_inputD.setPosition(m_layout.x() + M_INPUTd_OFFSET_X, m_layout.y() + M_INPUTd_OFFSET_Y);
 }
 
 void GateNumberOutput::UpdateGraphics(QPainter *painter)
@@ -44,7 +44,7 @@ void GateNumberOutput::UpdateGraphics(QPainter *painter)
     Gate::UpdateGraphics(painter);
 
     painter->setFont(m_font);
-    const QPoint textPosition = QPoint(GetPosition().x() - 6,
+    const QPoint textPosition = QPoint(position().x() - 6,
                                        m_layout.bottom() - (m_layout.height()/4) + 2);
     painter->drawText(textPosition, m_outputText);
 }
@@ -54,8 +54,8 @@ Gate *GateNumberOutput::Clone()
     GateNumberOutput* clone = new GateNumberOutput();
 
     //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    QPoint pos = position();
+    clone->setPosition(pos.x(), pos.y());
 
     //Clone nodes
     clone->m_pInputA = m_pInputA;

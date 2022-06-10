@@ -20,8 +20,10 @@ void GateCollection::SetParent(GateField *gf)
 {
     m_pParentField = gf;
 
-    //Proporgate for nested gates
-    ProporgateParentAndCheckForNestedGates();
+    for (Gate* g : m_gates)
+    {
+        g->SetParent(m_pParentField);
+    }
 }
 
 void GateCollection::ProporgateParentAndCheckForNestedGates()
@@ -44,7 +46,6 @@ GateCollection::~GateCollection()
     {
         for (size_t index = 0; index < m_gates.size(); index++)
         {
-            m_gates[index]->DetachNodes();
             delete m_gates[index];
             m_gates.erase(m_gates.begin() + (int)index);
         }
@@ -81,7 +82,7 @@ GateCollection::~GateCollection()
 
 void GateCollection::UpdateOutput()
 {
-    if(Enabled)
+    if(m_bEnabled)
         for(Gate* gate : m_gates)
         {
             gate->UpdateOutput();
@@ -98,11 +99,11 @@ bool GateCollection::FindNodeWithId(id _id, Node*& n)
     return false;
 }
 
-void GateCollection::OffsetPosition(int dX, int dY)
+void GateCollection::offsetPosition(const int& dX, const int& dY)
 {
     for (Gate* gate : m_gates)
     {
-        gate->OffsetPosition(dX, dY);
+        gate->offsetPosition(dX, dY);
     }
 }
 
@@ -116,7 +117,7 @@ void GateCollection::AssignNewNodeIds()
 
 bool GateCollection::DeleteClick(int clickX, int clickY)
 {
-    if(m_contaningArea.contains(QPoint(clickX,clickY)))
+    if(m_geometry.contains(QPoint(clickX,clickY)))
     {
         if(!m_bDontDeleteGates)
             if(m_dragMode == DragIndividual)
@@ -142,28 +143,29 @@ bool GateCollection::DeleteClick(int clickX, int clickY)
     return false;
 }
 
-void GateCollection::UpdateGraphics(QPainter *painter)
+void GateCollection::draw(QPainter& painter)
 {
     UpdateContaningArea();
 
     if (m_dragMode == DragAll)
-         painter->fillRect(m_contaningArea, QColor(40,40,40,20));
+         painter.fillRect(m_geometry, QColor(40,40,40,20));
 
     for(Gate* gate : m_gates)
-        gate->UpdateGraphics(painter);
+        gate->draw(painter);
 
     DrawButtons(painter);
 
     //Draw bounding box
     if (m_dragMode == DragIndividual)
     {
-        painter->setPen(QPen(Qt::black,2));
-        painter->drawRect(m_contaningArea);
+        painter.setPen(QPen(Qt::black,2));
+        painter.drawRect(m_geometry);
     }
 }
 
-void GateCollection::DrawButtons(QPainter *painter)
+void GateCollection::DrawButtons(QPainter& painter)
 {
+    //Todo : organize this
     static const QImage cImgDeleteAllButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete-all.png").c_str());
     static const QImage cImgSaveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
     static const QImage cImgDeleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
@@ -172,17 +174,17 @@ void GateCollection::DrawButtons(QPainter *painter)
     static const QImage cImgNandOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-nand.png").c_str());
 
     const int xyButtonSize = 40;
-    m_deleteAllButton  = QRect(m_contaningArea.right() - xyButtonSize, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_deleteButton = QRect(m_contaningArea.right() - xyButtonSize*2, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_saveButton = QRect(m_contaningArea.right() - xyButtonSize*3, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_dragAllButton = QRect(m_contaningArea.right() - xyButtonSize*4, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_deleteAllButton  = QRect(m_geometry.right() - xyButtonSize, m_geometry.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_deleteButton = QRect(m_geometry.right() - xyButtonSize*2, m_geometry.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_saveButton = QRect(m_geometry.right() - xyButtonSize*3, m_geometry.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_dragAllButton = QRect(m_geometry.right() - xyButtonSize*4, m_geometry.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     //m_optimize = QRect(m_contaningArea.right() - xyButtonSize*5, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     //m_nandOptimize = QRect(m_contaningArea.right() - xyButtonSize*6, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
 
-    painter->drawImage(m_deleteAllButton, cImgDeleteAllButton);
-    painter->drawImage(m_deleteButton, cImgDeleteButton);
-    painter->drawImage(m_saveButton, cImgSaveButton);
-    painter->drawImage(m_dragAllButton, cImgDragButton);
+    painter.drawImage(m_deleteAllButton, cImgDeleteAllButton);
+    painter.drawImage(m_deleteButton, cImgDeleteButton);
+    painter.drawImage(m_saveButton, cImgSaveButton);
+    painter.drawImage(m_dragAllButton, cImgDragButton);
     //painter->drawImage(m_optimize, cImgOptimizeButton);
     //painter->drawImage(m_nandOptimize, cImgNandOptimizeButton);
 }
@@ -240,8 +242,7 @@ void GateCollection::DisplaceGates(Vector2D displacement)
         }
         else
         {
-            gate->SetPosition(gate->GetPosition().x() + displacement.x,
-                              gate->GetPosition().y() + displacement.y);
+            gate->offsetPosition(displacement.x, displacement.y);
         }
     }
 }
@@ -452,8 +453,8 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
             }
             else
             {
-                gate->SetPosition(gate->GetPosition().x() + displacement.x,
-                                  gate->GetPosition().y() + displacement.y);
+                gate->setPosition(gate->position().x() + displacement.x,
+                                  gate->position().y() + displacement.y);
             }
         }
         return true;
@@ -496,8 +497,8 @@ Gate *GateCollection::Clone()
     GateCollection* clone = new GateCollection(backupGates);
 
     //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    QPoint pos = position();
+    clone->setPosition(pos.x(), pos.y());
 
     clone->m_contaningArea = m_contaningArea;
 

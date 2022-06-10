@@ -46,18 +46,18 @@ void GateFPGA::UpdateGraphics(QPainter *painter)
     }
 }
 
-void GateFPGA::SetPosition(int x, int y)
+void GateFPGA::setPosition(int x, int y)
 {
-    GameObject::SetPosition(x,y);
+    GameObject::setPosition(x,y);
 
     for (size_t index = 0; index < m_inputNodes.size(); index++)
     {
-        m_inputNodes[index].SetPosition(m_layout.x() + INPUT_NODES_X, m_layout.y() + (index * NODES_Y_DIFF));
+        m_inputNodes[index].setPosition(m_layout.x() + INPUT_NODES_X, m_layout.y() + (index * NODES_Y_DIFF));
     }
 
     for (size_t index = 0; index < m_outputNodes.size(); index++)
     {
-        m_outputNodes[index].SetPosition(m_layout.x() + OUTPUT_NODES_X, m_layout.y()+ (index * NODES_Y_DIFF));
+        m_outputNodes[index].setPosition(m_layout.x() + OUTPUT_NODES_X, m_layout.y()+ (index * NODES_Y_DIFF));
     }
 }
 
@@ -103,8 +103,8 @@ Gate *GateFPGA::Clone()
     clone->m_outputNodes = m_outputNodes;
 
     //Clone position
-    const QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    const QPoint pos = position();
+    clone->setPosition(pos.x(), pos.y());
 
     clone->m_updateScript = m_updateScript;
 

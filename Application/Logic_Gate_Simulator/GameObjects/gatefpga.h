@@ -43,7 +43,7 @@ public:
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual bool UpdateClicked(int clickX, int clickY) override;
     virtual void UpdateOutput() override;
-    virtual void SetPosition(int x, int y) override;
+    virtual void setPosition(int x, int y) override;
     virtual void SaveData(std::ofstream& storage) override;
     virtual Gate* Clone() override;
 

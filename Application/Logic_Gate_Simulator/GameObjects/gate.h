@@ -37,6 +37,7 @@ public:
     virtual void SaveData(std::ofstream& storage);
 
     ///Position stuff
+    virtual void offsetPosition(const int& dX, const int& dY);
     virtual void setPosition(const int& x, const int& y);
     QPoint position() const;
     QRect geometry() const;

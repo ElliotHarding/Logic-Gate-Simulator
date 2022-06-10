@@ -14,7 +14,7 @@ public:
     //Game Object overrides
     virtual void UpdateGraphics(QPainter* painter) override;
     virtual bool UpdateDrag(int clickX, int clickY) override;
-    virtual void SetPosition(int x, int y) override;
+    virtual void setPosition(int x, int y) override;
     virtual Gate* Clone() override;
 
     //Gate overrides

@@ -12,11 +12,12 @@ public:
     ~GateCollection();
 
     virtual void UpdateOutput() override;
-    virtual void draw(QPainter* painter) override;
+    virtual void draw(QPainter& painter) override;
+    virtual void checkClicked() override;
     virtual bool UpdateDrag(int clickX, int clickY) override;
     virtual Node *GetClickedNode(int clickX, int clickY) override;
     virtual bool FindNodeWithId(id _id, Node*& n) override;
-    virtual void OffsetPosition(int dX, int dY) override;
+    virtual void offsetPosition(const int& dX, const int& dY) override;
     virtual void AssignNewNodeIds() override;
     virtual bool DeleteClick(int clickX, int clickY) override;
     virtual bool UpdateClicked(int clickX, int clickY) override;
@@ -66,7 +67,7 @@ private:
     QRect m_deleteButton;
     QRect m_deleteAllButton;
     QRect m_dragAllButton;
-    void DrawButtons(QPainter* painter);
+    void DrawButtons(QPainter& painter);
     bool CheckButtonClick(int clickX, int clickY);
 
     bool m_bDontDeleteGates = false;

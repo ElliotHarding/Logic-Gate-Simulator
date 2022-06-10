@@ -12,7 +12,7 @@ public:
     GateTriAnd(id inA = idGenerator(), id inB = idGenerator(), id inC = idGenerator(), id out = idGenerator());
 
     virtual void UpdateOutput() override;
-    virtual void SetPosition(int x, int y) override;
+    virtual void setPosition(int x, int y) override;
 
     virtual Gate* Clone() override;
 

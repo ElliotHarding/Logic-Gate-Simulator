@@ -12,7 +12,7 @@ public:
     GateNumberOutput(id inA = idGenerator(), id inB = idGenerator(), id inC = idGenerator(), id inD = idGenerator());
 
     virtual void UpdateOutput() override;
-    virtual void SetPosition(int x, int y) override;
+    virtual void setPosition(int x, int y) override;
     virtual void UpdateGraphics(QPainter* painter) override;
 
     virtual Gate* Clone() override;

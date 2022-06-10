@@ -37,9 +37,9 @@ bool TextLabel::UpdateDrag(int clickX, int clickY)
         return Gate::UpdateDrag(clickX, clickY);
 }
 
-void TextLabel::SetPosition(int x, int y)
+void TextLabel::setPosition(int x, int y)
 {
-    Gate::SetPosition(x, y);
+    Gate::setPosition(x, y);
 
     m_editClickZone = QRect(Right(), Top(), EDIT_ZONE_WIDTH, EDIT_ZONE_HEIGHT);
 }
@@ -51,8 +51,8 @@ Gate* TextLabel::Clone()
     clone->Update(m_font, m_string);
 
     //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    QPoint pos = position();
+    clone->setPosition(pos.x(), pos.y());
 
     return clone;
 }
@@ -69,7 +69,7 @@ void TextLabel::Update(QFont font, QString string)
     m_height = fm.height();
 
     //Rests everything due to changed m_width & m_height
-    SetPosition(GetPosition().x(), GetPosition().y());
+    setPosition(position().x(), position().y());
 }
 
 QString TextLabel::GetString()

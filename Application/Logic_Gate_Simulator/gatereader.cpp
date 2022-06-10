@@ -278,7 +278,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     rGate->Enabled = isEnabled;
 
     //Position
-    rGate->SetPosition(stoi(posX),stoi(posY));
+    rGate->setPosition(stoi(posX),stoi(posY));
 
     //Read off </GATE> tag, but it's already been read for GateCollections
     if(rGate->GetType() != GateType::GATE_COLLECTION)

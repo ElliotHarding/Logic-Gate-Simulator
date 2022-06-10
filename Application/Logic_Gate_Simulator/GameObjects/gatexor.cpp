@@ -18,8 +18,8 @@ Gate *GateXor::Clone()
     GateXor* clone = new GateXor();
 
     //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    QPoint pos = position();
+    clone->setPosition(pos.x(), pos.y());
 
     //Clone nodes
     clone->m_pInputA = m_pInputA;

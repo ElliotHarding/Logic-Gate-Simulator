@@ -48,6 +48,15 @@ void Gate::SaveData(std::ofstream &storage)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
+void Gate::offsetPosition(const int& dX, const int& dY)
+{
+    m_geometry.translate(dX, dY);
+    for (Node* n : m_nodes)
+    {
+        n->setPosition(m_geometry.x(), m_geometry.y());
+    }
+}
+
 void Gate::drawNodes(QPainter& painter)
 {
     for(Node* pNode : m_nodes)
@@ -63,7 +72,6 @@ void Gate::setPosition(const int &x, const int &y)
     {
         n->setPosition(x, y);
     }
-
 }
 
 QPoint Gate::position() const
@@ -155,7 +163,7 @@ void Gate::DetachNodes()
 //
 
 Node::Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeType& type, int nodeId) :
-    GameObject::GameObject(pParent->getPosition().x() + offsetX, pParent->getPosition().y() + offsetY, Settings::NodeWidth, Settings::NodeHeight),
+    GameObject::GameObject(pParent->position().x() + offsetX, pParent->position().y() + offsetY, Settings::NodeWidth, Settings::NodeHeight),
     m_bValue(0),
     m_pParent(pParent),
     m_id(nodeId),

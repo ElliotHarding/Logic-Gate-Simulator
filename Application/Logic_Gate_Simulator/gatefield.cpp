@@ -319,7 +319,7 @@ void GateField::AddGate(Gate* go, bool newlySpawned, bool cameFromGateColleciton
     else
     {
         if(newlySpawned)
-            go->SetPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
+            go->setPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
 
         go->SetParent(this);
 
@@ -479,7 +479,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         //Get all gates inside surrounding m_selectionTool
         for (Gate* gate : m_allGates)
         {
-            if( m_selectionTool->geometry().contains(gate->GetPosition()))
+            if( m_selectionTool->geometry().contains(gate->position()))
             {
                 m_selectedGates.push_back(gate);
             }

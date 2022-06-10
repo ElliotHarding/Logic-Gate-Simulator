@@ -18,24 +18,23 @@ const QRect DrawLayoutIn(BorderSize, BorderSize, GateSingleOutputWidth-BorderSiz
 const QRect DrawLayout(0, 0, GateSingleOutputWidth, GateSingleOutputHeight);
 const QColor ActiveColor = Qt::red;
 const QColor InActiveColor = Qt::lightGray;
+const QColor GateColor = Qt::lightGray;
 }
 
-GateSingleOutput::GateSingleOutput(const uint& x, const uint& y, const GateType& type, const id& nodeId, QWidget* pParent) :
-    Gate::Gate(pParent, type, x, y, Settings::GateSingleOutputWidth, Settings::GateSingleOutputHeight),
+GateSingleOutput::GateSingleOutput(const uint& x, const uint& y, const GateType& type, const id& nodeId) :
+    Gate::Gate(type, x, y, Settings::GateSingleOutputWidth, Settings::GateSingleOutputHeight),
     m_pOutput(new Node(this, Settings::NodeOffsetX, Settings::NodeOffsetY, OutputNode, nodeId))
 {
     m_nodes.push_back(m_pOutput);
 }
 
-void GateSingleOutput::paintEvent(QPaintEvent*)
+void GateSingleOutput::draw(QPainter& painter)
 {
-    QPainter painter(this);
-
     //Draw gate
-    painter.setPen(QPen(Qt::lightGray, Settings::GateSize));
-    painter.drawRect(Settings::DrawLayoutIn);
+    painter.setPen(QPen(Settings::GateColor, Settings::GateSize));
+    painter.drawRect(Settings::DrawLayoutIn.translated(m_geometry.x(), m_geometry.y()));
 
     //Draw active/inactive buttons
     painter.setPen(QPen(m_pOutput->value() ? Settings::ActiveColor : Settings::InActiveColor, Settings::ButtonsSize));
-    painter.drawRect(Settings::DrawLayout);
+    painter.drawRect(Settings::DrawLayout.translated(m_geometry.x(), m_geometry.y()));
 }

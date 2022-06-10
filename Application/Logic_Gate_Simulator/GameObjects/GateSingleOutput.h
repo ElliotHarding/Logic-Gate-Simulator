@@ -9,13 +9,12 @@
 class GateSingleOutput : public Gate
 {
 public:
-    GateSingleOutput(const uint& x, const uint& y, const GateType& type, const id& nodeId, QWidget* pParent = nullptr);
+    GateSingleOutput(const uint& x, const uint& y, const GateType& type, const id& nodeId);
 
     virtual void UpdateOutput() override = 0;
+    virtual void draw(QPainter& painter) override;
 
 protected:
-    void paintEvent(QPaintEvent* paintEvent) override;
-
     Node* m_pOutput;
 };
 

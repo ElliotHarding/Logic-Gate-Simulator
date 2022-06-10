@@ -48,6 +48,14 @@ void Gate::SaveData(std::ofstream &storage)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
+void Gate::drawNodes(QPainter& painter)
+{
+    for(Node* pNode : m_nodes)
+    {
+        pNode->draw(painter);
+    }
+}
+
 void Gate::setPosition(const int &x, const int &y)
 {
     GameObject::setPosition(x, y);

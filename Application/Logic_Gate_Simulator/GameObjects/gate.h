@@ -35,6 +35,9 @@ public:
     //Generic functions   
     virtual void UpdateOutput() = 0;
     virtual void SaveData(std::ofstream& storage);
+    virtual void drawNodes(QPainter& painter);
+
+    ///Position stuff
     virtual void setPosition(const int& x, const int& y);
     QPoint getPosition();
 

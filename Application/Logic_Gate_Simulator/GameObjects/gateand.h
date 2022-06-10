@@ -14,7 +14,6 @@ public:
     virtual Gate* Clone() override;
 
 protected:
-
     Node* m_pInputA;
     Node* m_pInputB;
     Node* m_pOutput;

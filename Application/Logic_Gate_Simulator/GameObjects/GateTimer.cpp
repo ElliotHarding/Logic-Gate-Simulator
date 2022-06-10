@@ -11,13 +11,15 @@
 namespace Settings
 {
 const QFont TimerFont = QFont("Helvetica", 5);
+
+///Dimensions
+const uint GateSingleOutputWidth = 34;
+const uint GateSingleOutputHeight = 34;
 }
 
-GateTimer::GateTimer(id out) :
-    GateSingleOutput::GateSingleOutput(GATE_TIMER, out)
+GateTimer::GateTimer(const int& x, const int& y, const id& out) :
+    GateSingleOutput::GateSingleOutput(x, y, GATE_TIMER, out)
 {
-    m_output.SetValue(0);
-
     m_pTimer = new QTimer();
     m_pTimer->setTimerType(Qt::PreciseTimer);
     QObject::connect(m_pTimer, SIGNAL(timeout()), this, SLOT(onTick()));
@@ -43,32 +45,29 @@ void GateTimer::SaveData(std::ofstream &storage)
     storage << std::to_string(m_frequency);
 
     //Add node information
-    m_output.SaveData(storage);
+    m_pOutput->SaveData(storage);
 
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
-void GateTimer::UpdateGraphics(QPainter *painter)
+void GateTimer::draw(QPainter& painter)
 {
-    GateSingleOutput::UpdateGraphics(painter);
+    GateSingleOutput::draw(painter);
 
-    const QPoint pos = GetPosition();
     const std::string frequency = std::to_string(m_frequency) + "Mhz";
 
-    painter->setFont(Settings::TimerFont);
-    painter->drawText(pos.x() - GateSingleOutputWidth/3, pos.y() - (GateSingleOutputHeight/4), QString::fromStdString(frequency));
+    painter.setFont(Settings::TimerFont);
+
+    //Todo : fix this with qfont info thingy
+    painter.drawText(m_geometry.x() - Settings::GateSingleOutputWidth/3, m_geometry.y() - (Settings::GateSingleOutputHeight/4), QString::fromStdString(frequency));
 }
 
 Gate *GateTimer::Clone()
 {
-    GateTimer* clone = new GateTimer();
-
-    //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    GateTimer* clone = new GateTimer(m_geometry.x(), m_geometry.y(), m_pOutput->id());
 
     //Clone nodes
-    clone->m_output = m_output;
+    clone->m_pOutput = m_pOutput; //Todo : not actually cloning
 
     clone->m_frequency = m_frequency;
 
@@ -84,6 +83,6 @@ void GateTimer::setFrequency(int frequency)
 
 void GateTimer::onTick()
 {
-    m_output.SetValue(!m_output.GetValue());
+    m_pOutput->setValue(!m_pOutput->value());
 }
 

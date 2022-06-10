@@ -12,14 +12,15 @@ class GateTimer : public QObject, public GateSingleOutput
     Q_OBJECT
 
 public:
-    GateTimer(id out = idGenerator());
+    GateTimer(const int& x, const int& y, const id& out = idGenerator());
     ~GateTimer();
 
     virtual void UpdateOutput() override;
     virtual void SaveData(std::ofstream& storage) override;
-    virtual void UpdateGraphics(QPainter* painter) override;
+    virtual void draw(QPainter& painter) override;
     virtual Gate* Clone() override;
 
+    ///Frequency
     void setFrequency(int frequency);
     int getFrequency() {return m_frequency;}
 
@@ -28,7 +29,6 @@ private slots:
 
 protected:
 
-    //Toggle functionality
     int m_frequency = 500;
 
     QTimer* m_pTimer = nullptr;

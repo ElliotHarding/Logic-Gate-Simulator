@@ -59,15 +59,14 @@ protected:
 private:
     //Mouse event delegates
     QPoint QtPointToWorldPoint(QPoint mousePoint) const;
-    void rl_leftMouseClick(int clickX, int clickY);
 
     //Click actions
     bool checkStartLink(const int& clickX, const int& clickY);
     void checkEndLink(const int& clickX, const int& clickY);
-    void rl_deleteClick(int clickX, int clickY);
+    void checkDelete(const int& clickX, const int& clickY);
     void checkStartDrag(const int& clickX, const int& clickY);
-    void rl_deleteLinkedNodesClick(int clickX, int clickY);
     bool checkGateSelect(const int& clickX, const int& clickY);
+    void checkDeleteNodeLink(const int& clickX, const int& clickY);
     void editSelection(const QPoint& mouse);
     void rl_panClick(int clickX, int clickY);
 

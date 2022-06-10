@@ -259,7 +259,38 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     if(click->buttons() & Qt::LeftButton)
     {
-        rl_leftMouseClick(clickX, clickY);
+        switch (CurrentClickMode)
+        {
+        case CLICK_DELETE_GATE:
+            checkDelete(clickX,clickY);
+            break;
+
+        case CLICK_DELETE_LINK_NODES:
+            checkDeleteNodeLink(clickX,clickY);
+            break;
+
+        case CLICK_SELECTION:
+            editSelection(QPoint(clickX,clickY));
+            break;
+
+        case CLICK_PAN:
+            rl_panClick(clickX, clickY);
+            break;
+
+        case CLICK_DEFAULT:
+            if(!checkStartLink(clickX, clickY))
+            {
+                if(!checkGateSelect(clickX, clickY))
+                {
+                    editSelection(QPoint(clickX,clickY));
+                }
+            }
+            break;
+
+        case CLICK_DRAG:
+            checkStartDrag(clickX, clickY);
+            break;
+        }
     }
     else if(click->buttons() & Qt::RightButton)
     {
@@ -267,47 +298,11 @@ void GateField::mousePressEvent(QMouseEvent *click)
     }
     else if(click->buttons() & Qt::MiddleButton)
     {
-        rl_deleteClick(clickX,clickY);
+        checkDeleteNodeLink(clickX,clickY);
     }
 
     //Call to redraw
     update();
-}
-
-void GateField::rl_leftMouseClick(int clickX, int clickY)
-{
-    switch (CurrentClickMode)
-    {
-    case CLICK_DELETE_GATE:
-        rl_deleteClick(clickX,clickY);
-        break;
-
-    case CLICK_DELETE_LINK_NODES:
-        rl_deleteLinkedNodesClick(clickX,clickY);
-        break;
-
-    case CLICK_SELECTION:
-        editSelection(QPoint(clickX,clickY));
-        break;
-
-    case CLICK_PAN:
-        rl_panClick(clickX, clickY);
-        break;
-
-    case CLICK_DEFAULT:
-        if(!checkStartLink(clickX, clickY))
-        {
-            if(!checkGateSelect(clickX, clickY))
-            {
-                editSelection(QPoint(clickX,clickY));
-            }
-        }
-        break;
-
-    case CLICK_DRAG:
-        checkStartDrag(clickX, clickY);
-        break;
-    }
 }
 
 void GateField::mouseMoveEvent(QMouseEvent *click)
@@ -494,25 +489,18 @@ void GateField::checkEndLink(const int &clickX, const int &clickY)
     update();
 }
 
-void GateField::rl_deleteLinkedNodesClick(int clickX, int clickY)
+void GateField::checkDeleteNodeLink(const int& clickX, const int& clickY)
 {
-    Node* node;
     for (Gate* gate : m_allGates)
     {
         //Check if iterated gate has any clicked nodes
         GameObject* pPossibleClickedNode = gate->checkClicked(clickX, clickY);
-
         if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
-            node = dynamic_cast<Node*>(pPossibleClickedNode);
-
-            node->DetachNode();
-
-            node = nullptr;
-            return; //so that we dont acidentally get more than one clicked node
+            dynamic_cast<Node*>(pPossibleClickedNode)->DetachNode();
+            return;
         }
     }
-    node = nullptr;
 }
 
 bool GateField::checkGateSelect(const int& clickX, const int& clickY)
@@ -543,11 +531,11 @@ void GateField::editSelection(const QPoint& mouse)
     }
 }
 
-void GateField::rl_deleteClick(int clickX, int clickY)
+void GateField::checkDelete(const int& clickX, const int& clickY)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {     
-        if(m_allGates[index]->checkClicked(clickX,clickY))
+        if(m_allGates[index]->checkClicked(clickX, clickY))
         {
             Gate* gObject = m_allGates[index];
             m_allGates.erase(m_allGates.begin() + index);
@@ -556,7 +544,6 @@ void GateField::rl_deleteClick(int clickX, int clickY)
             rl_updateFunction();
 
             UpdateGateSelected(nullptr);
-            //Exit out of for so we dont delete more than one gameobject
             return;
         }
     }

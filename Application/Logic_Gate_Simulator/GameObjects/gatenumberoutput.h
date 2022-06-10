@@ -3,43 +3,23 @@
 
 #include "gate.h"
 
-#define GateNumberOutputHeight 70
-#define GateNumberOutputWidth 70
-
 class GateNumberOutput : public Gate
 {
 public:
-    GateNumberOutput(id inA = idGenerator(), id inB = idGenerator(), id inC = idGenerator(), id inD = idGenerator());
+    GateNumberOutput(const int& x, const int& y, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& inC = idGenerator(), const id& inD = idGenerator());
 
     virtual void UpdateOutput() override;
-    virtual void setPosition(int x, int y) override;
-    virtual void UpdateGraphics(QPainter* painter) override;
-
+    virtual void draw(QPainter& painter) override;
     virtual Gate* Clone() override;
 
 protected:
+    ///Nodes
+    Node* m_pInputA;
+    Node* m_pInputB;
+    Node* m_pInputC;
+    Node* m_pInputD;
 
-    const QFont m_font;
-    QString m_outputText;
-
-#define HeightStep (GateNumberOutputHeight/5)
-
-    const int M_INPUTa_OFFSET_X = 0;
-    const int M_INPUTa_OFFSET_Y = (HeightStep * 1) - 5;
-    Node m_inputA;
-
-    const int M_INPUTb_OFFSET_X = 0;
-    const int M_INPUTb_OFFSET_Y = (HeightStep * 2) - 2;
-    Node m_inputB;
-
-    const int M_INPUTc_OFFSET_X = 0;
-    const int M_INPUTc_OFFSET_Y = (HeightStep * 3) + 2;
-    Node m_inputC;
-
-    const int M_INPUTd_OFFSET_X = 0;
-    const int M_INPUTd_OFFSET_Y = (HeightStep * 4) + 5;
-    Node m_inputD;
-
+    int m_output;
 };
 
 #endif // GATENUMBEROUTPUT_H

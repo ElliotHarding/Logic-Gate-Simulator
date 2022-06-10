@@ -20,15 +20,15 @@ protected:
 
     const int M_INPUTa_OFFSET_X = -5;
     const int M_INPUTa_OFFSET_Y = (GateTriEorHeight/2) - 11;
-    Node m_inputA;
+    Node* m_pInputA;
 
     const int M_INPUTb_OFFSET_X = -5;
     const int M_INPUTb_OFFSET_Y = GateTriEorHeight/2;
-    Node m_inputB;
+    Node* m_pInputB;
 
     const int M_INPUTc_OFFSET_X = -5;
     const int M_INPUTc_OFFSET_Y = GateTriEorHeight - 13;
-    Node m_inputC;
+    Node* m_pInputC;
 
     const int M_OUTPUT_OFFSET_X = GateTriEorWidth + 5;
     const int M_OUTPUT_OFFSET_Y = (GateTriEorHeight/2);

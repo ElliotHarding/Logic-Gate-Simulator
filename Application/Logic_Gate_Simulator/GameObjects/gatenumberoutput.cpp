@@ -1,57 +1,64 @@
 #include "gatenumberoutput.h"
-#include <sstream>
 
-GateNumberOutput::GateNumberOutput(id inA, id inB, id inC, id inD) :
-    Gate::Gate(GATE_NUMBER_OUT, GateNumberOutputWidth, GateNumberOutputHeight, std::string(":/Resources/Gates/gate-number-output.png").c_str()),
-    m_inputA(this, InputNode, inA),
-    m_inputB(this, InputNode, inB),
-    m_inputC(this, InputNode, inC),
-    m_inputD(this, InputNode, inD),
-    m_font("Helvetica", 40),
-    m_outputText("0")
+namespace Settings
+{
+const uint GateNumberOutputHeight = 50;
+const uint GateNumberOutputWidth = 100;
+
+const uint HeightStep (GateNumberOutputHeight/5);
+
+const int NodeOffsetX_a = 0;
+const int NodeOffsetY_a = (HeightStep * 1) - 5;
+
+const int NodeOffsetX_b = 0;
+const int NodeOffsetY_b = (HeightStep * 2) - 5;
+
+const int NodeOffsetX_c = 0;
+const int NodeOffsetY_c = (HeightStep * 3) - 5;
+
+const int NodeOffsetX_d = 0;
+const int NodeOffsetY_d = (HeightStep * 4) - 5;
+
+const QFont NumberFont = QFont("Helvetica", 40);
+}
+
+GateNumberOutput::GateNumberOutput(const int &x, const int &y, const id &inA, const id &inB, const id &inC, const id &inD) :
+    Gate::Gate(GATE_NUMBER_OUT, x, y, Settings::GateNumberOutputWidth, Settings::GateNumberOutputHeight, std::string(":/Resources/Gates/gate-number-output.png").c_str()),
+    m_pInputA(new Node(this, Settings::NodeOffsetX_a, Settings::NodeOffsetY_a, InputNode, inA)),
+    m_pInputB(new Node(this, Settings::NodeOffsetX_b, Settings::NodeOffsetY_b, InputNode, inB)),
+    m_pInputC(new Node(this, Settings::NodeOffsetX_c, Settings::NodeOffsetY_c, InputNode, inC)),
+    m_pInputD(new Node(this, Settings::NodeOffsetX_d, Settings::NodeOffsetY_d, InputNode, inD)),
+    m_output(0)
 {
     m_nodes.push_back(m_pInputA);
     m_nodes.push_back(m_pInputB);
-    m_nodes.push_back(&m_inputC);
-    m_nodes.push_back(&m_inputD);
+    m_nodes.push_back(m_pInputC);
+    m_nodes.push_back(m_pInputD);
 }
 
 void GateNumberOutput::UpdateOutput()
 {
-    const int sum =   m_pInputA->value() * 1
-                    + m_pInputB->value() * 2
-                    + m_inputC.GetValue() * 4
-                    + m_inputD.GetValue() * 8;
-
-    std::stringstream stream;
-    stream << std::hex << sum;
-
-    m_outputText = QString::fromStdString(stream.str());
+    m_output =   m_pInputA->value() * 1
+               + m_pInputB->value() * 2
+               + m_pInputC->value() * 4
+               + m_pInputD->value() * 8;
 }
 
-void GateNumberOutput::setPosition(int x, int y)
+void GateNumberOutput::draw(QPainter& painter)
 {
-    GameObject::setPosition(x,y);
+    Gate::draw(painter);
 
-    m_inputA.setPosition(m_layout.x() + M_INPUTa_OFFSET_X, m_layout.y() + M_INPUTa_OFFSET_Y);
-    m_inputB.setPosition(m_layout.x() + M_INPUTb_OFFSET_X, m_layout.y() + M_INPUTb_OFFSET_Y);
-    m_inputC.setPosition(m_layout.x() + M_INPUTc_OFFSET_X, m_layout.y() + M_INPUTc_OFFSET_Y);
-    m_inputD.setPosition(m_layout.x() + M_INPUTd_OFFSET_X, m_layout.y() + M_INPUTd_OFFSET_Y);
-}
+    painter.setFont(Settings::NumberFont);
 
-void GateNumberOutput::UpdateGraphics(QPainter *painter)
-{
-    Gate::UpdateGraphics(painter);
-
-    painter->setFont(m_font);
+    //Todo : do proper position calculation based on font
     const QPoint textPosition = QPoint(position().x() - 6,
-                                       m_layout.bottom() - (m_layout.height()/4) + 2);
-    painter->drawText(textPosition, m_outputText);
+                                       m_geometry.bottom() - (m_geometry.height()/4) + 2);
+    painter.drawText(textPosition, QString::number(m_output));
 }
 
 Gate *GateNumberOutput::Clone()
 {
-    GateNumberOutput* clone = new GateNumberOutput();
+    GateNumberOutput* clone = new GateNumberOutput(m_geometry.x(), m_geometry.y());
 
     //Clone position
     QPoint pos = position();
@@ -60,8 +67,8 @@ Gate *GateNumberOutput::Clone()
     //Clone nodes
     clone->m_pInputA = m_pInputA;
     clone->m_pInputB = m_pInputB;
-    clone->m_inputC = m_inputC;
-    clone->m_inputD = m_inputD;
+    clone->m_pInputC = m_pInputC;
+    clone->m_pInputD = m_pInputD;
 
     return clone;
 }

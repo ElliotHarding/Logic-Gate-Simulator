@@ -10,15 +10,17 @@ class GameObject
 public:
     GameObject(const int& x, const int& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
 
+    ///Position
     virtual void setPosition(const int& x, const int& y);
     virtual QPoint position() const;
+
+    ///Enabled
+    void setEnabled(const bool enabled);
+    bool enabled() const;
 
     virtual void draw(QPainter& painter);
 
     virtual GameObject* checkClicked(const int& x, const int& y);
-
-    void setEnabled(const bool enabled);
-    bool enabled() const;
 
 protected:
     QRect m_geometry;

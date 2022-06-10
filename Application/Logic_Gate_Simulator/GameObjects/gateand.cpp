@@ -27,17 +27,16 @@ GateAnd::GateAnd(const int& x, const int& y, const id& inA, const id& inB, const
     m_nodes.push_back(m_pOutput);
 }
 
-/*
-GateAnd::GateAnd(bool notAndGate, GateType type, const char *iconLocation, id inA, id inB, id out) :
-    Gate::Gate(type, GateAndWidth, GateAndHeight, iconLocation),
-    m_inputA(this, InputNode, inA),
-    m_inputB(this, InputNode, inB),
-    m_output(this, OutputNode, out)
+GateAnd::GateAnd(const int &x, const int &y, const GateType& type, const id &inA, const id &inB, const id &out, const char *iconLocation) :
+    Gate(type, x, y, Settings::GateAndWidth, Settings::GateAndHeight, iconLocation),
+    m_pInputA(new Node(this, Settings::NodeOffsetX_a, Settings::NodeOffsetY_a, InputNode, inA)),
+    m_pInputB(new Node(this, Settings::NodeOffsetX_b, Settings::NodeOffsetY_b, InputNode, inB)),
+    m_pOutput(new Node(this, Settings::NodeOffsetX_c, Settings::NodeOffsetY_c, OutputNode, out))
 {
-    m_nodes.push_back(&m_inputA);
-    m_nodes.push_back(&m_inputB);
-    m_nodes.push_back(&m_output);
-}*/
+    m_nodes.push_back(m_pInputA);
+    m_nodes.push_back(m_pInputB);
+    m_nodes.push_back(m_pOutput);
+}
 
 void GateAnd::UpdateOutput()
 {

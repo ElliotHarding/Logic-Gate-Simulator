@@ -6,7 +6,7 @@
 class GateNand : public GateAnd
 {
 public:
-    GateNand();
+    GateNand(const int& x, const int& y, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& out = idGenerator());
 
     virtual void UpdateOutput() override;
 

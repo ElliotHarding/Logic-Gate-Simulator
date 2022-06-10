@@ -256,24 +256,6 @@ void GateCollection::SaveData(std::ofstream &storage, std::vector<Gate *> gates)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
-void GateCollection::DisplaceGates(Vector2D displacement)
-{
-    for(Gate* gate : m_gates)
-    {
-        if(gate->GetType() == GATE_COLLECTION)
-        {
-            if(dynamic_cast<GateCollection*>(gate))
-                dynamic_cast<GateCollection*>(gate)->DisplaceGates(displacement);
-        }
-        else
-        {
-            gate->offsetPosition(displacement.x, displacement.y);
-        }
-    }
-
-    UpdateContaningArea();
-}
-
 void GateCollection::UpdateContaningArea()
 {
     //Variables specifying boundaries of GateCollection

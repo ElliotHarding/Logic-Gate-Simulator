@@ -3,8 +3,6 @@
 
 #include "gate.h"
 
-struct Vector2D {int x; int y;};
-
 class GateCollection : public Gate
 {
 public:

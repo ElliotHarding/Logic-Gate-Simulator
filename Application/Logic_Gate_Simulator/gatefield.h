@@ -124,6 +124,7 @@ private:
     const qreal m_zoomScrollSpeed = 0.05;
 
     //Panning
+    struct Vector2D {int x; int y;};
     Vector2D m_screenPosDelta;
     QPoint m_previousDragMousePos;
     const float c_panSpeedMultiplier = 0.75;

@@ -37,4 +37,6 @@ void GateSingleOutput::draw(QPainter& painter)
     //Draw active/inactive buttons
     painter.setPen(QPen(m_pOutput->value() ? Settings::ActiveColor : Settings::InActiveColor, Settings::ButtonsSize));
     painter.drawRect(Settings::DrawLayout.translated(m_geometry.x(), m_geometry.y()));
+
+    drawNodes(painter);
 }

@@ -35,7 +35,6 @@ public:
     //Generic functions   
     virtual void UpdateOutput() = 0;
     virtual void SaveData(std::ofstream& storage);
-    virtual void drawNodes(QPainter& painter);
 
     ///Position stuff
     virtual void setPosition(const int& x, const int& y);
@@ -55,6 +54,8 @@ public:
     GateType GetType() {return m_type;}
 
 protected:
+    virtual void drawNodes(QPainter& painter);
+
     void SaveGeneralData(std::ofstream& storage);
 
     GateType m_type;

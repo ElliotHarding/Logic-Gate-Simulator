@@ -16,20 +16,20 @@ Widget_InputGates::~Widget_InputGates()
 void Widget_InputGates::on_btn_sourceGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateToggle());
+        m_pParent->AddGate(new GateToggle(0, 0));
 }
 void Widget_InputGates::on_btn_inputOn_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateConstantActive());
+        m_pParent->AddGate(new GateConstantActive(0, 0));
 }
 void Widget_InputGates::on_btn_inputOff_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateConstantInactive());
+        m_pParent->AddGate(new GateConstantInactive(0, 0));
 }
 void Widget_InputGates::on_btn_timerGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateTimer());
+        m_pParent->AddGate(new GateTimer(0, 0));
 }

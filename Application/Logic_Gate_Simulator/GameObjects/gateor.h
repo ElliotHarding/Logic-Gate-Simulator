@@ -7,7 +7,7 @@ class GateOr : public Gate
 {
 public:
     GateOr(const int& x, const int& y, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& out = idGenerator());
-    GateOr(const int& x, const int& y, const GateType& type = GATE_OR, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& out = idGenerator(), const char* iconLocation = std::string(":/Resources/Gates/gate-or.png").c_str());
+    GateOr(const GateType& type, const int& x, const int& y, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& out = idGenerator(), const char* iconLocation = std::string(":/Resources/Gates/gate-or.png").c_str());
 
     virtual void UpdateOutput() override;
     virtual Gate* Clone() override;

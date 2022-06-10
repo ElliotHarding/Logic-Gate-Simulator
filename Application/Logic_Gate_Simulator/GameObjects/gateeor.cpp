@@ -26,7 +26,7 @@ GateEor::GateEor(const int& x, const int& y, const id& inA, const id& inB, const
     m_nodes.push_back(m_pOutput);
 }
 
-GateEor::GateEor(const int &x, const int &y, const GateType& type, const id &inA, const id &inB, const id &out, const char *iconLocation) :
+GateEor::GateEor(const GateType& type, const int &x, const int &y, const id &inA, const id &inB, const id &out, const char *iconLocation) :
     Gate::Gate(type, x, y, Settings::GateEorWidth, Settings::GateEorHeight, iconLocation),
     m_pInputA(new Node(this, Settings::NodeOffsetX_a, Settings::NodeOffsetY_a, InputNode, inA)),
     m_pInputB(new Node(this, Settings::NodeOffsetX_b, Settings::NodeOffsetY_b, InputNode, inB)),

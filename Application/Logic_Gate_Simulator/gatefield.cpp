@@ -100,7 +100,7 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     //Since dragging move the gate to the top of the vector
     for (int index = m_allGates.size() - 1; index > -1; index--)
     {
-        m_allGates[size_t(index)]->UpdateGraphics(&painter);
+        m_allGates[size_t(index)]->draw(painter);
     }
 
     m_lockAllGates.unlock();
@@ -112,7 +112,7 @@ void GateField::rl_updateFunction()
 {
     for (Gate* g : m_allGates)
     {
-        if(g->Enabled)
+        if(g->enabled())
             g->UpdateOutput();
     }
 }

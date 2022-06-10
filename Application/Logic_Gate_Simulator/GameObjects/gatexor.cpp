@@ -1,7 +1,7 @@
 #include "gatexor.h"
 
 GateXor::GateXor(const int &x, const int &y, const id &inA, const id &inB, const id &out) :
-    GateEor(x, y, GATE_XOR, inA, inB, out, std::string(":/Resources/Gates/gate-neor.png").c_str())
+    GateEor(GATE_XOR, x, y, inA, inB, out, std::string(":/Resources/Gates/gate-neor.png").c_str())
 {
 }
 

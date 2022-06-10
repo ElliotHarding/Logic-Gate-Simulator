@@ -1,7 +1,7 @@
 #include "gatenand.h"
 
 GateNand::GateNand(const int &x, const int &y, const id &inA, const id &inB, const id &out) :
-    GateAnd(x, y, GATE_NAND, inA, inB, out, std::string(":/Resources/Gates/gate-nand.png").c_str())
+    GateAnd(GATE_NAND, x, y, inA, inB, out, std::string(":/Resources/Gates/gate-nand.png").c_str())
 {
 }
 

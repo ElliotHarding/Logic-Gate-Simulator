@@ -27,7 +27,7 @@ GateAnd::GateAnd(const int& x, const int& y, const id& inA, const id& inB, const
     m_nodes.push_back(m_pOutput);
 }
 
-GateAnd::GateAnd(const int &x, const int &y, const GateType& type, const id &inA, const id &inB, const id &out, const char *iconLocation) :
+GateAnd::GateAnd(const GateType& type, const int &x, const int &y, const id &inA, const id &inB, const id &out, const char *iconLocation) :
     Gate(type, x, y, Settings::GateAndWidth, Settings::GateAndHeight, iconLocation),
     m_pInputA(new Node(this, Settings::NodeOffsetX_a, Settings::NodeOffsetY_a, InputNode, inA)),
     m_pInputB(new Node(this, Settings::NodeOffsetX_b, Settings::NodeOffsetY_b, InputNode, inB)),

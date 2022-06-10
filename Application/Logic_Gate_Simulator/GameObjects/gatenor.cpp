@@ -1,7 +1,7 @@
 #include "gatenor.h"
 
 GateNor::GateNor(const int &x, const int &y, const id &inA, const id &inB, const id &out) :
-    GateOr(x, y, GATE_NOR, inA, inB, out, std::string(":/Resources/Gates/gate-nor.png").c_str())
+    GateOr(GATE_NOR, x, y, inA, inB, out, std::string(":/Resources/Gates/gate-nor.png").c_str())
 {
 }
 

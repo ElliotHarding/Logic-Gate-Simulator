@@ -3,36 +3,20 @@
 
 #include "gate.h"
 
-#define GateTriOrHeight 50
-#define GateTriOrWidth 100
-
 class GateTriOr : public Gate
 {
 public:
-    GateTriOr(id inA = idGenerator(), id inB = idGenerator(), id inC = idGenerator(), id out = idGenerator());
+    GateTriOr(const int &x, const int &y, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& inC = idGenerator(), const id& out = idGenerator());
 
     virtual void UpdateOutput() override;
-    virtual void setPosition(int x, int y) override;
-
     virtual Gate* Clone() override;
 
 protected:
-
-    const int m_pInputA_OFFSET_X = -5;
-    const int m_pInputA_OFFSET_Y = (GateTriOrHeight/2) - 11;
+    ///Nodes
     Node* m_pInputA;
-
-    const int m_pInputB_OFFSET_X = -5;
-    const int m_pInputB_OFFSET_Y = GateTriOrHeight/2;
     Node* m_pInputB;
-
-    const int m_pInputC_OFFSET_X = -5;
-    const int m_pInputC_OFFSET_Y = GateTriOrHeight - 13;
     Node* m_pInputC;
-
-    const int M_OUTPUT_OFFSET_X = GateTriOrWidth + 5;
-    const int M_OUTPUT_OFFSET_Y = (GateTriOrHeight/2);
-    Node m_output;
+    Node* m_pOutput;
 };
 
 #endif // GATETRIOR_H

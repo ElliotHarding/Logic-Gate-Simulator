@@ -15,10 +15,10 @@ GateTriEor::GateTriEor(id inA, id inB, id inC, id out) :
 
 void GateTriEor::UpdateOutput()
 {
-    const bool sum = m_pInputA->value() ^ m_pInputB->value() ^ m_pInputC.GetValue();
+    const bool sum = m_pInputA->value() ^ m_pInputB->value() ^ m_pInputC->value();
     m_pOutput->setValue(sum);
 
-    if (m_pInputA->value() & m_pInputB->value() & m_pInputC.GetValue())
+    if (m_pInputA->value() & m_pInputB->value() & m_pInputC->value())
     {
 
     }

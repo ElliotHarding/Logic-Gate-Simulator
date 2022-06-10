@@ -62,12 +62,12 @@ private:
     void rl_leftMouseClick(int clickX, int clickY);
 
     //Click actions
-    void checkStartLink(const int& clickX, const int& clickY);
+    bool checkStartLink(const int& clickX, const int& clickY);
     void checkEndLink(const int& clickX, const int& clickY);
     void rl_deleteClick(int clickX, int clickY);
     void checkStartDrag(const int& clickX, const int& clickY);
     void rl_deleteLinkedNodesClick(int clickX, int clickY);
-    bool rl_defaultClick(int clickX, int clickY);
+    bool checkGateSelect(const int& clickX, const int& clickY);
     void rl_selectionClick(int clickX, int clickY);
     void rl_panClick(int clickX, int clickY);
 

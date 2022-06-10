@@ -282,7 +282,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
     }
     else if(click->buttons() & Qt::RightButton)
     {
-        rl_defaultClick(clickX,clickY);
+        checkGateSelect(clickX,clickY);
     }
     else if(click->buttons() & Qt::MiddleButton)
     {
@@ -314,15 +314,17 @@ void GateField::rl_leftMouseClick(int clickX, int clickY)
         break;
 
     case CLICK_DEFAULT:
-        if(rl_defaultClick(clickX,clickY))
-            break;
+        if(!checkStartLink(clickX, clickY))
+        {
+            if(!checkGateSelect(clickX, clickY))
+            {
+                rl_selectionClick(clickX,clickY);
+            }
+        }
+        break;
 
     case CLICK_DRAG:
         checkStartDrag(clickX, clickY);
-        break;
-
-    case CLICK_LINK_NODES:
-        checkStartLink(clickX, clickY);
         break;
     }
 }
@@ -384,8 +386,6 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     if(m_linkNodeA)
     {
         checkEndLink(clickPos.x(), clickPos.y());
-        m_linkNodeA = nullptr;
-        update();
     }
 
     //If ending a selection
@@ -448,7 +448,7 @@ void GateField::wheelEvent(QWheelEvent *event)
     }
 }
 
-void GateField::checkStartLink(const int& clickX, const int& clickY)
+bool GateField::checkStartLink(const int& clickX, const int& clickY)
 {
     for (Gate* g : m_allGates)
     {
@@ -459,9 +459,10 @@ void GateField::checkStartLink(const int& clickX, const int& clickY)
 
             //Change cursor as started linking
             m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 void GateField::checkEndLink(const int &clickX, const int &clickY)
@@ -504,6 +505,10 @@ void GateField::checkEndLink(const int &clickX, const int &clickY)
             }
         }
     }
+
+    m_linkNodeA = nullptr;
+    m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
+    update();
 }
 
 void GateField::rl_deleteLinkedNodesClick(int clickX, int clickY)
@@ -527,7 +532,7 @@ void GateField::rl_deleteLinkedNodesClick(int clickX, int clickY)
     node = nullptr;
 }
 
-bool GateField::rl_defaultClick(int clickX, int clickY)
+bool GateField::checkGateSelect(const int& clickX, const int& clickY)
 {
     for (Gate* gate : m_allGates)
     {
@@ -537,7 +542,6 @@ bool GateField::rl_defaultClick(int clickX, int clickY)
             return true;
         }
     }
-
     return false;
 }
 

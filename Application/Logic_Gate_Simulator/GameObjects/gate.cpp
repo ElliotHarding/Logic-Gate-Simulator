@@ -73,7 +73,7 @@ void Gate::offsetPosition(const int& dX, const int& dY)
     m_geometry.translate(dX, dY);
     for (Node* n : m_nodes)
     {
-        n->setPosition(m_geometry.x(), m_geometry.y());
+        n->setPosition(m_geometry.center().x(), m_geometry.center().y());
     }
 }
 

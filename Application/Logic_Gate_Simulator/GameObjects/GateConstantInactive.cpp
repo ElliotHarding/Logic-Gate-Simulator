@@ -1,6 +1,6 @@
 #include "GateConstantInactive.h"
 
-GateConstantInactive::GateConstantInactive(const uint& x, const uint& y, const id& out) :
+GateConstantInactive::GateConstantInactive(const int& x, const int& y, const id& out) :
     GateSingleOutput::GateSingleOutput(x, y, GATE_CONST_INACTIVE, out)
 {
 }

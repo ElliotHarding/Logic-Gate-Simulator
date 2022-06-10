@@ -9,7 +9,7 @@
 class GateSingleOutput : public Gate
 {
 public:
-    GateSingleOutput(const uint& x, const uint& y, const GateType& type, const id& nodeId);
+    GateSingleOutput(const int& x, const int& y, const GateType& type, const id& nodeId);
 
     virtual void UpdateOutput() override = 0;
     virtual void draw(QPainter& painter) override;

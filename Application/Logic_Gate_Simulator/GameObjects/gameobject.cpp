@@ -1,6 +1,6 @@
 #include "gameobject.h"
 
-GameObject::GameObject(const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation) :
+GameObject::GameObject(const int& x, const int& y, const uint& width, const uint& height, const char* pIconLocation) :
     m_geometry(x, y, width, height)
 {
     if(pIconLocation != nullptr)

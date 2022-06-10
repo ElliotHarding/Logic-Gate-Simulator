@@ -27,7 +27,7 @@ class GateField;
 class Gate : public GameObject
 {
 public:
-    Gate(GateType type, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
+    Gate(GateType type, const int& x, const int& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
     ~Gate();
 
     virtual Gate* Clone() = 0;
@@ -98,7 +98,7 @@ public:
     ///Type
     NodeType type() const;
 
-    Gate* GetParent();//Todo : might be able to delete this when linking reworked
+    Gate* GetParent();
 
     void SaveData(std::ofstream& storage);
 

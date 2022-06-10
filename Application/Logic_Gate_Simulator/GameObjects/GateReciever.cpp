@@ -17,7 +17,7 @@ const uint BorderSize = 3;
 const QPen BorderPen(Qt::lightGray, Settings::BorderSize);
 }
 
-GateReciever::GateReciever(const uint& x, const uint& y, const id& inputNode) :
+GateReciever::GateReciever(const int& x, const int& y, const id& inputNode) :
     Gate::Gate(GateType::GATE_RECIEVER, x, y, Settings::GateRecieverWidth, Settings::GateRecieverHeight),
     m_pInput(new Node(this, Settings::NodeOffsetX, Settings::NodeOffsetY, InputNode, inputNode))
 {

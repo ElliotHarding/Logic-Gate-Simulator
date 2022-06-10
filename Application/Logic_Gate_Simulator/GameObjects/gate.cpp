@@ -16,7 +16,7 @@ const uint NodeLinkWidth = 1;
 
 #define with << std::endl <<
 
-Gate::Gate(GateType type, const uint& x, const uint& y, const uint& width, const uint& height, const char* pIconLocation) :
+Gate::Gate(GateType type, const int& x, const int& y, const uint& width, const uint& height, const char* pIconLocation) :
     GameObject::GameObject(x, y, width, height, pIconLocation),
     m_type(type)
 {
@@ -99,7 +99,6 @@ QRect Gate::geometry() const
     return m_geometry;
 }
 
-//Todo : why is there a *&
 bool Gate::FindNodeWithId(const id& id, Node*& node)
 {
     for (size_t index = 0; index < m_nodes.size(); index++)

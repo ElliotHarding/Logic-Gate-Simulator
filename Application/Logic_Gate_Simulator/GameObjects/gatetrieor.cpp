@@ -35,16 +35,6 @@ void GateTriEor::UpdateOutput()
 {
     const bool sum = m_pInputA->value() ^ m_pInputB->value() ^ m_pInputC->value();
     m_pOutput->setValue(sum);
-
-    //Todo : what is this?
-    if (m_pInputA->value() & m_pInputB->value() & m_pInputC->value())
-    {
-
-    }
-    else
-    {
-
-    }
 }
 
 Gate *GateTriEor::Clone()

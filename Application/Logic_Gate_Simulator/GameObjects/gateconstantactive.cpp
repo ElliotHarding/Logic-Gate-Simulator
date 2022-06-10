@@ -1,6 +1,6 @@
 #include "GateConstantActive.h"
 
-GateConstantActive::GateConstantActive(const uint& x, const uint& y, const id& out) :
+GateConstantActive::GateConstantActive(const int& x, const int& y, const id& out) :
     GateSingleOutput::GateSingleOutput(x, y, GATE_CONST_ACTIVE, out)
 {
     m_pOutput->setValue(1);

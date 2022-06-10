@@ -8,10 +8,10 @@ GateTriAnd::GateTriAnd(id inA, id inB, id inC, id out) :
     m_inputC(this, InputNode, inC),
     m_output(this, OutputNode, out)
 {
-    m_nodes.push_back(&m_inputA);
-    m_nodes.push_back(&m_inputB);
+    m_nodes.push_back(m_pInputA);
+    m_nodes.push_back(m_pInputB);
     m_nodes.push_back(&m_inputC);
-    m_nodes.push_back(&m_output);
+    m_nodes.push_back(m_pOutput);
 }
 
 void GateTriAnd::UpdateOutput()

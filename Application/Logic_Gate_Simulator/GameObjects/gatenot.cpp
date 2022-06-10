@@ -6,7 +6,7 @@ GateNot::GateNot(id in, id out) :
     m_output(this,OutputNode,out)
 {
     m_nodes.push_back(&m_input);
-    m_nodes.push_back(&m_output);
+    m_nodes.push_back(m_pOutput);
 }
 
 void GateNot::UpdateOutput()

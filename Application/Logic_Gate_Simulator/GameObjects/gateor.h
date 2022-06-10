@@ -3,33 +3,19 @@
 
 #include "gate.h"
 
-#define GateOrWidth 100
-#define GateOrHeight 50
-
 class GateOr : public Gate
 {
 public:
-    GateOr(id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
-    GateOr(bool norGate, GateType type = GATE_OR, const char* iconLocation = std::string(":/Resources/Gates/gate-or.png").c_str(),
-            id inA = idGenerator(), id inB = idGenerator(), id out = idGenerator());
+    GateOr(const int& x, const int& y, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& out = idGenerator());
+    GateOr(const int& x, const int& y, const GateType& type = GATE_OR, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& out = idGenerator(), const char* iconLocation = std::string(":/Resources/Gates/gate-or.png").c_str());
 
     virtual void UpdateOutput() override;
-    virtual void SetPosition(int x, int y) override;
     virtual Gate* Clone() override;
 
 protected:
-
-    const int M_INPUTa_OFFSET_X = -5;
-    const int M_INPUTa_OFFSET_Y = (GateOrHeight/2) - 12;
-    Node m_inputA;
-
-    const int M_INPUTb_OFFSET_X = -5;
-    const int M_INPUTb_OFFSET_Y = GateOrHeight - 12;
-    Node m_inputB;
-
-    const int M_OUTPUT_OFFSET_X = GateOrWidth + 5;
-    const int M_OUTPUT_OFFSET_Y = (GateOrHeight/2);
-    Node m_output;
+    Node* m_pInputA;
+    Node* m_pInputB;
+    Node* m_pOutput;
 };
 
 #endif // GATEOR_H

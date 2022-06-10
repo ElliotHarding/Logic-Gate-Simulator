@@ -31,9 +31,6 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     {
         g.reserve(20);
     }
-
-    const QRect geo = geometry();
-    m_centerScreen = geo.center();
 }
 
 GateField::~GateField()
@@ -77,7 +74,7 @@ void GateField::paintEvent(QPaintEvent*)
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
     //Zooming
-    painter.translate(m_centerScreen.x(), m_centerScreen.y());
+    painter.translate(geometry().center().x(), geometry().center().y());
     painter.scale(m_zoomFactor, m_zoomFactor);
 
     //If were currently selecting an area
@@ -119,22 +116,13 @@ ClickMode GateField::GetCurrentClickMode()
     return CurrentClickMode;
 }
 
-void GateField::SetZoomLevel(qreal zoom, bool zoomCenter)
+void GateField::SetZoomLevel(qreal zoom)
 {
     if(m_bDisableZoom)
         return;
 
     m_zoomFactor = zoom;
 
-    //Todo : check this. I dont think it does anything cuz geometry is always same?
-    //Set m_zoomLocation to geo.center
-    if(zoomCenter)
-    {
-        const QRect geo = geometry();
-        m_centerScreen = geo.center();
-    }
-
-    //Call to redraw
     update();
 }
 
@@ -735,7 +723,7 @@ QPoint GateField::QtPointToWorldPoint(QPoint mousePoint) const
 {
     QTransform transform;
     transform.scale(m_zoomFactor, m_zoomFactor);
-    return transform.inverted().map(QPoint(mousePoint.x() - m_centerScreen.x(), mousePoint.y() - m_centerScreen.y()));
+    return transform.inverted().map(QPoint(mousePoint.x() - geometry().center().x(), mousePoint.y() - geometry().center().y()));
 }
 
 void GateField::UpdateGateSelected(Gate *g)

@@ -42,7 +42,7 @@ public:
     //Actions
     void Undo();
     void Redo();
-    void SetZoomLevel(qreal zoom, bool zoomCenter = true);
+    void SetZoomLevel(qreal zoom);
 
     //Called if don't want the next gate to be clicked to be set as the selected gate
     void SkipNextGateSelectedCall(bool stopDragging = false);
@@ -115,7 +115,6 @@ private:
     //Zooming
     qreal m_zoomFactor;
     bool m_bDisableZoom = false;
-    QPoint m_centerScreen;
     const qreal m_zoomScrollSpeed = 0.05;
 
     //Panning

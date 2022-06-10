@@ -5,17 +5,17 @@ namespace Settings
 const uint GateTriEorHeight = 50;
 const uint GateTriEorWidth = 100;
 
-const int NodeOffsetX_a = -5;
-const int NodeOffsetY_a = (GateTriEorHeight/2) - 11;
+const int NodeOffsetX_a = -55;
+const int NodeOffsetY_a = -11;
 
-const int NodeOffsetX_b = -5;
-const int NodeOffsetY_b = GateTriEorHeight/2;
+const int NodeOffsetX_b = -55;
+const int NodeOffsetY_b = 0;
 
-const int NodeOffsetX_c = -5;
-const int NodeOffsetY_c = GateTriEorHeight - 13;
+const int NodeOffsetX_c = -55;
+const int NodeOffsetY_c = 12;
 
-const int NodeOffsetX_d = GateTriEorWidth + 5;
-const int NodeOffsetY_d = (GateTriEorHeight/2);
+const int NodeOffsetX_d = 55;
+const int NodeOffsetY_d = 0;
 }
 
 GateTriEor::GateTriEor(const int &x, const int &y, const id &inA, const id &inB, const id &inC, const id &out) :

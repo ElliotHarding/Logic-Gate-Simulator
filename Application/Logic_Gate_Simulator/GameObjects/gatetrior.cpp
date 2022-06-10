@@ -5,17 +5,17 @@ namespace Settings
 const uint GateTriOrHeight = 50;
 const uint GateTriOrWidth = 100;
 
-const int NodeOffsetX_a = -5;
-const int NodeOffsetY_a = (GateTriOrHeight/2) - 11;
+const int NodeOffsetX_a = -55;
+const int NodeOffsetY_a = -11;
 
-const int NodeOffsetX_b = -5;
-const int NodeOffsetY_b = GateTriOrHeight/2;
+const int NodeOffsetX_b = -55;
+const int NodeOffsetY_b = 0;
 
-const int NodeOffsetX_c = -5;
-const int NodeOffsetY_c = GateTriOrHeight - 13;
+const int NodeOffsetX_c = -55;
+const int NodeOffsetY_c = 12;
 
-const int NodeOffsetX_d = GateTriOrWidth + 5;
-const int NodeOffsetY_d = (GateTriOrHeight/2);
+const int NodeOffsetX_d = 55;
+const int NodeOffsetY_d = 0;
 }
 
 GateTriOr::GateTriOr(const int &x, const int &y, const id &inA, const id &inB, const id &inC, const id &out) :

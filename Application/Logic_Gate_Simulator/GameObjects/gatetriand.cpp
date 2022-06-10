@@ -6,17 +6,17 @@ namespace Settings
 const uint GateTriAndHeight = 50;
 const uint GateTriAndWidth = 100;
 
-const int NodeOffsetX_a = -5;
-const int NodeOffsetY_a = (GateTriAndHeight/2) - 11;
+const int NodeOffsetX_a = -55;
+const int NodeOffsetY_a = -11;
 
-const int NodeOffsetX_b = -5;
-const int NodeOffsetY_b = GateTriAndHeight/2;
+const int NodeOffsetX_b = -55;
+const int NodeOffsetY_b = 0;
 
-const int NodeOffsetX_c = -5;
-const int NodeOffsetY_c = GateTriAndHeight - 13;
+const int NodeOffsetX_c = -55;
+const int NodeOffsetY_c = 12;
 
-const int NodeOffsetX_d = GateTriAndWidth + 5;
-const int NodeOffsetY_d = (GateTriAndHeight/2);
+const int NodeOffsetX_d = 55;
+const int NodeOffsetY_d = 0;
 }
 
 GateTriAnd::GateTriAnd(const int &x, const int &y, const id &inA, const id &inB, const id &inC, const id &out) :

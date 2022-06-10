@@ -1,7 +1,7 @@
 #include "gatenor.h"
 
-GateNor::GateNor() :
-    GateOr (1, GATE_NOR, std::string(":/Resources/Gates/gate-nor.png").c_str())
+GateNor::GateNor(const int &x, const int &y, const id &inA, const id &inB, const id &out) :
+    GateOr(x, y, GATE_NOR, inA, inB, out, std::string(":/Resources/Gates/gate-nor.png").c_str())
 {
 }
 
@@ -15,11 +15,7 @@ void GateNor::UpdateOutput()
 
 Gate *GateNor::Clone()
 {
-    GateNor* clone = new GateNor();
-
-    //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
+    GateNor* clone = new GateNor(m_geometry.x(), m_geometry.y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
 
     //Clone nodes
     clone->m_pInputA = m_pInputA;

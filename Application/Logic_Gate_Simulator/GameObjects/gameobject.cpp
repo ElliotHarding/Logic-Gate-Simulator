@@ -24,7 +24,7 @@ bool GameObject::enabled() const
 
 void GameObject::setPosition(const int& x, const int& y)
 {
-    m_geometry = QRect(x, y, m_geometry.width(), m_geometry.height());
+    m_geometry = QRect(x - m_geometry.width()/2, y - m_geometry.height()/2, m_geometry.width(), m_geometry.height());
 }
 
 void GameObject::draw(QPainter& painter)

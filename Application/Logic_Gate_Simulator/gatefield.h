@@ -44,10 +44,6 @@ public:
     void Redo();
     void SetZoomLevel(qreal zoom);
 
-    //Called if don't want the next gate to be clicked to be set as the selected gate
-    void SkipNextGateSelectedCall(bool stopDragging = false);
-    void StopDragging();
-
     //DLG_Home stuff
     void EditTextLabel(TextLabel *textLabelToEdit);
     void UpdateGateSelected(Gate* g);   
@@ -71,7 +67,7 @@ private:
     //Click actions
     bool rl_linkNodesClick(int clickX, int clickY);
     void rl_deleteClick(int clickX, int clickY);
-    bool rl_dragClick(int clickX, int clickY);
+    void checkStartDrag(const int& clickX, const int& clickY);
     void rl_deleteLinkedNodesClick(int clickX, int clickY);
     bool rl_defaultClick(int clickX, int clickY);
     void rl_selectionClick(int clickX, int clickY);
@@ -91,15 +87,11 @@ private:
     //DLG_Task settings
     bool m_bDisableGateCollections;
 
-    //Causes next UpdateGateSelected call to not do anything
-    bool m_bSkipUpdateGateSelected = false;
-
     //Saving
     std::string m_name = "Unknown";
 
     //Gates
-    std::vector<Gate*> m_allGates;
-    Gate* m_dragGate = nullptr;    
+    std::vector<Gate*> m_allGates;   
     void moveToFront(int index, std::vector<Gate*>& vec);
 
     //Gate backups for redo and undo functions
@@ -111,6 +103,7 @@ private:
 
     //Temps for multi step linking and unlinking
     Node* m_linkNodeA = nullptr;
+    QPoint m_currentLinkDragPoint = QPoint(0,0);
 
     //Zooming
     qreal m_zoomFactor;
@@ -125,8 +118,8 @@ private:
     void rl_offsetGates(double offsetX, double offsetY);
 
     //Dragging
-    QPoint m_currentDragPoint = QPoint(0,0);
-    bool m_bMouseDragging = false;
+    bool m_bMouseDown = false;
+    Gate* m_pDraggingGate = nullptr;
 
     //Selecting
     QRubberBand* m_selectionTool = nullptr;

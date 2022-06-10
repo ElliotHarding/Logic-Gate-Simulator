@@ -90,7 +90,7 @@ void GateField::paintEvent(QPaintEvent*)
     {
         QPen pen(Qt::blue, 2);
         painter.setPen(pen);
-        painter.drawLine(m_previousDragMousePos, m_currentDragPoint);
+        painter.drawLine(m_previousDragMousePos, m_currentLinkDragPoint);
     }
 
     //Paint in reverse order, so gate on top of vector get's painted last
@@ -225,30 +225,6 @@ void GateField::Redo()
     update();
 }
 
-//Todo : Get rid of this
-//Called if don't want the next gate to be clicked to be set as the selected gate
-void GateField::SkipNextGateSelectedCall(bool bStopDragging)
-{
-    /*
-      Need GateCollection's UpdateClicked() to return true when clicked
-      (So that GateField::defaultClick() returns true, so that a selection isnt started)
-
-      But..
-
-      Don't want the true param to call UpdateGateSelected(), since clicked gates normally do this
-      Reason we don't want it is because it may be a subGate in the GateCollection that actually got clicked
-    */
-    m_bSkipUpdateGateSelected = true;
-
-    if (bStopDragging)
-        StopDragging();
-}
-
-void GateField::StopDragging()
-{
-    m_bMouseDragging = false;
-}
-
 void GateField::EditTextLabel(TextLabel *textLabelToEdit)
 {
     m_pParent->EditTextLabel(textLabelToEdit);
@@ -281,9 +257,9 @@ void GateField::mousePressEvent(QMouseEvent *click)
     const int clickY = clickPos.y();
 
     //Update variables
-    m_bMouseDragging = true;
+    m_bMouseDown = true;
     m_previousDragMousePos = clickPos; //Todo : probably dont need these previous and current anymore.
-    m_currentDragPoint = m_previousDragMousePos;
+    m_currentLinkDragPoint = m_previousDragMousePos;
 
     rl_backupGates();
 
@@ -338,9 +314,8 @@ void GateField::rl_leftMouseClick(int clickX, int clickY)
             break;
 
     case CLICK_DRAG:
-
-        if(rl_dragClick(clickX,clickY))
-            break;
+        checkStartDrag(clickX, clickY);
+        break;
 
     case CLICK_LINK_NODES:
 
@@ -362,7 +337,10 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
     switch (CurrentClickMode)
     {
         case CLICK_DRAG:
-            rl_dragClick(clickPos.x(), clickPos.y());
+            if(m_pDraggingGate)
+            {
+                m_pDraggingGate->setPosition(clickPos.x(), clickPos.y());
+            }
             break;
 
 
@@ -372,14 +350,14 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 
         case CLICK_SELECTION:
 
-            if (m_bMouseDragging)
+            if (m_bMouseDown)
             {
                 rl_selectionClick(clickPos.x(), clickPos.y());
             }
             break;
 
         case CLICK_LINK_NODES:
-            m_currentDragPoint = clickPos;
+            m_currentLinkDragPoint = clickPos;
             break;
 
         default:
@@ -393,10 +371,15 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 
 void GateField::mouseReleaseEvent(QMouseEvent* click)
 {
-    const QPoint clickPos = QtPointToWorldPoint(click->pos());
+    m_bMouseDown = false;
 
-    m_bMouseDragging = false;
-    m_dragGate = nullptr;
+    if(m_pDraggingGate)
+    {
+        m_pDraggingGate = nullptr;
+        return;
+    }
+
+    const QPoint clickPos = QtPointToWorldPoint(click->pos());
 
     //If ending a selection
     if(m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION && !m_bDisableGateCollections)
@@ -555,15 +538,7 @@ bool GateField::rl_defaultClick(int clickX, int clickY)
     {
         if(gate->checkClicked(clickX, clickY))
         {
-            if (m_bSkipUpdateGateSelected)
-            {
-                m_bSkipUpdateGateSelected = false;
-            }
-            else
-            {
-                UpdateGateSelected(gate);
-            }
-
+            UpdateGateSelected(gate);
             return true;
         }
     }
@@ -609,59 +584,32 @@ void GateField::rl_deleteClick(int clickX, int clickY)
     }
 }
 
-bool GateField::rl_dragClick(int clickX, int clickY)
+void GateField::checkStartDrag(const int& clickX, const int& clickY)
 {
-    if(!m_bMouseDragging)
-        return false;
-
-    //Already know which gate to drag
-    if(m_dragGate != nullptr)
-    {
-        m_dragGate->checkClicked(clickX, clickY);
-        return true;
-    }
-
     //Look for a gate to drag
-    else
+
+    //Loop through all dragable gameobjects
+    for (size_t index = 0; index < m_allGates.size(); index++)
     {
-        //Loop through all dragable gameobjects
-        for (size_t index = 0; index < m_allGates.size(); index++)
+        GameObject* pPossibleClickedObject = m_allGates[index]->checkClicked(clickX, clickY);
+        if(pPossibleClickedObject != nullptr && dynamic_cast<Gate*>(pPossibleClickedObject))
         {
-            //If found an object to drag,
-            if(m_allGates[index]->checkClicked(clickX, clickY))
-            {
-                if (m_bSkipUpdateGateSelected)
-                {
-                    m_bSkipUpdateGateSelected = false;
-                }
-                else
-                {
-                    m_dragGate = m_allGates[index];
-                    UpdateGateSelected(m_allGates[index]);
+            m_pDraggingGate = dynamic_cast<Gate*>(pPossibleClickedObject);
+            UpdateGateSelected(m_allGates[index]);
 
-                    //UpdateDrag of gatecollection may delete the gate...
-                    //Call this after check for resetting m_bSkipUpdateGateSelected
-                    if (m_allGates.size() == 0)
-                        return true;
+            //Move the dragged object to the front of the array.
+            //This way next loop the object will be checked first
+            //This means if you drag an object over another, the object being dragged wont switch
+            moveToFront(index, m_allGates);
 
-                    //Move the dragged object to the front of the array.
-                    //This way next loop the object will be checked first
-                    //This means if you drag an object over another, the object being dragged wont switch
-                    moveToFront(index, m_allGates);
-                }
-
-                //Exit out of for loop so we don't drag multiple objects
-                return true;
-            }
+            return;
         }
     }
-
-    return false;
 }
 
 void GateField::rl_panClick(int clickX, int clickY)
 {
-    if(!m_bMouseDragging)
+    if(!m_bMouseDown)
         return;
 
     //Calcualte vector between previous mouse pos and current

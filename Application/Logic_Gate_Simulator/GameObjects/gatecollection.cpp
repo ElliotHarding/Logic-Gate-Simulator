@@ -361,10 +361,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     //Save button
     if(m_saveButton.contains(clickX, clickY))
     {
-        m_pParentField->SkipNextGateSelectedCall();
         m_pParentField->StartSaveGateCollection(m_gates);
-        m_pParentField->SkipNextGateSelectedCall(true);
-
         return true;
     }
 
@@ -376,7 +373,6 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         m_bDontDeleteGates = true;
 
         m_pParentField->UpdateGateSelected(nullptr);
-        m_pParentField->SkipNextGateSelectedCall(true);
 
         if (m_pParentGateCollection)
             m_pParentGateCollection->ForgetGate(this);
@@ -391,7 +387,6 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     else if (m_deleteAllButton.contains(clickX, clickY))
     {
         m_pParentField->UpdateGateSelected(nullptr);
-        m_pParentField->SkipNextGateSelectedCall(true);
 
         if (m_pParentGateCollection)
             m_pParentGateCollection->ForgetGate(this);
@@ -413,7 +408,6 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     else if (m_dragAllButton.contains(clickX, clickY))
     {
         ToggleDragMode();
-        m_pParentField->SkipNextGateSelectedCall(true);
         return true;
     }
     /*

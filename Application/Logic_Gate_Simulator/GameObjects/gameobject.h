@@ -21,8 +21,7 @@ public:
 
 protected:
     QRect m_geometry;
-
-    bool m_bEnabled = false;
+    bool m_bEnabled = true;
 
 private:
     QImage m_image;

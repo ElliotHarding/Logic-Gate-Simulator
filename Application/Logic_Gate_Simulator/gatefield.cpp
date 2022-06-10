@@ -3,6 +3,7 @@
 #include "dlg_savegatecollection.h"
 
 #include <QApplication>
+#include <QDebug>
 
 namespace Settings
 {
@@ -10,14 +11,12 @@ const QPen LinkingNodeLine(Qt::blue, 2);
 const QPen SelectionBorder(Qt::blue, 2);
 }
 
-GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections, bool bDisableGateBackup, bool bDisableZoom) :
+GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* pSaveGateCollectionDialog) :
     QWidget(parent),
     m_pParent(parent),
     m_name(name),
-    m_bDisableGateBackup(bDisableGateBackup),
     m_zoomFactor(zoomFactor),
-    m_pDlgSaveGateCollection(saveGateCollectionDialog),
-    m_bDisableGateCollections(disableGateCollections)
+    m_pDlgSaveGateCollection(pSaveGateCollectionDialog)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -25,17 +24,7 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
     m_screenPosDelta.x = 0;
     m_screenPosDelta.y = 0;
 
-    //m_pParent->SetCurrentClickMode(CLICK_DRAG);
-
-    saveGateCollectionDialog->SetCurrentGateField(this);
-
-    //Reserve memory for gates
-    m_allGates.reserve(20);
-    m_gateBackups.reserve(20);
-    for(std::vector<Gate*> g : m_gateBackups)
-    {
-        g.reserve(20);
-    }
+    pSaveGateCollectionDialog->SetCurrentGateField(this);
 }
 
 GateField::~GateField()
@@ -62,11 +51,11 @@ GateField::~GateField()
     m_allGates.clear();
     m_gateBackups.clear();
 
-    if(m_linkNodeA)
-        delete m_linkNodeA;
+    if(m_pLinkNodeA)
+        delete m_pLinkNodeA;
 
-    if(m_selectionTool)
-        delete m_selectionTool;
+    if(m_pSelectionTool)
+        delete m_pSelectionTool;
 }
 
 std::vector<Gate*>& GateField::GetGates()
@@ -84,17 +73,17 @@ void GateField::paintEvent(QPaintEvent*)
     painter.scale(m_zoomFactor, m_zoomFactor);
 
     //If were currently selecting an area
-    if(CurrentClickMode == CLICK_SELECTION && m_selectionTool && !m_bDisableGateCollections)
+    if(m_pSelectionTool)
     {
         painter.setPen(Settings::SelectionBorder);
-        painter.drawRect(m_selectionTool->geometry());
+        painter.drawRect(m_pSelectionTool->geometry());
     }
 
     //If were in the middle of linking
-    if(m_linkNodeA)
+    if(m_pLinkNodeA)
     {
         painter.setPen(Settings::LinkingNodeLine);
-        painter.drawLine(m_linkNodeA->position(), m_currentMousePos);
+        painter.drawLine(m_pLinkNodeA->position(), m_currentMousePos);
     }
 
     //Paint in reverse order, so gate on top of vector get's painted last
@@ -262,12 +251,9 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     rl_backupGates();
 
-    //Todo : maybe move this to when click mode changes...
-    //If was in the middle of linking, but then user changed click mode, forget
-    //the middle step variable m_linkNodeA
-    if(CurrentClickMode != CLICK_LINK_NODES && m_linkNodeA)
+    if(m_pLinkNodeA)
     {
-        m_linkNodeA = nullptr;
+        m_pLinkNodeA = nullptr;
         m_pParent->ResetToPreviousClickMode();
     }
 
@@ -349,7 +335,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
             break;
 
         case CLICK_LINK_NODES:
-            if(m_linkNodeA)
+            if(m_pLinkNodeA)
             {
                 m_currentMousePos = clickPos;
             }
@@ -378,20 +364,20 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     const QPoint clickPos = QtPointToWorldPoint(click->pos());
 
     //Check if ending a link attempt
-    if(m_linkNodeA)
+    if(m_pLinkNodeA)
     {
         checkEndLink(clickPos.x(), clickPos.y());
     }
 
     //If ending a selection
-    if(m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION && !m_bDisableGateCollections)
+    if(m_pSelectionTool != nullptr)
     {
         m_selectedGates.clear();
 
-        //Get all gates inside surrounding m_selectionTool
+        //Get all gates inside surrounding m_pSelectionTool
         for (Gate* gate : m_allGates)
         {
-            if(m_selectionTool->geometry().contains(gate->position()))
+            if(m_pSelectionTool->geometry().contains(gate->position()))
             {
                 m_selectedGates.push_back(gate);
             }
@@ -411,7 +397,8 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         }
 
         //Disactivate selection
-        m_selectionTool = nullptr;
+        delete m_pSelectionTool;
+        m_pSelectionTool = nullptr;
 
         m_pParent->SetCurrentClickMode(CLICK_DRAG);
 
@@ -447,9 +434,9 @@ bool GateField::checkStartLink(const int& clickX, const int& clickY)
         GameObject* pPossibleClickedNode = g->checkClicked(clickX, clickY);
         if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
-            m_linkNodeA = dynamic_cast<Node*>(pPossibleClickedNode);
+            m_pLinkNodeA = dynamic_cast<Node*>(pPossibleClickedNode);
 
-            m_currentMousePos = m_linkNodeA->position();
+            m_currentMousePos = m_pLinkNodeA->position();
 
             //Change cursor as started linking
             m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
@@ -469,21 +456,21 @@ void GateField::checkEndLink(const int &clickX, const int &clickY)
             Node* node = dynamic_cast<Node*>(pPossibleClickedNode);
 
             //Check not same node types
-            if(node->type() == m_linkNodeA->type())
+            if(node->type() == m_pLinkNodeA->type())
             {
                 m_pParent->SendUserMessage("Cant link to nodes of same type");
                 return;
             }
 
             //Check both dont have same parent
-            if(node->GetParent() == m_linkNodeA->GetParent())
+            if(node->GetParent() == m_pLinkNodeA->GetParent())
             {
                 return;
             }
 
             //link nodes & update parent gates (inside LinkNode())
-            bool n1Linked = node->LinkNode(m_linkNodeA);
-            bool n2Linked = m_linkNodeA->LinkNode(node);
+            bool n1Linked = node->LinkNode(m_pLinkNodeA);
+            bool n2Linked = m_pLinkNodeA->LinkNode(node);
 
             if(!n1Linked && !n2Linked)
             {
@@ -494,14 +481,16 @@ void GateField::checkEndLink(const int &clickX, const int &clickY)
 
                 if(n2Linked)
                 {
-                    m_linkNodeA->DetachNode();
+                    m_pLinkNodeA->DetachNode();
                 }
+
+                qDebug() << "GateField::checkEndLink - Linking failed!";
             }
         }
     }
 
-    m_linkNodeA = nullptr;
-    m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
+    m_pLinkNodeA = nullptr;
+    m_pParent->SetCurrentClickMode(CLICK_DEFAULT);//Todo : maybe we dont even need link click
     update();
 }
 
@@ -542,16 +531,16 @@ bool GateField::checkGateSelect(const int& clickX, const int& clickY)
 void GateField::rl_selectionClick(int clickX, int clickY)
 {
     //If start of new selection
-    if(m_selectionTool == nullptr)
+    if(m_pSelectionTool == nullptr)
     {
-        m_selectionTool = new QRubberBand(QRubberBand::Rectangle, this);
-        m_selectionToolOrigin = QPoint(clickX,clickY);
-        m_selectionTool->setGeometry(QRect(m_selectionToolOrigin, QSize()));
+        m_pSelectionTool = new QRubberBand(QRubberBand::Rectangle, this);
+        m_selectionToolOrigin = QPoint(clickX,clickY);//Todo : do we need this?
+        m_pSelectionTool->setGeometry(QRect(m_selectionToolOrigin, QSize()));
     }
 
     else
     {
-        m_selectionTool->setGeometry(
+        m_pSelectionTool->setGeometry(
                     QRect(m_selectionToolOrigin, QPoint(clickX,clickY)).normalized()
                     );
     }
@@ -625,9 +614,6 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 
 void GateField::rl_backupGates()
 {
-    if (m_bDisableGateBackup)
-        return;
-
     //Create backup of all gates
     std::vector<Gate*> backup;
     for(Gate* g : m_allGates)

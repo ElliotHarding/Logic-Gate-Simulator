@@ -333,7 +333,7 @@ void DLG_Home::SetCurrentClickMode(ClickMode clickMode)
     m_previousClickMode = clickMode;
 }
 
-void DLG_Home::ResetToPreviousClickMode()
+void DLG_Home::ResetToPreviousClickMode() //Todo : check if needed
 {
     if(m_previousClickMode != CLICK_LINK_NODES)
     {

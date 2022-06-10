@@ -24,7 +24,7 @@ class GateField : public QWidget
 public:
 
     //Construction
-    GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* saveGateCollectionDialog, bool disableGateCollections = false, bool disableGateBackup = false, bool disableZoom = false);
+    GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* pSaveGateCollectionDialog);
     ~GateField();
 
     //Gates
@@ -82,9 +82,6 @@ private:
 
     DLG_Home* m_pParent;
 
-    //DLG_Task settings
-    bool m_bDisableGateCollections;
-
     //Saving
     std::string m_name = "Unknown";
 
@@ -95,12 +92,11 @@ private:
     //Gate backups for redo and undo functions
     void rl_backupGates();
     std::vector<std::vector<Gate*>> m_gateBackups;
-    bool m_bDisableGateBackup;
     const int c_maxNumberOfBackups = 10;
     int m_backupIndex = 0;
 
     //Temps for multi step linking and unlinking
-    Node* m_linkNodeA = nullptr;
+    Node* m_pLinkNodeA = nullptr;
     QPoint m_currentMousePos;
 
     //Zooming
@@ -119,7 +115,7 @@ private:
     Gate* m_pDraggingGate = nullptr;
 
     //Selecting
-    QRubberBand* m_selectionTool = nullptr;
+    QRubberBand* m_pSelectionTool = nullptr;
     QPoint m_selectionToolOrigin;
     const QColor selectionAreaColor = Qt::blue;
     std::vector<Gate*> m_selectedGates;

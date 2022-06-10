@@ -1,27 +1,36 @@
 #include "GateToggle.h"
 
-GateToggle::GateToggle(id out) :
-    GateSingleOutput::GateSingleOutput(GATE_EMMITTER, out),
-    m_font("Helvetica", 7)
+namespace Settings
 {
-    m_toggleStateTimer.start(c_toggleFrequency);
+///Functionality
+const uint MaxToggleFrequencyMs = 2;
+
+///Text
+const QFont DisplayFont = QFont("Helvetica", 7);
+const QColor DisplayTextColor = Qt::black;
+}
+
+GateToggle::GateToggle(const int& x, const int& y, const id& out) :
+    GateSingleOutput::GateSingleOutput(x, y, GATE_EMMITTER, out)
+{
+    m_toggleStateTimer.start(Settings::MaxToggleFrequencyMs);
 }
 
 void GateToggle::UpdateOutput()
 {
-    //done in ToggleOutputState & UpdateClicked
+    //done in ToggleOutputState & checkClicked
 }
 
 void GateToggle::ToggleOutputState()
 {
     m_toggleStateTimer.stop();
-    m_toggleStateTimer.start(c_toggleFrequency);
-    m_output.SetValue(!m_output.GetValue());
+    m_toggleStateTimer.start(Settings::MaxToggleFrequencyMs);
+    m_pOutput->setValue(!m_pOutput->value());
 }
 
-bool GateToggle::UpdateClicked(int clickX, int clickY)
+bool GateToggle::checkClicked(const int& x, const int& y)
 {
-    bool isClicked = GameObject::UpdateClicked(clickX,clickY);
+    bool isClicked = GameObject::checkClicked(x, y);
 
     //If being clicked & toggleStateTimer has finished
     //Then toggle output value of gate
@@ -29,37 +38,31 @@ bool GateToggle::UpdateClicked(int clickX, int clickY)
     {
         ToggleOutputState();
 
-        QPainter p;
-        UpdateGraphics(&p);
+        //Todo : 1 notify parent to redraw...
     }
 
     return isClicked;
 }
 
-void GateToggle::UpdateGraphics(QPainter *painter)
+void GateToggle::draw(QPainter& painter)
 {
-    GateSingleOutput::UpdateGraphics(painter);
+    GateSingleOutput::draw(painter);
 
-    const QPoint pos = GetPosition();
+    painter.setPen(QPen(Settings::DisplayTextColor, 1));
+    painter.setFont(Settings::DisplayFont);
 
-    painter->setPen(QPen(Qt::black, 1));
-    painter->setFont(m_font);
-
-    painter->drawText(pos.x() - 7,
-                      pos.y() - int(GateSingleOutputHeight/3.5),
-                      m_output.GetValue() ? "On" : "Off");
+    //Todo : calcualte pos correctly
+    painter.drawText(m_geometry.x() - 7,
+                      m_geometry.y() - 10,
+                      m_pOutput->value() ? "On" : "Off");
 }
 
 Gate *GateToggle::Clone()
 {
-    GateToggle* clone = new GateToggle();
+    GateToggle* clone = new GateToggle(m_geometry.x(), m_geometry.y(), m_pOutput->id());
 
-    //Clone position
-    QPoint pos = GetPosition();
-    clone->SetPosition(pos.x(), pos.y());
-
-    //Clone nodes
-    clone->m_output = m_output;
+    //Clone nodes - Todo : not actaully cloning....
+    clone->m_pOutput = m_pOutput;
 
     return clone;
 }
@@ -69,10 +72,8 @@ void GateToggle::SaveData(std::ofstream &storage)
     //Add general gate info
     Gate::SaveGeneralData(storage);
 
-    //todo save states
-
     //Add node information
-    m_output.SaveData(storage);
+    m_pOutput->SaveData(storage);
 
     storage << END_SAVE_TAG_GATE << std::endl;
 }

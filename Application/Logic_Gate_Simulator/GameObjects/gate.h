@@ -34,13 +34,13 @@ public:
 
     //Generic functions   
     virtual void UpdateOutput() = 0;
+    virtual void draw(QPainter& painter) override;
     virtual void SaveData(std::ofstream& storage);
     virtual GameObject* checkClicked(const int& x, const int& y) override;
 
     ///Position stuff
     virtual void offsetPosition(const int& dX, const int& dY);
     virtual void setPosition(const int& x, const int& y) override;
-    QPoint position() const;
     QRect geometry() const;
 
     //Node functions

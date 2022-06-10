@@ -35,6 +35,12 @@ Gate::~Gate()
     m_pParentField = nullptr;
 }
 
+void Gate::draw(QPainter& painter)
+{
+    GameObject::draw(painter);
+    drawNodes(painter);
+}
+
 void Gate::SaveData(std::ofstream &storage)
 {
     SaveGeneralData(storage);
@@ -86,11 +92,6 @@ void Gate::setPosition(const int &x, const int &y)
     {
         n->setPosition(x, y);
     }
-}
-
-QPoint Gate::position() const
-{
-    return m_geometry.topLeft();
 }
 
 QRect Gate::geometry() const

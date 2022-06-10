@@ -45,7 +45,6 @@ GateField::~GateField()
     m_pParent = nullptr;
 
     //Delete all gates
-    m_lockAllGates.lock();
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         delete m_allGates[index];
@@ -60,7 +59,6 @@ GateField::~GateField()
     }
     m_allGates.clear();
     m_gateBackups.clear();
-    m_lockAllGates.unlock();
 
     delete m_linkNodeA;
 
@@ -68,7 +66,7 @@ GateField::~GateField()
         delete m_selectionTool;
 }
 
-void GateField::paintEvent(QPaintEvent *paintEvent)
+void GateField::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
@@ -93,8 +91,6 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
         painter.drawLine(m_previousDragMousePos, m_currentDragPoint);
     }
 
-    m_lockAllGates.lock();    
-
     //Paint in reverse order, so gate on top of vector get's painted last
     //So if we're dragging, the one we're dragging gets painted ontop of the others
     //Since dragging move the gate to the top of the vector
@@ -102,12 +98,8 @@ void GateField::paintEvent(QPaintEvent *paintEvent)
     {
         m_allGates[size_t(index)]->draw(painter);
     }
-
-    m_lockAllGates.unlock();
 }
 
-//MAKE SURE m_lockAllGates is locked before calling!
-//Or re-implement...
 void GateField::rl_updateFunction()
 {
     for (Gate* g : m_allGates)
@@ -129,13 +121,13 @@ void GateField::SetZoomLevel(qreal zoom, bool zoomCenter)
 
     m_zoomFactor = zoom;
 
+    //Todo : check this. I dont think it does anything cuz geometry is always same?
     //Set m_zoomLocation to geo.center
     if(zoomCenter)
     {
         const QRect geo = geometry();
         m_centerScreen = geo.center();
     }
-
 
     //Call to redraw
     update();
@@ -160,12 +152,10 @@ bool GateField::SaveData()
 
     if(saveFile.is_open())
     {
-        m_lockAllGates.lock();
         for (size_t index = 0; index < m_allGates.size(); index++)
         {
             m_allGates[index]->SaveData(saveFile);
         }
-        m_lockAllGates.unlock();
 
         //Close
         saveFile.close();
@@ -177,12 +167,10 @@ bool GateField::SaveData()
 
 void GateField::SaveData(std::ofstream& saveFile)
 {
-    m_lockAllGates.lock();
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         m_allGates[index]->SaveData(saveFile);
     }
-    m_lockAllGates.unlock();
 
     //Close
     saveFile.close();
@@ -190,58 +178,42 @@ void GateField::SaveData(std::ofstream& saveFile)
 
 void GateField::DeleteGate(Gate* gateToDelete)
 {
-    m_lockAllGates.lock();
     for(size_t index = 0; index < m_allGates.size(); index++)
     {
         if (m_allGates[index] == gateToDelete)
         {
             //Find & remove from vector
-            Gate* gObject = m_allGates[index];
-            //gObject->DetachNodes(); ~ todo think its done by destructor
             m_allGates.erase(m_allGates.begin() + int8_t(index));
+            delete gateToDelete;
 
-            //~Delete & forget
-            delete gObject;
-            gateToDelete = nullptr;
-
-            rl_updateFunction();
-
-            //Exit early
-            break;
+            return;
         }
     }
-    m_lockAllGates.unlock();
 }
 
 void GateField::ForgetChild(Gate* gateToDelete)
 {
-    //dosent need mutex since call comming from child in locked m_allgates
-
     for(size_t index = 0; index < m_allGates.size(); index++)
     {
         if (m_allGates[index] == gateToDelete)
         {
             //forget
             m_allGates.erase(m_allGates.begin() + int8_t(index));
-            gateToDelete = nullptr;
 
             rl_updateFunction();
-
-            //Exit early
-            break;
+            return;
         }
     }
 }
+
+//Todo : do the history class like with paint program
 
 void GateField::Undo()
 {
     if(m_backupIndex > -1 && size_t(m_backupIndex) <= m_gateBackups.size())
     {
         std::vector<Gate*> v = m_gateBackups[size_t(m_backupIndex--)];
-
-        m_lockAllGates.lock();
         m_allGates = v;
-        m_lockAllGates.unlock();
     }
 
     //Call to redraw
@@ -253,16 +225,14 @@ void GateField::Redo()
     if(m_backupIndex > -1 && m_backupIndex < int(m_gateBackups.size()))
     {
         std::vector<Gate*> v = m_gateBackups[size_t(m_backupIndex++)];
-
-        m_lockAllGates.lock();
         m_allGates = v;
-        m_lockAllGates.unlock();
     }
 
     //Call to redraw
     update();
 }
 
+//Todo : Get rid of this
 //Called if don't want the next gate to be clicked to be set as the selected gate
 void GateField::SkipNextGateSelectedCall(bool bStopDragging)
 {
@@ -298,24 +268,14 @@ void GateField::StartSaveGateCollection(std::vector<Gate*> selectedGates)
     m_pDlgSaveGateCollection->open();
 }
 
-std::vector<Gate*>& GateField::GetGates()
-{
-    m_lockAllGates.lock();
-    return m_allGates;
-}
-
-void GateField::FinishWithGates()
-{
-    m_lockAllGates.unlock();
-}
-
 void GateField::AddGate(Gate* go, bool newlySpawned)
 {
     go->SetParent(this);
-    m_allGates.push_back(go);
 
     if(newlySpawned)
         go->setPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
+
+    m_allGates.push_back(go);
 
     //Call to redraw
     update();
@@ -329,11 +289,12 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     //Update variables
     m_bMouseDragging = true;
-    m_previousDragMousePos = QPoint(clickX,clickY);
+    m_previousDragMousePos = clickPos; //Todo : probably dont need these previous and current anymore.
     m_currentDragPoint = m_previousDragMousePos;
 
     rl_backupGates();
 
+    //Todo : maybe move this to when click mode changes...
     //If was in the middle of linking, but then user changed click mode, forget
     //the middle step variable m_linkNodeA
     if(CurrentClickMode != CLICK_LINK_NODES && m_linkNodeA)
@@ -341,8 +302,6 @@ void GateField::mousePressEvent(QMouseEvent *click)
         m_linkNodeA = nullptr;
         m_pParent->ResetToPreviousClickMode();
     }
-
-    m_lockAllGates.lock();
 
     if(click->buttons() & Qt::LeftButton)
     {
@@ -356,8 +315,6 @@ void GateField::mousePressEvent(QMouseEvent *click)
     {
         rl_deleteClick(clickX,clickY);
     }
-
-    m_lockAllGates.unlock();
 
     //Call to redraw
     update();
@@ -412,30 +369,20 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
     switch (CurrentClickMode)
     {
         case CLICK_DRAG:
-
-            m_lockAllGates.lock();
             rl_dragClick(clickPos.x(), clickPos.y());
-            m_lockAllGates.unlock();
-
-        break;
+            break;
 
 
         case CLICK_PAN:
-
-            m_lockAllGates.lock();
             rl_panClick(clickPos.x(), clickPos.y());
-            m_lockAllGates.unlock();
             break;
 
         case CLICK_SELECTION:
 
             if (m_bMouseDragging)
             {
-                m_lockAllGates.lock();
                 rl_selectionClick(clickPos.x(), clickPos.y());
-                m_lockAllGates.unlock();
             }
-
             break;
 
         case CLICK_LINK_NODES:
@@ -459,15 +406,14 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     m_dragGate = nullptr;
 
     //If ending a selection
-    if( m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION && !m_bDisableGateCollections)
+    if(m_selectionTool != nullptr && CurrentClickMode == CLICK_SELECTION && !m_bDisableGateCollections)
     {
         m_selectedGates.clear();
-        m_lockAllGates.lock();
 
         //Get all gates inside surrounding m_selectionTool
         for (Gate* gate : m_allGates)
         {
-            if( m_selectionTool->geometry().contains(gate->position()))
+            if(m_selectionTool->geometry().contains(gate->position()))
             {
                 m_selectedGates.push_back(gate);
             }
@@ -490,8 +436,6 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         m_selectionTool = nullptr;
 
         m_pParent->SetCurrentClickMode(CLICK_DRAG);
-
-        m_lockAllGates.unlock();
     }
 
     //Check if ending a link
@@ -557,21 +501,20 @@ void GateField::wheelEvent(QWheelEvent *event)
     if(m_bDisableZoom)
         return;
 
-    const QPoint scrollPos = QtPointToWorldPoint(event->pos());
     const qreal direction = event->delta() > 0 ? m_zoomScrollSpeed : -m_zoomScrollSpeed;
 
+    //Todo : seems stupid to set zoom factor for all gatefeilds
     //Only offset gates if zoom factor actually changes
     if (m_pParent->SetZoomFactor(m_zoomFactor + direction, true))
     {
+        const QPoint scrollPos = QtPointToWorldPoint(event->pos());
+
         //Calcualte vector between previous mouse pos and current
         const double offsetX = -scrollPos.x() * direction;
         const double offsetY = -scrollPos.y() * direction;
 
         //Offset the gates
-        //Functions with rl_ require m_lockAllGates to be locked
-        m_lockAllGates.lock();
         rl_offsetGates(offsetX, offsetY);
-        m_lockAllGates.unlock();
     }
 }
 
@@ -746,7 +689,6 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
     vec.insert(vec.begin(), objectAtIndex);
 }
 
-//Function must be called when m_allGates is mutex locked
 void GateField::rl_backupGates()
 {
     if (m_bDisableGateBackup)

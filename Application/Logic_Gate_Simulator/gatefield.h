@@ -6,7 +6,6 @@
 #include <QDragMoveEvent>
 #include <QRubberBand>
 #include <QMainWindow>
-#include <QMutex>
 #include <QThread>
 
 #include "clickmode.h"
@@ -50,11 +49,7 @@ public:
 
     //DLG_Home stuff
     void EditTextLabel(TextLabel *textLabelToEdit);
-    void UpdateGateSelected(Gate* g);
-
-    //Timer thread mutex bypass for m_allGates
-    std::vector<Gate*>& GetGates();
-    void FinishWithGates();    
+    void UpdateGateSelected(Gate* g);   
 
     //Public vars
     bool Enabled = true;
@@ -102,7 +97,6 @@ private:
     std::string m_name = "Unknown";
 
     //Gates
-    QMutex m_lockAllGates;
     std::vector<Gate*> m_allGates;
     Gate* m_dragGate = nullptr;    
     void moveToFront(int index, std::vector<Gate*>& vec);

@@ -29,8 +29,6 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
 
 GateField::~GateField()
 {
-    Enabled = false;
-
     //Belongs to parent DLG_Home
     m_pDlgSaveGateCollection = nullptr;
     m_pParent = nullptr;

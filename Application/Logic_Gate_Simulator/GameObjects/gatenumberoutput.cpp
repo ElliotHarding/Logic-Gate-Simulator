@@ -18,8 +18,8 @@ GateNumberOutput::GateNumberOutput(id inA, id inB, id inC, id inD) :
 
 void GateNumberOutput::UpdateOutput()
 {
-    const int sum =   m_inputA.GetValue() * 1
-                    + m_inputB.GetValue() * 2
+    const int sum =   m_pInputA->value() * 1
+                    + m_pInputB->value() * 2
                     + m_inputC.GetValue() * 4
                     + m_inputD.GetValue() * 8;
 
@@ -58,8 +58,8 @@ Gate *GateNumberOutput::Clone()
     clone->SetPosition(pos.x(), pos.y());
 
     //Clone nodes
-    clone->m_inputA = m_inputA;
-    clone->m_inputB = m_inputB;
+    clone->m_pInputA = m_pInputA;
+    clone->m_pInputB = m_pInputB;
     clone->m_inputC = m_inputC;
     clone->m_inputD = m_inputD;
 

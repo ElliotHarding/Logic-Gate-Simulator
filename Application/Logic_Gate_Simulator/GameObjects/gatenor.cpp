@@ -7,10 +7,10 @@ GateNor::GateNor() :
 
 void GateNor::UpdateOutput()
 {
-    const bool newVal = !(m_inputA.GetValue() | m_inputB.GetValue());
+    const bool newVal = !(m_pInputA->value() | m_pInputB->value());
 
     //set output node value
-    m_output.SetValue(newVal);
+    m_pOutput->setValue(newVal);
 }
 
 Gate *GateNor::Clone()
@@ -22,9 +22,9 @@ Gate *GateNor::Clone()
     clone->SetPosition(pos.x(), pos.y());
 
     //Clone nodes
-    clone->m_inputA = m_inputA;
-    clone->m_inputB = m_inputB;
-    clone->m_output = m_output;
+    clone->m_pInputA = m_pInputA;
+    clone->m_pInputB = m_pInputB;
+    clone->m_pOutput = m_pOutput;
 
     return clone;
 }

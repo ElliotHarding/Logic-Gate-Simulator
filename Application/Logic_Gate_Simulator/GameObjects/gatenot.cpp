@@ -31,7 +31,7 @@ Gate *GateNot::Clone()
     clone->SetPosition(pos.x(), pos.y());
 
     //Clone nodes
-    clone->m_output = m_output;
+    clone->m_pOutput = m_pOutput;
     clone->m_input = m_input;
 
     return clone;

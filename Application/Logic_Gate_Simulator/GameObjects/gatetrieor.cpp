@@ -15,10 +15,10 @@ GateTriEor::GateTriEor(id inA, id inB, id inC, id out) :
 
 void GateTriEor::UpdateOutput()
 {
-    const bool sum = m_inputA.GetValue() ^ m_inputB.GetValue() ^ m_inputC.GetValue();
+    const bool sum = m_pInputA->value() ^ m_pInputB->value() ^ m_inputC.GetValue();
     m_output.SetValue(sum);
 
-    if (m_inputA.GetValue() & m_inputB.GetValue() & m_inputC.GetValue())
+    if (m_pInputA->value() & m_pInputB->value() & m_inputC.GetValue())
     {
 
     }
@@ -47,10 +47,10 @@ Gate *GateTriEor::Clone()
     clone->SetPosition(pos.x(), pos.y());
 
     //Clone nodes
-    clone->m_inputA = m_inputA;
-    clone->m_inputB = m_inputB;
+    clone->m_pInputA = m_pInputA;
+    clone->m_pInputB = m_pInputB;
     clone->m_inputC = m_inputC;
-    clone->m_output = m_output;
+    clone->m_pOutput = m_pOutput;
 
     return clone;
 }

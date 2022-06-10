@@ -21,7 +21,7 @@ const QColor InActiveColor = Qt::lightGray;
 const QColor GateColor = Qt::lightGray;
 }
 
-GateSingleOutput::GateSingleOutput(const uint& x, const uint& y, const GateType& type, const id& nodeId) :
+GateSingleOutput::GateSingleOutput(const int& x, const int& y, const GateType& type, const id& nodeId) :
     Gate::Gate(type, x, y, Settings::GateSingleOutputWidth, Settings::GateSingleOutputHeight),
     m_pOutput(new Node(this, Settings::NodeOffsetX, Settings::NodeOffsetY, OutputNode, nodeId))
 {

@@ -68,7 +68,7 @@ private:
     void checkStartDrag(const int& clickX, const int& clickY);
     void rl_deleteLinkedNodesClick(int clickX, int clickY);
     bool checkGateSelect(const int& clickX, const int& clickY);
-    void rl_selectionClick(int clickX, int clickY);
+    void editSelection(const QPoint& mouse);
     void rl_panClick(int clickX, int clickY);
 
     //Qt Events

@@ -34,7 +34,7 @@ dlg_task::dlg_task(DLG_TaskManager* pTaskManager, std::string* taskFileName, boo
     m_pTruthTableWidget->raise();
     m_pTruthTableWidget->setAutoFillBackground(true);
 
-    m_allGateFields.push_back(new GateField(m_zoomFactor, "Task", this, m_pDlgSaveGateCollection, true, true, true));
+    m_allGateFields.push_back(new GateField(m_zoomFactor, "Task", this, m_pDlgSaveGateCollection));
     m_iCurrentGateField = 0;
     m_allGateFields[m_iCurrentGateField]->setAutoFillBackground(true);
     m_allGateFields[m_iCurrentGateField]->raise();

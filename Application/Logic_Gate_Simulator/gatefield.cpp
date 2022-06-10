@@ -287,7 +287,7 @@ void GateField::rl_leftMouseClick(int clickX, int clickY)
         break;
 
     case CLICK_SELECTION:
-        rl_selectionClick(clickX,clickY);
+        editSelection(QPoint(clickX,clickY));
         break;
 
     case CLICK_PAN:
@@ -299,7 +299,7 @@ void GateField::rl_leftMouseClick(int clickX, int clickY)
         {
             if(!checkGateSelect(clickX, clickY))
             {
-                rl_selectionClick(clickX,clickY);
+                editSelection(QPoint(clickX,clickY));
             }
         }
         break;
@@ -330,7 +330,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
         case CLICK_SELECTION:
             if (m_bMouseDown)
             {
-                rl_selectionClick(clickPos.x(), clickPos.y());
+                editSelection(clickPos);
             }
             break;
 
@@ -490,7 +490,7 @@ void GateField::checkEndLink(const int &clickX, const int &clickY)
     }
 
     m_pLinkNodeA = nullptr;
-    m_pParent->SetCurrentClickMode(CLICK_DEFAULT);//Todo : maybe we dont even need link click
+    m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
     update();
 }
 
@@ -528,23 +528,19 @@ bool GateField::checkGateSelect(const int& clickX, const int& clickY)
     return false;
 }
 
-void GateField::rl_selectionClick(int clickX, int clickY)
+void GateField::editSelection(const QPoint& mouse)
 {
     //If start of new selection
     if(m_pSelectionTool == nullptr)
     {
         m_pSelectionTool = new QRubberBand(QRubberBand::Rectangle, this);
-        m_selectionToolOrigin = QPoint(clickX,clickY);//Todo : do we need this?
+        m_selectionToolOrigin = mouse;
         m_pSelectionTool->setGeometry(QRect(m_selectionToolOrigin, QSize()));
     }
-
     else
     {
-        m_pSelectionTool->setGeometry(
-                    QRect(m_selectionToolOrigin, QPoint(clickX,clickY)).normalized()
-                    );
+        m_pSelectionTool->setGeometry(QRect(m_selectionToolOrigin, mouse).normalized());
     }
-
 }
 
 void GateField::rl_deleteClick(int clickX, int clickY)

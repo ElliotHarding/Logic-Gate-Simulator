@@ -92,7 +92,7 @@ std::string CircuitOptimizer::DecimalToBinaryString(int a, size_t reqLen)
 std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpression algebraicString, std::vector<Gate*>& defaultReturn)
 {
     const int positionInc = 110;
-    const QPoint startGateLocation = defaultReturn[0]->GetPosition();
+    const QPoint startGateLocation = defaultReturn[0]->position();
 
     std::vector<Gate*> gates;
 
@@ -118,10 +118,10 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 }
                 else
                 {
-                    const QPoint previousGatePos = gates[gates.size() - 2]->GetPosition();
+                    const QPoint previousGatePos = gates[gates.size() - 2]->position();
                     pos = QPoint(previousGatePos.x(), previousGatePos.y() + positionInc);
                 }
-                gates[iNew]->SetPosition(pos.x(), pos.y());
+                gates[iNew]->setPosition(pos.x(), pos.y());
 
                 //Check for not gates
                 if (algebraicString.inverted[i] && algebraicString.inverted[i+1])
@@ -156,9 +156,9 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 LinkThreeGates(gates, iNew, iFirst, iSecond);
 
                 //Set new position
-                const QPoint firstPoint = gates[iFirst]->GetPosition();
-                const QPoint secondPoint = gates[iSecond]->GetPosition();
-                gates[iNew]->SetPosition(secondPoint.x() + positionInc, (secondPoint.y() - firstPoint.y())/2 + firstPoint.y());
+                const QPoint firstPoint = gates[iFirst]->position();
+                const QPoint secondPoint = gates[iSecond]->position();
+                gates[iNew]->setPosition(secondPoint.x() + positionInc, (secondPoint.y() - firstPoint.y())/2 + firstPoint.y());
 
                 //Make adjuestments to algebraicString
                 CutBooleanExpression(algebraicString,i,i+2);
@@ -186,8 +186,8 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 LinkTwoGates(gates, iGateToLink, iNew);
 
                 //Set new gates position
-                const QPoint firstGatePos = gates[iGateToLink]->GetPosition();
-                gates[iNew]->SetPosition(firstGatePos.x(), firstGatePos.y() + positionInc);
+                const QPoint firstGatePos = gates[iGateToLink]->position();
+                gates[iNew]->setPosition(firstGatePos.x(), firstGatePos.y() + positionInc);
 
                 //Check for not gates in this case 'i' will never be notted
                 if (algebraicString.inverted[i+1])
@@ -222,10 +222,10 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 }
                 else
                 {
-                    const QPoint previousGatePos = gates[gates.size() - 2]->GetPosition();
+                    const QPoint previousGatePos = gates[gates.size() - 2]->position();
                     pos = QPoint(previousGatePos.x(), previousGatePos.y() + positionInc);
                 }
-                gates[iNew]->SetPosition(pos.x(), pos.y());
+                gates[iNew]->setPosition(pos.x(), pos.y());
 
                 //Check for not gates
                 if (algebraicString.inverted[i] && algebraicString.inverted[i+2])
@@ -261,9 +261,9 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 LinkThreeGates(gates, iNew, iFirst, iSecond);
 
                 //Set new position
-                const QPoint firstPoint = gates[iFirst]->GetPosition();
-                const QPoint secondPoint = gates[iSecond]->GetPosition();
-                gates[iNew]->SetPosition(secondPoint.x() + positionInc, (secondPoint.y() - firstPoint.y())/2 + firstPoint.y());
+                const QPoint firstPoint = gates[iFirst]->position();
+                const QPoint secondPoint = gates[iSecond]->position();
+                gates[iNew]->setPosition(secondPoint.x() + positionInc, (secondPoint.y() - firstPoint.y())/2 + firstPoint.y());
 
                 //Make adjuestments to algebraicString
                 CutBooleanExpression(algebraicString,i,i+3);
@@ -291,8 +291,8 @@ std::vector<Gate*> CircuitOptimizer::CuircuitFromBooleanAlgebra(BooleanExpressio
                 LinkTwoGates(gates, iGateToLink, iNew);
 
                 //Set new gates position
-                const QPoint firstGatePos = gates[iGateToLink]->GetPosition();
-                gates[iNew]->SetPosition(firstGatePos.x(), firstGatePos.y() + positionInc);
+                const QPoint firstGatePos = gates[iGateToLink]->position();
+                gates[iNew]->setPosition(firstGatePos.x(), firstGatePos.y() + positionInc);
 
                 //Check for not gates in this case i will never be notted
                 if (algebraicString.inverted[i+1])
@@ -339,8 +339,8 @@ void CircuitOptimizer::CutBooleanExpression(CircuitOptimizer::BooleanExpression 
 void CircuitOptimizer::LinkNotGateAsInput(std::vector<Gate*> &gates, size_t iGateToLinkTo)
 {
     gates.push_back(new GateNot());
-    const QPoint previousGatePos = gates[gates.size() - 2]->GetPosition();
-    gates[gates.size() - 1]->SetPosition(previousGatePos.x()-100, previousGatePos.y());
+    const QPoint previousGatePos = gates[gates.size() - 2]->position();
+    gates[gates.size() - 1]->setPosition(previousGatePos.x()-100, previousGatePos.y());
 
     std::vector<Node*> outNodes;
     gates[gates.size() - 1]->GetDisconnectedOutputNodes(outNodes);
@@ -374,8 +374,8 @@ size_t CircuitOptimizer::LinkNotGateAsOutput(std::vector<Gate*> &gates, size_t i
             gates.push_back(new GateNot());
             const size_t iNewNot = gates.size() - 1;
 
-            const QPoint previousGatePos = gates[gates.size() - 2]->GetPosition();
-            gates[iNewNot]->SetPosition(previousGatePos.x() + 100, previousGatePos.y());
+            const QPoint previousGatePos = gates[gates.size() - 2]->position();
+            gates[iNewNot]->setPosition(previousGatePos.x() + 100, previousGatePos.y());
 
             std::vector<Node*> inputNodes;
             gates[iNewNot]->GetDisconnectedInputNodes(inputNodes);

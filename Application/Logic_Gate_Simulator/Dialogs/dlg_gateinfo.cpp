@@ -51,7 +51,7 @@ void DLG_GateInfo::setGate(Gate *g)
 
     //Set if enabled
     ui->cb_Enabled->setCheckState(
-                m_gateDisplayed->Enabled ? Qt::CheckState::Checked : Qt::CheckState::Unchecked
+                m_gateDisplayed->enabled() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked
                 );
 
     //Display gate specific info
@@ -196,14 +196,14 @@ void DLG_GateInfo::on_cb_Enabled_clicked()
 {
     if(m_gateDisplayed)
     {
-        if(m_gateDisplayed->Enabled)
+        if(m_gateDisplayed->enabled())
         {
-            m_gateDisplayed->Enabled = false;
+            m_gateDisplayed->setEnabled(false);
             ui->cb_Enabled->setCheckState(Qt::CheckState::Unchecked);
         }
         else
         {
-            m_gateDisplayed->Enabled = true;
+            m_gateDisplayed->setEnabled(true);
             ui->cb_Enabled->setCheckState(Qt::CheckState::Checked);
         }
 

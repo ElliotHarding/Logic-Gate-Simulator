@@ -514,11 +514,13 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 
         for (Gate* g : m_allGates)
         {
-            Node* node = g->GetClickedNode(clickPos.x(), clickPos.y());
-            if(node && m_linkNodeA)
+            GameObject* pPossibleClickedNode = g->checkClicked(clickPos.x(), clickPos.y());
+            if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode) && m_linkNodeA)
             {
+                Node* node = dynamic_cast<Node*>(pPossibleClickedNode);
+
                 //Check not same node types
-                if(node->m_nodeType == m_linkNodeA->m_nodeType)
+                if(node->type() == m_linkNodeA->type())
                 {
                     m_pParent->SendUserMessage("Cant link to nodes of same type");
                     return;
@@ -554,7 +556,6 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
                 node = nullptr;
                 return;
             }
-            node = nullptr;
         }
     }
 
@@ -590,17 +591,15 @@ bool GateField::rl_linkNodesClick(int clickX, int clickY)
 {
     for (Gate* g : m_allGates)
     {
-        Node* n = g->GetClickedNode(clickX, clickY);
-        if(n)
+        GameObject* pPossibleClickedNode = g->checkClicked(clickX, clickY);
+        if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
-            m_linkNodeA = n;
+            m_linkNodeA = dynamic_cast<Node*>(pPossibleClickedNode);
 
             //Change cursor as started linking
             m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
-            n = nullptr;
             return true;
         }
-        n = nullptr;
     }
     return false;
 }
@@ -611,9 +610,12 @@ void GateField::rl_deleteLinkedNodesClick(int clickX, int clickY)
     for (Gate* gate : m_allGates)
     {
         //Check if iterated gate has any clicked nodes
-        node = gate->GetClickedNode(clickX,clickY);
-        if(node != nullptr)
+        GameObject* pPossibleClickedNode = gate->checkClicked(clickX, clickY);
+
+        if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
+            node = dynamic_cast<Node*>(pPossibleClickedNode);
+
             node->DetachNode();
 
             node = nullptr;
@@ -627,7 +629,7 @@ bool GateField::rl_defaultClick(int clickX, int clickY)
 {
     for (Gate* gate : m_allGates)
     {
-        if(gate->UpdateClicked(clickX, clickY))
+        if(gate->checkClicked(clickX, clickY))
         {
             if (m_bSkipUpdateGateSelected)
             {
@@ -668,7 +670,7 @@ void GateField::rl_deleteClick(int clickX, int clickY)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {     
-        if(m_allGates[index]->DeleteClick(clickX,clickY))
+        if(m_allGates[index]->checkClicked(clickX,clickY))
         {
             Gate* gObject = m_allGates[index];
             m_allGates.erase(m_allGates.begin() + index);
@@ -691,7 +693,7 @@ bool GateField::rl_dragClick(int clickX, int clickY)
     //Already know which gate to drag
     if(m_dragGate != nullptr)
     {
-        m_dragGate->UpdateDrag(clickX, clickY);
+        m_dragGate->checkClicked(clickX, clickY);
         return true;
     }
 
@@ -702,7 +704,7 @@ bool GateField::rl_dragClick(int clickX, int clickY)
         for (size_t index = 0; index < m_allGates.size(); index++)
         {
             //If found an object to drag,
-            if(m_allGates[index]->UpdateDrag(clickX, clickY))
+            if(m_allGates[index]->checkClicked(clickX, clickY))
             {
                 if (m_bSkipUpdateGateSelected)
                 {
@@ -790,7 +792,7 @@ void GateField::rl_offsetGates(double offsetX, double offsetY)
 
         //Apply delta
         for (Gate* g : m_allGates)
-            g->OffsetPosition(offsetX, offsetY);
+            g->offsetPosition(offsetX, offsetY);
     }
 }
 

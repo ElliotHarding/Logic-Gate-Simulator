@@ -32,7 +32,7 @@ bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& 
     nextLine //Empty element meant for yPos of a normal gate, might add info here
 
     gCollection = new GateCollection(readGates(gateStream));
-    gCollection->Enabled = enabled;
+    gCollection->setEnabled(enabled);
     gCollection->AssignNewNodeIds();
 
     /*

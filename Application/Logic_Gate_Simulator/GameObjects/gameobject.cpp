@@ -17,6 +17,11 @@ void GameObject::setEnabled(const bool enabled)
     m_bEnabled = enabled;
 }
 
+bool GameObject::enabled() const
+{
+    return m_bEnabled;
+}
+
 void GameObject::setPosition(const int& x, const int& y)
 {
     m_geometry = QRect(x, y, m_geometry.width(), m_geometry.height());

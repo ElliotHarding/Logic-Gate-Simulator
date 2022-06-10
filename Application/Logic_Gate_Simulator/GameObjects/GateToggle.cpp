@@ -1,4 +1,5 @@
 #include "GateToggle.h"
+#include "gatefield.h"
 
 namespace Settings
 {
@@ -21,27 +22,31 @@ void GateToggle::UpdateOutput()
     //done in ToggleOutputState & checkClicked
 }
 
+GameObject *GateToggle::checkClicked(const int &x, const int &y)
+{
+    GameObject* pPossibleClickedObject = GameObject::checkClicked(x, y);
+
+    if(pPossibleClickedObject != nullptr && m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
+    {
+        //If being clicked & toggleStateTimer has finished
+        //Then toggle output value of gate
+        if (m_toggleStateTimer.remainingTime() == 0)
+        {
+            ToggleOutputState();
+
+            m_pParentField->update();
+        }
+        return nullptr;
+    }
+
+    return pPossibleClickedObject;
+}
+
 void GateToggle::ToggleOutputState()
 {
     m_toggleStateTimer.stop();
     m_toggleStateTimer.start(Settings::MaxToggleFrequencyMs);
     m_pOutput->setValue(!m_pOutput->value());
-}
-
-bool GateToggle::checkClicked(const int& x, const int& y)
-{
-    bool isClicked = GameObject::checkClicked(x, y);
-
-    //If being clicked & toggleStateTimer has finished
-    //Then toggle output value of gate
-    if (isClicked && m_toggleStateTimer.remainingTime() == 0)
-    {
-        ToggleOutputState();
-
-        //Todo : 1 notify parent to redraw...
-    }
-
-    return isClicked;
 }
 
 void GateToggle::draw(QPainter& painter)

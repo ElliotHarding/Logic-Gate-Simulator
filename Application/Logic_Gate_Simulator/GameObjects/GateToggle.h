@@ -13,7 +13,7 @@ public:
     GateToggle(const int& x, const int& y, const id& out = idGenerator());
 
     virtual void UpdateOutput() override;
-    virtual bool checkClicked(const int& x, const int& y) override;
+    virtual GameObject* checkClicked(const int& x, const int& y) override;
     virtual void draw(QPainter& painter) override;
     virtual Gate* Clone() override;
 

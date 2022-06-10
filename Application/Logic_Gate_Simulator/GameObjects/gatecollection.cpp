@@ -3,9 +3,26 @@
 #include "gatefield.h"
 #include "circuitoptimizer.h"
 
+#include <QDebug>
+
 namespace Settings
 {
+///Drawing
+const QColor DragModeFillColor = QColor(40,40,40,20);
+const QColor DragIndividualBoardeColor = Qt::black;
+const uint DragIndividualBoardeSize = 2;
 
+///UI Buttons
+const QImage ImgDeleteAllButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete-all.png").c_str());
+const QImage ImgSaveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
+const QImage ImgDeleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
+const QImage ImgDragButton = QImage(std::string(":/Resources/Button Icons/gate-collection-move-gates.png").c_str());
+const QImage ImgOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
+const QImage ImgNandOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-nand.png").c_str());
+const uint ButtonSize = 40;
+
+//Number of pixels from border before gates are seen
+const uint BorderBoxMargin = 40;
 }
 
 GateCollection::GateCollection(std::vector<Gate*> gates) :
@@ -33,7 +50,6 @@ void GateCollection::ProporgateParentAndCheckForNestedGates()
         g->SetParent(m_pParentField);
         if (g->GetType() == GATE_COLLECTION)
         {
-            dynamic_cast<GateCollection*>(g)->m_bIsNested = true;
             dynamic_cast<GateCollection*>(g)->m_pParentGateCollection = this;
         }
     }
@@ -44,18 +60,18 @@ GateCollection::~GateCollection()
     //When deleted the gate collection filed can dump its contents onto the parent gatefield
     if(!m_bDontDeleteGates)
     {
-        for (size_t index = 0; index < m_gates.size(); index++)
+        for(Gate* pGate : m_gates)
         {
-            delete m_gates[index];
-            m_gates.erase(m_gates.begin() + (int)index);
+            delete pGate;
         }
+        m_gates.clear();
     }
 
     //dump contents onto the parent gatefield or parent gate collection...
     else
     {
         //Dump onto parent GateCollection
-        if (m_bIsNested && m_pParentGateCollection)
+        if (m_pParentGateCollection)
         {
             for (Gate* g : m_gates)
                 m_pParentGateCollection->AddGate(&*g);
@@ -68,12 +84,14 @@ GateCollection::~GateCollection()
                 m_pParentField->AddGate(&*g, false, true);
         }
 
-        //Erase pointers to gates
-        const int size = m_gates.size();
-        for (int x = 0; x < size; x++)
+        //Check if something went wrong
+        else
         {
-            m_gates.erase(m_gates.begin());
+            qDebug() << "GateCollection::~GateCollection - Nothing to dump gates onto!";
         }
+
+        //Erase pointers to gates
+        m_gates.clear();
     }
 
     m_pParentGateCollection = nullptr;
@@ -89,11 +107,11 @@ void GateCollection::UpdateOutput()
         }
 }
 
-bool GateCollection::FindNodeWithId(id _id, Node*& n)
+bool GateCollection::FindNodeWithId(const id& id, Node*& pNode)
 {
     for (Gate* gate : m_gates)
     {
-        if(gate->FindNodeWithId(_id, n))
+        if(gate->FindNodeWithId(id, pNode))
             return true;
     }
     return false;
@@ -105,6 +123,14 @@ void GateCollection::offsetPosition(const int& dX, const int& dY)
     {
         gate->offsetPosition(dX, dY);
     }
+    UpdateContaningArea();
+}
+
+void GateCollection::setPosition(const int &x, const int &y)
+{
+    const int xOffset = x - m_geometry.center().x();
+    const int yOffset = y - m_geometry.center().y();
+    offsetPosition(xOffset, yOffset);
 }
 
 void GateCollection::AssignNewNodeIds()
@@ -115,6 +141,7 @@ void GateCollection::AssignNewNodeIds()
     }
 }
 
+/*
 bool GateCollection::DeleteClick(int clickX, int clickY)
 {
     if(m_geometry.contains(QPoint(clickX,clickY)))
@@ -141,14 +168,14 @@ bool GateCollection::DeleteClick(int clickX, int clickY)
     }
 
     return false;
-}
+}*/
 
 void GateCollection::draw(QPainter& painter)
 {
     UpdateContaningArea();
 
     if (m_dragMode == DragAll)
-         painter.fillRect(m_geometry, QColor(40,40,40,20));
+         painter.fillRect(m_geometry, Settings::DragModeFillColor);
 
     for(Gate* gate : m_gates)
         gate->draw(painter);
@@ -158,45 +185,43 @@ void GateCollection::draw(QPainter& painter)
     //Draw bounding box
     if (m_dragMode == DragIndividual)
     {
-        painter.setPen(QPen(Qt::black,2));
+        painter.setPen(QPen(Settings::DragModeFillColor, Settings::DragIndividualBoardeSize));
         painter.drawRect(m_geometry);
     }
 }
 
+GameObject* GateCollection::checkClicked(const int &x, const int &y)
+{
+    if (m_dragMode == DragIndividual)
+    {
+        for(Gate* pGate : m_gates)
+        {
+            GameObject* pPossibleClickedObject = pGate->checkClicked(x, y);
+            if(pPossibleClickedObject != nullptr)
+            {
+                return pPossibleClickedObject;
+            }
+        }
+    }
+
+    return Gate::checkClicked(x, y);
+}
+
 void GateCollection::DrawButtons(QPainter& painter)
 {
-    //Todo : organize this
-    static const QImage cImgDeleteAllButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete-all.png").c_str());
-    static const QImage cImgSaveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
-    static const QImage cImgDeleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
-    static const QImage cImgDragButton = QImage(std::string(":/Resources/Button Icons/gate-collection-move-gates.png").c_str());
-    static const QImage cImgOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
-    static const QImage cImgNandOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-nand.png").c_str());
-
-    const int xyButtonSize = 40;
-    m_deleteAllButton  = QRect(m_geometry.right() - xyButtonSize, m_geometry.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_deleteButton = QRect(m_geometry.right() - xyButtonSize*2, m_geometry.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_saveButton = QRect(m_geometry.right() - xyButtonSize*3, m_geometry.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    m_dragAllButton = QRect(m_geometry.right() - xyButtonSize*4, m_geometry.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_deleteAllButton  = QRect(m_geometry.right() - Settings::ButtonSize, m_geometry.bottom() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_deleteButton = QRect(m_geometry.right() - Settings::ButtonSize*2, m_geometry.bottom() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_saveButton = QRect(m_geometry.right() - Settings::ButtonSize*3, m_geometry.bottom() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_dragAllButton = QRect(m_geometry.right() - Settings::ButtonSize*4, m_geometry.bottom() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
     //m_optimize = QRect(m_contaningArea.right() - xyButtonSize*5, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
     //m_nandOptimize = QRect(m_contaningArea.right() - xyButtonSize*6, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
 
-    painter.drawImage(m_deleteAllButton, cImgDeleteAllButton);
-    painter.drawImage(m_deleteButton, cImgDeleteButton);
-    painter.drawImage(m_saveButton, cImgSaveButton);
-    painter.drawImage(m_dragAllButton, cImgDragButton);
-    //painter->drawImage(m_optimize, cImgOptimizeButton);
-    //painter->drawImage(m_nandOptimize, cImgNandOptimizeButton);
-}
-
-Node *GateCollection::GetClickedNode(int clickX, int clickY)
-{
-    for(Gate* gate : m_gates)
-    {
-        if(gate->GetClickedNode(clickX, clickY))
-            return gate->GetClickedNode(clickX,clickY);
-    }
-    return nullptr;
+    painter.drawImage(m_deleteAllButton, Settings::ImgDeleteAllButton);
+    painter.drawImage(m_deleteButton, Settings::ImgDeleteButton);
+    painter.drawImage(m_saveButton, Settings::ImgSaveButton);
+    painter.drawImage(m_dragAllButton, Settings::ImgDragButton);
+    //painter.drawImage(m_optimize, Settings::ImgOptimizeButton);
+    //painter.drawImage(m_nandOptimize, Settings::ImgNandOptimizeButton);
 }
 
 void GateCollection::SaveData(std::ofstream &storage)
@@ -245,6 +270,8 @@ void GateCollection::DisplaceGates(Vector2D displacement)
             gate->offsetPosition(displacement.x, displacement.y);
         }
     }
+
+    UpdateContaningArea();
 }
 
 void GateCollection::UpdateContaningArea()
@@ -265,35 +292,35 @@ void GateCollection::UpdateContaningArea()
 
             if(gate->geometry().bottom() < MINY)
             {
-                MINY = gate->geometry().bottom() + c_borderBoxMargin;
+                MINY = gate->geometry().bottom() + Settings::BorderBoxMargin;
             }
 
             if(gate->geometry().top() > MAXY)
             {
-                MAXY = gate->geometry().top() - c_borderBoxMargin;
+                MAXY = gate->geometry().top() - Settings::BorderBoxMargin;
             }
         }
         else
         {
             if(gate->geometry().top() < MINY)
             {
-                MINY = gate->geometry().top() - c_borderBoxMargin;
+                MINY = gate->geometry().top() - Settings::BorderBoxMargin;
             }
 
             if(gate->geometry().bottom() > MAXY)
             {
-                MAXY = gate->geometry().bottom() + c_borderBoxMargin;
+                MAXY = gate->geometry().bottom() + Settings::BorderBoxMargin;
             }
         }
 
         if(gate->geometry().left() < MINX)
         {
-            MINX = gate->geometry().left() - c_borderBoxMargin;
+            MINX = gate->geometry().left() - Settings::BorderBoxMargin;
         }
 
         if(gate->geometry().right() > MAXX)
         {
-            MAXX = gate->geometry().right() + c_borderBoxMargin;
+            MAXX = gate->geometry().right() + Settings::BorderBoxMargin;
         }
     }
 
@@ -318,6 +345,8 @@ void GateCollection::AddGate(Gate *g)
     g->SetParent(m_pParentField);
 
     m_gates.push_back(g);
+
+    UpdateContaningArea();
 }
 
 void GateCollection::ForgetGate(Gate *g)
@@ -340,6 +369,8 @@ void GateCollection::ForgetGate(Gate *g)
     {
         gate->UpdateOutput();
     }
+
+    UpdateContaningArea();
 }
 
 //Returns true if buttons we're clicked
@@ -365,7 +396,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         m_pParentField->UpdateGateSelected(nullptr);
         m_pParentField->SkipNextGateSelectedCall(true);
 
-        if (m_bIsNested)
+        if (m_pParentGateCollection)
             m_pParentGateCollection->ForgetGate(this);
         else
             m_pParentField->ForgetChild(this);
@@ -380,7 +411,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
         m_pParentField->UpdateGateSelected(nullptr);
         m_pParentField->SkipNextGateSelectedCall(true);
 
-        if (m_bIsNested)
+        if (m_pParentGateCollection)
             m_pParentGateCollection->ForgetGate(this);
         else
             m_pParentField->ForgetChild(this);
@@ -414,6 +445,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     return false;
 }
 
+/*
 bool GateCollection::UpdateDrag(int clickX, int clickY)
 {
     if (CheckButtonClick(clickX,clickY))
@@ -435,7 +467,7 @@ bool GateCollection::UpdateDrag(int clickX, int clickY)
 
     //If containingArea clicked store displacement variable of how far
     //it will be dragged by click
-    /*else*/ if(m_contaningArea.contains(QPoint(clickX,clickY)))
+    /*else* / if(m_contaningArea.contains(QPoint(clickX,clickY)))
     {
         const QPoint previousPos = containingArea().center();
 
@@ -484,23 +516,19 @@ bool GateCollection::UpdateClicked(int clickX, int clickY)
     }
 
     return false;
-}
+}*/
 
-Gate *GateCollection::Clone()
+Gate* GateCollection::Clone()
 {
-    std::vector<Gate*> backupGates;
-    for (Gate* g : m_gates)
+    std::vector<Gate*> clonedGates;
+    for (Gate* pGate : m_gates)
     {
-        backupGates.push_back(g->Clone());
+        clonedGates.push_back(pGate->Clone());
     }
 
-    GateCollection* clone = new GateCollection(backupGates);
+    GateCollection* pClone = new GateCollection(clonedGates);
 
-    //Clone position
-    QPoint pos = position();
-    clone->setPosition(pos.x(), pos.y());
+    pClone->m_geometry = m_geometry;
 
-    clone->m_contaningArea = m_contaningArea;
-
-    return clone;
+    return pClone;
 }

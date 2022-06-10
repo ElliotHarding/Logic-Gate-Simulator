@@ -14,7 +14,7 @@ public:
 
     virtual void draw(QPainter& painter);
 
-    virtual bool checkClicked(const int& x, const int& y);
+    virtual GameObject* checkClicked(const int& x, const int& y);
 
     void setUserDisabled();
 

@@ -13,14 +13,15 @@ public:
 
     virtual void UpdateOutput() override;
     virtual void draw(QPainter& painter) override;
-    virtual void checkClicked() override;
-    virtual bool UpdateDrag(int clickX, int clickY) override;
-    virtual Node *GetClickedNode(int clickX, int clickY) override;
-    virtual bool FindNodeWithId(id _id, Node*& n) override;
+
+    ///Position
     virtual void offsetPosition(const int& dX, const int& dY) override;
+    virtual void setPosition(const int& x, const int& y) override;
+
+    virtual GameObject* checkClicked(const int& x, const int& y) override;
+    virtual bool FindNodeWithId(const id& id, Node*& pNode) override;
+
     virtual void AssignNewNodeIds() override;
-    virtual bool DeleteClick(int clickX, int clickY) override;
-    virtual bool UpdateClicked(int clickX, int clickY) override;
     virtual void SetParent(GateField* gf) override;
 
     virtual void SaveData(std::ofstream& storage) override;
@@ -28,36 +29,25 @@ public:
 
     virtual Gate* Clone() override;
 
-    //Class specific public methods
-    void DisplaceGates(Vector2D displacement);
-    void UpdateContaningArea();
-
-    //Call UpdateContaningArea() before calling any of these
-    virtual int Left() override {return m_contaningArea.left() + c_borderBoxMargin;}
-    virtual int Right() override{return m_contaningArea.right() - c_borderBoxMargin;}
-    virtual int Top() override {return m_contaningArea.top() + c_borderBoxMargin;}
-    virtual int Bottom() override {return m_contaningArea.bottom() - c_borderBoxMargin;}
-
-    //Drag mode
+    ///Drag mode
     void ToggleDragMode();
     bool IsDragAll();
 
+    ///Gate adding and removing
     void AddGate(Gate* g);
     void ForgetGate(Gate* g);
 
 protected:
-    bool m_bIsNested = false;
-    GateCollection* m_pParentGateCollection;
+    GateCollection* m_pParentGateCollection = nullptr;
     void ProporgateParentAndCheckForNestedGates();
 
     //Vector of all the gates within collection
     std::vector<Gate*> m_gates;
 
 private:
+    void UpdateContaningArea();
 
-    //Number of pixels from border before gates are seen
-    const int c_borderBoxMargin = 40;
-
+    ///Dragging
     enum DragMode{DragIndividual,DragAll};
     DragMode m_dragMode = DragAll;
 

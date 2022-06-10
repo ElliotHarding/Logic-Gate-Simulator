@@ -16,3 +16,5 @@ bool GateFPGA::UpdateClicked(int clickX, int clickY)
 
 
 m_bIsNested could just be determined from if m_pParentGateCollection is nullptr right?
+
+get m_bEnabled in updateoutput

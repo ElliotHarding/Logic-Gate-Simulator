@@ -77,9 +77,9 @@ void GateField::paintEvent(QPaintEvent*)
     //Paint in reverse order, so gate on top of vector get's painted last
     //So if we're dragging, the one we're dragging gets painted ontop of the others
     //Since dragging move the gate to the top of the vector
-    for (int index = m_allGates.size() - 1; index > -1; index--)
+    for (size_t index = m_allGates.size() - 1; index > -1; index--)
     {
-        m_allGates[size_t(index)]->draw(painter);
+        m_allGates[index]->draw(painter);
     }
 }
 
@@ -194,8 +194,7 @@ void GateField::EditTextLabel(TextLabel *textLabelToEdit)
 void GateField::StartSaveGateCollection(std::vector<Gate*> selectedGates)
 {
     m_selectedGates = selectedGates;
-    m_pDlgSaveGateCollection->SetCurrentGateField(this);
-    m_pDlgSaveGateCollection->open();
+    m_pDlgSaveGateCollection->open(this);
 }
 
 void GateField::AddGate(Gate* go, bool newlySpawned)

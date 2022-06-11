@@ -16,8 +16,7 @@ public:
     explicit DLG_SaveGateCollection(DLG_Home *parent = nullptr);
     ~DLG_SaveGateCollection() override;
 
-    void SetCurrentGateField(GateField* current);
-    virtual void open() override;
+    void open(GateField* currentGateField);
 
 private slots:
     void on_Cancel_clicked();

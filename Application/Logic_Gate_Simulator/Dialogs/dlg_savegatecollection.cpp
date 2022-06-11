@@ -20,13 +20,9 @@ DLG_SaveGateCollection::~DLG_SaveGateCollection()
     delete ui;
 }
 
-void DLG_SaveGateCollection::SetCurrentGateField(GateField* currentGateField)
+void DLG_SaveGateCollection::open(GateField* currentGateField)
 {
-     m_currentGateField = currentGateField;
-}
-
-void DLG_SaveGateCollection::open()
-{
+    m_currentGateField = currentGateField;
     ui->lb_error->hide();
     QDialog::open();
 }

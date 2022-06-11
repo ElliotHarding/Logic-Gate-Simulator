@@ -30,6 +30,8 @@ public:
     void recordHistory(const std::vector<Gate*>& snapshot);
     bool undoHistory(std::vector<Gate*>& currentSnapshot);
     bool redoHistory(std::vector<Gate*>& currentSnapshot);
+
+    ~GateFieldHistory();
 private:
     std::vector<std::vector<Gate*>> m_history;
     uint m_historyIndex = 0;
@@ -107,11 +109,8 @@ private:
     std::vector<Gate*> m_allGates;   
     void moveToFront(int index, std::vector<Gate*>& vec);
 
-    //Gate backups for redo and undo functions
-    void rl_backupGates();
-    std::vector<std::vector<Gate*>> m_gateBackups;
-    const int c_maxNumberOfBackups = 10;
-    int m_backupIndex = 0;
+    //Gate history for redo and undo functions
+    GateFieldHistory m_history;
 
     //Temps for multi step linking and unlinking
     Node* m_pLinkNodeA = nullptr;

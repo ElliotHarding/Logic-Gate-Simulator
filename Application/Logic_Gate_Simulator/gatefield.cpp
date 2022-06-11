@@ -40,16 +40,6 @@ GateField::~GateField()
     {
         delete m_allGates[index];
     }
-    for(std::vector<Gate*> g : m_gateBackups)
-    {
-        for (size_t index = 0; index < g.size(); index++)
-        {
-            delete g[index];
-        }
-        g.clear();
-    }
-    m_allGates.clear();
-    m_gateBackups.clear();
 
     if(m_pLinkNodeA)
         delete m_pLinkNodeA;
@@ -193,15 +183,9 @@ void GateField::ForgetChild(Gate* gateToDelete)
     }
 }
 
-//Todo : do the history class like with paint program
-
 void GateField::Undo()
 {
-    if(m_backupIndex > -1 && size_t(m_backupIndex) <= m_gateBackups.size())
-    {
-        std::vector<Gate*> v = m_gateBackups[size_t(m_backupIndex--)];
-        m_allGates = v;
-    }
+    m_history.undoHistory(m_allGates);
 
     //Call to redraw
     update();
@@ -209,11 +193,7 @@ void GateField::Undo()
 
 void GateField::Redo()
 {
-    if(m_backupIndex > -1 && m_backupIndex < int(m_gateBackups.size()))
-    {
-        std::vector<Gate*> v = m_gateBackups[size_t(m_backupIndex++)];
-        m_allGates = v;
-    }
+    m_history.redoHistory(m_allGates);
 
     //Call to redraw
     update();
@@ -240,6 +220,9 @@ void GateField::AddGate(Gate* go, bool newlySpawned)
 
     m_allGates.push_back(go);
 
+    //Temp. When newlySpawned position stuff changes.
+    m_history.recordHistory(m_allGates);
+
     //Call to redraw
     update();
 }
@@ -253,8 +236,6 @@ void GateField::mousePressEvent(QMouseEvent *click)
     //Update variables
     m_bMouseDown = true;
     m_previousDragMousePos = clickPos; //Todo : probably dont need these previous and current anymore.
-
-    rl_backupGates();
 
     if(m_pLinkNodeA)
     {
@@ -358,6 +339,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     if(m_pDraggingGate)
     {
         m_pDraggingGate = nullptr;
+        m_history.recordHistory(m_allGates);
         return;
     }
 
@@ -394,6 +376,8 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 
             //Add gate collection to m_allGates
             AddGate(collection, false);
+
+            m_history.recordHistory(m_allGates);
         }
 
         //Disactivate selection
@@ -485,6 +469,10 @@ void GateField::checkEndLink(const int &clickX, const int &clickY)
                 }
 
                 qDebug() << "GateField::checkEndLink - Linking failed!";
+            }
+            else
+            {
+                m_history.recordHistory(m_allGates);
             }
         }
     }
@@ -600,25 +588,6 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
     vec.insert(vec.begin(), objectAtIndex);
 }
 
-void GateField::rl_backupGates()
-{
-    //Create backup of all gates
-    std::vector<Gate*> backup;
-    for(Gate* g : m_allGates)
-    {
-        backup.push_back(g->Clone());
-    }
-    m_gateBackups.push_back(backup);
-
-    //If we got too many backups, delete the first row from m_gateBackups (oldest backup)
-    if(m_gateBackups.size() > c_maxNumberOfBackups)
-    {
-        m_gateBackups.erase(m_gateBackups.begin());
-    }
-
-    m_backupIndex = m_gateBackups.size() - 1;
-}
-
 void GateField::offsetGates(const double& offsetX, const double& offsetY)
 {
     //Add to total delta
@@ -686,4 +655,15 @@ bool GateFieldHistory::redoHistory(std::vector<Gate*>& currentSnapshot)
         return true;
     }
     return false;
+}
+
+GateFieldHistory::~GateFieldHistory()
+{
+    for(std::vector<Gate*> historyItem : m_history)
+    {
+        for (size_t index = 0; index < historyItem.size(); index++)
+        {
+            delete historyItem[index];
+        }
+    }
 }

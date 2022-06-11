@@ -10,6 +10,8 @@ namespace Settings
 const QPen LinkingNodeLine(Qt::blue, 2);
 const QPen SelectionBorder(Qt::blue, 2);
 
+const float PanSpeed = 0.75;
+
 const uint MaxGateFieldHistory = 20;
 }
 
@@ -22,9 +24,6 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
 {
     setAcceptDrops(true);
     setMouseTracking(true);
-
-    m_screenPosDelta.x = 0;
-    m_screenPosDelta.y = 0;
 
     pSaveGateCollectionDialog->SetCurrentGateField(this);
 }
@@ -216,7 +215,7 @@ void GateField::AddGate(Gate* go, bool newlySpawned)
     go->SetParent(this);
 
     if(newlySpawned)
-        go->setPosition(SPAWN_X + m_screenPosDelta.x, SPAWN_Y + m_screenPosDelta.y);
+        go->setPosition(geometry().x()/2, geometry().y()/2);
 
     m_allGates.push_back(go);
 
@@ -567,12 +566,9 @@ void GateField::checkStartDrag(const int& clickX, const int& clickY)
 
 void GateField::rl_panClick(int clickX, int clickY)
 {
-    if(!m_bMouseDown)
-        return;
-
     //Calcualte vector between previous mouse pos and current
-    const float offsetX = c_panSpeedMultiplier * (clickX - m_previousDragMousePos.x());
-    const float offsetY = c_panSpeedMultiplier * (clickY - m_previousDragMousePos.y());
+    const float offsetX = Settings::PanSpeed * (clickX - m_previousDragMousePos.x());
+    const float offsetY = Settings::PanSpeed * (clickY - m_previousDragMousePos.y());
 
     offsetGates(offsetX, offsetY);
 
@@ -590,10 +586,6 @@ void GateField::moveToFront(int index, std::vector<Gate *> &vec)
 
 void GateField::offsetGates(const double& offsetX, const double& offsetY)
 {
-    //Add to total delta
-    m_screenPosDelta.x += offsetX;
-    m_screenPosDelta.y += offsetY;
-
     //Apply delta
     for (Gate* g : m_allGates)
         g->offsetPosition(offsetX, offsetY);

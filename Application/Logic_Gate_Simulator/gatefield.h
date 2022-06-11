@@ -121,10 +121,7 @@ private:
     const qreal m_zoomScrollSpeed = 0.05;
 
     //Panning
-    struct Vector2D {int x; int y;};
-    Vector2D m_screenPosDelta;
     QPoint m_previousDragMousePos;
-    const float c_panSpeedMultiplier = 0.75;
     void offsetGates(const double& offsetX, const double& offsetY);
 
     //Dragging
@@ -138,10 +135,6 @@ private:
     DLG_SaveGateCollection* m_pDlgSaveGateCollection;
 
     ClickMode m_currentClickMode;
-
-    //Coords of newly spawned gate
-    const int SPAWN_X = 300;
-    const int SPAWN_Y = 300;
 };
 
 #endif // GATEFIELD_H

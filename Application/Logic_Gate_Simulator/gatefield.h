@@ -82,12 +82,12 @@ private:
     QPoint QtPointToWorldPoint(QPoint mousePoint) const;
 
     //Click actions
-    bool checkStartLink(const int& clickX, const int& clickY);
-    void checkEndLink(const int& clickX, const int& clickY);
-    void checkDelete(const int& clickX, const int& clickY);
-    void checkStartDrag(const int& clickX, const int& clickY);
-    bool checkGateSelect(const int& clickX, const int& clickY);
-    void checkDeleteNodeLink(const int& clickX, const int& clickY);
+    bool checkStartLink(const QPoint& mouse);
+    void checkEndLink(const QPoint& mouse);
+    void checkDelete(const QPoint& mouse);
+    void checkStartDrag(const QPoint& mouse);
+    bool checkGateSelect(const QPoint& mouse);
+    void checkDeleteNodeLink(const QPoint& mouse);
     void editSelection(const QPoint& mouse);
     void doPan(const QPoint& mouse);
 

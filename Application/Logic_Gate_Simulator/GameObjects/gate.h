@@ -36,7 +36,7 @@ public:
     virtual void UpdateOutput() = 0;
     virtual void draw(QPainter& painter) override;
     virtual void SaveData(std::ofstream& storage);
-    virtual GameObject* checkClicked(const int& x, const int& y) override;
+    virtual GameObject* checkClicked(const QPoint& mouse) override;
 
     ///Position stuff
     virtual void offsetPosition(const int& dX, const int& dY);

@@ -55,11 +55,11 @@ void GateFPGA::draw(QPainter& painter)
     drawNodes(painter);
 }
 
-GameObject *GateFPGA::checkClicked(const int &x, const int &y)
+GameObject *GateFPGA::checkClicked(const QPoint& mouse)
 {
     for (Node* n : m_nodes)
     {
-        GameObject* pPossibleClickedNode = n->checkClicked(x, y);
+        GameObject* pPossibleClickedNode = n->checkClicked(mouse);
         if(pPossibleClickedNode != nullptr)
         {
             return pPossibleClickedNode;
@@ -68,14 +68,14 @@ GameObject *GateFPGA::checkClicked(const int &x, const int &y)
 
     if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
     {
-        if(m_geometry.contains(QPoint(x, y)))
+        if(m_geometry.contains(mouse))
         {
             OpenEditor();
         }
         return nullptr;
     }
 
-    return GameObject::checkClicked(x, y);
+    return GameObject::checkClicked(mouse);
 }
 
 void GateFPGA::SaveData(std::ofstream& storage)

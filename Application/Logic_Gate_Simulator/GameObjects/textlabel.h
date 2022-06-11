@@ -13,7 +13,7 @@ public:
 
     //Game Object overrides
     virtual void draw(QPainter& painter) override;
-    virtual GameObject* checkClicked(const int& x, const int& y) override;
+    virtual GameObject* checkClicked(const QPoint& mouse) override;
     virtual void setPosition(const int& x, const int& y) override;
     virtual Gate* Clone() override;
 

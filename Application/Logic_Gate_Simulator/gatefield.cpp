@@ -229,8 +229,6 @@ void GateField::AddGate(Gate* go, bool newlySpawned)
 void GateField::mousePressEvent(QMouseEvent *click)
 {
     const QPoint clickPos = QtPointToWorldPoint(click->pos());
-    const int clickX = clickPos.x();
-    const int clickY = clickPos.y();
 
     //Update variables
     m_bMouseDown = true;
@@ -247,11 +245,11 @@ void GateField::mousePressEvent(QMouseEvent *click)
         switch (m_currentClickMode)
         {
         case CLICK_DELETE_GATE:
-            checkDelete(clickX,clickY);
+            checkDelete(clickPos);
             break;
 
         case CLICK_DELETE_LINK_NODES:
-            checkDeleteNodeLink(clickX,clickY);
+            checkDeleteNodeLink(clickPos);
             break;
 
         case CLICK_SELECTION:
@@ -263,27 +261,27 @@ void GateField::mousePressEvent(QMouseEvent *click)
             break;
 
         case CLICK_DEFAULT:
-            if(!checkStartLink(clickX, clickY))
+            if(!checkStartLink(clickPos))
             {
-                if(!checkGateSelect(clickX, clickY))
+                if(!checkGateSelect(clickPos))
                 {
-                    editSelection(QPoint(clickX,clickY));
+                    editSelection(clickPos);
                 }
             }
             break;
 
         case CLICK_DRAG:
-            checkStartDrag(clickX, clickY);
+            checkStartDrag(clickPos);
             break;
         }
     }
     else if(click->buttons() & Qt::RightButton)
     {
-        checkGateSelect(clickX,clickY);
+        checkGateSelect(clickPos);
     }
     else if(click->buttons() & Qt::MiddleButton)
     {
-        checkDeleteNodeLink(clickX,clickY);
+        checkDeleteNodeLink(clickPos);
     }
 
     //Call to redraw
@@ -350,7 +348,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     //Check if ending a link attempt
     if(m_pLinkNodeA)
     {
-        checkEndLink(clickPos.x(), clickPos.y());
+        checkEndLink(clickPos);
     }
 
     //If ending a selection
@@ -413,11 +411,11 @@ void GateField::wheelEvent(QWheelEvent *event)
     }
 }
 
-bool GateField::checkStartLink(const int& clickX, const int& clickY)
+bool GateField::checkStartLink(const QPoint& mouse)
 {
     for (Gate* g : m_allGates)
     {
-        GameObject* pPossibleClickedNode = g->checkClicked(clickX, clickY);
+        GameObject* pPossibleClickedNode = g->checkClicked(mouse);
         if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
             m_pLinkNodeA = dynamic_cast<Node*>(pPossibleClickedNode);
@@ -432,11 +430,11 @@ bool GateField::checkStartLink(const int& clickX, const int& clickY)
     return false;
 }
 
-void GateField::checkEndLink(const int &clickX, const int &clickY)
+void GateField::checkEndLink(const QPoint& mouse)
 {
     for (Gate* g : m_allGates)
     {
-        GameObject* pPossibleClickedNode = g->checkClicked(clickX, clickY);
+        GameObject* pPossibleClickedNode = g->checkClicked(mouse);
         if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
             Node* node = dynamic_cast<Node*>(pPossibleClickedNode);
@@ -484,12 +482,12 @@ void GateField::checkEndLink(const int &clickX, const int &clickY)
     update();
 }
 
-void GateField::checkDeleteNodeLink(const int& clickX, const int& clickY)
+void GateField::checkDeleteNodeLink(const QPoint& mouse)
 {
     for (Gate* gate : m_allGates)
     {
         //Check if iterated gate has any clicked nodes
-        GameObject* pPossibleClickedNode = gate->checkClicked(clickX, clickY);
+        GameObject* pPossibleClickedNode = gate->checkClicked(mouse);
         if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
             dynamic_cast<Node*>(pPossibleClickedNode)->DetachNode();
@@ -498,11 +496,11 @@ void GateField::checkDeleteNodeLink(const int& clickX, const int& clickY)
     }
 }
 
-bool GateField::checkGateSelect(const int& clickX, const int& clickY)
+bool GateField::checkGateSelect(const QPoint& mouse)
 {
     for (Gate* gate : m_allGates)
     {
-        if(gate->checkClicked(clickX, clickY))
+        if(gate->checkClicked(mouse))
         {
             UpdateGateSelected(gate);
             return true;
@@ -526,11 +524,11 @@ void GateField::editSelection(const QPoint& mouse)
     }
 }
 
-void GateField::checkDelete(const int& clickX, const int& clickY)
+void GateField::checkDelete(const QPoint& mouse)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {     
-        if(m_allGates[index]->checkClicked(clickX, clickY))
+        if(m_allGates[index]->checkClicked(mouse))
         {
             Gate* gObject = m_allGates[index];
             m_allGates.erase(m_allGates.begin() + index);
@@ -544,14 +542,14 @@ void GateField::checkDelete(const int& clickX, const int& clickY)
     }
 }
 
-void GateField::checkStartDrag(const int& clickX, const int& clickY)
+void GateField::checkStartDrag(const QPoint& mouse)
 {
     //Look for a gate to drag
 
     //Loop through all dragable gameobjects
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
-        GameObject* pPossibleClickedObject = m_allGates[index]->checkClicked(clickX, clickY);
+        GameObject* pPossibleClickedObject = m_allGates[index]->checkClicked(mouse);
         if(pPossibleClickedObject != nullptr && dynamic_cast<Gate*>(pPossibleClickedObject))
         {
             m_pDraggingGate = dynamic_cast<Gate*>(pPossibleClickedObject);

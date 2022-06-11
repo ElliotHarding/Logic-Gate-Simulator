@@ -7,9 +7,9 @@ GameObject::GameObject(const int& x, const int& y, const uint& width, const uint
         m_image = QImage(pIconLocation);
 }
 
-GameObject* GameObject::checkClicked(const int &x, const int &y)
+GameObject* GameObject::checkClicked(const QPoint& mouse)
 {
-    return m_bEnabled && m_geometry.contains(QPoint(x,y)) ? this : nullptr;
+    return m_bEnabled && m_geometry.contains(mouse) ? this : nullptr;
 }
 
 void GameObject::setEnabled(const bool enabled)

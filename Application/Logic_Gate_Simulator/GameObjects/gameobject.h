@@ -20,7 +20,7 @@ public:
 
     virtual void draw(QPainter& painter);
 
-    virtual GameObject* checkClicked(const int& x, const int& y);
+    virtual GameObject* checkClicked(const QPoint& mouse);
 
 protected:
     QRect m_geometry;

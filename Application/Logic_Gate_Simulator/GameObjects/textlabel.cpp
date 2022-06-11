@@ -37,18 +37,18 @@ void TextLabel::draw(QPainter& painter)
     painter.drawText(m_geometry, m_string);
 }
 
-GameObject *TextLabel::checkClicked(const int &x, const int &y)
+GameObject *TextLabel::checkClicked(const QPoint& mouse)
 {
     if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
     {
-        if(m_editClickZone.contains(x, y))
+        if(m_editClickZone.contains(mouse))
         {
             m_pParentField->EditTextLabel(this);
         }
         return nullptr;
     }
 
-    return Gate::checkClicked(x, y);
+    return Gate::checkClicked(mouse);
 }
 
 void TextLabel::setPosition(const int& x, const int& y)

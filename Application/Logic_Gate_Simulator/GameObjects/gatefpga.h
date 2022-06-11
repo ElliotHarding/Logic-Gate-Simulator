@@ -37,7 +37,7 @@ public:
     ~GateFPGA();
 
     virtual void draw(QPainter& painter) override;
-    virtual GameObject* checkClicked(const int& x, const int& y) override;
+    virtual GameObject* checkClicked(const QPoint& mouse) override;
     virtual void UpdateOutput() override;
     virtual void SaveData(std::ofstream& storage) override;
     virtual Gate* Clone() override;

@@ -18,7 +18,7 @@ void GateToggle::UpdateOutput()
     //done in ToggleOutputState & checkClicked
 }
 
-GameObject *GateToggle::checkClicked(const int &x, const int &y)
+GameObject *GateToggle::checkClicked(const QPoint& mouse)
 {
     GameObject* pPossibleClickedObject = GameObject::checkClicked(x, y);
 

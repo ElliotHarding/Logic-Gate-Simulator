@@ -16,7 +16,7 @@ public:
     virtual void offsetPosition(const int& dX, const int& dY) override;
     virtual void setPosition(const int& x, const int& y) override;
 
-    virtual GameObject* checkClicked(const int& x, const int& y) override;
+    virtual GameObject* checkClicked(const QPoint& mouse) override;
     virtual bool FindNodeWithId(const id& id, Node*& pNode) override;
 
     virtual void AssignNewNodeIds() override;

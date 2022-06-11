@@ -190,7 +190,7 @@ void GateCollection::draw(QPainter& painter)
     }
 }
 
-GameObject* GateCollection::checkClicked(const int &x, const int &y)
+GameObject* GateCollection::checkClicked(const QPoint& mouse)
 {
     if (m_dragMode == DragIndividual)
     {

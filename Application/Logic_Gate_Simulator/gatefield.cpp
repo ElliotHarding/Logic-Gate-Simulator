@@ -259,7 +259,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
             break;
 
         case CLICK_PAN:
-            doPan(clickPos);
+            m_previousDragMousePos = clickPos;
             break;
 
         case CLICK_DEFAULT:

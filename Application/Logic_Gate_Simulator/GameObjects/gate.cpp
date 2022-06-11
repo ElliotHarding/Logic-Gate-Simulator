@@ -302,7 +302,7 @@ bool Node::LinkNode(Node*& n)
     //Check if already linked
     for (Node* alreadyLinkedNode : m_linkedNodes)
     {
-        if(&alreadyLinkedNode == &n)
+        if(&alreadyLinkedNode == &n)//Todo : check this
         {
             return false;
         }

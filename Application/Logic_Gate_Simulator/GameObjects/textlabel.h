@@ -8,7 +8,7 @@ class DLG_LabelGateEdit;
 class TextLabel : public Gate
 {
 public:
-    TextLabel(const int &x, const int &y);
+    TextLabel(const int& x = 0, const int& y = 0);
     ~TextLabel();
 
     //Game Object overrides

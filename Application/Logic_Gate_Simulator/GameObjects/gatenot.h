@@ -6,7 +6,7 @@
 class GateNot : public Gate
 {
 public:
-    GateNot(const int& x, const int& y, const id& in = idGenerator(), const id& out = idGenerator());
+    GateNot(const int& x = 0, const int& y = 0, const id& in = idGenerator(), const id& out = idGenerator());
 
     virtual void UpdateOutput() override;
     virtual Gate* Clone() override;

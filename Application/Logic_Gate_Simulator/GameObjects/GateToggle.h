@@ -10,7 +10,7 @@
 class GateToggle : public GateSingleOutput
 {
 public:
-    GateToggle(const int& x, const int& y, const id& out = idGenerator());
+    GateToggle(const int& x = 0, const int& y = 0, const id& out = idGenerator());
 
     virtual void UpdateOutput() override;
     virtual GameObject* checkClicked(const QPoint& mouse) override;

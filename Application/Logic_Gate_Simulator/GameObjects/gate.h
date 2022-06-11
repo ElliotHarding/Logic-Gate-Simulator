@@ -28,7 +28,7 @@ class Gate : public GameObject
 {
 public:
     Gate(GateType type, const int& x, const int& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
-    ~Gate();
+    virtual ~Gate();
 
     virtual Gate* Clone() = 0;
 
@@ -77,7 +77,7 @@ class Node : public GameObject
 public:
     ///Construction/destruction
     Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeType& type, int nodeId = idGenerator());
-    ~Node();
+    virtual ~Node();
 
     virtual void draw(QPainter& painter);
     virtual void setPosition(const int& x, const int& y);

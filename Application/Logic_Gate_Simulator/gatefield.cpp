@@ -118,13 +118,7 @@ bool GateField::SaveData()
 
     if(saveFile.is_open())
     {
-        for (size_t index = 0; index < m_allGates.size(); index++)
-        {
-            m_allGates[index]->SaveData(saveFile);
-        }
-
-        //Close
-        saveFile.close();
+        SaveData(saveFile);
         return true;
     }
 

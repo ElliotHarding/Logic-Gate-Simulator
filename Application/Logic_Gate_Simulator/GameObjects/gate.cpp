@@ -240,10 +240,7 @@ void Node::setValue(bool val)
     }
     else
     {
-        //Todo : check if this if statement is needed
-        //m_id is > -1 to check incase this node is being deleted
-        if(m_id > -1)
-            m_pParent->UpdateOutput();
+        m_pParent->UpdateOutput();
     }
 }
 
@@ -332,7 +329,20 @@ void Node::DetachNode()
         {
             n->setValue(0);
         }
+        n->DetachNode(this);
         n = nullptr;
     }
     m_linkedNodes.clear();
+}
+
+void Node::DetachNode(Node *n)
+{
+    for (uint i = 0; i < m_linkedNodes.size(); i++)
+    {
+        if(m_linkedNodes[i] == n)
+        {
+            m_linkedNodes.erase(m_linkedNodes.begin() + i);
+            return;
+        }
+    }
 }

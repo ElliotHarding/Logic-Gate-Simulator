@@ -103,6 +103,8 @@ public:
     void SaveData(std::ofstream& storage);
 
 private:
+    void DetachNode(Node* n);
+
     ///Linked properties
     std::vector<Node*> m_linkedNodes;
     std::string GetLinkedNodesIds();

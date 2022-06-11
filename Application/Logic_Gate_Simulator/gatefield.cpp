@@ -330,6 +330,7 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     if(m_pLinkingNode)
     {
         checkEndLink(clickPos);
+        m_pLinkingNode = nullptr;
     }
 
     //If ending a selection
@@ -458,7 +459,6 @@ void GateField::checkEndLink(const QPoint& mouse)
         }
     }
 
-    m_pLinkingNode = nullptr;
     m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
     update();
 }
@@ -555,7 +555,7 @@ void GateField::doPan(const QPoint& mouse)
     m_previousDragMousePos = mouse;
 }
 
-void GateField::moveToFront(int index, std::vector<Gate *> &vec)
+void GateField::moveToFront(const uint& index, std::vector<Gate *> &vec)
 {
     Gate* objectAtIndex = vec[index];
 

@@ -105,7 +105,7 @@ private:
 
     //Gates
     std::vector<Gate*> m_allGates;   
-    void moveToFront(int index, std::vector<Gate*>& vec);
+    void moveToFront(const uint& index, std::vector<Gate*>& vec);
 
     //Gate history for redo and undo functions
     GateFieldHistory m_history;

@@ -79,7 +79,7 @@ public slots:
 protected:
 private:
     //Mouse event delegates
-    QPoint QtPointToWorldPoint(QPoint mousePoint) const;
+    QPoint qtPointToWorldPoint(const QPoint& mousePoint) const;
 
     //Click actions
     bool checkStartLink(const QPoint& mouse);
@@ -111,12 +111,11 @@ private:
     GateFieldHistory m_history;
 
     //Temps for multi step linking and unlinking
-    Node* m_pLinkNodeA = nullptr;
-    QPoint m_currentMousePos;
+    Node* m_pLinkingNode = nullptr;
+    QPoint m_currentMousePos;//Only correct during linking
 
     //Zooming
     qreal m_zoomFactor;
-    const qreal m_zoomScrollSpeed = 0.05;
 
     //Panning
     QPoint m_previousDragMousePos;

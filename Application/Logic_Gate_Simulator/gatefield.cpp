@@ -11,6 +11,7 @@ const QPen LinkingNodeLine(Qt::blue, 2);
 const QPen SelectionBorder(Qt::blue, 2);
 
 const float PanSpeed = 0.75;
+const qreal ZoomScrollSpeed = 0.05;
 
 const uint MaxGateFieldHistory = 20;
 }
@@ -40,8 +41,8 @@ GateField::~GateField()
         delete m_allGates[index];
     }
 
-    if(m_pLinkNodeA)
-        delete m_pLinkNodeA;
+    if(m_pLinkingNode)
+        delete m_pLinkingNode;
 
     if(m_pSelectionTool)
         delete m_pSelectionTool;
@@ -69,10 +70,10 @@ void GateField::paintEvent(QPaintEvent*)
     }
 
     //If were in the middle of linking
-    if(m_pLinkNodeA)
+    if(m_pLinkingNode)
     {
         painter.setPen(Settings::LinkingNodeLine);
-        painter.drawLine(m_pLinkNodeA->position(), m_currentMousePos);
+        painter.drawLine(m_pLinkingNode->position(), m_currentMousePos);
     }
 
     //Paint in reverse order, so gate on top of vector get's painted last
@@ -217,15 +218,15 @@ void GateField::AddGate(Gate* go, bool newlySpawned)
 
 void GateField::mousePressEvent(QMouseEvent *click)
 {
-    const QPoint clickPos = QtPointToWorldPoint(click->pos());
+    const QPoint clickPos = qtPointToWorldPoint(click->pos());
 
     //Update variables
     m_bMouseDown = true;
     m_previousDragMousePos = clickPos; //Todo : probably dont need these previous and current anymore.
 
-    if(m_pLinkNodeA)
+    if(m_pLinkingNode)
     {
-        m_pLinkNodeA = nullptr;
+        m_pLinkingNode = nullptr;
         m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
     }
 
@@ -279,7 +280,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
 void GateField::mouseMoveEvent(QMouseEvent *click)
 {
-    const QPoint clickPos = QtPointToWorldPoint(click->pos());
+    const QPoint clickPos = qtPointToWorldPoint(click->pos());
 
     switch (m_currentClickMode)
     {
@@ -305,7 +306,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
             break;
 
         case CLICK_LINK_NODES:
-            if(m_pLinkNodeA)
+            if(m_pLinkingNode)
             {
                 m_currentMousePos = clickPos;
             }
@@ -332,10 +333,10 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         return;
     }
 
-    const QPoint clickPos = QtPointToWorldPoint(click->pos());
+    const QPoint clickPos = qtPointToWorldPoint(click->pos());
 
     //Check if ending a link attempt
-    if(m_pLinkNodeA)
+    if(m_pLinkingNode)
     {
         checkEndLink(clickPos);
     }
@@ -383,13 +384,13 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 //Handles mouse scroll for zooming, offsets gates based on mouse position
 void GateField::wheelEvent(QWheelEvent *event)
 {
-    const qreal direction = event->delta() > 0 ? m_zoomScrollSpeed : -m_zoomScrollSpeed;
+    const qreal direction = event->delta() > 0 ? Settings::ZoomScrollSpeed : -Settings::ZoomScrollSpeed;
 
     //Todo : seems stupid to set zoom factor for all gatefeilds
     //Only offset gates if zoom factor actually changes
     if (m_pParent->SetZoomFactor(m_zoomFactor + direction, true))
     {
-        const QPoint scrollPos = QtPointToWorldPoint(event->pos());
+        const QPoint scrollPos = qtPointToWorldPoint(event->pos());
 
         //Calcualte vector between previous mouse pos and current
         const double offsetX = -scrollPos.x() * direction;
@@ -407,9 +408,9 @@ bool GateField::checkStartLink(const QPoint& mouse)
         GameObject* pPossibleClickedNode = g->checkClicked(mouse);
         if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
-            m_pLinkNodeA = dynamic_cast<Node*>(pPossibleClickedNode);
+            m_pLinkingNode = dynamic_cast<Node*>(pPossibleClickedNode);
 
-            m_currentMousePos = m_pLinkNodeA->position();
+            m_currentMousePos = m_pLinkingNode->position();
 
             //Change cursor as started linking
             m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
@@ -429,21 +430,21 @@ void GateField::checkEndLink(const QPoint& mouse)
             Node* node = dynamic_cast<Node*>(pPossibleClickedNode);
 
             //Check not same node types
-            if(node->type() == m_pLinkNodeA->type())
+            if(node->type() == m_pLinkingNode->type())
             {
                 m_pParent->SendUserMessage("Cant link to nodes of same type");
                 return;
             }
 
             //Check both dont have same parent
-            if(node->GetParent() == m_pLinkNodeA->GetParent())
+            if(node->GetParent() == m_pLinkingNode->GetParent())
             {
                 return;
             }
 
             //link nodes & update parent gates (inside LinkNode())
-            bool n1Linked = node->LinkNode(m_pLinkNodeA);
-            bool n2Linked = m_pLinkNodeA->LinkNode(node);
+            bool n1Linked = node->LinkNode(m_pLinkingNode);
+            bool n2Linked = m_pLinkingNode->LinkNode(node);
 
             if(!n1Linked && !n2Linked)
             {
@@ -454,7 +455,7 @@ void GateField::checkEndLink(const QPoint& mouse)
 
                 if(n2Linked)
                 {
-                    m_pLinkNodeA->DetachNode();
+                    m_pLinkingNode->DetachNode();
                 }
 
                 qDebug() << "GateField::checkEndLink - Linking failed!";
@@ -466,7 +467,7 @@ void GateField::checkEndLink(const QPoint& mouse)
         }
     }
 
-    m_pLinkNodeA = nullptr;
+    m_pLinkingNode = nullptr;
     m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
     update();
 }
@@ -578,7 +579,7 @@ void GateField::offsetGates(const double& offsetX, const double& offsetY)
         g->offsetPosition(offsetX, offsetY);
 }
 
-QPoint GateField::QtPointToWorldPoint(QPoint mousePoint) const
+QPoint GateField::qtPointToWorldPoint(const QPoint& mousePoint) const
 {
     QTransform transform;
     transform.scale(m_zoomFactor, m_zoomFactor);

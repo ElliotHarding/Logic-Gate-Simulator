@@ -255,11 +255,11 @@ void GateField::mousePressEvent(QMouseEvent *click)
             break;
 
         case CLICK_SELECTION:
-            editSelection(QPoint(clickX,clickY));
+            editSelection(clickPos);
             break;
 
         case CLICK_PAN:
-            rl_panClick(clickX, clickY);
+            doPan(clickPos);
             break;
 
         case CLICK_DEFAULT:
@@ -304,7 +304,10 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
             break;
 
         case CLICK_PAN:
-            rl_panClick(clickPos.x(), clickPos.y());
+            if(m_bMouseDown)
+            {
+                doPan(clickPos);
+            }
             break;
 
         case CLICK_SELECTION:

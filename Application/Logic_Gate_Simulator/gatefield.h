@@ -98,8 +98,6 @@ private:
     void paintEvent(QPaintEvent* paintEvent) override;
     void wheelEvent(QWheelEvent *event) override;
 
-    void rl_updateFunction();
-
     DLG_Home* m_pParent;
 
     //Saving

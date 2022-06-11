@@ -31,8 +31,6 @@ Gate::~Gate()
         delete m_nodes[index];
     }
     m_nodes.clear();
-
-    m_pParentField = nullptr;
 }
 
 void Gate::draw(QPainter& painter)
@@ -189,8 +187,6 @@ Node::Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeTy
 
 Node::~Node()
 {
-    m_pParent = nullptr;
-
     DetachNode();
 }
 
@@ -313,7 +309,12 @@ bool Node::LinkNode(Node*& n)
     }
 
     m_linkedNodes.push_back(n);
-    m_pParent->UpdateOutput();//Todo : check if only when input node is needed
+
+    if(m_nodeType == InputNode)
+    {
+        setValue(n->value());
+        m_pParent->UpdateOutput();
+    }
 
     return true;
 }
@@ -327,23 +328,10 @@ void Node::DetachNode()
 {
     for (Node* n : m_linkedNodes)
     {
-        for(size_t index = 0; index < n->m_linkedNodes.size(); index++)
-        {
-            if(this->m_id == n->m_linkedNodes[index]->m_id)
-            {
-                n->m_linkedNodes[index] = nullptr;
-                n->m_linkedNodes.erase(n->m_linkedNodes.begin() + index);
-                break;
-            }
-        }
-
         if(m_nodeType == OutputNode)
         {
-            //TODO CHECK ~ MIGHT BE NEEDED, BUT TESTING REQUIRED REMOVEVAL
-            //TECHNICALLY UPDATED FUNCITON IS CALLED AFTER THIS...
             n->setValue(0);
         }
-
         n = nullptr;
     }
     m_linkedNodes.clear();

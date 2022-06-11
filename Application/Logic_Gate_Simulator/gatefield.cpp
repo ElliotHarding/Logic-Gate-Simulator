@@ -84,15 +84,6 @@ void GateField::paintEvent(QPaintEvent*)
     }
 }
 
-void GateField::rl_updateFunction()
-{
-    for (Gate* g : m_allGates)
-    {
-        if(g->enabled())
-            g->UpdateOutput();
-    }
-}
-
 ClickMode GateField::GetCurrentClickMode()
 {
     return m_currentClickMode;
@@ -175,8 +166,6 @@ void GateField::ForgetChild(Gate* gateToDelete)
         {
             //forget
             m_allGates.erase(m_allGates.begin() + int8_t(index));
-
-            rl_updateFunction();
             return;
         }
     }
@@ -533,8 +522,6 @@ void GateField::checkDelete(const QPoint& mouse)
             Gate* gObject = m_allGates[index];
             m_allGates.erase(m_allGates.begin() + index);
             delete gObject;
-
-            rl_updateFunction();
 
             UpdateGateSelected(nullptr);
             return;

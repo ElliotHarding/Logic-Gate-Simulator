@@ -89,7 +89,7 @@ private:
     bool checkGateSelect(const int& clickX, const int& clickY);
     void checkDeleteNodeLink(const int& clickX, const int& clickY);
     void editSelection(const QPoint& mouse);
-    void rl_panClick(int clickX, int clickY);
+    void doPan(const QPoint& mouse);
 
     //Qt Events
     void mouseReleaseEvent(QMouseEvent *releaseEvent) override;

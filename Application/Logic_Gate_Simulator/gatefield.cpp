@@ -564,16 +564,15 @@ void GateField::checkStartDrag(const int& clickX, const int& clickY)
     }
 }
 
-void GateField::rl_panClick(int clickX, int clickY)
+void GateField::doPan(const QPoint& mouse)
 {
     //Calcualte vector between previous mouse pos and current
-    const float offsetX = Settings::PanSpeed * (clickX - m_previousDragMousePos.x());
-    const float offsetY = Settings::PanSpeed * (clickY - m_previousDragMousePos.y());
+    const float offsetX = Settings::PanSpeed * (mouse.x() - m_previousDragMousePos.x());
+    const float offsetY = Settings::PanSpeed * (mouse.y() - m_previousDragMousePos.y());
 
     offsetGates(offsetX, offsetY);
 
-    //Save current mouse pos as m_previousDragMousePos for next run
-    m_previousDragMousePos = QPoint(clickX, clickY);
+    m_previousDragMousePos = mouse;
 }
 
 void GateField::moveToFront(int index, std::vector<Gate *> &vec)

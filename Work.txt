@@ -1,5 +1,7 @@
 BIG TODO: cloning nodes needs to be managed in terms of linking. Also clearing backups without deleting is wasting memory.
 
+do we need offsetGates if we pan painter?
+
 bool GateFPGA::UpdateClicked(int clickX, int clickY)
 {
     bool ret = Gate::UpdateClicked(clickX, clickY);

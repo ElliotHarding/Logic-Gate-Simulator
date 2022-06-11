@@ -651,7 +651,13 @@ void GateField::UpdateGateSelected(Gate *g)
 /// TODO : Only record changes, not entire list of gates
 void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
 {
-    m_history.push_back(snapshot);
+    std::vector<Gate*> clonedSnapshot;
+    for(Gate* g : snapshot)
+    {
+        clonedSnapshot.push_back(g->Clone());
+    }
+
+    m_history.push_back(clonedSnapshot);
 
     if(Settings::MaxGateFieldHistory < m_history.size())
     {

@@ -25,8 +25,6 @@ GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_S
 {
     setAcceptDrops(true);
     setMouseTracking(true);
-
-    pSaveGateCollectionDialog->SetCurrentGateField(this);
 }
 
 GateField::~GateField()

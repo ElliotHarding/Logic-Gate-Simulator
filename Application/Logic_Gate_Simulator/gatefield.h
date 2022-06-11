@@ -18,6 +18,26 @@ class DLG_SaveGateCollection;
 class DLG_Home;
 class TextLabel;
 
+////////////////////////////////////////////////////////////////////////////////////////
+/// GateFieldHistory
+///
+/// Records history of GateField
+///
+/// TODO : Only record changes, not entire list of gates
+class GateFieldHistory
+{
+public:
+    void recordHistory(const std::vector<Gate*>& snapshot);
+    bool undoHistory(std::vector<Gate*>& currentSnapshot);
+    bool redoHistory(std::vector<Gate*>& currentSnapshot);
+private:
+    std::vector<std::vector<Gate*>> m_history;
+    uint m_historyIndex = 0;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////
+/// GateField
+///
 class GateField : public QWidget
 {
     Q_OBJECT
@@ -115,7 +135,7 @@ private:
     //Selecting
     QRubberBand* m_pSelectionTool = nullptr;
     QPoint m_selectionToolOrigin;
-    std::vector<Gate*> m_selectedGates;//Todo : check
+    std::vector<Gate*> m_selectedGates;
     DLG_SaveGateCollection* m_pDlgSaveGateCollection;
 
     ClickMode m_currentClickMode;

@@ -9,6 +9,8 @@ namespace Settings
 {
 const QPen LinkingNodeLine(Qt::blue, 2);
 const QPen SelectionBorder(Qt::blue, 2);
+
+const uint MaxGateFieldHistory = 20;
 }
 
 GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* pSaveGateCollectionDialog) :
@@ -639,4 +641,43 @@ void GateField::UpdateGateSelected(Gate *g)
 {
     if(m_pParent)
         m_pParent->GateSelected(g);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+/// GateFieldHistory
+///
+/// Records history of GateField
+///
+/// TODO : Only record changes, not entire list of gates
+void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
+{
+    m_history.push_back(snapshot);
+
+    if(Settings::MaxGateFieldHistory < m_history.size())
+    {
+        //Todo : delete memory contents of m_history.begin()
+        m_history.erase(m_history.begin());
+    }
+
+    m_historyIndex = m_history.size() - 1;
+}
+
+bool GateFieldHistory::undoHistory(std::vector<Gate*>& currentSnapshot)
+{
+    if(m_historyIndex > 0)
+    {
+        currentSnapshot = m_history[--m_historyIndex];
+        return true;
+    }
+    return false;
+}
+
+bool GateFieldHistory::redoHistory(std::vector<Gate*>& currentSnapshot)
+{
+    if(m_historyIndex < m_history.size() - 1)
+    {
+        currentSnapshot = m_history[++m_historyIndex];
+        return true;
+    }
+    return false;
 }

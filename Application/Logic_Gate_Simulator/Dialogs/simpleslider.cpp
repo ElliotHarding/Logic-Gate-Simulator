@@ -4,22 +4,27 @@
 #include "dlg_home.h"
 #include "dlg_textedit.h"
 
-SimpleSlider::SimpleSlider(QWidget* pParent, float min, float max, unsigned int scrollSpeed, QColor sliderCol) :
+namespace Settings
+{
+const uint SliderNubSize = 10;
+const uint SliderDrawHeight = 6;
+}
+
+SimpleSlider::SimpleSlider(QWidget* pParent, const float& min, const float& max, const uint& scrollSpeed, const QColor& sliderCol, const QColor& nubbleCol) :
     QWidget(pParent),
     m_sliderCol(sliderCol),
+    m_nubbleCol(nubbleCol),
     m_max(max),
     m_min(min),    
     m_beingClicked(false),
     m_minMaxDiff(max - min),
     m_scrollSpeed(scrollSpeed)
 {
-    QRect layout = geometry();
-
     //Calculate positions & dimensions
-    m_length = layout.width() - (c_margin * 2);
+    m_length = geometry().width() - (c_margin * 2);
 
-    m_minPoint = QPoint(c_margin, layout.height()/2);
-    m_maxPoint = QPoint(m_minPoint.x() + m_length, layout.height()/2);
+    m_minPoint = QPoint(c_margin, geometry().height()/2);
+    m_maxPoint = QPoint(m_minPoint.x() + m_length, geometry().height()/2);
 
     m_sliderPosition = m_minPoint;
 }
@@ -30,11 +35,8 @@ SimpleSlider::~SimpleSlider()
 
 float SimpleSlider::GetCurrentValue()
 {
-    //Get how far slider is in terms of percentage from left
-    float distanceFromLeft = (m_sliderPosition.x() - m_minPoint.x());
-    float percentage = distanceFromLeft / m_length;
-
-    //Apply same percentage across min - max difference
+    const float distanceFromLeft = (m_sliderPosition.x() - m_minPoint.x());
+    const float percentage = distanceFromLeft / m_length;
     return m_min + (m_minMaxDiff * percentage);
 }
 
@@ -43,7 +45,7 @@ void SimpleSlider::SetValue(float val)
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromLeft = val * lenghtPerUnit;
-    float pos = m_minPoint.x() + distanceFromLeft - (c_margin * 2 + 4);
+    float pos = m_minPoint.x() + distanceFromLeft - (c_margin * 2 + Settings::SliderNubSize/2);
 
     SetSliderPosition(pos);
 }
@@ -61,7 +63,7 @@ void SimpleSlider::SetGeometry(QRect layout)
     setGeometry(layout);
 }
 
-void SimpleSlider::mouseReleaseEvent(QMouseEvent *releaseEvent)
+void SimpleSlider::mouseReleaseEvent(QMouseEvent*)
 {
     m_beingClicked = false;
     update();
@@ -70,7 +72,6 @@ void SimpleSlider::mouseReleaseEvent(QMouseEvent *releaseEvent)
 void SimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)
 {
     m_beingClicked = true;
-
     UpdateSlider(mouseEvent->pos().x());
 }
 
@@ -80,13 +81,13 @@ void SimpleSlider::mouseMoveEvent(QMouseEvent *event)
         UpdateSlider(event->pos().x());
 }
 
-void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
+void SimpleSlider::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
     //Paiting variables to be used
     QPainterPath path;
-    QPen pen(m_sliderCol, 6);
+    QPen pen(m_sliderCol, Settings::SliderDrawHeight);
     painter.setPen(pen);
 
     //Draw bar
@@ -97,7 +98,7 @@ void SimpleSlider::paintEvent(QPaintEvent *paintEvent)
     painter.setPen(pen);
 
     //Draw slider
-    painter.drawLine(QPoint(m_sliderPosition.x() + 5, m_minPoint.y()), QPoint(m_sliderPosition.x() - 5, m_minPoint.y()));
+    painter.drawLine(QPoint(m_sliderPosition.x() + Settings::SliderNubSize, m_minPoint.y()), QPoint(m_sliderPosition.x() - Settings::SliderNubSize, m_minPoint.y()));
 }
 
 void SimpleSlider::wheelEvent(QWheelEvent *event)

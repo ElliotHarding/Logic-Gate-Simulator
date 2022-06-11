@@ -7,7 +7,7 @@
 class SimpleSlider : public QWidget
 {
 public:
-    SimpleSlider(QWidget* pParent, float min, float max, unsigned int scrollSpeed = 0, QColor sliderCol = QColor(255,255,255));
+    SimpleSlider(QWidget* pParent, const float& min, const float& max, const uint& scrollSpeed = 0, const QColor& sliderCol = QColor(255,255,255), const QColor& nubbleCol = Qt::lightGray);
     ~SimpleSlider() override;
 
     virtual float GetCurrentValue();
@@ -31,6 +31,7 @@ protected:
 
     //Colour stuff
     QColor m_sliderCol;
+    QColor m_nubbleCol;
 
     //Position data
     QPoint m_sliderPosition;

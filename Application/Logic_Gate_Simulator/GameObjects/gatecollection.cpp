@@ -196,7 +196,7 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
     {
         for(Gate* pGate : m_gates)
         {
-            GameObject* pPossibleClickedObject = pGate->checkClicked(x, y);
+            GameObject* pPossibleClickedObject = pGate->checkClicked(mouse);
             if(pPossibleClickedObject != nullptr)
             {
                 return pPossibleClickedObject;
@@ -204,7 +204,7 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
         }
     }
 
-    return Gate::checkClicked(x, y);
+    return Gate::checkClicked(mouse);
 }
 
 void GateCollection::DrawButtons(QPainter& painter)

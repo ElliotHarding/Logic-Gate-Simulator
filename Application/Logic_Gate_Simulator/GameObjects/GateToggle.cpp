@@ -20,7 +20,7 @@ void GateToggle::UpdateOutput()
 
 GameObject *GateToggle::checkClicked(const QPoint& mouse)
 {
-    GameObject* pPossibleClickedObject = GameObject::checkClicked(x, y);
+    GameObject* pPossibleClickedObject = GameObject::checkClicked(mouse);
 
     if(pPossibleClickedObject != nullptr && m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
     {

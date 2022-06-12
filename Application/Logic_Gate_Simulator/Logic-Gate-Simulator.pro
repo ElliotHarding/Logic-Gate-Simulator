@@ -38,7 +38,6 @@ SOURCES += \
     Dialogs/dlg_taskmanager.cpp \
     Dialogs/dlg_textedit.cpp \
     Dialogs/dlg_truthtabletaskdesigner.cpp \
-    Dialogs/widget_truthtable.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
     GameObjects/gatenand.cpp \
@@ -86,7 +85,6 @@ HEADERS += \
     Dialogs/dlg_taskmanager.h \
     Dialogs/dlg_textedit.h \
     Dialogs/dlg_truthtabletaskdesigner.h \
-    Dialogs/widget_truthtable.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
     GameObjects/gatenand.h \
@@ -143,8 +141,7 @@ FORMS += \
         Dialogs/widget_customgates.ui \
         Dialogs/widget_inputgates.ui \
         Dialogs/widget_standard.ui \
-    Dialogs/dlg_load.ui \
-    Dialogs/widget_truthtable.ui
+    Dialogs/dlg_load.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

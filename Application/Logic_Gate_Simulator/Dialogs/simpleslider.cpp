@@ -27,12 +27,12 @@ SimpleSlider::SimpleSlider(QWidget* pParent, const QRect& layout, const float& m
     m_minDrawPoint = QPoint(Settings::SliderMargins, geometry().height()/2);
     m_maxDrawPoint = QPoint(geometry().width() - Settings::SliderMargins, geometry().height()/2);
 
-    m_minPoint = m_minDrawPoint + QPoint(Settings::HalfSliderNubSize, 0);
-    m_maxPoint = m_maxDrawPoint - QPoint(Settings::HalfSliderNubSize, 0);
+    m_minPointX = m_minDrawPoint.x() + Settings::HalfSliderNubSize;
+    m_maxPointX = m_maxDrawPoint.x() - Settings::HalfSliderNubSize;
 
-    m_length = m_maxPoint.x() - m_minPoint.x();
+    m_length = m_maxPointX - m_minPointX;
 
-    m_sliderPosition = m_minPoint;
+    m_sliderPosition = QPoint(m_minPointX, m_minDrawPoint.y());
 }
 
 SimpleSlider::~SimpleSlider()
@@ -41,7 +41,7 @@ SimpleSlider::~SimpleSlider()
 
 float SimpleSlider::GetCurrentValue() const
 {
-    const float distanceFromLeft = (m_sliderPosition.x() - m_minPoint.x() + Settings::HalfSliderNubSize);
+    const float distanceFromLeft = (m_sliderPosition.x() - m_minPointX);
     const float percentage = distanceFromLeft / m_length;
     return m_min + (m_minMaxDiff * percentage);
 }
@@ -51,7 +51,7 @@ void SimpleSlider::SetValue(const float& val)
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromLeft = val * lenghtPerUnit;
-    float pos = m_minPoint.x() + distanceFromLeft;
+    float pos = m_minPointX + distanceFromLeft;
 
     SetSliderPosition(pos);
 }
@@ -91,7 +91,7 @@ void SimpleSlider::paintEvent(QPaintEvent*)
     painter.setPen(pen);
 
     //Draw slider
-    painter.drawLine(QPoint(m_sliderPosition.x() + Settings::HalfSliderNubSize, m_minPoint.y()), QPoint(m_sliderPosition.x() - Settings::HalfSliderNubSize, m_minPoint.y()));
+    painter.drawLine(QPoint(m_sliderPosition.x() + Settings::HalfSliderNubSize, m_minDrawPoint.y()), QPoint(m_sliderPosition.x() - Settings::HalfSliderNubSize, m_maxDrawPoint.y()));
 }
 
 void SimpleSlider::wheelEvent(QWheelEvent *event)
@@ -112,11 +112,11 @@ void SimpleSlider::UpdateSlider(const float& currentMousePos)
 void SimpleSlider::SetSliderPosition(float val)
 {
     //Check if mouse inbetween leftMost & rightMost boundaries of slider
-    if(m_minPoint.x() > val)
-        val = m_minPoint.x();
+    if(m_minPointX > val)
+        val = m_minPointX;
 
-    else if(m_maxPoint.x() < val)
-        val = m_maxPoint.x();
+    else if(m_maxPointX < val)
+        val = m_maxPointX;
 
     m_sliderPosition.setX(val);
 

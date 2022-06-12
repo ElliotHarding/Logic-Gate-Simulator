@@ -1,8 +1,13 @@
 #include "gatereader.h"
-#include "filelocations.h"
 #include "dlg_home.h"
 
 #include <QDir>
+
+namespace Settings
+{
+const QString CustomGateFile = ".CustomGate";
+const QString CustomGatesLocation = "CustomGates/";
+}
 
 bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf, bool setNewlySpawned)
 {
@@ -379,10 +384,10 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
 
 bool Saver::saveGateCollection(GateCollection* pGateCollection, const std::string name, DLG_Home* pHome)
 {
-    if(!QDir(CustomGatesLocation).exists())
-        QDir().mkdir(CustomGatesLocation);
+    if(!QDir(Settings::CustomGatesLocation).exists())
+        QDir().mkdir(Settings::CustomGatesLocation);
 
-    std::ofstream gateCollectionStream(CustomGatesLocation.toStdString() + name + ".CustomGate");
+    std::ofstream gateCollectionStream(Settings::CustomGatesLocation.toStdString() + name + Settings::CustomGateFile.toStdString());
     if(gateCollectionStream.is_open())
     {
         pGateCollection->SaveData(gateCollectionStream);
@@ -397,8 +402,8 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const std::strin
 
 std::vector<QString> CustomGateReader::getCustomGateNames()
 {
-    QStringList nameFilter("*.CustomGate");
-    QDir directory(CustomGatesLocation);
+    QStringList nameFilter("*" + Settings::CustomGateFile);
+    QDir directory(Settings::CustomGatesLocation);
     QStringList fileList = directory.entryList(nameFilter);
 
     std::vector<QString> names;
@@ -412,7 +417,7 @@ std::vector<QString> CustomGateReader::getCustomGateNames()
 
 GateCollection* CustomGateReader::spawnCustomGate(const QString &name)
 {
-    std::ifstream customGateStream(CustomGatesLocation.toStdString() + name.toStdString());
+    std::ifstream customGateStream(Settings::CustomGatesLocation.toStdString() + name.toStdString());
 
     //Read into pointer and send to m_pParent
     if(customGateStream.is_open())
@@ -432,7 +437,7 @@ GateCollection* CustomGateReader::spawnCustomGate(const QString &name)
 
 bool CustomGateReader::deleteCustomGate(const QString &name)
 {
-    std::string fileName = CustomGatesLocation.toStdString() + name.toStdString();
+    std::string fileName = Settings::CustomGatesLocation.toStdString() + name.toStdString();
     if(std::remove(fileName.c_str()) == 0)
     {
         return true;

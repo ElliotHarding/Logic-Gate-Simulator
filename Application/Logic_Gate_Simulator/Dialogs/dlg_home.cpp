@@ -6,7 +6,6 @@
 #include "dlg_task.h"
 #include "dlg_taskmanager.h"
 #include "dlg_circuittaskdesignersetup.h"
-#include "filelocations.h"
 
 DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    

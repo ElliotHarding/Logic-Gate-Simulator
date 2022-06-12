@@ -11,10 +11,8 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
 
     //save layout
     QRect layout = ui->scrollSliderLayout->geometry();
-    ui->scrollSliderLayout = new GateSlider(c_scrollMin, c_scrollMax, this, Qt::lightGray);
-
-    //set layout after construction
-    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetGeometry(layout);
+    //Todo : check delete ui->scrollSliderLayout placeholder
+    ui->scrollSliderLayout = new GateSlider(this, layout, c_scrollMin, c_scrollMax, 0);
     ui->scrollSliderLayout->raise();
 
     m_scrollWidgets.push_back({ui->btn_orGate, ui->btn_orGate->geometry()});

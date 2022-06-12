@@ -15,8 +15,9 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
     ui->scrollSliderLayout = new GateSlider(this, layout, c_scrollMin, c_scrollMax, 0);
     ui->scrollSliderLayout->raise();
 
-    SetScrollPosition(c_scrollMax);
-    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(0);
+    m_scroll = c_scrollMin;
+    SetScrollPosition(c_scrollMin);
+    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(c_scrollMin);
 }
 Widget_AllGates::~Widget_AllGates()
 {
@@ -33,29 +34,20 @@ void Widget_AllGates::SetScrollPosition(const float& y)
         if(pWidget == ui->scrollSliderLayout)
             continue;
 
-        const int newTop = pWidget->geometry().top() + diff - c_scrollDistance;
-
+        const int newTop = pWidget->geometry().top() - diff;
         if(newTop < 7)
             pWidget->hide();
         else
             pWidget->show();
 
-        const QRect scrolledLayout = QRect(pWidget->geometry().left(), newTop, pWidget->geometry().width(), pWidget->geometry().height());
-        pWidget->setGeometry(scrolledLayout);
+        pWidget->setGeometry(pWidget->geometry().translated(0, -diff));
     }
-}
-
-void Widget_AllGates::show()
-{
-    SetScrollPosition(100);
-    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(0);
-    QWidget::show();
 }
 
 void Widget_AllGates::wheelEvent(QWheelEvent *event)
 {
     //Apply scroll delta to m_scroll
-    const int direction = event->delta() > 0 ? c_scrollSpeed : -c_scrollSpeed;
+    const int direction = event->delta() > 0 ? -c_scrollSpeed : c_scrollSpeed;
     int newScroll = m_scroll + direction;
 
     //Make sure m_scroll is between c_scrollMin & c_scrollMax
@@ -66,7 +58,7 @@ void Widget_AllGates::wheelEvent(QWheelEvent *event)
 
     //Update
     SetScrollPosition(newScroll);
-    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(newScroll - c_scrollDistance);
+    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(newScroll);
 }
 
 void Widget_AllGates::on_btn_sourceGate_clicked()

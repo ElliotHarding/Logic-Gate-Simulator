@@ -20,7 +20,6 @@ public:
     ~Widget_AllGates() override;
 
     void SetScrollPosition(const float& y);
-    virtual void show() override;
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) override;

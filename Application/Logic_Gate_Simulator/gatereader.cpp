@@ -432,5 +432,10 @@ GateCollection* CustomGateReader::spawnCustomGate(const QString &name)
 
 bool CustomGateReader::deleteCustomGate(const QString &name)
 {
-
+    std::string fileName = CustomGatesLocation.toStdString() + name.toStdString();
+    if(std::remove(fileName.c_str()) == 0)
+    {
+        return true;
+    }
+    return false;
 }

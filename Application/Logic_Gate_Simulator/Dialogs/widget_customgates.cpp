@@ -1,10 +1,12 @@
 #include "widget_customgates.h"
 #include "ui_widget_customgates.h"
-#include <QDir>
-#include "gatereader.h"
-#include "filelocations.h"
 #include "dlg_home.h"
 #include "dlg_message.h"
+
+namespace Settings
+{
+QColor ActiveDeleteButtonBackColor = Qt::lightGray;
+}
 
 Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent, bool show, QPoint loc) :
     MovingWidget(pParent, show, loc),
@@ -13,7 +15,7 @@ Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent, bool show, QPoint loc)
     ui->setupUi(this);
     UpdateList();
 
-    m_palActive.setColor(QPalette::Background, Qt::lightGray);
+    m_palActive.setColor(QPalette::Background, Settings::ActiveDeleteButtonBackColor);
     m_palInActive = ui->btn_Delete->palette();
 }
 
@@ -31,23 +33,15 @@ void Widget_CustomGates::UpdateList()
     }
 }
 
-void Widget_CustomGates::on_customGateListWidget_currentRowChanged(int currentRow)
-{
-    m_currentRow = currentRow;
-}
-
 void Widget_CustomGates::on_customGateListWidget_itemClicked(QListWidgetItem* item)
 {
-    if (m_currentRow > -1 && m_currentRow <= ui->customGateListWidget->count())
+    if (m_bDeleting)
     {
-        if (m_bDeleting)
-        {
-            DeleteItem(m_currentRow);
-        }
-        else
-        {
-            CreateItem(item->text());
-        }
+        DeleteItem(item);
+    }
+    else
+    {
+        CreateItem(item->text());
     }
 }
 
@@ -69,20 +63,11 @@ void Widget_CustomGates::CreateItem(const QString& name)
     }
 }
 
-void Widget_CustomGates::DeleteItem(int index)
+void Widget_CustomGates::DeleteItem(QListWidgetItem* item)
 {
-    //Get selected file
-    QString file = m_customGatesNames[index];
-
-    //Try delete file
-    std::string fileName = CustomGatesLocation.toStdString() + m_customGatesNames[index].toStdString();
-    if(std::remove(fileName.c_str()) == 0)
+    if(m_customGateReader.deleteCustomGate(item->text()))
     {
-        //Remove from list
-        m_customGatesNames.erase (m_customGatesNames.begin()+index);
-
-        //Remove from ui list
-        ui->customGateListWidget->removeItemWidget(ui->customGateListWidget->takeItem(index));
+        ui->customGateListWidget->removeItemWidget(item);
     }
     else
     {
@@ -96,10 +81,5 @@ void Widget_CustomGates::on_btn_Delete_clicked()
 
     ui->btn_Delete->setPalette(m_bDeleting ? m_palActive : m_palInActive);
     ui->btn_Delete->setAutoFillBackground(m_bDeleting);
-}
-
-void Widget_CustomGates::on_btn_Create_clicked()
-{
-    m_bDeleting = false;
 }
 

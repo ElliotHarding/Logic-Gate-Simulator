@@ -10,6 +10,7 @@
 
 #include "allgates.h"
 #include "gatefield.h"
+#include "gatereader.h"
 
 #include "simpleslider.h"
 #include "dlg_gateinfo.h"
@@ -90,6 +91,9 @@ protected:
     QRect accountForUIOffsetts(const QRect& rect);
 
     QString PathToFileName(const QString);
+
+    //Saving
+    Saver m_saver;
 
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;

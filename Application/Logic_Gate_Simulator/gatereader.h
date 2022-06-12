@@ -31,7 +31,7 @@ private:
 class Saver
 {
 public:
-    bool saveGateField(GateField* pGateFeild);
+    bool saveGateField(GateField* pGateFeild, DLG_Home* pHome);
     bool saveGateCollection(GateCollection* pGateCollection, const std::string name, DLG_Home* pHome);
 };
 

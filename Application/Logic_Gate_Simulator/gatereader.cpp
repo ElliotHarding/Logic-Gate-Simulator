@@ -358,9 +358,23 @@ bool GateReader::SearchGatesForNode(std::vector<Gate*>& gates, id _id, Node*& n)
     return false;
 }
 
-bool Saver::saveGateField(GateField* pGateFeild)
+bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
 {
+    QString dir = QFileDialog::getExistingDirectory(pHome, "Open Directory",
+                                                 "/home",
+                                                 QFileDialog::ShowDirsOnly
+                                                 | QFileDialog::DontResolveSymlinks);
 
+    std::ofstream saveFile(dir.toStdString() + "/" + pGateFeild->name() + ".GateField");
+
+    if(saveFile.is_open())
+    {
+        pGateFeild->SaveData(saveFile);
+        saveFile.close();
+        return true;
+    }
+
+    return false;
 }
 
 bool Saver::saveGateCollection(GateCollection* pGateCollection, const std::string name, DLG_Home* pHome)

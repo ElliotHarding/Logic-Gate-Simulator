@@ -404,19 +404,13 @@ void DLG_Home::on_btn_newPage_clicked()
 
 void DLG_Home::on_btn_Save_clicked()
 {
-    bool saveFailed = false;
-
     //Loop through all open gate fields and save
     for (GateField* gf : m_allGateFields)
     {
-        saveFailed = gf->SaveData();
-        if(!saveFailed)
-            break;
-    }
-
-    if(!saveFailed)
-    {
-        SendUserMessage("Saving a page failed!");
+        if(m_saver.saveGateField(gf, this))
+        {
+            SendUserMessage("Saving a page failed!");
+        }
     }
 }
 

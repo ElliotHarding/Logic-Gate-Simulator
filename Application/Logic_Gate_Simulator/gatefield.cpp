@@ -94,33 +94,12 @@ void GateField::SetZoomLevel(const qreal& zoom)
     update();
 }
 
-bool GateField::SaveData()
-{
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                 "/home",
-                                                 QFileDialog::ShowDirsOnly
-                                                 | QFileDialog::DontResolveSymlinks);
-
-    std::ofstream saveFile(dir.toStdString() + "/" + m_name + ".GateField");
-
-    if(saveFile.is_open())
-    {
-        SaveData(saveFile);
-        return true;
-    }
-
-    return false;
-}
-
 void GateField::SaveData(std::ofstream& saveFile)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         m_allGates[index]->SaveData(saveFile);
     }
-
-    //Close
-    saveFile.close();
 }
 
 void GateField::DeleteGate(Gate* gateToDelete)
@@ -175,6 +154,11 @@ void GateField::EditTextLabel(TextLabel *textLabelToEdit)
 void GateField::StartSaveGateCollection(GateCollection* pGateCollection)
 {
     m_pDlgSaveGateCollection->open(pGateCollection);
+}
+
+std::string GateField::name() const
+{
+    return m_name;
 }
 
 void GateField::AddGate(Gate* go, const bool& newlySpawned)

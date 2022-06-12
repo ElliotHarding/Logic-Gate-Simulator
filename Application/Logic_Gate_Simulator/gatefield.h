@@ -6,7 +6,6 @@
 #include <QDragMoveEvent>
 #include <QRubberBand>
 #include <QMainWindow>
-#include <QThread>
 
 #include "clickmode.h"
 #include "gate.h"
@@ -56,7 +55,7 @@ public:
 
     //Saving
     void StartSaveGateCollection(GateCollection* pGateCollection);
-    bool SaveData();
+    std::string name() const;
     void SaveData(std::ofstream& saveFile);
 
     //Actions

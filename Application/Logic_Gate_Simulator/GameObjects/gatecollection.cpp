@@ -1,7 +1,6 @@
 #include "gatecollection.h"
 #include "allgates.h"
 #include "gatefield.h"
-#include "circuitoptimizer.h"
 
 #include <QDebug>
 

@@ -1,11 +1,8 @@
 #include "dlg_home.h"
 #include "ui_dlg_home.h"
+
 #include <QLayout>
 #include <QLibrary>
-#include "gatereader.h"
-#include "dlg_task.h"
-#include "dlg_taskmanager.h"
-#include "dlg_circuittaskdesignersetup.h"
 
 DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    

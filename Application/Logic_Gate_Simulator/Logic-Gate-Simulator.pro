@@ -31,13 +31,10 @@ INCLUDEPATH += \
     GameObjects
 
 SOURCES += \
-    Dialogs/dlg_circuittaskdesigner.cpp \
-    Dialogs/dlg_circuittaskdesignersetup.cpp \
     Dialogs/dlg_message.cpp \
     Dialogs/dlg_task.cpp \
     Dialogs/dlg_taskmanager.cpp \
     Dialogs/dlg_textedit.cpp \
-    Dialogs/dlg_truthtabletaskdesigner.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
     GameObjects/gatenand.cpp \
@@ -45,7 +42,6 @@ SOURCES += \
     GameObjects/gatetrieor.cpp \
     GameObjects/gatexor.cpp \
     GameObjects/textlabel.cpp \
-    circuitoptimizer.cpp \
     main.cpp \
     gatefield.cpp \
     gatereader.cpp \
@@ -78,13 +74,8 @@ SOURCES += \
     truthtables.cpp
 
 HEADERS += \
-    Dialogs/dlg_circuittaskdesigner.h \
-    Dialogs/dlg_circuittaskdesignersetup.h \
     Dialogs/dlg_message.h \
-    Dialogs/dlg_task.h \
-    Dialogs/dlg_taskmanager.h \
     Dialogs/dlg_textedit.h \
-    Dialogs/dlg_truthtabletaskdesigner.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
     GameObjects/gatenand.h \
@@ -93,11 +84,9 @@ HEADERS += \
     GameObjects/gatetypes.h \
     GameObjects/gatexor.h \
     GameObjects/textlabel.h \
-    circuitoptimizer.h \
     clickmode.h \
     gatereader.h \
     AllGates.h \
-    filelocations.h \
     gatefield.h \
     Dialogs/dlg_gateinfo.h \
     Dialogs/dlg_home.h \
@@ -124,17 +113,13 @@ HEADERS += \
     GameObjects/gatetriand.h \
     Dialogs/movingwidget.h \
     GameObjects/gatetrior.h \
-    GameObjects/gatenumberoutput.h \
-    truthtables.h
+    GameObjects/gatenumberoutput.h
 
 FORMS += \
-    Dialogs/dlg_circuittaskdesigner.ui \
-    Dialogs/dlg_circuittaskdesignersetup.ui \
     Dialogs/dlg_message.ui \
         Dialogs/dlg_gateinfo.ui \
         Dialogs/dlg_home.ui \
         Dialogs/dlg_savegatecollection.ui \
-    Dialogs/dlg_taskmanager.ui \
     Dialogs/dlg_textedit.ui \
         Dialogs/widget_advanced.ui \
         Dialogs/widget_allgates.ui \

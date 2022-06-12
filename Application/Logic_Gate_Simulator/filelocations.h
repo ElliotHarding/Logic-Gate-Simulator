@@ -1,4 +1,0 @@
-#ifndef FILELOCATIONS_H
-#define FILELOCATIONS_H
-
-#endif // FILELOCATIONS_H

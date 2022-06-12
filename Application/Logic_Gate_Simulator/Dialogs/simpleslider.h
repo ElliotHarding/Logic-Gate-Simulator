@@ -48,7 +48,7 @@ protected:
     const float m_min;
     const float m_minMaxDiff;
 
-    const int c_margin = 11;
+    const int c_margin = 11; //Todo : remove
 };
 
 class DLG_Home;

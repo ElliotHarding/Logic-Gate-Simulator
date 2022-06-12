@@ -10,16 +10,18 @@ const uint SliderNubSize = 10;
 const uint SliderDrawHeight = 6;
 }
 
-SimpleSlider::SimpleSlider(QWidget* pParent, const float& min, const float& max, const uint& scrollSpeed, const QColor& sliderCol, const QColor& nubbleCol) :
+SimpleSlider::SimpleSlider(QWidget* pParent, const QRect& layout, const float& min, const float& max, const uint& scrollSpeed, const QColor& sliderCol, const QColor& nubbleCol) :
     QWidget(pParent),
     m_sliderCol(sliderCol),
     m_nubbleCol(nubbleCol),
-    m_max(max),
-    m_min(min),    
+    m_scrollSpeed(scrollSpeed),
     m_beingClicked(false),
-    m_minMaxDiff(max - min),
-    m_scrollSpeed(scrollSpeed)
+    m_max(max),
+    m_min(min),
+    m_minMaxDiff(max - min)
 {
+    setGeometry(layout);
+
     //Calculate positions & dimensions
     m_length = geometry().width() - (c_margin * 2);
 
@@ -33,14 +35,14 @@ SimpleSlider::~SimpleSlider()
 {
 }
 
-float SimpleSlider::GetCurrentValue()
+float SimpleSlider::GetCurrentValue() const
 {
     const float distanceFromLeft = (m_sliderPosition.x() - m_minPoint.x());
     const float percentage = distanceFromLeft / m_length;
     return m_min + (m_minMaxDiff * percentage);
 }
 
-void SimpleSlider::SetValue(float val)
+void SimpleSlider::SetValue(const float& val)
 {
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
@@ -48,19 +50,6 @@ void SimpleSlider::SetValue(float val)
     float pos = m_minPoint.x() + distanceFromLeft - (c_margin * 2 + Settings::SliderNubSize/2);
 
     SetSliderPosition(pos);
-}
-
-void SimpleSlider::SetGeometry(QRect layout)
-{
-    //Calculate positions & dimensions
-    m_length = layout.width() - (c_margin * 2);
-
-    m_minPoint = QPoint(c_margin, layout.height()/2);
-    m_maxPoint = QPoint(m_minPoint.x() + m_length, layout.height()/2);
-
-    m_sliderPosition = m_minPoint;
-
-    setGeometry(layout);
 }
 
 void SimpleSlider::mouseReleaseEvent(QMouseEvent*)
@@ -108,7 +97,7 @@ void SimpleSlider::wheelEvent(QWheelEvent *event)
     UpdateSlider(m_sliderPosition.x() + direction);
 }
 
-void SimpleSlider::UpdateSlider(float currentMousePos)
+void SimpleSlider::UpdateSlider(const float& currentMousePos)
 {
     SetSliderPosition(currentMousePos);
 
@@ -137,20 +126,18 @@ void SimpleSlider::SetSliderPosition(float val)
 //  FontSlider : SimpleSlider
 //
 
-FontSlider::FontSlider(float min, float max, unsigned int scrollSpeed,  DLG_TextEdit *parent) :
-    SimpleSlider (parent, min, max, scrollSpeed),
+FontSlider::FontSlider(DLG_TextEdit* parent, const QRect& layout, const float& min, const float& max, const uint& scrollSpeed) :
+    SimpleSlider(parent, layout, min, max, scrollSpeed),
     m_pParent(parent)
 {
 }
 
 FontSlider::~FontSlider()
 {
-    m_pParent = nullptr;
 }
 
-void FontSlider::UpdateParent(float val)
+void FontSlider::UpdateParent(const float& val)
 {
-    //Send new data
     m_pParent->SetFontSize(val);
 }
 
@@ -160,18 +147,17 @@ void FontSlider::UpdateParent(float val)
 //  ZoomSlider : SimpleSlider
 //
 
-ZoomSlider::ZoomSlider(float min, float max, unsigned int scrollSpeed, DLG_Home *parent) :
-    SimpleSlider (parent, min, max, scrollSpeed),
+ZoomSlider::ZoomSlider(DLG_Home* parent, const QRect& layout, const float& min, const float& max, const uint& scrollSpeed) :
+    SimpleSlider (parent, layout, min, max, scrollSpeed),
     m_pParent(parent)
 {
 }
 
 ZoomSlider::~ZoomSlider()
 {
-    m_pParent = nullptr;
 }
 
-void ZoomSlider::UpdateParent(float val)
+void ZoomSlider::UpdateParent(const float& val)
 {
     m_pParent->SetZoomFactor(val, false);
 }
@@ -181,8 +167,8 @@ void ZoomSlider::UpdateParent(float val)
 //  GateSlider : VerticalSimpleSlider
 //
 
-GateSlider::GateSlider(float min, float max, Widget_AllGates *parent, QColor sliderCol) :
-    VerticalSimpleSlider (parent, min, max, 0, sliderCol),
+GateSlider::GateSlider(Widget_AllGates* parent, const QRect& layout, const float& min, const float& max, const uint& scrollSpeed) :
+    VerticalSimpleSlider (parent, layout, min, max, scrollSpeed),
     m_pParent(parent)
 {
 }
@@ -192,7 +178,7 @@ GateSlider::~GateSlider()
     m_pParent = nullptr;
 }
 
-void GateSlider::UpdateParent(float val)
+void GateSlider::UpdateParent(const float& val)
 {
     m_pParent->SetScrollPosition(val);
 }
@@ -202,19 +188,8 @@ void GateSlider::UpdateParent(float val)
 //  VerticalSimpleSlider : SimpleSlider
 //
 
-VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, float min, float max, unsigned int scrollSpeed, QColor sliderCol) :
-    SimpleSlider (pParent, min, max, scrollSpeed, sliderCol)
-{
-    QRect layout = geometry();
-
-    //Calculate positions & dimensions
-    m_length = layout.height() - (c_margin * 2);
-
-    m_minPoint = QPoint(layout.width()/2, layout.bottom() - c_margin);
-    m_maxPoint = QPoint(layout.width()/2, layout.top() + c_margin);
-}
-
-void VerticalSimpleSlider::SetGeometry(QRect layout)
+VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, const QRect& layout, const float& min, const float& max, const uint& scrollSpeed) :
+    SimpleSlider (pParent, layout, min, max, scrollSpeed)
 {
     //Calculate positions & dimensions
     m_length = layout.height() - (c_margin * 2);
@@ -223,11 +198,9 @@ void VerticalSimpleSlider::SetGeometry(QRect layout)
     m_maxPoint = QPoint(layout.width()/2, layout.top() + c_margin);
 
     m_sliderPosition = m_minPoint;
-
-    setGeometry(layout);
 }
 
-void VerticalSimpleSlider::paintEvent(QPaintEvent *paintEvent)
+void VerticalSimpleSlider::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
@@ -275,7 +248,7 @@ void VerticalSimpleSlider::mouseMoveEvent(QMouseEvent *event)
         UpdateSlider(event->pos().y());
 }
 
-float VerticalSimpleSlider::GetCurrentValue()
+float VerticalSimpleSlider::GetCurrentValue() const
 {
     //Get how far slider is in terms of percentage from left
     float distanceFromTop = (m_minPoint.y() - m_sliderPosition.y());
@@ -285,7 +258,7 @@ float VerticalSimpleSlider::GetCurrentValue()
     return m_min + (m_minMaxDiff * percentage);
 }
 
-void VerticalSimpleSlider::SetValue(float val)
+void VerticalSimpleSlider::SetValue(const float& val)
 {
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;

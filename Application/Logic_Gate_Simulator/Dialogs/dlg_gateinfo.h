@@ -33,9 +33,7 @@ private:
 
     DLG_Home* m_pParent = nullptr;
 
-    Gate* m_gateDisplayed = nullptr;
-
-    bool m_bDragModeAll = true;
+    Gate* m_pGateDisplayed = nullptr;
 
     void UiWhenNoGateSelected();
 };

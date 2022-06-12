@@ -10,7 +10,8 @@ QColor ActiveDeleteButtonBackColor = Qt::lightGray;
 
 Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent, bool show, QPoint loc) :
     MovingWidget(pParent, show, loc),
-    ui(new Ui::Widget_CustomGates)
+    ui(new Ui::Widget_CustomGates),
+    m_bDeleting(false)
 {
     ui->setupUi(this);
     UpdateList();

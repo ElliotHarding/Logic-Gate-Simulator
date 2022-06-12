@@ -36,7 +36,7 @@ private:
     QPalette m_palActive;
     QPalette m_palInActive;
 
-    bool m_bDeleting = false;
+    bool m_bDeleting;
 
     void DeleteItem(QListWidgetItem* item);
     void CreateItem(const QString& name);

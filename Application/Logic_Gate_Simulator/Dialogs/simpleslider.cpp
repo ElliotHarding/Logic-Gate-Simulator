@@ -262,7 +262,7 @@ void VerticalSimpleSlider::SetValue(const float& val)
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromTop = val * lenghtPerUnit;
-    float pos = m_maxPoint.y() + distanceFromTop;
+    float pos = m_minPoint.y() + distanceFromTop;
 
     SetSliderPosition(pos);
 }

@@ -16,7 +16,7 @@ public:
     explicit DLG_SaveGateCollection(DLG_Home *parent = nullptr);
     ~DLG_SaveGateCollection() override;
 
-    void open(GateField* currentGateField);
+    void open(GateField* pCurrentGateField);
 
 private slots:
     void on_Cancel_clicked();
@@ -24,7 +24,7 @@ private slots:
 
 private:
     Ui::DLG_SaveGateCollection *ui;
-    GateField* m_currentGateField;
+    GateField* m_pCurrentGateField;
     DLG_Home* m_pParent;
 };
 

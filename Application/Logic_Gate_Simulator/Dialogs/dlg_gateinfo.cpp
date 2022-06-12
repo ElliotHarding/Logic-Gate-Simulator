@@ -17,8 +17,6 @@ DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
 DLG_GateInfo::~DLG_GateInfo()
 {
     delete ui;
-    m_pGateDisplayed = nullptr;
-    m_pParent = nullptr;
 }
 
 void DLG_GateInfo::setGate(Gate *g)

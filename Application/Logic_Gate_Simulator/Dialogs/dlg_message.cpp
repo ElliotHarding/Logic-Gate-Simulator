@@ -13,13 +13,13 @@ DLG_Message::~DLG_Message()
     delete ui;
 }
 
-void DLG_Message::ShowMessage(QString message)
+void DLG_Message::ShowMessage(const QString& message)
 {
     ui->lbl_text->setText(message);
     show();
 }
 
-void DLG_Message::on_pushButton_clicked()
+void DLG_Message::on_btn_ok_clicked()
 {
     hide();
 }

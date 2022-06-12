@@ -18,6 +18,8 @@ DLG_Load::~DLG_Load()
     delete ui;
 }
 
+//Todo : find a work around.
+// - starting load on a paint event because then the widget is definatly displayed
 bool DLG_Load::event(QEvent *event)
 {
     int returnValue = QWidget::event(event);

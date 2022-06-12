@@ -7,8 +7,8 @@
 
 DLG_SaveGateCollection::DLG_SaveGateCollection(DLG_Home *parent) :
     QDialog(parent),
-    m_pParent(parent),
-    ui(new Ui::DLG_SaveGateCollection)
+    ui(new Ui::DLG_SaveGateCollection),
+    m_pParent(parent)
 {
     ui->setupUi(this);
     ui->lb_error->hide();
@@ -16,21 +16,19 @@ DLG_SaveGateCollection::DLG_SaveGateCollection(DLG_Home *parent) :
 
 DLG_SaveGateCollection::~DLG_SaveGateCollection()
 {
-    m_pParent = nullptr;
     delete ui;
 }
 
-void DLG_SaveGateCollection::open(GateField* currentGateField)
+void DLG_SaveGateCollection::open(GateField* pCurrentGateField)
 {
-    m_currentGateField = currentGateField;
+    m_pCurrentGateField = pCurrentGateField;
     ui->lb_error->hide();
     QDialog::open();
 }
 
 void DLG_SaveGateCollection::on_Cancel_clicked()
 {
-    //Close
-    this->close();
+    close();
 }
 
 void DLG_SaveGateCollection::on_Save_clicked()
@@ -44,13 +42,12 @@ void DLG_SaveGateCollection::on_Save_clicked()
     if(newGateCollection.is_open())
     {
         //Generate from currentGateField & then save to newGateCollection file
-        m_currentGateField->SaveGateCollection(newGateCollection);
+        m_pCurrentGateField->SaveGateCollection(newGateCollection);
         newGateCollection.close();
 
         m_pParent->UpdateCustomGateListWidget();
 
-        //Close
-        this->close();
+        close();
     }
     else
     {

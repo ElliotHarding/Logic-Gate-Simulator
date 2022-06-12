@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Message</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btn_ok">
    <property name="geometry">
     <rect>
      <x>110</x>

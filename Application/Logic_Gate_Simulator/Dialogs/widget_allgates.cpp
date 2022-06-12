@@ -11,7 +11,7 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
 
     //save layout
     QRect layout = ui->scrollSliderLayout->geometry();
-    //Todo : check delete ui->scrollSliderLayout placeholder
+    delete ui->scrollSliderLayout;
     ui->scrollSliderLayout = new GateSlider(this, layout, c_scrollMin, c_scrollMax, 0);
     ui->scrollSliderLayout->raise();
 

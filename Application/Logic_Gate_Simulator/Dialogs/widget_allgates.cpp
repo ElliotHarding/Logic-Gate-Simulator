@@ -15,27 +15,7 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
     ui->scrollSliderLayout = new GateSlider(this, layout, c_scrollMin, c_scrollMax, 0);
     ui->scrollSliderLayout->raise();
 
-    m_scrollWidgets.push_back({ui->btn_orGate, ui->btn_orGate->geometry()});
-    m_scrollWidgets.push_back({ui->btn_GateEor, ui->btn_GateEor->geometry()});
-    m_scrollWidgets.push_back({ui->btn_andGate, ui->btn_andGate->geometry()});
-    m_scrollWidgets.push_back({ui->btn_inputOn, ui->btn_inputOn->geometry()});
-    m_scrollWidgets.push_back({ui->btn_notGate, ui->btn_notGate->geometry()});
-    m_scrollWidgets.push_back({ui->btn_inputOff, ui->btn_inputOff->geometry()});
-    m_scrollWidgets.push_back({ui->btn_GateTriOr, ui->btn_GateTriOr->geometry()});
-    m_scrollWidgets.push_back({ui->btn_timerGate, ui->btn_timerGate->geometry()});
-    m_scrollWidgets.push_back({ui->btn_GateTriAnd, ui->btn_GateTriAnd->geometry()});
-    m_scrollWidgets.push_back({ui->btn_GateTriEor, ui->btn_GateTriEor->geometry()});
-    m_scrollWidgets.push_back({ui->btn_sourceGate, ui->btn_sourceGate->geometry()});
-    m_scrollWidgets.push_back({ui->btn_recieverGate, ui->btn_recieverGate->geometry()});
-    m_scrollWidgets.push_back({ui->btn_numberOutputGate, ui->btn_numberOutputGate->geometry()});
-    m_scrollWidgets.push_back({ui->ln_1, ui->ln_1->geometry()});
-    m_scrollWidgets.push_back({ui->ln_2, ui->ln_2->geometry()});
-    m_scrollWidgets.push_back({ui->btn_labelGate, ui->btn_labelGate->geometry()});
-    m_scrollWidgets.push_back({ui->btn_nandGate, ui->btn_nandGate->geometry()});
-    m_scrollWidgets.push_back({ui->btn_xorGate, ui->btn_xorGate->geometry()});
-    m_scrollWidgets.push_back({ui->btn_norGate, ui->btn_norGate->geometry()});
-
-    SetScrollPosition(100);
+    SetScrollPosition(c_scrollMax);
     dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(0);
 }
 Widget_AllGates::~Widget_AllGates()
@@ -43,22 +23,21 @@ Widget_AllGates::~Widget_AllGates()
     delete ui;
 }
 
-void Widget_AllGates::SetScrollPosition(float y)
+void Widget_AllGates::SetScrollPosition(const float& y)
 {
     m_scroll = int(y);
 
-    for (WidgetAndPosition widget : m_scrollWidgets)
+    for(QWidget* pWidget : findChildren<QWidget*>())
     {
-        const int newTop = widget.originalLayout.top() + m_scroll - c_scrollDistance;
+        const int newTop = pWidget->geometry().top() + m_scroll - c_scrollDistance;
 
-        //Inefficient... (couldn't get layering of qobjects working) hide when above 6
         if(newTop < 7)
-            widget.widget->hide();
+            pWidget->hide();
         else
-            widget.widget->show();
+            pWidget->show();
 
-        const QRect scrolledLayout = QRect(widget.originalLayout.left(), newTop, widget.originalLayout.width(), widget.originalLayout.height());
-        widget.widget->setGeometry(scrolledLayout);
+        const QRect scrolledLayout = QRect(pWidget->geometry().left(), newTop, pWidget->geometry().width(), pWidget->geometry().height());
+        pWidget->setGeometry(scrolledLayout);
     }
 }
 

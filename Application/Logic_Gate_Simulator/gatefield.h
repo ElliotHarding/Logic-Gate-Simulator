@@ -50,7 +50,7 @@ public:
     ~GateField();
 
     //Gates
-    void AddGate(Gate* go, bool newlySpawned = true);
+    void AddGate(Gate* go, const bool& newlySpawned = true);
     void DeleteGate(Gate* g);
     void ForgetChild(Gate* g);
 
@@ -63,7 +63,7 @@ public:
     //Actions
     void Undo();
     void Redo();
-    void SetZoomLevel(qreal zoom);
+    void SetZoomLevel(const qreal& zoom);
 
     //DLG_Home stuff
     void EditTextLabel(TextLabel *textLabelToEdit);

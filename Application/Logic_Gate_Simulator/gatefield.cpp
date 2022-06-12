@@ -88,7 +88,7 @@ void GateField::setCurrentClickMode(const ClickMode& mode)
     m_currentClickMode = mode;
 }
 
-void GateField::SetZoomLevel(qreal zoom)
+void GateField::SetZoomLevel(const qreal& zoom)
 {
     m_zoomFactor = zoom;
     update();
@@ -186,7 +186,7 @@ void GateField::StartSaveGateCollection(std::vector<Gate*> selectedGates)
     m_pDlgSaveGateCollection->open(this);
 }
 
-void GateField::AddGate(Gate* go, bool newlySpawned)
+void GateField::AddGate(Gate* go, const bool& newlySpawned)
 {
     go->SetParent(this);
 

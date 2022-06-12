@@ -157,15 +157,8 @@ void DLG_Home::InitalizeDialogsAndWidgets()
 
     //m_zoomSlider :
     {
-        //save layout
         QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
-
-        ui->layout_ZoomSlider = new ZoomSlider(c_minZoom, c_maxZoom, 3, this);
-
-        //set layout after construction
-        dynamic_cast<SimpleSlider*>(ui->layout_ZoomSlider)->SetGeometry(layout);
-
-        //setup
+        ui->layout_ZoomSlider = new ZoomSlider(this, layout, c_minZoom, c_maxZoom, 3);
         ui->layout_ZoomSlider->raise();
         SetZoomFactor(0.5);
     }

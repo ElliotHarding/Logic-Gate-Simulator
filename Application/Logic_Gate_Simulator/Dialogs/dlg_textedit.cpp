@@ -14,7 +14,7 @@ DLG_TextEdit::DLG_TextEdit() :
     m_fontUnderlined.setUnderline(true);
 
     //Create & add font size slider
-    ui->widget = new FontSlider(1, 100, 3, this);
+    ui->widget = new FontSlider(this, ui->widget->geometry(), 1, 100, 3);
 }
 
 void DLG_TextEdit::Setup(QString initalString, QFont initalFont)

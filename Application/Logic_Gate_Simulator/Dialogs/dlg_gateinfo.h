@@ -24,7 +24,6 @@ private slots:
     void on_btn_DeleteGate_clicked();
     void on_lineEdit_Frequency_editingFinished();
     void on_signalCheck_clicked();
-    void on_cb_Enabled_clicked();
     void on_cb_DragMode_clicked();
     void on_btn_Edit_clicked();
 

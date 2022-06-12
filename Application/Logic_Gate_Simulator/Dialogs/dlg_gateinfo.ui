@@ -19,19 +19,6 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QCheckBox" name="cb_Enabled">
-   <property name="geometry">
-    <rect>
-     <x>5</x>
-     <y>50</y>
-     <width>141</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Enabled</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btn_DeleteGate">
    <property name="geometry">
     <rect>
@@ -91,7 +78,7 @@
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>80</y>
+     <y>50</y>
      <width>141</width>
      <height>17</height>
     </rect>
@@ -127,7 +114,7 @@
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>80</y>
+     <y>50</y>
      <width>141</width>
      <height>17</height>
     </rect>
@@ -150,7 +137,6 @@
    </property>
   </widget>
   <zorder>cb_DragMode</zorder>
-  <zorder>cb_Enabled</zorder>
   <zorder>btn_DeleteGate</zorder>
   <zorder>lbl_Type</zorder>
   <zorder>lbl_GateType</zorder>

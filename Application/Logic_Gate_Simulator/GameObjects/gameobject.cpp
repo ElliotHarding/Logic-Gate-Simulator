@@ -9,17 +9,7 @@ GameObject::GameObject(const int& x, const int& y, const uint& width, const uint
 
 GameObject* GameObject::checkClicked(const QPoint& mouse)
 {
-    return m_bEnabled && m_geometry.contains(mouse) ? this : nullptr;
-}
-
-void GameObject::setEnabled(const bool enabled)
-{
-    m_bEnabled = enabled;
-}
-
-bool GameObject::enabled() const
-{
-    return m_bEnabled;
+    return m_geometry.contains(mouse) ? this : nullptr;
 }
 
 void GameObject::setPosition(const int& x, const int& y)

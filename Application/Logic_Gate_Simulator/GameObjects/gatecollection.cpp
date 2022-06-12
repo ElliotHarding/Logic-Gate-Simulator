@@ -100,11 +100,10 @@ GateCollection::~GateCollection()
 
 void GateCollection::UpdateOutput()
 {
-    if(m_bEnabled)
-        for(Gate* gate : m_gates)
-        {
-            gate->UpdateOutput();
-        }
+    for(Gate* gate : m_gates)
+    {
+        gate->UpdateOutput();
+    }
 }
 
 bool GateCollection::FindNodeWithId(const id& id, Node*& pNode)

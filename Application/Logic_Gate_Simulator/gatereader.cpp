@@ -32,7 +32,6 @@ bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& 
     nextLine //Empty element meant for yPos of a normal gate, might add info here
 
     gCollection = new GateCollection(readGates(gateStream));
-    gCollection->setEnabled(enabled);
     gCollection->AssignNewNodeIds();
 
     return true;
@@ -265,9 +264,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     //Only valid gate types after this:
 
     //Enabled
-    bool isEnabled = false;
-    tryStoi(enabled, isEnabled);
-    rGate->setEnabled(isEnabled);
+    //Enabled no longer used
 
     //Read off </GATE> tag, but it's already been read for GateCollections
     if(rGate->GetType() != GateType::GATE_COLLECTION)

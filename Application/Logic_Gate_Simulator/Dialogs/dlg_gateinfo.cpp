@@ -35,7 +35,6 @@ void DLG_GateInfo::setGate(Gate *g)
 
     //Default shown
     ui->lbl_GateType->show();
-    ui->cb_Enabled->show();
     ui->btn_DeleteGate->show();
     ui->lbl_Type->show();
     ui->signalCheck->show();
@@ -46,11 +45,6 @@ void DLG_GateInfo::setGate(Gate *g)
     ui->signalCheck->hide();
     ui->lineEdit_Frequency->hide();
     ui->btn_Edit->hide();
-
-    //Set if enabled
-    ui->cb_Enabled->setCheckState(
-                m_pGateDisplayed->enabled() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked
-                );
 
     //Display gate specific info
     QString gateName;
@@ -183,28 +177,9 @@ void DLG_GateInfo::on_signalCheck_clicked()
     }
 }
 
-
-void DLG_GateInfo::on_cb_Enabled_clicked()
-{
-    if(m_pGateDisplayed)
-    {
-        if(m_pGateDisplayed->enabled())
-        {
-            m_pGateDisplayed->setEnabled(false);
-            ui->cb_Enabled->setCheckState(Qt::CheckState::Unchecked);
-        }
-        else
-        {
-            m_pGateDisplayed->setEnabled(true);
-            ui->cb_Enabled->setCheckState(Qt::CheckState::Checked);
-        }
-    }
-}
-
 void DLG_GateInfo::UiWhenNoGateSelected()
 {
     ui->lbl_GateType->hide();
-    ui->cb_Enabled->hide();
     ui->btn_DeleteGate->hide();
     ui->lbl_Type->hide();
     ui->signalCheck->hide();

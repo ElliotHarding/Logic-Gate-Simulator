@@ -62,10 +62,7 @@ void GateTimer::setFrequency(int frequency)
 
 void GateTimer::onTick()
 {
-    if(m_bEnabled)
-    {
-        m_pOutput->setValue(!m_pOutput->value());
-        m_pParentField->update();
-    }
+    m_pOutput->setValue(!m_pOutput->value());
+    m_pParentField->update();
 }
 

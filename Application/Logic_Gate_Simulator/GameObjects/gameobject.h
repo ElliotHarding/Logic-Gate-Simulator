@@ -14,17 +14,12 @@ public:
     virtual void setPosition(const int& x, const int& y);
     virtual QPoint position() const;
 
-    ///Enabled
-    void setEnabled(const bool enabled);
-    bool enabled() const;
-
     virtual void draw(QPainter& painter);
 
     virtual GameObject* checkClicked(const QPoint& mouse);
 
 protected:
     QRect m_geometry;
-    bool m_bEnabled = true;
 
 private:
     QImage m_image;

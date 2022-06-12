@@ -17,7 +17,7 @@ public:
     ~DLG_TextEdit();
 
     //Called by slider
-    void SetFontSize(float size);    
+    void SetFontSize(const int& size);
 
 protected:
     virtual void UpdateOverrideObject() = 0;
@@ -25,7 +25,7 @@ protected:
     QString m_savedString;
     QFont m_font;
 
-    void Setup(QString initalString = "", QFont initalFont = QFont("Helvetica", 20));
+    void Setup(const QString& initalString = "", const QFont& initalFont = QFont("Helvetica", 20));
 
 private slots:
     void on_btn_Ok_clicked();

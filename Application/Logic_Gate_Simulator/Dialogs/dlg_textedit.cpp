@@ -14,10 +14,12 @@ DLG_TextEdit::DLG_TextEdit() :
     m_fontUnderlined.setUnderline(true);
 
     //Create & add font size slider
-    ui->widget = new FontSlider(this, ui->widget->geometry(), 1, 100, 3);
+    const QRect widgetGeo = ui->widget->geometry();
+    delete ui->widget;
+    ui->widget = new FontSlider(this, widgetGeo, 1, 100, 3);
 }
 
-void DLG_TextEdit::Setup(QString initalString, QFont initalFont)
+void DLG_TextEdit::Setup(const QString& initalString, const QFont& initalFont)
 {
     m_savedString = initalString;
     m_font = initalFont;
@@ -32,10 +34,10 @@ DLG_TextEdit::~DLG_TextEdit()
     delete ui;
 }
 
-void DLG_TextEdit::SetFontSize(float size)
+void DLG_TextEdit::SetFontSize(const int& size)
 {
-    m_font.setPointSize(int(size));
-    ui->lbl_fontSize->setText(std::to_string(int(size)).c_str());
+    m_font.setPointSize(size);
+    ui->lbl_fontSize->setText(QString::number(size));
     ui->textEdit->setFont(m_font);
 }
 

@@ -3,7 +3,9 @@
 
 #include "movingwidget.h"
 #include "vector"
+#include "gatereader.h"
 #include "gatecollection.h"
+
 #include <QListWidgetItem>
 
 namespace Ui {
@@ -30,7 +32,8 @@ private slots:
 
 private:
     Ui::Widget_CustomGates *ui;
-    std::vector<QString> m_customGatesNames;
+
+    CustomGateReader m_customGateReader;
 
     QPalette m_palActive;
     QPalette m_palInActive;
@@ -40,7 +43,7 @@ private:
     bool m_bDeleting = false;
 
     void DeleteItem(int index);
-    void CreateItem(int index);
+    void CreateItem(const QString& name);
 };
 
 #endif // WIDGET_CUSTOMGATES_H

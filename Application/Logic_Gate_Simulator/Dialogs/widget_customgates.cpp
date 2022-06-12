@@ -24,18 +24,10 @@ Widget_CustomGates::~Widget_CustomGates()
 
 void Widget_CustomGates::UpdateList()
 {
-    m_customGatesNames.clear();
     ui->customGateListWidget->clear();
-
-    //Find list of files in custom gate folder
-    QStringList nameFilter("*.CustomGate");
-    QDir directory(CustomGatesLocation);
-    QStringList fileList = directory.entryList(nameFilter);
-
-    for (QString file : fileList)
+    for (const QString& file : m_customGateReader.getCustomGateNames())
     {
-        ui->customGateListWidget->addItem(file.left(file.length() - 11));
-        m_customGatesNames.push_back(file);
+        ui->customGateListWidget->addItem(file);
     }
 }
 
@@ -44,7 +36,7 @@ void Widget_CustomGates::on_customGateListWidget_currentRowChanged(int currentRo
     m_currentRow = currentRow;
 }
 
-void Widget_CustomGates::on_customGateListWidget_itemClicked(QListWidgetItem *item)
+void Widget_CustomGates::on_customGateListWidget_itemClicked(QListWidgetItem* item)
 {
     if (m_currentRow > -1 && m_currentRow <= ui->customGateListWidget->count())
     {
@@ -54,7 +46,7 @@ void Widget_CustomGates::on_customGateListWidget_itemClicked(QListWidgetItem *it
         }
         else
         {
-            CreateItem(m_currentRow);
+            CreateItem(item->text());
         }
     }
 }
@@ -64,34 +56,17 @@ void Widget_CustomGates::on_btn_SelectionTool_clicked()
     m_pParent->SelectionToolClicked();
 }
 
-void Widget_CustomGates::CreateItem(int currentRow)
+void Widget_CustomGates::CreateItem(const QString& name)
 {
-    //Get selected file
-    QString file = m_customGatesNames[currentRow];
-    std::ifstream customGateFile(CustomGatesLocation.toStdString() + file.toStdString());
-
-    //Read into pointer and send to m_pParent
-    if(customGateFile.is_open())
+    GateCollection* spawnedGateCollection = m_customGateReader.spawnCustomGate(name);
+    if(spawnedGateCollection != nullptr)
     {
-        GateCollection* cg;
-        static GateReader gReader;
-        if(gReader.ReadGateCollection(customGateFile, cg))
-        {
-            //Add pointer
-            m_pParent->AddGate(cg);
-        }
-        else
-        {
-            m_pParent->SendUserMessage("Opening a file failed!");
-        }
-        cg = nullptr;
+        m_pParent->AddGate(spawnedGateCollection);
     }
     else
     {
         m_pParent->SendUserMessage("Opening a file failed!");
     }
-
-    UpdateList();
 }
 
 void Widget_CustomGates::DeleteItem(int index)

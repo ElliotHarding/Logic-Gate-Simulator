@@ -13,6 +13,14 @@
 
 struct NodeAndIds {Node* pNode; int id; std::vector<int> linkedIds;};
 
+class CustomGateReader
+{
+public:
+    std::vector<QString> getCustomGateNames();
+    GateCollection* spawnCustomGate(const QString& name);
+    bool deleteCustomGate(const QString& name);
+};
+
 class GateReader
 {
 public:

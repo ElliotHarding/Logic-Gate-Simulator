@@ -394,3 +394,43 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const std::strin
 
     return false;
 }
+
+std::vector<QString> CustomGateReader::getCustomGateNames()
+{
+    QStringList nameFilter("*.CustomGate");
+    QDir directory(CustomGatesLocation);
+    QStringList fileList = directory.entryList(nameFilter);
+
+    std::vector<QString> names;
+    for (const QString& file : fileList)
+    {
+        names.push_back(file.left(file.length() - 11));
+    }
+
+    return names;
+}
+
+GateCollection* CustomGateReader::spawnCustomGate(const QString &name)
+{
+    std::ifstream customGateStream(CustomGatesLocation.toStdString() + name.toStdString());
+
+    //Read into pointer and send to m_pParent
+    if(customGateStream.is_open())
+    {
+        GateCollection* cg;
+        static GateReader gReader;
+        if(gReader.ReadGateCollection(customGateStream, cg))
+        {
+            customGateStream.close();
+            return cg;
+        }
+        customGateStream.close();
+    }
+
+    return nullptr;
+}
+
+bool CustomGateReader::deleteCustomGate(const QString &name)
+{
+
+}

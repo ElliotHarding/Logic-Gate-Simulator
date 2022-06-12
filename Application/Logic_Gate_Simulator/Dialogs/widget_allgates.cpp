@@ -25,11 +25,15 @@ Widget_AllGates::~Widget_AllGates()
 
 void Widget_AllGates::SetScrollPosition(const float& y)
 {
-    m_scroll = int(y);
+    const int diff = y - m_scroll;
+    m_scroll += diff;
 
     for(QWidget* pWidget : findChildren<QWidget*>())
     {
-        const int newTop = pWidget->geometry().top() + m_scroll - c_scrollDistance;
+        if(pWidget == ui->scrollSliderLayout)
+            continue;
+
+        const int newTop = pWidget->geometry().top() + diff - c_scrollDistance;
 
         if(newTop < 7)
             pWidget->hide();
@@ -52,17 +56,17 @@ void Widget_AllGates::wheelEvent(QWheelEvent *event)
 {
     //Apply scroll delta to m_scroll
     const int direction = event->delta() > 0 ? c_scrollSpeed : -c_scrollSpeed;
-    m_scroll += direction;
+    int newScroll = m_scroll + direction;
 
     //Make sure m_scroll is between c_scrollMin & c_scrollMax
-    if (m_scroll > c_scrollMax)
-        m_scroll = c_scrollMax;
-    else if (m_scroll < c_scrollMin)
-        m_scroll = c_scrollMin;
+    if (newScroll > c_scrollMax)
+        newScroll = c_scrollMax;
+    else if (newScroll < c_scrollMin)
+        newScroll = c_scrollMin;
 
     //Update
-    SetScrollPosition(m_scroll);
-    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(100 - m_scroll);
+    SetScrollPosition(newScroll);
+    dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(newScroll - c_scrollDistance);
 }
 
 void Widget_AllGates::on_btn_sourceGate_clicked()

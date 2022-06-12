@@ -194,8 +194,8 @@ VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, const QRect& layout
     //Calculate positions & dimensions
     m_length = layout.height() - (c_margin * 2);
 
-    m_minPoint = QPoint(layout.width()/2, layout.bottom() - c_margin);
-    m_maxPoint = QPoint(layout.width()/2, layout.top() + c_margin);
+    m_minPoint = QPoint(layout.width()/2, layout.top() + c_margin);
+    m_maxPoint = QPoint(layout.width()/2, layout.bottom() - c_margin);
 
     m_sliderPosition = m_minPoint;
 }
@@ -223,10 +223,10 @@ void VerticalSimpleSlider::paintEvent(QPaintEvent*)
 void VerticalSimpleSlider::SetSliderPosition(float val)
 {
     //Check if mouse inbetween leftMost & rightMost boundaries of slider
-    if(m_minPoint.y() < val)
+    if(m_minPoint.y() > val)
         val = m_minPoint.y();
 
-    else if(m_maxPoint.y() > val)
+    else if(m_maxPoint.y() < val)
         val = m_maxPoint.y();
 
     m_sliderPosition.setY(val);
@@ -238,7 +238,6 @@ void VerticalSimpleSlider::SetSliderPosition(float val)
 void VerticalSimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)
 {
     m_beingClicked = true;
-
     UpdateSlider(mouseEvent->pos().y());
 }
 
@@ -251,7 +250,7 @@ void VerticalSimpleSlider::mouseMoveEvent(QMouseEvent *event)
 float VerticalSimpleSlider::GetCurrentValue() const
 {
     //Get how far slider is in terms of percentage from left
-    float distanceFromTop = (m_minPoint.y() - m_sliderPosition.y());
+    float distanceFromTop = (m_sliderPosition.y() - m_minPoint.y());
     float percentage = distanceFromTop / m_length;
 
     //Apply same percentage across min - max difference

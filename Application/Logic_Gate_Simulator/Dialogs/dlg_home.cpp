@@ -158,8 +158,9 @@ void DLG_Home::InitalizeDialogsAndWidgets()
     //m_zoomSlider :
     {
         QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
-        ui->layout_ZoomSlider = new ZoomSlider(this, layout, c_minZoom, c_maxZoom, 3);
-        ui->layout_ZoomSlider->raise();
+        delete ui->layout_ZoomSlider;
+        m_pZoomSlider = new ZoomSlider(this, layout, c_minZoom, c_maxZoom, 3);
+        m_pZoomSlider->raise();
         SetZoomFactor(0.5);
     }
 
@@ -243,8 +244,7 @@ GateField *DLG_Home::createNewGateField(QString name)
 
 QRect DLG_Home::accountForUIOffsetts(const QRect& rect)
 {
-    QRect newRect(rect.left(), rect.top() + 20, rect.width(), rect.height());
-    return newRect;
+    return rect.translated(0, 20); //Todo : find out why
 }
 
 QString DLG_Home::PathToFileName(const QString s)
@@ -393,7 +393,6 @@ void DLG_Home::on_btn_zoomOut_clicked()
 //Returns false if zoom value did not change, or a range limit is reached
 bool DLG_Home::SetZoomFactor(qreal zoomFactor, bool updateSlider)
 {
-    bool retVal = false;
     if (m_zoomFactor != zoomFactor)
     {
         //Make sure zoom factor is between c_maxZoom & c_minZoom
@@ -405,19 +404,18 @@ bool DLG_Home::SetZoomFactor(qreal zoomFactor, bool updateSlider)
 
         else
         {
-            retVal = true;
             m_zoomFactor = zoomFactor;
         }
 
         if(updateSlider)
-            dynamic_cast<ZoomSlider*>(ui->layout_ZoomSlider)->SetValue(m_zoomFactor);
+            m_pZoomSlider->SetValue(m_zoomFactor);
 
         if(m_iCurrentGateField != -1)
             m_allGateFields[size_t(m_iCurrentGateField)]->SetZoomLevel(m_zoomFactor);
 
-        return retVal;
+        return true;
     }
-    return retVal;
+    return false;
 }
 
 

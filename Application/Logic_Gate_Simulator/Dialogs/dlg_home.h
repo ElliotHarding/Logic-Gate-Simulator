@@ -80,6 +80,7 @@ protected:
     const int c_maxZoom = 1;
     const qreal c_minZoom = 0.2;
     const qreal c_incZoom = 0.1;
+    ZoomSlider* m_pZoomSlider;
 
     //Gatefields
     int8_t m_iCurrentGateField;

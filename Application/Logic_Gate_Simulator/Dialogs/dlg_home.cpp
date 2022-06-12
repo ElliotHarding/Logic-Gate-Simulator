@@ -183,6 +183,8 @@ DLG_Home::~DLG_Home()
     delete m_pDlgMessage;
     delete m_pDlgTextLabelEdit;
 
+    delete m_pZoomSlider;
+
     //Delete gatefields
     /*for (GateField* gf : m_allGateFields)
     {

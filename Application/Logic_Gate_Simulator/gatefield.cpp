@@ -190,8 +190,17 @@ void GateField::AddGate(Gate* go, bool newlySpawned)
 {
     go->SetParent(this);
 
+    //Temp
+    Gate* clone1 = go->Clone();
+    Gate* clone2 = go->Clone();
+
+    clone1->setPosition(qtPointToWorldPoint(QPoint(-500, -500)).x(), qtPointToWorldPoint(QPoint(-500, -500)).y());
+    clone2->setPosition(qtPointToWorldPoint(QPoint(500, 500)).x(), qtPointToWorldPoint(QPoint(500, 500)).y());
+    m_allGates.push_back(clone1);
+    m_allGates.push_back(clone2);
+
     if(newlySpawned)
-        go->setPosition(geometry().x()/2, geometry().y()/2);
+        go->setPosition(qtPointToWorldPoint(QPoint(0, 0)).x(), qtPointToWorldPoint(QPoint(0, 0)).y()  /* Todo : fix geometry().x()/2, geometry().y()/2*/);
 
     m_allGates.push_back(go);
 

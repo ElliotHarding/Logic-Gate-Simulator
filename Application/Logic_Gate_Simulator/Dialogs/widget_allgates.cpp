@@ -19,6 +19,7 @@ Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
     SetScrollPosition(c_scrollMin);
     dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(c_scrollMin);
 }
+
 Widget_AllGates::~Widget_AllGates()
 {
     delete ui;
@@ -29,19 +30,7 @@ void Widget_AllGates::SetScrollPosition(const float& y)
     const int diff = y - m_scroll;
     m_scroll += diff;
 
-    for(QWidget* pWidget : findChildren<QWidget*>())
-    {
-        if(pWidget == ui->scrollSliderLayout)
-            continue;
-
-        const int newTop = pWidget->geometry().top() - diff;
-        if(newTop < 7)
-            pWidget->hide();
-        else
-            pWidget->show();
-
-        pWidget->setGeometry(pWidget->geometry().translated(0, -diff));
-    }
+    applyScrollDiff(-diff);
 }
 
 void Widget_AllGates::wheelEvent(QWheelEvent *event)
@@ -59,6 +48,23 @@ void Widget_AllGates::wheelEvent(QWheelEvent *event)
     //Update
     SetScrollPosition(newScroll);
     dynamic_cast<VerticalSimpleSlider*>(ui->scrollSliderLayout)->SetValue(newScroll);
+}
+
+void Widget_AllGates::applyScrollDiff(const int& diff)
+{
+    for(QWidget* pWidget : findChildren<QWidget*>())
+    {
+        if(pWidget == ui->scrollSliderLayout)
+            continue;
+
+        const int newTop = pWidget->geometry().top() + diff;
+        if(newTop < 7)
+            pWidget->hide();
+        else
+            pWidget->show();
+
+        pWidget->setGeometry(pWidget->geometry().translated(0, diff));
+    }
 }
 
 void Widget_AllGates::on_btn_sourceGate_clicked()

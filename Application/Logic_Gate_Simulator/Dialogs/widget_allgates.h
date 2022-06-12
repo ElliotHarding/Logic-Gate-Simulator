@@ -47,6 +47,7 @@ private:
     Ui::Widget_AllGates *ui;
 
     //Scrolling
+    void applyScrollDiff(const int& diff);
     const int c_scrollSpeed = 10;
     const int c_scrollMax = 100;
     const int c_scrollMin = 0;

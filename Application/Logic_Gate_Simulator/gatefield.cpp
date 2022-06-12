@@ -72,9 +72,9 @@ void GateField::paintEvent(QPaintEvent*)
     //Paint in reverse order, so gate on top of vector get's painted last
     //So if we're dragging, the one we're dragging gets painted ontop of the others
     //Since dragging move the gate to the top of the vector
-    for (size_t index = m_allGates.size() - 1; index > -1; index--)
+    for (int index = m_allGates.size() - 1; index > -1; index--)
     {
-        m_allGates[index]->draw(painter);
+        m_allGates[size_t(index)]->draw(painter);
     }
 }
 
@@ -190,17 +190,11 @@ void GateField::AddGate(Gate* go, bool newlySpawned)
 {
     go->SetParent(this);
 
-    //Temp
-    Gate* clone1 = go->Clone();
-    Gate* clone2 = go->Clone();
-
-    clone1->setPosition(qtPointToWorldPoint(QPoint(-500, -500)).x(), qtPointToWorldPoint(QPoint(-500, -500)).y());
-    clone2->setPosition(qtPointToWorldPoint(QPoint(500, 500)).x(), qtPointToWorldPoint(QPoint(500, 500)).y());
-    m_allGates.push_back(clone1);
-    m_allGates.push_back(clone2);
-
     if(newlySpawned)
-        go->setPosition(qtPointToWorldPoint(QPoint(0, 0)).x(), qtPointToWorldPoint(QPoint(0, 0)).y()  /* Todo : fix geometry().x()/2, geometry().y()/2*/);
+    {
+        QPoint center = qtPointToWorldPoint(QPoint(geometry().width()/2, geometry().height()/2));
+        go->setPosition(center.x(), center.y());
+    }
 
     m_allGates.push_back(go);
 

@@ -33,8 +33,8 @@ protected:
 
     //Position data
     QPoint m_sliderPosition;
-    int m_minPointX;
-    int m_maxPointX;
+    int m_minPoint;
+    int m_maxPoint;
     QPoint m_maxDrawPoint;
     QPoint m_minDrawPoint;
 

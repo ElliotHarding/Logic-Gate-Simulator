@@ -27,12 +27,12 @@ SimpleSlider::SimpleSlider(QWidget* pParent, const QRect& layout, const float& m
     m_minDrawPoint = QPoint(Settings::SliderMargins, geometry().height()/2);
     m_maxDrawPoint = QPoint(geometry().width() - Settings::SliderMargins, geometry().height()/2);
 
-    m_minPointX = m_minDrawPoint.x() + Settings::HalfSliderNubSize;
-    m_maxPointX = m_maxDrawPoint.x() - Settings::HalfSliderNubSize;
+    m_minPoint = m_minDrawPoint.x() + Settings::HalfSliderNubSize;
+    m_maxPoint = m_maxDrawPoint.x() - Settings::HalfSliderNubSize;
 
-    m_length = m_maxPointX - m_minPointX;
+    m_length = m_maxPoint - m_minPoint;
 
-    m_sliderPosition = QPoint(m_minPointX, m_minDrawPoint.y());
+    m_sliderPosition = QPoint(m_minPoint, m_minDrawPoint.y());
 }
 
 SimpleSlider::~SimpleSlider()
@@ -41,7 +41,7 @@ SimpleSlider::~SimpleSlider()
 
 float SimpleSlider::GetCurrentValue() const
 {
-    const float distanceFromLeft = (m_sliderPosition.x() - m_minPointX);
+    const float distanceFromLeft = (m_sliderPosition.x() - m_minPoint);
     const float percentage = distanceFromLeft / m_length;
     return m_min + (m_minMaxDiff * percentage);
 }
@@ -51,7 +51,7 @@ void SimpleSlider::SetValue(const float& val)
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromLeft = val * lenghtPerUnit;
-    float pos = m_minPointX + distanceFromLeft;
+    float pos = m_minPoint + distanceFromLeft;
 
     SetSliderPosition(pos);
 }
@@ -112,11 +112,11 @@ void SimpleSlider::UpdateSlider(const float& currentMousePos)
 void SimpleSlider::SetSliderPosition(float val)
 {
     //Check if mouse inbetween leftMost & rightMost boundaries of slider
-    if(m_minPointX > val)
-        val = m_minPointX;
+    if(m_minPoint > val)
+        val = m_minPoint;
 
-    else if(m_maxPointX < val)
-        val = m_maxPointX;
+    else if(m_maxPoint < val)
+        val = m_maxPoint;
 
     m_sliderPosition.setX(val);
 
@@ -195,12 +195,15 @@ void GateSlider::UpdateParent(const float& val)
 VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, const QRect& layout, const float& min, const float& max, const uint& scrollSpeed) :
     SimpleSlider (pParent, layout, min, max, scrollSpeed)
 {
-    m_minPoint = QPoint(layout.width()/2, layout.top() + Settings::HalfSliderNubSize);
-    m_maxPoint = QPoint(layout.width()/2, layout.bottom() - Settings::HalfSliderNubSize);
+    m_minDrawPoint = QPoint(layout.width()/2, Settings::SliderMargins);
+    m_maxDrawPoint = QPoint(layout.width()/2, layout.height() - Settings::SliderMargins);
 
-    m_length = m_maxPoint.y() - m_minPoint.y();
+    m_minPoint = m_minDrawPoint.y() + Settings::HalfSliderNubSize;
+    m_maxPoint = m_maxDrawPoint.y() - Settings::HalfSliderNubSize;
 
-    m_sliderPosition = m_minPoint;
+    m_length = m_maxPoint - m_minPoint;
+
+    m_sliderPosition = QPoint(m_minDrawPoint.x(), m_minPoint);
 }
 
 void VerticalSimpleSlider::paintEvent(QPaintEvent*)
@@ -213,24 +216,24 @@ void VerticalSimpleSlider::paintEvent(QPaintEvent*)
     painter.setPen(pen);
 
     //Draw bar
-    painter.drawLine(m_minPoint, m_maxPoint);
+    painter.drawLine(m_minDrawPoint, m_maxDrawPoint);
 
     //Set slider colourSetZoomFactor
     pen.setColor(Qt::darkGray);
     painter.setPen(pen);
 
     //Draw slider
-    painter.drawLine(QPoint(m_minPoint.x(), m_sliderPosition.y() + Settings::HalfSliderNubSize), QPoint(m_minPoint.x(), m_sliderPosition.y() - Settings::HalfSliderNubSize));
+    painter.drawLine(QPoint(m_minDrawPoint.x(), m_sliderPosition.y() + Settings::HalfSliderNubSize), QPoint(m_minDrawPoint.x(), m_sliderPosition.y() - Settings::HalfSliderNubSize));
 }
 
 void VerticalSimpleSlider::SetSliderPosition(float val)
 {
     //Check if mouse inbetween leftMost & rightMost boundaries of slider
-    if(m_minPoint.y() > val)
-        val = m_minPoint.y();
+    if(m_minPoint > val)
+        val = m_minPoint;
 
-    else if(m_maxPoint.y() < val)
-        val = m_maxPoint.y();
+    else if(m_maxPoint < val)
+        val = m_maxPoint;
 
     m_sliderPosition.setY(val);
 
@@ -253,7 +256,7 @@ void VerticalSimpleSlider::mouseMoveEvent(QMouseEvent *event)
 float VerticalSimpleSlider::GetCurrentValue() const
 {
     //Get how far slider is in terms of percentage from left
-    float distanceFromTop = (m_sliderPosition.y() - m_minPoint.y());
+    float distanceFromTop = (m_sliderPosition.y() - m_minPoint);
     float percentage = distanceFromTop / m_length;
 
     //Apply same percentage across min - max difference
@@ -265,7 +268,7 @@ void VerticalSimpleSlider::SetValue(const float& val)
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromTop = val * lenghtPerUnit;
-    float pos = m_minPoint.y() + distanceFromTop;
+    float pos = m_minPoint + distanceFromTop;
 
     SetSliderPosition(pos);
 }

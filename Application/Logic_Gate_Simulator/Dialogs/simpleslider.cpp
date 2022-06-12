@@ -7,7 +7,9 @@
 namespace Settings
 {
 const uint SliderNubSize = 10;
-const uint SliderDrawHeight = 6;
+const uint HalfSliderNubSize = SliderNubSize/2;
+const uint SliderMargins = 10;
+const uint SliderDrawThickness = 6;
 }
 
 SimpleSlider::SimpleSlider(QWidget* pParent, const QRect& layout, const float& min, const float& max, const uint& scrollSpeed, const QColor& sliderCol, const QColor& nubbleCol) :
@@ -22,11 +24,13 @@ SimpleSlider::SimpleSlider(QWidget* pParent, const QRect& layout, const float& m
 {
     setGeometry(layout);
 
-    //Calculate positions & dimensions
-    m_length = geometry().width() - (c_margin * 2);
+    m_minDrawPoint = QPoint(Settings::SliderMargins, geometry().height()/2);
+    m_maxDrawPoint = QPoint(geometry().width() - Settings::SliderMargins, geometry().height()/2);
 
-    m_minPoint = QPoint(c_margin, geometry().height()/2);
-    m_maxPoint = QPoint(m_minPoint.x() + m_length, geometry().height()/2);
+    m_minPoint = m_minDrawPoint + QPoint(Settings::HalfSliderNubSize, 0);
+    m_maxPoint = m_maxDrawPoint - QPoint(Settings::HalfSliderNubSize, 0);
+
+    m_length = m_maxPoint.x() - m_minPoint.x();
 
     m_sliderPosition = m_minPoint;
 }
@@ -37,7 +41,7 @@ SimpleSlider::~SimpleSlider()
 
 float SimpleSlider::GetCurrentValue() const
 {
-    const float distanceFromLeft = (m_sliderPosition.x() - m_minPoint.x());
+    const float distanceFromLeft = (m_sliderPosition.x() - m_minPoint.x() + Settings::HalfSliderNubSize);
     const float percentage = distanceFromLeft / m_length;
     return m_min + (m_minMaxDiff * percentage);
 }
@@ -47,7 +51,7 @@ void SimpleSlider::SetValue(const float& val)
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromLeft = val * lenghtPerUnit;
-    float pos = m_minPoint.x() + distanceFromLeft - (c_margin * 2 + Settings::SliderNubSize/2);
+    float pos = m_minPoint.x() + distanceFromLeft;
 
     SetSliderPosition(pos);
 }
@@ -76,18 +80,18 @@ void SimpleSlider::paintEvent(QPaintEvent*)
 
     //Paiting variables to be used
     QPainterPath path;
-    QPen pen(m_sliderCol, Settings::SliderDrawHeight);
+    QPen pen(m_sliderCol, Settings::SliderDrawThickness);
     painter.setPen(pen);
 
     //Draw bar
-    painter.drawLine(m_minPoint, m_maxPoint);
+    painter.drawLine(m_minDrawPoint, m_maxDrawPoint);
 
     //Set slider colourSetZoomFactor
     pen.setColor(Qt::darkGray);
     painter.setPen(pen);
 
     //Draw slider
-    painter.drawLine(QPoint(m_sliderPosition.x() + Settings::SliderNubSize, m_minPoint.y()), QPoint(m_sliderPosition.x() - Settings::SliderNubSize, m_minPoint.y()));
+    painter.drawLine(QPoint(m_sliderPosition.x() + Settings::HalfSliderNubSize, m_minPoint.y()), QPoint(m_sliderPosition.x() - Settings::HalfSliderNubSize, m_minPoint.y()));
 }
 
 void SimpleSlider::wheelEvent(QWheelEvent *event)
@@ -191,11 +195,10 @@ void GateSlider::UpdateParent(const float& val)
 VerticalSimpleSlider::VerticalSimpleSlider(QWidget *pParent, const QRect& layout, const float& min, const float& max, const uint& scrollSpeed) :
     SimpleSlider (pParent, layout, min, max, scrollSpeed)
 {
-    //Calculate positions & dimensions
-    m_length = layout.height() - (c_margin * 2);
+    m_minPoint = QPoint(layout.width()/2, layout.top() + Settings::HalfSliderNubSize);
+    m_maxPoint = QPoint(layout.width()/2, layout.bottom() - Settings::HalfSliderNubSize);
 
-    m_minPoint = QPoint(layout.width()/2, layout.top() + c_margin);
-    m_maxPoint = QPoint(layout.width()/2, layout.bottom() - c_margin);
+    m_length = m_maxPoint.y() - m_minPoint.y();
 
     m_sliderPosition = m_minPoint;
 }
@@ -206,7 +209,7 @@ void VerticalSimpleSlider::paintEvent(QPaintEvent*)
 
     //Paiting variables to be used
     QPainterPath path;
-    QPen pen(m_sliderCol, 6);
+    QPen pen(m_sliderCol, Settings::SliderDrawThickness);
     painter.setPen(pen);
 
     //Draw bar
@@ -217,7 +220,7 @@ void VerticalSimpleSlider::paintEvent(QPaintEvent*)
     painter.setPen(pen);
 
     //Draw slider
-    painter.drawLine(QPoint(m_minPoint.x(), m_sliderPosition.y() + 5), QPoint(m_minPoint.x(), m_sliderPosition.y() - 5));
+    painter.drawLine(QPoint(m_minPoint.x(), m_sliderPosition.y() + Settings::HalfSliderNubSize), QPoint(m_minPoint.x(), m_sliderPosition.y() - Settings::HalfSliderNubSize));
 }
 
 void VerticalSimpleSlider::SetSliderPosition(float val)

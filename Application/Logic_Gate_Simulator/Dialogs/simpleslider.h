@@ -35,20 +35,20 @@ protected:
     QPoint m_sliderPosition;
     QPoint m_minPoint;
     QPoint m_maxPoint;
+    QPoint m_maxDrawPoint;
+    QPoint m_minDrawPoint;
 
     //Scrolling
     uint m_scrollSpeed;
 
     bool m_beingClicked;
 
-    //Pixel size (width)
+    //Pixel size (width) (Including margin for HalfSliderNubSize)
     uint m_length;
 
     const float m_max;
     const float m_min;
     const float m_minMaxDiff;
-
-    const int c_margin = 11; //Todo : remove
 };
 
 class DLG_Home;

@@ -1,8 +1,6 @@
 #include "dlg_textedit.h"
 #include "ui_dlg_textedit.h"
 
-#include <qlayout.h>
-
 DLG_TextEdit::DLG_TextEdit() :
     QDialog(),
     ui(new Ui::DLG_TextEdit)

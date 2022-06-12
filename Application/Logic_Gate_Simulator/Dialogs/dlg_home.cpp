@@ -76,8 +76,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
     }
 
     {
-        QString newTab("New tab");
-        addGateField(newTab);
+        addGateField("New tab");
     }
 
     progressBar->setValue(100);
@@ -182,7 +181,7 @@ void DLG_Home::DeleteGate(Gate *g)
     }
 }
 
-void DLG_Home::addGateField(QString& name)
+void DLG_Home::addGateField(const QString& name)
 {
     GateField* newGF = createNewGateField(name);
     m_allGateFields.push_back(newGF);
@@ -190,9 +189,9 @@ void DLG_Home::addGateField(QString& name)
     ui->PlayField->addTab(newGF,tr(name.toUtf8()));
 }
 
-GateField *DLG_Home::createNewGateField(QString name)
+GateField *DLG_Home::createNewGateField(const QString& name)
 {
-    return new GateField(m_zoomFactor, name.toStdString(), this, m_pDlgSaveGateCollection);
+    return new GateField(this, m_zoomFactor, name.toStdString(), m_pDlgSaveGateCollection);
 }
 
 QRect DLG_Home::accountForUIOffsetts(const QRect& rect)

@@ -46,11 +46,10 @@ class GateField : public QWidget
 public:
 
     //Construction
-    GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* pSaveGateCollectionDialog);
+    GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::string& name, DLG_SaveGateCollection* pSaveGateCollectionDialog);
     ~GateField();
 
     //Gates
-    std::vector<Gate*>& GetGates();
     void AddGate(Gate* go, bool newlySpawned = true);
     void DeleteGate(Gate* g);
     void ForgetChild(Gate* g);

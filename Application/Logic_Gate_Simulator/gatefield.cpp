@@ -16,9 +16,9 @@ const qreal ZoomScrollSpeed = 0.05;
 const uint MaxGateFieldHistory = 20;
 }
 
-GateField::GateField(qreal zoomFactor, std::string name, DLG_Home* parent, DLG_SaveGateCollection* pSaveGateCollectionDialog) :
-    QWidget(parent),
-    m_pParent(parent),
+GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::string& name, DLG_SaveGateCollection* pSaveGateCollectionDialog) :
+    QWidget(pParent),
+    m_pParent(pParent),
     m_name(name),
     m_zoomFactor(zoomFactor),
     m_pDlgSaveGateCollection(pSaveGateCollectionDialog)
@@ -44,11 +44,6 @@ GateField::~GateField()
 
     if(m_pSelectionTool)
         delete m_pSelectionTool;
-}
-
-std::vector<Gate*>& GateField::GetGates()
-{
-    return m_allGates;
 }
 
 void GateField::paintEvent(QPaintEvent*)

@@ -84,8 +84,8 @@ protected:
     //Gatefields
     int8_t m_iCurrentGateField;
     std::vector<GateField*> m_allGateFields;
-    void addGateField(QString& name);
-    GateField* createNewGateField(QString name);
+    void addGateField(const QString& name);
+    GateField* createNewGateField(const QString& name);
 
     QRect accountForUIOffsetts(const QRect& rect);
 

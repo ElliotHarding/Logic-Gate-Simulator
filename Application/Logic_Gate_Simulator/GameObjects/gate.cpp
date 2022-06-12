@@ -128,29 +128,6 @@ GateField *Gate::GetParent()
     return m_pParentField;
 }
 
-void Gate::GetDisconnectedInputNodes(std::vector<Node*>& nodes)
-{
-    for (Node* n : m_nodes)
-    {
-        if (n->type() == NodeType::InputNode && !n->isLinked())
-        {
-            nodes.push_back(n);
-        }
-    }
-
-}
-
-void Gate::GetDisconnectedOutputNodes(std::vector<Node*>& nodes)
-{
-    for (Node* n : m_nodes)
-    {
-        if (n->type() == NodeType::OutputNode && !n->isLinked())
-        {
-            nodes.push_back(n);
-        }
-    }
-}
-
 void Gate::SaveGeneralData(std::ofstream &storage)
 {
     //Add general gate info

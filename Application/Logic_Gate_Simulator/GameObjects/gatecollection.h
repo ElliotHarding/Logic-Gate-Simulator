@@ -23,7 +23,6 @@ public:
     virtual void SetParent(GateField* gf) override;
 
     virtual void SaveData(std::ofstream& storage) override;
-    static void SaveData(std::ofstream& storage, std::vector<Gate*> gates);
 
     virtual Gate* Clone() override;
 

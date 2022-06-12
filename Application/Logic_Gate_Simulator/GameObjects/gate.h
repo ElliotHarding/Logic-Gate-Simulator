@@ -47,8 +47,6 @@ public:
     virtual bool FindNodeWithId(const id& id, Node*& node);
     virtual void AssignNewNodeIds();
     void DetachNodes();
-    void GetDisconnectedInputNodes(std::vector<Node*>&);
-    void GetDisconnectedOutputNodes(std::vector<Node*>&);
 
     //Hierarchy
     virtual void SetParent(GateField* gf);

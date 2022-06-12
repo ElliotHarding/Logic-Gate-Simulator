@@ -29,7 +29,7 @@ void Widget_CustomGates::UpdateList()
 
     //Find list of files in custom gate folder
     QStringList nameFilter("*.CustomGate");
-    QDir directory(c_CustomGatesLocation);
+    QDir directory(CustomGatesLocation);
     QStringList fileList = directory.entryList(nameFilter);
 
     for (QString file : fileList)
@@ -68,7 +68,7 @@ void Widget_CustomGates::CreateItem(int currentRow)
 {
     //Get selected file
     QString file = m_customGatesNames[currentRow];
-    std::ifstream customGateFile(c_CustomGatesLocation.toStdString() + file.toStdString());
+    std::ifstream customGateFile(CustomGatesLocation.toStdString() + file.toStdString());
 
     //Read into pointer and send to m_pParent
     if(customGateFile.is_open())
@@ -100,7 +100,7 @@ void Widget_CustomGates::DeleteItem(int index)
     QString file = m_customGatesNames[index];
 
     //Try delete file
-    std::string fileName = c_CustomGatesLocation.toStdString() + m_customGatesNames[index].toStdString();
+    std::string fileName = CustomGatesLocation.toStdString() + m_customGatesNames[index].toStdString();
     if(std::remove(fileName.c_str()) == 0)
     {
         //Remove from list

@@ -2,6 +2,8 @@ BIG TODO: cloning nodes needs to be managed in terms of linking. Also clearing b
 
 do we need offsetGates if we pan painter?
 
+check m_selectedGates
+
 bool GateFPGA::UpdateClicked(int clickX, int clickY)
 {
     bool ret = Gate::UpdateClicked(clickX, clickY);

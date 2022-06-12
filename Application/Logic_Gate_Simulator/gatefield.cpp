@@ -94,14 +94,6 @@ void GateField::SetZoomLevel(const qreal& zoom)
     update();
 }
 
-bool GateField::SaveGateCollection(std::ofstream& saveStream)
-{
-    GateCollection::SaveData(saveStream, m_selectedGates);
-
-    //should probably return a bool...
-    return true;
-}
-
 bool GateField::SaveData()
 {
     QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
@@ -180,10 +172,9 @@ void GateField::EditTextLabel(TextLabel *textLabelToEdit)
     m_pParent->EditTextLabel(textLabelToEdit);
 }
 
-void GateField::StartSaveGateCollection(std::vector<Gate*> selectedGates)
+void GateField::StartSaveGateCollection(GateCollection* pGateCollection)
 {
-    m_selectedGates = selectedGates;
-    m_pDlgSaveGateCollection->open(this);
+    m_pDlgSaveGateCollection->open(pGateCollection);
 }
 
 void GateField::AddGate(Gate* go, const bool& newlySpawned)

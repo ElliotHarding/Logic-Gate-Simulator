@@ -1,8 +1,10 @@
 #ifndef DLG_SAVEGATECOLLECTION_H
 #define DLG_SAVEGATECOLLECTION_H
 
+#include "gatecollection.h"
+#include "gatereader.h"
+
 #include <QDialog>
-#include "gatefield.h"
 
 namespace Ui {
 class DLG_SaveGateCollection;
@@ -16,7 +18,7 @@ public:
     explicit DLG_SaveGateCollection(DLG_Home *parent = nullptr);
     ~DLG_SaveGateCollection() override;
 
-    void open(GateField* pCurrentGateField);
+    void open(GateCollection* pGateCollection);
 
 private slots:
     void on_Cancel_clicked();
@@ -24,8 +26,9 @@ private slots:
 
 private:
     Ui::DLG_SaveGateCollection *ui;
-    GateField* m_pCurrentGateField;
+    GateCollection* m_pCurrentGateCollection;
     DLG_Home* m_pParent;
+    Saver m_saver;
 };
 
 #endif // DLG_SAVEGATECOLLECTION_H

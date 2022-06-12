@@ -1,8 +1,6 @@
 #ifndef SAVINGTEMPLATES_H
 #define SAVINGTEMPLATES_H
 
-#endif // SAVINGTEMPLATES_H
-
 #include <string>
 #include <QPoint>
 #include <vector>
@@ -28,7 +26,13 @@ private:
     int tryStoi(std::string, int);
     void linkNodes(std::vector<Gate*>& gates, std::vector<NodeIds> linkInfo);
     bool SearchGatesForNode(std::vector<Gate*>& gates, id _id, Node*& n);
-
 };
 
+class Saver
+{
+public:
+    bool saveGateField(GateField* pGateFeild);
+    bool saveGateCollection(GateCollection* pGateCollection, const std::string name, DLG_Home* pHome);
+};
 
+#endif // SAVINGTEMPLATES_H

@@ -1,4 +1,8 @@
 #include "gatereader.h"
+#include "filelocations.h"
+#include "dlg_home.h"
+
+#include <QDir>
 
 bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf, bool setNewlySpawned)
 {
@@ -351,5 +355,28 @@ bool GateReader::SearchGatesForNode(std::vector<Gate*>& gates, id _id, Node*& n)
         if(gate->FindNodeWithId(_id, n))
             return true;
     }
+    return false;
+}
+
+bool Saver::saveGateField(GateField* pGateFeild)
+{
+
+}
+
+bool Saver::saveGateCollection(GateCollection* pGateCollection, const std::string name, DLG_Home* pHome)
+{
+    if(!QDir(CustomGatesLocation).exists())
+        QDir().mkdir(CustomGatesLocation);
+
+    std::ofstream gateCollectionStream(CustomGatesLocation.toStdString() + name + ".CustomGate");
+    if(gateCollectionStream.is_open())
+    {
+        pGateCollection->SaveData(gateCollectionStream);
+        gateCollectionStream.close();
+
+        pHome->UpdateCustomGateListWidget();
+        return true;
+    }
+
     return false;
 }

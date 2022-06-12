@@ -55,8 +55,7 @@ public:
     void ForgetChild(Gate* g);
 
     //Saving
-    bool SaveGateCollection(std::ofstream& saveStream);
-    void StartSaveGateCollection(std::vector<Gate*> selectedGates);
+    void StartSaveGateCollection(GateCollection* pGateCollection);
     bool SaveData();
     void SaveData(std::ofstream& saveFile);
 

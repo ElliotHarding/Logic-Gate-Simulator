@@ -32,22 +32,20 @@ void DLG_GateInfo::setGate(Gate *g)
         UiWhenNoGateSelected();
         return;
     }
-    else
-    {
-        //Default shown
-        ui->lbl_GateType->show();
-        ui->cb_Enabled->show();
-        ui->btn_DeleteGate->show();
-        ui->lbl_Type->show();
-        ui->signalCheck->show();
 
-        ui->lbl_Frequency->hide();
-        ui->lineEdit_Frequency->hide();
-        ui->cb_DragMode->hide();
-        ui->signalCheck->hide();
-        ui->lineEdit_Frequency->hide();
-        ui->btn_Edit->hide();
-    }
+    //Default shown
+    ui->lbl_GateType->show();
+    ui->cb_Enabled->show();
+    ui->btn_DeleteGate->show();
+    ui->lbl_Type->show();
+    ui->signalCheck->show();
+
+    ui->lbl_Frequency->hide();
+    ui->lineEdit_Frequency->hide();
+    ui->cb_DragMode->hide();
+    ui->signalCheck->hide();
+    ui->lineEdit_Frequency->hide();
+    ui->btn_Edit->hide();
 
     //Set if enabled
     ui->cb_Enabled->setCheckState(
@@ -148,7 +146,6 @@ void DLG_GateInfo::on_btn_DeleteGate_clicked()
         m_pParent->DeleteGate(m_pGateDisplayed);
 
         gf->update();
-        gf = nullptr;
     }
 
     setGate(nullptr);
@@ -164,7 +161,6 @@ void DLG_GateInfo::on_lineEdit_Frequency_editingFinished()
         if(m_pGateDisplayed)
         {
             dynamic_cast<GateTimer*>(m_pGateDisplayed)->setFrequency(frequency);
-            m_pGateDisplayed->GetParent()->update();
         }
     }
 }
@@ -175,9 +171,7 @@ void DLG_GateInfo::on_cb_DragMode_clicked()
    {
        if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
            dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
-       m_pGateDisplayed->GetParent()->update();
    }
-
 }
 
 void DLG_GateInfo::on_signalCheck_clicked()
@@ -186,8 +180,6 @@ void DLG_GateInfo::on_signalCheck_clicked()
     {
         if(dynamic_cast<GateToggle*>(m_pGateDisplayed))
             dynamic_cast<GateToggle*>(m_pGateDisplayed)->ToggleOutputState();
-
-         m_pGateDisplayed->GetParent()->update();
     }
 }
 
@@ -206,8 +198,6 @@ void DLG_GateInfo::on_cb_Enabled_clicked()
             m_pGateDisplayed->setEnabled(true);
             ui->cb_Enabled->setCheckState(Qt::CheckState::Checked);
         }
-
-        m_pGateDisplayed->GetParent()->update();
     }
 }
 

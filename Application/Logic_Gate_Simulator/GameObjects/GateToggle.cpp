@@ -43,6 +43,7 @@ void GateToggle::ToggleOutputState()
     m_toggleStateTimer.stop();
     m_toggleStateTimer.start(Settings::MaxToggleFrequencyMs);
     m_pOutput->setValue(!m_pOutput->value());
+    m_pParentField->update();
 }
 
 Gate *GateToggle::Clone()

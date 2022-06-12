@@ -312,6 +312,7 @@ void GateCollection::UpdateContaningArea()
 void GateCollection::ToggleDragMode()
 {
     m_dragMode = (bool)m_dragMode ? DragIndividual : DragAll;
+    m_pParentField->update();
 }
 
 bool GateCollection::IsDragAll()

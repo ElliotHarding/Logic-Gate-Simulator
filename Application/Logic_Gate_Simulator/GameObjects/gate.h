@@ -23,6 +23,7 @@ typedef int id;
 
 class Node;
 class GateField;
+class GateCollection;
 
 class Gate : public GameObject
 {
@@ -50,6 +51,7 @@ public:
 
     //Hierarchy
     virtual void SetParent(GateField* gf);
+    virtual void SetParentGateCollection(GateCollection* pGateCollection);
     virtual GateField* GetParent();
 
     GateType GetType() {return m_type;}
@@ -62,6 +64,7 @@ protected:
     GateType m_type;
     std::vector<Node*> m_nodes;
     GateField* m_pParentField;
+    GateCollection* m_pParentGateCollection = nullptr;
 };
 
 enum NodeType

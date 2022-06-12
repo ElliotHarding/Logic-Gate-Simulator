@@ -47,10 +47,7 @@ void GateCollection::ProporgateParentAndCheckForNestedGates()
     for (Gate* g : m_gates)
     {
         g->SetParent(m_pParentField);
-        if (g->GetType() == GATE_COLLECTION)
-        {
-            dynamic_cast<GateCollection*>(g)->m_pParentGateCollection = this;
-        }
+        g->SetParentGateCollection(this);
     }
 }
 
@@ -80,7 +77,10 @@ GateCollection::~GateCollection()
         else if (m_pParentField)
         {
             for (Gate* g : m_gates)
+            {
                 m_pParentField->AddGate(&*g, false);
+                g->SetParentGateCollection(nullptr);
+            }
         }
 
         //Check if something went wrong
@@ -268,9 +268,7 @@ bool GateCollection::IsDragAll()
 
 void GateCollection::AddGate(Gate *g)
 {
-    if (g->GetType() == GATE_COLLECTION)
-        dynamic_cast<GateCollection*>(g)->m_pParentGateCollection = this;
-
+    g->SetParentGateCollection(this);
     g->SetParent(m_pParentField);
 
     m_gates.push_back(g);
@@ -285,18 +283,11 @@ void GateCollection::ForgetGate(Gate *g)
         if (m_gates[index] == g)
         {
             //Forget
-            m_gates.erase(m_gates.begin() + int8_t(index));
-            g = nullptr;
+            m_gates.erase(m_gates.begin() + index);
 
             //Exit early
             break;
         }
-    }
-
-    //Update
-    for(Gate* gate : m_gates)
-    {
-        gate->UpdateOutput();
     }
 
     UpdateContaningArea();

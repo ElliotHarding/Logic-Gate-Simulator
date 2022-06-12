@@ -31,6 +31,11 @@ Gate::~Gate()
         delete m_nodes[index];
     }
     m_nodes.clear();
+
+    if(m_pParentGateCollection)
+    {
+        m_pParentGateCollection->ForgetGate(this);
+    }
 }
 
 void Gate::draw(QPainter& painter)
@@ -121,6 +126,11 @@ void Gate::AssignNewNodeIds()
 void Gate::SetParent(GateField* gf)
 {
     m_pParentField = gf;
+}
+
+void Gate::SetParentGateCollection(GateCollection *pGateCollection)
+{
+    m_pParentGateCollection = pGateCollection;
 }
 
 GateField *Gate::GetParent()

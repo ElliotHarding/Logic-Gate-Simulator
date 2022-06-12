@@ -35,7 +35,6 @@ public:
     void ForgetGate(Gate* g);
 
 protected:
-    GateCollection* m_pParentGateCollection = nullptr;
     void ProporgateParentAndCheckForNestedGates();
 
     //Vector of all the gates within collection

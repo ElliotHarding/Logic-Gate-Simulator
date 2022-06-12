@@ -63,15 +63,11 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
         connect(ui->actionCircuit_from_truth_table_task, &QAction::triggered, [this]()
         {
-            DLG_CircuitTaskDesignerSetup* dlgCircuitTaskDesigner = new DLG_CircuitTaskDesignerSetup(true, this);
-            dlgCircuitTaskDesigner->show();
-            dlgCircuitTaskDesigner = nullptr;
+
         });
         connect(ui->actionTruth_table_from_circuit_task, &QAction::triggered, [this]()
         {
-            DLG_CircuitTaskDesignerSetup* dlgCircuitTaskDesigner = new DLG_CircuitTaskDesignerSetup(false, this);
-            dlgCircuitTaskDesigner->show();
-            dlgCircuitTaskDesigner = nullptr;
+
         });
         connect(ui->actionView_Tasks, &QAction::triggered, [this]()
         {
@@ -86,51 +82,6 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
 
     progressBar->setValue(100);
     txtProgress->setText("Done!");
-}
-
-DLG_Home::DLG_Home(QWidget *parent): //Constructor for overriding classes
-    QMainWindow(parent),
-    ui(new Ui::DLG_Home),
-    m_zoomFactor(-1)
-{
-    ui->setupUi(this);
-
-    {
-        setMouseTracking(true);
-        ui->PlayField->clear();
-    }
-
-    InitalizeDialogsAndWidgets();
-
-    //Set UI as basic:
-    ui->btn_newPage->hide();
-    ui->btn_Save->hide();
-    ui->btn_load->hide();
-    ui->PlayField->hide();
-    ui->layout_ZoomSlider->hide();
-    ui->btn_zoomIn->hide();
-    ui->btn_zoomOut->hide();
-    ui->line_3->hide();
-    ui->line_6->hide();
-    ui->line_8->hide();
-    ui->btn_redo->hide();
-    ui->btn_undo->hide();
-    ui->menuFile->clear();
-    delete ui->menuEdit;
-    delete ui->menuTools;
-    ui->btn_Pan->hide();
-
-    const QRect geoDrag = ui->btn_Drag->geometry();
-    const QRect geoClick = ui->btn_click->geometry();
-    const QRect geoDelete = ui->btn_Delete->geometry();
-    const QRect geoDeleteLink = ui->btn_DeleteLink->geometry();
-
-    int yOffset = -60;
-    ui->btn_Drag->setGeometry(geoDrag.x(), geoDrag.y() + yOffset, geoDrag.width(), geoDrag.height());
-    yOffset-=40;
-    ui->btn_click->setGeometry(geoClick.x(), geoClick.y() + yOffset, geoClick.width(), geoClick.height());
-    ui->btn_Delete->setGeometry(geoDelete.x(), geoDelete.y() + yOffset, geoDelete.width(), geoDelete.height());
-    ui->btn_DeleteLink->setGeometry(geoDeleteLink.x(), geoDeleteLink.y() + yOffset, geoDeleteLink.width(), geoDeleteLink.height());
 }
 
 void DLG_Home::InitalizeDialogsAndWidgets()
@@ -159,7 +110,7 @@ void DLG_Home::InitalizeDialogsAndWidgets()
     {
         QRect layout = accountForUIOffsetts(ui->layout_ZoomSlider->geometry());
         delete ui->layout_ZoomSlider;
-        m_pZoomSlider = new ZoomSlider(this, layout, c_minZoom, c_maxZoom, 3);
+        m_pZoomSlider = new ZoomSlider(this, layout, c_minZoom, c_maxZoom, c_incZoom);
         m_pZoomSlider->raise();
         SetZoomFactor(0.5);
     }
@@ -472,8 +423,6 @@ void DLG_Home::on_btn_Save_clicked()
 
 void DLG_Home::on_btn_tasks_clicked()
 {
-    DLG_TaskManager* taskMan = new DLG_TaskManager(this);
-    taskMan->show();
 }
 
 void DLG_Home::on_btn_load_clicked()

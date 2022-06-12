@@ -34,8 +34,7 @@ class DLG_Home : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget* parent = nullptr);
-    explicit DLG_Home(QWidget* parent = nullptr); //For overriding functions
+    DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget* parent = nullptr);
     ~DLG_Home();
 
     void SendUserMessage(QString message);

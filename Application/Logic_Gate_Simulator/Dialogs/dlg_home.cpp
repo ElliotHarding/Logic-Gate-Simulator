@@ -421,51 +421,18 @@ void DLG_Home::on_btn_load_clicked()
 
     //Loop vars
     GateReader reader;
-    std::ifstream saveFile;
+    QString errorMessage;
     for (QString file : fileNames)
     {
-        //Open file
-        saveFile = std::ifstream(file.toUtf8());
-
-        if(!file.contains(".GateField"))
+        GateField* pNewGateField = createNewGateField(QFileInfo(file).baseName());
+        if(reader.ReadGateField(file, pNewGateField, errorMessage))
         {
-            m_pDlgMessage->ShowMessage("File not in gatefield format.");
-            continue;
-        }
-
-        bool failed = false;
-
-        if(saveFile.is_open())
-        {
-            QString name = QFileInfo(file).baseName();
-
-            //Load gates
-            m_allGateFields[size_t(m_iCurrentGateField)] = createNewGateField(name);
-
-            //For each loaded gate, add to loadedGateField
-            if (reader.ReadGateField(saveFile, m_allGateFields[size_t(m_iCurrentGateField)]))
-            {
-                //Add to m_allGateFields
-                m_allGateFields.push_back(m_allGateFields[size_t(m_iCurrentGateField)]);
-
-                //Add to ui
-                ui->PlayField->addTab(m_allGateFields[size_t(m_iCurrentGateField)],tr(name.toUtf8()));
-
-                continue;
-            }
-            else
-            {
-                failed = true;
-            }
+            m_allGateFields.push_back(pNewGateField);
+            ui->PlayField->addTab(pNewGateField, QFileInfo(file).baseName());
         }
         else
         {
-            failed = true;
-        }
-
-        if(failed)
-        {
-            m_pDlgMessage->ShowMessage("Loading file failed");
+            m_pDlgMessage->ShowMessage(errorMessage);
         }
     }
 }

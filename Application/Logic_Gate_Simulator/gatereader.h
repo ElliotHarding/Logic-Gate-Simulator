@@ -24,7 +24,7 @@ public:
 class GateReader
 {
 public:
-    bool ReadGateField(std::ifstream& gateStream, GateField* gf);
+    bool ReadGateField(const QString& fileName, GateField* pNewGateFeild, QString& errorMessage);
     bool ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection);
 
 private:

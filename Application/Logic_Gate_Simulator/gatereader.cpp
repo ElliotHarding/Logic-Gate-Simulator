@@ -7,20 +7,38 @@ namespace Settings
 {
 const QString CustomGateFile = ".CustomGate";
 const QString CustomGatesLocation = "CustomGates/";
+
+const QString GateFeildFile = ".GateField";
 }
 
-bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
-{
-    if(!gf)
-        return false;
-
-    std::vector<Gate*> gates = readGates(gateStream);
-
-    //Add loaded gates into gf
-    for (Gate* gate : gates)
+bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild, QString& errorMessage)
+{   
+    if(!pNewGateFeild)
     {
-        gate->AssignNewNodeIds();//Todo : do we need this?
-        gf->AddGate(gate);
+        errorMessage = "Internal Error - GateFeild pointer null";
+        return false;
+    }
+
+    if(!fileName.contains(Settings::GateFeildFile))
+    {
+        errorMessage = "File not in gatefield format.";
+        return false;
+    }
+
+    std::ifstream saveFile(fileName.toUtf8());
+    if(!saveFile.is_open())
+    {
+        errorMessage = "Failed to open file";
+        return false;
+    }
+
+    const std::vector<Gate*> gates = readGates(saveFile);
+    saveFile.close();
+
+    for (Gate* pGate : gates)
+    {
+        pGate->AssignNewNodeIds();
+        pNewGateFeild->AddGate(pGate);
     }
 
     return true;
@@ -370,7 +388,7 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
-    std::ofstream saveFile(dir.toStdString() + "/" + pGateFeild->name() + ".GateField");
+    std::ofstream saveFile(dir.toStdString() + "/" + pGateFeild->name() + Settings::GateFeildFile.toStdString());
 
     if(saveFile.is_open())
     {

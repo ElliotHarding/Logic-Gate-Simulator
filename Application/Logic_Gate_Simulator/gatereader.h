@@ -31,9 +31,9 @@ private:
     std::vector<Gate*> readGates(std::ifstream& gateStream);
     Gate* readGate(std::ifstream& gateStream, std::string& line, std::vector<NodeIds>& linkInfo);
     NodeIds readNode(std::ifstream& gateStream);
-    int tryStoi(std::string, int);
-    void linkNodes(std::vector<Gate*>& gates, std::vector<NodeIds> linkInfo);
-    bool SearchGatesForNode(std::vector<Gate*>& gates, id _id, Node*& n);
+    int tryStoi(const std::string&, const int&);
+    void linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>& linkInfo);
+    bool SearchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n);
 };
 
 class Saver

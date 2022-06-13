@@ -1,6 +1,7 @@
 #include "gatereader.h"
 #include "dlg_home.h"
 
+#include <QDebug>
 #include <QDir>
 
 namespace Settings
@@ -285,6 +286,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
 
     case GATE_NULL:
     default:
+        qDebug() << "GateReader::readGate - Failed to read a gate!";
         return nullptr;
     }
 
@@ -331,7 +333,7 @@ NodeIds GateReader::readNode(std::ifstream& gateStream)
     return nodeInfo;
 }
 
-int GateReader::tryStoi(std::string s, int defaultVal)
+int GateReader::tryStoi(const std::string& s, const int& defaultVal)
 {
     try
     {
@@ -343,18 +345,18 @@ int GateReader::tryStoi(std::string s, int defaultVal)
     }
 }
 
-void GateReader::linkNodes(std::vector<Gate *>& gates, std::vector<NodeIds> linkInfo)
+void GateReader::linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>& linkInfo)
 {
-    for (NodeIds link : linkInfo)
+    for (const NodeIds link : linkInfo)
     {
         if(link.id != -1)
         {
-            for (id id_ : link.linkedIds)
+            Node* node1;
+            if(SearchGatesForNode(gates, link.id, node1))
             {
-                if(id_ != -1)
+                for (const id id_ : link.linkedIds)
                 {
-                    Node* node1;
-                    if(SearchGatesForNode(gates, link.id, node1))
+                    if(id_ != -1)
                     {
                         Node* node2;
                         if(SearchGatesForNode(gates, id_, node2))
@@ -362,16 +364,22 @@ void GateReader::linkNodes(std::vector<Gate *>& gates, std::vector<NodeIds> link
                             (node2)->LinkNode(node1);
                             (node1)->LinkNode(node2);
                         }
-                        node2 = nullptr;
+                        else
+                        {
+                            qDebug() << "GateReader::linkNodes - Failed to find node! " << link.id;
+                        }
                     }
-                    node1 = nullptr;
                 }
+            }
+            else
+            {
+                qDebug() << "GateReader::linkNodes - Failed to find node! " << link.id;
             }
         }
     }
 }
 
-bool GateReader::SearchGatesForNode(std::vector<Gate*>& gates, id _id, Node*& n)
+bool GateReader::SearchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n)
 {
     for (Gate* gate : gates)
     {

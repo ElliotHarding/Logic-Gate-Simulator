@@ -9,7 +9,7 @@ const QString CustomGateFile = ".CustomGate";
 const QString CustomGatesLocation = "CustomGates/";
 }
 
-bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf, bool setNewlySpawned)
+bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf)
 {
     if(!gf)
         return false;
@@ -20,7 +20,7 @@ bool GateReader::ReadGateField(std::ifstream& gateStream, GateField* gf, bool se
     for (Gate* gate : gates)
     {
         gate->AssignNewNodeIds();//Todo : do we need this?
-        gf->AddGate(gate, setNewlySpawned);
+        gf->AddGate(gate);
     }
 
     return true;

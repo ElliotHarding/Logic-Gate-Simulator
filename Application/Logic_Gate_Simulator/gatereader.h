@@ -24,7 +24,7 @@ public:
 class GateReader
 {
 public:
-    bool ReadGateField(std::ifstream& gateStream, GateField* gf, bool setNewlySpawned = true);
+    bool ReadGateField(std::ifstream& gateStream, GateField* gf);
     bool ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection);
 
 private:

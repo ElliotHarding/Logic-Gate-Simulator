@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QDir>
 
+#define nextLine gateStream >> line;
+
 namespace Settings
 {
 const QString CustomGateFile = ".CustomGate";

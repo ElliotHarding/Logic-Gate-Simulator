@@ -9,10 +9,6 @@
 #include "allgates.h"
 #include "gatefield.h"
 
-#define nextLine gateStream >> line;
-
-struct NodeAndIds {Node* pNode; int id; std::vector<int> linkedIds;};
-
 class CustomGateReader
 {
 public:
@@ -28,6 +24,8 @@ public:
     bool ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection);
 
 private:
+    struct NodeAndIds {Node* pNode; int id; std::vector<int> linkedIds;};
+
     std::vector<Gate*> readGates(std::ifstream& gateStream);
     Gate* readGate(std::ifstream& gateStream, std::string& line, std::vector<NodeIds>& linkInfo);
     NodeIds readNode(std::ifstream& gateStream);

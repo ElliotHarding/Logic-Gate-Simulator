@@ -142,37 +142,37 @@ DLG_Home::~DLG_Home()
     delete ui;
 }
 
-void DLG_Home::SendUserMessage(QString message)
+void DLG_Home::SendUserMessage(const QString& message)
 {
     m_pDlgMessage->ShowMessage(message);
 }
 
-void DLG_Home::AddGate(Gate *g)
+void DLG_Home::AddGate(Gate* pGate)
 {
     if(m_iCurrentGateField != -1)
     {
-        m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(g);
+        m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pGate);
         on_btn_Drag_clicked();
     }
     else
     {
         //Failed to add gate so discard it
-        delete g;
+        delete pGate;
     }
 }
 
-void DLG_Home::GateSelected(Gate *g)
+void DLG_Home::GateSelected(Gate* pGate)
 {
-    m_pDlgGateInfo->setGate(g);
+    m_pDlgGateInfo->setGate(pGate);
 }
 
-void DLG_Home::DeleteGate(Gate *g)
+void DLG_Home::DeleteGate(Gate* pGate)
 {
     for(GateField* gField : m_allGateFields)
     {
-        if(gField == g->GetParent())
+        if(gField == pGate->GetParent())
         {
-            gField->DeleteGate(g);
+            gField->DeleteGate(pGate);
         }
     }
 }
@@ -232,7 +232,7 @@ void DLG_Home::on_btn_click_clicked()
 {
     SetCurrentClickMode(CLICK_DEFAULT);
 }
-void DLG_Home::SetCurrentClickMode(ClickMode clickMode)
+void DLG_Home::SetCurrentClickMode(const ClickMode& clickMode)
 {
     m_currentClickMode = clickMode;
 
@@ -271,9 +271,9 @@ void DLG_Home::SetCurrentClickMode(ClickMode clickMode)
     }
 }
 
-void DLG_Home::EditTextLabel(TextLabel *textLabelToEdit)
+void DLG_Home::EditTextLabel(TextLabel* pTextLabelToEdit)
 {
-    m_pDlgTextLabelEdit->EditTextLabel(textLabelToEdit);
+    m_pDlgTextLabelEdit->EditTextLabel(pTextLabelToEdit);
 }
 
 void DLG_Home::UpdateCustomGateListWidget()
@@ -297,25 +297,25 @@ void DLG_Home::on_comboBox_currentIndexChanged(int index)
     switch (index)
     {
         case ALL_GATES:
-            SwitchWidgets(m_pWidgetAllGates);
+            SwitchAddGatesWidget(m_pWidgetAllGates);
             break;
         case CUSTOM_GATES:
-            SwitchWidgets(m_pWidgetCustomGates);
+            SwitchAddGatesWidget(m_pWidgetCustomGates);
             m_pWidgetCustomGates->UpdateList();
             break;
         case INPUT_GATES:
-            SwitchWidgets(m_pWidgetInputGates);
+            SwitchAddGatesWidget(m_pWidgetInputGates);
             break;
         case STANDARD_GATES:
-            SwitchWidgets(m_pWidgetStandardGates);
+            SwitchAddGatesWidget(m_pWidgetStandardGates);
             break;
         case ADVANCED_GATES:
-            SwitchWidgets(m_pWidgetAdvancedGates);
+            SwitchAddGatesWidget(m_pWidgetAdvancedGates);
             break;
     }
 }
 
-void DLG_Home::SwitchWidgets(MovingWidget* newWidgetToShow)
+void DLG_Home::SwitchAddGatesWidget(MovingWidget* newWidgetToShow)
 {
     if(m_pCurrentShownGateWidget && newWidgetToShow != m_pCurrentShownGateWidget)
     {
@@ -339,7 +339,7 @@ void DLG_Home::on_btn_zoomOut_clicked()
 
 //Function works for local call & external call
 //Returns false if zoom value did not change, or a range limit is reached
-bool DLG_Home::SetZoomFactor(qreal zoomFactor, bool updateSlider)
+bool DLG_Home::SetZoomFactor(const qreal& zoomFactor, const bool& updateSlider)
 {
     if (m_zoomFactor != zoomFactor)
     {

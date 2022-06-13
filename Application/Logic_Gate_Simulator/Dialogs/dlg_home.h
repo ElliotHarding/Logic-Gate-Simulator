@@ -38,15 +38,15 @@ public:
     DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget* parent = nullptr);
     ~DLG_Home();
 
-    void SendUserMessage(QString message);
-    bool SetZoomFactor(qreal zoomFactor, bool updateSlider = true);
-    void AddGate(Gate* g);
-    void GateSelected(Gate* g);
-    void DeleteGate(Gate* g);
+    void SendUserMessage(const QString& message);
+    bool SetZoomFactor(const qreal& zoomFactor, const bool& updateSlider = true);
+    void AddGate(Gate* pGate);
+    void GateSelected(Gate* pGate);
+    void DeleteGate(Gate* pGate);
     void SelectionToolClicked();
     void UpdateCustomGateListWidget();
-    void SetCurrentClickMode(ClickMode clickMode);
-    void EditTextLabel(TextLabel* textLabelToEdit);
+    void SetCurrentClickMode(const ClickMode& clickMode);
+    void EditTextLabel(TextLabel* pTextLabelToEdit);
 
 protected:
     Ui::DLG_Home *ui;
@@ -71,9 +71,7 @@ protected:
     void InitalizeDialogsAndWidgets();
 
     //Widget animations
-    void SwitchWidgets(MovingWidget* w1);
-    const int c_moveWidgetsIncrement = 2;
-    const int c_moveWidgetDistance = 160;
+    void SwitchAddGatesWidget(MovingWidget* w1);
 
     //Zooming
     qreal m_zoomFactor;

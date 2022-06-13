@@ -18,26 +18,6 @@ void GateToggle::UpdateOutput()
     //done in ToggleOutputState & checkClicked
 }
 
-GameObject *GateToggle::checkClicked(const QPoint& mouse)
-{
-    GameObject* pPossibleClickedObject = GameObject::checkClicked(mouse);
-
-    if(pPossibleClickedObject != nullptr && m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-    {
-        //If being clicked & toggleStateTimer has finished
-        //Then toggle output value of gate
-        if (m_toggleStateTimer.remainingTime() == 0)
-        {
-            ToggleOutputState();
-
-            m_pParentField->update();
-        }
-        return nullptr;
-    }
-
-    return pPossibleClickedObject;
-}
-
 void GateToggle::ToggleOutputState()
 {
     m_toggleStateTimer.stop();

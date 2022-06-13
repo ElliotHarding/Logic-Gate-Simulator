@@ -88,8 +88,6 @@ protected:
 
     QRect accountForUIOffsetts(const QRect& rect);
 
-    QString PathToFileName(const QString);
-
     //Saving
     Saver m_saver;
 

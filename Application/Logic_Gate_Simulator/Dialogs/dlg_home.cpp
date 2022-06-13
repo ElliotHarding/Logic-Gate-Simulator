@@ -195,12 +195,6 @@ QRect DLG_Home::accountForUIOffsetts(const QRect& rect)
     return rect.translated(0, 20); //Todo : find out why
 }
 
-QString DLG_Home::PathToFileName(const QString s)
-{
-    QFileInfo fi(s);
-    return fi.baseName();
-}
-
 
 // -- BUTTON HANDLERS FOR CLICK MODES --
 

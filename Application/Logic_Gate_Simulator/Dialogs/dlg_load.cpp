@@ -11,6 +11,8 @@ DLG_Load::DLG_Load(QWidget *parent) :
     //Inital ui values
     ui->progressBar->setValue(0);
     ui->lbl_progressStep->setText("Initalizing");
+
+    connect(this, SIGNAL(startLoad()), this, SLOT(onStartLoad()));
 }
 
 DLG_Load::~DLG_Load()
@@ -26,23 +28,18 @@ bool DLG_Load::event(QEvent *event)
 
     if (event->type() == QEvent::Paint && !m_bStartedLoad)
     {
-        Load();
+        m_bStartedLoad = true;
+        emit startLoad();
         return true;
     }
 
     return returnValue;
 }
 
-void DLG_Load::Load()
+void DLG_Load::onStartLoad()
 {
-    m_bStartedLoad = true;
-
-    repaint();
-
     ui->lbl_progressStep->setText("Constructing window");
     ui->progressBar->setValue(10);
-
-    repaint();
 
     DLG_Home* home = new DLG_Home(ui->progressBar, ui->lbl_progressStep);
     home->show();

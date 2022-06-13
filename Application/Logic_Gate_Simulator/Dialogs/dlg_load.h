@@ -19,12 +19,15 @@ public:
 protected:
     bool event(QEvent *event) override;
 
+signals:
+    void startLoad();
+
+private slots:
+    void onStartLoad();
+
 private:
     Ui::DLG_Load *ui;
-
     bool m_bStartedLoad = false;
-
-    void Load();
 };
 
 #endif // DLG_LOAD_H

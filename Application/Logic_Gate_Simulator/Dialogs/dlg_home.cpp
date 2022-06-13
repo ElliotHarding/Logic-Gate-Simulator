@@ -4,20 +4,20 @@
 #include <QLayout>
 #include <QLibrary>
 
-DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *parent) :
+DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
     m_zoomFactor(-1)
 {
 
-    progressBar->setValue(20);
+    pProgressBar->setValue(20);
     txtProgress->setText("Setting up UI...");
 
     {
         ui->setupUi(this);
     }
 
-    progressBar->setValue(45);
+    pProgressBar->setValue(45);
     txtProgress->setText("Loading additional libs");
 
     {
@@ -26,7 +26,7 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
         lib.load();
     }
 
-    progressBar->setValue(66);
+    pProgressBar->setValue(66);
     txtProgress->setText("Intializing child components");
 
     {
@@ -56,26 +56,13 @@ DLG_Home::DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget *pare
         connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(on_btn_Delete_clicked()));
         connect(ui->actionZoom_2, SIGNAL(triggered()), this, SLOT(on_btn_zoomOut_clicked()));
         connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
-
-        connect(ui->actionCircuit_from_truth_table_task, &QAction::triggered, [this]()
-        {
-
-        });
-        connect(ui->actionTruth_table_from_circuit_task, &QAction::triggered, [this]()
-        {
-
-        });
-        connect(ui->actionView_Tasks, &QAction::triggered, [this]()
-        {
-            on_btn_tasks_clicked();
-        });
     }
 
     {
         addGateField("New tab");
     }
 
-    progressBar->setValue(100);
+    pProgressBar->setValue(100);
     txtProgress->setText("Done!");
 }
 

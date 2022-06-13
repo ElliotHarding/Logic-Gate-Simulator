@@ -35,7 +35,7 @@ class DLG_Home : public QMainWindow
     Q_OBJECT
 
 public:
-    DLG_Home(QProgressBar* progressBar, QLabel* txtProgress, QWidget* parent = nullptr);
+    DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget* parent = nullptr);
     ~DLG_Home();
 
     void SendUserMessage(const QString& message);

@@ -68,9 +68,6 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
 
 void DLG_Home::InitalizeDialogsAndWidgets()
 {
-    QRect layoutGateWidget = accountForUIOffsetts(ui->layout_GateWidget->geometry());
-    QRect layoutGateInfo = accountForUIOffsetts(ui->layout_Dlg_GateInfo->geometry());
-
     m_pDlgLoadGates = new QFileDialog(this);
     m_pDlgInput = new QInputDialog(this);
     m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
@@ -79,7 +76,7 @@ void DLG_Home::InitalizeDialogsAndWidgets()
     m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
 
     //Gate widgets
-    const QPoint c_GateWidgetPos = layoutGateWidget.topLeft();
+    const QPoint c_GateWidgetPos = accountForUIOffsetts(ui->layout_GateWidget->geometry()).topLeft();
     m_pWidgetAllGates = new Widget_AllGates(this, true, c_GateWidgetPos);
     m_pCurrentShownGateWidget = m_pWidgetAllGates;
 
@@ -97,7 +94,7 @@ void DLG_Home::InitalizeDialogsAndWidgets()
         SetZoomFactor(0.5);
     }
 
-    m_pDlgGateInfo->move(layoutGateInfo.topLeft());
+    m_pDlgGateInfo->move(accountForUIOffsetts(ui->layout_Dlg_GateInfo->geometry()).topLeft());
     m_pDlgGateInfo->raise();
 }
 

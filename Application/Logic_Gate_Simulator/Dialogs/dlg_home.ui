@@ -835,7 +835,6 @@ QComboBox::down-arrow {
     <addaction name="actionDrag"/>
     <addaction name="actionEdit"/>
     <addaction name="actionDelete"/>
-    <addaction name="actionLink"/>
     <addaction name="actionDelete_Link"/>
     <addaction name="actionZoom"/>
     <addaction name="actionZoom_2"/>

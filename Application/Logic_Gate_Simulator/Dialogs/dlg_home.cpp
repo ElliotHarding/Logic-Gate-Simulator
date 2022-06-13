@@ -194,10 +194,6 @@ void DLG_Home::on_btn_DeleteLink_clicked()
 {
     SetCurrentClickMode(CLICK_DELETE_LINK_NODES);
 }
-void DLG_Home::on_btn_SelectionTool_clicked()
-{
-    SetCurrentClickMode(CLICK_SELECTION);
-}
 void DLG_Home::SelectionToolClicked()
 {
     SetCurrentClickMode(CLICK_SELECTION);

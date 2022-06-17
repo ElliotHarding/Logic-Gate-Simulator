@@ -1,7 +1,7 @@
 #include "gameobject.h"
 
 GameObject::GameObject(const int& x, const int& y, const uint& width, const uint& height, const char* pIconLocation) :
-    m_geometry(x, y, width, height)
+    m_geometry(x - width/2, y - height/2, width, height)
 {
     if(pIconLocation != nullptr)
         m_image = QImage(pIconLocation);

@@ -177,6 +177,7 @@ Node::Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeTy
     m_bValue(0),
     m_id(nodeId)
 {
+
 }
 
 Node::~Node()
@@ -299,6 +300,11 @@ std::string Node::GetLinkedNodesIds()
 
 bool Node::LinkNode(Node*& n)
 {
+    if(n->type() == type())
+    {
+        return false;
+    }
+
     //Check if already linked
     for (Node* alreadyLinkedNode : m_linkedNodes)
     {

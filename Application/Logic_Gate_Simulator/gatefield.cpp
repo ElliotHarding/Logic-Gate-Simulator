@@ -617,6 +617,11 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
     }
     GateReader::linkNodes(clonedSnapshot, linkInfo);
 
+    for(Gate* g : clonedSnapshot)
+    {
+        g->AssignNewNodeIds();
+    }
+
     m_history.push_back(clonedSnapshot);
 
     if(Settings::MaxGateFieldHistory < m_history.size())

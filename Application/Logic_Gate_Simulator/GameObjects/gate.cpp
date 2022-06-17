@@ -301,6 +301,7 @@ bool Node::LinkNode(Node*& n)
         {
             value |= n->value();
         }
+        setValue(value);
         m_pParent->UpdateOutput();
     }
 

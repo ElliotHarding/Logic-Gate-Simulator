@@ -368,7 +368,7 @@ void GateReader::linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>
                         }
                         else
                         {
-                            qDebug() << "GateReader::linkNodes - Failed to find node! " << link.id;
+                            qDebug() << "GateReader::linkNodes - Failed to find node! " << id_;
                         }
                     }
                 }

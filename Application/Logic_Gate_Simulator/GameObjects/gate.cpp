@@ -225,10 +225,6 @@ void Node::setValue(bool val)
             n->setValue(m_bValue);
          }
     }
-    else
-    {
-        m_pParent->UpdateOutput();
-    }
 }
 
 bool Node::value()
@@ -302,7 +298,6 @@ bool Node::LinkNode(Node*& n)
             value |= n->value();
         }
         setValue(value);
-        m_pParent->UpdateOutput();
     }
 
     return true;

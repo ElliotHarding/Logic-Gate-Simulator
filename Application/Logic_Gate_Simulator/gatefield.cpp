@@ -502,6 +502,8 @@ void GateField::editSelection(const QPoint& mouse)
         m_pSelectionTool = new QRubberBand(QRubberBand::Rectangle, this);
         m_selectionToolOrigin = mouse;
         m_pSelectionTool->setGeometry(QRect(m_selectionToolOrigin, QSize()));
+
+        setCurrentClickMode(CLICK_SELECTION);
     }
     else
     {

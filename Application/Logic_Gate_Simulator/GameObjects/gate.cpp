@@ -163,12 +163,12 @@ void Gate::DetachNodes()
 
 Node::Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeType& type, int nodeId) :
     GameObject::GameObject(pParent->position().x() + offsetX, pParent->position().y() + offsetY, Settings::NodeWidth, Settings::NodeHeight),
-    m_bValue(0),
     m_pParent(pParent),
-    m_id(nodeId),
     m_nodeType(type),
     m_offsetX(offsetX),
-    m_offsetY(offsetY)
+    m_offsetY(offsetY),
+    m_bValue(0),
+    m_id(nodeId)
 {
 }
 

@@ -105,11 +105,13 @@ public:
 private:
     void DetachNode(Node* n);
 
+    Gate* m_pParent = nullptr;
+
+    NodeType m_nodeType = InputNode;
+
     ///Linked properties
     std::vector<Node*> m_linkedNodes;
     std::string GetLinkedNodesIds();
-
-    Gate* m_pParent = nullptr;
 
     ///Positional offset from parent gate
     const int m_offsetX;
@@ -119,8 +121,6 @@ private:
     bool m_bValue;
 
     int m_id;
-
-    NodeType m_nodeType = InputNode;
 };
 
 

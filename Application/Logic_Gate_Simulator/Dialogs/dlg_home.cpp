@@ -396,7 +396,7 @@ void DLG_Home::on_btn_load_clicked()
     //Loop vars
     GateReader reader;
     QString errorMessage;
-    for (QString file : fileNames)
+    for (const QString& file : fileNames)
     {
         GateField* pNewGateField = createNewGateField(QFileInfo(file).baseName());
         if(reader.ReadGateField(file, pNewGateField, errorMessage))

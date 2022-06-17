@@ -41,7 +41,7 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
     for (Gate* pGate : gates)
     {
         pGate->AssignNewNodeIds();
-        pNewGateFeild->AddGate(pGate);
+        pNewGateFeild->AddGate(pGate, false);
     }
 
     return true;

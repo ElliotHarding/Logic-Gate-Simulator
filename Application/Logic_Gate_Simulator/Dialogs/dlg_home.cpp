@@ -377,7 +377,7 @@ void DLG_Home::on_btn_Save_clicked()
     //Loop through all open gate fields and save
     for (GateField* gf : m_allGateFields)
     {
-        if(m_saver.saveGateField(gf, this))
+        if(!m_saver.saveGateField(gf, this))
         {
             SendUserMessage("Saving a page failed!");
         }

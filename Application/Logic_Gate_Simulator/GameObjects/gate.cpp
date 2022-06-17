@@ -57,18 +57,17 @@ void Gate::SaveData(std::ofstream &storage)
     storage << END_SAVE_TAG_GATE << std::endl;
 }
 
-GameObject* Gate::checkClicked(const QPoint& mouse)
+Node* Gate::checkClickedNodes(const QPoint& mouse)
 {
     for (Node* n : m_nodes)
     {
         GameObject* pPossibleClickedNode = n->checkClicked(mouse);
-        if(pPossibleClickedNode != nullptr)
+        if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
-            return pPossibleClickedNode;
+            return dynamic_cast<Node*>(pPossibleClickedNode);
         }
     }
-
-    return GameObject::checkClicked(mouse);
+    return nullptr;
 }
 
 void Gate::offsetPosition(const int& dX, const int& dY)

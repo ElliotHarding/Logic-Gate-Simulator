@@ -57,15 +57,6 @@ void GateFPGA::draw(QPainter& painter)
 
 GameObject *GateFPGA::checkClicked(const QPoint& mouse)
 {
-    for (Node* n : m_nodes)
-    {
-        GameObject* pPossibleClickedNode = n->checkClicked(mouse);
-        if(pPossibleClickedNode != nullptr)
-        {
-            return pPossibleClickedNode;
-        }
-    }
-
     if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
     {
         if(m_geometry.contains(mouse))

@@ -379,11 +379,9 @@ bool GateField::checkStartLink(const QPoint& mouse)
 {
     for (Gate* g : m_allGates)
     {
-        GameObject* pPossibleClickedNode = g->checkClicked(mouse);
-        if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
+        m_pLinkingNode = g->checkClickedNodes(mouse);
+        if(m_pLinkingNode != nullptr)
         {
-            m_pLinkingNode = dynamic_cast<Node*>(pPossibleClickedNode);
-
             m_currentMousePos = m_pLinkingNode->position();
 
             //Change cursor as started linking
@@ -399,13 +397,11 @@ void GateField::checkEndLink(const QPoint& mouse)
 {
     for (Gate* g : m_allGates)
     {
-        GameObject* pPossibleClickedNode = g->checkClicked(mouse);
-        if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
+        Node* pPossibleClickedNode = g->checkClickedNodes(mouse);
+        if(pPossibleClickedNode != nullptr)
         {
-            Node* node = dynamic_cast<Node*>(pPossibleClickedNode);
-
             //Check not same node types
-            if(node->type() == m_pLinkingNode->type())
+            if(pPossibleClickedNode->type() == m_pLinkingNode->type())
             {
                 m_pParent->SendUserMessage("Cant link to nodes of same type");
                 m_pLinkingNode = nullptr;
@@ -414,7 +410,7 @@ void GateField::checkEndLink(const QPoint& mouse)
             }
 
             //Check both dont have same parent
-            if(node->GetParent() == m_pLinkingNode->GetParent())
+            if(pPossibleClickedNode->GetParent() == m_pLinkingNode->GetParent())
             {
                 m_pLinkingNode = nullptr;
                 update();
@@ -422,14 +418,14 @@ void GateField::checkEndLink(const QPoint& mouse)
             }
 
             //link nodes & update parent gates (inside LinkNode())
-            bool n1Linked = node->LinkNode(m_pLinkingNode);
-            bool n2Linked = m_pLinkingNode->LinkNode(node);
+            bool n1Linked = pPossibleClickedNode->LinkNode(m_pLinkingNode);
+            bool n2Linked = m_pLinkingNode->LinkNode(pPossibleClickedNode);
 
             if(!n1Linked && !n2Linked)
             {
                 if(n1Linked)
                 {
-                    node->DetachNode();
+                    pPossibleClickedNode->DetachNode();
                 }
 
                 if(n2Linked)
@@ -456,10 +452,10 @@ void GateField::checkDeleteNodeLink(const QPoint& mouse)
     for (Gate* gate : m_allGates)
     {
         //Check if iterated gate has any clicked nodes
-        GameObject* pPossibleClickedNode = gate->checkClicked(mouse);
-        if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
+        Node* pPossibleClickedNode = gate->checkClickedNodes(mouse);
+        if(pPossibleClickedNode != nullptr)
         {
-            dynamic_cast<Node*>(pPossibleClickedNode)->DetachNode();
+            pPossibleClickedNode->DetachNode();
             update();
             return;
         }
@@ -521,13 +517,6 @@ void GateField::checkStartDrag(const QPoint& mouse)
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         GameObject* pPossibleClickedObject = m_allGates[index]->checkClicked(mouse);
-
-        //Todo : create a Gate::checkClickedNodes function for linking, so that don't get nodes here.
-        if(pPossibleClickedObject != nullptr && dynamic_cast<Node*>(pPossibleClickedObject))
-        {
-            pPossibleClickedObject = dynamic_cast<Node*>(pPossibleClickedObject)->GetParent();
-        }
-
         if(pPossibleClickedObject != nullptr && dynamic_cast<Gate*>(pPossibleClickedObject))
         {
             m_pDraggingGate = dynamic_cast<Gate*>(pPossibleClickedObject);

@@ -56,12 +56,10 @@ GateCollection::~GateCollection()
     //When deleted the gate collection filed can dump its contents onto the parent gatefield
     if(!m_bDontDeleteGates)
     {
-        for(int i = 0; i < m_gates.size(); i++)
+        for(Gate* pGate : m_gates)
         {
-            Gate* pGate = m_gates[i];
             pGate->SetParentGateCollection(nullptr);
             delete pGate;
-            m_gates[i] = nullptr;
         }
     }
 

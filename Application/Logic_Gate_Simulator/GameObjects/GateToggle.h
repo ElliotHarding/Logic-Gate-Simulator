@@ -18,7 +18,7 @@ public:
     void SaveData(std::ofstream& storage) override;
 
     ///Power state
-    void SetPowerState(bool state) {m_pOutput->setValue(state); UpdateOutput();}
+    void SetPowerState(bool state) {m_pOutput->setValue(state);}
     bool GetPowerState() {return m_pOutput->value();}
     void ToggleOutputState();
 

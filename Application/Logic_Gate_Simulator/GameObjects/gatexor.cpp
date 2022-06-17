@@ -17,10 +17,10 @@ Gate *GateXor::Clone()
 {
     GateXor* clone = new GateXor(m_geometry.x(), m_geometry.y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
 
-    //Clone nodes
-    clone->m_pInputA = m_pInputA;
-    clone->m_pInputB = m_pInputB;
-    clone->m_pOutput = m_pOutput;
+    //Clones without the linded nodes... linking comes later.
+    clone->m_pInputA->setValue(m_pInputA->value());
+    clone->m_pInputB->setValue(m_pInputB->value());
+    clone->m_pOutput->setValue(m_pOutput->value());
 
     return clone;
 }

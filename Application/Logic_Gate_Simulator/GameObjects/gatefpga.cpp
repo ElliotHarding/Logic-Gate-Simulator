@@ -92,10 +92,6 @@ void GateFPGA::UpdateOutput()
 Gate *GateFPGA::Clone()
 {
     GateFPGA* clone = new GateFPGA(m_geometry.x(), m_geometry.y());
-
-    clone->m_inputNodes = m_inputNodes;
-    clone->m_outputNodes = m_outputNodes;
-
     clone->m_updateScript = m_updateScript;
 
     return clone;

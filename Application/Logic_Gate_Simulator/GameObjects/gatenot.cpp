@@ -30,9 +30,9 @@ Gate *GateNot::Clone()
 {
     GateNot* clone = new GateNot(m_geometry.x(), m_geometry.y(), m_pInput->id(), m_pOutput->id());
 
-    //Clone nodes
-    clone->m_pOutput = m_pOutput;
-    clone->m_pInput = m_pInput;
+    //Clones without the linded nodes... linking comes later.
+    clone->m_pInput->setValue(m_pInput->value());
+    clone->m_pOutput->setValue(m_pOutput->value());
 
     return clone;
 }

@@ -243,7 +243,7 @@ void Node::SaveData(std::ofstream &storage)
     storage << SAVE_TAG_NODE
             with std::to_string(m_id)
             with linkedNodeIds
-            with END_SAVE_TAG_NODE
+            with END_SAVE_TAG_NODE //Todo : add node value
             << std::endl;
 }
 

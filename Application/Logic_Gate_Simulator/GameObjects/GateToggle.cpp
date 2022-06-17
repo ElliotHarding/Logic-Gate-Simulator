@@ -30,8 +30,8 @@ Gate *GateToggle::Clone()
 {
     GateToggle* clone = new GateToggle(m_geometry.x(), m_geometry.y(), m_pOutput->id());
 
-    //Clone nodes - Todo : not actaully cloning....
-    clone->m_pOutput = m_pOutput;
+    //Clones without the linded nodes... linking comes later.
+    clone->m_pOutput->setValue(m_pOutput->value());
 
     return clone;
 }

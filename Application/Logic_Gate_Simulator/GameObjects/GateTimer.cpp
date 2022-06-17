@@ -43,13 +43,10 @@ void GateTimer::SaveData(std::ofstream &storage)
 Gate *GateTimer::Clone()
 {
     GateTimer* clone = new GateTimer(m_geometry.x(), m_geometry.y(), m_pOutput->id());
-
-    //Todo : bug - because not cloned node its value is set by timers that are cloned...
-
-    //Clone nodes
-    clone->m_pOutput = m_pOutput; //Todo : not actually cloning
-
     clone->m_frequency = m_frequency;
+
+    //Clones without the linded nodes... linking comes later.
+    clone->m_pOutput->setValue(m_pOutput->value());
 
     return clone;
 }

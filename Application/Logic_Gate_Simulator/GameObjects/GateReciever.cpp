@@ -32,8 +32,8 @@ Gate* GateReciever::Clone()
 {
     GateReciever* clone = new GateReciever(m_geometry.x(), m_geometry.y(), m_pInput->id());
 
-    //Clone nodes //Todo : not actaully cloning atm...
-    clone->m_pInput = m_pInput;
+    //Clones without the linded nodes... linking comes later.
+    clone->m_pInput->setValue(m_pInput->value());
 
     return clone;
 }

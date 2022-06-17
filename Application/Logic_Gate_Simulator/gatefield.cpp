@@ -621,10 +621,10 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
 
     if(Settings::MaxGateFieldHistory < m_history.size())
     {
-        //Todo : delete memory contents of m_history.begin()
-
-
-
+        for (size_t index = 0; index < m_history[0].size(); index++)
+        {
+            delete m_history[0][index];
+        }
         m_history.erase(m_history.begin());
     }
 

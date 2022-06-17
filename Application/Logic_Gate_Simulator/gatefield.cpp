@@ -25,6 +25,9 @@ GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::stri
 {
     setAcceptDrops(true);
     setMouseTracking(true);
+
+    connect(&m_gateUpdateTimer, SIGNAL(timeout()), this, SLOT(onRequestUpdateGates()));
+    m_gateUpdateTimer.start(500);
 }
 
 GateField::~GateField()
@@ -86,6 +89,15 @@ ClickMode GateField::GetCurrentClickMode()
 void GateField::setCurrentClickMode(const ClickMode& mode)
 {
     m_currentClickMode = mode;
+}
+
+void GateField::onRequestUpdateGates()
+{
+    for (int index = m_allGates.size() - 1; index > -1; index--)
+    {
+        m_allGates[size_t(index)]->UpdateOutput();
+    }
+    update();
 }
 
 void GateField::SetZoomLevel(const qreal& zoom)
@@ -502,6 +514,13 @@ void GateField::checkStartDrag(const QPoint& mouse)
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
         GameObject* pPossibleClickedObject = m_allGates[index]->checkClicked(mouse);
+
+        //Todo : create a Gate::checkClickedNodes function for linking, so that don't get nodes here.
+        if(pPossibleClickedObject != nullptr && dynamic_cast<Node*>(pPossibleClickedObject))
+        {
+            pPossibleClickedObject = dynamic_cast<Node*>(pPossibleClickedObject)->GetParent();
+        }
+
         if(pPossibleClickedObject != nullptr && dynamic_cast<Gate*>(pPossibleClickedObject))
         {
             m_pDraggingGate = dynamic_cast<Gate*>(pPossibleClickedObject);

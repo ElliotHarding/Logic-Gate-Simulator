@@ -73,6 +73,8 @@ public:
 
 signals:
 public slots:
+private slots:
+    void onRequestUpdateGates();
 protected:
 private:
     //Mouse event delegates
@@ -103,6 +105,9 @@ private:
     //Gates
     std::vector<Gate*> m_allGates;   
     void moveToFront(const uint& index, std::vector<Gate*>& vec);
+
+    //Gate update
+    QTimer m_gateUpdateTimer;
 
     //Gate history for redo and undo functions
     GateFieldHistory m_history;

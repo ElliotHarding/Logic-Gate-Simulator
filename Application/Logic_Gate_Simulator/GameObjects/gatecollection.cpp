@@ -149,19 +149,21 @@ void GateCollection::draw(QPainter& painter)
     UpdateContaningArea();
 
     if (m_dragMode == DragAll)
+    {
          painter.fillRect(m_geometry, Settings::DragModeFillColor);
-
-    for(Gate* gate : m_gates)
-        gate->draw(painter);
-
-    DrawButtons(painter);
-
-    //Draw bounding box
-    if (m_dragMode == DragIndividual)
+    }
+    else if(m_dragMode == DragIndividual)
     {
         painter.setPen(QPen(Settings::DragModeFillColor, Settings::DragIndividualBoardeSize));
         painter.drawRect(m_geometry);
     }
+
+    for(Gate* gate : m_gates)
+    {
+        gate->draw(painter);
+    }
+
+    DrawButtons(painter);
 }
 
 GameObject* GateCollection::checkClicked(const QPoint& mouse)
@@ -178,7 +180,16 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
         }
     }
 
-    return Gate::checkClicked(mouse);
+    GameObject* pClicked = Gate::checkClicked(mouse);
+    if(!pClicked)
+    {
+        checkButtonClick(mouse);
+        return nullptr;
+    }
+    else
+    {
+        return pClicked;
+    }
 }
 
 void GateCollection::DrawButtons(QPainter& painter)
@@ -302,17 +313,17 @@ void GateCollection::ForgetGate(Gate *g)
 }
 
 //Returns true if buttons we're clicked
-bool GateCollection::CheckButtonClick(int clickX, int clickY)
+bool GateCollection::checkButtonClick(const QPoint& mouse)
 {
     //Save button
-    if(m_saveButton.contains(clickX, clickY))
+    if(m_saveButton.contains(mouse))
     {
         m_pParentField->StartSaveGateCollection(this);
         return true;
     }
 
     //Delete button
-    else if (m_deleteButton.contains(clickX, clickY))
+    else if (m_deleteButton.contains(mouse))
     {
         //Keep gates in memory, but remove them from this list,
         //since we're deleting this collection, its gets dumped onto gatefield
@@ -330,7 +341,7 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     }
 
     //Delete all button
-    else if (m_deleteAllButton.contains(clickX, clickY))
+    else if (m_deleteAllButton.contains(mouse))
     {
         m_pParentField->UpdateGateSelected(nullptr);
 
@@ -344,23 +355,21 @@ bool GateCollection::CheckButtonClick(int clickX, int clickY)
     }
 
     /* //Optimize button
-    else if (m_optimize.contains(clickX, clickY))
+    else if (m_optimize.contains(mouse))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates, false);
-        m_pParentField->SkipNextGateSelectedCall(true);
         return true;
     }*/
 
-    else if (m_dragAllButton.contains(clickX, clickY))
+    else if (m_dragAllButton.contains(mouse))
     {
         ToggleDragMode();
         return true;
     }
     /*
-    else if (m_nandOptimize.contains(clickX, clickY))
+    else if (m_nandOptimize.contains(mouse))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates, true);
-        m_pParentField->SkipNextGateSelectedCall(true);
         return true;
     }*/
 

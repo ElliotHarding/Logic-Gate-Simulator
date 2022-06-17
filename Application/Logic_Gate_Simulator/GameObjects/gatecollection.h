@@ -56,7 +56,7 @@ private:
     QRect m_deleteAllButton;
     QRect m_dragAllButton;
     void DrawButtons(QPainter& painter);
-    bool CheckButtonClick(int clickX, int clickY);
+    bool checkButtonClick(const QPoint& mouse);
 
     bool m_bDontDeleteGates = false;
 };

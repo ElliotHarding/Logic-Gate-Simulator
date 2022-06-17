@@ -195,10 +195,10 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
 
     case GateType::GATE_TIMER:
     {
-        NodeIds n1 = readNode(gateStream);
-
         std::string frequency;
         gateStream >> frequency;
+
+        NodeIds n1 = readNode(gateStream);
 
         rGate = new GateTimer(stoi(posX), stoi(posY), n1.id);
         dynamic_cast<GateTimer*>(rGate)->setFrequency(tryStoi(frequency, 500));

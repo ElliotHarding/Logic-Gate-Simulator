@@ -70,7 +70,7 @@ GateCollection::~GateCollection()
         if (m_pParentGateCollection)
         {
             for (Gate* g : m_gates)
-                m_pParentGateCollection->AddGate(&*g);
+                m_pParentGateCollection->AddGate(g);
         }
 
         //Dump onto parent ParentField
@@ -78,7 +78,7 @@ GateCollection::~GateCollection()
         {
             for (Gate* g : m_gates)
             {
-                m_pParentField->AddGate(&*g, false);
+                m_pParentField->AddGate(g, false);
                 g->SetParentGateCollection(nullptr);
             }
         }

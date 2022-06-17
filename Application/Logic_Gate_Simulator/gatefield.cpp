@@ -27,6 +27,7 @@ GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::stri
     setMouseTracking(true);
 
     connect(&m_gateUpdateTimer, SIGNAL(timeout()), this, SLOT(onRequestUpdateGates()));
+    m_gateUpdateTimer.setTimerType(Qt::PreciseTimer);
     m_gateUpdateTimer.start(500);
 }
 

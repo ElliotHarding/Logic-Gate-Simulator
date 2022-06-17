@@ -11,16 +11,9 @@
 GateTimer::GateTimer(const int& x, const int& y, const id& out) :
     GateSingleOutput::GateSingleOutput(x, y, GATE_TIMER, out)
 {
-    m_pTimer = new QTimer();
-    m_pTimer->setTimerType(Qt::PreciseTimer);
-    QObject::connect(m_pTimer, SIGNAL(timeout()), this, SLOT(onTick()));
-    m_pTimer->start(m_frequency);
-}
-
-GateTimer::~GateTimer()
-{
-    m_pTimer->stop();
-    delete m_pTimer;
+    m_timer.setTimerType(Qt::PreciseTimer);
+    QObject::connect(&m_timer, SIGNAL(timeout()), this, SLOT(onTick()));
+    m_timer.start(m_frequency);
 }
 
 void GateTimer::UpdateOutput()
@@ -56,13 +49,12 @@ Gate *GateTimer::Clone()
 void GateTimer::setFrequency(int frequency)
 {
     m_frequency = frequency;
-    m_pTimer->stop();
-    m_pTimer->start(m_frequency);
+    m_timer.stop();
+    m_timer.start(m_frequency);
 }
 
 void GateTimer::onTick()
 {
     m_pOutput->setValue(!m_pOutput->value());
-    m_pParentField->update();
 }
 

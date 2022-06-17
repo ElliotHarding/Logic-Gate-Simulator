@@ -445,7 +445,7 @@ std::vector<QString> CustomGateReader::getCustomGateNames()
 
 GateCollection* CustomGateReader::spawnCustomGate(const QString &name)
 {
-    std::ifstream customGateStream(Settings::CustomGatesLocation.toStdString() + name.toStdString());
+    std::ifstream customGateStream(Settings::CustomGatesLocation.toStdString() + name.toStdString() + Settings::CustomGateFile.toStdString());
 
     //Read into pointer and send to m_pParent
     if(customGateStream.is_open())

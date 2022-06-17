@@ -44,4 +44,6 @@ void DLG_SaveGateCollection::on_Save_clicked()
         ui->lb_error->setText("Bad file name!");
         ui->lb_error->show();
     }
+
+    close();
 }

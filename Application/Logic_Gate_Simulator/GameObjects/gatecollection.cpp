@@ -60,7 +60,6 @@ GateCollection::~GateCollection()
         {
             delete pGate;
         }
-        m_gates.clear();
     }
 
     //dump contents onto the parent gatefield or parent gate collection...
@@ -88,9 +87,6 @@ GateCollection::~GateCollection()
         {
             qDebug() << "GateCollection::~GateCollection - Nothing to dump gates onto!";
         }
-
-        //Erase pointers to gates
-        m_gates.clear();
     }
 }
 

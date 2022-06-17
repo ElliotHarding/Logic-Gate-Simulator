@@ -1,0 +1,1 @@
+windeployqt.exe --compiler-runtime "C:\Users\elliot\Documents\Github\Logic-Gate-Simulator\Exe\Logic-Gate-Simulator.exe"

@@ -71,6 +71,9 @@ public:
     ClickMode GetCurrentClickMode();
     void setCurrentClickMode(const ClickMode& mode);
 
+    void setUpdateFrequency(const uint& frequencyMs);
+    uint updateFrequency() const;
+
 signals:
 public slots:
 private slots:
@@ -105,6 +108,7 @@ private:
     //Gates
     std::vector<Gate*> m_allGates;   
     void moveToFront(const uint& index, std::vector<Gate*>& vec);
+    uint m_gateUpdateFrequencyMs = 200;
 
     //Gate update
     QTimer m_gateUpdateTimer;

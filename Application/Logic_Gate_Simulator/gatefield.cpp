@@ -15,7 +15,7 @@ const qreal ZoomScrollSpeed = 0.05;
 
 const uint MaxGateFieldHistory = 20;
 
-const uint UpdateFrequencyMs = 200;
+const uint DefaultUpdateFrequencyMs = 200;
 }
 
 GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::string& name, DLG_SaveGateCollection* pSaveGateCollectionDialog) :
@@ -30,7 +30,10 @@ GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::stri
 
     connect(&m_gateUpdateTimer, SIGNAL(timeout()), this, SLOT(onRequestUpdateGates()));
     m_gateUpdateTimer.setTimerType(Qt::PreciseTimer);
-    m_gateUpdateTimer.start(Settings::UpdateFrequencyMs);
+    m_gateUpdateFrequencyMs = Settings::DefaultUpdateFrequencyMs;
+
+    //Todo : only running when page is showing? Or make use of multiple pages running
+    m_gateUpdateTimer.start(m_gateUpdateFrequencyMs);
 }
 
 GateField::~GateField()
@@ -92,6 +95,21 @@ ClickMode GateField::GetCurrentClickMode()
 void GateField::setCurrentClickMode(const ClickMode& mode)
 {
     m_currentClickMode = mode;
+}
+
+void GateField::setUpdateFrequency(const uint& frequencyMs)
+{
+    m_gateUpdateFrequencyMs = frequencyMs;
+
+    m_gateUpdateTimer.stop();
+    m_gateUpdateTimer.start(frequencyMs);
+
+    //Todo : only running when page is showing? Or make use of multiple pages running
+}
+
+uint GateField::updateFrequency() const
+{
+    return m_gateUpdateFrequencyMs;
 }
 
 void GateField::onRequestUpdateGates()

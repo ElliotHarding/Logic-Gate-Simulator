@@ -91,7 +91,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>150</y>
+     <y>90</y>
      <width>121</width>
      <height>20</height>
     </rect>
@@ -101,7 +101,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>130</y>
+     <y>70</y>
      <width>111</width>
      <height>21</height>
     </rect>
@@ -136,6 +136,42 @@
     <string>Edit</string>
    </property>
   </widget>
+  <widget class="Line" name="line_divider">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>118</width>
+     <height>3</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_pageUpdateFrequency">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>150</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_pageUpdateFrequency">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Page Update Frequency</string>
+   </property>
+  </widget>
   <zorder>cb_DragMode</zorder>
   <zorder>btn_DeleteGate</zorder>
   <zorder>lbl_Type</zorder>
@@ -144,6 +180,9 @@
   <zorder>lineEdit_Frequency</zorder>
   <zorder>lbl_Frequency</zorder>
   <zorder>btn_Edit</zorder>
+  <zorder>line_divider</zorder>
+  <zorder>lineEdit_pageUpdateFrequency</zorder>
+  <zorder>lbl_pageUpdateFrequency</zorder>
  </widget>
  <resources>
   <include location="../resouces.qrc"/>

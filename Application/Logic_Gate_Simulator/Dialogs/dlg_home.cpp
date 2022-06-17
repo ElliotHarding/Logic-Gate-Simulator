@@ -413,19 +413,27 @@ void DLG_Home::on_btn_load_clicked()
 
 void DLG_Home::on_PlayField_tabCloseRequested(int index)
 {
-    //Get pointer to widget to delete
-    GateField* gf = dynamic_cast<GateField*>(ui->PlayField->widget(index));
+    if(dynamic_cast<GateField*>(ui->PlayField->widget(index)))
+    {
+        GateField* gf = dynamic_cast<GateField*>(ui->PlayField->widget(index));
 
-    m_allGateFields[size_t(index)] = nullptr;
-    m_allGateFields.erase(m_allGateFields.begin() + index);
+        m_allGateFields.erase(m_allGateFields.begin() + index);
 
-    //Remove tab
-    // ~ Causes tabs to be switched if there's an existing open tab & resets m_iCurrentGateField
-    ui->PlayField->removeTab(index);
-    delete gf;
+        m_pDlgGateInfo->setGateField(nullptr);
+
+        //Remove tab
+        // ~ Causes tabs to be switched if there's an existing open tab & resets m_iCurrentGateField
+        ui->PlayField->removeTab(index);
+        delete gf;
+    }
 }
 
 void DLG_Home::on_PlayField_currentChanged(int index)
 {
     m_iCurrentGateField = index;
+
+    if(dynamic_cast<GateField*>(ui->PlayField->widget(index)))
+    {
+        m_pDlgGateInfo->setGateField(dynamic_cast<GateField*>(ui->PlayField->widget(index)));
+    }
 }

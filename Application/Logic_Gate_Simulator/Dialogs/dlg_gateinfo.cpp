@@ -3,6 +3,7 @@
 #include "gatefield.h"
 #include "allgates.h"
 #include <QLayout>
+#include <QDebug>
 #include "dlg_home.h"
 
 DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
@@ -12,6 +13,8 @@ DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
 {
     ui->setupUi(this);
     UiWhenNoGateSelected();
+
+    setGateField(nullptr);
 }
 
 DLG_GateInfo::~DLG_GateInfo()
@@ -130,6 +133,26 @@ void DLG_GateInfo::setGate(Gate *g)
     update();
 }
 
+void DLG_GateInfo::setGateField(GateField *pGateField)
+{
+    m_pGateField = pGateField;
+
+    if(m_pGateField)
+    {
+        ui->lineEdit_pageUpdateFrequency->setText(QString::number(m_pGateField->updateFrequency()));
+        ui->lineEdit_pageUpdateFrequency->show();
+        ui->lbl_pageUpdateFrequency->show();
+        ui->line_divider->show();
+    }
+    else
+    {
+        setGate(nullptr);
+        ui->lineEdit_pageUpdateFrequency->hide();
+        ui->lbl_pageUpdateFrequency->hide();
+        ui->line_divider->hide();
+    }
+}
+
 void DLG_GateInfo::on_btn_DeleteGate_clicked()
 {
     if(m_pGateDisplayed)
@@ -145,15 +168,23 @@ void DLG_GateInfo::on_btn_DeleteGate_clicked()
 
 void DLG_GateInfo::on_lineEdit_Frequency_editingFinished()
 {
-    QString frequencyString = ui->lineEdit_Frequency->text();
-    int frequency = frequencyString.toInt();
-
-    if(frequency > 0 && frequency < 30000)
+    if(m_pGateDisplayed && dynamic_cast<GateTimer*>(m_pGateDisplayed))
     {
-        if(m_pGateDisplayed)
+        QString frequencyString = ui->lineEdit_Frequency->text();
+        int frequency = frequencyString.toInt();
+
+        if(frequency > 0 && frequency < 30000)
         {
             dynamic_cast<GateTimer*>(m_pGateDisplayed)->setFrequency(frequency);
         }
+        else
+        {
+            m_pParent->SendUserMessage("Frequency out of range!");
+        }
+    }
+    else
+    {
+        qDebug() << "DLG_GateInfo::on_lineEdit_Frequency_editingFinished - Line editing on invalid object!";
     }
 }
 
@@ -197,5 +228,23 @@ void DLG_GateInfo::on_btn_Edit_clicked()
     if(m_pGateDisplayed->GetType() == GATE_TEXT_LABEL)
     {
         m_pParent->EditTextLabel(dynamic_cast<TextLabel*>(m_pGateDisplayed));
+    }
+}
+
+void DLG_GateInfo::on_lineEdit_pageUpdateFrequency_editingFinished()
+{
+    if(m_pGateField)
+    {
+        QString frequencyString = ui->lineEdit_pageUpdateFrequency->text();
+        int frequency = frequencyString.toInt();
+
+        if(frequency > 0 && frequency < 30000)
+        {
+            m_pGateField->setUpdateFrequency(frequency);
+        }
+        else
+        {
+            m_pParent->SendUserMessage("Frequency out of range!");
+        }
     }
 }

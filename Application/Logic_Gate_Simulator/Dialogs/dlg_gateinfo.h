@@ -9,6 +9,7 @@ class DLG_GateInfo;
 }
 class DLG_Home;
 class Gate;
+class GateField;
 
 class DLG_GateInfo : public QWidget
 {
@@ -19,6 +20,7 @@ public:
     ~DLG_GateInfo();
 
     void setGate(Gate* g);
+    void setGateField(GateField* pGateField);
 
 private slots:
     void on_btn_DeleteGate_clicked();
@@ -27,12 +29,15 @@ private slots:
     void on_cb_DragMode_clicked();
     void on_btn_Edit_clicked();
 
+    void on_lineEdit_pageUpdateFrequency_editingFinished();
+
 private:
     Ui::DLG_GateInfo *ui;
 
     DLG_Home* m_pParent = nullptr;
 
     Gate* m_pGateDisplayed = nullptr;
+    GateField* m_pGateField = nullptr;
 
     void UiWhenNoGateSelected();
 };

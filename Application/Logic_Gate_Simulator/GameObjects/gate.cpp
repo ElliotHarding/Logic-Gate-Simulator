@@ -303,21 +303,11 @@ bool Node::LinkNode(Node*& n)
     return true;
 }
 
-bool Node::isLinked()
-{
-    return !m_linkedNodes.empty();
-}
-
 void Node::DetachNode()
 {
     for (Node* n : m_linkedNodes)
     {
-        if(m_nodeType == OutputNode)
-        {
-            n->setValue(0);
-        }
         n->DetachNode(this);
-        n = nullptr;
     }
     m_linkedNodes.clear();
 }
@@ -331,5 +321,15 @@ void Node::DetachNode(Node *n)
             m_linkedNodes.erase(m_linkedNodes.begin() + i);
             return;
         }
+    }
+
+    if(m_nodeType == InputNode)
+    {
+        bool value = false;
+        for(Node* n : m_linkedNodes)
+        {
+            value |= n->value();
+        }
+        setValue(value);
     }
 }

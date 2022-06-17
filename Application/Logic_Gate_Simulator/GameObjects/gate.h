@@ -89,7 +89,6 @@ public:
 
     ///Linked nodes
     bool LinkNode(Node*& n);
-    bool isLinked();
     void DetachNode();
 
     ///Id

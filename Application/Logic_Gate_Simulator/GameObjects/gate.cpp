@@ -319,7 +319,7 @@ void Node::DetachNode(Node *n)
         if(m_linkedNodes[i] == n)
         {
             m_linkedNodes.erase(m_linkedNodes.begin() + i);
-            return;
+            break;
         }
     }
 

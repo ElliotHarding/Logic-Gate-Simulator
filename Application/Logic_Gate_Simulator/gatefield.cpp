@@ -68,19 +68,19 @@ void GateField::paintEvent(QPaintEvent*)
         painter.drawRect(m_pSelectionTool->geometry());
     }
 
-    //If were in the middle of linking
-    if(m_pLinkingNode)
-    {
-        painter.setPen(Settings::LinkingNodeLine);
-        painter.drawLine(m_pLinkingNode->position(), m_currentMousePos);
-    }
-
     //Paint in reverse order, so gate on top of vector get's painted last
     //So if we're dragging, the one we're dragging gets painted ontop of the others
     //Since dragging move the gate to the top of the vector
     for (int index = m_allGates.size() - 1; index > -1; index--)
     {
         m_allGates[size_t(index)]->draw(painter);
+    }
+
+    //If were in the middle of linking
+    if(m_pLinkingNode)
+    {
+        painter.setPen(Settings::LinkingNodeLine);
+        painter.drawLine(m_pLinkingNode->position(), m_currentMousePos);
     }
 }
 

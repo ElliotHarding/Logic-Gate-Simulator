@@ -32,7 +32,7 @@ void GateTimer::SaveData(std::ofstream &storage)
     //Add general gate info
     Gate::SaveGeneralData(storage);
 
-    storage << std::to_string(m_frequency);
+    storage << std::to_string(m_frequency) << std::endl;
 
     //Add node information
     m_pOutput->SaveData(storage);

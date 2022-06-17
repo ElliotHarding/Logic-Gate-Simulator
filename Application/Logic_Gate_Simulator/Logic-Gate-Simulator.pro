@@ -133,37 +133,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    Resources/Button Icons/icon-bin.png \
-    Resources/Button Icons/icon-drag.png \
-    Resources/Button Icons/icon-file-down.png \
-    Resources/Button Icons/icon-file-explorer.png \
-    Resources/Button Icons/icon-file-up.png \
-    Resources/Button Icons/icon-gate-and.png \
-    Resources/Button Icons/icon-gate-collection.png \
-    Resources/Button Icons/icon-gate-input.png \
-    Resources/Button Icons/icon-gate-input-off.png \
-    Resources/Button Icons/icon-gate-input-on.png \
-    Resources/Button Icons/icon-gate-not.png \
-    Resources/Button Icons/icon-gate-or.png \
-    Resources/Button Icons/icon-gate-output.png \
-    Resources/Button Icons/icon-gate-selection.png \
-    Resources/Button Icons/icon-gate-timer.png \
-    Resources/Button Icons/icon-link-basic.png \
-    Resources/Button Icons/icon-link-delete.png \
-    Resources/Button Icons/icon-new-page.png \
-    Resources/Button Icons/icon-pan.png \
-    Resources/Button Icons/icon-tool.png \
-    Resources/Button Icons/icon-zoom-in.png \
-    Resources/Button Icons/icon-zoom-out.png \
-    Resources/Button Icons/icon-redo.png \
-    Resources/Button Icons/icon-undo.png \
-    Resources/Button Icons/icon-gate-tri-and.png \
-    Resources/Button Icons/icon-gate-tri-or.png \
-    Resources/Button Icons/icon-gate-tri-and.png \
-    Resources/Button Icons/icon-gate-tri-or.png \
-    Resources/Gates/gate-number-output.png \
-    Resources/Gates/gate-tri-and.png
-
 RESOURCES += \
     resouces.qrc

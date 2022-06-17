@@ -187,6 +187,7 @@ void GateField::AddGate(Gate* go, const bool& newlySpawned)
     }
 
     m_allGates.push_back(go);
+    UpdateGateSelected(go);
 
     //Temp. When newlySpawned position stuff changes.
     m_history.recordHistory(m_allGates);

@@ -13,6 +13,7 @@ class GateTimer : public QObject, public GateSingleOutput
 
 public:
     GateTimer(const int& x = 0, const int& y = 0, const id& out = idGenerator());
+    ~GateTimer();
 
     virtual void UpdateOutput() override;
     virtual void SaveData(std::ofstream& storage) override;

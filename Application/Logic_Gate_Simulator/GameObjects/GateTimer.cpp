@@ -13,7 +13,13 @@ GateTimer::GateTimer(const int& x, const int& y, const id& out) :
 {
     m_timer.setTimerType(Qt::PreciseTimer);
     QObject::connect(&m_timer, SIGNAL(timeout()), this, SLOT(onTick()));
-    m_timer.start(m_frequency);
+
+    setFrequency(1000);
+}
+
+GateTimer::~GateTimer()
+{
+    m_timer.stop();
 }
 
 void GateTimer::UpdateOutput()
@@ -50,11 +56,11 @@ void GateTimer::setFrequency(int frequency)
 {
     m_frequency = frequency;
     m_timer.stop();
-    m_timer.start(m_frequency);
+    m_timer.setInterval(m_frequency);
+    m_timer.start();
 }
 
 void GateTimer::onTick()
 {
     m_pOutput->setValue(!m_pOutput->value());
 }
-

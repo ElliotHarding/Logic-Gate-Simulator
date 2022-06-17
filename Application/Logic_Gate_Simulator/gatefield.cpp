@@ -14,6 +14,8 @@ const float PanSpeed = 0.75;
 const qreal ZoomScrollSpeed = 0.05;
 
 const uint MaxGateFieldHistory = 20;
+
+const uint UpdateFrequencyMs = 200;
 }
 
 GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::string& name, DLG_SaveGateCollection* pSaveGateCollectionDialog) :
@@ -28,7 +30,7 @@ GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::stri
 
     connect(&m_gateUpdateTimer, SIGNAL(timeout()), this, SLOT(onRequestUpdateGates()));
     m_gateUpdateTimer.setTimerType(Qt::PreciseTimer);
-    m_gateUpdateTimer.start(500);
+    m_gateUpdateTimer.start(Settings::UpdateFrequencyMs);
 }
 
 GateField::~GateField()
@@ -250,9 +252,6 @@ void GateField::mousePressEvent(QMouseEvent *click)
     {
         checkDeleteNodeLink(clickPos);
     }
-
-    //Call to redraw
-    update();
 }
 
 void GateField::mouseMoveEvent(QMouseEvent *click)
@@ -265,6 +264,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
             if(m_pDraggingGate)
             {
                 m_pDraggingGate->setPosition(clickPos.x(), clickPos.y());
+                update();
             }
             break;
 
@@ -286,16 +286,13 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
             if(m_pLinkingNode)
             {
                 m_currentMousePos = clickPos;
+                update();
             }
             break;
 
         default:
             break;
     }
-
-
-    //Call to redraw
-    update();
 }
 
 void GateField::mouseReleaseEvent(QMouseEvent* click)
@@ -316,7 +313,6 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
     if(m_pLinkingNode)
     {
         checkEndLink(clickPos);
-        m_pLinkingNode = nullptr;
     }
 
     //If ending a selection
@@ -392,6 +388,7 @@ bool GateField::checkStartLink(const QPoint& mouse)
 
             //Change cursor as started linking
             m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
+            update();
             return true;
         }
     }
@@ -411,12 +408,16 @@ void GateField::checkEndLink(const QPoint& mouse)
             if(node->type() == m_pLinkingNode->type())
             {
                 m_pParent->SendUserMessage("Cant link to nodes of same type");
+                m_pLinkingNode = nullptr;
+                update();
                 return;
             }
 
             //Check both dont have same parent
             if(node->GetParent() == m_pLinkingNode->GetParent())
             {
+                m_pLinkingNode = nullptr;
+                update();
                 return;
             }
 
@@ -446,6 +447,7 @@ void GateField::checkEndLink(const QPoint& mouse)
     }
 
     m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
+    m_pLinkingNode = nullptr;
     update();
 }
 
@@ -458,6 +460,7 @@ void GateField::checkDeleteNodeLink(const QPoint& mouse)
         if(pPossibleClickedNode != nullptr && dynamic_cast<Node*>(pPossibleClickedNode))
         {
             dynamic_cast<Node*>(pPossibleClickedNode)->DetachNode();
+            update();
             return;
         }
     }
@@ -489,6 +492,8 @@ void GateField::editSelection(const QPoint& mouse)
     {
         m_pSelectionTool->setGeometry(QRect(m_selectionToolOrigin, mouse).normalized());
     }
+
+    update();
 }
 
 void GateField::checkDelete(const QPoint& mouse)
@@ -502,6 +507,7 @@ void GateField::checkDelete(const QPoint& mouse)
             delete gObject;
 
             UpdateGateSelected(nullptr);
+            update();
             return;
         }
     }
@@ -532,6 +538,7 @@ void GateField::checkStartDrag(const QPoint& mouse)
             //This means if you drag an object over another, the object being dragged wont switch
             moveToFront(index, m_allGates);
 
+            update();
             return;
         }
     }
@@ -546,6 +553,8 @@ void GateField::doPan(const QPoint& mouse)
     offsetGates(offsetX, offsetY);
 
     m_previousDragMousePos = mouse;
+
+    update();
 }
 
 void GateField::moveToFront(const uint& index, std::vector<Gate *> &vec)

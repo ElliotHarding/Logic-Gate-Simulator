@@ -21,11 +21,6 @@ public:
     void SetPowerState(bool state) {m_pOutput->setValue(state);}
     bool GetPowerState() {return m_pOutput->value();}
     void ToggleOutputState();
-
-protected:
-
-    //Toggle functionality
-    QTimer m_toggleStateTimer;
 };
 
 #endif // GATEINPUTBOX_H

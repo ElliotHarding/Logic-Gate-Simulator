@@ -1,16 +1,9 @@
 #include "GateToggle.h"
 #include "gatefield.h"
 
-namespace Settings
-{
-///Functionality
-const uint MaxToggleFrequencyMs = 2;
-}
-
 GateToggle::GateToggle(const int& x, const int& y, const id& out) :
     GateSingleOutput::GateSingleOutput(x, y, GATE_EMMITTER, out)
 {
-    m_toggleStateTimer.start(Settings::MaxToggleFrequencyMs);
 }
 
 void GateToggle::UpdateOutput()
@@ -20,8 +13,6 @@ void GateToggle::UpdateOutput()
 
 void GateToggle::ToggleOutputState()
 {
-    m_toggleStateTimer.stop();
-    m_toggleStateTimer.start(Settings::MaxToggleFrequencyMs);
     m_pOutput->setValue(!m_pOutput->value());
 }
 

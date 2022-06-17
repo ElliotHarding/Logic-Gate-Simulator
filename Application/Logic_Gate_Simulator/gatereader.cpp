@@ -349,26 +349,26 @@ int GateReader::tryStoi(const std::string& s, const int& defaultVal)
 
 void GateReader::linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>& linkInfo)
 {
-    for (const NodeIds link : linkInfo)
+    for (const NodeIds& link : linkInfo)
     {
         if(link.id != -1)
         {
             Node* node1;
             if(SearchGatesForNode(gates, link.id, node1))
             {
-                for (const id id_ : link.linkedIds)
+                for (const id& otherId : link.linkedIds)
                 {
-                    if(id_ != -1)
+                    if(otherId != -1)
                     {
                         Node* node2;
-                        if(SearchGatesForNode(gates, id_, node2))
+                        if(SearchGatesForNode(gates, otherId, node2))
                         {
                             (node2)->LinkNode(node1);
                             (node1)->LinkNode(node2);
                         }
                         else
                         {
-                            qDebug() << "GateReader::linkNodes - Failed to find node! " << id_;
+                            qDebug() << "GateReader::linkNodes - Failed to find node! " << otherId;
                         }
                     }
                 }

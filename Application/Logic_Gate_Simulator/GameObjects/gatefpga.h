@@ -4,32 +4,6 @@
 #include <QDialog>
 #include "gate.h"
 
-class GateFPGA;
-class UpdateScript;
-
-class DLG_FPGA : public QDialog
-{
-public:
-    DLG_FPGA(GateFPGA* parent);
-
-    void EditFpgaScript(UpdateScript* pUpdateScript);
-
-protected:
-    GateFPGA* m_pParentGate;
-
-};
-
-class UpdateScript
-{
-public:
-    UpdateScript();
-
-    void CalculateOutput(std::vector<Node*>& in, std::vector<Node*>& out);
-    void SaveData(std::ofstream& storage);
-protected:
-
-};
-
 class GateFPGA : public Gate
 {
 public:
@@ -42,13 +16,16 @@ public:
     virtual void SaveData(std::ofstream& storage) override;
     virtual Gate* Clone() override;
 
+    virtual void offsetPosition(const int& dX, const int& dY) override;
+    virtual void setPosition(const int& x, const int& y) override;
+
     void OpenEditor();
 
 protected:
 
-    UpdateScript m_updateScript;
+    void updateEditButtonGeometry();
 
-    DLG_FPGA* m_pDlgEdit;
+    QRect m_editButtonRect;
 
     ///Nodes
     std::vector<Node*> m_inputNodes;

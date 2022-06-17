@@ -12,13 +12,18 @@ const int OutputNodesXpos = GateFpgaWidth + 5;
 const int GapBetweenNodesY = 11;
 
 const QColor BorderColor = Qt::darkGray;
-const QColor FillColor = Qt::lightGray;
+const QColor EditButtonColor = Qt::lightGray;
+
+const QPen BorderPen(Settings::BorderColor, Settings::GateFpgaBorderWidth);
+
+const uint EditButtonSize = 15;
 }
 
 GateFPGA::GateFPGA(const int& x, const int& y) :
-    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
-    m_pDlgEdit(new DLG_FPGA(this))
+    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight)
 {
+    updateEditButtonGeometry();
+
     for (size_t x = 0; x < 10; x++)
     {
         m_inputNodes.push_back(new Node(this, Settings::InputNodesXpos, x * Settings::GapBetweenNodesY, InputNode));
@@ -31,8 +36,6 @@ GateFPGA::GateFPGA(const int& x, const int& y) :
 
 GateFPGA::~GateFPGA()
 {
-    delete m_pDlgEdit;
-
     m_inputNodes.clear();
     m_outputNodes.clear();
 }
@@ -40,26 +43,19 @@ GateFPGA::~GateFPGA()
 void GateFPGA::draw(QPainter& painter)
 {
     //Draw gate
-    painter.setPen(QPen(Settings::BorderColor, Settings::GateFpgaBorderWidth * 2));
+    painter.setPen(Settings::BorderPen);
     painter.drawRect(m_geometry);
 
-    //MiniRect
-    QRect miniRect;
-    miniRect.setLeft(m_geometry.left() + Settings::GateFpgaBorderWidth);
-    miniRect.setRight(m_geometry.right() - Settings::GateFpgaBorderWidth);
-    miniRect.setTop(m_geometry.top() + Settings::GateFpgaBorderWidth);
-    miniRect.setBottom(m_geometry.bottom() - Settings::GateFpgaBorderWidth);
-
-    painter.fillRect(miniRect, QBrush(Settings::FillColor));
-
     drawNodes(painter);
+
+    painter.fillRect(m_editButtonRect, QBrush(Settings::EditButtonColor));
 }
 
 GameObject *GateFPGA::checkClicked(const QPoint& mouse)
 {
     if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
     {
-        if(m_geometry.contains(mouse))
+        if(m_editButtonRect.contains(mouse))
         {
             OpenEditor();
         }
@@ -73,8 +69,6 @@ void GateFPGA::SaveData(std::ofstream& storage)
 {
     SaveGeneralData(storage);
 
-    m_updateScript.SaveData(storage);
-
     //Add node information
     for (Node* n : m_nodes)
     {
@@ -86,56 +80,35 @@ void GateFPGA::SaveData(std::ofstream& storage)
 
 void GateFPGA::UpdateOutput()
 {
-    m_updateScript.CalculateOutput(m_inputNodes, m_outputNodes);
+    //Todo : do it
 }
 
 Gate *GateFPGA::Clone()
 {
     GateFPGA* clone = new GateFPGA(m_geometry.x(), m_geometry.y());
-    clone->m_updateScript = m_updateScript;
 
     return clone;
 }
 
+void GateFPGA::offsetPosition(const int &dX, const int &dY)
+{
+    Gate::offsetPosition(dX, dY);
+    updateEditButtonGeometry();
+}
+
+void GateFPGA::setPosition(const int &x, const int &y)
+{
+    Gate::setPosition(x, y);
+    updateEditButtonGeometry();
+}
+
 void GateFPGA::OpenEditor()
 {
-    m_pDlgEdit->EditFpgaScript(&m_updateScript);
+    //Todo : check if GateFPGA is in a GateCollection. Does it have m_pParentField?
+    m_pParentField->editFPGA(this);
 }
 
-
-//      ----                    ----
-//              UpdateScript
-//      ----                    ----
-
-UpdateScript::UpdateScript()
+void GateFPGA::updateEditButtonGeometry()
 {
-
-}
-
-void UpdateScript::CalculateOutput(std::vector<Node*>& in, std::vector<Node*>& out)
-{
-
-}
-
-void UpdateScript::SaveData(std::ofstream& storage)
-{
-
-}
-
-
-
-//      ----                    ----
-//               DLG_FPGA
-//      ----                    ----
-
-
-DLG_FPGA::DLG_FPGA(GateFPGA *parent) :
-    QDialog (),
-    m_pParentGate(parent)
-{
-}
-
-void DLG_FPGA::EditFpgaScript(UpdateScript* pUpdateScript)
-{
-    show();
+    m_editButtonRect = QRect(m_geometry.right(), m_geometry.top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);
 }

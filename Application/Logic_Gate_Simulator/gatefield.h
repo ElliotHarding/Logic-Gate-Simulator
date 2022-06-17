@@ -16,6 +16,7 @@
 class DLG_SaveGateCollection;
 class DLG_Home;
 class TextLabel;
+class GateFPGA;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /// GateFieldHistory
@@ -71,8 +72,12 @@ public:
     ClickMode GetCurrentClickMode();
     void setCurrentClickMode(const ClickMode& mode);
 
+    ///Update frequency
     void setUpdateFrequency(const uint& frequencyMs);
     uint updateFrequency() const;
+
+    ///FPGA Edit
+    void editFPGA(GateFPGA *pFPGA);
 
 signals:
 public slots:

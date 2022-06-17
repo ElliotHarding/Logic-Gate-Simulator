@@ -17,12 +17,9 @@ public:
 
 private slots:
     void on_btn_numberOutputGate_clicked();
-
     void on_btn_recieverGate_clicked();
-
-    //void on_btn_fpgaGate_clicked();
-
     void on_btn_labelGate_clicked();
+    void on_btn_fpgaGate_clicked();
 
 private:
     Ui::Widget_Advanced *ui;

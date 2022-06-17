@@ -74,6 +74,7 @@ void DLG_Home::InitalizeDialogsAndWidgets()
     m_pDlgGateInfo = new DLG_GateInfo(this);
     m_pDlgMessage = new DLG_Message(this);
     m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
+    m_pDlgEditFPGA = new DLG_ConfigureFPGA(this);
 
     //Gate widgets
     const QPoint c_GateWidgetPos = accountForUIOffsetts(ui->layout_GateWidget->geometry()).topLeft();
@@ -112,6 +113,7 @@ DLG_Home::~DLG_Home()
     delete m_pDlgGateInfo;
     delete m_pDlgMessage;
     delete m_pDlgTextLabelEdit;
+    delete m_pDlgEditFPGA;
 
     delete m_pZoomSlider;
 
@@ -248,6 +250,11 @@ void DLG_Home::SetCurrentClickMode(const ClickMode& clickMode)
 void DLG_Home::EditTextLabel(TextLabel* pTextLabelToEdit)
 {
     m_pDlgTextLabelEdit->EditTextLabel(pTextLabelToEdit);
+}
+
+void DLG_Home::editFPGA(GateFPGA* pFPGA)
+{
+    m_pDlgEditFPGA->open(pFPGA);
 }
 
 void DLG_Home::UpdateCustomGateListWidget()

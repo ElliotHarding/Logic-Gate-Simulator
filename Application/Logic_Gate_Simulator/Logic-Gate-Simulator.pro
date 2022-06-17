@@ -31,6 +31,7 @@ INCLUDEPATH += \
     GameObjects
 
 SOURCES += \
+    Dialogs/dlg_configurefpga.cpp \
     Dialogs/dlg_message.cpp \
     Dialogs/dlg_task.cpp \
     Dialogs/dlg_taskmanager.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
     GameObjects/gatetrieor.cpp \
     GameObjects/gatexor.cpp \
     GameObjects/textlabel.cpp \
+    dlg_editfpga.cpp \
     main.cpp \
     gatefield.cpp \
     gatereader.cpp \
@@ -74,6 +76,7 @@ SOURCES += \
     truthtables.cpp
 
 HEADERS += \
+    Dialogs/dlg_configurefpga.h \
     Dialogs/dlg_message.h \
     Dialogs/dlg_textedit.h \
     GameObjects/gateeor.h \
@@ -85,6 +88,7 @@ HEADERS += \
     GameObjects/gatexor.h \
     GameObjects/textlabel.h \
     clickmode.h \
+    dlg_editfpga.h \
     gatereader.h \
     AllGates.h \
     gatefield.h \
@@ -116,16 +120,17 @@ HEADERS += \
     GameObjects/gatenumberoutput.h
 
 FORMS += \
+    Dialogs/dlg_configurefpga.ui \
     Dialogs/dlg_message.ui \
-        Dialogs/dlg_gateinfo.ui \
-        Dialogs/dlg_home.ui \
-        Dialogs/dlg_savegatecollection.ui \
+    Dialogs/dlg_gateinfo.ui \
+    Dialogs/dlg_home.ui \
+    Dialogs/dlg_savegatecollection.ui \
     Dialogs/dlg_textedit.ui \
-        Dialogs/widget_advanced.ui \
-        Dialogs/widget_allgates.ui \
-        Dialogs/widget_customgates.ui \
-        Dialogs/widget_inputgates.ui \
-        Dialogs/widget_standard.ui \
+    Dialogs/widget_advanced.ui \
+    Dialogs/widget_allgates.ui \
+    Dialogs/widget_customgates.ui \
+    Dialogs/widget_inputgates.ui \
+    Dialogs/widget_standard.ui \
     Dialogs/dlg_load.ui
 
 # Default rules for deployment.

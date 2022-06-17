@@ -112,6 +112,11 @@ uint GateField::updateFrequency() const
     return m_gateUpdateFrequencyMs;
 }
 
+void GateField::editFPGA(GateFPGA* pFPGA)
+{
+    m_pParent->editFPGA(pFPGA);
+}
+
 void GateField::onRequestUpdateGates()
 {
     for (int index = m_allGates.size() - 1; index > -1; index--)

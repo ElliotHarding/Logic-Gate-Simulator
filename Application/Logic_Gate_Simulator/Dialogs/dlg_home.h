@@ -16,6 +16,7 @@
 #include "dlg_gateinfo.h"
 #include "dlg_savegatecollection.h"
 #include "dlg_message.h"
+#include "dlg_configurefpga.h"
 
 #include "movingwidget.h"
 #include "widget_advanced.h"
@@ -47,6 +48,7 @@ public:
     void UpdateCustomGateListWidget();
     void SetCurrentClickMode(const ClickMode& clickMode);
     void EditTextLabel(TextLabel* pTextLabelToEdit);
+    void editFPGA(GateFPGA* pFPGA);
 
 protected:
     Ui::DLG_Home *ui;
@@ -54,6 +56,7 @@ protected:
     //Dialogs
     DLG_GateInfo*           m_pDlgGateInfo;
     DLG_SaveGateCollection* m_pDlgSaveGateCollection;
+    DLG_ConfigureFPGA*      m_pDlgEditFPGA;
     DLG_Message*            m_pDlgMessage;
     QFileDialog*            m_pDlgLoadGates;
     QInputDialog*           m_pDlgInput;

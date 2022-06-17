@@ -296,7 +296,11 @@ bool Node::LinkNode(Node*& n)
 
     if(m_nodeType == InputNode)
     {
-        setValue(n->value());
+        bool value = false;
+        for(Node* n : m_linkedNodes)
+        {
+            value |= n->value();
+        }
         m_pParent->UpdateOutput();
     }
 
@@ -323,6 +327,7 @@ void Node::DetachNode(Node *n)
         }
     }
 
+    //Check remaning attached nodes to know value
     if(m_nodeType == InputNode)
     {
         bool value = false;

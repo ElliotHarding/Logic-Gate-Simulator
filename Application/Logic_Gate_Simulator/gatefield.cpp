@@ -589,6 +589,8 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
         clonedSnapshot.push_back(g->Clone());
     }
 
+    //Todo : could merge Clone() and collectLinkInfo() for gate. Unless decide todo them individually elsewhere...
+
     //Copy link info into clonedSnapshot gates
     std::vector<NodeIds> linkInfo;
     for(Gate* g : snapshot)

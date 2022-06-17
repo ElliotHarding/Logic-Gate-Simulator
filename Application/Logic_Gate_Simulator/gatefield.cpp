@@ -589,6 +589,14 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
         clonedSnapshot.push_back(g->Clone());
     }
 
+    //Copy link info into clonedSnapshot gates
+    std::vector<NodeIds> linkInfo;
+    for(Gate* g : snapshot)
+    {
+        g->collectLinkInfo(linkInfo);
+    }
+    GateReader::linkNodes(clonedSnapshot, linkInfo);
+
     m_history.push_back(clonedSnapshot);
 
     if(Settings::MaxGateFieldHistory < m_history.size())

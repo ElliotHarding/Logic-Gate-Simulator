@@ -17,9 +17,11 @@ public:
     virtual void setPosition(const int& x, const int& y) override;
 
     virtual GameObject* checkClicked(const QPoint& mouse) override;
-    virtual bool FindNodeWithId(const id& id, Node*& pNode) override;
 
+    virtual bool FindNodeWithId(const id& id, Node*& pNode) override;
     virtual void AssignNewNodeIds() override;
+    virtual void collectLinkInfo(std::vector<NodeIds>& collection) override;
+
     virtual void SetParent(GateField* gf) override;
 
     virtual void SaveData(std::ofstream& storage) override;

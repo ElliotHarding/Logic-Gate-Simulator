@@ -45,6 +45,7 @@ public:
     QRect geometry() const;
 
     //Node functions
+    virtual void collectLinkInfo(std::vector<NodeIds>& collection);
     virtual bool FindNodeWithId(const id& id, Node*& node);
     virtual void AssignNewNodeIds();
     void DetachNodes();
@@ -79,6 +80,8 @@ public:
     ///Construction/destruction
     Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeType& type, int nodeId = idGenerator());
     virtual ~Node();
+
+    virtual NodeIds linkInfo();
 
     virtual void draw(QPainter& painter);
     virtual void setPosition(const int& x, const int& y);

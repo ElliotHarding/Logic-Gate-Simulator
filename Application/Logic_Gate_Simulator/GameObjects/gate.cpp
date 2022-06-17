@@ -101,6 +101,14 @@ QRect Gate::geometry() const
     return m_geometry;
 }
 
+void Gate::collectLinkInfo(std::vector<NodeIds>& collection)
+{
+    for(Node* n : m_nodes)
+    {
+        collection.push_back(n->linkInfo());
+    }
+}
+
 bool Gate::FindNodeWithId(const id& id, Node*& node)
 {
     for (size_t index = 0; index < m_nodes.size(); index++)
@@ -174,6 +182,19 @@ Node::Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeTy
 Node::~Node()
 {
     DetachNode();
+}
+
+NodeIds Node::linkInfo()
+{
+    NodeIds info;
+    info.id = m_id;
+
+    for (Node* n : m_linkedNodes)
+    {
+        info.linkedIds.push_back(n->id());
+    }
+
+    return info;
 }
 
 void Node::draw(QPainter& painter)

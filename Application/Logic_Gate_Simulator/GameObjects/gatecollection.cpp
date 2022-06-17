@@ -136,6 +136,14 @@ void GateCollection::AssignNewNodeIds()
     }
 }
 
+void GateCollection::collectLinkInfo(std::vector<NodeIds> &collection)
+{
+    for (Gate* gate : m_gates)
+    {
+        gate->collectLinkInfo(collection);
+    }
+}
+
 void GateCollection::draw(QPainter& painter)
 {
     UpdateContaningArea();

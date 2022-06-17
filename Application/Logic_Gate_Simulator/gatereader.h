@@ -23,6 +23,8 @@ public:
     bool ReadGateField(const QString& fileName, GateField* pNewGateFeild, QString& errorMessage);
     bool ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection);
 
+    static void linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>& linkInfo);
+
 private:
     struct NodeAndIds {Node* pNode; int id; std::vector<int> linkedIds;};
 
@@ -30,8 +32,7 @@ private:
     Gate* readGate(std::ifstream& gateStream, std::string& line, std::vector<NodeIds>& linkInfo);
     NodeIds readNode(std::ifstream& gateStream);
     int tryStoi(const std::string&, const int&);
-    void linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>& linkInfo);
-    bool SearchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n);
+    static bool SearchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n);
 };
 
 class Saver

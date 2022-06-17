@@ -553,8 +553,6 @@ void GateField::doPan(const QPoint& mouse)
     offsetGates(offsetX, offsetY);
 
     m_previousDragMousePos = mouse;
-
-    update();
 }
 
 void GateField::moveToFront(const uint& index, std::vector<Gate *> &vec)
@@ -570,6 +568,8 @@ void GateField::offsetGates(const double& offsetX, const double& offsetY)
     //Apply delta
     for (Gate* g : m_allGates)
         g->offsetPosition(offsetX, offsetY);
+
+    update();
 }
 
 QPoint GateField::qtPointToWorldPoint(const QPoint& mousePoint) const

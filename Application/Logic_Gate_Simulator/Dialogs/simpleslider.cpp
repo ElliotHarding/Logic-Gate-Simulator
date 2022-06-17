@@ -79,7 +79,6 @@ void SimpleSlider::paintEvent(QPaintEvent*)
     QPainter painter(this);
 
     //Paiting variables to be used
-    QPainterPath path;
     QPen pen(m_sliderCol, Settings::SliderDrawThickness);
     painter.setPen(pen);
 
@@ -87,7 +86,7 @@ void SimpleSlider::paintEvent(QPaintEvent*)
     painter.drawLine(m_minDrawPoint, m_maxDrawPoint);
 
     //Set slider colourSetZoomFactor
-    pen.setColor(Qt::darkGray);
+    pen.setColor(m_nubbleCol);
     painter.setPen(pen);
 
     //Draw slider
@@ -211,7 +210,6 @@ void VerticalSimpleSlider::paintEvent(QPaintEvent*)
     QPainter painter(this);
 
     //Paiting variables to be used
-    QPainterPath path;
     QPen pen(m_sliderCol, Settings::SliderDrawThickness);
     painter.setPen(pen);
 
@@ -219,7 +217,7 @@ void VerticalSimpleSlider::paintEvent(QPaintEvent*)
     painter.drawLine(m_minDrawPoint, m_maxDrawPoint);
 
     //Set slider colourSetZoomFactor
-    pen.setColor(Qt::darkGray);
+    pen.setColor(m_nubbleCol);
     painter.setPen(pen);
 
     //Draw slider

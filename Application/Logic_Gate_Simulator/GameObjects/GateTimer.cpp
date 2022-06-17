@@ -44,6 +44,8 @@ Gate *GateTimer::Clone()
 {
     GateTimer* clone = new GateTimer(m_geometry.x(), m_geometry.y(), m_pOutput->id());
 
+    //Todo : bug - because not cloned node its value is set by timers that are cloned...
+
     //Clone nodes
     clone->m_pOutput = m_pOutput; //Todo : not actually cloning
 

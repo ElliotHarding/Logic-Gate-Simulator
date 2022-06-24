@@ -27,7 +27,7 @@ void DLG_ConfigureFPGA::open(GateFPGA* pFPGA)
         const uint numOutputs = m_pFpga->getNumOutputs();
         ui->spinBox_inputs->setValue(numInputs);
         ui->spinBox_outputs->setValue(numOutputs);
-        ui->textEdit_script->setText(m_pFpga->getCoreScript());
+        ui->textEdit_script->setText(m_pFpga->getScript());
 
 
 

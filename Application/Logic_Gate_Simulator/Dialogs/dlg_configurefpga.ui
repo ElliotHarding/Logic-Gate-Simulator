@@ -104,7 +104,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>function calcValues() {</string>
+    <string>In vars:</string>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_endScript">
@@ -117,20 +117,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>    return {};</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_endScript2">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>390</y>
-     <width>361</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>}</string>
+    <string>Outvars:</string>
    </property>
   </widget>
  </widget>

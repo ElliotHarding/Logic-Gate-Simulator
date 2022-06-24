@@ -138,6 +138,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
             nextLine
         }
         rGate = new GateCollection(rGates);
+        return rGate;
         break;
     }
 
@@ -286,6 +287,13 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         break;
     }
 
+    case GateType::GATE_FPGA:
+    {
+
+
+        break;
+    }
+
     case GATE_NULL:
     default:
         qDebug() << "GateReader::readGate - Failed to read a gate!";
@@ -297,10 +305,13 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     //Enabled
     //Enabled no longer used
 
-    //Read off </GATE> tag, but it's already been read for GateCollections
+    //Read off END_SAVE_TAG_GATE tag, but it's already been read for GateCollections
     if(rGate->GetType() != GateType::GATE_COLLECTION)
     {
-        nextLine;
+        while(line != END_SAVE_TAG_GATE)
+        {
+            nextLine;
+        }
     }
 
     return rGate;

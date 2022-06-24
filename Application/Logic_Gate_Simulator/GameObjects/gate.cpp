@@ -290,6 +290,12 @@ NodeType Node::type() const
     return m_nodeType;
 }
 
+void Node::setOffsets(const int &offsetX, const int &offsetY)
+{
+    m_offsetX = offsetX;
+    m_offsetY = offsetY;
+}
+
 id Node::id() const
 {
     return m_id;

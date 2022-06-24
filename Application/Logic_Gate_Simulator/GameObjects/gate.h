@@ -97,6 +97,9 @@ public:
     ///Type
     NodeType type() const;
 
+    ///Offsets
+    void setOffsets(const int& offsetX, const int& offsetY);
+
     Gate* GetParent();
 
     void SaveData(std::ofstream& storage);
@@ -113,8 +116,8 @@ private:
     std::string GetLinkedNodesIds();
 
     ///Positional offset from parent gate
-    const int m_offsetX;
-    const int m_offsetY;
+    int m_offsetX;
+    int m_offsetY;
 
     //Stored value
     bool m_bValue;

@@ -23,7 +23,9 @@ const uint EditButtonSize = 15;
 
 GateFPGA::GateFPGA(const int& x, const int& y) :
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
-    m_script("")
+    m_coreScript(""),
+    m_startScript(""),
+    m_endScript("")
 {
     updateEditButtonGeometry();
 
@@ -114,6 +116,9 @@ void GateFPGA::UpdateOutput()
 Gate* GateFPGA::Clone()
 {
     GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_geometry.x(), m_geometry.y());
+    clone->m_coreScript = m_coreScript;
+    clone->m_startScript = m_startScript;
+    clone->m_endScript = m_endScript;
     return clone;
 }
 

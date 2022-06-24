@@ -110,10 +110,12 @@ void GateFPGA::UpdateOutput()
     QScriptEngine engine;
     QScriptContext* pContext = engine.pushContext();
 
-    pContext->activationObject().setProperty("in1", true);
-    pContext->activationObject().setProperty("out1", false);
+    pContext->activationObject().setProperty("input1", true);
+    pContext->activationObject().setProperty("output1", false);
 
     engine.evaluate(m_script);
+
+    qDebug() << pContext->activationObject().property("output1").toString();
 }
 
 Gate* GateFPGA::Clone()

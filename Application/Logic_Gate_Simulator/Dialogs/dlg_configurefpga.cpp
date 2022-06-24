@@ -58,6 +58,9 @@ void DLG_ConfigureFPGA::on_btn_setScript_clicked()
         m_pFpga->setInputs(ui->spinBox_inputs->value());
         m_pFpga->setOutputs(ui->spinBox_outputs->value());
         m_pFpga->setScript(ui->textEdit_script->toPlainText());
+
+        const QString fullScript = ui->lbl_startScript->text() + "\n" + ui->textEdit_script->toPlainText() + "\n" + ui->lbl_endScript->text() + "}";
+        m_pFpga->setFullScript(fullScript);
     }
     else
     {

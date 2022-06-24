@@ -2,6 +2,7 @@
 #include "gatefield.h"
 
 #include <QDebug>
+#include <QScriptEngine>
 
 namespace Settings
 {
@@ -23,8 +24,7 @@ const uint EditButtonSize = 15;
 
 GateFPGA::GateFPGA(const int& x, const int& y) :
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
-    m_script("var output1 = true, output2 = true, output3 = true, output4 = true, output5 = true;"),
-    m_fullScript("")
+    m_script("var output1 = true, output2 = true, output3 = true, output4 = true, output5 = true;")
 {
     updateEditButtonGeometry();
 
@@ -40,8 +40,7 @@ GateFPGA::GateFPGA(const int& x, const int& y) :
 
 GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& outputNodesToCopy, const int &x, const int &y) :
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
-    m_script(""),
-    m_fullScript("")
+    m_script("")
 {
     updateEditButtonGeometry();
 
@@ -108,14 +107,19 @@ void GateFPGA::SaveData(std::ofstream& storage)
 
 void GateFPGA::UpdateOutput()
 {
-    //Todo : do it
+    QScriptEngine engine;
+    QScriptContext* pContext = engine.pushContext();
+
+    pContext->activationObject().setProperty("in1", true);
+    pContext->activationObject().setProperty("out1", false);
+
+    engine.evaluate(m_script);
 }
 
 Gate* GateFPGA::Clone()
 {
     GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_geometry.x(), m_geometry.y());
     clone->m_script = m_script;
-    clone->m_fullScript = m_fullScript;
     return clone;
 }
 
@@ -213,11 +217,6 @@ QString GateFPGA::getScript() const
 void GateFPGA::setScript(const QString& script)
 {
     m_script = script;
-}
-
-void GateFPGA::setFullScript(const QString& script)
-{
-    m_fullScript = script;
 }
 
 void GateFPGA::updateEditButtonGeometry()

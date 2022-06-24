@@ -58,9 +58,6 @@ void DLG_ConfigureFPGA::on_btn_setScript_clicked()
         m_pFpga->setInputs(ui->spinBox_inputs->value());
         m_pFpga->setOutputs(ui->spinBox_outputs->value());
         m_pFpga->setScript(ui->textEdit_script->toPlainText());
-
-        const QString fullScript = ui->lbl_startScript->text() + "\n" + ui->textEdit_script->toPlainText() + "\n" + ui->lbl_endScript->text() + "}";
-        m_pFpga->setFullScript(fullScript);
     }
     else
     {
@@ -78,7 +75,7 @@ void DLG_ConfigureFPGA::setStartScript(const uint& numInputs)
         inputValues += "input" + QString::number(i) + ",";
     }
     inputValues = inputValues.left(inputValues.length()-1);
-    ui->lbl_startScript->setText("function calcValues(" + inputValues + ") {");
+    ui->lbl_startScript->setText("In vars: " + inputValues);
 }
 
 void DLG_ConfigureFPGA::setEndScript(const uint& numOutputs)
@@ -89,5 +86,5 @@ void DLG_ConfigureFPGA::setEndScript(const uint& numOutputs)
         outputValues += "output" + QString::number(i) + ",";
     }
     outputValues = outputValues.left(outputValues.length()-1);
-    ui->lbl_endScript->setText("    return new Array(" + outputValues + ");");
+    ui->lbl_endScript->setText("Out vars: " + outputValues);
 }

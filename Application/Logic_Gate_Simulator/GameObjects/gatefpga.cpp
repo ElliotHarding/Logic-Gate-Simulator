@@ -96,11 +96,21 @@ void GateFPGA::SaveData(std::ofstream& storage)
 {
     SaveGeneralData(storage);
 
-    //Add node information
-    for (Node* n : m_nodes)
+    storage << m_script.toStdString() << std::endl;
+
+    storage << "<InputNodes>" << std::endl;
+    for(Node* inputNode : m_inputNodes)
     {
-        n->SaveData(storage);
+        inputNode->SaveData(storage);
     }
+    storage << "</InputNodes>" << std::endl;
+
+    storage << "<OutputNodes>" << std::endl;
+    for(Node* outputNode : m_outputNodes)
+    {
+        outputNode->SaveData(storage);
+    }
+    storage << "</OutputNodes>" << std::endl;
 
     storage << END_SAVE_TAG_GATE << std::endl;
 }

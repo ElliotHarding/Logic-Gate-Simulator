@@ -31,6 +31,8 @@ protected:
 
     void updateEditButtonGeometry();
 
+    void eraseNodeFromAllNodes(Node* pNode);
+
     QRect m_editButtonRect;
 
     ///Nodes

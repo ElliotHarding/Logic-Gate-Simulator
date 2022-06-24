@@ -1,6 +1,8 @@
 #include "gatefpga.h"
 #include "gatefield.h"
 
+#include <QDebug>
+
 namespace Settings
 {
 const uint GateFpgaWidth = 100;
@@ -56,6 +58,7 @@ GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& out
 
 GateFPGA::~GateFPGA()
 {
+    //Actual nodes are deleted via Gate destructor stored in m_nodes
     m_inputNodes.clear();
     m_outputNodes.clear();
 }
@@ -142,14 +145,7 @@ void GateFPGA::setInputs(const uint& numInputs)
         for(uint i = numInputs; i < m_inputNodes.size();)
         {
             Node* n = m_inputNodes[i];
-            for(uint iAllNodes = 0; iAllNodes < m_nodes.size(); iAllNodes++)
-            {
-                if(n == m_nodes[iAllNodes])
-                {
-                    m_nodes.erase(m_nodes.begin() + iAllNodes);
-                    break;
-                }
-            }
+            eraseNodeFromAllNodes(n);
             m_inputNodes.erase(m_inputNodes.begin() + i);
             delete n;
         }
@@ -175,14 +171,38 @@ void GateFPGA::setOutputs(const uint& numOutputs)
 
     if(currentOutputs > numOutputs)
     {
-
+        for(uint i = numOutputs; i < m_outputNodes.size();)
+        {
+            Node* n = m_outputNodes[i];
+            eraseNodeFromAllNodes(n);
+            m_outputNodes.erase(m_outputNodes.begin() + i);
+            delete n;
+        }
         return;
     }
 
     //numOutputs > currentOutputs
+    for(uint i = currentOutputs; i < numOutputs; i++)
+    {
+        m_outputNodes.push_back(new Node(this, Settings::OutputNodesXpos, i * Settings::GapBetweenNodesY, OutputNode));
+        m_nodes.push_back(m_outputNodes[i]);
+    }
 }
 
 void GateFPGA::updateEditButtonGeometry()
 {
     m_editButtonRect = QRect(m_geometry.right(), m_geometry.top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);
+}
+
+void GateFPGA::eraseNodeFromAllNodes(Node* pNode)
+{
+    for(uint iAllNodes = 0; iAllNodes < m_nodes.size(); iAllNodes++)
+    {
+        if(pNode == m_nodes[iAllNodes])
+        {
+            m_nodes.erase(m_nodes.begin() + iAllNodes);
+            return;
+        }
+    }
+    qDebug() << "GateFPGA::eraseNodeFromAllNodes - Node could not be found!";
 }

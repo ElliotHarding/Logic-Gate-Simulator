@@ -65,14 +65,14 @@ GateFPGA::GateFPGA(const QString& script, std::vector<NodeIds>& inputNodeInfo, s
 {
     updateEditButtonGeometry();
 
-    for(int i = 0; i < inputNodeInfo.size(); i++)
+    for(uint i = 0; i < inputNodeInfo.size(); i++)
     {
         Node* newInputNode = new Node(this, Settings::InputNodesXpos, i * Settings::GapBetweenNodesY, InputNode, inputNodeInfo[i].id);
         m_inputNodes.push_back(newInputNode);
         m_nodes.push_back(newInputNode);
     }
 
-    for(int i = 0; i < outputNodeInfo.size(); i++)
+    for(uint i = 0; i < outputNodeInfo.size(); i++)
     {
         Node* newOutputNode = new Node(this, Settings::OutputNodesXpos, i * Settings::GapBetweenNodesY, OutputNode, outputNodeInfo[i].id);
         m_outputNodes.push_back(newOutputNode);

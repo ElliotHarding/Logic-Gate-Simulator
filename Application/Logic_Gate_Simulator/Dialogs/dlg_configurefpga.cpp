@@ -57,4 +57,6 @@ void DLG_ConfigureFPGA::on_btn_setScript_clicked()
     {
         qDebug() << "DLG_ConfigureFPGA::on_btn_setScript_clicked - m_pFpga is nullptr";
     }
+
+    QDialog::close();
 }

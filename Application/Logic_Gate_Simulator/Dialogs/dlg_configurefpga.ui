@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Edit FPGA</string>
   </property>
   <widget class="QSpinBox" name="spinBox_inputs">
    <property name="geometry">

@@ -71,6 +71,29 @@
     <string>Outputs</string>
    </property>
   </widget>
+  <widget class="QTextEdit" name="textEdit_script">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>361</width>
+     <height>181</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_setScript">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>270</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Apply</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

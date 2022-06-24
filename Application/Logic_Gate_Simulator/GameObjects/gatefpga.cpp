@@ -189,6 +189,26 @@ void GateFPGA::setOutputs(const uint& numOutputs)
     }
 }
 
+uint GateFPGA::getNumInputs() const
+{
+    return m_inputNodes.size();
+}
+
+uint GateFPGA::getNumOutputs() const
+{
+    return m_outputNodes.size();
+}
+
+QString GateFPGA::getScript() const
+{
+    return m_script;
+}
+
+void GateFPGA::setScript(const QString& script)
+{
+    m_script = script;
+}
+
 void GateFPGA::updateEditButtonGeometry()
 {
     m_editButtonRect = QRect(m_geometry.right(), m_geometry.top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);

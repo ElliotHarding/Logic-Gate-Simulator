@@ -26,6 +26,10 @@ public:
     void OpenEditor();
     void setInputs(const uint& numInputs);
     void setOutputs(const uint& numOutputs);
+    uint getNumInputs() const;
+    uint getNumOutputs() const;
+    QString getScript() const;
+    void setScript(const QString& script);
 
 protected:
 
@@ -38,6 +42,8 @@ protected:
     ///Nodes
     std::vector<Node*> m_inputNodes;
     std::vector<Node*> m_outputNodes;
+
+    QString m_script;
 };
 
 #endif // GATEFPGA_H

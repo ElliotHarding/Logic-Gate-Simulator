@@ -18,6 +18,12 @@ public:
 
     void open(GateFPGA* pFPGA);
 
+private slots:
+    void on_spinBox_inputs_valueChanged(int numInputs);
+    void on_spinBox_outputs_valueChanged(int numOutputs);
+
+    void on_btn_setScript_clicked();
+
 private:
     Ui::DLG_ConfigureFPGA *ui;
 

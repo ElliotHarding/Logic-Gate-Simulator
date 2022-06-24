@@ -23,9 +23,13 @@ void DLG_ConfigureFPGA::open(GateFPGA* pFPGA)
 
     if(m_pFpga)
     {
-        ui->spinBox_inputs->setValue(m_pFpga->getNumInputs());
-        ui->spinBox_outputs->setValue(m_pFpga->getNumOutputs());
-        ui->textEdit_script->setText(m_pFpga->getScript());
+        const uint numInputs = m_pFpga->getNumInputs();
+        const uint numOutputs = m_pFpga->getNumOutputs();
+        ui->spinBox_inputs->setValue(numInputs);
+        ui->spinBox_outputs->setValue(numOutputs);
+        ui->textEdit_script->setText(m_pFpga->getCoreScript());
+
+
 
         QDialog::open();
     }

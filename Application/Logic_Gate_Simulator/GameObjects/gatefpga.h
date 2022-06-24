@@ -28,8 +28,10 @@ public:
     void setOutputs(const uint& numOutputs);
     uint getNumInputs() const;
     uint getNumOutputs() const;
-    QString getScript() const;
-    void setScript(const QString& script);
+    QString getCoreScript() const;
+    void setCoreScript(const QString& script);
+    void setStartScript(const QString& startScript);
+    void setEndScript(const QString& endScript);
 
 protected:
 
@@ -43,7 +45,9 @@ protected:
     std::vector<Node*> m_inputNodes;
     std::vector<Node*> m_outputNodes;
 
-    QString m_script;
+    QString m_coreScript;
+    QString m_startScript;
+    QString m_endScript;
 };
 
 #endif // GATEFPGA_H

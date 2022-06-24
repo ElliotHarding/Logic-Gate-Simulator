@@ -7,23 +7,24 @@
 namespace Settings
 {
 const uint GateFpgaWidth = 100;
-const uint GateFpgaHeight = 100;
-const uint GateFpgaBorderWidth = 10;
 
-const int InputNodesXpos = -5;
-const int OutputNodesXpos = GateFpgaWidth + 5;
-const int GapBetweenNodesY = 11;
+const int InputNodesXpos = -5 - GateFpgaWidth/2;
+const int OutputNodesXpos = GateFpgaWidth/2 + 5;
+const int NodesYoffset = 50;
+const int GapBetweenNodesY = 25;
 
+///Border stuff
 const QColor BorderColor = Qt::darkGray;
-const QColor EditButtonColor = Qt::lightGray;
-
+const uint GateFpgaBorderWidth = 10;
 const QPen BorderPen(Settings::BorderColor, Settings::GateFpgaBorderWidth);
 
+///Edit button stuff
 const uint EditButtonSize = 15;
+const QColor EditButtonColor = Qt::lightGray;
 }
 
 GateFPGA::GateFPGA(const int& x, const int& y) :
-    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
+    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, 5 * Settings::GapBetweenNodesY),
     m_script("var output1 = true, output2 = true, output3 = true, output4 = true, output5 = true;")
 {
     updateEditButtonGeometry();
@@ -39,7 +40,7 @@ GateFPGA::GateFPGA(const int& x, const int& y) :
 }
 
 GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& outputNodesToCopy, const int &x, const int &y) :
-    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
+    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, inputNodesToCopy.size() > outputNodesToCopy.size() ? inputNodesToCopy.size() * Settings::GapBetweenNodesY : outputNodesToCopy.size() * Settings::GapBetweenNodesY),
     m_script("")
 {
     updateEditButtonGeometry();
@@ -60,7 +61,7 @@ GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& out
 }
 
 GateFPGA::GateFPGA(const QString& script, std::vector<NodeIds>& inputNodeInfo, std::vector<NodeIds>& outputNodeInfo, const int &x, const int &y) :
-    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
+    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, inputNodeInfo.size() > outputNodeInfo.size() ? inputNodeInfo.size() * Settings::GapBetweenNodesY : outputNodeInfo.size() * Settings::GapBetweenNodesY),
     m_script(script)
 {
     updateEditButtonGeometry();

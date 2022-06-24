@@ -81,6 +81,8 @@ public:
     Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeType& type, int nodeId = idGenerator());
     virtual ~Node();
 
+    Node* cloneWithoutLinks(Gate* pCloneParent);
+
     virtual NodeIds linkInfo();
 
     virtual void draw(QPainter& painter);

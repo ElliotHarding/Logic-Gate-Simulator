@@ -34,6 +34,26 @@ GateFPGA::GateFPGA(const int& x, const int& y) :
     }
 }
 
+GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& outputNodesToCopy, const int &x, const int &y) :
+    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight)
+{
+    updateEditButtonGeometry();
+
+    for(Node* inputNode : inputNodesToCopy)
+    {
+        Node* newInputNode = inputNode->cloneWithoutLinks(this);
+        m_inputNodes.push_back(newInputNode);
+        m_nodes.push_back(newInputNode);
+    }
+
+    for(Node* outputNode : outputNodesToCopy)
+    {
+        Node* newOutputNode = outputNode->cloneWithoutLinks(this);
+        m_outputNodes.push_back(newOutputNode);
+        m_nodes.push_back(newOutputNode);
+    }
+}
+
 GateFPGA::~GateFPGA()
 {
     m_inputNodes.clear();
@@ -83,10 +103,9 @@ void GateFPGA::UpdateOutput()
     //Todo : do it
 }
 
-Gate *GateFPGA::Clone()
+Gate* GateFPGA::Clone()
 {
-    GateFPGA* clone = new GateFPGA(m_geometry.x(), m_geometry.y());
-
+    GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_geometry.x(), m_geometry.y());
     return clone;
 }
 

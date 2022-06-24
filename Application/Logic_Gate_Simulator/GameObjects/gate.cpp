@@ -185,6 +185,12 @@ Node::~Node()
     DetachNode();
 }
 
+Node* Node::cloneWithoutLinks(Gate* pCloneParent)
+{
+    Node* clone = new Node(pCloneParent, m_offsetX, m_offsetY, m_nodeType, m_id);
+    return clone;
+}
+
 NodeIds Node::linkInfo()
 {
     NodeIds info;

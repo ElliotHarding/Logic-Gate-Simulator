@@ -8,6 +8,7 @@ class GateFPGA : public Gate
 {
 public:
     GateFPGA(const int& x = 0, const int& y = 0);
+    GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& outputNodesToCopy, const int& x = 0, const int& y = 0);
     ~GateFPGA();
 
     virtual void draw(QPainter& painter) override;

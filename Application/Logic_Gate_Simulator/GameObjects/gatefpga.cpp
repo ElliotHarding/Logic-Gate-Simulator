@@ -23,9 +23,7 @@ const uint EditButtonSize = 15;
 
 GateFPGA::GateFPGA(const int& x, const int& y) :
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
-    m_coreScript(""),
-    m_startScript(""),
-    m_endScript("")
+    m_script("")
 {
     updateEditButtonGeometry();
 
@@ -41,9 +39,7 @@ GateFPGA::GateFPGA(const int& x, const int& y) :
 
 GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& outputNodesToCopy, const int &x, const int &y) :
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
-    m_coreScript(""),
-    m_startScript(""),
-    m_endScript("")
+    m_script("")
 {
     updateEditButtonGeometry();
 
@@ -116,9 +112,7 @@ void GateFPGA::UpdateOutput()
 Gate* GateFPGA::Clone()
 {
     GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_geometry.x(), m_geometry.y());
-    clone->m_coreScript = m_coreScript;
-    clone->m_startScript = m_startScript;
-    clone->m_endScript = m_endScript;
+    clone->m_script = m_script;
     return clone;
 }
 
@@ -208,24 +202,14 @@ uint GateFPGA::getNumOutputs() const
     return m_outputNodes.size();
 }
 
-QString GateFPGA::getCoreScript() const
+QString GateFPGA::getScript() const
 {
-    return m_coreScript;
+    return m_script;
 }
 
-void GateFPGA::setCoreScript(const QString& script)
+void GateFPGA::setScript(const QString& script)
 {
-    m_coreScript = script;
-}
-
-void GateFPGA::setStartScript(const QString& startScript)
-{
-    m_startScript = startScript;
-}
-
-void GateFPGA::setEndScript(const QString& endScript)
-{
-    m_endScript = endScript;
+    m_script = script;
 }
 
 void GateFPGA::updateEditButtonGeometry()

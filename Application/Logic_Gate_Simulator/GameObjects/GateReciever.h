@@ -9,7 +9,7 @@
 class GateReciever : public Gate
 {
 public:
-    GateReciever(const int& x = 0, const int& y = 0, const id& out = idGenerator());
+    GateReciever(const int& x = 0, const int& y = 0, const id& out = -1);
 
     virtual void UpdateOutput() override;
     virtual Gate* Clone() override;

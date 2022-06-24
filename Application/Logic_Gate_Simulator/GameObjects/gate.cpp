@@ -1,6 +1,8 @@
 #include "gate.h"
 #include "gatecollection.h"
 
+static int IdIndex = 0;
+
 namespace Settings
 {
 ///Node dimensions
@@ -177,7 +179,10 @@ Node::Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeTy
     m_bValue(0),
     m_id(nodeId)
 {
-
+    if(nodeId == -1)
+    {
+        m_id = IdIndex++;
+    }
 }
 
 Node::~Node()
@@ -277,7 +282,7 @@ void Node::SaveData(std::ofstream &storage)
 
 void Node::genNewID()
 {
-    m_id = idGenerator();
+    m_id = IdIndex++;
 }
 
 NodeType Node::type() const

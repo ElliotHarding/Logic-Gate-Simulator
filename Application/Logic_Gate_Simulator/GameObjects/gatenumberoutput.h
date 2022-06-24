@@ -6,7 +6,7 @@
 class GateNumberOutput : public Gate
 {
 public:
-    GateNumberOutput(const int& x = 0, const int& y = 0, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& inC = idGenerator(), const id& inD = idGenerator());
+    GateNumberOutput(const int& x = 0, const int& y = 0, const id& inA = -1, const id& inB = -1, const id& inC = -1, const id& inD = -1);
 
     virtual void UpdateOutput() override;
     virtual void draw(QPainter& painter) override;

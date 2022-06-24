@@ -12,11 +12,6 @@ static const std::string SAVE_TAG_NODE = "<NODE>";
 static const std::string END_SAVE_TAG_GATE = "</GATE>";
 static const std::string END_SAVE_TAG_NODE = "</NODE>";
 
-static int idGenerator()
-{
-    static int idIndex = 0;
-    return idIndex++;
-}
 struct NodeIds {int id; std::vector<int> linkedIds;};
 typedef int id;
 
@@ -77,7 +72,7 @@ class Node : public GameObject
 {
 public:
     ///Construction/destruction
-    Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeType& type, int nodeId = idGenerator());
+    Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeType& type, int nodeId = -1);
     virtual ~Node();
 
     Node* cloneWithoutLinks(Gate* pCloneParent);

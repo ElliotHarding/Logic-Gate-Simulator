@@ -6,8 +6,8 @@
 class GateAnd : public Gate
 {
 public:
-    GateAnd(const int& x = 0, const int& y = 0, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& out = idGenerator());
-    GateAnd(const GateType& type, const int& x, const int& y, const id& inA = idGenerator(), const id& inB = idGenerator(), const id& out = idGenerator(), const char* iconLocation = std::string(":/Resources/Gates/gate-and.png").c_str());
+    GateAnd(const int& x = 0, const int& y = 0, const id& inA = -1, const id& inB = -1, const id& out = -1);
+    GateAnd(const GateType& type, const int& x, const int& y, const id& inA = -1, const id& inB = -1, const id& out = -1, const char* iconLocation = std::string(":/Resources/Gates/gate-and.png").c_str());
 
     virtual void UpdateOutput() override;
     virtual Gate* Clone() override;

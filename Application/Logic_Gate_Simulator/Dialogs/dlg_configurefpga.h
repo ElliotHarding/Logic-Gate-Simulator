@@ -27,6 +27,9 @@ private slots:
 private:
     Ui::DLG_ConfigureFPGA *ui;
 
+    void setStartScript(const uint& numInputs);
+    void setEndScript(const uint& numOutputs);
+
     GateFPGA* m_pFpga = nullptr;
 };
 

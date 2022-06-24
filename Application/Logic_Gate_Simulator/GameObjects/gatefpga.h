@@ -30,6 +30,7 @@ public:
     uint getNumOutputs() const;
     QString getScript() const;
     void setScript(const QString& script);
+    void setFullScript(const QString& script);
 
 protected:
 
@@ -44,6 +45,7 @@ protected:
     std::vector<Node*> m_outputNodes;
 
     QString m_script;
+    QString m_fullScript;
 };
 
 #endif // GATEFPGA_H

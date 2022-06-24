@@ -24,12 +24,14 @@ void DLG_ConfigureFPGA::open(GateFPGA* pFPGA)
     if(m_pFpga)
     {
         const uint numInputs = m_pFpga->getNumInputs();
-        const uint numOutputs = m_pFpga->getNumOutputs();
+        setStartScript(numInputs);
         ui->spinBox_inputs->setValue(numInputs);
+
+        const uint numOutputs = m_pFpga->getNumOutputs();
+        setEndScript(numOutputs);
         ui->spinBox_outputs->setValue(numOutputs);
+
         ui->textEdit_script->setText(m_pFpga->getScript());
-
-
 
         QDialog::open();
     }
@@ -41,12 +43,12 @@ void DLG_ConfigureFPGA::open(GateFPGA* pFPGA)
 
 void DLG_ConfigureFPGA::on_spinBox_inputs_valueChanged(int numInputs)
 {
-
+    setStartScript(numInputs);
 }
 
 void DLG_ConfigureFPGA::on_spinBox_outputs_valueChanged(int numOutputs)
 {
-
+    setEndScript(numOutputs);
 }
 
 void DLG_ConfigureFPGA::on_btn_setScript_clicked()
@@ -63,4 +65,26 @@ void DLG_ConfigureFPGA::on_btn_setScript_clicked()
     }
 
     QDialog::close();
+}
+
+void DLG_ConfigureFPGA::setStartScript(const uint& numInputs)
+{
+    QString inputValues = "";
+    for(uint i = 1; i < numInputs+1; i++)
+    {
+        inputValues += "input" + QString::number(i) + ",";
+    }
+    inputValues = inputValues.left(inputValues.length()-1);
+    ui->lbl_startScript->setText("function calcValues(" + inputValues + ") {");
+}
+
+void DLG_ConfigureFPGA::setEndScript(const uint& numOutputs)
+{
+    QString outputValues = "";
+    for(uint i = 1; i < numOutputs+1; i++)
+    {
+        outputValues += "output" + QString::number(i) + ",";
+    }
+    outputValues = outputValues.left(outputValues.length()-1);
+    ui->lbl_endScript->setText("    return new Array(" + outputValues + ");");
 }

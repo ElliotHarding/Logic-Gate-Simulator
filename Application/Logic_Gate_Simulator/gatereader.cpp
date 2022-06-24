@@ -287,12 +287,30 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         break;
     }
 
+    /*
     case GateType::GATE_FPGA:
     {
+        std::string script;
+        gateStream >> script;
+
+        std::vector<NodeIds> inputNodeIds;
+        gateStream >> line;
+        while(line != "</InputGates>")
+        {
+            inputNodeIds.push_back(readNode(gateStream));
+        }
+
+        std::vector<NodeIds> outputNodeIds;
+        gateStream >> line;
+        while(line != "</OutputNodes>")
+        {
+
+        }
 
 
+        rGate = new GateFPGA(sdj, stoi(posX), stoi(posY));
         break;
-    }
+    }*/
 
     case GATE_NULL:
     default:

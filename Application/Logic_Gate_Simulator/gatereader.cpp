@@ -287,30 +287,92 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         break;
     }
 
-    /*
     case GateType::GATE_FPGA:
     {
         std::string script;
         gateStream >> script;
 
         std::vector<NodeIds> inputNodeIds;
-        gateStream >> line;
-        while(line != "</InputGates>")
+        gateStream >> line; //<InputNodes>
+        while(true)
         {
-            inputNodeIds.push_back(readNode(gateStream));
+            gateStream >> line; //Either <Node> or </InputNodes>
+            if(line == "</InputNodes>")
+            {
+                break;
+            }
+
+            //read in strings
+            std::string sID, linkedNodes, endTag;
+            gateStream >> sID >> linkedNodes >> endTag;
+
+            //Apply string to nodeInfo
+            NodeIds nodeInfo;
+            nodeInfo.id = tryStoi(sID, -1);
+
+            //Read linkedNodes string, into linkedIds vector
+            std::vector<int> linkedIds;
+            std::string stringBuild = "";
+            for (size_t index = 0; index < linkedNodes.length(); index++)
+            {
+                //If at ',' or end of string
+                if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
+                {
+                    nodeInfo.linkedIds.push_back(tryStoi(stringBuild, -1));
+                    stringBuild = "";
+                }
+                else
+                {
+                    stringBuild += linkedNodes[index];
+                }
+            }
+
+            inputNodeIds.push_back(nodeInfo);
+            linkInfo.push_back(nodeInfo);
         }
 
         std::vector<NodeIds> outputNodeIds;
-        gateStream >> line;
-        while(line != "</OutputNodes>")
+        gateStream >> line; //<OutputNodes>
+        while(true)
         {
+            gateStream >> line; //Either <Node> or </OutputNodes>
+            if(line == "</OutputNodes>")
+            {
+                break;
+            }
 
+            //read in strings
+            std::string sID, linkedNodes, endTag;
+            gateStream >> sID >> linkedNodes >> endTag;
+
+            //Apply string to nodeInfo
+            NodeIds nodeInfo;
+            nodeInfo.id = tryStoi(sID, -1);
+
+            //Read linkedNodes string, into linkedIds vector
+            std::vector<int> linkedIds;
+            std::string stringBuild = "";
+            for (size_t index = 0; index < linkedNodes.length(); index++)
+            {
+                //If at ',' or end of string
+                if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
+                {
+                    nodeInfo.linkedIds.push_back(tryStoi(stringBuild, -1));
+                    stringBuild = "";
+                }
+                else
+                {
+                    stringBuild += linkedNodes[index];
+                }
+            }
+
+            outputNodeIds.push_back(nodeInfo);
+            linkInfo.push_back(nodeInfo);
         }
 
-
-        rGate = new GateFPGA(sdj, stoi(posX), stoi(posY));
+        rGate = new GateFPGA(QString::fromStdString(script), inputNodeIds, outputNodeIds, stoi(posX), stoi(posY));
         break;
-    }*/
+    }
 
     case GATE_NULL:
     default:

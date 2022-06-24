@@ -9,6 +9,7 @@ class GateFPGA : public Gate
 public:
     GateFPGA(const int& x = 0, const int& y = 0);
     GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& outputNodesToCopy, const int& x = 0, const int& y = 0);
+    GateFPGA(const QString& script, std::vector<NodeIds>& inputNodeInfo, std::vector<NodeIds>& outputNodeInfo, const int& x, const int& y);
     ~GateFPGA();
 
     ///Gate class functions

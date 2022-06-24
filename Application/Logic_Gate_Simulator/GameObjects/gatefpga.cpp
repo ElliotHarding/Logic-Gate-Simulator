@@ -59,6 +59,27 @@ GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& out
     }
 }
 
+GateFPGA::GateFPGA(const QString& script, std::vector<NodeIds>& inputNodeInfo, std::vector<NodeIds>& outputNodeInfo, const int &x, const int &y) :
+    Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
+    m_script(script)
+{
+    updateEditButtonGeometry();
+
+    for(int i = 0; i < inputNodeInfo.size(); i++)
+    {
+        Node* newInputNode = new Node(this, Settings::InputNodesXpos, i * Settings::GapBetweenNodesY, InputNode, inputNodeInfo[i].id);
+        m_inputNodes.push_back(newInputNode);
+        m_nodes.push_back(newInputNode);
+    }
+
+    for(int i = 0; i < outputNodeInfo.size(); i++)
+    {
+        Node* newOutputNode = new Node(this, Settings::OutputNodesXpos, i * Settings::GapBetweenNodesY, OutputNode, outputNodeInfo[i].id);
+        m_outputNodes.push_back(newOutputNode);
+        m_nodes.push_back(newOutputNode);
+    }
+}
+
 GateFPGA::~GateFPGA()
 {
     //Actual nodes are deleted via Gate destructor stored in m_nodes

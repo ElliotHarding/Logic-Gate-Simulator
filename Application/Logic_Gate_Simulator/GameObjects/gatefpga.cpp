@@ -203,15 +203,17 @@ void GateFPGA::setInputs(const uint& numInputs)
             m_inputNodes.erase(m_inputNodes.begin() + i);
             delete n;
         }
-        return;
     }
 
-    //numInputs > currentInputs
-    for(uint i = currentInputs; i < numInputs; i++)
+    else //numInputs > currentInputs
     {
-        m_inputNodes.push_back(new Node(this, Settings::InputNodesXpos, i * Settings::GapBetweenNodesY, InputNode));
-        m_nodes.push_back(m_inputNodes[i]);
+        for(uint i = currentInputs; i < numInputs; i++)
+        {
+            m_inputNodes.push_back(new Node(this, Settings::InputNodesXpos, i * Settings::GapBetweenNodesY, InputNode));
+            m_nodes.push_back(m_inputNodes[i]);
+        }
     }
+    updateGeometryBasedOnNodes();
 }
 
 void GateFPGA::setOutputs(const uint& numOutputs)
@@ -232,15 +234,18 @@ void GateFPGA::setOutputs(const uint& numOutputs)
             m_outputNodes.erase(m_outputNodes.begin() + i);
             delete n;
         }
-        return;
     }
 
-    //numOutputs > currentOutputs
-    for(uint i = currentOutputs; i < numOutputs; i++)
+    else //numOutputs > currentOutputs
     {
-        m_outputNodes.push_back(new Node(this, Settings::OutputNodesXpos, i * Settings::GapBetweenNodesY, OutputNode));
-        m_nodes.push_back(m_outputNodes[i]);
+        for(uint i = currentOutputs; i < numOutputs; i++)
+        {
+            m_outputNodes.push_back(new Node(this, Settings::OutputNodesXpos, i * Settings::GapBetweenNodesY, OutputNode));
+            m_nodes.push_back(m_outputNodes[i]);
+        }
     }
+
+    updateGeometryBasedOnNodes();
 }
 
 uint GateFPGA::getNumInputs() const
@@ -266,6 +271,12 @@ void GateFPGA::setScript(const QString& script)
 void GateFPGA::updateEditButtonGeometry()
 {
     m_editButtonRect = QRect(m_geometry.right(), m_geometry.top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);
+}
+
+void GateFPGA::updateGeometryBasedOnNodes()
+{
+    m_geometry = QRect(m_geometry.x(), m_geometry.y(), Settings::GateFpgaWidth, m_inputNodes.size() > m_outputNodes.size() ? m_inputNodes.size() * Settings::GapBetweenNodesY : m_outputNodes.size() * Settings::GapBetweenNodesY);
+    updateEditButtonGeometry();
 }
 
 void GateFPGA::eraseNodeFromAllNodes(Node* pNode)

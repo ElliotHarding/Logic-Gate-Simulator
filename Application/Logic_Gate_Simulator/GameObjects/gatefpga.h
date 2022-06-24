@@ -35,6 +35,7 @@ public:
 protected:
 
     void updateEditButtonGeometry();
+    void updateGeometryBasedOnNodes();
 
     void eraseNodeFromAllNodes(Node* pNode);
 

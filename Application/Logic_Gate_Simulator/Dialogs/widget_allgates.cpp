@@ -2,6 +2,7 @@
 #include "ui_widget_allgates.h"
 #include "dlg_home.h"
 #include "simpleslider.h"
+#include "allgates.h"
 
 Widget_AllGates::Widget_AllGates(DLG_Home* parent, bool show, QPoint loc) :
     MovingWidget(parent, show, loc),

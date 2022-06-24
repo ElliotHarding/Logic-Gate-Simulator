@@ -4,7 +4,6 @@
 #include "movingwidget.h"
 #include "vector"
 #include "gatereader.h"
-#include "gatecollection.h"
 
 #include <QListWidgetItem>
 

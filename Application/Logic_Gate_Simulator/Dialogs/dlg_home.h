@@ -8,8 +8,7 @@
 #include <QProgressBar>
 #include <QLabel>
 
-#include "allgates.h"
-#include "gatefield.h"
+#include "clickmode.h"
 #include "gatereader.h"
 
 #include "simpleslider.h"
@@ -30,6 +29,9 @@ class QMouseEvent;
 namespace Ui {
 class DLG_Home;
 }
+
+class TextLabel;
+class DLG_LabelGateEdit; //Todo : move to own files
 
 class DLG_Home : public QMainWindow
 {

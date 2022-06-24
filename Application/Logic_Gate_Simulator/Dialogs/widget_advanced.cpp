@@ -1,6 +1,10 @@
 #include "widget_advanced.h"
 #include "ui_widget_advanced.h"
 #include "dlg_home.h"
+#include "GameObjects/gatenumberoutput.h"
+#include "GameObjects/GateReciever.h"
+#include "GameObjects/gatefpga.h"
+#include "GameObjects/textlabel.h"
 
 Widget_Advanced::Widget_Advanced(DLG_Home *parent, bool show, QPoint loc) :
     MovingWidget(parent, show, loc),

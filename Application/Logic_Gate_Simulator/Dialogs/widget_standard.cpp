@@ -1,6 +1,7 @@
 #include "widget_standard.h"
 #include "ui_widget_standard.h"
 #include "dlg_home.h"
+#include "allgates.h"
 
 Widget_Standard::Widget_Standard(DLG_Home *parent, bool show, QPoint loc) :
     MovingWidget(parent, show, loc),

@@ -17,7 +17,6 @@ static int idGenerator()
     static int idIndex = 0;
     return idIndex++;
 }
-
 struct NodeIds {int id; std::vector<int> linkedIds;};
 typedef int id;
 

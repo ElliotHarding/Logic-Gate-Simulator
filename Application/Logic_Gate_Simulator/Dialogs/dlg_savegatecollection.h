@@ -1,7 +1,6 @@
 #ifndef DLG_SAVEGATECOLLECTION_H
 #define DLG_SAVEGATECOLLECTION_H
 
-#include "gatecollection.h"
 #include "gatereader.h"
 
 #include <QDialog>

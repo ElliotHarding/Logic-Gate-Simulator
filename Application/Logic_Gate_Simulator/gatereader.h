@@ -6,8 +6,15 @@
 #include <vector>
 #include <fstream>
 
-#include "allgates.h"
-#include "gatefield.h"
+class Gate;
+class Node;
+class GateCollection;
+class GateField;
+struct NodeIds;
+
+class DLG_Home;
+
+typedef int id;
 
 class CustomGateReader
 {

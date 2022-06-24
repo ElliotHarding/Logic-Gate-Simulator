@@ -1,8 +1,6 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-#endif // ENUMS_H
-
 enum ClickMode
 {
     CLICK_DRAG,
@@ -13,3 +11,5 @@ enum ClickMode
     CLICK_PAN,
     CLICK_DEFAULT
 };
+
+#endif // ENUMS_H

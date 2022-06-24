@@ -1,7 +1,6 @@
 #ifndef MOVINGWIDGET_H
 #define MOVINGWIDGET_H
 
-#include "gatetypes.h"
 #include <QWidget>
 
 class DLG_Home;

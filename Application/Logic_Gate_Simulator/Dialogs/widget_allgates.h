@@ -2,8 +2,6 @@
 #define WIDGET_ALLGATES_H
 
 #include "movingwidget.h"
-#include "QPushButton"
-#include "QTimer"
 
 namespace Ui {
 class Widget_AllGates;

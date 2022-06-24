@@ -128,6 +128,60 @@ void GateFPGA::OpenEditor()
     m_pParentField->editFPGA(this);
 }
 
+void GateFPGA::setInputs(const uint& numInputs)
+{
+    const uint currentInputs = m_inputNodes.size();
+
+    if(currentInputs == numInputs)
+    {
+        return;
+    }
+
+    if(currentInputs > numInputs)
+    {
+        for(uint i = numInputs; i < m_inputNodes.size();)
+        {
+            Node* n = m_inputNodes[i];
+            for(uint iAllNodes = 0; iAllNodes < m_nodes.size(); iAllNodes++)
+            {
+                if(n == m_nodes[iAllNodes])
+                {
+                    m_nodes.erase(m_nodes.begin() + iAllNodes);
+                    break;
+                }
+            }
+            m_inputNodes.erase(m_inputNodes.begin() + i);
+            delete n;
+        }
+        return;
+    }
+
+    //numInputs > currentInputs
+    for(uint i = currentInputs; i < numInputs; i++)
+    {
+        m_inputNodes.push_back(new Node(this, Settings::InputNodesXpos, i * Settings::GapBetweenNodesY, InputNode));
+        m_nodes.push_back(m_inputNodes[i]);
+    }
+}
+
+void GateFPGA::setOutputs(const uint& numOutputs)
+{
+    const uint currentOutputs = m_outputNodes.size();
+
+    if(currentOutputs == numOutputs)
+    {
+        return;
+    }
+
+    if(currentOutputs > numOutputs)
+    {
+
+        return;
+    }
+
+    //numOutputs > currentOutputs
+}
+
 void GateFPGA::updateEditButtonGeometry()
 {
     m_editButtonRect = QRect(m_geometry.right(), m_geometry.top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);

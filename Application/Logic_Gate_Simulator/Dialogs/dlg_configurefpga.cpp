@@ -18,3 +18,19 @@ void DLG_ConfigureFPGA::open(GateFPGA *pFPGA)
     m_pFpga = pFPGA;
     QDialog::open();
 }
+
+void DLG_ConfigureFPGA::on_spinBox_inputs_valueChanged(int arg1)
+{
+    if(m_pFpga)
+    {
+
+    }
+}
+
+void DLG_ConfigureFPGA::on_spinBox_outputs_valueChanged(int arg1)
+{
+    if(m_pFpga)
+    {
+
+    }
+}

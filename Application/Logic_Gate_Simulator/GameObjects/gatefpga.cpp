@@ -71,13 +71,14 @@ void GateFPGA::draw(QPainter& painter)
     painter.fillRect(m_editButtonRect, QBrush(Settings::EditButtonColor));
 }
 
-GameObject *GateFPGA::checkClicked(const QPoint& mouse)
+GameObject* GateFPGA::checkClicked(const QPoint& mouse)
 {
     if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
     {
         if(m_editButtonRect.contains(mouse))
         {
             OpenEditor();
+            return this;
         }
         return nullptr;
     }

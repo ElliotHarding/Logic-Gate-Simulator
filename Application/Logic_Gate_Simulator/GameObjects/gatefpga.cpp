@@ -10,7 +10,7 @@ const uint GateFpgaWidth = 100;
 
 const int InputNodesXpos = -5 - GateFpgaWidth/2;
 const int OutputNodesXpos = GateFpgaWidth/2 + 5;
-const int NodesYoffset = 50;
+const int NodesYoffset = -50;
 const int GapBetweenNodesY = 25;
 
 ///Border stuff
@@ -31,10 +31,10 @@ GateFPGA::GateFPGA(const int& x, const int& y) :
 
     for (size_t x = 0; x < 5; x++)
     {
-        m_inputNodes.push_back(new Node(this, Settings::InputNodesXpos, x * Settings::GapBetweenNodesY, InputNode));
+        m_inputNodes.push_back(new Node(this, Settings::InputNodesXpos, x * Settings::GapBetweenNodesY + Settings::NodesYoffset, InputNode));
         m_nodes.push_back(m_inputNodes[x]);
 
-        m_outputNodes.push_back(new Node(this, Settings::OutputNodesXpos, x * Settings::GapBetweenNodesY, OutputNode));
+        m_outputNodes.push_back(new Node(this, Settings::OutputNodesXpos, x * Settings::GapBetweenNodesY + Settings::NodesYoffset, OutputNode));
         m_nodes.push_back(m_outputNodes[x]);
     }
 }
@@ -68,14 +68,14 @@ GateFPGA::GateFPGA(const QString& script, std::vector<NodeIds>& inputNodeInfo, s
 
     for(uint i = 0; i < inputNodeInfo.size(); i++)
     {
-        Node* newInputNode = new Node(this, Settings::InputNodesXpos, i * Settings::GapBetweenNodesY, InputNode, inputNodeInfo[i].id);
+        Node* newInputNode = new Node(this, Settings::InputNodesXpos, i * Settings::GapBetweenNodesY + Settings::NodesYoffset, InputNode, inputNodeInfo[i].id);
         m_inputNodes.push_back(newInputNode);
         m_nodes.push_back(newInputNode);
     }
 
     for(uint i = 0; i < outputNodeInfo.size(); i++)
     {
-        Node* newOutputNode = new Node(this, Settings::OutputNodesXpos, i * Settings::GapBetweenNodesY, OutputNode, outputNodeInfo[i].id);
+        Node* newOutputNode = new Node(this, Settings::OutputNodesXpos, i * Settings::GapBetweenNodesY + Settings::NodesYoffset, OutputNode, outputNodeInfo[i].id);
         m_outputNodes.push_back(newOutputNode);
         m_nodes.push_back(newOutputNode);
     }

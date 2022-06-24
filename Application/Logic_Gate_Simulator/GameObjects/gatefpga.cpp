@@ -23,12 +23,12 @@ const uint EditButtonSize = 15;
 
 GateFPGA::GateFPGA(const int& x, const int& y) :
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::GateFpgaHeight),
-    m_script(""),
+    m_script("var output1 = true, output2 = true, output3 = true, output4 = true, output5 = true;"),
     m_fullScript("")
 {
     updateEditButtonGeometry();
 
-    for (size_t x = 0; x < 10; x++)
+    for (size_t x = 0; x < 5; x++)
     {
         m_inputNodes.push_back(new Node(this, Settings::InputNodesXpos, x * Settings::GapBetweenNodesY, InputNode));
         m_nodes.push_back(m_inputNodes[x]);
@@ -115,6 +115,7 @@ Gate* GateFPGA::Clone()
 {
     GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_geometry.x(), m_geometry.y());
     clone->m_script = m_script;
+    clone->m_fullScript = m_fullScript;
     return clone;
 }
 

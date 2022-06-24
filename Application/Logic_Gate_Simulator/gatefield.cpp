@@ -1,6 +1,10 @@
 #include "gatefield.h"
 #include "dlg_home.h"
 #include "dlg_savegatecollection.h"
+#include "gate.h"
+#include "GateToggle.h"
+#include "GateTimer.h"
+#include "gatecollection.h"
 
 #include <QApplication>
 #include <QDebug>

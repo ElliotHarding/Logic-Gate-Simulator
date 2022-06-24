@@ -6,17 +6,17 @@
 #include <QDragMoveEvent>
 #include <QRubberBand>
 #include <QMainWindow>
+#include <QTimer>
 
 #include "clickmode.h"
-#include "gate.h"
-#include "GateToggle.h"
-#include "GateTimer.h"
-#include "gatecollection.h"
 
 class DLG_SaveGateCollection;
 class DLG_Home;
 class TextLabel;
 class GateFPGA;
+class Gate;
+class GateCollection;
+class Node;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /// GateFieldHistory

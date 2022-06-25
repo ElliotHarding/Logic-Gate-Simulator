@@ -468,13 +468,13 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
-    QFile file(dir + "/" + QString::fromStdString(pGateFeild->name()) + Settings::GateFeildFile);
+    QFile file(dir + "/" + pGateFeild->name() + Settings::GateFeildFile);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         return false;
     }
 
-    QDomDocument saveDoc(dir + "/" + QString::fromStdString(pGateFeild->name()) + Settings::GateFeildFile);
+    QDomDocument saveDoc(dir + "/" + pGateFeild->name() + Settings::GateFeildFile);
     pGateFeild->SaveData(saveDoc);
 
     QTextStream stream(&file);

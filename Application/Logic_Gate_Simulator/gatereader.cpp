@@ -5,6 +5,7 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QDomDocument>
 
 #define nextLine gateStream >> line;
 
@@ -502,16 +503,8 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
-    std::ofstream saveFile(dir.toStdString() + "/" + pGateFeild->name() + Settings::GateFeildFile.toStdString());
-
-    if(saveFile.is_open())
-    {
-        pGateFeild->SaveData(saveFile);
-        saveFile.close();
-        return true;
-    }
-
-    return false;
+    QDomDocument saveFile(dir + "/" + QString::fromStdString(pGateFeild->name()) + Settings::GateFeildFile);
+    pGateFeild->SaveData(saveFile);
 }
 
 bool Saver::saveGateCollection(GateCollection* pGateCollection, const std::string name, DLG_Home* pHome)

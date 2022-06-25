@@ -46,17 +46,19 @@ void Gate::draw(QPainter& painter)
     drawNodes(painter);
 }
 
-void Gate::SaveData(std::ofstream &storage)
+void Gate::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    SaveGeneralData(storage);
+    QDomElement gateElement = storage.createElement("Gate");
+
+    SaveGeneralData(gateElement);
 
     //Add node information
     for (Node* n : m_nodes)
     {
-        n->SaveData(storage);
+        n->SaveData(storage, gateElement);
     }
 
-    storage << END_SAVE_TAG_GATE << std::endl;
+    parentElement.appendChild(gateElement);
 }
 
 Node* Gate::checkClickedNodes(const QPoint& mouse)
@@ -147,15 +149,11 @@ GateField *Gate::GetParent()
     return m_pParentField;
 }
 
-void Gate::SaveGeneralData(std::ofstream &storage)
+void Gate::SaveGeneralData(QDomElement& element)
 {
-    //Add general gate info
-    storage << SAVE_TAG_GATE
-            with std::to_string(m_type)
-            with std::to_string(1)//Old - was enabled
-            with std::to_string(m_geometry.x())
-            with std::to_string(m_geometry.y())
-            << std::endl;
+    element.setAttribute("type", QString::number(m_type));
+    element.setAttribute("posX", QString::number(m_geometry.x()));
+    element.setAttribute("posY", QString::number(m_geometry.y()));
 }
 
 void Gate::DetachNodes()
@@ -269,15 +267,12 @@ Gate* Node::GetParent()
     return m_pParent;
 }
 
-void Node::SaveData(std::ofstream &storage)
+void Node::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    std::string linkedNodeIds = GetLinkedNodesIds();
-
-    storage << SAVE_TAG_NODE
-            with std::to_string(m_id)
-            with linkedNodeIds
-            with END_SAVE_TAG_NODE //Todo : add node value
-            << std::endl;
+    QDomElement nodeElement = storage.createElement("Node");
+    nodeElement.setAttribute("id", QString::number(m_id));
+    nodeElement.setAttribute("linkedIds", GetLinkedNodesIds());
+    parentElement.appendChild(nodeElement);
 }
 
 void Node::genNewID()
@@ -301,16 +296,16 @@ id Node::id() const
     return m_id;
 }
 
-std::string Node::GetLinkedNodesIds()
+QString Node::GetLinkedNodesIds() const
 {
     if(m_linkedNodes.size() == 0)
         return "-1";
 
-    std::string ids = "";
-    const std::string next = ",";
+    QString ids = "";
+    const QString next = ",";
     for (Node* n : m_linkedNodes)
     {
-        ids += std::to_string(n->m_id) + next;
+        ids += QString::number(n->m_id) + next;
     }
     return ids;
 }

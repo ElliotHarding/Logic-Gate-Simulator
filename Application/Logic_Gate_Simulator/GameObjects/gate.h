@@ -3,7 +3,8 @@
 
 #include "gatetypes.h"
 #include "gameobject.h"
-#include <fstream>
+
+#include <QDomDocument>
 
 #define with << std::endl <<
 
@@ -30,7 +31,7 @@ public:
     //Generic functions   
     virtual void UpdateOutput() = 0;
     virtual void draw(QPainter& painter) override;
-    virtual void SaveData(std::ofstream& storage);
+    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement);
     virtual Node* checkClickedNodes(const QPoint& mouse);
 
     ///Position stuff
@@ -54,7 +55,7 @@ public:
 protected:
     virtual void drawNodes(QPainter& painter);
 
-    void SaveGeneralData(std::ofstream& storage);
+    void SaveGeneralData(QDomElement& element);
 
     GateType m_type;
     std::vector<Node*> m_nodes;
@@ -102,7 +103,7 @@ public:
 
     Gate* GetParent();
 
-    void SaveData(std::ofstream& storage);
+    void SaveData(QDomDocument& storage, QDomElement& parentElement);
 
 private:
     void DetachNode(Node* n);
@@ -113,7 +114,7 @@ private:
 
     ///Linked properties
     std::vector<Node*> m_linkedNodes;
-    std::string GetLinkedNodesIds();
+    QString GetLinkedNodesIds() const;
 
     ///Positional offset from parent gate
     int m_offsetX;

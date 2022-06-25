@@ -7,6 +7,7 @@
 #include <QRubberBand>
 #include <QMainWindow>
 #include <QTimer>
+#include <QDomDocument>
 
 #include "clickmode.h"
 
@@ -57,7 +58,7 @@ public:
     //Saving
     void StartSaveGateCollection(GateCollection* pGateCollection);
     std::string name() const;
-    void SaveData(std::ofstream& saveFile);
+    void SaveData(QDomDocument& saveFile);
 
     //Actions
     void Undo();

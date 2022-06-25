@@ -15,7 +15,7 @@ public:
     virtual void UpdateOutput() override;
     virtual Gate* Clone() override;
 
-    void SaveData(std::ofstream& storage) override;
+    void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
 
     ///Power state
     void SetPowerState(bool state) {m_pOutput->setValue(state);}

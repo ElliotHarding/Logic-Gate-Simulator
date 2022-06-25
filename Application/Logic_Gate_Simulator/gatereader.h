@@ -4,7 +4,7 @@
 #include <string>
 #include <QPoint>
 #include <vector>
-#include <fstream>
+#include <QDomDocument>
 
 class Gate;
 class Node;
@@ -35,7 +35,7 @@ public:
 private:
     struct NodeAndIds {Node* pNode; int id; std::vector<int> linkedIds;};
 
-    std::vector<Gate*> readGates(std::ifstream& gateStream);
+    std::vector<Gate*> readGates(QDomDocument& doc);
     Gate* readGate(std::ifstream& gateStream, std::string& line, std::vector<NodeIds>& linkInfo);
     NodeIds readNode(std::ifstream& gateStream);
     int tryStoi(const std::string&, const int&);

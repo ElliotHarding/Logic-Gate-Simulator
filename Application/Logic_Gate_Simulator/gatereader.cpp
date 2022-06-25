@@ -31,17 +31,18 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
         return false;
     }
 
-    QDomDocument saveFile(fileName);
-
-    std::ifstream saveFile(fileName.toUtf8());
-    if(!saveFile.is_open())
+    QFile file;
+    if(!file.open(QIODevice::ReadOnly))
     {
         errorMessage = "Failed to open file";
         return false;
     }
 
-    const std::vector<Gate*> gates = readGates(saveFile);
-    saveFile.close();
+    QDomDocument doc;
+    doc.setContent(&file);
+
+    const std::vector<Gate*> gates = readGates(doc);
+    file.close();
 
     for (Gate* pGate : gates)
     {
@@ -72,7 +73,7 @@ bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& 
     return true;
 }
 
-std::vector<Gate*> GateReader::readGates(std::ifstream &gateStream)
+std::vector<Gate*> GateReader::readGates(QDomDocument& doc)
 {
     std::string line;
     std::vector<Gate*> gates;

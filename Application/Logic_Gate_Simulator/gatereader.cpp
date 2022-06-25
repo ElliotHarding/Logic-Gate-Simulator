@@ -98,9 +98,9 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
 
 Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
 {
-    GateType type = (GateType)tryReadInt(gate.attribute("type"), GATE_NULL);
-    int posX = tryReadInt(gate.attribute("posX"), 0);
-    int posY = tryReadInt(gate.attribute("posY"), 0);
+    const GateType type = (GateType)tryReadInt(gate.attribute("type"), GATE_NULL);
+    const int posX = tryReadInt(gate.attribute("posX"), 0);
+    const int posY = tryReadInt(gate.attribute("posY"), 0);
 
     //Gate that will be instanciated
     Gate* rGate;
@@ -114,7 +114,7 @@ Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
         NodeIds n2 = readNode(gateStream);
         NodeIds n3 = readNode(gateStream);
 
-        rGate = new GateAnd(stoi(posX), stoi(posY), n1.id, n2.id, n3.id);
+        rGate = new GateAnd(posX, posY, n1.id, n2.id, n3.id);
 
         linkInfo.push_back(n1);
         linkInfo.push_back(n2);

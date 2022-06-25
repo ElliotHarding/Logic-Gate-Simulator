@@ -32,15 +32,18 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
         return false;
     }
 
-    QFile file;
+    QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
     {
         errorMessage = "Failed to open file";
         return false;
     }
 
+    QTextStream in(&file);
+    QString content = in.readAll();
+
     QDomDocument doc;
-    doc.setContent(&file);
+    doc.setContent(content);
 
     QDomElement gateField = doc.firstChildElement(Settings::GateFieldElement);
     if(gateField.isNull())
@@ -517,8 +520,9 @@ GateCollection* CustomGateReader::spawnCustomGate(const QString &name)
 
 bool CustomGateReader::deleteCustomGate(const QString &name)
 {
-    std::string fileName = Settings::CustomGatesLocation.toStdString() + name.toStdString();
-    if(std::remove(fileName.c_str()) == 0)
+    const QString fileName = Settings::CustomGatesLocation + name + Settings::CustomGateFile;
+    QFile file(fileName);
+    if(file.remove())
     {
         return true;
     }

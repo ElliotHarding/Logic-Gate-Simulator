@@ -475,7 +475,9 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
     }
 
     QDomDocument saveDoc(dir + "/" + pGateFeild->name() + Settings::GateFeildFile);
+    QDomElement gateFieldElement = saveDoc.createElement("GateField");
     pGateFeild->SaveData(saveDoc);
+    saveDoc.appendChild(gateFieldElement);
 
     QTextStream stream(&file);
     stream << saveDoc.toString();

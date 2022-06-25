@@ -175,7 +175,7 @@ void DLG_Home::addGateField(const QString& name)
 
 GateField *DLG_Home::createNewGateField(const QString& name)
 {
-    return new GateField(this, m_zoomFactor, name.toStdString(), m_pDlgSaveGateCollection);
+    return new GateField(this, m_zoomFactor, name, m_pDlgSaveGateCollection);
 }
 
 QRect DLG_Home::accountForUIOffsetts(const QRect& rect)

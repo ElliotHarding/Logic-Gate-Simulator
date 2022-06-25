@@ -47,7 +47,7 @@ class GateField : public QWidget
 public:
 
     //Construction
-    GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::string& name, DLG_SaveGateCollection* pSaveGateCollectionDialog);
+    GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, DLG_SaveGateCollection* pSaveGateCollectionDialog);
     ~GateField();
 
     //Gates
@@ -57,7 +57,7 @@ public:
 
     //Saving
     void StartSaveGateCollection(GateCollection* pGateCollection);
-    std::string name() const;
+    QString name() const;
     void SaveData(QDomDocument& saveFile);
 
     //Actions
@@ -109,7 +109,7 @@ private:
     DLG_Home* m_pParent;
 
     //Saving
-    std::string m_name = "Unknown";//Todo : check turn this to QString
+    QString m_name = "Unknown";
 
     //Gates
     std::vector<Gate*> m_allGates;   

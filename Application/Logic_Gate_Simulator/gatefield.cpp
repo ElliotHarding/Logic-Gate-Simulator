@@ -22,7 +22,7 @@ const uint MaxGateFieldHistory = 20;
 const uint DefaultUpdateFrequencyMs = 200;
 }
 
-GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const std::string& name, DLG_SaveGateCollection* pSaveGateCollectionDialog) :
+GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, DLG_SaveGateCollection* pSaveGateCollectionDialog) :
     QWidget(pParent),
     m_pParent(pParent),
     m_name(name),
@@ -200,9 +200,9 @@ void GateField::StartSaveGateCollection(GateCollection* pGateCollection)
     m_pDlgSaveGateCollection->open(pGateCollection);
 }
 
-std::string GateField::name() const
+QString GateField::name() const
 {
-    return m_name;
+    return m_name;//Todo : check turn this to QString
 }
 
 void GateField::AddGate(Gate* go, const bool& newlySpawned)

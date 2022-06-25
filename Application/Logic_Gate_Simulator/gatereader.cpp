@@ -65,6 +65,10 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
 bool GateReader::ReadGateCollection(QDomDocument& doc, GateCollection*& gCollection)
 {
     QDomElement gateCollection = doc.firstChildElement(Settings::GateCollectionElement);
+    if(gateCollection.isNull())
+    {
+        return false;
+    }
 
     gCollection = new GateCollection(readGates(gateCollection));
     gCollection->AssignNewNodeIds();
@@ -77,21 +81,31 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
     std::vector<Gate*> gates;
     std::vector<NodeIds> linkInfo;
 
+    QDomNodeList gateNodes = gatesParent.elementsByTagName("Gate");
+    for(int i = 0; i < gateNodes.size(); i++)
+    {
+        if(gateNodes.at(i).isElement())
+        {
+            QDomElement gateElement = gateNodes.at(i).toElement();
+            gates.push_back(readGate(gateElement, linkInfo));
+        }
+    }
+
     linkNodes(gates, linkInfo);
 
     return gates;
 }
 
-Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::vector<NodeIds>& linkInfo)
+Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
 {
-    //Get gate header info
-    std::string type, enabled, posX, posY;
-    //gateStream >> type >> enabled >> posX >> posY;
+    GateType type = (GateType)tryReadInt(gate.attribute("type"), GATE_NULL);
+    int posX = tryReadInt(gate.attribute("posX"), 0);
+    int posY = tryReadInt(gate.attribute("posY"), 0);
 
     //Gate that will be instanciated
     Gate* rGate;
 
-    switch(tryStoi(type, GATE_NULL))
+    switch(type)
     {
 
     case GateType::GATE_AND:
@@ -418,16 +432,16 @@ NodeIds GateReader::readNode(std::ifstream& gateStream)
     return nodeInfo;
 }
 
-int GateReader::tryStoi(const std::string& s, const int& defaultVal)
+int GateReader::tryReadInt(const QString &value, const int &defaultVal)
 {
-    try
+    bool ok = false;
+    int retVal = value.toInt(&ok);
+
+    if(ok)
     {
-        return std::stoi(s);
+        return retVal;
     }
-    catch (...)
-    {
-        return defaultVal;
-    }
+    return defaultVal;
 }
 
 void GateReader::linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>& linkInfo)

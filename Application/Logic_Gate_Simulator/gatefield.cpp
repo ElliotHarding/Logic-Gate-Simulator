@@ -143,6 +143,7 @@ void GateField::SaveData(QDomDocument& saveFile)
     {        
         m_allGates[index]->SaveData(saveFile, gateFieldElement);
     }
+    saveFile.appendChild(gateFieldElement);
 }
 
 void GateField::DeleteGate(Gate* gateToDelete)

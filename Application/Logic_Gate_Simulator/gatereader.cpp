@@ -536,6 +536,7 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
     QDomDocument saveDoc(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
     QDomElement saveFileElement = saveDoc.createElement("GateCollectionSaveFile");
     pGateCollection->SaveData(saveDoc, saveFileElement);
+    saveDoc.appendChild(saveFileElement);
 
     QTextStream stream(&file);
     stream << saveDoc.toString();

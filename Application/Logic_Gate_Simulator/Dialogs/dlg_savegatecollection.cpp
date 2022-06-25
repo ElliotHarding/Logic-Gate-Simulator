@@ -30,8 +30,6 @@ void DLG_SaveGateCollection::on_Cancel_clicked()
 
 void DLG_SaveGateCollection::on_Save_clicked()
 {
-    std::string name = ui->txt_name->toPlainText().toStdString();
-
     if(m_pCurrentGateCollection == nullptr)
     {
         ui->lb_error->setText("No gate collection selected!");
@@ -39,7 +37,7 @@ void DLG_SaveGateCollection::on_Save_clicked()
         return;
     }
 
-    if(!m_saver.saveGateCollection(m_pCurrentGateCollection, name, m_pParent))
+    if(!m_saver.saveGateCollection(m_pCurrentGateCollection, ui->txt_name->toPlainText(), m_pParent))
     {
         ui->lb_error->setText("Bad file name!");
         ui->lb_error->show();

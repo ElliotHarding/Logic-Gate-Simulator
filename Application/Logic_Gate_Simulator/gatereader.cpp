@@ -505,24 +505,22 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
 
     QDomDocument saveFile(dir + "/" + QString::fromStdString(pGateFeild->name()) + Settings::GateFeildFile);
     pGateFeild->SaveData(saveFile);
+    return true;
 }
 
-bool Saver::saveGateCollection(GateCollection* pGateCollection, const std::string name, DLG_Home* pHome)
+bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& name, DLG_Home* pHome)
 {
     if(!QDir(Settings::CustomGatesLocation).exists())
         QDir().mkdir(Settings::CustomGatesLocation);
 
-    std::ofstream gateCollectionStream(Settings::CustomGatesLocation.toStdString() + name + Settings::CustomGateFile.toStdString());
-    if(gateCollectionStream.is_open())
-    {
-        pGateCollection->SaveData(gateCollectionStream);
-        gateCollectionStream.close();
+    //Todo : check if name can be QString
+    QDomDocument saveFile(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
+    QDomElement saveFileElement = saveFile.createElement("GateCollectionSaveFile");
+    pGateCollection->SaveData(saveFile, saveFileElement);
 
-        pHome->UpdateCustomGateListWidget();
-        return true;
-    }
+    pHome->UpdateCustomGateListWidget();
 
-    return false;
+    return true;
 }
 
 std::vector<QString> CustomGateReader::getCustomGateNames()

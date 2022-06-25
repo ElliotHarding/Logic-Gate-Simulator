@@ -122,19 +122,15 @@ void GateFPGA::SaveData(QDomDocument& storage, QDomElement& parentElement)
 
     gateElement.setAttribute("Script", m_script);
 
-    QDomElement inputNodes = storage.createElement("InputNodes");
     for(Node* inputNode : m_inputNodes)
     {
-        inputNode->SaveData(storage, inputNodes);
+        inputNode->SaveData(storage, gateElement);
     }
-    gateElement.appendChild(inputNodes);
 
-    QDomElement outputNodes = storage.createElement("OutputNodes");
     for(Node* outputNode : m_outputNodes)
     {
-        outputNode->SaveData(storage, outputNodes);
+        outputNode->SaveData(storage, gateElement);
     }
-    gateElement.appendChild(outputNodes);
 
     parentElement.appendChild(gateElement);
 }

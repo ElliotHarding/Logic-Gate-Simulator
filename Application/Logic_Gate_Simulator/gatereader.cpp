@@ -87,7 +87,11 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
         if(gateNodes.at(i).isElement())
         {
             QDomElement gateElement = gateNodes.at(i).toElement();
-            gates.push_back(readGate(gateElement, linkInfo));
+            Gate* newReadGate = readGate(gateElement, linkInfo);
+            if(newReadGate != nullptr)
+            {
+                gates.push_back(newReadGate);
+            }
         }
     }
 
@@ -96,13 +100,13 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
     return gates;
 }
 
-Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
+Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkInfo)
 {
-    const GateType type = (GateType)tryReadInt(gate.attribute("type"), GATE_NULL);
-    const int posX = tryReadInt(gate.attribute("posX"), 0);
-    const int posY = tryReadInt(gate.attribute("posY"), 0);
+    const GateType type = (GateType)tryReadInt(gateElement.attribute("type"), GATE_NULL);
+    const int posX = tryReadInt(gateElement.attribute("posX"), 0);
+    const int posY = tryReadInt(gateElement.attribute("posY"), 0);
 
-    std::vector<NodeIds> nodeInfo = readNodes(gate, linkInfo);
+    std::vector<NodeIds> nodeInfo = readNodes(gateElement, linkInfo);
 
     //Gate that will be instanciated
     Gate* rGate = nullptr;
@@ -140,7 +144,19 @@ Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
     {
         std::vector<Gate*> rGates;
 
-        //~todo
+        QDomNodeList gateNodes = gateElement.elementsByTagName("Gate");
+        for(int i = 0; i < gateNodes.size(); i++)
+        {
+            if(gateNodes.at(i).isElement())
+            {
+                QDomElement gateElement = gateNodes.at(i).toElement();
+                Gate* subGate = readGate(gateElement, linkInfo);
+                if(subGate != nullptr)
+                {
+                    rGates.push_back(subGate);
+                }
+            }
+        }
 
         rGate = new GateCollection(rGates);
         return rGate;
@@ -217,7 +233,7 @@ Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
         if(nodeInfo.size() == 1)
         {
             rGate = new GateTimer(posX, posY, nodeInfo[0].id);
-            dynamic_cast<GateTimer*>(rGate)->setFrequency(tryReadInt(gate.attribute("Frequency"), 500));
+            dynamic_cast<GateTimer*>(rGate)->setFrequency(tryReadInt(gateElement.attribute("Frequency"), 500));
         }
         else
         {
@@ -292,100 +308,16 @@ Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
 
     case GateType::GATE_FPGA:
     {
-        std::string script;
-        //std::getline(gateStream, line);//don't ask me why this is nessesary. It will be removed in future anyways.
-
-        /* ~todo
-        gateStream >> line;//"<Script>"
-        while(true)
-        {
-            std::getline(gateStream, line);
-            if(line == "</Script>")
-            {
-                break;
-            }
-            script += line + "\n";
-        }
+        QString script = gateElement.attribute("Script");
 
         std::vector<NodeIds> inputNodeIds;
-        gateStream >> line; //<InputNodes>
-        while(true)
-        {
-            gateStream >> line; //Either <Node> or </InputNodes>
-            if(line == "</InputNodes>")
-            {
-                break;
-            }
-
-            //read in strings
-            std::string sID, linkedNodes, endTag;
-            gateStream >> sID >> linkedNodes >> endTag;
-
-            //Apply string to nodeInfo
-            NodeIds nodeInfo;
-            nodeInfo.id = tryStoi(sID, -1);
-
-            //Read linkedNodes string, into linkedIds vector
-            std::vector<int> linkedIds;
-            std::string stringBuild = "";
-            for (size_t index = 0; index < linkedNodes.length(); index++)
-            {
-                //If at ',' or end of string
-                if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
-                {
-                    nodeInfo.linkedIds.push_back(tryStoi(stringBuild, -1));
-                    stringBuild = "";
-                }
-                else
-                {
-                    stringBuild += linkedNodes[index];
-                }
-            }
-
-            inputNodeIds.push_back(nodeInfo);
-            linkInfo.push_back(nodeInfo);
-        }
+        std::vector<NodeIds> dummyLinkInfo;
+        readNodeTypes(gateElement, dummyLinkInfo, inputNodeIds, "InputNode");
 
         std::vector<NodeIds> outputNodeIds;
-        gateStream >> line; //<OutputNodes>
-        while(true)
-        {
-            gateStream >> line; //Either <Node> or </OutputNodes>
-            if(line == "</OutputNodes>")
-            {
-                break;
-            }
+        readNodeTypes(gateElement, dummyLinkInfo, outputNodeIds, "OutputNode");
 
-            //read in strings
-            std::string sID, linkedNodes, endTag;
-            gateStream >> sID >> linkedNodes >> endTag;
-
-            //Apply string to nodeInfo
-            NodeIds nodeInfo;
-            nodeInfo.id = tryStoi(sID, -1);
-
-            //Read linkedNodes string, into linkedIds vector
-            std::vector<int> linkedIds;
-            std::string stringBuild = "";
-            for (size_t index = 0; index < linkedNodes.length(); index++)
-            {
-                //If at ',' or end of string
-                if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
-                {
-                    nodeInfo.linkedIds.push_back(tryStoi(stringBuild, -1));
-                    stringBuild = "";
-                }
-                else
-                {
-                    stringBuild += linkedNodes[index];
-                }
-            }
-
-            outputNodeIds.push_back(nodeInfo);
-            linkInfo.push_back(nodeInfo);
-        }*/
-
-        //rGate = new GateFPGA(QString::fromStdString(script), inputNodeIds, outputNodeIds, stoi(posX), stoi(posY));
+        rGate = new GateFPGA(script, inputNodeIds, outputNodeIds, posX, posY);
         break;
     }
 
@@ -402,14 +334,22 @@ std::vector<NodeIds> GateReader::readNodes(QDomElement& gate, std::vector<NodeId
 {
     std::vector<NodeIds> retNodeInfo;
 
+    readNodeTypes(gate, linkInfo, retNodeInfo, "InputNode");
+    readNodeTypes(gate, linkInfo, retNodeInfo, "OutputNode");
+
+    return retNodeInfo;
+}
+
+void GateReader::readNodeTypes(QDomElement &gate, std::vector<NodeIds>& linkInfo, std::vector<NodeIds>& nodeInfo, const QString &nodeType)
+{
     QDomNodeList nodeNodes = gate.elementsByTagName("InputNode");
     for(int i = 0; i < nodeNodes.size(); i++)
     {
         if(nodeNodes.at(i).isElement())
         {
             QDomElement nodeElement = nodeNodes.at(i).toElement();
-            NodeIds nodeInfo;
-            nodeInfo.id = tryReadInt(nodeElement.attribute("id"), -1);
+            NodeIds nodeIds;
+            nodeIds.id = tryReadInt(nodeElement.attribute("id"), -1);
 
             const QString linkedNodes = nodeElement.attribute("linkedNodes");
             QString stringBuild = "";
@@ -418,7 +358,7 @@ std::vector<NodeIds> GateReader::readNodes(QDomElement& gate, std::vector<NodeId
                 //If at ',' or end of string
                 if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
                 {
-                    nodeInfo.linkedIds.push_back(tryReadInt(stringBuild, -1));
+                    nodeIds.linkedIds.push_back(tryReadInt(stringBuild, -1));
                     stringBuild = "";
                 }
                 else
@@ -427,42 +367,10 @@ std::vector<NodeIds> GateReader::readNodes(QDomElement& gate, std::vector<NodeId
                 }
             }
 
-            retNodeInfo.push_back(nodeInfo);
-            linkInfo.push_back(nodeInfo);
+            nodeInfo.push_back(nodeIds);
+            linkInfo.push_back(nodeIds);
         }
     }
-
-    nodeNodes = gate.elementsByTagName("OutputNode");
-    for(int i = 0; i < nodeNodes.size(); i++)
-    {
-        if(nodeNodes.at(i).isElement())
-        {
-            QDomElement nodeElement = nodeNodes.at(i).toElement();
-            NodeIds nodeInfo;
-            nodeInfo.id = tryReadInt(nodeElement.attribute("id"), -1);
-
-            const QString linkedNodes = nodeElement.attribute("linkedNodes");
-            QString stringBuild = "";
-            for (int index = 0; index < linkedNodes.length(); index++)
-            {
-                //If at ',' or end of string
-                if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
-                {
-                    nodeInfo.linkedIds.push_back(tryReadInt(stringBuild, -1));
-                    stringBuild = "";
-                }
-                else
-                {
-                    stringBuild += linkedNodes[index];
-                }
-            }
-
-            retNodeInfo.push_back(nodeInfo);
-            linkInfo.push_back(nodeInfo);
-        }
-    }
-
-    return retNodeInfo;
 }
 
 int GateReader::tryReadInt(const QString &value, const int &defaultVal)

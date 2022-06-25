@@ -42,9 +42,15 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
     QDomDocument doc;
     doc.setContent(&file);
 
-    doc.firstChildElement(Settings::GateFieldElement);
+    QDomElement gateField = doc.firstChildElement(Settings::GateFieldElement);
+    if(gateField.isNull())
+    {
+        errorMessage = "Failed reading file";
+        file.close();
+        return false;
+    }
 
-    const std::vector<Gate*> gates = readGates(doc);
+    const std::vector<Gate*> gates = readGates(gateField);
     file.close();
 
     for (Gate* pGate : gates)
@@ -58,15 +64,15 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
 
 bool GateReader::ReadGateCollection(QDomDocument& doc, GateCollection*& gCollection)
 {
-    doc.firstChildElement(Settings::GateCollectionElement);
+    QDomElement gateCollection = doc.firstChildElement(Settings::GateCollectionElement);
 
-    gCollection = new GateCollection(readGates(doc));
+    gCollection = new GateCollection(readGates(gateCollection));
     gCollection->AssignNewNodeIds();
 
     return true;
 }
 
-std::vector<Gate*> GateReader::readGates(QDomDocument& doc)
+std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
 {
     std::vector<Gate*> gates;
     std::vector<NodeIds> linkInfo;

@@ -35,7 +35,7 @@ public:
 private:
     struct NodeAndIds {Node* pNode; int id; std::vector<int> linkedIds;};
 
-    std::vector<Gate*> readGates(QDomDocument& doc);
+    std::vector<Gate*> readGates(QDomElement& gatesParent);
     Gate* readGate(std::ifstream& gateStream, std::string& line, std::vector<NodeIds>& linkInfo);
     NodeIds readNode(std::ifstream& gateStream);
     int tryStoi(const std::string&, const int&);

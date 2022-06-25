@@ -31,6 +31,8 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
         return false;
     }
 
+    QDomDocument saveFile(fileName);
+
     std::ifstream saveFile(fileName.toUtf8());
     if(!saveFile.is_open())
     {
@@ -503,8 +505,20 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
-    QDomDocument saveFile(dir + "/" + QString::fromStdString(pGateFeild->name()) + Settings::GateFeildFile);
-    pGateFeild->SaveData(saveFile);
+    QFile file(dir + "/" + QString::fromStdString(pGateFeild->name()) + Settings::GateFeildFile);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        return false;
+    }
+
+    QDomDocument saveDoc(dir + "/" + QString::fromStdString(pGateFeild->name()) + Settings::GateFeildFile);
+    pGateFeild->SaveData(saveDoc);
+
+    QTextStream stream(&file);
+    stream << saveDoc.toString();
+
+    file.close();
+
     return true;
 }
 
@@ -513,10 +527,20 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
     if(!QDir(Settings::CustomGatesLocation).exists())
         QDir().mkdir(Settings::CustomGatesLocation);
 
-    //Todo : check if name can be QString
-    QDomDocument saveFile(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
-    QDomElement saveFileElement = saveFile.createElement("GateCollectionSaveFile");
-    pGateCollection->SaveData(saveFile, saveFileElement);
+    QFile file(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        return false;
+    }
+
+    QDomDocument saveDoc(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
+    QDomElement saveFileElement = saveDoc.createElement("GateCollectionSaveFile");
+    pGateCollection->SaveData(saveDoc, saveFileElement);
+
+    QTextStream stream(&file);
+    stream << saveDoc.toString();
+
+    file.close();
 
     pHome->UpdateCustomGateListWidget();
 

@@ -37,7 +37,7 @@ private:
 
     std::vector<Gate*> readGates(QDomElement& gatesParent);
     Gate* readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo);
-    NodeIds readNode(std::ifstream& gateStream);
+    NodeIds readNode(QDomElement& gate);
     int tryReadInt(const QString& value, const int& defaultVal);
     static bool SearchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n);
 };

@@ -118,7 +118,9 @@ void GateFPGA::SaveData(std::ofstream& storage)
 {
     SaveGeneralData(storage);
 
+    storage << "<Script>" << std::endl;
     storage << m_script.toStdString() << std::endl;
+    storage << "</Script>" << std::endl;
 
     storage << "<InputNodes>" << std::endl;
     for(Node* inputNode : m_inputNodes)

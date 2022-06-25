@@ -292,8 +292,18 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     case GateType::GATE_FPGA:
     {
         std::string script;
-        std::getline(gateStream, script);
-        std::getline(gateStream, script); //don't ask me why this is nessesary. It will be removed in future anyways.
+        std::getline(gateStream, line);//don't ask me why this is nessesary. It will be removed in future anyways.
+
+        gateStream >> line;//"<Script>"
+        while(true)
+        {
+            std::getline(gateStream, line);
+            if(line == "</Script>")
+            {
+                break;
+            }
+            script += line + "\n";
+        }
 
         std::vector<NodeIds> inputNodeIds;
         gateStream >> line; //<InputNodes>

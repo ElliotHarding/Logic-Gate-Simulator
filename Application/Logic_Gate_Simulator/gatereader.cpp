@@ -13,6 +13,9 @@ const QString CustomGateFile = ".CustomGate";
 const QString CustomGatesLocation = "CustomGates/";
 
 const QString GateFeildFile = ".GateField";
+
+const QString GateFieldElement = "GateField";
+const QString GateCollectionElement = "GateCollection";
 }
 
 bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild, QString& errorMessage)
@@ -39,6 +42,8 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
     QDomDocument doc;
     doc.setContent(&file);
 
+    doc.firstChildElement(Settings::GateFieldElement);
+
     const std::vector<Gate*> gates = readGates(doc);
     file.close();
 
@@ -53,6 +58,8 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
 
 bool GateReader::ReadGateCollection(QDomDocument& doc, GateCollection*& gCollection)
 {
+    doc.firstChildElement(Settings::GateCollectionElement);
+
     gCollection = new GateCollection(readGates(doc));
     gCollection->AssignNewNodeIds();
 
@@ -475,7 +482,7 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
     }
 
     QDomDocument saveDoc(dir + "/" + pGateFeild->name() + Settings::GateFeildFile);
-    QDomElement gateFieldElement = saveDoc.createElement("GateField");
+    QDomElement gateFieldElement = saveDoc.createElement(Settings::GateFieldElement);
     pGateFeild->SaveData(saveDoc, gateFieldElement);
     saveDoc.appendChild(gateFieldElement);
 
@@ -499,7 +506,7 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
     }
 
     QDomDocument saveDoc(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
-    QDomElement saveDocElement = saveDoc.createElement("GateCollection");
+    QDomElement saveDocElement = saveDoc.createElement(Settings::GateCollectionElement);
     pGateCollection->SaveData(saveDoc, saveDocElement);
     saveDoc.appendChild(saveDocElement);
 

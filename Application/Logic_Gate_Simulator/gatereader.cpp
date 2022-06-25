@@ -542,6 +542,7 @@ GateCollection* CustomGateReader::spawnCustomGate(const QString &name)
     static GateReader gReader;
     if(gReader.ReadGateCollection(doc, cg))
     {
+        customGateFile.close();
         return cg;
     }
 

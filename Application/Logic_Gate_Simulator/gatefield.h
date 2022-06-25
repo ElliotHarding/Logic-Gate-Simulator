@@ -109,7 +109,7 @@ private:
     DLG_Home* m_pParent;
 
     //Saving
-    std::string m_name = "Unknown";
+    std::string m_name = "Unknown";//Todo : check turn this to QString
 
     //Gates
     std::vector<Gate*> m_allGates;   

@@ -39,11 +39,8 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
         return false;
     }
 
-    QTextStream in(&file);
-    QString content = in.readAll();
-
     QDomDocument doc;
-    doc.setContent(content);
+    doc.setContent(&file);
 
     QDomElement gateField = doc.firstChildElement(Settings::GateFieldElement);
     if(gateField.isNull())

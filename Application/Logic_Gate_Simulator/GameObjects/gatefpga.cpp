@@ -102,16 +102,15 @@ void GateFPGA::draw(QPainter& painter)
 
 GameObject* GateFPGA::checkClicked(const QPoint& mouse)
 {
-    if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
+    if(m_editButtonRect.contains(mouse))
     {
-        if(m_editButtonRect.contains(mouse))
+        OpenEditor();
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
-            OpenEditor();
             return this;
         }
         return nullptr;
     }
-
     return GameObject::checkClicked(mouse);
 }
 

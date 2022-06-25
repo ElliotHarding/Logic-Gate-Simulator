@@ -7,8 +7,6 @@
 #include <QDir>
 #include <QDomDocument>
 
-#define nextLine gateStream >> line;
-
 namespace Settings
 {
 const QString CustomGateFile = ".CustomGate";
@@ -53,21 +51,9 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
     return true;
 }
 
-bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection)
+bool GateReader::ReadGateCollection(QDomDocument& doc, GateCollection*& gCollection)
 {
-    std::string line;
-    nextLine //<GATE> tag
-    nextLine //Type number 7
-
-    //Enabled
-    gateStream >> line;
-    bool enabled = false;
-    tryStoi(line, enabled);
-
-    nextLine //Empty element meant for xPos of a noraml gate, might add info here
-    nextLine //Empty element meant for yPos of a normal gate, might add info here
-
-    gCollection = new GateCollection(readGates(gateStream));
+    gCollection = new GateCollection(readGates(doc));
     gCollection->AssignNewNodeIds();
 
     return true;
@@ -75,16 +61,8 @@ bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& 
 
 std::vector<Gate*> GateReader::readGates(QDomDocument& doc)
 {
-    std::string line;
     std::vector<Gate*> gates;
     std::vector<NodeIds> linkInfo;
-
-    nextLine
-    while(line == SAVE_TAG_GATE)
-    {
-        gates.push_back(readGate(gateStream, line, linkInfo));
-        nextLine
-    }
 
     linkNodes(gates, linkInfo);
 
@@ -95,7 +73,7 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
 {
     //Get gate header info
     std::string type, enabled, posX, posY;
-    gateStream >> type >> enabled >> posX >> posY;
+    //gateStream >> type >> enabled >> posX >> posY;
 
     //Gate that will be instanciated
     Gate* rGate;
@@ -137,12 +115,8 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     {
         std::vector<Gate*> rGates;
 
-        nextLine
-        while (line == SAVE_TAG_GATE)
-        {
-            rGates.push_back(readGate(gateStream, line, linkInfo));
-            nextLine
-        }
+        //~todo
+
         rGate = new GateCollection(rGates);
         return rGate;
         break;
@@ -203,7 +177,8 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     case GateType::GATE_TIMER:
     {
         std::string frequency;
-        gateStream >> frequency;
+        //gateStream >> frequency;
+        //~todo
 
         NodeIds n1 = readNode(gateStream);
 
@@ -296,8 +271,9 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
     case GateType::GATE_FPGA:
     {
         std::string script;
-        std::getline(gateStream, line);//don't ask me why this is nessesary. It will be removed in future anyways.
+        //std::getline(gateStream, line);//don't ask me why this is nessesary. It will be removed in future anyways.
 
+        /* ~todo
         gateStream >> line;//"<Script>"
         while(true)
         {
@@ -385,9 +361,9 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
 
             outputNodeIds.push_back(nodeInfo);
             linkInfo.push_back(nodeInfo);
-        }
+        }*/
 
-        rGate = new GateFPGA(QString::fromStdString(script), inputNodeIds, outputNodeIds, stoi(posX), stoi(posY));
+        //rGate = new GateFPGA(QString::fromStdString(script), inputNodeIds, outputNodeIds, stoi(posX), stoi(posY));
         break;
     }
 
@@ -397,20 +373,6 @@ Gate* GateReader::readGate(std::ifstream& gateStream, std::string& line, std::ve
         return nullptr;
     }
 
-    //Only valid gate types after this:
-
-    //Enabled
-    //Enabled no longer used
-
-    //Read off END_SAVE_TAG_GATE tag, but it's already been read for GateCollections
-    if(rGate->GetType() != GateType::GATE_COLLECTION)
-    {
-        while(line != END_SAVE_TAG_GATE)
-        {
-            nextLine;
-        }
-    }
-
     return rGate;
 }
 
@@ -418,7 +380,7 @@ NodeIds GateReader::readNode(std::ifstream& gateStream)
 {
     //read in strings
     std::string startTag, sID, linkedNodes, endTag;
-    gateStream >> startTag >> sID >> linkedNodes >> endTag;
+    //gateStream >> startTag >> sID >> linkedNodes >> endTag; ~todo
 
     //Apply string to nodeInfo
     NodeIds nodeInfo;
@@ -566,20 +528,24 @@ std::vector<QString> CustomGateReader::getCustomGateNames()
 
 GateCollection* CustomGateReader::spawnCustomGate(const QString &name)
 {
-    std::ifstream customGateStream(Settings::CustomGatesLocation.toStdString() + name.toStdString() + Settings::CustomGateFile.toStdString());
+    QFile customGateFile(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
 
-    //Read into pointer and send to m_pParent
-    if(customGateStream.is_open())
+    if(!customGateFile.open(QIODevice::ReadOnly))
     {
-        GateCollection* cg;
-        static GateReader gReader;
-        if(gReader.ReadGateCollection(customGateStream, cg))
-        {
-            customGateStream.close();
-            return cg;
-        }
-        customGateStream.close();
+        return nullptr;
     }
+
+    QDomDocument doc;
+    doc.setContent(&customGateFile);
+
+    GateCollection* cg;
+    static GateReader gReader;
+    if(gReader.ReadGateCollection(doc, cg))
+    {
+        return cg;
+    }
+
+    customGateFile.close();
 
     return nullptr;
 }

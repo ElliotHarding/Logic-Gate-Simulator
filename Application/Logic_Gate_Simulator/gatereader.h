@@ -28,7 +28,7 @@ class GateReader
 {
 public:
     bool ReadGateField(const QString& fileName, GateField* pNewGateFeild, QString& errorMessage);
-    bool ReadGateCollection(std::ifstream& gateStream, GateCollection*& gCollection);
+    bool ReadGateCollection(QDomDocument& doc, GateCollection*& gCollection);
 
     static void linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>& linkInfo);
 

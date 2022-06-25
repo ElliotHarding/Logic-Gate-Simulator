@@ -102,39 +102,37 @@ Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
     const int posX = tryReadInt(gate.attribute("posX"), 0);
     const int posY = tryReadInt(gate.attribute("posY"), 0);
 
+    std::vector<NodeIds> nodeInfo = readNodes(gate, linkInfo);
+
     //Gate that will be instanciated
-    Gate* rGate;
+    Gate* rGate = nullptr;
 
     switch(type)
     {
 
     case GateType::GATE_AND:
     {
-        NodeIds n1 = readNode(gateStream);
-        NodeIds n2 = readNode(gateStream);
-        NodeIds n3 = readNode(gateStream);
-
-        rGate = new GateAnd(posX, posY, n1.id, n2.id, n3.id);
-
-        linkInfo.push_back(n1);
-        linkInfo.push_back(n2);
-        linkInfo.push_back(n3);
-
+        if(nodeInfo.size() == 3)
+        {
+            rGate = new GateAnd(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_OR:
     {
-        NodeIds n1 = readNode(gateStream);
-        NodeIds n2 = readNode(gateStream);
-        NodeIds n3 = readNode(gateStream);
-
-        rGate = new GateOr(stoi(posX), stoi(posY), n1.id, n2.id, n3.id);
-
-        linkInfo.push_back(n1);
-        linkInfo.push_back(n2);
-        linkInfo.push_back(n3);
-
+        if(nodeInfo.size() == 3)
+        {
+            rGate = new GateOr(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
@@ -151,147 +149,144 @@ Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
 
     case GateType::GATE_NOT:
     {
-        NodeIds n1 = readNode(gateStream);
-        NodeIds n2 = readNode(gateStream);
-
-        rGate = new GateNot(stoi(posX), stoi(posY), n1.id, n2.id);
-
-        linkInfo.push_back(n1);
-        linkInfo.push_back(n2);
+        if(nodeInfo.size() == 2)
+        {
+            rGate = new GateNot(posX, posY, nodeInfo[0].id, nodeInfo[1].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_EMMITTER:
     {
-        NodeIds n1 = readNode(gateStream);
-
-        rGate = new GateToggle(stoi(posX), stoi(posY), n1.id);
-
-        linkInfo.push_back(n1);
+        if(nodeInfo.size() == 1)
+        {
+            rGate = new GateToggle(posX, posY, nodeInfo[0].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_RECIEVER:
     {
-        NodeIds n1 = readNode(gateStream);
-
-        rGate = new GateReciever(stoi(posX), stoi(posY), n1.id);
-
-        linkInfo.push_back(n1);
+        if(nodeInfo.size() == 1)
+        {
+            rGate = new GateReciever(posX, posY, nodeInfo[0].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_CONST_ACTIVE:
     {
-        NodeIds n1 = readNode(gateStream);
-
-        rGate = new GateConstantActive(stoi(posX), stoi(posY), n1.id);
-
-        linkInfo.push_back(n1);
+        if(nodeInfo.size() == 1)
+        {
+            rGate = new GateConstantActive(posX, posY, nodeInfo[0].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_CONST_INACTIVE:
     {
-        NodeIds n1 = readNode(gateStream);
-
-        rGate = new GateConstantInactive(stoi(posX), stoi(posY), n1.id);
-
-        linkInfo.push_back(n1);
+        if(nodeInfo.size() == 1)
+        {
+            rGate = new GateConstantInactive(posX, posY, nodeInfo[0].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_TIMER:
     {
-        std::string frequency;
-        //gateStream >> frequency;
-        //~todo
-
-        NodeIds n1 = readNode(gateStream);
-
-        rGate = new GateTimer(stoi(posX), stoi(posY), n1.id);
-        dynamic_cast<GateTimer*>(rGate)->setFrequency(tryStoi(frequency, 500));
-
-        linkInfo.push_back(n1);
+        if(nodeInfo.size() == 1)
+        {
+            rGate = new GateTimer(posX, posY, nodeInfo[0].id);
+            dynamic_cast<GateTimer*>(rGate)->setFrequency(tryReadInt(gate.attribute("Frequency"), 500));
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_TRI_OR:
     {
-        NodeIds n1 = readNode(gateStream);
-        NodeIds n2 = readNode(gateStream);
-        NodeIds n3 = readNode(gateStream);
-        NodeIds n4 = readNode(gateStream);
-
-        rGate = new GateTriOr(stoi(posX), stoi(posY), n1.id, n2.id, n3.id, n4.id);
-
-        linkInfo.push_back(n1);
-        linkInfo.push_back(n2);
-        linkInfo.push_back(n3);
-        linkInfo.push_back(n4);
+        if(nodeInfo.size() == 4)
+        {
+            rGate = new GateTriOr(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_TRI_AND:
     {
-        NodeIds n1 = readNode(gateStream);
-        NodeIds n2 = readNode(gateStream);
-        NodeIds n3 = readNode(gateStream);
-        NodeIds n4 = readNode(gateStream);
-
-        rGate = new GateTriAnd(stoi(posX), stoi(posY), n1.id, n2.id, n3.id, n4.id);
-
-        linkInfo.push_back(n1);
-        linkInfo.push_back(n2);
-        linkInfo.push_back(n3);
-        linkInfo.push_back(n4);
-        break;
+        if(nodeInfo.size() == 4)
+        {
+            rGate = new GateTriAnd(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
     }
 
     case GateType::GATE_TRI_EOR:
     {
-        NodeIds n1 = readNode(gateStream);
-        NodeIds n2 = readNode(gateStream);
-        NodeIds n3 = readNode(gateStream);
-        NodeIds n4 = readNode(gateStream);
-
-        rGate = new GateTriEor(stoi(posX), stoi(posY), n1.id, n2.id, n3.id, n4.id);
-
-        linkInfo.push_back(n1);
-        linkInfo.push_back(n2);
-        linkInfo.push_back(n3);
-        linkInfo.push_back(n4);
+        if(nodeInfo.size() == 4)
+        {
+            rGate = new GateTriEor(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_NUMBER_OUT:
     {
-        NodeIds n1 = readNode(gateStream);
-        NodeIds n2 = readNode(gateStream);
-        NodeIds n3 = readNode(gateStream);
-        NodeIds n4 = readNode(gateStream);
-
-        rGate = new GateNumberOutput(stoi(posX), stoi(posY), n1.id, n2.id, n3.id, n4.id);
-
-        linkInfo.push_back(n1);
-        linkInfo.push_back(n2);
-        linkInfo.push_back(n3);
-        linkInfo.push_back(n4);
+        if(nodeInfo.size() == 4)
+        {
+            rGate = new GateNumberOutput(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
     case GateType::GATE_EOR:
     {
-        NodeIds n1 = readNode(gateStream);
-        NodeIds n2 = readNode(gateStream);
-        NodeIds n3 = readNode(gateStream);
-
-        rGate = new GateEor(stoi(posX), stoi(posY), n1.id, n2.id, n3.id);
-
-        linkInfo.push_back(n1);
-        linkInfo.push_back(n2);
-        linkInfo.push_back(n3);
-
+        if(nodeInfo.size() == 3)
+        {
+            rGate = new GateEor(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id);
+        }
+        else
+        {
+            qDebug() << "GateReader::readGate - node info read incorrectly";
+        }
         break;
     }
 
@@ -403,33 +398,71 @@ Gate* GateReader::readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo)
     return rGate;
 }
 
-NodeIds GateReader::readNode(std::ifstream& gateStream)
+std::vector<NodeIds> GateReader::readNodes(QDomElement& gate, std::vector<NodeIds>& linkInfo)
 {
-    //read in strings
-    std::string startTag, sID, linkedNodes, endTag;
-    //gateStream >> startTag >> sID >> linkedNodes >> endTag; ~todo
+    std::vector<NodeIds> retNodeInfo;
 
-    //Apply string to nodeInfo
-    NodeIds nodeInfo;
-    nodeInfo.id = tryStoi(sID, -1);
-
-    //Read linkedNodes string, into linkedIds vector
-    std::vector<int> linkedIds;
-    std::string stringBuild = "";
-    for (size_t index = 0; index < linkedNodes.length(); index++)
+    QDomNodeList nodeNodes = gate.elementsByTagName("InputNode");
+    for(int i = 0; i < nodeNodes.size(); i++)
     {
-        //If at ',' or end of string
-        if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
+        if(nodeNodes.at(i).isElement())
         {
-            nodeInfo.linkedIds.push_back(tryStoi(stringBuild, -1));
-            stringBuild = "";
-        }
-        else
-        {
-            stringBuild += linkedNodes[index];
+            QDomElement nodeElement = nodeNodes.at(i).toElement();
+            NodeIds nodeInfo;
+            nodeInfo.id = tryReadInt(nodeElement.attribute("id"), -1);
+
+            const QString linkedNodes = nodeElement.attribute("linkedNodes");
+            QString stringBuild = "";
+            for (int index = 0; index < linkedNodes.length(); index++)
+            {
+                //If at ',' or end of string
+                if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
+                {
+                    nodeInfo.linkedIds.push_back(tryReadInt(stringBuild, -1));
+                    stringBuild = "";
+                }
+                else
+                {
+                    stringBuild += linkedNodes[index];
+                }
+            }
+
+            retNodeInfo.push_back(nodeInfo);
+            linkInfo.push_back(nodeInfo);
         }
     }
-    return nodeInfo;
+
+    nodeNodes = gate.elementsByTagName("OutputNode");
+    for(int i = 0; i < nodeNodes.size(); i++)
+    {
+        if(nodeNodes.at(i).isElement())
+        {
+            QDomElement nodeElement = nodeNodes.at(i).toElement();
+            NodeIds nodeInfo;
+            nodeInfo.id = tryReadInt(nodeElement.attribute("id"), -1);
+
+            const QString linkedNodes = nodeElement.attribute("linkedNodes");
+            QString stringBuild = "";
+            for (int index = 0; index < linkedNodes.length(); index++)
+            {
+                //If at ',' or end of string
+                if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
+                {
+                    nodeInfo.linkedIds.push_back(tryReadInt(stringBuild, -1));
+                    stringBuild = "";
+                }
+                else
+                {
+                    stringBuild += linkedNodes[index];
+                }
+            }
+
+            retNodeInfo.push_back(nodeInfo);
+            linkInfo.push_back(nodeInfo);
+        }
+    }
+
+    return retNodeInfo;
 }
 
 int GateReader::tryReadInt(const QString &value, const int &defaultVal)

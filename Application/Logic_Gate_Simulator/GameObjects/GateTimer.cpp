@@ -27,17 +27,17 @@ void GateTimer::UpdateOutput()
     //None, check CheckTimer functionality (Called by parent gatefield)
 }
 
-void GateTimer::SaveData(std::ofstream &storage)
+void GateTimer::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    //Add general gate info
-    Gate::SaveGeneralData(storage);
+    QDomElement gateElement = storage.createElement("Gate");
 
-    storage << std::to_string(m_frequency) << std::endl;
+    Gate::SaveGeneralData(gateElement);
 
-    //Add node information
-    m_pOutput->SaveData(storage);
+    gateElement.setAttribute("Frequency", QString::number(m_frequency));
 
-    storage << END_SAVE_TAG_GATE << std::endl;
+    m_pOutput->SaveData(storage, gateElement);
+
+    parentElement.appendChild(gateElement);
 }
 
 Gate *GateTimer::Clone()

@@ -26,14 +26,16 @@ Gate *GateToggle::Clone()
     return clone;
 }
 
-void GateToggle::SaveData(std::ofstream &storage)
+void GateToggle::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    //Add general gate info
-    Gate::SaveGeneralData(storage);
+    QDomElement gateElement = storage.createElement("Gate");
 
-    //Add node information
-    m_pOutput->SaveData(storage);
+    Gate::SaveGeneralData(gateElement);
 
-    storage << END_SAVE_TAG_GATE << std::endl;
+    gateElement.setAttribute("PowerState", QString::number(m_pOutput->value()));
+
+    m_pOutput->SaveData(storage, gateElement);
+
+    parentElement.appendChild(gateElement);
 }
 

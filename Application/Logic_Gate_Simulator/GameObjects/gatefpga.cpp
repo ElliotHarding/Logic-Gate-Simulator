@@ -114,29 +114,29 @@ GameObject* GateFPGA::checkClicked(const QPoint& mouse)
     return GameObject::checkClicked(mouse);
 }
 
-void GateFPGA::SaveData(std::ofstream& storage)
+void GateFPGA::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    SaveGeneralData(storage);
+    QDomElement gateElement = storage.createElement("Gate");
 
-    storage << "<Script>" << std::endl;
-    storage << m_script.toStdString() << std::endl;
-    storage << "</Script>" << std::endl;
+    SaveGeneralData(gateElement);
 
-    storage << "<InputNodes>" << std::endl;
+    gateElement.setAttribute("Script", m_script);
+
+    QDomElement inputNodes = storage.createElement("InputNodes");
     for(Node* inputNode : m_inputNodes)
     {
-        inputNode->SaveData(storage);
+        inputNode->SaveData(storage, inputNodes);
     }
-    storage << "</InputNodes>" << std::endl;
+    gateElement.appendChild(inputNodes);
 
-    storage << "<OutputNodes>" << std::endl;
+    QDomElement outputNodes = storage.createElement("OutputNodes");
     for(Node* outputNode : m_outputNodes)
     {
-        outputNode->SaveData(storage);
+        outputNode->SaveData(storage, outputNodes);
     }
-    storage << "</OutputNodes>" << std::endl;
+    gateElement.appendChild(outputNodes);
 
-    storage << END_SAVE_TAG_GATE << std::endl;
+    parentElement.appendChild(gateElement);
 }
 
 void GateFPGA::UpdateOutput()

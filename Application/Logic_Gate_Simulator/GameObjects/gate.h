@@ -107,7 +107,6 @@ private:
 
     ///Linked properties
     std::vector<Node*> m_linkedNodes;
-    QString GetLinkedNodesIds() const;
 
     ///Positional offset from parent gate
     int m_offsetX;

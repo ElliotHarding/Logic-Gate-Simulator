@@ -271,7 +271,15 @@ void Node::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement nodeElement = storage.createElement(m_nodeType == InputNode ? "InputNode" : "OutputNode");
     nodeElement.setAttribute("id", QString::number(m_id));
-    nodeElement.setAttribute("linkedIds", GetLinkedNodesIds());
+
+    QDomElement linkedIds = storage.createElement("LinkedIds");
+    for (Node* n : m_linkedNodes)
+    {
+        QDomElement id = storage.createElement(QString::number(n->m_id));
+        linkedIds.appendChild(id);
+    }
+    nodeElement.appendChild(linkedIds);
+
     parentElement.appendChild(nodeElement);
 }
 
@@ -294,20 +302,6 @@ void Node::setOffsets(const int &offsetX, const int &offsetY)
 id Node::id() const
 {
     return m_id;
-}
-
-QString Node::GetLinkedNodesIds() const
-{
-    if(m_linkedNodes.size() == 0)
-        return "-1";
-
-    QString ids = "";
-    const QString next = ",";
-    for (Node* n : m_linkedNodes)
-    {
-        ids += QString::number(n->m_id) + next;
-    }
-    return ids;
 }
 
 bool Node::LinkNode(Node*& n)

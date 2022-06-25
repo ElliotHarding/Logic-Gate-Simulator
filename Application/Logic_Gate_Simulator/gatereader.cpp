@@ -113,7 +113,6 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
 
     switch(type)
     {
-
     case GateType::GATE_AND:
     {
         if(nodeInfo.size() == 3)
@@ -323,7 +322,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
 
     case GATE_NULL:
     default:
-        qDebug() << "GateReader::readGate - Failed to read a gate!";
+        qDebug() << "GateReader::readGate - Failed to read a gate! Gate type not found.";
         return nullptr;
     }
 
@@ -348,22 +347,17 @@ void GateReader::readNodeTypes(QDomElement &gate, std::vector<NodeIds>& linkInfo
         if(nodeNodes.at(i).isElement())
         {
             QDomElement nodeElement = nodeNodes.at(i).toElement();
+
             NodeIds nodeIds;
             nodeIds.id = tryReadInt(nodeElement.attribute("id"), -1);
 
-            const QString linkedNodes = nodeElement.attribute("linkedNodes");
-            QString stringBuild = "";
-            for (int index = 0; index < linkedNodes.length(); index++)
+            QDomElement linkedIds = nodeElement.firstChildElement("LinkedIds");
+            QDomNodeList linkNodes = linkedIds.childNodes();
+            for(int i = 0; i < linkNodes.size(); i++)
             {
-                //If at ',' or end of string
-                if(linkedNodes[index] == ',' || index == linkedNodes.length() - 1)
+                if(linkNodes.at(i).isElement())
                 {
-                    nodeIds.linkedIds.push_back(tryReadInt(stringBuild, -1));
-                    stringBuild = "";
-                }
-                else
-                {
-                    stringBuild += linkedNodes[index];
+                    nodeIds.linkedIds.push_back(tryReadInt(linkNodes.at(i).toElement().tagName(), -1));
                 }
             }
 

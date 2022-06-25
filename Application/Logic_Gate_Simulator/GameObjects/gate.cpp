@@ -269,7 +269,7 @@ Gate* Node::GetParent()
 
 void Node::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    QDomElement nodeElement = storage.createElement("Node");
+    QDomElement nodeElement = storage.createElement(m_nodeType == InputNode ? "InputNode" : "OutputNode");
     nodeElement.setAttribute("id", QString::number(m_id));
     nodeElement.setAttribute("linkedIds", GetLinkedNodesIds());
     parentElement.appendChild(nodeElement);

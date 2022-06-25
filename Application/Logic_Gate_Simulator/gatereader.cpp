@@ -70,7 +70,7 @@ bool GateReader::ReadGateCollection(std::ifstream& gateStream, GateCollection*& 
     return true;
 }
 
-std::vector<Gate *> GateReader::readGates(std::ifstream &gateStream)
+std::vector<Gate*> GateReader::readGates(std::ifstream &gateStream)
 {
     std::string line;
     std::vector<Gate*> gates;

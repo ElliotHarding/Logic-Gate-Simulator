@@ -6,13 +6,6 @@
 
 #include <QDomDocument>
 
-#define with << std::endl <<
-
-static const std::string SAVE_TAG_GATE = "<GATE>";
-static const std::string SAVE_TAG_NODE = "<NODE>";
-static const std::string END_SAVE_TAG_GATE = "</GATE>";
-static const std::string END_SAVE_TAG_NODE = "</NODE>";
-
 struct NodeIds {int id; std::vector<int> linkedIds;};
 typedef int id;
 

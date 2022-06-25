@@ -24,7 +24,7 @@ public:
 
     virtual void SetParent(GateField* gf) override;
 
-    virtual void SaveData(std::ofstream& storage) override;
+    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
 
     virtual Gate* Clone() override;
 

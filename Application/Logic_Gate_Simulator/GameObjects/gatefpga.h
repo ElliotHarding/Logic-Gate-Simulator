@@ -16,7 +16,7 @@ public:
     virtual void draw(QPainter& painter) override;
     virtual GameObject* checkClicked(const QPoint& mouse) override;
     virtual void UpdateOutput() override;
-    virtual void SaveData(std::ofstream& storage) override;
+    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
     virtual Gate* Clone() override;
 
     ///Position functions

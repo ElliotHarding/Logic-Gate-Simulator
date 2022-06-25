@@ -209,16 +209,18 @@ void GateCollection::DrawButtons(QPainter& painter)
     //painter.drawImage(m_nandOptimize, Settings::ImgNandOptimizeButton);
 }
 
-void GateCollection::SaveData(std::ofstream &storage)
+void GateCollection::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    SaveGeneralData(storage);
+    QDomElement gateCollectionElement = storage.createElement("GateCollection");
+
+    SaveGeneralData(gateCollectionElement);
 
     for(Gate* gate : m_gates)
     {
-        gate->SaveData(storage);
+        gate->SaveData(storage, gateCollectionElement);
     }
 
-    storage << END_SAVE_TAG_GATE << std::endl;
+    parentElement.appendChild(gateCollectionElement);
 }
 
 void GateCollection::UpdateContaningArea()

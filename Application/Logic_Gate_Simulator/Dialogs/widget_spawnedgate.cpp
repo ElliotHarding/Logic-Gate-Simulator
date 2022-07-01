@@ -52,7 +52,7 @@ void Widget_SpawnedGate::paintEvent(QPaintEvent*)
     }
 }
 
-QPoint qtPointToWorldPoint(const QPoint& mousePoint, const qreal& zoomFactor)
+QPoint qtPointToPaintPoint(const QPoint& mousePoint, const qreal& zoomFactor)
 {
     QTransform transform;
     transform.scale(zoomFactor, zoomFactor);
@@ -91,7 +91,7 @@ void Widget_SpawnedGate::mouseMoveEvent(QMouseEvent* event)
 {
     if(m_pSpawnedGate)
     {
-        const QPoint pos = qtPointToWorldPoint(event->pos(), m_zoomFactor);
+        const QPoint pos = qtPointToPaintPoint(event->pos(), m_zoomFactor);
         m_pSpawnedGate->setPosition(pos.x(), pos.y());
         update();
     }

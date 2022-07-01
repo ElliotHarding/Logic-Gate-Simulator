@@ -304,11 +304,14 @@ void GateReader::readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo
         nodeIds.id = tryReadInt(node.attribute(Settings::NodeIdElement), -1);
 
         QDomElement linkedIds = node.firstChildElement(Settings::NodeLinkedIdsElement);
-        auto linkedNode = linkedIds.firstChildElement(Settings::NodeLinkedIdElement);
-        while(!linkedNode.isNull())
+        if(!linkedIds.isNull())
         {
-            nodeIds.linkedIds.push_back(tryReadInt(linkedNode.attribute(Settings::NodeIdElement), -1));
-            linkedNode = linkedNode.nextSiblingElement(Settings::NodeLinkedIdElement);
+            auto linkedNode = linkedIds.firstChildElement(Settings::NodeLinkedIdElement);
+            while(!linkedNode.isNull())
+            {
+                nodeIds.linkedIds.push_back(tryReadInt(linkedNode.attribute(Settings::NodeIdElement), -1));
+                linkedNode = linkedNode.nextSiblingElement(Settings::NodeLinkedIdElement);
+            }
         }
 
         nodeInfo.push_back(nodeIds);

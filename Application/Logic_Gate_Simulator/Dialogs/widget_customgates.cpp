@@ -57,7 +57,7 @@ void Widget_CustomGates::CreateItem(const QString& name)
     GateCollection* spawnedGateCollection = m_customGateReader.spawnCustomGate(name);
     if(spawnedGateCollection != nullptr)
     {
-        m_pParent->AddGate(spawnedGateCollection);
+        m_pParent->NewlySpawnedGate(spawnedGateCollection);
     }
     else
     {

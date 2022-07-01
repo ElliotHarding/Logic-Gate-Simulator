@@ -61,7 +61,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
     }
 
     {
-        addGateField("New tab");
+        NewlySpawnedGateField("New tab");
     }
 
     pProgressBar->setValue(100);
@@ -138,13 +138,29 @@ void DLG_Home::SendUserMessage(const QString& message)
     m_pDlgMessage->ShowMessage(message);
 }
 
-void DLG_Home::AddGate(Gate* pGate)
+void DLG_Home::NewlySpawnedGate(Gate* pGate)
 {
     if(m_iCurrentGateField != -1)
     {
         m_pSpawnedGateWidget->open(pGate);
-        //m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pGate);
-        //on_btn_Drag_clicked();
+    }
+    else
+    {
+        //Failed to add gate so discard it
+        delete pGate;
+    }
+}
+
+void DLG_Home::AddGateToGateField(Gate* pGate)
+{
+    if(m_iCurrentGateField != -1)
+    {
+        pGate->offsetPosition(-ui->PlayField->geometry().x(), -ui->PlayField->geometry().y());
+        if(m_allGateFields[size_t(m_iCurrentGateField)]->geometry().contains(pGate->position()))
+        {
+            m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pGate);
+            on_btn_Drag_clicked();
+        }
     }
     else
     {
@@ -169,7 +185,7 @@ void DLG_Home::DeleteGate(Gate* pGate)
     }
 }
 
-void DLG_Home::addGateField(const QString& name)
+void DLG_Home::NewlySpawnedGateField(const QString& name)
 {
     GateField* newGF = createNewGateField(name);
     m_allGateFields.push_back(newGF);
@@ -284,25 +300,25 @@ void DLG_Home::on_comboBox_currentIndexChanged(int index)
     switch (index)
     {
         case ALL_GATES:
-            SwitchAddGatesWidget(m_pWidgetAllGates);
+            SwitchNewlySpawnedGatesWidget(m_pWidgetAllGates);
             break;
         case CUSTOM_GATES:
-            SwitchAddGatesWidget(m_pWidgetCustomGates);
+            SwitchNewlySpawnedGatesWidget(m_pWidgetCustomGates);
             m_pWidgetCustomGates->UpdateList();
             break;
         case INPUT_GATES:
-            SwitchAddGatesWidget(m_pWidgetInputGates);
+            SwitchNewlySpawnedGatesWidget(m_pWidgetInputGates);
             break;
         case STANDARD_GATES:
-            SwitchAddGatesWidget(m_pWidgetStandardGates);
+            SwitchNewlySpawnedGatesWidget(m_pWidgetStandardGates);
             break;
         case ADVANCED_GATES:
-            SwitchAddGatesWidget(m_pWidgetAdvancedGates);
+            SwitchNewlySpawnedGatesWidget(m_pWidgetAdvancedGates);
             break;
     }
 }
 
-void DLG_Home::SwitchAddGatesWidget(MovingWidget* newWidgetToShow)
+void DLG_Home::SwitchNewlySpawnedGatesWidget(MovingWidget* newWidgetToShow)
 {
     if(m_pCurrentShownGateWidget && newWidgetToShow != m_pCurrentShownGateWidget)
     {
@@ -379,7 +395,7 @@ void DLG_Home::on_btn_newPage_clicked()
 
     if(newPageName.length() > 0)
     {
-        addGateField(newPageName);
+        NewlySpawnedGateField(newPageName);
     }
     else
     {

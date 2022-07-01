@@ -20,6 +20,7 @@ protected:
     void paintEvent(QPaintEvent* paintEvent) override;
 
     void mouseReleaseEvent(QMouseEvent *releaseEvent) override;
+    void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
 
     DLG_Home* m_pHome;

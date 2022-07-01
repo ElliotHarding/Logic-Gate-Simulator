@@ -18,37 +18,37 @@ Widget_Standard::~Widget_Standard()
 void Widget_Standard::on_btn_orGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateOr());
+        m_pParent->NewlySpawnedGate(new GateOr());
 }
 void Widget_Standard::on_btn_notGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateNot());
+        m_pParent->NewlySpawnedGate(new GateNot());
 }
 void Widget_Standard::on_btn_andGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateAnd());
+        m_pParent->NewlySpawnedGate(new GateAnd());
 }
 void Widget_Standard::on_btn_GateTriOr_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateTriOr());
+        m_pParent->NewlySpawnedGate(new GateTriOr());
 }
 void Widget_Standard::on_btn_GateTriAnd_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateTriAnd());
+        m_pParent->NewlySpawnedGate(new GateTriAnd());
 }
 
 void Widget_Standard::on_btn_GateEor_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateEor());
+        m_pParent->NewlySpawnedGate(new GateEor());
 }
 
 void Widget_Standard::on_btn_GateTriEor_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateTriEor());
+        m_pParent->NewlySpawnedGate(new GateTriEor());
 }

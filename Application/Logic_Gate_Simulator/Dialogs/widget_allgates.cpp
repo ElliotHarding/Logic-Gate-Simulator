@@ -71,94 +71,94 @@ void Widget_AllGates::applyScrollDiff(const int& diff)
 void Widget_AllGates::on_btn_sourceGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateToggle());
+        m_pParent->NewlySpawnedGate(new GateToggle());
 }
 void Widget_AllGates::on_btn_notGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateNot());
+        m_pParent->NewlySpawnedGate(new GateNot());
 }
 void Widget_AllGates::on_btn_orGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateOr());
+        m_pParent->NewlySpawnedGate(new GateOr());
 }
 void Widget_AllGates::on_btn_andGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateAnd());
+        m_pParent->NewlySpawnedGate(new GateAnd());
 }
 void Widget_AllGates::on_btn_recieverGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateReciever());
+        m_pParent->NewlySpawnedGate(new GateReciever());
 }
 void Widget_AllGates::on_btn_timerGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateTimer());
+        m_pParent->NewlySpawnedGate(new GateTimer());
 }
 void Widget_AllGates::on_btn_inputOn_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateConstantActive());
+        m_pParent->NewlySpawnedGate(new GateConstantActive());
 }
 void Widget_AllGates::on_btn_inputOff_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateConstantInactive());
+        m_pParent->NewlySpawnedGate(new GateConstantInactive());
 }
 
 void Widget_AllGates::on_btn_GateTriAnd_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateTriAnd());
+        m_pParent->NewlySpawnedGate(new GateTriAnd());
 }
 
 void Widget_AllGates::on_btn_GateTriOr_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateTriOr());
+        m_pParent->NewlySpawnedGate(new GateTriOr());
 }
 
 void Widget_AllGates::on_btn_numberOutputGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateNumberOutput());
+        m_pParent->NewlySpawnedGate(new GateNumberOutput());
 }
 
 void Widget_AllGates::on_btn_GateEor_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateEor());
+        m_pParent->NewlySpawnedGate(new GateEor());
 }
 
 void Widget_AllGates::on_btn_GateTriEor_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateTriEor());
+        m_pParent->NewlySpawnedGate(new GateTriEor());
 }
 
 void Widget_AllGates::on_btn_labelGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new TextLabel());
+        m_pParent->NewlySpawnedGate(new TextLabel());
 }
 
 void Widget_AllGates::on_btn_norGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateNor());
+        m_pParent->NewlySpawnedGate(new GateNor());
 }
 
 void Widget_AllGates::on_btn_nandGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateNand());
+        m_pParent->NewlySpawnedGate(new GateNand());
 }
 
 void Widget_AllGates::on_btn_xorGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateXor());
+        m_pParent->NewlySpawnedGate(new GateXor());
 }

@@ -21,22 +21,22 @@ Widget_Advanced::~Widget_Advanced()
 void Widget_Advanced::on_btn_numberOutputGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateNumberOutput());
+        m_pParent->NewlySpawnedGate(new GateNumberOutput());
 }
 void Widget_Advanced::on_btn_recieverGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateReciever());
+        m_pParent->NewlySpawnedGate(new GateReciever());
 }
 
 void Widget_Advanced::on_btn_fpgaGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new GateFPGA());
+        m_pParent->NewlySpawnedGate(new GateFPGA());
 }
 
 void Widget_Advanced::on_btn_labelGate_clicked()
 {
     if(m_pParent)
-        m_pParent->AddGate(new TextLabel());
+        m_pParent->NewlySpawnedGate(new TextLabel());
 }

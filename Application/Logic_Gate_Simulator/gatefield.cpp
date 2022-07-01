@@ -207,10 +207,10 @@ void GateField::AddGate(Gate* go, const bool& newlySpawned)
 {
     go->SetParent(this);
 
-    if(newlySpawned)
+    if(newlySpawned) //If newley spawned has GateField::QWidget relative position
     {
-        QPoint center = qtPointToWorldPoint(QPoint(geometry().width()/2, geometry().height()/2));
-        go->setPosition(center.x(), center.y());
+        const QPoint offset = qtPointToWorldPoint(go->position());
+        go->setPosition(offset.x(), offset.y());
     }
 
     m_allGates.push_back(go);

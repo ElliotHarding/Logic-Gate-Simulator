@@ -45,7 +45,8 @@ public:
 
     void SendUserMessage(const QString& message);
     bool SetZoomFactor(const qreal& zoomFactor, const bool& updateSlider = true);
-    void AddGate(Gate* pGate);
+    void NewlySpawnedGate(Gate* pGate);
+    void AddGateToGateField(Gate* pGate);
     void GateSelected(Gate* pGate);
     void DeleteGate(Gate* pGate);
     void SelectionToolClicked();
@@ -81,7 +82,7 @@ protected:
     void InitalizeDialogsAndWidgets();
 
     //Widget animations
-    void SwitchAddGatesWidget(MovingWidget* w1);
+    void SwitchNewlySpawnedGatesWidget(MovingWidget* w1);
 
     //Zooming
     qreal m_zoomFactor;
@@ -93,7 +94,7 @@ protected:
     //Gatefields
     int8_t m_iCurrentGateField;
     std::vector<GateField*> m_allGateFields;
-    void addGateField(const QString& name);
+    void NewlySpawnedGateField(const QString& name);
     GateField* createNewGateField(const QString& name);
 
     QRect accountForUIOffsetts(const QRect& rect);

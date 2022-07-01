@@ -305,6 +305,13 @@ void DLG_Home::editFPGA(GateFPGA* pFPGA)
     m_pDlgEditFPGA->open(pFPGA);
 }
 
+void DLG_Home::moveEvent(QMoveEvent* event)
+{
+    QMainWindow::moveEvent(event);
+
+    m_pSpawnedGateWidget->setGeometry(geometry());
+}
+
 void DLG_Home::UpdateCustomGateListWidget()
 {
     m_pWidgetCustomGates->UpdateList();

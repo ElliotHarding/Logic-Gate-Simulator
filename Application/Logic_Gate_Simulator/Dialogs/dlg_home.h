@@ -56,6 +56,8 @@ public:
     void editFPGA(GateFPGA* pFPGA);
 
 protected:
+    void moveEvent(QMoveEvent* event) override;
+
     Ui::DLG_Home *ui;
 
     //Dialogs

@@ -1,5 +1,11 @@
 BIG TODO: cloning nodes needs to be managed in terms of linking. Also clearing backups without deleting is wasting memory.
 
+
+
+Looks like delete all on gatecollection causes bug
+
+
+
 do we need offsetGates if we pan painter?
 
 check m_selectedGates

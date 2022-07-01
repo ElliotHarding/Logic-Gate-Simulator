@@ -92,18 +92,15 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
     std::vector<Gate*> gates;
     std::vector<NodeIds> linkInfo;
 
-    QDomNodeList gateNodes = gatesParent.elementsByTagName(Settings::GateElement);
-    for(int i = 0; i < gateNodes.size(); i++)
+    auto gateElement = gatesParent.firstChildElement(Settings::GateElement);
+    while(!gateElement.isNull())
     {
-        if(gateNodes.at(i).isElement())
+        Gate* newReadGate = readGate(gateElement, linkInfo);
+        if(newReadGate != nullptr)
         {
-            QDomElement gateElement = gateNodes.at(i).toElement();
-            Gate* newReadGate = readGate(gateElement, linkInfo);
-            if(newReadGate != nullptr)
-            {
-                gates.push_back(newReadGate);
-            }
+            gates.push_back(newReadGate);
         }
+        gateElement = gateElement.nextSiblingElement(Settings::GateElement);
     }
 
     linkNodes(gates, linkInfo);
@@ -352,29 +349,26 @@ std::vector<NodeIds> GateReader::readNodes(QDomElement& gate, std::vector<NodeId
 
 void GateReader::readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo, std::vector<NodeIds>& nodeInfo, const QString& nodeType)
 {
-    QDomNodeList nodeNodes = gate.elementsByTagName(nodeType);
-    for(int i = 0; i < nodeNodes.size(); i++)
+    auto node = gate.firstChildElement(nodeType);
+    while(!node.isNull())
     {
-        if(nodeNodes.at(i).isElement())
+        NodeIds nodeIds;
+        nodeIds.id = tryReadInt(node.attribute(Settings::NodeIdElement), -1);
+
+        QDomElement linkedIds = node.firstChildElement(Settings::NodeLinkedIdsElement);
+        QDomNodeList linkNodes = linkedIds.childNodes();//Todo ~ fix this - make it safer...
+        for(int i = 0; i < linkNodes.size(); i++)
         {
-            QDomElement nodeElement = nodeNodes.at(i).toElement();
-
-            NodeIds nodeIds;
-            nodeIds.id = tryReadInt(nodeElement.attribute(Settings::NodeIdElement), -1);
-
-            QDomElement linkedIds = nodeElement.firstChildElement(Settings::NodeLinkedIdsElement);
-            QDomNodeList linkNodes = linkedIds.childNodes();
-            for(int i = 0; i < linkNodes.size(); i++)
+            if(linkNodes.at(i).isElement())
             {
-                if(linkNodes.at(i).isElement())
-                {
-                    nodeIds.linkedIds.push_back(tryReadInt(linkNodes.at(i).toElement().tagName(), -1));
-                }
+                nodeIds.linkedIds.push_back(tryReadInt(linkNodes.at(i).toElement().tagName(), -1));
             }
-
-            nodeInfo.push_back(nodeIds);
-            linkInfo.push_back(nodeIds);
         }
+
+        nodeInfo.push_back(nodeIds);
+        linkInfo.push_back(nodeIds);
+
+        node = node.nextSiblingElement(nodeType);
     }
 }
 

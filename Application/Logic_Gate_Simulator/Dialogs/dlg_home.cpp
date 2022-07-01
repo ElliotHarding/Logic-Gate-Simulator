@@ -129,12 +129,6 @@ DLG_Home::~DLG_Home()
 
     delete m_pZoomSlider;
 
-    //Delete gatefields
-    /*for (GateField* gf : m_allGateFields)
-    {
-        //delete gf;
-        gf = nullptr;
-    }*/
     m_allGateFields.clear(); //deleted via qt
 
     delete ui;

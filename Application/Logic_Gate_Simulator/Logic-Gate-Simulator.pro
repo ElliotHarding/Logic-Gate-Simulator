@@ -34,6 +34,7 @@ SOURCES += \
     Dialogs/dlg_task.cpp \
     Dialogs/dlg_taskmanager.cpp \
     Dialogs/dlg_textedit.cpp \
+    Dialogs/widget_spawnedgate.cpp \
     GameObjects/gateeor.cpp \
     GameObjects/gatefpga.cpp \
     GameObjects/gatenand.cpp \
@@ -75,6 +76,7 @@ HEADERS += \
     Dialogs/dlg_configurefpga.h \
     Dialogs/dlg_message.h \
     Dialogs/dlg_textedit.h \
+    Dialogs/widget_spawnedgate.h \
     GameObjects/gateeor.h \
     GameObjects/gatefpga.h \
     GameObjects/gatenand.h \

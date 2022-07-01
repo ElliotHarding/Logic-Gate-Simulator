@@ -87,7 +87,19 @@ bool GateReader::ReadGateCollection(QDomDocument& doc, GateCollection*& gCollect
         return false;
     }
 
-    gCollection = new GateCollection(readGates(gateCollection));
+    QDomElement gateCollectionGate = gateCollection.firstChildElement(Settings::GateElement);
+    if(gateCollectionGate.isNull())
+    {
+        return false;
+    }
+
+    const GateType type = (GateType)tryReadInt(gateCollectionGate.attribute(Settings::GateTypeTag), GATE_NULL);
+    if(type != GateType::GATE_COLLECTION)
+    {
+        return false;
+    }
+
+    gCollection = new GateCollection(readGates(gateCollectionGate));
     gCollection->AssignNewNodeIds();
 
     return true;

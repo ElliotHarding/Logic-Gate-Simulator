@@ -4,6 +4,8 @@ BIG TODO: cloning nodes needs to be managed in terms of linking. Also clearing b
 
 Looks like delete all on gatecollection causes bug
 
+bagvp = aSmellyDog69_
+
 
 
 do we need offsetGates if we pan painter?

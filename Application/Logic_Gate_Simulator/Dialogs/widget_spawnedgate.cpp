@@ -7,7 +7,7 @@
 
 namespace Settings
 {
-const QColor GateDraggingBackgroundColor = QColor(20, 20, 20, 20);
+const QColor GateDraggingBackgroundColor = QColor(20, 20, 20, 1);
 }
 
 Widget_SpawnedGate::Widget_SpawnedGate(DLG_Home* pHome) :

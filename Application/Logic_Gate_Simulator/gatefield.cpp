@@ -200,7 +200,7 @@ void GateField::StartSaveGateCollection(GateCollection* pGateCollection)
 
 QString GateField::name() const
 {
-    return m_name;//Todo : check turn this to QString
+    return m_name;
 }
 
 void GateField::AddGate(Gate* go, const bool& newlySpawned)

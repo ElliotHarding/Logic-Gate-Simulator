@@ -17,6 +17,11 @@ Widget_SpawnedGate::Widget_SpawnedGate(DLG_Home* pHome) :
 void Widget_SpawnedGate::open(Gate* pSpawnedGate)
 {
     m_pSpawnedGate = pSpawnedGate;
+    QWidget::raise();
+    QWidget::raise();
+    QWidget::raise();
+    QWidget::raise();
+    QWidget::raise();
     QWidget::show();
 }
 
@@ -58,6 +63,7 @@ void Widget_SpawnedGate::mouseMoveEvent(QMouseEvent* event)
 {
     if(m_pSpawnedGate)
     {
-        //m_pSpawnedGate->setPosition(event->pos.x(), event->pos.y());
+        const QPoint pos = qtPointToWorldPoint(event->pos(), m_zoomFactor);
+        m_pSpawnedGate->setPosition(pos.x(), pos.y());
     }
 }

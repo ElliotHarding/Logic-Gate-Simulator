@@ -1,12 +1,12 @@
 #ifndef WIDGET_SPAWNEDGATE_H
 #define WIDGET_SPAWNEDGATE_H
 
-#include <QWidget>
+#include <QDialog>
 
 class DLG_Home;
 class Gate;
 
-class Widget_SpawnedGate : public QWidget
+class Widget_SpawnedGate : public QDialog
 {
     Q_OBJECT
 public:

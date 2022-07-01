@@ -5,24 +5,31 @@
 
 #include <QDebug>
 
+namespace Settings
+{
+const QColor GateDraggingBackgroundColor = QColor(20, 20, 20, 20);
+}
+
 Widget_SpawnedGate::Widget_SpawnedGate(DLG_Home* pHome) :
-    QWidget(pHome),
+    QDialog(pHome),
     m_pHome(pHome),
     m_pSpawnedGate(nullptr)
 {
-    setGeometry(0, 0, m_pHome->geometry().width(), m_pHome->geometry().height());
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_NoSystemBackground);
+    setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_PaintOnScreen);
+
+    setGeometry(m_pHome->geometry());
     setMouseTracking(true);
 }
 
 void Widget_SpawnedGate::open(Gate* pSpawnedGate)
 {
     m_pSpawnedGate = pSpawnedGate;
-    QWidget::raise();
-    QWidget::raise();
-    QWidget::raise();
-    QWidget::raise();
-    QWidget::raise();
-    QWidget::show();
+    setFocus(Qt::MouseFocusReason);
+    setGeometry(m_pHome->geometry());
+    QDialog::show();
 }
 
 void Widget_SpawnedGate::setZoomFactor(const qreal& zoomFactor)
@@ -36,6 +43,8 @@ void Widget_SpawnedGate::paintEvent(QPaintEvent*)
     {
         QPainter painter(this);
         painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+
+        painter.fillRect(QRect(0, 0, geometry().width(), geometry().height()), Settings::GateDraggingBackgroundColor);
 
         painter.scale(m_zoomFactor, m_zoomFactor);
 
@@ -56,6 +65,7 @@ void Widget_SpawnedGate::mouseReleaseEvent(QMouseEvent* releaseEvent)
     {
         const QPoint pos = qtPointToWorldPoint(releaseEvent->pos(), m_zoomFactor);
         m_pSpawnedGate->setPosition(pos.x(), pos.y());
+        update();
     }
 }
 
@@ -65,5 +75,6 @@ void Widget_SpawnedGate::mouseMoveEvent(QMouseEvent* event)
     {
         const QPoint pos = qtPointToWorldPoint(event->pos(), m_zoomFactor);
         m_pSpawnedGate->setPosition(pos.x(), pos.y());
+        update();
     }
 }

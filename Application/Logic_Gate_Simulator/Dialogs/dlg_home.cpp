@@ -6,6 +6,11 @@
 #include <QLayout>
 #include <QLibrary>
 
+namespace Settings
+{
+const QPoint UiOffset = QPoint(0, 20); //Todo ~ figure out why this is needed
+}
+
 DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
@@ -151,20 +156,34 @@ void DLG_Home::NewlySpawnedGate(Gate* pGate)
     }
 }
 
+///////////////////////////////////////////
+/// \brief DLG_Home::AddGateToGateField
+/// \param pGate Gate to add to current gatefield (position relative to DLG_Home)
+///
 void DLG_Home::AddGateToGateField(Gate* pGate)
 {
-    if(m_iCurrentGateField != -1)
+    if(pGate == nullptr)
+        return;
+
+    //Check for current gatefield
+    if(m_iCurrentGateField == -1)
     {
-        pGate->offsetPosition(-ui->PlayField->geometry().x(), -ui->PlayField->geometry().y());
-        if(m_allGateFields[size_t(m_iCurrentGateField)]->geometry().contains(pGate->position()))
-        {
-            m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pGate);
-            on_btn_Drag_clicked();
-        }
+        delete pGate;
+        return;
+    }
+
+    //Position of pGate currently is relative to DLG_Home
+    //Set position relative to current GateField
+    const QPoint offset = -ui->PlayField->geometry().topLeft() - Settings::UiOffset - Settings::UiOffset;
+    pGate->offsetPosition(offset.x(), offset.y());
+
+    //Check pGate is in bounds of current gatefield
+    if(m_allGateFields[size_t(m_iCurrentGateField)]->geometry().contains(pGate->position()))
+    {
+        m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pGate);
     }
     else
     {
-        //Failed to add gate so discard it
         delete pGate;
     }
 }
@@ -198,9 +217,9 @@ GateField *DLG_Home::createNewGateField(const QString& name)
     return new GateField(this, m_zoomFactor, name, m_pDlgSaveGateCollection);
 }
 
-QRect DLG_Home::accountForUIOffsetts(const QRect& rect)
+QRect DLG_Home::accountForUIOffsetts(const QRect& rect) const
 {
-    return rect.translated(0, 20); //Todo : find out why
+    return rect.translated(Settings::UiOffset); //Todo : find out why this is needed
 }
 
 

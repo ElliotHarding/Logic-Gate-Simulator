@@ -97,7 +97,7 @@ protected:
     void NewlySpawnedGateField(const QString& name);
     GateField* createNewGateField(const QString& name);
 
-    QRect accountForUIOffsetts(const QRect& rect);
+    QRect accountForUIOffsetts(const QRect& rect) const;
 
     //Saving
     Saver m_saver;

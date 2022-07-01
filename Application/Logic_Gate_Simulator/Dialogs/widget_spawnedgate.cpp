@@ -63,8 +63,11 @@ void Widget_SpawnedGate::mouseReleaseEvent(QMouseEvent* releaseEvent)
 {
     if(m_pSpawnedGate)
     {
+        //Set position relative to Widget_SpawnedGate (same as DLG_Home)
         m_pSpawnedGate->setPosition(releaseEvent->pos().x(), releaseEvent->pos().y());
+
         m_pHome->AddGateToGateField(m_pSpawnedGate);
+
         m_pSpawnedGate = nullptr;
         QDialog::hide();
     }
@@ -74,8 +77,11 @@ void Widget_SpawnedGate::mousePressEvent(QMouseEvent* mouseEvent)
 {
     if(m_pSpawnedGate)
     {
+        //Set position relative to Widget_SpawnedGate (same as DLG_Home)
         m_pSpawnedGate->setPosition(mouseEvent->pos().x(), mouseEvent->pos().y());
+
         m_pHome->AddGateToGateField(m_pSpawnedGate);
+
         m_pSpawnedGate = nullptr;
         QDialog::hide();
     }

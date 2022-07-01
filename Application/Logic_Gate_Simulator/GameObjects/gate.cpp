@@ -275,7 +275,8 @@ void Node::SaveData(QDomDocument& storage, QDomElement& parentElement)
     QDomElement linkedIds = storage.createElement("LinkedIds");
     for (Node* n : m_linkedNodes)
     {
-        QDomElement id = storage.createElement(QString::number(n->m_id));
+        QDomElement id = storage.createElement("LinkedNode");
+        id.setAttribute("id", QString::number(n->m_id));
         linkedIds.appendChild(id);
     }
     nodeElement.appendChild(linkedIds);

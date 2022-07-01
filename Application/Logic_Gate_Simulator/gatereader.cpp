@@ -371,13 +371,11 @@ void GateReader::readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo
         nodeIds.id = tryReadInt(node.attribute(Settings::NodeIdElement), -1);
 
         QDomElement linkedIds = node.firstChildElement(Settings::NodeLinkedIdsElement);
-        QDomNodeList linkNodes = linkedIds.childNodes();//Todo ~ fix this - make it safer...
-        for(int i = 0; i < linkNodes.size(); i++)
+        auto linkedNode = linkedIds.firstChildElement("LinkedNode");
+        while(!linkedNode.isNull())
         {
-            if(linkNodes.at(i).isElement())
-            {
-                nodeIds.linkedIds.push_back(tryReadInt(linkNodes.at(i).toElement().tagName(), -1));
-            }
+            nodeIds.linkedIds.push_back(tryReadInt(linkedNode.attribute("id"), -1));
+            linkedNode = linkedNode.nextSiblingElement("LinkedNode");
         }
 
         nodeInfo.push_back(nodeIds);

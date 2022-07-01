@@ -32,27 +32,25 @@ void Widget_SpawnedGate::paintEvent(QPaintEvent*)
         QPainter painter(this);
         painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
-        painter.translate(geometry().center().x(), geometry().center().y());
         painter.scale(m_zoomFactor, m_zoomFactor);
 
         m_pSpawnedGate->draw(painter);
     }
 }
 
-QPoint qtPointToWorldPoint(const QPoint& mousePoint, const qreal& zoomFactor, const QRect& geometry)
+QPoint qtPointToWorldPoint(const QPoint& mousePoint, const qreal& zoomFactor)
 {
     QTransform transform;
     transform.scale(zoomFactor, zoomFactor);
-    return transform.inverted().map(QPoint(mousePoint.x() - geometry.center().x(), mousePoint.y() - geometry.center().y()));
+    return transform.inverted().map(mousePoint);
 }
 
 void Widget_SpawnedGate::mouseReleaseEvent(QMouseEvent* releaseEvent)
 {
     if(m_pSpawnedGate)
     {
-        QPoint pos = qtPointToWorldPoint(releaseEvent->pos(), m_zoomFactor, geometry());
-        qDebug() << pos;
-        //m_pSpawnedGate->setPosition(pos.x(), pos.y());
+        const QPoint pos = qtPointToWorldPoint(releaseEvent->pos(), m_zoomFactor);
+        m_pSpawnedGate->setPosition(pos.x(), pos.y());
     }
 }
 
@@ -60,7 +58,6 @@ void Widget_SpawnedGate::mouseMoveEvent(QMouseEvent* event)
 {
     if(m_pSpawnedGate)
     {
-        QPoint pos = qtPointToWorldPoint(event->pos(), m_zoomFactor, geometry());
-        //m_pSpawnedGate->setPosition(pos.x(), pos.y());
+        //m_pSpawnedGate->setPosition(event->pos.x(), event->pos.y());
     }
 }

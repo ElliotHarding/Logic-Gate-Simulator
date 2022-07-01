@@ -44,14 +44,29 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
     }
 
     QFile file(fileName);
-    if(!file.open(QIODevice::ReadOnly))
+    if(!file.open(QFile::ReadOnly | QFile::Text))
     {
         errorMessage = "Failed to open file";
         return false;
     }
 
+    QTextStream in(&file);
+    QString content = in.readAll();
+
+    QString error;
+    int line, col;
+
     QDomDocument doc;
-    doc.setContent(&file);
+    doc.setContent(content, &error, &line, &col);
+
+    qDebug() << error;
+    qDebug() << line;
+    qDebug() << col;
+    qDebug() << "================";
+
+    qDebug() << content;
+    qDebug() << "-------------------";
+    qDebug() << doc.toString();
 
     QDomElement gateField = doc.firstChildElement(Settings::GateFieldElement);
     if(gateField.isNull())

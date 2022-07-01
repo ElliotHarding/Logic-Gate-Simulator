@@ -10,15 +10,18 @@ Widget_SpawnedGate::Widget_SpawnedGate(DLG_Home* pHome) :
     m_pHome(pHome),
     m_pSpawnedGate(nullptr)
 {
-    setGeometry(0, 0, 200, 200);
+    setGeometry(0, 0, m_pHome->geometry().width(), m_pHome->geometry().height());
 }
 
-void Widget_SpawnedGate::open(Gate* pSpawnedGate, const uint& x, const uint& y)
+void Widget_SpawnedGate::open(Gate* pSpawnedGate)
 {
-    setGeometry(x, y, 200, 200);
     m_pSpawnedGate = pSpawnedGate;
-    m_pSpawnedGate->setPosition(geometry().center().x(), geometry().center().y());
     QWidget::show();
+}
+
+void Widget_SpawnedGate::setZoomFactor(const qreal& zoomFactor)
+{
+    m_zoomFactor = zoomFactor;
 }
 
 void Widget_SpawnedGate::paintEvent(QPaintEvent*)
@@ -27,6 +30,8 @@ void Widget_SpawnedGate::paintEvent(QPaintEvent*)
     {
         QPainter painter(this);
         painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+
+        painter.scale(m_zoomFactor, m_zoomFactor);
 
         m_pSpawnedGate->draw(painter);
     }

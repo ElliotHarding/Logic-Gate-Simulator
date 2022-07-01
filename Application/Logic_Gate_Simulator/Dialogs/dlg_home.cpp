@@ -142,8 +142,9 @@ void DLG_Home::AddGate(Gate* pGate)
 {
     if(m_iCurrentGateField != -1)
     {
-        m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pGate);
-        on_btn_Drag_clicked();
+        m_pSpawnedGateWidget->open(pGate);
+        //m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pGate);
+        //on_btn_Drag_clicked();
     }
     else
     {
@@ -346,6 +347,8 @@ bool DLG_Home::SetZoomFactor(const qreal& zoomFactor, const bool& updateSlider)
 
         if(m_iCurrentGateField != -1)
             m_allGateFields[size_t(m_iCurrentGateField)]->SetZoomLevel(m_zoomFactor);
+
+        m_pSpawnedGateWidget->setZoomFactor(m_zoomFactor);
 
         return true;
     }

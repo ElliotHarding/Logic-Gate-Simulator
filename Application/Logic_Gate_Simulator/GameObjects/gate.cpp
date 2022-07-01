@@ -16,8 +16,6 @@ const QColor NodeLinkColor = Qt::black;//Todo : make it red if active
 const uint NodeLinkWidth = 1;
 }
 
-#define with << std::endl <<
-
 Gate::Gate(GateType type, const int& x, const int& y, const uint& width, const uint& height, const char* pIconLocation) :
     GameObject::GameObject(x, y, width, height, pIconLocation),
     m_type(type)

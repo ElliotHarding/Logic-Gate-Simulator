@@ -12,7 +12,8 @@ class Widget_SpawnedGate : public QWidget
 public:
     Widget_SpawnedGate(DLG_Home* pHome);
 
-    void open(Gate* pSpawnedGate, const uint& x, const uint& y);
+    void open(Gate* pSpawnedGate);
+    void setZoomFactor(const qreal& zoomFactor);
 
 protected:
     void paintEvent(QPaintEvent* paintEvent) override;
@@ -22,6 +23,7 @@ protected:
 
     DLG_Home* m_pHome;
     Gate* m_pSpawnedGate;
+    qreal m_zoomFactor;
 };
 
 #endif // WIDGET_SPAWNEDGATE_H

@@ -8,11 +8,13 @@
 
 namespace Settings
 {
+///Gate save element tags
 const QString GateElement = "Gate";
 const QString GateTypeTag = "type";
 const QString GatePosXTag = "posX";
 const QString GatePosYTag = "posY";
 
+///Node save element tags
 const QString NodeTypeInputElement = "InputNode";
 const QString NodeTypeOutputElement = "OutputNode";
 const QString NodeIdElement = "id";

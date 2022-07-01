@@ -18,21 +18,6 @@ const QString GateFeildFile = ".GateField";
 
 const QString GateFieldElement = "GateField";
 const QString GateCollectionElement = "GateCollection";
-
-const QString GateElement = "Gate";
-const QString GateTypeTag = "type";
-const QString GatePosXTag = "posX";
-const QString GatePosYTag = "posY";
-
-const QString GateTimerFrequencyTag = "Frequency";
-
-const QString NodeTypeInputElement = "InputNode";
-const QString NodeTypeOutputElement = "OutputNode";
-const QString NodeIdElement = "id";
-const QString NodeLinkedIdsElement = "LinkedIds";
-const QString NodeLinkedIdElement = "LinkedNode";
-
-const QString FPGAGateScriptElement = "Script";
 }
 
 bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild, QString& errorMessage)
@@ -185,7 +170,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 1)
         {
-            return new GateToggle(posX, posY, nodeInfo[0].id);
+            return new GateToggle(posX, posY, nodeInfo[0].id, gateElement.attribute(Settings::GateTogglePowerStateTag) == "1");
         }
         break;
     }
@@ -221,9 +206,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 1)
         {
-            GateTimer* newGate = new GateTimer(posX, posY, nodeInfo[0].id);
-            newGate->setFrequency(tryReadInt(gateElement.attribute(Settings::GateTimerFrequencyTag), 500));
-            return newGate;
+            return new GateTimer(posX, posY, nodeInfo[0].id, tryReadInt(gateElement.attribute(Settings::GateTimerFrequencyTag), 500));
         }
         break;
     }

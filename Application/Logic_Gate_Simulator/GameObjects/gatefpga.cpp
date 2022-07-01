@@ -116,11 +116,11 @@ GameObject* GateFPGA::checkClicked(const QPoint& mouse)
 
 void GateFPGA::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    QDomElement gateElement = storage.createElement("Gate");
+    QDomElement gateElement = storage.createElement(Settings::GateElement);
 
     SaveGeneralData(gateElement);
 
-    gateElement.setAttribute("Script", m_script);
+    gateElement.setAttribute(Settings::FPGAGateScriptElement, m_script);
 
     for(Node* inputNode : m_inputNodes)
     {

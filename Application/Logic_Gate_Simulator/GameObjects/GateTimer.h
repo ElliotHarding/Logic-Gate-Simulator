@@ -4,6 +4,11 @@
 #include "GateSingleOutput.h"
 #include <QTimer>
 
+namespace Settings
+{
+const QString GateTimerFrequencyTag = "Frequency";
+}
+
 /*
     Toggles input on/off
  */
@@ -12,7 +17,7 @@ class GateTimer : public QObject, public GateSingleOutput
     Q_OBJECT
 
 public:
-    GateTimer(const int& x = 0, const int& y = 0, const id& out = -1);
+    GateTimer(const int& x = 0, const int& y = 0, const id& out = -1, const uint& frequency = 500);
     ~GateTimer();
 
     virtual void UpdateOutput() override;

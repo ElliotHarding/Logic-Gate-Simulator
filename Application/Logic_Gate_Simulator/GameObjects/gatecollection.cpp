@@ -211,7 +211,7 @@ void GateCollection::DrawButtons(QPainter& painter)
 
 void GateCollection::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    QDomElement gateCollectionElement = storage.createElement("Gate");
+    QDomElement gateCollectionElement = storage.createElement(Settings::GateElement);
 
     SaveGeneralData(gateCollectionElement);
 

@@ -6,6 +6,20 @@
 
 #include <QDomDocument>
 
+namespace Settings
+{
+const QString GateElement = "Gate";
+const QString GateTypeTag = "type";
+const QString GatePosXTag = "posX";
+const QString GatePosYTag = "posY";
+
+const QString NodeTypeInputElement = "InputNode";
+const QString NodeTypeOutputElement = "OutputNode";
+const QString NodeIdElement = "id";
+const QString NodeLinkedIdsElement = "LinkedIds";
+const QString NodeLinkedIdElement = "LinkedNode";
+}
+
 struct NodeIds {int id; std::vector<int> linkedIds;};
 typedef int id;
 

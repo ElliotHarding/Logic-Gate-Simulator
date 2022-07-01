@@ -4,6 +4,11 @@
 #include <QDialog>
 #include "gate.h"
 
+namespace Settings
+{
+const QString FPGAGateScriptElement = "Script";
+}
+
 class GateFPGA : public Gate
 {
 public:

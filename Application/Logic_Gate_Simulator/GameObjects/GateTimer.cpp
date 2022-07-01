@@ -8,13 +8,13 @@
 #include "GateTimer.h"
 #include "gatefield.h"
 
-GateTimer::GateTimer(const int& x, const int& y, const id& out) :
+GateTimer::GateTimer(const int& x, const int& y, const id& out, const uint& frequency) :
     GateSingleOutput::GateSingleOutput(x, y, GATE_TIMER, out)
 {
     m_timer.setTimerType(Qt::PreciseTimer);
     QObject::connect(&m_timer, SIGNAL(timeout()), this, SLOT(onTick()));
 
-    setFrequency(1000);
+    setFrequency(frequency);
 }
 
 GateTimer::~GateTimer()
@@ -29,11 +29,11 @@ void GateTimer::UpdateOutput()
 
 void GateTimer::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    QDomElement gateElement = storage.createElement("Gate");
+    QDomElement gateElement = storage.createElement(Settings::GateElement);
 
     Gate::SaveGeneralData(gateElement);
 
-    gateElement.setAttribute("Frequency", QString::number(m_frequency));
+    gateElement.setAttribute(Settings::GateTimerFrequencyTag, QString::number(m_frequency));
 
     m_pOutput->SaveData(storage, gateElement);
 

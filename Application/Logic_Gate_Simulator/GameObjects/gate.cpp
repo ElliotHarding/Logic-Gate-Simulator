@@ -48,7 +48,7 @@ void Gate::draw(QPainter& painter)
 
 void Gate::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    QDomElement gateElement = storage.createElement("Gate");
+    QDomElement gateElement = storage.createElement(Settings::GateElement);
 
     SaveGeneralData(gateElement);
 
@@ -269,14 +269,14 @@ Gate* Node::GetParent()
 
 void Node::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    QDomElement nodeElement = storage.createElement(m_nodeType == InputNode ? "InputNode" : "OutputNode");
-    nodeElement.setAttribute("id", QString::number(m_id));
+    QDomElement nodeElement = storage.createElement(m_nodeType == InputNode ? Settings::NodeTypeInputElement : Settings::NodeTypeOutputElement);
+    nodeElement.setAttribute(Settings::NodeIdElement, QString::number(m_id));
 
-    QDomElement linkedIds = storage.createElement("LinkedIds");
+    QDomElement linkedIds = storage.createElement(Settings::NodeLinkedIdsElement);
     for (Node* n : m_linkedNodes)
     {
-        QDomElement id = storage.createElement("LinkedNode");
-        id.setAttribute("id", QString::number(n->m_id));
+        QDomElement id = storage.createElement(Settings::NodeLinkedIdElement);
+        id.setAttribute(Settings::NodeIdElement, QString::number(n->m_id));
         linkedIds.appendChild(id);
     }
     nodeElement.appendChild(linkedIds);

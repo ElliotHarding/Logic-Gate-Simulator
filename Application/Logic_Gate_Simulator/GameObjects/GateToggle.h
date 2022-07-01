@@ -4,13 +4,18 @@
 #include "GateSingleOutput.h"
 #include <QTimer>
 
+namespace Settings
+{
+const QString GateTogglePowerStateTag = "PowerState";
+}
+
 /*
     Toggles input on/off
  */
 class GateToggle : public GateSingleOutput
 {
 public:
-    GateToggle(const int& x = 0, const int& y = 0, const id& out = -1);
+    GateToggle(const int& x = 0, const int& y = 0, const id& out = -1, const bool& powerState = false);
 
     virtual void UpdateOutput() override;
     virtual Gate* Clone() override;

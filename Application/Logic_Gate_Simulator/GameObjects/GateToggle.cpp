@@ -1,9 +1,10 @@
 #include "GateToggle.h"
 #include "gatefield.h"
 
-GateToggle::GateToggle(const int& x, const int& y, const id& out) :
+GateToggle::GateToggle(const int& x, const int& y, const id& out, const bool& powerState) :
     GateSingleOutput::GateSingleOutput(x, y, GATE_EMMITTER, out)
 {
+    SetPowerState(powerState);
 }
 
 void GateToggle::UpdateOutput()
@@ -28,11 +29,11 @@ Gate *GateToggle::Clone()
 
 void GateToggle::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
-    QDomElement gateElement = storage.createElement("Gate");
+    QDomElement gateElement = storage.createElement(Settings::GateElement);
 
     Gate::SaveGeneralData(gateElement);
 
-    gateElement.setAttribute("PowerState", QString::number(m_pOutput->value()));
+    gateElement.setAttribute(Settings::GateTogglePowerStateTag, QString::number(m_pOutput->value()));
 
     m_pOutput->SaveData(storage, gateElement);
 

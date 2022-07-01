@@ -6,6 +6,7 @@
 class DLG_Home;
 class Gate;
 
+//This is actaully a dialog not a widget... could rename...
 class Widget_SpawnedGate : public QDialog
 {
     Q_OBJECT

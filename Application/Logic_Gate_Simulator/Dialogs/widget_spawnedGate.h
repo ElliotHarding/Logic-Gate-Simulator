@@ -13,7 +13,7 @@ class Widget_SpawnedGate : public QDialog
 public:
     Widget_SpawnedGate(DLG_Home* pHome);
 
-    void open(Gate* pSpawnedGate);
+    void open(Gate* pSpawnedGate, const QPoint& spawnPosition);
     void setZoomFactor(const qreal& zoomFactor);
 
 protected:

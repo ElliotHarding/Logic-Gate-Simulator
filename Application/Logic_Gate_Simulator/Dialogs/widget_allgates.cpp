@@ -71,94 +71,150 @@ void Widget_AllGates::applyScrollDiff(const int& diff)
 void Widget_AllGates::on_btn_sourceGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateToggle());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_sourceGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateToggle(), spawnPoint);
+    }
 }
 void Widget_AllGates::on_btn_notGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateNot());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_notGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateNot(), spawnPoint);
+    }
 }
 void Widget_AllGates::on_btn_orGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateOr());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_orGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateOr(), spawnPoint);
+    }
 }
 void Widget_AllGates::on_btn_andGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateAnd());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_andGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateAnd(), spawnPoint);
+    }
 }
 void Widget_AllGates::on_btn_recieverGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateReciever());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_recieverGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateReciever(), spawnPoint);
+    }
 }
 void Widget_AllGates::on_btn_timerGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateTimer());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_timerGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateTimer(), spawnPoint);
+    }
 }
 void Widget_AllGates::on_btn_inputOn_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateConstantActive());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_inputOn->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateConstantActive(), spawnPoint);
+    }
 }
 void Widget_AllGates::on_btn_inputOff_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateConstantInactive());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_inputOff->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateConstantInactive(), spawnPoint);
+    }
 }
 
 void Widget_AllGates::on_btn_GateTriAnd_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateTriAnd());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_GateTriAnd->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateTriAnd(), spawnPoint);
+    }
 }
 
 void Widget_AllGates::on_btn_GateTriOr_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateTriOr());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_GateTriOr->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateTriOr(), spawnPoint);
+    }
 }
 
 void Widget_AllGates::on_btn_numberOutputGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateNumberOutput());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_numberOutputGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateNumberOutput(), spawnPoint);
+    }
 }
 
 void Widget_AllGates::on_btn_GateEor_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateEor());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_GateEor->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateEor(), spawnPoint);
+    }
 }
 
 void Widget_AllGates::on_btn_GateTriEor_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateTriEor());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_GateTriEor->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateTriEor(), spawnPoint);
+    }
 }
 
 void Widget_AllGates::on_btn_labelGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new TextLabel());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_labelGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new TextLabel(), spawnPoint);
+    }
 }
 
 void Widget_AllGates::on_btn_norGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateNor());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_norGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateNor(), spawnPoint);
+    }
 }
 
 void Widget_AllGates::on_btn_nandGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateNand());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_nandGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateNand(), spawnPoint);
+    }
 }
 
 void Widget_AllGates::on_btn_xorGate_clicked()
 {
     if(m_pParent)
-        m_pParent->NewlySpawnedGate(new GateXor());
+    {
+        const QPoint spawnPoint = spawnPosition(ui->btn_xorGate->geometry().center());
+        m_pParent->NewlySpawnedGate(new GateXor(), spawnPoint);
+    }
+}
+
+QPoint Widget_AllGates::spawnPosition(const QPoint& buttonPoint) const
+{
+    return buttonPoint + geometry().topLeft();
 }

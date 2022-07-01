@@ -143,11 +143,16 @@ void DLG_Home::SendUserMessage(const QString& message)
     m_pDlgMessage->ShowMessage(message);
 }
 
-void DLG_Home::NewlySpawnedGate(Gate* pGate)
+///////////////////////
+/// \brief DLG_Home::NewlySpawnedGate
+/// \param pGate gate to try drop onto GateField
+/// \param spawnPosition DLG_Home relative spawn position
+///
+void DLG_Home::NewlySpawnedGate(Gate* pGate, const QPoint& spawnPosition)
 {
     if(m_iCurrentGateField != -1)
     {
-        m_pSpawnedGateWidget->open(pGate);
+        m_pSpawnedGateWidget->open(pGate, spawnPosition);
     }
     else
     {

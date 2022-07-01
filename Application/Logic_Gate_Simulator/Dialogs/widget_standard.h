@@ -21,13 +21,13 @@ private slots:
     void on_btn_andGate_clicked();
     void on_btn_GateTriOr_clicked();
     void on_btn_GateTriAnd_clicked();
-
     void on_btn_GateEor_clicked();
-
     void on_btn_GateTriEor_clicked();
 
 private:
     Ui::Widget_Standard *ui;
+
+    QPoint spawnPosition(const QPoint& buttonPoint) const;
 };
 
 #endif // WIDGET_STANDARD_H

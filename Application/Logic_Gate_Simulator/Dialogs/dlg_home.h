@@ -45,7 +45,7 @@ public:
 
     void SendUserMessage(const QString& message);
     bool SetZoomFactor(const qreal& zoomFactor, const bool& updateSlider = true);
-    void NewlySpawnedGate(Gate* pGate);
+    void NewlySpawnedGate(Gate* pGate, const QPoint& spawnPosition);
     void AddGateToGateField(Gate* pGate);
     void GateSelected(Gate* pGate);
     void DeleteGate(Gate* pGate);

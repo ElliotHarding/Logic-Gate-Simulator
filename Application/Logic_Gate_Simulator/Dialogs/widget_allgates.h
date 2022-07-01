@@ -44,6 +44,8 @@ private slots:
 private:
     Ui::Widget_AllGates *ui;
 
+    QPoint spawnPosition(const QPoint& buttonPoint) const;
+
     //Scrolling
     void applyScrollDiff(const int& diff);
     const int c_scrollSpeed = 10;

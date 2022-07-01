@@ -24,9 +24,23 @@ Widget_SpawnedGate::Widget_SpawnedGate(DLG_Home* pHome) :
     setMouseTracking(true);
 }
 
-void Widget_SpawnedGate::open(Gate* pSpawnedGate)
+QPoint qtPointToPaintPoint(const QPoint& mousePoint, const qreal& zoomFactor)
 {
+    QTransform transform;
+    transform.scale(zoomFactor, zoomFactor);
+    return transform.inverted().map(mousePoint);
+}
+
+//////////////////
+/// \brief Widget_SpawnedGate::open
+/// \param pSpawnedGate gate to try drop onto GateField
+/// \param spawnPosition DLG_Home (and Widget_SpawnedGate) relative spawn position
+///
+void Widget_SpawnedGate::open(Gate* pSpawnedGate, const QPoint& spawnPosition)
+{
+    const QPoint paintPosition = qtPointToPaintPoint(spawnPosition, m_zoomFactor);
     m_pSpawnedGate = pSpawnedGate;
+    m_pSpawnedGate->setPosition(paintPosition.x(), paintPosition.y());
     setFocus(Qt::MouseFocusReason);
     setGeometry(m_pHome->geometry());
     QDialog::show();
@@ -50,13 +64,6 @@ void Widget_SpawnedGate::paintEvent(QPaintEvent*)
 
         m_pSpawnedGate->draw(painter);
     }
-}
-
-QPoint qtPointToPaintPoint(const QPoint& mousePoint, const qreal& zoomFactor)
-{
-    QTransform transform;
-    transform.scale(zoomFactor, zoomFactor);
-    return transform.inverted().map(mousePoint);
 }
 
 void Widget_SpawnedGate::mouseReleaseEvent(QMouseEvent* releaseEvent)

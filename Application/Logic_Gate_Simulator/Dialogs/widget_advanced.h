@@ -23,6 +23,8 @@ private slots:
 
 private:
     Ui::Widget_Advanced *ui;
+
+    QPoint spawnPosition(const QPoint& buttonPoint) const;
 };
 
 #endif // WIDGET_ADVANCED_H

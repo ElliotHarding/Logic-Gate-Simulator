@@ -23,6 +23,8 @@ private slots:
 
 private:
     Ui::Widget_InputGates *ui;
+
+    QPoint spawnPosition(const QPoint& buttonPoint) const;
 };
 
 #endif // WIDGET_INPUTGATES_H

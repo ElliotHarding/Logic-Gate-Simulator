@@ -180,10 +180,7 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
     GameObject* pClicked = Gate::checkClicked(mouse);
     if(!pClicked)
     {
-        if(checkButtonClick(mouse) && m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            return this;
-        }
+        checkButtonClick(mouse);
         return nullptr;
     }
     else

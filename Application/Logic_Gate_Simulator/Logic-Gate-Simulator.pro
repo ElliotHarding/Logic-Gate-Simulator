@@ -69,8 +69,7 @@ SOURCES += \
     GameObjects/gatetriand.cpp \
     Dialogs/movingwidget.cpp \
     GameObjects/gatetrior.cpp \
-    GameObjects/gatenumberoutput.cpp \
-    truthtables.cpp
+    GameObjects/gatenumberoutput.cpp
 
 HEADERS += \
     Dialogs/dlg_configurefpga.h \

@@ -12,7 +12,8 @@ const uint NodeDrawSize = 5;
 
 ///Node drawing
 const QColor NodeColor = Qt::black;
-const QColor NodeLinkColor = Qt::black;//Todo : make it red if active
+const QColor NodeLinkColorActive = Qt::red;
+const QColor NodeLinkColorInActive = Qt::black;
 const uint NodeLinkWidth = 1;
 }
 
@@ -210,7 +211,7 @@ void Node::draw(QPainter& painter)
     //if linked draw line between node and linked nodes
     if(m_nodeType == OutputNode && !m_linkedNodes.empty())
     {
-        painter.setPen(QPen(Settings::NodeLinkColor, Settings::NodeLinkWidth));
+        painter.setPen(QPen(m_bValue ? Settings::NodeLinkColorActive : Settings::NodeLinkColorInActive, Settings::NodeLinkWidth));
 
         for (Node* n : m_linkedNodes)
         {

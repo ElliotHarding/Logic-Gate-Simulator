@@ -15,9 +15,9 @@ const QFont TextFont("Helvetica", 15);
 const QColor EditZoneColor = Qt::gray;
 }
 
-TextLabel::TextLabel(const int &x, const int &y) :
+TextLabel::TextLabel(const int &x, const int &y, const QString& text) :
     Gate(GATE_TEXT_LABEL, x, y, Settings::SizeX, Settings::SizeY),
-    m_string("Label"),
+    m_string(text),
     m_font(Settings::TextFont),
     m_editClickZone(QRect(0,0, Settings::EditZoneWidth, Settings::EditZoneHeight))
 {
@@ -35,6 +35,17 @@ void TextLabel::draw(QPainter& painter)
 
     painter.setFont(m_font);
     painter.drawText(m_geometry, m_string);
+}
+
+void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
+{
+    QDomElement gateElement = storage.createElement(Settings::GateElement);
+
+    Gate::SaveGeneralData(gateElement);
+
+    gateElement.setAttribute(Settings::GateTextLabelTextTag, m_string);
+
+    parentElement.appendChild(gateElement);
 }
 
 GameObject *TextLabel::checkClicked(const QPoint& mouse)

@@ -4,15 +4,21 @@
 #include "gate.h"
 #include "dlg_textedit.h"
 
+namespace Settings
+{
+const QString GateTextLabelTextTag = "Text";
+}
+
 class DLG_LabelGateEdit;
 class TextLabel : public Gate
 {
 public:
-    TextLabel(const int& x = 0, const int& y = 0);
+    TextLabel(const int& x = 0, const int& y = 0, const QString& text = "Label");
     ~TextLabel();
 
     //Game Object overrides
     virtual void draw(QPainter& painter) override;
+    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement);
     virtual GameObject* checkClicked(const QPoint& mouse) override;
     virtual void setPosition(const int& x, const int& y) override;
     virtual Gate* Clone() override;

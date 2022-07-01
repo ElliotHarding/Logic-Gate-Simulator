@@ -11,6 +11,7 @@ Widget_SpawnedGate::Widget_SpawnedGate(DLG_Home* pHome) :
     m_pSpawnedGate(nullptr)
 {
     setGeometry(0, 0, m_pHome->geometry().width(), m_pHome->geometry().height());
+    setMouseTracking(true);
 }
 
 void Widget_SpawnedGate::open(Gate* pSpawnedGate)

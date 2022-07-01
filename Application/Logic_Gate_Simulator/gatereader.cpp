@@ -20,11 +20,17 @@ const QString GateFieldElement = "GateField";
 const QString GateCollectionElement = "GateCollection";
 
 const QString GateElement = "Gate";
+const QString GateTypeTag = "type";
+const QString GatePosXTag = "posX";
+const QString GatePosYTag = "posY";
+
+const QString GateTimerFrequencyTag = "Frequency";
 
 const QString NodeTypeInputElement = "InputNode";
 const QString NodeTypeOutputElement = "OutputNode";
-const QString NodeLinkedIdsElement = "LinkedIds";
 const QString NodeIdElement = "id";
+const QString NodeLinkedIdsElement = "LinkedIds";
+const QString NodeLinkedIdElement = "LinkedNode";
 
 const QString FPGAGateScriptElement = "Script";
 }
@@ -110,14 +116,11 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
 
 Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkInfo)
 {
-    const GateType type = (GateType)tryReadInt(gateElement.attribute("type"), GATE_NULL);
-    const int posX = tryReadInt(gateElement.attribute("posX"), 0);
-    const int posY = tryReadInt(gateElement.attribute("posY"), 0);
+    const GateType type = (GateType)tryReadInt(gateElement.attribute(Settings::GateTypeTag), GATE_NULL);
+    const int posX = tryReadInt(gateElement.attribute(Settings::GatePosXTag), 0);
+    const int posY = tryReadInt(gateElement.attribute(Settings::GatePosYTag), 0);
 
     std::vector<NodeIds> nodeInfo = readNodes(gateElement, linkInfo);
-
-    //Gate that will be instanciated
-    Gate* rGate = nullptr;
 
     switch(type)
     {
@@ -125,11 +128,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 3)
         {
-            rGate = new GateAnd(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateAnd(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id);
         }
         break;
     }
@@ -138,47 +137,34 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 3)
         {
-            rGate = new GateOr(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateOr(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id);
         }
         break;
     }
 
     case GateType::GATE_COLLECTION:
     {
-        std::vector<Gate*> rGates;
+        std::vector<Gate*> subGates;
 
-        QDomNodeList gateNodes = gateElement.elementsByTagName(Settings::GateElement);
-        for(int i = 0; i < gateNodes.size(); i++)
+        auto subGateElement = gateElement.firstChildElement(Settings::GateElement);
+        while(!subGateElement.isNull())
         {
-            if(gateNodes.at(i).isElement())
+            Gate* subGate = readGate(subGateElement, linkInfo);
+            if(subGate != nullptr)
             {
-                QDomElement gateElement = gateNodes.at(i).toElement();
-                Gate* subGate = readGate(gateElement, linkInfo);
-                if(subGate != nullptr)
-                {
-                    rGates.push_back(subGate);
-                }
+                subGates.push_back(subGate);
             }
+            subGateElement = subGateElement.nextSiblingElement(Settings::GateElement);
         }
 
-        rGate = new GateCollection(rGates);
-        return rGate;
-        break;
+        return new GateCollection(subGates);
     }
 
     case GateType::GATE_NOT:
     {
         if(nodeInfo.size() == 2)
         {
-            rGate = new GateNot(posX, posY, nodeInfo[0].id, nodeInfo[1].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateNot(posX, posY, nodeInfo[0].id, nodeInfo[1].id);
         }
         break;
     }
@@ -187,11 +173,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 1)
         {
-            rGate = new GateToggle(posX, posY, nodeInfo[0].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateToggle(posX, posY, nodeInfo[0].id);
         }
         break;
     }
@@ -200,11 +182,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 1)
         {
-            rGate = new GateReciever(posX, posY, nodeInfo[0].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateReciever(posX, posY, nodeInfo[0].id);
         }
         break;
     }
@@ -213,11 +191,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 1)
         {
-            rGate = new GateConstantActive(posX, posY, nodeInfo[0].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateConstantActive(posX, posY, nodeInfo[0].id);
         }
         break;
     }
@@ -226,11 +200,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 1)
         {
-            rGate = new GateConstantInactive(posX, posY, nodeInfo[0].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateConstantInactive(posX, posY, nodeInfo[0].id);
         }
         break;
     }
@@ -239,12 +209,9 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 1)
         {
-            rGate = new GateTimer(posX, posY, nodeInfo[0].id);
-            dynamic_cast<GateTimer*>(rGate)->setFrequency(tryReadInt(gateElement.attribute("Frequency"), 500));
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            GateTimer* newGate = new GateTimer(posX, posY, nodeInfo[0].id);
+            newGate->setFrequency(tryReadInt(gateElement.attribute(Settings::GateTimerFrequencyTag), 500));
+            return newGate;
         }
         break;
     }
@@ -253,11 +220,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 4)
         {
-            rGate = new GateTriOr(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateTriOr(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
         }
         break;
     }
@@ -266,23 +229,16 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 4)
         {
-            rGate = new GateTriAnd(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
+            return new GateTriAnd(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
         }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
-        }
+        break;
     }
 
     case GateType::GATE_TRI_EOR:
     {
         if(nodeInfo.size() == 4)
         {
-            rGate = new GateTriEor(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateTriEor(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
         }
         break;
     }
@@ -291,11 +247,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 4)
         {
-            rGate = new GateNumberOutput(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateNumberOutput(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id, nodeInfo[3].id);
         }
         break;
     }
@@ -304,11 +256,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         if(nodeInfo.size() == 3)
         {
-            rGate = new GateEor(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id);
-        }
-        else
-        {
-            qDebug() << "GateReader::readGate - node info read incorrectly";
+            return new GateEor(posX, posY, nodeInfo[0].id, nodeInfo[1].id, nodeInfo[2].id);
         }
         break;
     }
@@ -324,8 +272,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
         std::vector<NodeIds> outputNodeIds;
         readNodeTypes(gateElement, dummyLinkInfo, outputNodeIds, Settings::NodeTypeOutputElement);
 
-        rGate = new GateFPGA(script, inputNodeIds, outputNodeIds, posX, posY);
-        break;
+        return new GateFPGA(script, inputNodeIds, outputNodeIds, posX, posY);
     }
 
     case GATE_NULL:
@@ -334,7 +281,8 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
         return nullptr;
     }
 
-    return rGate;
+    qDebug() << "GateReader::readGate - node info read incorrectly";
+    return nullptr;
 }
 
 std::vector<NodeIds> GateReader::readNodes(QDomElement& gate, std::vector<NodeIds>& linkInfo)
@@ -356,11 +304,11 @@ void GateReader::readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo
         nodeIds.id = tryReadInt(node.attribute(Settings::NodeIdElement), -1);
 
         QDomElement linkedIds = node.firstChildElement(Settings::NodeLinkedIdsElement);
-        auto linkedNode = linkedIds.firstChildElement("LinkedNode");
+        auto linkedNode = linkedIds.firstChildElement(Settings::NodeLinkedIdElement);
         while(!linkedNode.isNull())
         {
-            nodeIds.linkedIds.push_back(tryReadInt(linkedNode.attribute("id"), -1));
-            linkedNode = linkedNode.nextSiblingElement("LinkedNode");
+            nodeIds.linkedIds.push_back(tryReadInt(linkedNode.attribute(Settings::NodeIdElement), -1));
+            linkedNode = linkedNode.nextSiblingElement(Settings::NodeLinkedIdElement);
         }
 
         nodeInfo.push_back(nodeIds);

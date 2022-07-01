@@ -73,8 +73,3 @@ void Widget_Standard::on_btn_GateTriEor_clicked()
         m_pParent->NewlySpawnedGate(new GateTriEor(), spawnPoint);
     }
 }
-
-QPoint Widget_Standard::spawnPosition(const QPoint &buttonPoint) const
-{
-    return geometry().topLeft() + buttonPoint;
-}

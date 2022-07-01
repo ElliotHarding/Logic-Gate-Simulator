@@ -22,9 +22,7 @@ private slots:
     void on_btn_fpgaGate_clicked();
 
 private:
-    Ui::Widget_Advanced *ui;
-
-    QPoint spawnPosition(const QPoint& buttonPoint) const;
+    Ui::Widget_Advanced *ui;    
 };
 
 #endif // WIDGET_ADVANCED_H

@@ -26,8 +26,6 @@ private slots:
 
 private:
     Ui::Widget_Standard *ui;
-
-    QPoint spawnPosition(const QPoint& buttonPoint) const;
 };
 
 #endif // WIDGET_STANDARD_H

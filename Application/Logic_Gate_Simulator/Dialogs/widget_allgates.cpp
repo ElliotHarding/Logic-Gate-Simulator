@@ -213,8 +213,3 @@ void Widget_AllGates::on_btn_xorGate_clicked()
         m_pParent->NewlySpawnedGate(new GateXor(), spawnPoint);
     }
 }
-
-QPoint Widget_AllGates::spawnPosition(const QPoint& buttonPoint) const
-{
-    return buttonPoint + geometry().topLeft();
-}

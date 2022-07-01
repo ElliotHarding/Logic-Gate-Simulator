@@ -52,8 +52,3 @@ void Widget_Advanced::on_btn_labelGate_clicked()
         m_pParent->NewlySpawnedGate(new TextLabel(), spawnPoint);
     }
 }
-
-QPoint Widget_Advanced::spawnPosition(const QPoint& buttonPoint) const
-{
-    return geometry().topLeft() + buttonPoint;
-}

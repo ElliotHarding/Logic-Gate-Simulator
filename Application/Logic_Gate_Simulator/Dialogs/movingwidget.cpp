@@ -18,3 +18,8 @@ MovingWidget::~MovingWidget()
 {
     m_pParent = nullptr;
 }
+
+QPoint MovingWidget::spawnPosition(const QPoint &buttonPoint) const
+{
+    return geometry().topLeft() + buttonPoint;
+}

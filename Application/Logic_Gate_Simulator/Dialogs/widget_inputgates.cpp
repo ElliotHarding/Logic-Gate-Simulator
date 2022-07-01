@@ -49,8 +49,3 @@ void Widget_InputGates::on_btn_timerGate_clicked()
         m_pParent->NewlySpawnedGate(new GateTimer(), spawnPoint);
     }
 }
-
-QPoint Widget_InputGates::spawnPosition(const QPoint &buttonPoint) const
-{
-    return geometry().topLeft() + buttonPoint;
-}

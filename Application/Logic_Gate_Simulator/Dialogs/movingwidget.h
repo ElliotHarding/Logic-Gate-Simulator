@@ -15,6 +15,8 @@ public:
 
 protected:
     DLG_Home* m_pParent;
+
+    QPoint spawnPosition(const QPoint& buttonPoint) const;
 };
 
 #endif // MOVINGWIDGET_H

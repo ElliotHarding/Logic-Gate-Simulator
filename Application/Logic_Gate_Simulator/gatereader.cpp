@@ -9,6 +9,8 @@
 
 namespace Settings
 {
+const QString XMLElement = "xml";
+
 const QString CustomGateFile = ".CustomGate";
 const QString CustomGatesLocation = "CustomGates/";
 
@@ -16,6 +18,15 @@ const QString GateFeildFile = ".GateField";
 
 const QString GateFieldElement = "GateField";
 const QString GateCollectionElement = "GateCollection";
+
+const QString GateElement = "Gate";
+
+const QString NodeTypeInputElement = "InputNode";
+const QString NodeTypeOutputElement = "OutputNode";
+const QString NodeLinkedIdsElement = "LinkedIds";
+const QString NodeIdElement = "id";
+
+const QString FPGAGateScriptElement = "Script";
 }
 
 bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild, QString& errorMessage)
@@ -81,7 +92,7 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
     std::vector<Gate*> gates;
     std::vector<NodeIds> linkInfo;
 
-    QDomNodeList gateNodes = gatesParent.elementsByTagName("Gate");
+    QDomNodeList gateNodes = gatesParent.elementsByTagName(Settings::GateElement);
     for(int i = 0; i < gateNodes.size(); i++)
     {
         if(gateNodes.at(i).isElement())
@@ -143,7 +154,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
     {
         std::vector<Gate*> rGates;
 
-        QDomNodeList gateNodes = gateElement.elementsByTagName("Gate");
+        QDomNodeList gateNodes = gateElement.elementsByTagName(Settings::GateElement);
         for(int i = 0; i < gateNodes.size(); i++)
         {
             if(gateNodes.at(i).isElement())
@@ -307,14 +318,14 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
 
     case GateType::GATE_FPGA:
     {
-        QString script = gateElement.attribute("Script");
+        QString script = gateElement.attribute(Settings::FPGAGateScriptElement);
 
         std::vector<NodeIds> inputNodeIds;
         std::vector<NodeIds> dummyLinkInfo;
-        readNodeTypes(gateElement, dummyLinkInfo, inputNodeIds, "InputNode");
+        readNodeTypes(gateElement, dummyLinkInfo, inputNodeIds, Settings::NodeTypeInputElement);
 
         std::vector<NodeIds> outputNodeIds;
-        readNodeTypes(gateElement, dummyLinkInfo, outputNodeIds, "OutputNode");
+        readNodeTypes(gateElement, dummyLinkInfo, outputNodeIds, Settings::NodeTypeOutputElement);
 
         rGate = new GateFPGA(script, inputNodeIds, outputNodeIds, posX, posY);
         break;
@@ -333,15 +344,15 @@ std::vector<NodeIds> GateReader::readNodes(QDomElement& gate, std::vector<NodeId
 {
     std::vector<NodeIds> retNodeInfo;
 
-    readNodeTypes(gate, linkInfo, retNodeInfo, "InputNode");
-    readNodeTypes(gate, linkInfo, retNodeInfo, "OutputNode");
+    readNodeTypes(gate, linkInfo, retNodeInfo, Settings::NodeTypeInputElement);
+    readNodeTypes(gate, linkInfo, retNodeInfo, Settings::NodeTypeOutputElement);
 
     return retNodeInfo;
 }
 
-void GateReader::readNodeTypes(QDomElement &gate, std::vector<NodeIds>& linkInfo, std::vector<NodeIds>& nodeInfo, const QString &nodeType)
+void GateReader::readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo, std::vector<NodeIds>& nodeInfo, const QString& nodeType)
 {
-    QDomNodeList nodeNodes = gate.elementsByTagName("InputNode");
+    QDomNodeList nodeNodes = gate.elementsByTagName(nodeType);
     for(int i = 0; i < nodeNodes.size(); i++)
     {
         if(nodeNodes.at(i).isElement())
@@ -349,9 +360,9 @@ void GateReader::readNodeTypes(QDomElement &gate, std::vector<NodeIds>& linkInfo
             QDomElement nodeElement = nodeNodes.at(i).toElement();
 
             NodeIds nodeIds;
-            nodeIds.id = tryReadInt(nodeElement.attribute("id"), -1);
+            nodeIds.id = tryReadInt(nodeElement.attribute(Settings::NodeIdElement), -1);
 
-            QDomElement linkedIds = nodeElement.firstChildElement("LinkedIds");
+            QDomElement linkedIds = nodeElement.firstChildElement(Settings::NodeLinkedIdsElement);
             QDomNodeList linkNodes = linkedIds.childNodes();
             for(int i = 0; i < linkNodes.size(); i++)
             {
@@ -367,7 +378,7 @@ void GateReader::readNodeTypes(QDomElement &gate, std::vector<NodeIds>& linkInfo
     }
 }
 
-int GateReader::tryReadInt(const QString &value, const int &defaultVal)
+int GateReader::tryReadInt(const QString& value, const int& defaultVal)
 {
     bool ok = false;
     int retVal = value.toInt(&ok);
@@ -436,7 +447,7 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
         return false;
     }
 
-    QDomDocument saveDoc(dir + "/" + pGateFeild->name() + Settings::GateFeildFile);
+    QDomDocument saveDoc(Settings::XMLElement);
     QDomElement gateFieldElement = saveDoc.createElement(Settings::GateFieldElement);
     pGateFeild->SaveData(saveDoc, gateFieldElement);
     saveDoc.appendChild(gateFieldElement);
@@ -460,7 +471,7 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
         return false;
     }
 
-    QDomDocument saveDoc(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
+    QDomDocument saveDoc(Settings::XMLElement);
     QDomElement saveDocElement = saveDoc.createElement(Settings::GateCollectionElement);
     pGateCollection->SaveData(saveDoc, saveDocElement);
     saveDoc.appendChild(saveDocElement);

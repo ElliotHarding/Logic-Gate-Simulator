@@ -111,6 +111,8 @@ void DLG_Home::InitalizeDialogsAndWidgets()
 
 DLG_Home::~DLG_Home()
 {
+    delete m_pSpawnedGateWidget;
+
     delete m_pWidgetAllGates;
     delete m_pWidgetCustomGates;
     delete m_pWidgetAdvancedGates;

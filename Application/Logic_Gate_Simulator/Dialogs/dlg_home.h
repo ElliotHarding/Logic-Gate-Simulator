@@ -24,6 +24,8 @@
 #include "widget_inputgates.h"
 #include "widget_standard.h"
 
+#include "widget_spawnedgate.h"
+
 class QMouseEvent;
 
 namespace Ui {
@@ -71,6 +73,9 @@ protected:
     Widget_Standard*    m_pWidgetStandardGates;
     Widget_InputGates*  m_pWidgetInputGates;
     MovingWidget* m_pCurrentShownGateWidget = nullptr;
+
+    //Other widgets
+    Widget_SpawnedGate* m_pSpawnedGateWidget;
 
     //Construction
     void InitalizeDialogsAndWidgets();

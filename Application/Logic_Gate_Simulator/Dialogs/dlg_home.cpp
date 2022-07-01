@@ -70,6 +70,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
 
 void DLG_Home::InitalizeDialogsAndWidgets()
 {
+    //Dialogs
     m_pDlgLoadGates = new QFileDialog(this);
     m_pDlgInput = new QInputDialog(this);
     m_pDlgSaveGateCollection = new DLG_SaveGateCollection(this);
@@ -78,15 +79,17 @@ void DLG_Home::InitalizeDialogsAndWidgets()
     m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
     m_pDlgEditFPGA = new DLG_ConfigureFPGA(this);
 
+    //Other widgets
+    m_pSpawnedGateWidget = new Widget_SpawnedGate(this);
+
     //Gate widgets
     const QPoint c_GateWidgetPos = accountForUIOffsetts(ui->layout_GateWidget->geometry()).topLeft();
     m_pWidgetAllGates = new Widget_AllGates(this, true, c_GateWidgetPos);
-    m_pCurrentShownGateWidget = m_pWidgetAllGates;
-
     m_pWidgetCustomGates = new Widget_CustomGates(this, false, c_GateWidgetPos);
     m_pWidgetAdvancedGates = new Widget_Advanced(this, false, c_GateWidgetPos);
     m_pWidgetStandardGates = new Widget_Standard(this, false, c_GateWidgetPos);
     m_pWidgetInputGates = new Widget_InputGates(this, false, c_GateWidgetPos);
+    m_pCurrentShownGateWidget = m_pWidgetAllGates;
 
     //m_zoomSlider :
     {

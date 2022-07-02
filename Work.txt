@@ -2,7 +2,10 @@ BIG TODO: cloning nodes needs to be managed in terms of linking. Also clearing b
 
 
 
-Looks like delete all on gatecollection causes bug
+Update drag all option on dlg_info for gatecollection.
+Nested gatecollection problem
+
+
 
 bagvp = aSmellyDog69_
 

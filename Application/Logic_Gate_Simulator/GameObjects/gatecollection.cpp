@@ -21,7 +21,7 @@ const QImage ImgNandOptimizeButton = QImage(std::string(":/Resources/Button Icon
 const uint ButtonSize = 40;
 
 //Number of pixels from border before gates are seen
-const uint BorderBoxMargin = 40;
+const int BorderBoxMargin = 40;
 }
 
 GateCollection::GateCollection(std::vector<Gate*> gates) :
@@ -190,12 +190,12 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
 
 void GateCollection::DrawButtons(QPainter& painter)
 {
-    m_deleteAllButton  = QRect(m_geometry.right() - Settings::ButtonSize, m_geometry.bottom() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_deleteButton = QRect(m_geometry.right() - Settings::ButtonSize*2, m_geometry.bottom() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_saveButton = QRect(m_geometry.right() - Settings::ButtonSize*3, m_geometry.bottom() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_dragAllButton = QRect(m_geometry.right() - Settings::ButtonSize*4, m_geometry.bottom() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    //m_optimize = QRect(m_contaningArea.right() - xyButtonSize*5, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
-    //m_nandOptimize = QRect(m_contaningArea.right() - xyButtonSize*6, m_contaningArea.bottom() - xyButtonSize, xyButtonSize, xyButtonSize);
+    m_deleteAllButton  = QRect(m_geometry.right() - Settings::ButtonSize, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_deleteButton = QRect(m_geometry.right() - Settings::ButtonSize*2, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_saveButton = QRect(m_geometry.right() - Settings::ButtonSize*3, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_dragAllButton = QRect(m_geometry.right() - Settings::ButtonSize*4, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    //m_optimize = QRect(m_contaningArea.right() - xyButtonSize*5, m_contaningArea.top() - xyButtonSize, xyButtonSize, xyButtonSize);
+    //m_nandOptimize = QRect(m_contaningArea.right() - xyButtonSize*6, m_contaningArea.top() - xyButtonSize, xyButtonSize, xyButtonSize);
 
     painter.drawImage(m_deleteAllButton, Settings::ImgDeleteAllButton);
     painter.drawImage(m_deleteButton, Settings::ImgDeleteButton);
@@ -234,42 +234,30 @@ void GateCollection::UpdateContaningArea()
         {
             if(dynamic_cast<GateCollection*>(gate))
                 dynamic_cast<GateCollection*>(gate)->UpdateContaningArea();
-
-            if(gate->geometry().bottom() < MINY)
-            {
-                MINY = gate->geometry().bottom() + Settings::BorderBoxMargin;
-            }
-
-            if(gate->geometry().top() > MAXY)
-            {
-                MAXY = gate->geometry().top() - Settings::BorderBoxMargin;
-            }
         }
-        else
+
+        if(gate->geometry().top() - Settings::BorderBoxMargin < MINY)
         {
-            if(gate->geometry().top() < MINY)
-            {
-                MINY = gate->geometry().top() - Settings::BorderBoxMargin;
-            }
-
-            if(gate->geometry().bottom() > MAXY)
-            {
-                MAXY = gate->geometry().bottom() + Settings::BorderBoxMargin;
-            }
+            MINY = gate->geometry().top() - Settings::BorderBoxMargin;
         }
 
-        if(gate->geometry().left() < MINX)
+        if(gate->geometry().bottom() + Settings::BorderBoxMargin > MAXY)
+        {
+            MAXY = gate->geometry().bottom() + Settings::BorderBoxMargin;
+        }
+
+        if(gate->geometry().left() - Settings::BorderBoxMargin < MINX)
         {
             MINX = gate->geometry().left() - Settings::BorderBoxMargin;
         }
 
-        if(gate->geometry().right() > MAXX)
+        if(gate->geometry().right() + Settings::BorderBoxMargin > MAXX)
         {
             MAXX = gate->geometry().right() + Settings::BorderBoxMargin;
         }
     }
 
-    m_geometry = QRect(QPoint(MINX, MAXY), QPoint(MAXX, MINY));
+    m_geometry = QRect(QPoint(MINX, MINY), QPoint(MAXX, MAXY));
 }
 
 void GateCollection::ToggleDragMode()

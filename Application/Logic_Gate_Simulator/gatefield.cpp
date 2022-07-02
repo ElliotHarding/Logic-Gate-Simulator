@@ -215,14 +215,15 @@ void GateField::AddGate(Gate* go, const bool& newlySpawned)
 
     if(newlySpawned) //If newley spawned has GateField::QWidget relative position
     {
-        const QPoint offset = qtPointToWorldPoint(go->position());
-        go->setPosition(offset.x(), offset.y());
+        const QPoint worldPos = qtPointToWorldPoint(go->position());
+        go->setPosition(worldPos.x(), worldPos.y());
     }
 
     m_allGates.push_back(go);
     UpdateGateSelected(go);
 
-    //Temp. When newlySpawned position stuff changes.
+    m_pParent->SetCurrentClickMode(CLICK_DRAG);
+
     m_history.recordHistory(m_allGates);
 
     //Call to redraw
@@ -341,12 +342,10 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         return;
     }
 
-    const QPoint clickPos = qtPointToWorldPoint(click->pos());
-
     //Check if ending a link attempt
     if(m_pLinkingNode)
     {
-        checkEndLink(clickPos);
+        checkEndLink(qtPointToWorldPoint(click->pos()));
     }
 
     //If ending a selection
@@ -376,13 +375,13 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
             AddGate(collection, false);
 
             m_history.recordHistory(m_allGates);
+
+            m_pParent->SetCurrentClickMode(CLICK_DRAG);
         }
 
         //Disactivate selection
         delete m_pSelectionTool;
         m_pSelectionTool = nullptr;
-
-        m_pParent->SetCurrentClickMode(CLICK_DRAG);
 
         //Call to redraw
         update();

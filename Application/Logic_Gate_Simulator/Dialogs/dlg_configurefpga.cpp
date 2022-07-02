@@ -164,13 +164,11 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
             std::vector<Node*> inNodes = newGate->getInputNodes();
             for(Node* inNode : inNodes)
             {
-                //circuitIns.push_back(inNode);
                 circuitInsUnlinked.push_back(inNode);
             }
             std::vector<Node*> outNodes = newGate->getOutputNodes();
             for(Node* outNode : outNodes)
             {
-                //circuitOuts.push_back(outNode);
                 circuitOutsUnlinked.push_back(outNode);
             }
         }

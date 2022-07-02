@@ -27,9 +27,10 @@ void DLG_SaveGateCollection::open(GateCollection* pGateCollection)
     QDialog::open();
 }
 
-void DLG_SaveGateCollection::open(GateField *pGateField)
+void DLG_SaveGateCollection::open(GateField* pGateField, const bool& justRename)
 {
     m_pCurrentGateField = pGateField;
+    m_bJustRename = justRename;
     ui->lb_error->hide();
     ui->txt_name->setText(pGateField->name());
     QDialog::open();
@@ -76,7 +77,7 @@ void DLG_SaveGateCollection::on_Save_clicked()
         }
 
         m_pParent->setGateFieldName(m_pCurrentGateField, ui->txt_name->toPlainText());
-        if(!m_saver.saveGateField(m_pCurrentGateField, m_pParent))
+        if(!m_bJustRename && !m_saver.saveGateField(m_pCurrentGateField, m_pParent))
         {
             ui->lb_error->setText("Failed to save! Check file name.");
             ui->lb_error->show();

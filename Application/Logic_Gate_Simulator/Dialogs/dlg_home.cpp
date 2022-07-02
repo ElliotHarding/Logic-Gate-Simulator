@@ -441,7 +441,7 @@ void DLG_Home::on_btn_setPageName_clicked()
 {
     if(m_iCurrentGateField != -1)
     {
-        m_pDlgSaveGateCollection->open(m_allGateFields[size_t(m_iCurrentGateField)]);
+        m_pDlgSaveGateCollection->open(m_allGateFields[size_t(m_iCurrentGateField)], true);
     }
     else
     {

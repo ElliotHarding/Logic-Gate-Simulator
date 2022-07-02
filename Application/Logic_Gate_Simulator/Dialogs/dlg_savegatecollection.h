@@ -18,7 +18,7 @@ public:
     ~DLG_SaveGateCollection() override;
 
     void open(GateCollection* pGateCollection);
-    void open(GateField* pGateField);
+    void open(GateField* pGateField, const bool& justRename = false);
 
 protected:
     void closeEvent(QCloseEvent *) override;
@@ -31,6 +31,7 @@ private:
     Ui::DLG_SaveGateCollection *ui;
     GateCollection* m_pCurrentGateCollection;
     GateField* m_pCurrentGateField;
+    bool m_bJustRename = false;
     DLG_Home* m_pParent;
     Saver m_saver;
 };

@@ -367,21 +367,24 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
 
         if(validRun)
         {
+            GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
+
             for(Gate* g : circuit)
             {
                 g->setPosition(300, 300);
-                m_pFpga->GetParent()->AddGate(g);
+                pNewCircuit->AddGate(g);
             }
             for(Gate* g : circuitInputs)
             {
                 g->setPosition(300, 300);
-                m_pFpga->GetParent()->AddGate(g);
+                pNewCircuit->AddGate(g);;
             }
             for(Gate* g : circuitOutputs)
             {
                 g->setPosition(300, 300);
-                m_pFpga->GetParent()->AddGate(g);
+                pNewCircuit->AddGate(g);
             }
+            m_pFpga->GetParent()->AddGate(pNewCircuit);
             return;
         }
 
@@ -391,6 +394,15 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
         }
         circuit.clear();
 
+        for(Gate* g : circuitInputs)
+        {
+            g->DetachNodes();
+        }
+        for(Gate* g : circuitOutputs)
+        {
+            g->DetachNodes();
+        }
+
         while(!createRandomCircuit(circuit, circuitInputs, circuitOutputs))
         {
             qDebug() << "Failed";
@@ -399,6 +411,15 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
                 delete g;
             }
             circuit.clear();
+
+            for(Gate* g : circuitInputs)
+            {
+                g->DetachNodes();
+            }
+            for(Gate* g : circuitOutputs)
+            {
+                g->DetachNodes();
+            }
         }
         qDebug() << "Passed";
     }

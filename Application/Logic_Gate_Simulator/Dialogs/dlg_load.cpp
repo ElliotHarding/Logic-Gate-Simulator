@@ -12,7 +12,7 @@ DLG_Load::DLG_Load(QWidget *parent) :
     ui->progressBar->setValue(0);
     ui->lbl_progressStep->setText("Initalizing");
 
-    connect(this, SIGNAL(startLoad()), this, SLOT(onStartLoad()));
+    connect(this, SIGNAL(startLoad()), this, SLOT(onStartLoad()), Qt::ConnectionType::QueuedConnection);
 }
 
 DLG_Load::~DLG_Load()

@@ -2,6 +2,7 @@
 #include "ui_dlg_configurefpga.h"
 
 #include "GameObjects/gatefpga.h"
+#include "allgates.h"
 
 #include <QDebug>
 #include <cmath>
@@ -151,6 +152,37 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
         outValues.push_back(genOutputValues);
     }
 
-    BooleanExpression expression;
+
+    std::vector<Gate*> circuit;
+    std::vector<GateToggle*> circuitInputs;
+    std::vector<GateReciever*> circuitOutputs;
+
+    for(uint iInput = 0; iInput < inputNodes.size(); iInput++)
+    {
+        GateToggle* newGateToggle = new GateToggle();
+        circuit.push_back(newGateToggle);
+        circuitInputs.push_back(newGateToggle);
+    }
+
+    for(uint iOutput = 0; iOutput < outputNodes.size(); iOutput++)
+    {
+        GateReciever* newGateReciever = new GateReciever();
+        circuit.push_back(newGateReciever);
+        circuitOutputs.push_back(newGateReciever);
+    }
+
+    while(true)
+    {
+        for (std::list<std::list<bool>>::iterator itInputRow = inValues.begin(); itInputRow != inValues.end(); ++itInputRow)
+        {
+            uint iInput = 0;
+            for (std::list<bool>::iterator itInput = (*itInputRow).begin(); itInput != (*itInputRow).end(); ++itInput)
+            {
+                circuitInputs[iInput]->SetPowerState(*itInput);
+                iInput++;
+            }
+        }
+
+    }
 
 }

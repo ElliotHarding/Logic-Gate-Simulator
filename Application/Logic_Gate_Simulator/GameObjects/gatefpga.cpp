@@ -109,6 +109,10 @@ GameObject* GateFPGA::checkClicked(const QPoint& mouse)
         {
             return this;
         }
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
+        {
+            m_pParentField->UpdateGateSelected(this);
+        }
         return nullptr;
     }
     return GameObject::checkClicked(mouse);

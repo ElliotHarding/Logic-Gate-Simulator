@@ -298,7 +298,6 @@ void GateCollection::ForgetGate(Gate *g)
     UpdateContaningArea();
 }
 
-//Returns true if delete was triggered
 GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
 {
     //Save button
@@ -308,6 +307,10 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
             return this;
+        }
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
+        {
+            m_pParentField->UpdateGateSelected(this);
         }
         return nullptr;
     }
@@ -327,7 +330,6 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
             m_pParentField->ForgetChild(this);
 
         delete this;
-        return nullptr;
     }
 
     //Delete all button
@@ -341,7 +343,6 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
             m_pParentField->ForgetChild(this);
 
         delete this;
-        return nullptr;
     }
 
     /* //Optimize button
@@ -351,6 +352,10 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
             return this;
+        }
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
+        {
+            m_pParentField->UpdateGateSelected(this);
         }
         return nullptr;
     }*/
@@ -362,6 +367,10 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         {
             return this;
         }
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
+        {
+            m_pParentField->UpdateGateSelected(this);
+        }
         return nullptr;
     }
     /*
@@ -371,6 +380,10 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
             return this;
+        }
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
+        {
+            m_pParentField->UpdateGateSelected(this);
         }
         return nullptr;
     }*/

@@ -500,9 +500,10 @@ bool GateField::checkGateSelect(const QPoint& mouse)
 {
     for (Gate* gate : m_allGates)
     {
-        if(gate->checkClicked(mouse))
+        GameObject* pSelectedGo = gate->checkClicked(mouse);
+        if(pSelectedGo != nullptr && dynamic_cast<Gate*>(pSelectedGo))
         {
-            UpdateGateSelected(gate);
+            UpdateGateSelected(dynamic_cast<Gate*>(pSelectedGo));
             return true;
         }
     }

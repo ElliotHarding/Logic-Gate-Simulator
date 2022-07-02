@@ -108,6 +108,29 @@ std::vector<bool> genInputs(const uint& a, const uint& len)
     return inputs;
 }
 #include "gatefield.h"
+#include <QRandomGenerator>
+
+Gate* genRandomGate()
+{
+    int random = QRandomGenerator::global()->generateDouble() * 7;
+    switch (random)
+    {
+    case 0:
+        return new GateAnd();
+    case 1:
+        return new GateOr();
+    case 2:
+        return new GateNot();
+    case 3:
+        return new GateEor();
+    case 4:
+    case 5:
+    case 6:
+    default:
+        return nullptr;
+    }
+}
+
 void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
 {
     if(!m_pFpga)
@@ -224,8 +247,71 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
             return;
         }
 
+        for(Gate* g : circuit)
+        {
+            delete g;
+        }
+        circuit.clear();
 
 
+
+        std::vector<Node*> circuitOuts;
+        std::vector<Node*> circuitOutsUnlinked;
+        for(Gate* g : circuitInputs)
+        {
+            circuitOuts.push_back(g->getOutputNodes()[0]);
+            circuitOutsUnlinked.push_back(g->getOutputNodes()[0]);
+        }
+
+        std::vector<Node*> circuitIns;
+        std::vector<Node*> circuitInsUnlinked;
+        for(Gate* g : circuitOutputs)
+        {
+            circuitIns.push_back(g->getInputNodes()[0]);
+            circuitInsUnlinked.push_back(g->getInputNodes()[0]);
+        }
+
+        while(circuitInsUnlinked.size() > 0 || circuitOutsUnlinked.size() > 0)
+        {
+            Gate* newGate = genRandomGate();
+            if(newGate != nullptr)
+            {
+                circuit.push_back(newGate);
+
+                std::vector<Node*> inNodes = newGate->getInputNodes();
+                for(Node* inNode : inNodes)
+                {
+                    circuitIns.push_back(inNode);
+                    circuitInsUnlinked.push_back(inNode);
+                }
+                std::vector<Node*> outNodes = newGate->getOutputNodes();
+                for(Node* outNode : outNodes)
+                {
+                    circuitOuts.push_back(outNode);
+                    circuitOutsUnlinked.push_back(outNode);
+                }
+            }
+
+            if(circuitOutsUnlinked.size() > 0)
+            {
+                const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
+                const int randomIn = QRandomGenerator::global()->generateDouble() * circuitIns.size() - 1;
+
+                circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitIns[randomIn]);
+                circuitIns[randomIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
+                circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
+            }
+
+            if(circuitInsUnlinked.size() > 0)
+            {
+                const int randomOut = QRandomGenerator::global()->generateDouble() * circuitOuts.size() - 1;
+                const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size() - 1;
+
+                circuitOuts[randomOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
+                circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOuts[randomOut]);
+                circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
+            }
+        }
     }
 
 }

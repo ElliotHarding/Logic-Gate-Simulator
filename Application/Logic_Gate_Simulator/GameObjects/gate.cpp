@@ -178,6 +178,32 @@ void Gate::DetachNodes()
     }
 }
 
+std::vector<Node*> Gate::getInputNodes()
+{
+    std::vector<Node*> ret;
+    for (Node* n : m_nodes)
+    {
+        if(n->type() == NodeType::InputNode)
+        {
+            ret.push_back(n);
+        }
+    }
+    return ret;
+}
+
+std::vector<Node*> Gate::getOutputNodes()
+{
+    std::vector<Node*> ret;
+    for (Node* n : m_nodes)
+    {
+        if(n->type() == NodeType::OutputNode)
+        {
+            ret.push_back(n);
+        }
+    }
+    return ret;
+}
+
 //
 // -- NODE IMPLEMENTATION --
 //

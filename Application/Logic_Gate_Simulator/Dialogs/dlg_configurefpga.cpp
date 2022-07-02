@@ -133,19 +133,19 @@ Gate* genRandomGate()
 
 bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& circuitInputs, std::vector<GateReciever*>& circuitOutputs)
 {
-    std::vector<Node*> circuitOuts;
+    //std::vector<Node*> circuitOuts;
     std::vector<Node*> circuitOutsUnlinked;
     for(Gate* g : circuitInputs)
     {
-        circuitOuts.push_back(g->getOutputNodes()[0]);
+        //circuitOuts.push_back(g->getOutputNodes()[0]);
         circuitOutsUnlinked.push_back(g->getOutputNodes()[0]);
     }
 
-    std::vector<Node*> circuitIns;
+    //std::vector<Node*> circuitIns;
     std::vector<Node*> circuitInsUnlinked;
     for(Gate* g : circuitOutputs)
     {
-        circuitIns.push_back(g->getInputNodes()[0]);
+        //circuitIns.push_back(g->getInputNodes()[0]);
         circuitInsUnlinked.push_back(g->getInputNodes()[0]);
     }
 
@@ -162,13 +162,13 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
             std::vector<Node*> inNodes = newGate->getInputNodes();
             for(Node* inNode : inNodes)
             {
-                circuitIns.push_back(inNode);
+                //circuitIns.push_back(inNode);
                 circuitInsUnlinked.push_back(inNode);
             }
             std::vector<Node*> outNodes = newGate->getOutputNodes();
             for(Node* outNode : outNodes)
             {
-                circuitOuts.push_back(outNode);
+                //circuitOuts.push_back(outNode);
                 circuitOutsUnlinked.push_back(outNode);
             }
         }
@@ -185,9 +185,9 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
                     if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
                     {
                         bool different = false;
-                        for(int i = 0; i < circuitOutsUnlinked.size(); i++)
+                        for(uint i = 0; i < circuitOutsUnlinked.size(); i++)
                         {
-                            for(int j = 0; j < circuitInsUnlinked.size(); j++)
+                            for(uint j = 0; j < circuitInsUnlinked.size(); j++)
                             {
                                 if(circuitOutsUnlinked[i]->GetParent() != circuitInsUnlinked[j]->GetParent())
                                 {

@@ -75,7 +75,7 @@ void DLG_SaveGateCollection::on_Save_clicked()
             return;
         }
 
-        m_pCurrentGateField->setName(ui->txt_name->toPlainText());
+        m_pParent->setGateFieldName(m_pCurrentGateField, ui->txt_name->toPlainText());
         if(!m_saver.saveGateField(m_pCurrentGateField, m_pParent))
         {
             ui->lb_error->setText("Failed to save! Check file name.");

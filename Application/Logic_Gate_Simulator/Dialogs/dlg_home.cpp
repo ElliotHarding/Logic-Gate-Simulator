@@ -299,6 +299,12 @@ void DLG_Home::editFPGA(GateFPGA* pFPGA)
     m_pDlgEditFPGA->open(pFPGA);
 }
 
+void DLG_Home::setGateFieldName(GateField* pGateField, const QString& name)
+{
+    ui->PlayField->setTabText(ui->PlayField->indexOf(pGateField), name);
+    pGateField->setName(name);
+}
+
 void DLG_Home::moveEvent(QMoveEvent* event)
 {
     QMainWindow::moveEvent(event);

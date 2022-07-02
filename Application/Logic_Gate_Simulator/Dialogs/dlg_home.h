@@ -54,6 +54,7 @@ public:
     void SetCurrentClickMode(const ClickMode& clickMode);
     void EditTextLabel(TextLabel* pTextLabelToEdit);
     void editFPGA(GateFPGA* pFPGA);
+    void setGateFieldName(GateField* pGateField, const QString& name);
 
 protected:
     void moveEvent(QMoveEvent* event) override;

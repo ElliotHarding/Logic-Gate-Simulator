@@ -9,6 +9,12 @@
 #include <QDebug>
 #include <cmath>
 
+namespace Settings
+{
+const uint MaxFailsForCircuitGen = 500;
+const uint MaxGatesInCircuit = 10;
+}
+
 DLG_ConfigureFPGA::DLG_ConfigureFPGA(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DLG_ConfigureFPGA),
@@ -133,19 +139,15 @@ Gate* genRandomGate()
 
 bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& circuitInputs, std::vector<GateReciever*>& circuitOutputs)
 {
-    //std::vector<Node*> circuitOuts;
     std::vector<Node*> circuitOutsUnlinked;
     for(Gate* g : circuitInputs)
     {
-        //circuitOuts.push_back(g->getOutputNodes()[0]);
         circuitOutsUnlinked.push_back(g->getOutputNodes()[0]);
     }
 
-    //std::vector<Node*> circuitIns;
     std::vector<Node*> circuitInsUnlinked;
     for(Gate* g : circuitOutputs)
     {
-        //circuitIns.push_back(g->getInputNodes()[0]);
         circuitInsUnlinked.push_back(g->getInputNodes()[0]);
     }
 
@@ -156,7 +158,7 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
         {
             circuit.push_back(newGate);
 
-            if(circuit.size() > 6)
+            if(circuit.size() > Settings::MaxGatesInCircuit)
                 return false;
 
             std::vector<Node*> inNodes = newGate->getInputNodes();
@@ -175,116 +177,53 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
 
         while(true)
         {
-            if(circuitOutsUnlinked.size() > 0)
+            if(circuitOutsUnlinked.size() > 0 && circuitInsUnlinked.size() > 0)
             {
-                if(circuitInsUnlinked.size() > 0)
-                {
-                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size();
-                    const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size();
+                const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size();
+                const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size();
 
-                    if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
+                if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
+                {
+                    bool different = false;
+                    for(uint i = 0; i < circuitOutsUnlinked.size(); i++)
                     {
-                        bool different = false;
-                        for(uint i = 0; i < circuitOutsUnlinked.size(); i++)
+                        for(uint j = 0; j < circuitInsUnlinked.size(); j++)
                         {
-                            for(uint j = 0; j < circuitInsUnlinked.size(); j++)
+                            if(circuitOutsUnlinked[i]->GetParent() != circuitInsUnlinked[j]->GetParent())
                             {
-                                if(circuitOutsUnlinked[i]->GetParent() != circuitInsUnlinked[j]->GetParent())
-                                {
-                                    different = true;
-                                    break;
-                                }
-                            }
-                            if(different)
+                                different = true;
                                 break;
+                            }
                         }
-                        if(!different)
-                            return false;
-                        continue;
+                        if(different)
+                            break;
                     }
-
-                    circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
-                    circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
-                    circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
-                    circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
-
-                    break;
-                }
-                else
-                {
-                    return false;
+                    if(!different)
+                        return false;
+                    continue;
                 }
 
-                /*
-                else
-                {
-                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
-                    const int randomIn = QRandomGenerator::global()->generateDouble() * circuitIns.size() - 1;
+                circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
+                circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
+                circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
+                circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
 
-                    if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitIns[randomIn]->GetParent())
-                    {
-                        if(sameGateCounter++ > 10)
-                        {
-                            return false;
-                        }
-                        continue;
-                    }
-
-                    circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitIns[randomIn]);
-                    circuitIns[randomIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
-                    circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
-
-                    break;
-                }*/
+                break;
             }
             else
             {
                 return false;
             }
-
-            /*
-            else if(circuitInsUnlinked.size() > 0)
-            {
-                const int randomOut = QRandomGenerator::global()->generateDouble() * circuitOuts.size() - 1;
-                const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size() - 1;
-
-                if(circuitOuts[randomOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
-                {
-                    if(sameGateCounter++ > 10)
-                    {
-                        return false;
-                    }
-                    continue;
-                }
-
-                circuitOuts[randomOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
-                circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOuts[randomOut]);
-                circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
-
-                break;
-            }*/
         }
     }
 
     return true;
 }
 
-void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
+void genTruthTable(std::vector<std::vector<bool>>& inValues, std::vector<std::vector<bool>>& outValues, GateFPGA* pFpga)
 {
-    if(!m_pFpga)
-    {
-        qDebug() << "DLG_ConfigureFPGA::on_btn_genCircuit_clicked - m_pFpga is nullptr";
-        return;
-    }
-    std::vector<std::vector<bool>> inValues;
-    std::vector<std::vector<bool>> outValues;
-
-    m_pFpga->setInputs(ui->spinBox_inputs->value());
-    m_pFpga->setOutputs(ui->spinBox_outputs->value());
-    m_pFpga->setScript(ui->textEdit_script->toPlainText());
-
-    std::vector<Node*> inputNodes = m_pFpga->getInputNodes();
-    std::vector<Node*> outputNodes = m_pFpga->getOutputNodes();
+    std::vector<Node*> inputNodes = pFpga->getInputNodes();
+    std::vector<Node*> outputNodes = pFpga->getOutputNodes();
 
     const uint size = pow(2, inputNodes.size());
     for (uint i = 0; i < size; i++)
@@ -300,7 +239,7 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
         }
 
         //Run script
-        m_pFpga->UpdateOutput();
+        pFpga->UpdateOutput();
 
         //Collect output node values
         std::vector<bool> genOutputValues;
@@ -310,24 +249,43 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
         }
         outValues.push_back(genOutputValues);
     }
+}
 
+void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
+{
+    if(!m_pFpga)
+    {
+        qDebug() << "DLG_ConfigureFPGA::on_btn_genCircuit_clicked - m_pFpga is nullptr";
+        return;
+    }
 
+    m_pFpga->setInputs(ui->spinBox_inputs->value());
+    m_pFpga->setOutputs(ui->spinBox_outputs->value());
+    m_pFpga->setScript(ui->textEdit_script->toPlainText());
+
+    //Generate truth table from fpga
+    std::vector<std::vector<bool>> inValues;
+    std::vector<std::vector<bool>> outValues;
+    genTruthTable(inValues, outValues, m_pFpga);
+
+    //Setup circuit inputs and outputs
     std::vector<Gate*> circuit;
     std::vector<GateToggle*> circuitInputs;
     std::vector<GateReciever*> circuitOutputs;
-
-    for(uint iInput = 0; iInput < inputNodes.size(); iInput++)
+    for(int iInput = 0; iInput < ui->spinBox_inputs->value(); iInput++)
     {
         circuitInputs.push_back(new GateToggle());
     }
-
-    for(uint iOutput = 0; iOutput < outputNodes.size(); iOutput++)
+    for(int iOutput = 0; iOutput < ui->spinBox_outputs->value(); iOutput++)
     {
         circuitOutputs.push_back(new GateReciever());
     }
 
+    //Begin generating random circuits until one matches truth table
     while(true)
     {
+
+        //Test circuit setup against truth table (inValues & outValues)
         bool validRun = true;
         for (uint iTableRun = 0; iTableRun < inValues.size(); iTableRun++)
         {
@@ -339,7 +297,8 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
             }
 
             //Update
-            for(uint iUpdate = 0; iUpdate < inputNodes.size(); iUpdate++)
+            //Very inefficient... Todo ~ improve this
+            for(uint iUpdate = 0; iUpdate < circuit.size(); iUpdate++)
             {
                 for(Gate* pGate : circuit)
                 {
@@ -365,10 +324,10 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
             }
         }
 
+        //If random circuit matches truth table, circuit is complete.
         if(validRun)
         {
             GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
-
             for(Gate* g : circuit)
             {
                 g->setPosition(300, 300);
@@ -385,15 +344,17 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
                 pNewCircuit->AddGate(g);
             }
             m_pFpga->GetParent()->AddGate(pNewCircuit);
+            m_pFpga = nullptr;
+            close();
             return;
         }
 
+        //Prep a new circuit
         for(Gate* g : circuit)
         {
             delete g;
         }
         circuit.clear();
-
         for(Gate* g : circuitInputs)
         {
             g->DetachNodes();
@@ -403,15 +364,21 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
             g->DetachNodes();
         }
 
+        uint failCounter = 0;
         while(!createRandomCircuit(circuit, circuitInputs, circuitOutputs))
         {
-            qDebug() << "Failed";
+            if(failCounter++ > Settings::MaxFailsForCircuitGen)
+            {
+                //Todo ~ warn of failure
+                return;
+            }
+
+            //Prep a new circuit
             for(Gate* g : circuit)
             {
                 delete g;
             }
             circuit.clear();
-
             for(Gate* g : circuitInputs)
             {
                 g->DetachNodes();
@@ -421,7 +388,6 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
                 g->DetachNodes();
             }
         }
-        qDebug() << "Passed";
     }
 
 }

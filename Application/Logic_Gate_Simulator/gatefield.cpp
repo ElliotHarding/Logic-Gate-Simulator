@@ -121,10 +121,11 @@ void GateField::editFPGA(GateFPGA* pFPGA)
 
 void GateField::onRequestUpdateGates()
 {
-    for (int index = m_allGates.size() - 1; index > -1; index--)
+    for (int index = m_gatesToUpdate.size() - 1; index > -1; index--)
     {
-        m_allGates[size_t(index)]->UpdateOutput();
+        m_gatesToUpdate[size_t(index)]->UpdateOutput();
     }
+    m_gatesToUpdate.clear();
     update();
 }
 
@@ -160,17 +161,43 @@ void GateField::DeleteGate(Gate* gateToDelete)
     }
 }
 
-void GateField::ForgetChild(Gate* gateToDelete)
+void GateField::ForgetChild(Gate* pGateToForget)
 {
     for(size_t index = 0; index < m_allGates.size(); index++)
     {
-        if (m_allGates[index] == gateToDelete)
+        if (m_allGates[index] == pGateToForget)
         {
             //forget
             m_allGates.erase(m_allGates.begin() + int8_t(index));
+
+            ForgetUpdateRequest(pGateToForget);
+
             return;
         }
     }
+}
+
+void GateField::ForgetUpdateRequest(Gate* pGate)
+{
+    //Todo ~ Find out why can't use m_gatesToUpdate.erase
+
+    std::vector<Gate*> newGatesToUpdate;
+    for(size_t index = 0; index < m_gatesToUpdate.size(); index++)
+    {
+        if(m_gatesToUpdate[index] != pGate)
+            newGatesToUpdate.push_back(m_gatesToUpdate[index]);
+    }
+    m_gatesToUpdate = newGatesToUpdate;
+}
+
+void GateField::RequestUpdateGate(Gate* pGate)
+{
+    for(size_t index = 0; index < m_gatesToUpdate.size(); index++)
+    {
+        if(m_gatesToUpdate[index] == pGate)
+            return;
+    }
+    m_gatesToUpdate.push_back(pGate);
 }
 
 void GateField::Undo()

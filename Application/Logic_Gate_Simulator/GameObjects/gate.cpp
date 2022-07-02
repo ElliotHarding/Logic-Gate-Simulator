@@ -1,5 +1,6 @@
 #include "gate.h"
 #include "gatecollection.h"
+#include "gatefield.h"
 
 static int IdIndex = 0;
 
@@ -19,7 +20,8 @@ const uint NodeLinkWidth = 1;
 
 Gate::Gate(GateType type, const int& x, const int& y, const uint& width, const uint& height, const char* pIconLocation) :
     GameObject::GameObject(x, y, width, height, pIconLocation),
-    m_type(type)
+    m_type(type),
+    m_pParentField(nullptr)
 {
 }
 
@@ -36,6 +38,19 @@ Gate::~Gate()
     if(m_pParentGateCollection)
     {
         m_pParentGateCollection->ForgetGate(this);
+    }
+
+    if (m_pParentField)
+    {
+        m_pParentField->ForgetUpdateRequest(this);
+    }
+}
+
+void Gate::setToUpdate()
+{
+    if(m_pParentField != nullptr)
+    {
+        m_pParentField->RequestUpdateGate(this);
     }
 }
 
@@ -245,7 +260,7 @@ void Node::setPosition(const int &x, const int &y)
 
 void Node::setValue(bool val)
 {
-    m_bValue = val;    
+    m_bValue = val;
 
     if(m_nodeType == OutputNode)
     {
@@ -253,6 +268,12 @@ void Node::setValue(bool val)
          {
             n->setValue(m_bValue);
          }
+    }
+
+    //Input node
+    else
+    {
+        m_pParent->setToUpdate();
     }
 }
 

@@ -39,6 +39,7 @@ public:
 
     //Generic functions   
     virtual void UpdateOutput() = 0;
+    virtual void setToUpdate();
     virtual void draw(QPainter& painter) override;
     virtual void SaveData(QDomDocument& storage, QDomElement& parentElement);
     virtual Node* checkClickedNodes(const QPoint& mouse);

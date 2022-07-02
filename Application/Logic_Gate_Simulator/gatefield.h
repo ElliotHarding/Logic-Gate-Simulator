@@ -60,6 +60,8 @@ public:
     void AddGate(Gate* go, const bool& newlySpawned = true);
     void DeleteGate(Gate* g);
     void ForgetChild(Gate* g);
+    void ForgetUpdateRequest(Gate* g);
+    void RequestUpdateGate(Gate* g);
 
     //Saving
     void StartSaveGateCollection(GateCollection* pGateCollection);
@@ -119,7 +121,8 @@ private:
     QString m_name = "Unknown";
 
     //Gates
-    std::vector<Gate*> m_allGates;   
+    std::vector<Gate*> m_allGates;
+    std::vector<Gate*> m_gatesToUpdate;
     void moveToFront(const uint& index, std::vector<Gate*>& vec);
     uint m_gateUpdateFrequencyMs = 200;
 

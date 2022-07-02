@@ -336,9 +336,13 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         m_pParentField->UpdateGateSelected(nullptr);
 
         if (m_pParentGateCollection)
+        {
             m_pParentGateCollection->ForgetGate(this);
-        else
+        }
+        else if(m_pParentField)
+        {
             m_pParentField->ForgetChild(this);
+        }
 
         delete this;
     }
@@ -349,10 +353,13 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         m_pParentField->UpdateGateSelected(nullptr);
 
         if (m_pParentGateCollection)
+        {
             m_pParentGateCollection->ForgetGate(this);
-        else
+        }
+        else if(m_pParentField)
+        {
             m_pParentField->ForgetChild(this);
-
+        }
         delete this;
     }
 

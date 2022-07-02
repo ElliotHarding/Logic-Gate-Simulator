@@ -3,6 +3,7 @@
 GateConstantInactive::GateConstantInactive(const int& x, const int& y, const id& out) :
     GateSingleOutput::GateSingleOutput(x, y, GATE_CONST_INACTIVE, out)
 {
+    m_pOutput->setValue(0);
 }
 
 void GateConstantInactive::UpdateOutput()

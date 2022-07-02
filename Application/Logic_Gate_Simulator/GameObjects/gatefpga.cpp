@@ -260,6 +260,16 @@ uint GateFPGA::getNumOutputs() const
     return m_outputNodes.size();
 }
 
+std::vector<Node*> GateFPGA::getInputNodes()
+{
+    return m_inputNodes;
+}
+
+std::vector<Node*> GateFPGA::getOutputNodes()
+{
+    return m_outputNodes;
+}
+
 QString GateFPGA::getScript() const
 {
     return m_script;

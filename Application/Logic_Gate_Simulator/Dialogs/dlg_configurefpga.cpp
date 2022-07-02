@@ -4,6 +4,7 @@
 #include "GameObjects/gatefpga.h"
 
 #include <QDebug>
+#include <cmath>
 
 DLG_ConfigureFPGA::DLG_ConfigureFPGA(QWidget *parent) :
     QDialog(parent),
@@ -89,4 +90,67 @@ void DLG_ConfigureFPGA::setEndScript(const uint& numOutputs)
     }
     outputValues = outputValues.left(outputValues.length()-2);
     ui->lbl_endScript->setText("Out vars: " + outputValues);
+}
+
+std::list<bool> genInputs(const uint& a, const uint& len)
+{
+    std::list<bool> inputs;
+    int mask = 1;
+    for(uint i = 0; i < len; i++)
+    {
+        if((mask&a) >= 1)
+            inputs.push_front(true);
+        else
+            inputs.push_front(false);
+        mask<<=1;
+    }
+    return inputs;
+}
+
+void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
+{
+    if(!m_pFpga)
+    {
+        qDebug() << "DLG_ConfigureFPGA::on_btn_genCircuit_clicked - m_pFpga is nullptr";
+        return;
+    }
+    std::list<std::list<bool>> inValues;
+    std::list<std::list<bool>> outValues;
+
+    m_pFpga->setInputs(ui->spinBox_inputs->value());
+    m_pFpga->setOutputs(ui->spinBox_outputs->value());
+    m_pFpga->setScript(ui->textEdit_script->toPlainText());
+
+    std::vector<Node*> inputNodes = m_pFpga->getInputNodes();
+    std::vector<Node*> outputNodes = m_pFpga->getOutputNodes();
+
+    const uint size = pow(2, inputNodes.size());
+    for (uint i = 0; i < size; i++)
+    {
+        //Generate input values
+        std::list<bool> genInputValues = genInputs(i, inputNodes.size());
+        inValues.push_back(genInputValues);
+
+        //Set input nodes to generated values
+        uint iNode = 0;
+        for (std::list<bool>::iterator it = genInputValues.begin(); it != genInputValues.end(); ++it)
+        {
+            inputNodes[iNode]->setValue(*it);
+            iNode++;
+        }
+
+        //Run script
+        m_pFpga->UpdateOutput();
+
+        //Collect output node values
+        std::list<bool> genOutputValues;
+        for(iNode = 0; iNode < outputNodes.size(); iNode++)
+        {
+            genOutputValues.push_back(outputNodes[iNode]->value());
+        }
+        outValues.push_back(genOutputValues);
+    }
+
+    BooleanExpression expression;
+
 }

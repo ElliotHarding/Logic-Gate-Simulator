@@ -34,6 +34,8 @@ public:
     void setOutputs(const uint& numOutputs);
     uint getNumInputs() const;
     uint getNumOutputs() const;
+    std::vector<Node*> getInputNodes();
+    std::vector<Node*> getOutputNodes();
     QString getScript() const;
     void setScript(const QString& script);
 

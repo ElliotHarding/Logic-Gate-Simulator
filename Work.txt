@@ -3,3 +3,12 @@ bagvp = aSmellyDog69_
 
 
 do we need offsetGates if we pan painter?
+
+
+
+struct RunOfGates
+    {
+        std::vector<bool> in;
+        bool result;
+    };
+    typedef std::vector<RunOfGates> TruthTable;

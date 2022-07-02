@@ -23,8 +23,15 @@ private slots:
     void on_spinBox_outputs_valueChanged(int numOutputs);
 
     void on_btn_setScript_clicked();
+    void on_btn_genCircuit_clicked();
 
 private:
+    struct BooleanExpression
+    {
+        std::vector<char> letter;
+        std::vector<bool> inverted;
+    };
+
     Ui::DLG_ConfigureFPGA *ui;
 
     void setStartScript(const uint& numInputs);

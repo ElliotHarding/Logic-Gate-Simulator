@@ -120,6 +120,19 @@
     <string>Outvars:</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_genCircuit">
+   <property name="geometry">
+    <rect>
+     <x>494</x>
+     <y>390</y>
+     <width>101</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Generate Circuit</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

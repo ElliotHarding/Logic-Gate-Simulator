@@ -24,9 +24,6 @@ DLG_GateInfo::~DLG_GateInfo()
 
 void DLG_GateInfo::setGate(Gate *g)
 {
-    if (g == m_pGateDisplayed)
-        return;
-
     m_pGateDisplayed = g;
     if(g == nullptr)
     {

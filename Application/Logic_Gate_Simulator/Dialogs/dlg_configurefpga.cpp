@@ -7,7 +7,8 @@
 
 DLG_ConfigureFPGA::DLG_ConfigureFPGA(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DLG_ConfigureFPGA)
+    ui(new Ui::DLG_ConfigureFPGA),
+    m_pFpga(nullptr)
 {
     ui->setupUi(this);
 }
@@ -58,6 +59,7 @@ void DLG_ConfigureFPGA::on_btn_setScript_clicked()
         m_pFpga->setInputs(ui->spinBox_inputs->value());
         m_pFpga->setOutputs(ui->spinBox_outputs->value());
         m_pFpga->setScript(ui->textEdit_script->toPlainText());
+        m_pFpga = nullptr;
     }
     else
     {

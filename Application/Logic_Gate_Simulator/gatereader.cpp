@@ -51,6 +51,9 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
         return false;
     }
 
+    const uint frequency = tryReadInt(gateField.attribute(Settings::GateFieldFrequencyTag), 200);
+    pNewGateFeild->setUpdateFrequency(frequency);
+
     const std::vector<Gate*> gates = readGates(gateField);
     file.close();
 

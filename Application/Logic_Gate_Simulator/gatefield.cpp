@@ -18,23 +18,21 @@ const float PanSpeed = 0.75;
 const qreal ZoomScrollSpeed = 0.05;
 
 const uint MaxGateFieldHistory = 20;
-
-const uint DefaultUpdateFrequencyMs = 200;
 }
 
-GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, DLG_SaveGateCollection* pSaveGateCollectionDialog) :
+GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, DLG_SaveGateCollection* pSaveGateCollectionDialog, const uint& updateFrequency) :
     QWidget(pParent),
     m_pParent(pParent),
     m_name(name),
     m_zoomFactor(zoomFactor),
-    m_pDlgSaveGateCollection(pSaveGateCollectionDialog)
+    m_pDlgSaveGateCollection(pSaveGateCollectionDialog),
+    m_gateUpdateFrequencyMs(updateFrequency)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
 
     connect(&m_gateUpdateTimer, SIGNAL(timeout()), this, SLOT(onRequestUpdateGates()));
     m_gateUpdateTimer.setTimerType(Qt::PreciseTimer);
-    m_gateUpdateFrequencyMs = Settings::DefaultUpdateFrequencyMs;
 
     //Todo : only running when page is showing? Or make use of multiple pages running
     m_gateUpdateTimer.start(m_gateUpdateFrequencyMs);
@@ -139,6 +137,7 @@ void GateField::SetZoomLevel(const qreal& zoom)
 void GateField::SaveData(QDomDocument& saveFile)
 {
     QDomElement gateFieldElement = saveFile.createElement(Settings::GateFieldElement);
+    gateFieldElement.setAttribute(Settings::GateFieldFrequencyTag, QString::number(m_gateUpdateFrequencyMs));
     for (size_t index = 0; index < m_allGates.size(); index++)
     {        
         m_allGates[index]->SaveData(saveFile, gateFieldElement);

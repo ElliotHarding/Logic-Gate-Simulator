@@ -14,6 +14,7 @@
 namespace Settings
 {
 const QString GateFieldElement = "GateField";
+const QString GateFieldFrequencyTag = "Frequency";
 }
 
 class DLG_SaveGateCollection;
@@ -52,7 +53,7 @@ class GateField : public QWidget
 public:
 
     //Construction
-    GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, DLG_SaveGateCollection* pSaveGateCollectionDialog);
+    GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, DLG_SaveGateCollection* pSaveGateCollectionDialog, const uint& updateFrequency = 200);
     ~GateField();
 
     //Gates

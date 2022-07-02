@@ -175,16 +175,26 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
                 return pPossibleClickedObject;
             }
         }
-    }
-
-    GameObject* pClicked = Gate::checkClicked(mouse);
-    if(!pClicked)
-    {
         return checkButtonClick(mouse);
     }
+
+    else if(m_dragMode == DragAll)
+    {
+        GameObject* pClicked = Gate::checkClicked(mouse);
+        if(!pClicked)
+        {
+            return checkButtonClick(mouse);
+        }
+        else
+        {
+            return pClicked;
+        }
+    }
+
     else
     {
-        return pClicked;
+        qDebug() << "GateCollection::checkClicked - Undefined drag mode!";
+        return nullptr;
     }
 }
 

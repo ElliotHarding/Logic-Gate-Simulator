@@ -1,9 +1,5 @@
-BIG TODO: cloning nodes needs to be managed in terms of linking. Also clearing backups without deleting is wasting memory.
+GateCollection inside GateCollection on drag selecting dragMode button dosent update dlg_info correctly.
 
-
-
-Update drag all option on dlg_info for gatecollection.
-Nested gatecollection problem
 
 
 

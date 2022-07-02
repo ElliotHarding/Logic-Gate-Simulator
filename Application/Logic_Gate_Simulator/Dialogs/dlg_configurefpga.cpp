@@ -326,19 +326,22 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
         if(validRun)
         {
             GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
+            int inputY = 100;
             for(Gate* g : circuit)
             {
-                g->setPosition(300, 300);
+                g->setPosition(300, inputY+=100);
                 pNewCircuit->AddGate(g);
             }
+            inputY = 100;
             for(Gate* g : circuitInputs)
             {
-                g->setPosition(300, 300);
+                g->setPosition(200, inputY+=100); //Todo ~ not hard coded values...
                 pNewCircuit->AddGate(g);;
             }
+            inputY = 100;
             for(Gate* g : circuitOutputs)
             {
-                g->setPosition(300, 300);
+                g->setPosition(500, inputY+=100);
                 pNewCircuit->AddGate(g);
             }
             m_pFpga->GetParent()->AddGate(pNewCircuit);

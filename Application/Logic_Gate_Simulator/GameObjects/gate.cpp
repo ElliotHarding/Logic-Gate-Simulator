@@ -165,9 +165,9 @@ GateField *Gate::GetParent()
 
 void Gate::SaveGeneralData(QDomElement& element)
 {
-    element.setAttribute("type", QString::number(m_type));
-    element.setAttribute("posX", QString::number(m_geometry.x()));
-    element.setAttribute("posY", QString::number(m_geometry.y()));
+    element.setAttribute(Settings::GateTypeTag, QString::number(m_type));
+    element.setAttribute(Settings::GatePosXTag, QString::number(m_geometry.x()));
+    element.setAttribute(Settings::GatePosYTag, QString::number(m_geometry.y()));
 }
 
 void Gate::DetachNodes()

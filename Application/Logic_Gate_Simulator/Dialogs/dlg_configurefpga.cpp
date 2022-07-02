@@ -72,9 +72,9 @@ void DLG_ConfigureFPGA::setStartScript(const uint& numInputs)
     QString inputValues = "";
     for(uint i = 1; i < numInputs+1; i++)
     {
-        inputValues += "input" + QString::number(i) + ",";
+        inputValues += "input" + QString::number(i) + ", ";
     }
-    inputValues = inputValues.left(inputValues.length()-1);
+    inputValues = inputValues.left(inputValues.length()-2);
     ui->lbl_startScript->setText("In vars: " + inputValues);
 }
 
@@ -83,8 +83,8 @@ void DLG_ConfigureFPGA::setEndScript(const uint& numOutputs)
     QString outputValues = "";
     for(uint i = 1; i < numOutputs+1; i++)
     {
-        outputValues += "output" + QString::number(i) + ",";
+        outputValues += "output" + QString::number(i) + ", ";
     }
-    outputValues = outputValues.left(outputValues.length()-1);
+    outputValues = outputValues.left(outputValues.length()-2);
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }

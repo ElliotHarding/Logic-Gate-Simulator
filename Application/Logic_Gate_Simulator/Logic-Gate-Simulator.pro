@@ -32,7 +32,6 @@ SOURCES += \
     Dialogs/dlg_configurefpga.cpp \
     Dialogs/dlg_message.cpp \
     Dialogs/dlg_task.cpp \
-    Dialogs/dlg_taskmanager.cpp \
     Dialogs/dlg_textedit.cpp \
     Dialogs/widget_spawnedgate.cpp \
     GameObjects/gateeor.cpp \

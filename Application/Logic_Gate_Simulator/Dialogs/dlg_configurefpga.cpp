@@ -296,15 +296,27 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
 
             if(circuitOutsUnlinked.size() > 0)
             {
-                const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
-                const int randomIn = QRandomGenerator::global()->generateDouble() * circuitIns.size() - 1;
+                if(circuitInsUnlinked.size() > 0)
+                {
+                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
+                    const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size() - 1;
 
-                circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitIns[randomIn]);
-                circuitIns[randomIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
-                circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
+                    circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
+                    circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
+                    circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
+                    circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
+                }
+                else
+                {
+                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
+                    const int randomIn = QRandomGenerator::global()->generateDouble() * circuitIns.size() - 1;
+
+                    circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitIns[randomIn]);
+                    circuitIns[randomIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
+                    circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
+                }
             }
-
-            if(circuitInsUnlinked.size() > 0)
+            else if(circuitInsUnlinked.size() > 0)
             {
                 const int randomOut = QRandomGenerator::global()->generateDouble() * circuitOuts.size() - 1;
                 const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size() - 1;

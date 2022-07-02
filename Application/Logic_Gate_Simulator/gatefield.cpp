@@ -583,7 +583,7 @@ void GateField::checkStartDrag(const QPoint& mouse)
         if(pPossibleClickedObject != nullptr && dynamic_cast<Gate*>(pPossibleClickedObject))
         {
             m_pDraggingGate = dynamic_cast<Gate*>(pPossibleClickedObject);
-            UpdateGateSelected(m_allGates[index]);
+            UpdateGateSelected(m_pDraggingGate);
 
             //Move the dragged object to the front of the array.
             //This way next loop the object will be checked first

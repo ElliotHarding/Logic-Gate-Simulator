@@ -8,6 +8,10 @@ namespace Settings
 {
 const uint GateFpgaWidth = 100;
 
+///Edit button stuff
+const uint EditButtonSize = 50;
+const QImage ImgConfigureButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
+
 ///Node stuff
 const int InputNodesXpos = -5 - GateFpgaWidth/2;
 const int OutputNodesXpos = GateFpgaWidth/2 + 5;
@@ -18,10 +22,6 @@ const uint DefaultNumberOfNodes = 5;
 const QColor BorderColor = Qt::darkGray;
 const uint GateFpgaBorderWidth = 10;
 const QPen BorderPen(Settings::BorderColor, Settings::GateFpgaBorderWidth);
-
-///Edit button stuff
-const uint EditButtonSize = 15;
-const QColor EditButtonColor = Qt::lightGray;
 }
 
 GateFPGA::GateFPGA(const int& x, const int& y) :
@@ -97,7 +97,7 @@ void GateFPGA::draw(QPainter& painter)
 
     drawNodes(painter);
 
-    painter.fillRect(m_editButtonRect, QBrush(Settings::EditButtonColor));
+    painter.drawImage(m_editButtonRect, Settings::ImgConfigureButton);
 }
 
 GameObject* GateFPGA::checkClicked(const QPoint& mouse)
@@ -268,7 +268,7 @@ void GateFPGA::setScript(const QString& script)
 
 void GateFPGA::updateEditButtonGeometry()
 {
-    m_editButtonRect = QRect(m_geometry.right(), m_geometry.top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);
+    m_editButtonRect = QRect(m_geometry.center().x() - Settings::EditButtonSize/2, m_geometry.center().y() - Settings::EditButtonSize/2, Settings::EditButtonSize, Settings::EditButtonSize);
 }
 
 void GateFPGA::updateGeometryBasedOnNodes()

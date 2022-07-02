@@ -7,19 +7,17 @@ namespace Settings
 const uint SizeX = 20;
 const uint SizeY = 20;
 
-const uint EditZoneWidth = 8;
-const uint EditZoneHeight = 8;
+const uint EditButtonSize = 40;
+const QImage ImgConfigureButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
 
 const QFont TextFont("Helvetica", 15);
-
-const QColor EditZoneColor = Qt::gray;
 }
 
 TextLabel::TextLabel(const int &x, const int &y, const QString& text) :
     Gate(GATE_TEXT_LABEL, x, y, Settings::SizeX, Settings::SizeY),
     m_string(text),
     m_font(Settings::TextFont),
-    m_editClickZone(QRect(0,0, Settings::EditZoneWidth, Settings::EditZoneHeight))
+    m_editClickZone(QRect(0, 0, Settings::EditButtonSize, Settings::EditButtonSize))
 {
     Update(m_font, m_string);
 }
@@ -31,7 +29,7 @@ TextLabel::~TextLabel()
 
 void TextLabel::draw(QPainter& painter)
 {
-    painter.fillRect(m_editClickZone, QBrush(Settings::EditZoneColor));
+    painter.drawImage(m_editClickZone, Settings::ImgConfigureButton);
 
     painter.setFont(m_font);
     painter.drawText(m_geometry, m_string);
@@ -66,7 +64,7 @@ void TextLabel::setPosition(const int& x, const int& y)
 {
     Gate::setPosition(x, y);
 
-    m_editClickZone = QRect(geometry().right(), geometry().top(), Settings::EditZoneWidth, Settings::EditZoneHeight);
+    m_editClickZone = QRect(geometry().right(), geometry().top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);
 }
 
 Gate* TextLabel::Clone()
@@ -87,6 +85,7 @@ void TextLabel::Update(const QFont& font, const QString& string)
     //Update dimensions since text has changed:
     m_geometry.setWidth(textFontMetrics.width(m_string));
     m_geometry.setHeight(textFontMetrics.height());
+    m_editClickZone = QRect(geometry().right(), geometry().top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);
 }
 
 QString TextLabel::GetString()

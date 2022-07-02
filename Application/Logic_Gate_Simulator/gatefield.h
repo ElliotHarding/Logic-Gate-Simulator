@@ -57,6 +57,7 @@ public:
 
     //Saving
     void StartSaveGateCollection(GateCollection* pGateCollection);
+    void setName(const QString& name);
     QString name() const;
     void SaveData(QDomDocument& saveFile, QDomElement& gateFieldElement);
 

@@ -101,9 +101,6 @@ protected:
 
     QRect accountForUIOffsetts(const QRect& rect) const;
 
-    //Saving
-    Saver m_saver;
-
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
 

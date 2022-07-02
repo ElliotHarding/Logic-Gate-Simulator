@@ -198,6 +198,11 @@ void GateField::StartSaveGateCollection(GateCollection* pGateCollection)
     m_pDlgSaveGateCollection->open(pGateCollection);
 }
 
+void GateField::setName(const QString& name)
+{
+    m_name = name;
+}
+
 QString GateField::name() const
 {
     return m_name;

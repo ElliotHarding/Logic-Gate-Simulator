@@ -157,16 +157,12 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
 
     for(uint iInput = 0; iInput < inputNodes.size(); iInput++)
     {
-        GateToggle* newGateToggle = new GateToggle();
-        circuit.push_back(newGateToggle);
-        circuitInputs.push_back(newGateToggle);
+        circuitInputs.push_back(new GateToggle());
     }
 
     for(uint iOutput = 0; iOutput < outputNodes.size(); iOutput++)
     {
-        GateReciever* newGateReciever = new GateReciever();
-        circuit.push_back(newGateReciever);
-        circuitOutputs.push_back(newGateReciever);
+        circuitOutputs.push_back(new GateReciever());
     }
 
     while(true)

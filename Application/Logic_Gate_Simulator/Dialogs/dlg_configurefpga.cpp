@@ -93,21 +93,21 @@ void DLG_ConfigureFPGA::setEndScript(const uint& numOutputs)
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }
 
-std::list<bool> genInputs(const uint& a, const uint& len)
+std::vector<bool> genInputs(const uint& a, const uint& len)
 {
-    std::list<bool> inputs;
+    std::vector<bool> inputs;
     int mask = 1;
     for(uint i = 0; i < len; i++)
     {
         if((mask&a) >= 1)
-            inputs.push_front(true);
+            inputs.push_back(true);
         else
-            inputs.push_front(false);
+            inputs.push_back(false);
         mask<<=1;
     }
     return inputs;
 }
-
+#include "gatefield.h"
 void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
 {
     if(!m_pFpga)
@@ -115,8 +115,8 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
         qDebug() << "DLG_ConfigureFPGA::on_btn_genCircuit_clicked - m_pFpga is nullptr";
         return;
     }
-    std::list<std::list<bool>> inValues;
-    std::list<std::list<bool>> outValues;
+    std::vector<std::vector<bool>> inValues;
+    std::vector<std::vector<bool>> outValues;
 
     m_pFpga->setInputs(ui->spinBox_inputs->value());
     m_pFpga->setOutputs(ui->spinBox_outputs->value());
@@ -129,23 +129,21 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
     for (uint i = 0; i < size; i++)
     {
         //Generate input values
-        std::list<bool> genInputValues = genInputs(i, inputNodes.size());
+        std::vector<bool> genInputValues = genInputs(i, inputNodes.size());
         inValues.push_back(genInputValues);
 
         //Set input nodes to generated values
-        uint iNode = 0;
-        for (std::list<bool>::iterator it = genInputValues.begin(); it != genInputValues.end(); ++it)
+        for (uint iNode = 0; iNode < genInputValues.size(); iNode++)
         {
-            inputNodes[iNode]->setValue(*it);
-            iNode++;
+            inputNodes[iNode]->setValue(genInputValues[iNode]);
         }
 
         //Run script
         m_pFpga->UpdateOutput();
 
         //Collect output node values
-        std::list<bool> genOutputValues;
-        for(iNode = 0; iNode < outputNodes.size(); iNode++)
+        std::vector<bool> genOutputValues;
+        for(uint iNode = 0; iNode < outputNodes.size(); iNode++)
         {
             genOutputValues.push_back(outputNodes[iNode]->value());
         }
@@ -173,15 +171,54 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
 
     while(true)
     {
-        for (std::list<std::list<bool>>::iterator itInputRow = inValues.begin(); itInputRow != inValues.end(); ++itInputRow)
+        bool validRun = true;
+        for (uint iTableRun = 0; iTableRun < inValues.size(); iTableRun++)
         {
-            uint iInput = 0;
-            for (std::list<bool>::iterator itInput = (*itInputRow).begin(); itInput != (*itInputRow).end(); ++itInput)
+
+            //Set inputs
+            for (uint iInput = 0; iInput < inValues[iTableRun].size(); iInput++)
             {
-                circuitInputs[iInput]->SetPowerState(*itInput);
-                iInput++;
+                circuitInputs[iInput]->SetPowerState(inValues[iTableRun][iInput]);
+            }
+
+            //Update
+            for(uint iUpdate = 0; iUpdate < inputNodes.size(); iUpdate++)
+            {
+                for(Gate* pGate : circuit)
+                {
+                    pGate->UpdateOutput();
+                }
+            }
+
+            //Check outputs
+            bool validOutputs = true;
+            for(uint iOutput = 0; iOutput < outValues[iTableRun].size(); iOutput++)
+            {
+                if(circuitOutputs[iOutput]->GetValue() != outValues[iTableRun][iOutput])
+                {
+                    validOutputs = false;
+                    break;
+                }
+            }
+
+            if(!validOutputs)
+            {
+                validRun = false;
+                break;
             }
         }
+
+        if(validRun)
+        {
+            for(Gate* g : circuit)
+            {
+                g->setPosition(300, 300);
+                m_pFpga->GetParent()->AddGate(g);
+            }
+            return;
+        }
+
+
 
     }
 

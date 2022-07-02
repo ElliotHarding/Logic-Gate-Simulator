@@ -3,7 +3,9 @@
 
 #include "GameObjects/gatefpga.h"
 #include "allgates.h"
+#include "gatefield.h"
 
+#include <QRandomGenerator>
 #include <QDebug>
 #include <cmath>
 
@@ -107,8 +109,6 @@ std::vector<bool> genInputs(const uint& a, const uint& len)
     }
     return inputs;
 }
-#include "gatefield.h"
-#include <QRandomGenerator>
 
 Gate* genRandomGate()
 {
@@ -173,22 +173,33 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
             }
         }
 
-        int sameGateCounter = 0;
         while(true)
         {
             if(circuitOutsUnlinked.size() > 0)
             {
                 if(circuitInsUnlinked.size() > 0)
                 {
-                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
-                    const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size() - 1;
+                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size();
+                    const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size();
 
                     if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
                     {
-                        if(sameGateCounter++ > 10)
+                        bool different = false;
+                        for(int i = 0; i < circuitOutsUnlinked.size(); i++)
                         {
-                            return false;
+                            for(int j = 0; j < circuitInsUnlinked.size(); j++)
+                            {
+                                if(circuitOutsUnlinked[i]->GetParent() != circuitInsUnlinked[j]->GetParent())
+                                {
+                                    different = true;
+                                    break;
+                                }
+                            }
+                            if(different)
+                                break;
                         }
+                        if(!different)
+                            return false;
                         continue;
                     }
 
@@ -199,6 +210,12 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
 
                     break;
                 }
+                else
+                {
+                    return false;
+                }
+
+                /*
                 else
                 {
                     const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
@@ -218,8 +235,14 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
                     circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
 
                     break;
-                }
+                }*/
             }
+            else
+            {
+                return false;
+            }
+
+            /*
             else if(circuitInsUnlinked.size() > 0)
             {
                 const int randomOut = QRandomGenerator::global()->generateDouble() * circuitOuts.size() - 1;
@@ -239,7 +262,7 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
                 circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
 
                 break;
-            }
+            }*/
         }
     }
 

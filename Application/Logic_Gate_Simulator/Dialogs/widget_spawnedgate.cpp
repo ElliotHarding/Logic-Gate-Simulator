@@ -18,7 +18,6 @@ Widget_SpawnedGate::Widget_SpawnedGate(DLG_Home* pHome) :
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setAttribute(Qt::WA_NoSystemBackground);
     setAttribute(Qt::WA_TranslucentBackground);
-    setAttribute(Qt::WA_PaintOnScreen);
 
     setGeometry(m_pHome->geometry());
     setMouseTracking(true);

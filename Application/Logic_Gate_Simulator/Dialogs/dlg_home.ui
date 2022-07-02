@@ -814,18 +814,9 @@ QComboBox::down-arrow {
     <property name="title">
      <string>File</string>
     </property>
-    <widget class="QMenu" name="menuNew_task">
-     <property name="title">
-      <string>New task</string>
-     </property>
-     <addaction name="actionCircuit_from_truth_table_task"/>
-     <addaction name="actionTruth_table_from_circuit_task"/>
-    </widget>
     <addaction name="actionNewPage"/>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
-    <addaction name="menuNew_task"/>
-    <addaction name="actionView_Tasks"/>
     <addaction name="actionSet_Page_Name"/>
    </widget>
    <widget class="QMenu" name="menuTools">

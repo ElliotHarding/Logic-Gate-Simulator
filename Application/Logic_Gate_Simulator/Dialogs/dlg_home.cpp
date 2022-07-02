@@ -461,10 +461,6 @@ void DLG_Home::on_btn_Save_clicked()
     }
 }
 
-void DLG_Home::on_btn_tasks_clicked()
-{
-}
-
 void DLG_Home::on_btn_load_clicked()
 {
     //Promt user for gate colleciton file

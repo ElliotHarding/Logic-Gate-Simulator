@@ -131,6 +131,121 @@ Gate* genRandomGate()
     }
 }
 
+bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& circuitInputs, std::vector<GateReciever*>& circuitOutputs)
+{
+    std::vector<Node*> circuitOuts;
+    std::vector<Node*> circuitOutsUnlinked;
+    for(Gate* g : circuitInputs)
+    {
+        circuitOuts.push_back(g->getOutputNodes()[0]);
+        circuitOutsUnlinked.push_back(g->getOutputNodes()[0]);
+    }
+
+    std::vector<Node*> circuitIns;
+    std::vector<Node*> circuitInsUnlinked;
+    for(Gate* g : circuitOutputs)
+    {
+        circuitIns.push_back(g->getInputNodes()[0]);
+        circuitInsUnlinked.push_back(g->getInputNodes()[0]);
+    }
+
+    while(circuitInsUnlinked.size() > 0 || circuitOutsUnlinked.size() > 0)
+    {
+        Gate* newGate = genRandomGate();
+        if(newGate != nullptr)
+        {
+            circuit.push_back(newGate);
+
+            if(circuit.size() > 6)
+                return false;
+
+            std::vector<Node*> inNodes = newGate->getInputNodes();
+            for(Node* inNode : inNodes)
+            {
+                circuitIns.push_back(inNode);
+                circuitInsUnlinked.push_back(inNode);
+            }
+            std::vector<Node*> outNodes = newGate->getOutputNodes();
+            for(Node* outNode : outNodes)
+            {
+                circuitOuts.push_back(outNode);
+                circuitOutsUnlinked.push_back(outNode);
+            }
+        }
+
+        int sameGateCounter = 0;
+        while(true)
+        {
+            if(circuitOutsUnlinked.size() > 0)
+            {
+                if(circuitInsUnlinked.size() > 0)
+                {
+                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
+                    const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size() - 1;
+
+                    if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
+                    {
+                        if(sameGateCounter++ > 10)
+                        {
+                            return false;
+                        }
+                        continue;
+                    }
+
+                    circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
+                    circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
+                    circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
+                    circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
+
+                    break;
+                }
+                else
+                {
+                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
+                    const int randomIn = QRandomGenerator::global()->generateDouble() * circuitIns.size() - 1;
+
+                    if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitIns[randomIn]->GetParent())
+                    {
+                        if(sameGateCounter++ > 10)
+                        {
+                            return false;
+                        }
+                        continue;
+                    }
+
+                    circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitIns[randomIn]);
+                    circuitIns[randomIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
+                    circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
+
+                    break;
+                }
+            }
+            else if(circuitInsUnlinked.size() > 0)
+            {
+                const int randomOut = QRandomGenerator::global()->generateDouble() * circuitOuts.size() - 1;
+                const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size() - 1;
+
+                if(circuitOuts[randomOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
+                {
+                    if(sameGateCounter++ > 10)
+                    {
+                        return false;
+                    }
+                    continue;
+                }
+
+                circuitOuts[randomOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
+                circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOuts[randomOut]);
+                circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
+
+                break;
+            }
+        }
+    }
+
+    return true;
+}
+
 void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
 {
     if(!m_pFpga)
@@ -253,79 +368,16 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
         }
         circuit.clear();
 
-
-        std::vector<Node*> circuitOuts;
-        std::vector<Node*> circuitOutsUnlinked;
-        for(Gate* g : circuitInputs)
+        while(!createRandomCircuit(circuit, circuitInputs, circuitOutputs))
         {
-            circuitOuts.push_back(g->getOutputNodes()[0]);
-            circuitOutsUnlinked.push_back(g->getOutputNodes()[0]);
-        }
-
-        std::vector<Node*> circuitIns;
-        std::vector<Node*> circuitInsUnlinked;
-        for(Gate* g : circuitOutputs)
-        {
-            circuitIns.push_back(g->getInputNodes()[0]);
-            circuitInsUnlinked.push_back(g->getInputNodes()[0]);
-        }
-
-        while(circuitInsUnlinked.size() > 0 || circuitOutsUnlinked.size() > 0)
-        {
-            Gate* newGate = genRandomGate();
-            if(newGate != nullptr)
+            qDebug() << "Failed";
+            for(Gate* g : circuit)
             {
-                circuit.push_back(newGate);
-
-                if(circuit.size() > 5)
-                    break;
-
-                std::vector<Node*> inNodes = newGate->getInputNodes();
-                for(Node* inNode : inNodes)
-                {
-                    circuitIns.push_back(inNode);
-                    circuitInsUnlinked.push_back(inNode);
-                }
-                std::vector<Node*> outNodes = newGate->getOutputNodes();
-                for(Node* outNode : outNodes)
-                {
-                    circuitOuts.push_back(outNode);
-                    circuitOutsUnlinked.push_back(outNode);
-                }
+                delete g;
             }
-
-            if(circuitOutsUnlinked.size() > 0)
-            {
-                if(circuitInsUnlinked.size() > 0)
-                {
-                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
-                    const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size() - 1;
-
-                    circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
-                    circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
-                    circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
-                    circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
-                }
-                else
-                {
-                    const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size() - 1;
-                    const int randomIn = QRandomGenerator::global()->generateDouble() * circuitIns.size() - 1;
-
-                    circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitIns[randomIn]);
-                    circuitIns[randomIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
-                    circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
-                }
-            }
-            else if(circuitInsUnlinked.size() > 0)
-            {
-                const int randomOut = QRandomGenerator::global()->generateDouble() * circuitOuts.size() - 1;
-                const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size() - 1;
-
-                circuitOuts[randomOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
-                circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOuts[randomOut]);
-                circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
-            }
+            circuit.clear();
         }
+        qDebug() << "Passed";
     }
 
 }

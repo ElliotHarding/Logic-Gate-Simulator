@@ -24,13 +24,12 @@ DLG_Load::~DLG_Load()
 // - starting load on a paint event because then the widget is definatly displayed
 bool DLG_Load::event(QEvent *event)
 {
-    int returnValue = QWidget::event(event);
+    bool returnValue = QWidget::event(event);
 
     if (event->type() == QEvent::Paint && !m_bStartedLoad)
     {
         m_bStartedLoad = true;
         emit startLoad();
-        return true;
     }
 
     return returnValue;

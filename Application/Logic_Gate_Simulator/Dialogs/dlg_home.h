@@ -115,6 +115,7 @@ private slots:
     void on_btn_Pan_clicked();
 
     void on_btn_newPage_clicked();
+    void on_btn_setPageName_clicked();
 
     void on_btn_zoomIn_clicked();
     void on_btn_zoomOut_clicked();

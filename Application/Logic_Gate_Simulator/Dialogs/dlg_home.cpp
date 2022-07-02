@@ -63,6 +63,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         connect(ui->actionDelete, SIGNAL(triggered()), this, SLOT(on_btn_Delete_clicked()));
         connect(ui->actionZoom_2, SIGNAL(triggered()), this, SLOT(on_btn_zoomOut_clicked()));
         connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
+        connect(ui->actionSet_Page_Name, SIGNAL(triggered()), this, SLOT(on_btn_setPageName_clicked()));
     }
 
     {
@@ -433,6 +434,18 @@ void DLG_Home::on_btn_newPage_clicked()
     else
     {
         m_pDlgMessage->ShowMessage(newPageName + "Is not a valid file name!");
+    }
+}
+
+void DLG_Home::on_btn_setPageName_clicked()
+{
+    if(m_iCurrentGateField != -1)
+    {
+        m_pDlgSaveGateCollection->open(m_allGateFields[size_t(m_iCurrentGateField)]);
+    }
+    else
+    {
+        SendUserMessage("Nothing to set a name of!");
     }
 }
 

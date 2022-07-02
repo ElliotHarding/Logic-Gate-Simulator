@@ -1,35 +1,5 @@
-GateCollection inside GateCollection on drag selecting dragMode button dosent update dlg_info correctly.
-
-
-
-
 bagvp = aSmellyDog69_
 
 
 
 do we need offsetGates if we pan painter?
-
-check m_selectedGates
-
-UPON DELETING GATES IN GATECOLLECTION WHAT HAPPENS?	
-
-bool GateFPGA::UpdateClicked(int clickX, int clickY)
-{
-    bool ret = Gate::UpdateClicked(clickX, clickY);
-    if(ret)
-    {
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            OpenEditor();
-        }
-    }
-
-    return ret;
-}
-
-revisit detach nodes, i dont like the index loop
-
-
-m_bIsNested could just be determined from if m_pParentGateCollection is nullptr right?
-
-get m_bEnabled in updateoutput

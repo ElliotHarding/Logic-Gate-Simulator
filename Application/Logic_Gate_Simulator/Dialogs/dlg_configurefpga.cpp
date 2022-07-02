@@ -211,6 +211,16 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
                 g->setPosition(300, 300);
                 m_pFpga->GetParent()->AddGate(g);
             }
+            for(Gate* g : circuitInputs)
+            {
+                g->setPosition(300, 300);
+                m_pFpga->GetParent()->AddGate(g);
+            }
+            for(Gate* g : circuitOutputs)
+            {
+                g->setPosition(300, 300);
+                m_pFpga->GetParent()->AddGate(g);
+            }
             return;
         }
 

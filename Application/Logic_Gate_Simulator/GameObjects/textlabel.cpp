@@ -46,17 +46,17 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
     parentElement.appendChild(gateElement);
 }
 
-GameObject *TextLabel::checkClicked(const QPoint& mouse)
+GameObject* TextLabel::checkClicked(const QPoint& mouse)
 {
-    if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
+    if(m_editClickZone.contains(mouse))
     {
-        if(m_editClickZone.contains(mouse))
+        m_pParentField->EditTextLabel(this);
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
-            m_pParentField->EditTextLabel(this);
+            return this;
         }
         return nullptr;
     }
-
     return Gate::checkClicked(mouse);
 }
 

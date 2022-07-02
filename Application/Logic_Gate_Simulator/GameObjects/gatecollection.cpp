@@ -180,8 +180,7 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
     GameObject* pClicked = Gate::checkClicked(mouse);
     if(!pClicked)
     {
-        checkButtonClick(mouse);
-        return nullptr;
+        return checkButtonClick(mouse);
     }
     else
     {
@@ -311,14 +310,18 @@ void GateCollection::ForgetGate(Gate *g)
     UpdateContaningArea();
 }
 
-//Returns true if buttons we're clicked
-bool GateCollection::checkButtonClick(const QPoint& mouse)
+//Returns true if delete was triggered
+GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
 {
     //Save button
     if(m_saveButton.contains(mouse))
     {
         m_pParentField->StartSaveGateCollection(this);
-        return true;
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
+        {
+            return this;
+        }
+        return nullptr;
     }
 
     //Delete button
@@ -336,7 +339,7 @@ bool GateCollection::checkButtonClick(const QPoint& mouse)
             m_pParentField->ForgetChild(this);
 
         delete this;
-        return true;
+        return nullptr;
     }
 
     //Delete all button
@@ -350,29 +353,41 @@ bool GateCollection::checkButtonClick(const QPoint& mouse)
             m_pParentField->ForgetChild(this);
 
         delete this;
-        return true;
+        return nullptr;
     }
 
     /* //Optimize button
     else if (m_optimize.contains(mouse))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates, false);
-        return true;
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
+        {
+            return this;
+        }
+        return nullptr;
     }*/
 
     else if (m_dragAllButton.contains(mouse))
     {
         ToggleDragMode();
-        return true;
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
+        {
+            return this;
+        }
+        return nullptr;
     }
     /*
     else if (m_nandOptimize.contains(mouse))
     {
         m_gates = CircuitOptimizer::Optimize(m_gates, true);
-        return true;
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
+        {
+            return this;
+        }
+        return nullptr;
     }*/
 
-    return false;
+    return nullptr;
 }
 
 Gate* GateCollection::Clone()

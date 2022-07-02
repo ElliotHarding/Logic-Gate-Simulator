@@ -16,7 +16,6 @@ const QString CustomGatesLocation = "CustomGates/";
 
 const QString GateFeildFile = ".GateField";
 
-const QString GateFieldElement = "GateField";
 const QString GateCollectionElement = "GateCollection";
 }
 
@@ -391,9 +390,7 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
     }
 
     QDomDocument saveDoc(Settings::XMLElement);
-    QDomElement gateFieldElement = saveDoc.createElement(Settings::GateFieldElement);
-    pGateFeild->SaveData(saveDoc, gateFieldElement);
-    saveDoc.appendChild(gateFieldElement);
+    pGateFeild->SaveData(saveDoc);
 
     QTextStream stream(&file);
     stream << saveDoc.toString();

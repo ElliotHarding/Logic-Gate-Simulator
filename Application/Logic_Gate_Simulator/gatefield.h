@@ -11,6 +11,11 @@
 
 #include "clickmode.h"
 
+namespace Settings
+{
+const QString GateFieldElement = "GateField";
+}
+
 class DLG_SaveGateCollection;
 class DLG_Home;
 class TextLabel;
@@ -59,7 +64,7 @@ public:
     void StartSaveGateCollection(GateCollection* pGateCollection);
     void setName(const QString& name);
     QString name() const;
-    void SaveData(QDomDocument& saveFile, QDomElement& gateFieldElement);
+    void SaveData(QDomDocument& saveFile);
 
     //Actions
     void Undo();

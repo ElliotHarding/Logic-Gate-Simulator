@@ -136,12 +136,14 @@ void GateField::SetZoomLevel(const qreal& zoom)
     update();
 }
 
-void GateField::SaveData(QDomDocument& saveFile, QDomElement& gateFieldElement)
+void GateField::SaveData(QDomDocument& saveFile)
 {
+    QDomElement gateFieldElement = saveFile.createElement(Settings::GateFieldElement);
     for (size_t index = 0; index < m_allGates.size(); index++)
     {        
         m_allGates[index]->SaveData(saveFile, gateFieldElement);
     }
+    saveFile.appendChild(gateFieldElement);
 }
 
 void GateField::DeleteGate(Gate* gateToDelete)

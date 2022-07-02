@@ -254,7 +254,6 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
         circuit.clear();
 
 
-
         std::vector<Node*> circuitOuts;
         std::vector<Node*> circuitOutsUnlinked;
         for(Gate* g : circuitInputs)
@@ -277,6 +276,9 @@ void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
             if(newGate != nullptr)
             {
                 circuit.push_back(newGate);
+
+                if(circuit.size() > 5)
+                    break;
 
                 std::vector<Node*> inNodes = newGate->getInputNodes();
                 for(Node* inNode : inNodes)

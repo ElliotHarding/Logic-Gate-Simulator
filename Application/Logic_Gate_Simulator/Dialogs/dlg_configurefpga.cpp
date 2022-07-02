@@ -112,7 +112,7 @@ std::vector<bool> genInputs(const uint& a, const uint& len)
 
 Gate* genRandomGate()
 {
-    int random = QRandomGenerator::global()->generateDouble() * 7;
+    int random = QRandomGenerator::global()->generateDouble() * 10;
     switch (random)
     {
     case 0:

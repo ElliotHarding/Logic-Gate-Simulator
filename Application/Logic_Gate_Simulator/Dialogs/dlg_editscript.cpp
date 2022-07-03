@@ -44,13 +44,9 @@ void DLG_EditScript::open(GateFPGA* pFPGA)
         ui->spinBox_outputs->setValue(numOutputs);
 
         ui->textEdit_script->setText(m_pFpga->getScript());
+    }
 
-        QDialog::open();
-    }
-    else
-    {
-        qDebug() << "DLG_ScriptEdit::open - m_pFpga is nullptr";
-    }
+    QDialog::open();
 }
 
 void DLG_EditScript::on_spinBox_inputs_valueChanged(int numInputs)
@@ -269,19 +265,16 @@ TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs,
 
 void DLG_EditScript::on_btn_genCircuit_clicked()
 {
-    if(!m_pFpga)
-    {
-        qDebug() << "DLG_ScriptEdit::on_btn_genCircuit_clicked - m_pFpga is nullptr";
-        return;
-    }
-
     const uint numInputs = ui->spinBox_inputs->value();
     const uint numOutputs = ui->spinBox_outputs->value();
     const QString script = ui->textEdit_script->toPlainText();
 
-    m_pFpga->setInputs(ui->spinBox_inputs->value());
-    m_pFpga->setOutputs(ui->spinBox_outputs->value());
-    m_pFpga->setScript(ui->textEdit_script->toPlainText());
+    if(m_pFpga)
+    {
+        m_pFpga->setInputs(numInputs);
+        m_pFpga->setOutputs(numOutputs);
+        m_pFpga->setScript(script);
+    }
 
     //Generate truth table from fpga
     TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);

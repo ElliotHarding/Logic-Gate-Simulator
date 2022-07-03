@@ -43,7 +43,7 @@ private:
     void setStartScript(const uint& numInputs);
     void setEndScript(const uint& numOutputs);
 
-    void onCircuitGenSucess(std::vector<Gate*>& circuit, std::vector<GateToggle*>& circuitInputs, std::vector<GateReciever*>& circuitOutputs);
+    void onCircuitGenSucess(const std::vector<Gate*>& circuit, const std::vector<GateToggle*>& circuitInputs, const std::vector<GateReciever*>& circuitOutputs);
 
     GateFPGA* m_pFpga = nullptr;
 };

@@ -97,27 +97,30 @@ void DLG_EditScript::setEndScript(const uint& numOutputs)
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }
 
-void DLG_EditScript::onCircuitGenSucess(std::vector<Gate *> &circuit, std::vector<GateToggle *> &circuitInputs, std::vector<GateReciever *> &circuitOutputs)
+void DLG_EditScript::onCircuitGenSucess(const std::vector<Gate*>& circuit, const std::vector<GateToggle*>& circuitInputs, const std::vector<GateReciever*>& circuitOutputs)
 {
-    GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
     int inputY = 100;
     for(Gate* g : circuit)
     {
         g->setPosition(300, inputY+=100);
-        pNewCircuit->AddGate(g);
     }
+
+    GateCollection* pNewCircuit = new GateCollection(circuit);
+
     inputY = 100;
     for(Gate* g : circuitInputs)
     {
         g->setPosition(200, inputY+=100); //Todo ~ not hard coded values...
-        pNewCircuit->AddGate(g);;
+        pNewCircuit->AddGate(g);
     }
+
     inputY = 100;
     for(Gate* g : circuitOutputs)
     {
         g->setPosition(500, inputY+=100);
         pNewCircuit->AddGate(g);
     }
+
     if(m_pFpga)
     {
         m_pFpga->GetParent()->AddGate(pNewCircuit);

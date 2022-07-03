@@ -97,6 +97,40 @@ void DLG_EditScript::setEndScript(const uint& numOutputs)
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }
 
+void DLG_EditScript::onCircuitGenSucess(std::vector<Gate *> &circuit, std::vector<GateToggle *> &circuitInputs, std::vector<GateReciever *> &circuitOutputs)
+{
+    GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
+    int inputY = 100;
+    for(Gate* g : circuit)
+    {
+        g->setPosition(300, inputY+=100);
+        pNewCircuit->AddGate(g);
+    }
+    inputY = 100;
+    for(Gate* g : circuitInputs)
+    {
+        g->setPosition(200, inputY+=100); //Todo ~ not hard coded values...
+        pNewCircuit->AddGate(g);;
+    }
+    inputY = 100;
+    for(Gate* g : circuitOutputs)
+    {
+        g->setPosition(500, inputY+=100);
+        pNewCircuit->AddGate(g);
+    }
+    if(m_pFpga)
+    {
+        m_pFpga->GetParent()->AddGate(pNewCircuit);
+        m_pFpga = nullptr;
+    }
+    else
+    {
+        m_pDlgHome->AddGateToGateField(pNewCircuit);
+    }
+    close();
+    return;
+}
+
 std::vector<bool> genInputs(const uint& a, const uint& len)
 {
     std::vector<bool> inputs;
@@ -340,35 +374,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         //If random circuit matches truth table, circuit is complete.
         if(validRun)
         {
-            GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
-            int inputY = 100;
-            for(Gate* g : circuit)
-            {
-                g->setPosition(300, inputY+=100);
-                pNewCircuit->AddGate(g);
-            }
-            inputY = 100;
-            for(Gate* g : circuitInputs)
-            {
-                g->setPosition(200, inputY+=100); //Todo ~ not hard coded values...
-                pNewCircuit->AddGate(g);;
-            }
-            inputY = 100;
-            for(Gate* g : circuitOutputs)
-            {
-                g->setPosition(500, inputY+=100);
-                pNewCircuit->AddGate(g);
-            }
-            if(m_pFpga)
-            {
-                m_pFpga->GetParent()->AddGate(pNewCircuit);
-                m_pFpga = nullptr;
-            }
-            else
-            {
-                m_pDlgHome->AddGateToGateField(pNewCircuit);
-            }
-            close();
+            onCircuitGenSucess(circuit, circuitInputs, circuitOutputs);
             return;
         }
 

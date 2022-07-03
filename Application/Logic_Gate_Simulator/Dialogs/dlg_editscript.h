@@ -8,6 +8,9 @@ class DLG_EditScript;
 }
 class GateFPGA;
 class DLG_Home;
+class Gate;
+class GateToggle;
+class GateReciever;
 
 struct TruthTable
 {
@@ -39,6 +42,8 @@ private:
 
     void setStartScript(const uint& numInputs);
     void setEndScript(const uint& numOutputs);
+
+    void onCircuitGenSucess(std::vector<Gate*>& circuit, std::vector<GateToggle*>& circuitInputs, std::vector<GateReciever*>& circuitOutputs);
 
     GateFPGA* m_pFpga = nullptr;
 };

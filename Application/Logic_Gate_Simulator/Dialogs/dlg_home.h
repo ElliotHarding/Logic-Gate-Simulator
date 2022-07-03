@@ -15,7 +15,7 @@
 #include "dlg_gateinfo.h"
 #include "dlg_savegatecollection.h"
 #include "dlg_message.h"
-#include "dlg_configurefpga.h"
+#include "dlg_editscript.h"
 
 #include "movingwidget.h"
 #include "widget_advanced.h"
@@ -64,7 +64,7 @@ protected:
     //Dialogs
     DLG_GateInfo*           m_pDlgGateInfo;
     DLG_SaveGateCollection* m_pDlgSaveGateCollection;
-    DLG_ConfigureFPGA*      m_pDlgEditFPGA;
+    DLG_EditScript*         m_pDlgEditScript;
     DLG_Message*            m_pDlgMessage;
     QFileDialog*            m_pDlgLoadGates;
     QInputDialog*           m_pDlgInput;

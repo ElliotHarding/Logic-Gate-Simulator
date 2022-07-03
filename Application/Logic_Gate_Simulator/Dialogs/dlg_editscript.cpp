@@ -1,5 +1,5 @@
-#include "dlg_configurefpga.h"
-#include "ui_dlg_configurefpga.h"
+#include "dlg_editscript.h"
+#include "ui_dlg_editscript.h"
 
 #include "GameObjects/gatefpga.h"
 #include "allgates.h"
@@ -15,20 +15,20 @@ const uint MaxFailsForCircuitGen = 500;
 const uint MaxGatesInCircuit = 10;
 }
 
-DLG_ConfigureFPGA::DLG_ConfigureFPGA(QWidget *parent) :
+DLG_EditScript::DLG_EditScript(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DLG_ConfigureFPGA),
+    ui(new Ui::DLG_EditScript),
     m_pFpga(nullptr)
 {
     ui->setupUi(this);
 }
 
-DLG_ConfigureFPGA::~DLG_ConfigureFPGA()
+DLG_EditScript::~DLG_EditScript()
 {
     delete ui;
 }
 
-void DLG_ConfigureFPGA::open(GateFPGA* pFPGA)
+void DLG_EditScript::open(GateFPGA* pFPGA)
 {
     m_pFpga = pFPGA;
 
@@ -48,21 +48,21 @@ void DLG_ConfigureFPGA::open(GateFPGA* pFPGA)
     }
     else
     {
-        qDebug() << "DLG_ConfigureFPGA::open - m_pFpga is nullptr";
+        qDebug() << "DLG_ScriptEdit::open - m_pFpga is nullptr";
     }
 }
 
-void DLG_ConfigureFPGA::on_spinBox_inputs_valueChanged(int numInputs)
+void DLG_EditScript::on_spinBox_inputs_valueChanged(int numInputs)
 {
     setStartScript(numInputs);
 }
 
-void DLG_ConfigureFPGA::on_spinBox_outputs_valueChanged(int numOutputs)
+void DLG_EditScript::on_spinBox_outputs_valueChanged(int numOutputs)
 {
     setEndScript(numOutputs);
 }
 
-void DLG_ConfigureFPGA::on_btn_setScript_clicked()
+void DLG_EditScript::on_btn_setScript_clicked()
 {
     if(m_pFpga)
     {
@@ -73,13 +73,13 @@ void DLG_ConfigureFPGA::on_btn_setScript_clicked()
     }
     else
     {
-        qDebug() << "DLG_ConfigureFPGA::on_btn_setScript_clicked - m_pFpga is nullptr";
+        qDebug() << "DLG_ScriptEdit::on_btn_setScript_clicked - m_pFpga is nullptr";
     }
 
     QDialog::close();
 }
 
-void DLG_ConfigureFPGA::setStartScript(const uint& numInputs)
+void DLG_EditScript::setStartScript(const uint& numInputs)
 {
     QString inputValues = "";
     for(uint i = 1; i < numInputs+1; i++)
@@ -90,7 +90,7 @@ void DLG_ConfigureFPGA::setStartScript(const uint& numInputs)
     ui->lbl_startScript->setText("In vars: " + inputValues);
 }
 
-void DLG_ConfigureFPGA::setEndScript(const uint& numOutputs)
+void DLG_EditScript::setEndScript(const uint& numOutputs)
 {
     QString outputValues = "";
     for(uint i = 1; i < numOutputs+1; i++)
@@ -249,11 +249,11 @@ void genTruthTable(std::vector<std::vector<bool>>& inValues, std::vector<std::ve
     }
 }
 
-void DLG_ConfigureFPGA::on_btn_genCircuit_clicked()
+void DLG_EditScript::on_btn_genCircuit_clicked()
 {
     if(!m_pFpga)
     {
-        qDebug() << "DLG_ConfigureFPGA::on_btn_genCircuit_clicked - m_pFpga is nullptr";
+        qDebug() << "DLG_ScriptEdit::on_btn_genCircuit_clicked - m_pFpga is nullptr";
         return;
     }
 

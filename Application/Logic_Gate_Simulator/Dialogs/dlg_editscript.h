@@ -1,20 +1,20 @@
-#ifndef DLG_CONFIGUREFPGA_H
-#define DLG_CONFIGUREFPGA_H
+#ifndef DLG_EditScript_H
+#define DLG_EditScript_H
 
 #include <QDialog>
 
 namespace Ui {
-class DLG_ConfigureFPGA;
+class DLG_EditScript;
 }
 class GateFPGA;
 
-class DLG_ConfigureFPGA : public QDialog
+class DLG_EditScript : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DLG_ConfigureFPGA(QWidget *parent = nullptr);
-    ~DLG_ConfigureFPGA();
+    explicit DLG_EditScript(QWidget *parent = nullptr);
+    ~DLG_EditScript();
 
     void open(GateFPGA* pFPGA);
 
@@ -26,7 +26,7 @@ private slots:
     void on_btn_genCircuit_clicked();
 
 private:
-    Ui::DLG_ConfigureFPGA *ui;
+    Ui::DLG_EditScript *ui;
 
     void setStartScript(const uint& numInputs);
     void setEndScript(const uint& numOutputs);
@@ -34,4 +34,4 @@ private:
     GateFPGA* m_pFpga = nullptr;
 };
 
-#endif // DLG_CONFIGUREFPGA_H
+#endif // DLG_EditScript_H

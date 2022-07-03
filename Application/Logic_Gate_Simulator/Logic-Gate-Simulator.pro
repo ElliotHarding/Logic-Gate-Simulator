@@ -29,7 +29,7 @@ INCLUDEPATH += \
     GameObjects
 
 SOURCES += \
-    Dialogs/dlg_configurefpga.cpp \
+    Dialogs/dlg_editscript.cpp \
     Dialogs/dlg_message.cpp \
     Dialogs/dlg_task.cpp \
     Dialogs/dlg_textedit.cpp \
@@ -72,7 +72,7 @@ SOURCES += \
     GameObjects/gatenumberoutput.cpp
 
 HEADERS += \
-    Dialogs/dlg_configurefpga.h \
+    Dialogs/dlg_editscript.h \
     Dialogs/dlg_message.h \
     Dialogs/dlg_textedit.h \
     Dialogs/widget_spawnedgate.h \
@@ -116,7 +116,7 @@ HEADERS += \
     GameObjects/gatenumberoutput.h
 
 FORMS += \
-    Dialogs/dlg_configurefpga.ui \
+    Dialogs/dlg_editscript.ui \
     Dialogs/dlg_message.ui \
     Dialogs/dlg_gateinfo.ui \
     Dialogs/dlg_home.ui \

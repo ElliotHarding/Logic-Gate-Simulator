@@ -8,6 +8,12 @@ class DLG_EditScript;
 }
 class GateFPGA;
 
+struct TruthTable
+{
+    std::vector<std::vector<bool>> inValues;
+    std::vector<std::vector<bool>> outValues;
+};
+
 class DLG_EditScript : public QDialog
 {
     Q_OBJECT

@@ -219,19 +219,20 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
     return true;
 }
 
-void genTruthTable(std::vector<std::vector<bool>>& inValues, std::vector<std::vector<bool>>& outValues, const QString& script, const uint& numInputs, const uint& numOutputs)
+TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs, const uint& numOutputs)
 {
+    TruthTable truthTable;
+
     QScriptEngine engine;
     QScriptContext* pContext = engine.pushContext();//I think this gets deleted by engine destructor
 
     std::vector<QString> inputVariables;
-    std::vector<QString> outputVariables;
-
     for(uint i = 1; i <= numInputs; i++)
     {
         inputVariables.push_back("input" + QString::number(i));
     }
 
+    std::vector<QString> outputVariables;
     for(uint i = 1; i <= numOutputs; i++)
     {
         outputVariables.push_back("input" + QString::number(i));
@@ -243,7 +244,7 @@ void genTruthTable(std::vector<std::vector<bool>>& inValues, std::vector<std::ve
     {
         //Generate input values
         std::vector<bool> genInputValues = genInputs(iTableRun, numInputs);
-        inValues.push_back(genInputValues);
+        truthTable.inValues.push_back(genInputValues);
 
         //Set input values for script
         for(uint iInput = 0; iInput < numInputs; iInput++)
@@ -260,8 +261,10 @@ void genTruthTable(std::vector<std::vector<bool>>& inValues, std::vector<std::ve
         {
             genOutputValues.push_back(pContext->activationObject().property(outputVariables[iOutput]).toBool());
         }
-        outValues.push_back(genOutputValues);
+        truthTable.outValues.push_back(genOutputValues);
     }
+
+    return truthTable;
 }
 
 void DLG_EditScript::on_btn_genCircuit_clicked()
@@ -272,24 +275,26 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         return;
     }
 
+    const uint numInputs = ui->spinBox_inputs->value();
+    const uint numOutputs = ui->spinBox_outputs->value();
+    const QString script = ui->textEdit_script->toPlainText();
+
     m_pFpga->setInputs(ui->spinBox_inputs->value());
     m_pFpga->setOutputs(ui->spinBox_outputs->value());
     m_pFpga->setScript(ui->textEdit_script->toPlainText());
 
     //Generate truth table from fpga
-    std::vector<std::vector<bool>> inValues;
-    std::vector<std::vector<bool>> outValues;
-    genTruthTable(inValues, outValues, m_pFpga);
+    TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);
 
     //Setup circuit inputs and outputs
     std::vector<Gate*> circuit;
     std::vector<GateToggle*> circuitInputs;
     std::vector<GateReciever*> circuitOutputs;
-    for(int iInput = 0; iInput < ui->spinBox_inputs->value(); iInput++)
+    for(uint iInput = 0; iInput < numInputs; iInput++)
     {
         circuitInputs.push_back(new GateToggle());
     }
-    for(int iOutput = 0; iOutput < ui->spinBox_outputs->value(); iOutput++)
+    for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
     {
         circuitOutputs.push_back(new GateReciever());
     }
@@ -300,13 +305,13 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
 
         //Test circuit setup against truth table (inValues & outValues)
         bool validRun = true;
-        for (uint iTableRun = 0; iTableRun < inValues.size(); iTableRun++)
+        for (uint iTableRun = 0; iTableRun < numInputs; iTableRun++)
         {
 
             //Set inputs
-            for (uint iInput = 0; iInput < inValues[iTableRun].size(); iInput++)
+            for (uint iInput = 0; iInput < truthTable.inValues[iTableRun].size(); iInput++)
             {
-                circuitInputs[iInput]->SetPowerState(inValues[iTableRun][iInput]);
+                circuitInputs[iInput]->SetPowerState(truthTable.inValues[iTableRun][iInput]);
             }
 
             //Update
@@ -321,9 +326,9 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
 
             //Check outputs
             bool validOutputs = true;
-            for(uint iOutput = 0; iOutput < outValues[iTableRun].size(); iOutput++)
+            for(uint iOutput = 0; iOutput < truthTable.outValues[iTableRun].size(); iOutput++)
             {
-                if(circuitOutputs[iOutput]->GetValue() != outValues[iTableRun][iOutput])
+                if(circuitOutputs[iOutput]->GetValue() != truthTable.outValues[iTableRun][iOutput])
                 {
                     validOutputs = false;
                     break;

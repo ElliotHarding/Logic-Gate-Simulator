@@ -289,7 +289,7 @@ void GateCollection::AddGate(Gate *g)
 
     m_gates.push_back(g);
 
-    UpdateContaningArea();
+    //UpdateContaningArea();
 }
 
 void GateCollection::ForgetGate(Gate *g)

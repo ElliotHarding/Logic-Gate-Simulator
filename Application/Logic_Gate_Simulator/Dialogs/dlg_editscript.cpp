@@ -355,6 +355,20 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     //Begin generating random circuits until one matches truth table
     while(true)
     {
+        uint failCounter = 0;
+        while(!createRandomCircuit(circuit))
+        {
+            if(failCounter++ > Settings::MaxFailsForCircuitGen)
+            {
+                //Todo ~ check if message works
+                m_pDlgHome->SendUserMessage("Failed to generate circuit!");
+                return;
+            }
+
+            //Prep a new circuit
+            circuit.deleteMainCircuit();
+        }
+
         //If random circuit matches truth table, circuit is complete.
         if(testCircuitAgainstTruthTable(circuit, truthTable))
         {
@@ -364,21 +378,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
 
         //Prep a new circuit
         circuit.deleteMainCircuit();
-
-        uint failCounter = 0;
-        while(!createRandomCircuit(circuit))
-        {
-            if(failCounter++ > Settings::MaxFailsForCircuitGen)
-            {
-                //Todo ~ warn of failure
-                return;
-            }
-
-            //Prep a new circuit
-            circuit.deleteMainCircuit();
-        }
     }
-
 }
 
 

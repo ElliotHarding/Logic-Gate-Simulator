@@ -1,6 +1,8 @@
 #include "dlg_editscript.h"
 #include "ui_dlg_editscript.h"
 
+#include "dlg_home.h"
+
 #include "GameObjects/gatefpga.h"
 #include "allgates.h"
 #include "gatefield.h"
@@ -16,9 +18,10 @@ const uint MaxFailsForCircuitGen = 500;
 const uint MaxGatesInCircuit = 10;
 }
 
-DLG_EditScript::DLG_EditScript(QWidget *parent) :
-    QDialog(parent),
+DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
+    QDialog(pParent),
     ui(new Ui::DLG_EditScript),
+    m_pDlgHome(pParent),
     m_pFpga(nullptr)
 {
     ui->setupUi(this);
@@ -356,8 +359,15 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
                 g->setPosition(500, inputY+=100);
                 pNewCircuit->AddGate(g);
             }
-            m_pFpga->GetParent()->AddGate(pNewCircuit);
-            m_pFpga = nullptr;
+            if(m_pFpga)
+            {
+                m_pFpga->GetParent()->AddGate(pNewCircuit);
+                m_pFpga = nullptr;
+            }
+            else
+            {
+                m_pDlgHome->AddGateToGateField(pNewCircuit);
+            }
             close();
             return;
         }

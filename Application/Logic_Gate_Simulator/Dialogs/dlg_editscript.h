@@ -7,6 +7,7 @@ namespace Ui {
 class DLG_EditScript;
 }
 class GateFPGA;
+class DLG_Home;
 
 struct TruthTable
 {
@@ -19,7 +20,7 @@ class DLG_EditScript : public QDialog
     Q_OBJECT
 
 public:
-    explicit DLG_EditScript(QWidget *parent = nullptr);
+    explicit DLG_EditScript(DLG_Home* pParent);
     ~DLG_EditScript();
 
     void open(GateFPGA* pFPGA);
@@ -33,6 +34,8 @@ private slots:
 
 private:
     Ui::DLG_EditScript *ui;
+
+    DLG_Home* m_pDlgHome;
 
     void setStartScript(const uint& numInputs);
     void setEndScript(const uint& numOutputs);

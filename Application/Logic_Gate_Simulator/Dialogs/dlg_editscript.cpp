@@ -6,6 +6,7 @@
 #include "gatefield.h"
 
 #include <QRandomGenerator>
+#include <QScriptEngine>
 #include <QDebug>
 #include <cmath>
 
@@ -218,32 +219,46 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
     return true;
 }
 
-void genTruthTable(std::vector<std::vector<bool>>& inValues, std::vector<std::vector<bool>>& outValues, GateFPGA* pFpga)
+void genTruthTable(std::vector<std::vector<bool>>& inValues, std::vector<std::vector<bool>>& outValues, const QString& script, const uint& numInputs, const uint& numOutputs)
 {
-    std::vector<Node*> inputNodes = pFpga->getInputNodes();
-    std::vector<Node*> outputNodes = pFpga->getOutputNodes();
+    QScriptEngine engine;
+    QScriptContext* pContext = engine.pushContext();//I think this gets deleted by engine destructor
 
-    const uint size = pow(2, inputNodes.size());
-    for (uint i = 0; i < size; i++)
+    std::vector<QString> inputVariables;
+    std::vector<QString> outputVariables;
+
+    for(uint i = 1; i <= numInputs; i++)
+    {
+        inputVariables.push_back("input" + QString::number(i));
+    }
+
+    for(uint i = 1; i <= numOutputs; i++)
+    {
+        outputVariables.push_back("input" + QString::number(i));
+        pContext->activationObject().setProperty("output" + QString::number(i), false);
+    }
+
+    const uint size = pow(2, numInputs);
+    for (uint iTableRun = 0; iTableRun < size; iTableRun++)
     {
         //Generate input values
-        std::vector<bool> genInputValues = genInputs(i, inputNodes.size());
+        std::vector<bool> genInputValues = genInputs(iTableRun, numInputs);
         inValues.push_back(genInputValues);
 
-        //Set input nodes to generated values
-        for (uint iNode = 0; iNode < genInputValues.size(); iNode++)
+        //Set input values for script
+        for(uint iInput = 0; iInput < numInputs; iInput++)
         {
-            inputNodes[iNode]->setValue(genInputValues[iNode]);
+            pContext->activationObject().setProperty(inputVariables[iInput], (bool)genInputValues[iInput]);
         }
 
         //Run script
-        pFpga->UpdateOutput();
+        engine.evaluate(script);
 
-        //Collect output node values
+        //Collect output values from script
         std::vector<bool> genOutputValues;
-        for(uint iNode = 0; iNode < outputNodes.size(); iNode++)
+        for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
         {
-            genOutputValues.push_back(outputNodes[iNode]->value());
+            genOutputValues.push_back(pContext->activationObject().property(outputVariables[iOutput]).toBool());
         }
         outValues.push_back(genOutputValues);
     }

@@ -143,6 +143,8 @@ void GateCollection::collectLinkInfo(std::vector<NodeIds> &collection)
 
 void GateCollection::draw(QPainter& painter)
 {
+    //Todo ~ make it so don't need to update area every draw...
+    //If a subGate position is moved, call is m_pParentGateCollection UpdateContaningArea
     UpdateContaningArea();
 
     if (m_dragMode == DragAll)

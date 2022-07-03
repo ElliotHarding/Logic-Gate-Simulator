@@ -68,10 +68,6 @@ void DLG_EditScript::on_btn_setScript_clicked()
         m_pFpga->setScript(ui->textEdit_script->toPlainText());
         m_pFpga = nullptr;
     }
-    else
-    {
-        qDebug() << "DLG_ScriptEdit::on_btn_setScript_clicked - m_pFpga is nullptr";
-    }
 
     QDialog::close();
 }
@@ -235,11 +231,14 @@ TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs,
         pContext->activationObject().setProperty("output" + QString::number(i), false);
     }
 
+    std::vector<bool> genInputValues;
+    std::vector<bool> genOutputValues;
+
     const uint size = pow(2, numInputs);
     for (uint iTableRun = 0; iTableRun < size; iTableRun++)
     {
         //Generate input values
-        std::vector<bool> genInputValues = genInputs(iTableRun, numInputs);
+        genInputValues = genInputs(iTableRun, numInputs);
         truthTable.inValues.push_back(genInputValues);
 
         //Set input values for script

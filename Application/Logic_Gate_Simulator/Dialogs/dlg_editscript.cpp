@@ -301,6 +301,39 @@ TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs,
     return truthTable;
 }
 
+bool testCircuitAgainstTruthTable(Circuit& circuit, TruthTable& truthTable)
+{
+    for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
+    {
+        //Set inputs
+        for (uint iInput = 0; iInput < circuit.inputs.size(); iInput++)
+        {
+            circuit.inputs[iInput]->SetPowerState(truthTable.inValues[iTableRun][iInput]);
+        }
+
+        //Update
+        //Very inefficient... Todo ~ improve this
+        for(uint iUpdate = 0; iUpdate < circuit.mainGates.size(); iUpdate++)
+        {
+            for(Gate* pGate : circuit.mainGates)
+            {
+                pGate->UpdateOutput();
+            }
+        }
+
+        //Check outputs
+        for(uint iOutput = 0; iOutput < circuit.outputs.size(); iOutput++)
+        {
+            if(circuit.outputs[iOutput]->GetValue() != truthTable.outValues[iTableRun][iOutput])
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 void DLG_EditScript::on_btn_genCircuit_clicked()
 {
     const uint numInputs = ui->spinBox_inputs->value();
@@ -314,7 +347,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         m_pFpga->setScript(script);
     }
 
-    //Generate truth table from fpga
+    //Generate truth table from script
     TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);
 
     Circuit circuit(numInputs, numOutputs);
@@ -322,48 +355,8 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     //Begin generating random circuits until one matches truth table
     while(true)
     {
-
-        //Test circuit setup against truth table (inValues & outValues)
-        bool validRun = true;
-        for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
-        {
-
-            //Set inputs
-            for (uint iInput = 0; iInput < numInputs; iInput++)
-            {
-                circuit.inputs[iInput]->SetPowerState(truthTable.inValues[iTableRun][iInput]);
-            }
-
-            //Update
-            //Very inefficient... Todo ~ improve this
-            for(uint iUpdate = 0; iUpdate < circuit.mainGates.size(); iUpdate++)
-            {
-                for(Gate* pGate : circuit.mainGates)
-                {
-                    pGate->UpdateOutput();
-                }
-            }
-
-            //Check outputs
-            bool validOutputs = true;
-            for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
-            {
-                if(circuit.outputs[iOutput]->GetValue() != truthTable.outValues[iTableRun][iOutput])
-                {
-                    validOutputs = false;
-                    break;
-                }
-            }
-
-            if(!validOutputs)
-            {
-                validRun = false;
-                break;
-            }
-        }
-
         //If random circuit matches truth table, circuit is complete.
-        if(validRun)
+        if(testCircuitAgainstTruthTable(circuit, truthTable))
         {
             onCircuitGenSucess(circuit);
             return;

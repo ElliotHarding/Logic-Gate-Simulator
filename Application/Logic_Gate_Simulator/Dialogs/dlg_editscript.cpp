@@ -97,25 +97,25 @@ void DLG_EditScript::setEndScript(const uint& numOutputs)
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }
 
-void DLG_EditScript::onCircuitGenSucess(const std::vector<Gate*>& circuit, const std::vector<GateToggle*>& circuitInputs, const std::vector<GateReciever*>& circuitOutputs)
+void DLG_EditScript::onCircuitGenSucess(const Circuit& circuit)
 {
     int inputY = 100;
-    for(Gate* g : circuit)
+    for(Gate* g : circuit.mainGates)
     {
         g->setPosition(300, inputY+=100);
     }
 
-    GateCollection* pNewCircuit = new GateCollection(circuit);
+    GateCollection* pNewCircuit = new GateCollection(circuit.mainGates);
 
     inputY = 100;
-    for(Gate* g : circuitInputs)
+    for(Gate* g : circuit.inputs)
     {
         g->setPosition(200, inputY+=100); //Todo ~ not hard coded values...
         pNewCircuit->AddGate(g);
     }
 
     inputY = 100;
-    for(Gate* g : circuitOutputs)
+    for(Gate* g : circuit.outputs)
     {
         g->setPosition(500, inputY+=100);
         pNewCircuit->AddGate(g);
@@ -131,7 +131,6 @@ void DLG_EditScript::onCircuitGenSucess(const std::vector<Gate*>& circuit, const
         m_pDlgHome->AddGateToGateField(pNewCircuit);
     }
     close();
-    return;
 }
 
 std::vector<bool> genInputs(const uint& a, const uint& len)
@@ -170,16 +169,16 @@ Gate* genRandomGate()
     }
 }
 
-bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& circuitInputs, std::vector<GateReciever*>& circuitOutputs)
+bool createRandomCircuit(Circuit& circuit)
 {
     std::vector<Node*> circuitOutsUnlinked;
-    for(Gate* g : circuitInputs)
+    for(Gate* g : circuit.inputs)
     {
         circuitOutsUnlinked.push_back(g->getOutputNodes()[0]);
     }
 
     std::vector<Node*> circuitInsUnlinked;
-    for(Gate* g : circuitOutputs)
+    for(Gate* g : circuit.outputs)
     {
         circuitInsUnlinked.push_back(g->getInputNodes()[0]);
     }
@@ -189,9 +188,9 @@ bool createRandomCircuit(std::vector<Gate*>& circuit, std::vector<GateToggle*>& 
         Gate* newGate = genRandomGate();
         if(newGate != nullptr)
         {
-            circuit.push_back(newGate);
+            circuit.mainGates.push_back(newGate);
 
-            if(circuit.size() > Settings::MaxGatesInCircuit)
+            if(circuit.mainGates.size() > Settings::MaxGatesInCircuit)
                 return false;
 
             std::vector<Node*> inNodes = newGate->getInputNodes();
@@ -274,8 +273,8 @@ TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs,
     std::vector<bool> genInputValues;
     std::vector<bool> genOutputValues;
 
-    const uint size = pow(2, numInputs);
-    for (uint iTableRun = 0; iTableRun < size; iTableRun++)
+    truthTable.size = pow(2, numInputs);
+    for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
     {
         //Generate input values
         genInputValues = genInputs(iTableRun, numInputs);
@@ -318,18 +317,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     //Generate truth table from fpga
     TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);
 
-    //Setup circuit inputs and outputs
-    std::vector<Gate*> circuit;
-    std::vector<GateToggle*> circuitInputs;
-    std::vector<GateReciever*> circuitOutputs;
-    for(uint iInput = 0; iInput < numInputs; iInput++)
-    {
-        circuitInputs.push_back(new GateToggle());
-    }
-    for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
-    {
-        circuitOutputs.push_back(new GateReciever());
-    }
+    Circuit circuit(numInputs, numOutputs);
 
     //Begin generating random circuits until one matches truth table
     while(true)
@@ -337,20 +325,20 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
 
         //Test circuit setup against truth table (inValues & outValues)
         bool validRun = true;
-        for (uint iTableRun = 0; iTableRun < numInputs; iTableRun++)
+        for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
         {
 
             //Set inputs
-            for (uint iInput = 0; iInput < truthTable.inValues[iTableRun].size(); iInput++)
+            for (uint iInput = 0; iInput < numInputs; iInput++)
             {
-                circuitInputs[iInput]->SetPowerState(truthTable.inValues[iTableRun][iInput]);
+                circuit.inputs[iInput]->SetPowerState(truthTable.inValues[iTableRun][iInput]);
             }
 
             //Update
             //Very inefficient... Todo ~ improve this
-            for(uint iUpdate = 0; iUpdate < circuit.size(); iUpdate++)
+            for(uint iUpdate = 0; iUpdate < circuit.mainGates.size(); iUpdate++)
             {
-                for(Gate* pGate : circuit)
+                for(Gate* pGate : circuit.mainGates)
                 {
                     pGate->UpdateOutput();
                 }
@@ -358,9 +346,9 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
 
             //Check outputs
             bool validOutputs = true;
-            for(uint iOutput = 0; iOutput < truthTable.outValues[iTableRun].size(); iOutput++)
+            for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
             {
-                if(circuitOutputs[iOutput]->GetValue() != truthTable.outValues[iTableRun][iOutput])
+                if(circuit.outputs[iOutput]->GetValue() != truthTable.outValues[iTableRun][iOutput])
                 {
                     validOutputs = false;
                     break;
@@ -377,27 +365,15 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         //If random circuit matches truth table, circuit is complete.
         if(validRun)
         {
-            onCircuitGenSucess(circuit, circuitInputs, circuitOutputs);
+            onCircuitGenSucess(circuit);
             return;
         }
 
         //Prep a new circuit
-        for(Gate* g : circuit)
-        {
-            delete g;
-        }
-        circuit.clear();
-        for(Gate* g : circuitInputs)
-        {
-            g->DetachNodes();
-        }
-        for(Gate* g : circuitOutputs)
-        {
-            g->DetachNodes();
-        }
+        circuit.deleteMainCircuit();
 
         uint failCounter = 0;
-        while(!createRandomCircuit(circuit, circuitInputs, circuitOutputs))
+        while(!createRandomCircuit(circuit))
         {
             if(failCounter++ > Settings::MaxFailsForCircuitGen)
             {
@@ -406,20 +382,64 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
             }
 
             //Prep a new circuit
-            for(Gate* g : circuit)
-            {
-                delete g;
-            }
-            circuit.clear();
-            for(Gate* g : circuitInputs)
-            {
-                g->DetachNodes();
-            }
-            for(Gate* g : circuitOutputs)
-            {
-                g->DetachNodes();
-            }
+            circuit.deleteMainCircuit();
         }
     }
 
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+/// \brief Circuit::Circuit
+/// \param numInputs
+/// \param numOutputs
+///
+Circuit::Circuit(const uint &numInputs, const uint &numOutputs)
+{
+    for(uint iInput = 0; iInput < numInputs; iInput++)
+    {
+        inputs.push_back(new GateToggle());
+    }
+    for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
+    {
+        outputs.push_back(new GateReciever());
+    }
+}
+
+void Circuit::deleteAllGates()
+{
+    for(Gate* g : mainGates)
+    {
+        delete g;
+    }
+    mainGates.clear();
+    for(Gate* g : inputs)
+    {
+        delete g;
+    }
+    inputs.clear();
+    for(Gate* g : outputs)
+    {
+        delete g;
+    }
+    outputs.clear();
+}
+
+void Circuit::deleteMainCircuit()
+{
+    for(Gate* g : mainGates)
+    {
+        delete g;
+    }
+    mainGates.clear();
+
+    //Todo ~ find out why this is needed!
+    for(Gate* g : inputs)
+    {
+        g->DetachNodes();
+    }
+    for(Gate* g : outputs)
+    {
+        g->DetachNodes();
+    }
 }

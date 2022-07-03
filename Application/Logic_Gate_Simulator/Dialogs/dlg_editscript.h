@@ -16,6 +16,21 @@ struct TruthTable
 {
     std::vector<std::vector<bool>> inValues;
     std::vector<std::vector<bool>> outValues;
+    uint size;
+};
+
+class Circuit
+{
+public:
+    Circuit(const uint& inputs, const uint& outputs);
+
+    //Not done in destructor cuz we might want to use em elsewhere
+    void deleteAllGates();
+    void deleteMainCircuit();
+
+    std::vector<Gate*> mainGates;
+    std::vector<GateToggle*> inputs;
+    std::vector<GateReciever*> outputs;
 };
 
 class DLG_EditScript : public QDialog
@@ -43,7 +58,7 @@ private:
     void setStartScript(const uint& numInputs);
     void setEndScript(const uint& numOutputs);
 
-    void onCircuitGenSucess(const std::vector<Gate*>& circuit, const std::vector<GateToggle*>& circuitInputs, const std::vector<GateReciever*>& circuitOutputs);
+    void onCircuitGenSucess(const Circuit& circuit);
 
     GateFPGA* m_pFpga = nullptr;
 };

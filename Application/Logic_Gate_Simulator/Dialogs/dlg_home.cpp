@@ -9,6 +9,8 @@
 namespace Settings
 {
 const QPoint UiOffset = QPoint(0, 20); //Todo ~ figure out why this is needed
+
+const QString DefaultPageName = "New Page";
 }
 
 DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *parent) :
@@ -67,7 +69,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
     }
 
     {
-        NewlySpawnedGateField("New tab");
+        NewlySpawnedGateField(Settings::DefaultPageName);
     }
 
     pProgressBar->setValue(100);
@@ -147,15 +149,7 @@ void DLG_Home::SendUserMessage(const QString& message)
 ///
 void DLG_Home::NewlySpawnedGate(Gate* pGate, const QPoint& spawnPosition)
 {
-    if(m_iCurrentGateField != -1)
-    {
-        m_pSpawnedGateWidget->open(pGate, spawnPosition);
-    }
-    else
-    {
-        //Failed to add gate so discard it
-        delete pGate;
-    }
+    m_pSpawnedGateWidget->open(pGate, spawnPosition);
 }
 
 ///////////////////////////////////////////
@@ -170,8 +164,7 @@ void DLG_Home::AddGateToGateField(Gate* pGate)
     //Check for current gatefield
     if(m_iCurrentGateField == -1)
     {
-        delete pGate;
-        return;
+        NewlySpawnedGateField(Settings::DefaultPageName);
     }
 
     //Position of pGate currently is relative to DLG_Home
@@ -186,6 +179,7 @@ void DLG_Home::AddGateToGateField(Gate* pGate)
     }
     else
     {
+        SendUserMessage("Must place gate onto page!");
         delete pGate;
     }
 }
@@ -211,7 +205,7 @@ void DLG_Home::NewlySpawnedGateField(const QString& name)
     GateField* newGF = createNewGateField(name);
     m_allGateFields.push_back(newGF);
     m_iCurrentGateField = int8_t(m_allGateFields.size()-1);
-    ui->PlayField->addTab(newGF,tr(name.toUtf8()));
+    ui->PlayField->addTab(newGF, tr(name.toUtf8()));
 }
 
 GateField *DLG_Home::createNewGateField(const QString& name)

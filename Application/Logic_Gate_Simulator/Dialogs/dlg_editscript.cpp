@@ -253,7 +253,6 @@ TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs,
     }
 
     std::vector<bool> genInputValues;
-    std::vector<bool> genOutputValues;
 
     truthTable.size = pow(2, numInputs);
     for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)

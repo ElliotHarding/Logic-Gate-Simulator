@@ -136,7 +136,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
     for (uint iTableRun = 0; iTableRun < table.size; iTableRun++)
     {
         //Generate input values
-        std::vector<bool> inputValues = genInputs(iTableRun, numInputs);
+        std::vector<bool> inputValues = table.genInputs(iTableRun, numInputs);
         table.inValues.push_back(inputValues);
 
         for(uint iInput = 0; iInput < numInputs; iInput++)

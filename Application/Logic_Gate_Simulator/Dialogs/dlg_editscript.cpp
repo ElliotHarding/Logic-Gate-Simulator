@@ -244,7 +244,7 @@ TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs,
     for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
     {
         //Generate input values
-        genInputValues = genInputs(iTableRun, numInputs);
+        genInputValues = truthTable.genInputs(iTableRun, numInputs);
         truthTable.inValues.push_back(genInputValues);
 
         //Set input values for script

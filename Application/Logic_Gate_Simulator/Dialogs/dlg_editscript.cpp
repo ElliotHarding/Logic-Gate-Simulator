@@ -14,8 +14,6 @@
 
 namespace Settings
 {
-const uint MaxFailsForCircuitGen = 500;
-const uint MaxFailsForCircuitGenCheck = 500;
 const uint MaxGatesInCircuit = 10;
 }
 
@@ -306,6 +304,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     const uint numInputs = ui->spinBox_inputs->value();
     const uint numOutputs = ui->spinBox_outputs->value();
     const QString script = ui->textEdit_script->toPlainText();
+    const int maxSeconds = ui->spinBox_maxGenTime->value();
 
     if(m_pFpga)
     {
@@ -319,22 +318,20 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
 
     Circuit circuit(numInputs, numOutputs);
 
+    const clock_t startTimeMs = clock();
+
     //Begin generating random circuits until one matches truth table
-    uint testCounter = 0;
     while(true)
     {
-        //Todo ~ make setting avaliable to user. Or do time setting.
-        if(testCounter++ > Settings::MaxFailsForCircuitGenCheck)
+        if((clock() - startTimeMs)/1000 > maxSeconds)
         {
             m_pDlgHome->SendUserMessage("Failed to generate circuit!");
             return;
         }
 
-        uint createCounter = 0;
         while(!createRandomCircuit(circuit))
         {
-            //Todo ~ make setting avaliable to user. Or do time setting.
-            if(createCounter++ > Settings::MaxFailsForCircuitGen)
+            if((clock() - startTimeMs)/1000 > maxSeconds)
             {
                 m_pDlgHome->SendUserMessage("Failed to generate circuit!");
                 return;

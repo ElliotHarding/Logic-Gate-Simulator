@@ -86,6 +86,7 @@ void DLG_Home::InitalizeDialogsAndWidgets()
     m_pDlgMessage = new DLG_Message(this);
     m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
     m_pDlgEditScript = new DLG_EditScript(this);
+    m_pDlgTruthTable = new DLG_TruthTable(this);
 
     //Other widgets
     m_pSpawnedGateWidget = new Widget_SpawnedGate(this);
@@ -129,6 +130,7 @@ DLG_Home::~DLG_Home()
     delete m_pDlgMessage;
     delete m_pDlgTextLabelEdit;
     delete m_pDlgEditScript;
+    delete m_pDlgTruthTable;
 
     delete m_pZoomSlider;
 
@@ -298,6 +300,11 @@ void DLG_Home::setGateFieldName(GateField* pGateField, const QString& name)
 {
     ui->PlayField->setTabText(ui->PlayField->indexOf(pGateField), name);
     pGateField->setName(name);
+}
+
+void DLG_Home::showTruthTable(const TruthTable& truthTable)
+{
+    m_pDlgTruthTable->open(truthTable);
 }
 
 void DLG_Home::moveEvent(QMoveEvent* event)

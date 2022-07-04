@@ -16,6 +16,7 @@
 #include "dlg_savegatecollection.h"
 #include "dlg_message.h"
 #include "dlg_editscript.h"
+#include "dlg_truthtable.h"
 
 #include "movingwidget.h"
 #include "widget_advanced.h"
@@ -55,6 +56,7 @@ public:
     void EditTextLabel(TextLabel* pTextLabelToEdit);
     void editFPGA(GateFPGA* pFPGA);
     void setGateFieldName(GateField* pGateField, const QString& name);
+    void showTruthTable(const TruthTable& truthTable);
 
 protected:
     void moveEvent(QMoveEvent* event) override;
@@ -69,6 +71,7 @@ protected:
     QFileDialog*            m_pDlgLoadGates;
     QInputDialog*           m_pDlgInput;
     DLG_LabelGateEdit*      m_pDlgTextLabelEdit;
+    DLG_TruthTable*         m_pDlgTruthTable;
 
     //Gate widgets
     Widget_AllGates*    m_pWidgetAllGates;

@@ -17,20 +17,15 @@ class DLG_TruthTable : public QDialog
     Q_OBJECT
 
 public:
-    explicit DLG_TruthTable(QWidget *parent = nullptr);
+    explicit DLG_TruthTable(QWidget* pParent);
     ~DLG_TruthTable();
 
     //Open to display truth table
     void open(const TruthTable& truthTable);
 
-    //Open to create new truth table
-    void open();
-
 private:
     Ui::DLG_TruthTable *ui;
-
-    std::vector<std::vector<BinaryLabel*>> m_resultLabels;
-    std::vector<QLabel*> m_labelBin;
+    std::vector<QLabel*> m_tableLabels;
 };
 
 class BinaryLabel : public QLabel
@@ -38,14 +33,12 @@ class BinaryLabel : public QLabel
     Q_OBJECT
 
 public:
-    BinaryLabel(QWidget* parent, const bool& value = false, const bool& editDisabled = false);
+    BinaryLabel(QWidget* parent, const bool& value = false);
 
     bool value();
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;
-
-    bool m_bEditDisabled = false;
 };
 
 #endif // DLG_TRUTHTABLE_H

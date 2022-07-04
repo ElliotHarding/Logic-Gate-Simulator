@@ -341,7 +341,6 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         //Todo ~ make setting avaliable to user. Or do time setting.
         if(testCounter++ > Settings::MaxFailsForCircuitGenCheck)
         {
-            m_pFpga = nullptr;
             m_pDlgHome->SendUserMessage("Failed to generate circuit!");
             return;
         }
@@ -352,7 +351,6 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
             //Todo ~ make setting avaliable to user. Or do time setting.
             if(createCounter++ > Settings::MaxFailsForCircuitGen)
             {
-                m_pFpga = nullptr;
                 m_pDlgHome->SendUserMessage("Failed to generate circuit!");
                 return;
             }

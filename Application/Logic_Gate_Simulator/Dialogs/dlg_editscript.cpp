@@ -249,7 +249,7 @@ TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs,
     std::vector<QString> outputVariables;
     for(uint i = 1; i <= numOutputs; i++)
     {
-        outputVariables.push_back("input" + QString::number(i));
+        outputVariables.push_back("output" + QString::number(i));
         pContext->activationObject().setProperty("output" + QString::number(i), false);
     }
 

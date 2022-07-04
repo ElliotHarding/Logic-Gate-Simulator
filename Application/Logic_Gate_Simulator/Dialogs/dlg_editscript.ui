@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>701</width>
-    <height>428</height>
+    <height>458</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,14 +84,14 @@
   <widget class="QPushButton" name="btn_setScript">
    <property name="geometry">
     <rect>
-     <x>600</x>
-     <y>390</y>
-     <width>75</width>
+     <x>590</x>
+     <y>420</y>
+     <width>90</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Apply</string>
+    <string>Save Script</string>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_startScript">
@@ -123,9 +123,9 @@
   <widget class="QPushButton" name="btn_genCircuit">
    <property name="geometry">
     <rect>
-     <x>494</x>
-     <y>390</y>
-     <width>101</width>
+     <x>460</x>
+     <y>420</y>
+     <width>90</width>
      <height>23</height>
     </rect>
    </property>
@@ -136,14 +136,37 @@
   <widget class="QPushButton" name="btn_genTuthTable">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>590</x>
      <y>390</y>
-     <width>121</width>
+     <width>90</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Generate Truth Table</string>
+    <string>Get Truth Table</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox_maxGenTime">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>420</y>
+     <width>51</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_maxGenTime">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>400</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Max Gen Time (s)</string>
    </property>
   </widget>
  </widget>

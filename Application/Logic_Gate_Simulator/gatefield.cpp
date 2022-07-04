@@ -643,6 +643,12 @@ void GateField::SendUserMessage(const QString& message)
         m_pParent->SendUserMessage(message);
 }
 
+void GateField::showTruthTable(const TruthTable& truthTable)
+{
+    if(m_pParent)
+        m_pParent->showTruthTable(truthTable);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 /// GateFieldHistory
 ///

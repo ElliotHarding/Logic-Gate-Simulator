@@ -24,6 +24,7 @@ class GateFPGA;
 class Gate;
 class GateCollection;
 class Node;
+class TruthTable;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /// GateFieldHistory
@@ -78,6 +79,7 @@ public:
     void EditTextLabel(TextLabel *textLabelToEdit);
     void UpdateGateSelected(Gate* g);
     void SendUserMessage(const QString& message);
+    void showTruthTable(const TruthTable& truthTable);
 
     ///Click mode
     ClickMode GetCurrentClickMode();

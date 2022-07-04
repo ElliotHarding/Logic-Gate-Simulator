@@ -478,7 +478,7 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         TruthTable table;
         if(generateTruthTable(table))
         {
-
+            m_pParentField->showTruthTable(table);
         }
 
         if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)

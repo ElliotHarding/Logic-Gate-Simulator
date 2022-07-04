@@ -70,6 +70,7 @@ void Widget_CustomGates::DeleteItem(QListWidgetItem* item)
     if(m_customGateReader.deleteCustomGate(item->text()))
     {
         ui->customGateListWidget->removeItemWidget(item);
+        UpdateList();
     }
     else
     {

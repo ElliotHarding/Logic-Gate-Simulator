@@ -637,6 +637,12 @@ void GateField::UpdateGateSelected(Gate *g)
         m_pParent->GateSelected(g);
 }
 
+void GateField::SendUserMessage(const QString& message)
+{
+    if(m_pParent)
+        m_pParent->SendUserMessage(message);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 /// GateFieldHistory
 ///

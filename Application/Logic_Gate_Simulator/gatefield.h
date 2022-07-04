@@ -76,7 +76,8 @@ public:
 
     //DLG_Home stuff
     void EditTextLabel(TextLabel *textLabelToEdit);
-    void UpdateGateSelected(Gate* g);   
+    void UpdateGateSelected(Gate* g);
+    void SendUserMessage(const QString& message);
 
     ///Click mode
     ClickMode GetCurrentClickMode();

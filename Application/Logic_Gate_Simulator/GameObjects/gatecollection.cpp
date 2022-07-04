@@ -54,6 +54,22 @@ void GateCollection::ProporgateParentAndCheckForNestedGates()
 
 bool GateCollection::generateTruthTable(TruthTable& table)
 {
+    std::vector<NodeIds> linkInfo;
+    collectLinkInfo(linkInfo);
+
+    for(NodeIds nodeIds : linkInfo)
+    {
+        for(int linkId : nodeIds.linkedIds)
+        {
+            Node* pNode;
+            if(!FindNodeWithId(linkId, pNode))
+            {
+                m_pParentField->SendUserMessage("Failed to generate. Circuit includes external connections!");
+                return false;
+            }
+        }
+    }
+
     std::vector<GateToggle*> inputGates;
     std::vector<Gate*> mainGates;
     std::vector<GateReciever*> resultGates;
@@ -68,6 +84,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
             else
             {
                 qDebug() << "GateCollection::generateTruthTable - Failed to cast GateToggle";
+                m_pParentField->SendUserMessage("Failed to generate. Internal error.");
                 return false;
             }
         }
@@ -81,12 +98,14 @@ bool GateCollection::generateTruthTable(TruthTable& table)
             else
             {
                 qDebug() << "GateCollection::generateTruthTable - Failed to cast GateReciever";
+                m_pParentField->SendUserMessage("Failed to generate. Internal error.");
                 return false;
             }
         }
 
         else if(g->GetType() == GateType::GATE_TIMER || g->GetType() == GateType::GATE_NULL || g->GetType() == GateType::GATE_COLLECTION)
         {
+            m_pParentField->SendUserMessage("Failed to generate. Unsupported gate type for truth table. No nested gate collections. No timer gates.");
             return false;
         }
 
@@ -98,11 +117,13 @@ bool GateCollection::generateTruthTable(TruthTable& table)
 
     if(inputGates.empty())
     {
+        m_pParentField->SendUserMessage("Failed to generate. No input(emmiter) gates.");
         return false;
     }
 
     if(resultGates.empty())
     {
+        m_pParentField->SendUserMessage("Failed to generate. No result(reciever) gates.");
         return false;
     }
 

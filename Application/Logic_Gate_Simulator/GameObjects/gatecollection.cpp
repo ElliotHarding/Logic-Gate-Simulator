@@ -65,7 +65,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
             Node* pNode;
             if(!FindNodeWithId(linkId, pNode))
             {
-                m_pParentField->SendUserMessage("Failed to generate. Circuit includes external connections!");
+                m_pParentField->SendUserMessage("Failed. Circuit includes external connections!");
                 return false;
             }
         }
@@ -85,7 +85,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
             else
             {
                 qDebug() << "GateCollection::generateTruthTable - Failed to cast GateToggle";
-                m_pParentField->SendUserMessage("Failed to generate. Internal error.");
+                m_pParentField->SendUserMessage("Failed. Internal error.");
                 return false;
             }
         }
@@ -99,14 +99,14 @@ bool GateCollection::generateTruthTable(TruthTable& table)
             else
             {
                 qDebug() << "GateCollection::generateTruthTable - Failed to cast GateReciever";
-                m_pParentField->SendUserMessage("Failed to generate. Internal error.");
+                m_pParentField->SendUserMessage("Failed. Internal error.");
                 return false;
             }
         }
 
         else if(g->GetType() == GateType::GATE_TIMER || g->GetType() == GateType::GATE_NULL || g->GetType() == GateType::GATE_COLLECTION)
         {
-            m_pParentField->SendUserMessage("Failed to generate. Unsupported gate type for truth table. No nested gate collections. No timer gates.");
+            m_pParentField->SendUserMessage("Failed. Unsupported gate type for truth table. \n No nested gate collections. No timer gates.");
             return false;
         }
 

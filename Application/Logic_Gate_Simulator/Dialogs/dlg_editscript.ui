@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DLG_ConfigureFPGA</class>
- <widget class="QDialog" name="DLG_ConfigureFPGA">
+ <class>DLG_EditScript</class>
+ <widget class="QDialog" name="DLG_EditScript">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -131,6 +131,19 @@
    </property>
    <property name="text">
     <string>Generate Circuit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_genTuthTable">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>390</y>
+     <width>121</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Generate Truth Table</string>
    </property>
   </widget>
  </widget>

@@ -48,6 +48,8 @@ private slots:
     void on_btn_setScript_clicked();
     void on_btn_genCircuit_clicked();
 
+    void on_btn_genTuthTable_clicked();
+
 private:
     Ui::DLG_EditScript *ui;
 

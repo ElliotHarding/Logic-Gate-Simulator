@@ -332,9 +332,6 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     //Generate truth table from script
     TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);
 
-    //Testing purposes
-    m_pDlgHome->showTruthTable(truthTable);
-
     Circuit circuit(numInputs, numOutputs);
 
     //Begin generating random circuits until one matches truth table
@@ -366,6 +363,26 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
             return;
         }
     }
+}
+
+void DLG_EditScript::on_btn_genTuthTable_clicked()
+{
+    const uint numInputs = ui->spinBox_inputs->value();
+    const uint numOutputs = ui->spinBox_outputs->value();
+    const QString script = ui->textEdit_script->toPlainText();
+
+    if(m_pFpga)
+    {
+        m_pFpga->setInputs(numInputs);
+        m_pFpga->setOutputs(numOutputs);
+        m_pFpga->setScript(script);
+    }
+
+    //Generate truth table from script
+    TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);
+
+    //Testing purposes
+    m_pDlgHome->showTruthTable(truthTable);
 }
 
 

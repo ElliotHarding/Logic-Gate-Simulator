@@ -17,23 +17,3 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
 {
     QDialog::open();
 }
-
-////////////////////////////////////////////////////////
-/// \brief BinaryLabel::BinaryLabel
-/// \param parent
-///
-BinaryLabel::BinaryLabel(QWidget* parent, const bool& value) : QLabel(parent)
-{
-    setText(value ? "1" : "0");
-}
-
-bool BinaryLabel::value()
-{
-    return text() == "1";
-}
-
-void BinaryLabel::mousePressEvent(QMouseEvent* event)
-{
-    setText(value() ? "0" : "1");
-    QLabel::mousePressEvent(event);
-}

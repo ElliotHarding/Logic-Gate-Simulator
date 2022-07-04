@@ -28,17 +28,4 @@ private:
     std::vector<QLabel*> m_tableLabels;
 };
 
-class BinaryLabel : public QLabel
-{
-    Q_OBJECT
-
-public:
-    BinaryLabel(QWidget* parent, const bool& value = false);
-
-    bool value();
-
-protected:
-    void mousePressEvent(QMouseEvent* event) override;
-};
-
 #endif // DLG_TRUTHTABLE_H

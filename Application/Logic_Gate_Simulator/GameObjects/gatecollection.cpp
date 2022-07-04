@@ -52,7 +52,7 @@ void GateCollection::ProporgateParentAndCheckForNestedGates()
     }
 }
 
-TruthTable GateCollection::tryGenerateTruthTable()
+void GateCollection::tryGenerateTruthTable()
 {
     std::vector<GateToggle*> m_inputGates;
     for (Gate* g : m_gates)
@@ -65,6 +65,7 @@ TruthTable GateCollection::tryGenerateTruthTable()
 
     if(m_inputGates.empty())
     {
+        //Todo ~ message
         return;
     }
 }

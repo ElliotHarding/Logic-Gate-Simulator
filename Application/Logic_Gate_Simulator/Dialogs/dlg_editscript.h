@@ -27,6 +27,8 @@ public:
     std::vector<Gate*> mainGates;
     std::vector<GateToggle*> inputs;
     std::vector<GateReciever*> outputs;
+private:
+    bool m_bDeleteGates = true; //Delete gates on destructor
 };
 
 class DLG_EditScript : public QDialog

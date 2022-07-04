@@ -67,7 +67,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
 
             for(uint iRow = 0; iRow < iIterations; iRow++)
             {
-                QLabel* rowLabel = new QLabel(QString::number(truthTable.outValues[iRow][iCol]), this);
+                QLabel* rowLabel = new QLabel(QString::number(truthTable.outValues[iRow][iCol-iInputs]), this);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
                 rowLabel->setAlignment(Qt::AlignCenter);
                 m_tableLabels.push_back(rowLabel);

@@ -24,7 +24,6 @@ public:
     virtual Gate* Clone() override;
 
     ///FPGA specific functions
-    void OpenEditor();
     void setInputs(const uint& numInputs);
     void setOutputs(const uint& numOutputs);
     uint getNumInputs() const;

@@ -138,12 +138,6 @@ Gate* GateFPGA::Clone()
     return clone;
 }
 
-void GateFPGA::OpenEditor()
-{
-    //Todo : check if GateFPGA is in a GateCollection. Does it have m_pParentField?
-    m_pParentField->editFPGA(this);
-}
-
 void GateFPGA::setInputs(const uint& numInputs)
 {
     const uint currentInputs = m_inputNodes.size();

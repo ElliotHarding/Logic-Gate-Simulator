@@ -89,9 +89,6 @@ public:
     void setUpdateFrequency(const uint& frequencyMs);
     uint updateFrequency() const;
 
-    ///FPGA Edit
-    void editFPGA(GateFPGA *pFPGA);
-
 signals:
 public slots:
 private slots:

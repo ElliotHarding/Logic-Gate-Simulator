@@ -36,6 +36,8 @@ public:
     void AddGate(Gate* g);
     void ForgetGate(Gate* g);
 
+    void UpdateContaningArea();
+
 protected:
     void ProporgateParentAndCheckForNestedGates();
 
@@ -43,18 +45,15 @@ protected:
     std::vector<Gate*> m_gates;
 
 private:
-    void UpdateContaningArea();
-
     ///Dragging
     enum DragMode{DragIndividual,DragAll};
     DragMode m_dragMode = DragAll;
 
-    //QRect m_optimize;
-    //QRect m_nandOptimize;
     QRect m_saveButton;
     QRect m_deleteButton;
     QRect m_deleteAllButton;
     QRect m_dragAllButton;
+    QRect m_truthTableButton;
     void DrawButtons(QPainter& painter);
     GameObject* checkButtonClick(const QPoint& mouse);
 

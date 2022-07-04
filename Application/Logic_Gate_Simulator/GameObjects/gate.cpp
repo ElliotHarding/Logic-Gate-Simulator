@@ -112,6 +112,11 @@ void Gate::setPosition(const int &x, const int &y)
     {
         n->setPosition(x, y);
     }
+
+    if(m_pParentGateCollection)
+    {
+        m_pParentGateCollection->UpdateContaningArea();
+    }
 }
 
 QRect Gate::geometry() const

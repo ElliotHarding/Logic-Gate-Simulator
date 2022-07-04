@@ -16,8 +16,9 @@ const QImage ImgDeleteAllButton = QImage(std::string(":/Resources/Button Icons/g
 const QImage ImgSaveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
 const QImage ImgDeleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
 const QImage ImgDragButton = QImage(std::string(":/Resources/Button Icons/gate-collection-move-gates.png").c_str());
-const QImage ImgOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
-const QImage ImgNandOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-nand.png").c_str());
+const QImage ImgTruthTableButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
+//const QImage ImgOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
+//const QImage ImgNandOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-nand.png").c_str());
 const uint ButtonSize = 40;
 
 //Number of pixels from border before gates are seen
@@ -143,10 +144,6 @@ void GateCollection::collectLinkInfo(std::vector<NodeIds> &collection)
 
 void GateCollection::draw(QPainter& painter)
 {
-    //Todo ~ make it so don't need to update area every draw...
-    //If a subGate position is moved, call is m_pParentGateCollection UpdateContaningArea
-    UpdateContaningArea();
-
     if (m_dragMode == DragAll)
     {
          painter.fillRect(m_geometry, Settings::DragModeFillColor);
@@ -202,19 +199,11 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
 
 void GateCollection::DrawButtons(QPainter& painter)
 {
-    m_deleteAllButton  = QRect(m_geometry.right() - Settings::ButtonSize, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_deleteButton = QRect(m_geometry.right() - Settings::ButtonSize*2, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_saveButton = QRect(m_geometry.right() - Settings::ButtonSize*3, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_dragAllButton = QRect(m_geometry.right() - Settings::ButtonSize*4, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    //m_optimize = QRect(m_contaningArea.right() - xyButtonSize*5, m_contaningArea.top() - xyButtonSize, xyButtonSize, xyButtonSize);
-    //m_nandOptimize = QRect(m_contaningArea.right() - xyButtonSize*6, m_contaningArea.top() - xyButtonSize, xyButtonSize, xyButtonSize);
-
     painter.drawImage(m_deleteAllButton, Settings::ImgDeleteAllButton);
     painter.drawImage(m_deleteButton, Settings::ImgDeleteButton);
     painter.drawImage(m_saveButton, Settings::ImgSaveButton);
     painter.drawImage(m_dragAllButton, Settings::ImgDragButton);
-    //painter.drawImage(m_optimize, Settings::ImgOptimizeButton);
-    //painter.drawImage(m_nandOptimize, Settings::ImgNandOptimizeButton);
+    painter.drawImage(m_truthTableButton, Settings::ImgTruthTableButton);
 }
 
 void GateCollection::SaveData(QDomDocument& storage, QDomElement& parentElement)
@@ -270,6 +259,12 @@ void GateCollection::UpdateContaningArea()
     }
 
     m_geometry = QRect(QPoint(MINX, MINY), QPoint(MAXX, MAXY));
+
+    m_deleteAllButton  = QRect(m_geometry.right() - Settings::ButtonSize, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_deleteButton = QRect(m_geometry.right() - Settings::ButtonSize*2, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_saveButton = QRect(m_geometry.right() - Settings::ButtonSize*3, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_dragAllButton = QRect(m_geometry.right() - Settings::ButtonSize*4, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_truthTableButton = QRect(m_geometry.right() - Settings::ButtonSize*5, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
 }
 
 void GateCollection::ToggleDragMode()
@@ -291,7 +286,7 @@ void GateCollection::AddGate(Gate *g)
 
     m_gates.push_back(g);
 
-    //UpdateContaningArea();
+    UpdateContaningArea();
 }
 
 void GateCollection::ForgetGate(Gate *g)
@@ -365,10 +360,9 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         delete this;
     }
 
-    /* //Optimize button
-    else if (m_optimize.contains(mouse))
+    else if (m_truthTableButton.contains(mouse))
     {
-        m_gates = CircuitOptimizer::Optimize(m_gates, false);
+        //Todo ~ imp
         if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
             return this;
@@ -378,7 +372,7 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
             m_pParentField->UpdateGateSelected(this);
         }
         return nullptr;
-    }*/
+    }
 
     else if (m_dragAllButton.contains(mouse))
     {
@@ -393,20 +387,6 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         }
         return nullptr;
     }
-    /*
-    else if (m_nandOptimize.contains(mouse))
-    {
-        m_gates = CircuitOptimizer::Optimize(m_gates, true);
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            return this;
-        }
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
-        {
-            m_pParentField->UpdateGateSelected(this);
-        }
-        return nullptr;
-    }*/
 
     return nullptr;
 }

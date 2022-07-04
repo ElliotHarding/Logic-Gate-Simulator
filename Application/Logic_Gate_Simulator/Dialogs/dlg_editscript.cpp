@@ -332,6 +332,9 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     //Generate truth table from script
     TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);
 
+    //Testing purposes
+    m_pDlgHome->showTruthTable(truthTable);
+
     Circuit circuit(numInputs, numOutputs);
 
     //Begin generating random circuits until one matches truth table

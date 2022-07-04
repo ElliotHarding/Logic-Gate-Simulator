@@ -5,7 +5,7 @@
 
 namespace Settings
 {
-const QRect TableDimensions = QRect(5, 30, 300, 300);
+const QRect TableDimensions = QRect(50, 50, 300, 300);
 }
 
 DLG_TruthTable::DLG_TruthTable(QWidget *parent) :
@@ -39,7 +39,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
     const uint iCols = iInputs + iOutputs;
 
     const uint labelWidth = Settings::TableDimensions.width() / iCols;
-    const uint labelHeight = Settings::TableDimensions.height() / iIterations + 1;
+    const uint labelHeight = Settings::TableDimensions.height() / iIterations + 3;
 
     for(uint iCol = 0; iCol < iCols; iCol++)
     {
@@ -54,6 +54,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
             {
                 QLabel* rowLabel = new QLabel(QString::number(truthTable.inValues[iRow][iCol]), this);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
+                rowLabel->setAlignment(Qt::AlignCenter);
                 m_tableLabels.push_back(rowLabel);
             }
         }
@@ -66,12 +67,15 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
             {
                 QLabel* rowLabel = new QLabel(QString::number(truthTable.outValues[iRow][iCol]), this);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
+                rowLabel->setAlignment(Qt::AlignCenter);
                 m_tableLabels.push_back(rowLabel);
             }
         }
 
         newLabel = new QLabel(colTitle, this);
         newLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y(), labelWidth, labelHeight);
+        newLabel->setStyleSheet("border-color: black;");
+        newLabel->setAlignment(Qt::AlignCenter);
         m_tableLabels.push_back(newLabel);
     }
 

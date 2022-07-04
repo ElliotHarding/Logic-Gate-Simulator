@@ -94,3 +94,14 @@ void DLG_TruthTable::close()
 
     QDialog::close();
 }
+
+void DLG_TruthTable::closeEvent(QCloseEvent* e)
+{
+    for(QLabel* pLbl : m_tableLabels)
+    {
+        delete pLbl;
+    }
+    m_tableLabels.clear();
+
+    QDialog::closeEvent(e);
+}

@@ -24,6 +24,9 @@ public:
     void open(const TruthTable& truthTable);
     void close();
 
+protected:
+    void closeEvent(QCloseEvent *) override;
+
 private:
     Ui::DLG_TruthTable *ui;
     std::vector<QLabel*> m_tableLabels;

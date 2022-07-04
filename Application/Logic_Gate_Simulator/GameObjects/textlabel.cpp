@@ -4,20 +4,16 @@
 
 namespace Settings
 {
-const uint SizeX = 20;
-const uint SizeY = 20;
-
-const uint EditButtonSize = 40;
-const QImage ImgConfigureButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
+const uint DefaultSizeX = 20;
+const uint DefaultSizeY = 20;
 
 const QFont TextFont("Helvetica", 15);
 }
 
 TextLabel::TextLabel(const int &x, const int &y, const QString& text) :
-    Gate(GATE_TEXT_LABEL, x, y, Settings::SizeX, Settings::SizeY),
+    Gate(GATE_TEXT_LABEL, x, y, Settings::DefaultSizeX, Settings::DefaultSizeY),
     m_string(text),
-    m_font(Settings::TextFont),
-    m_editClickZone(QRect(0, 0, Settings::EditButtonSize, Settings::EditButtonSize))
+    m_font(Settings::TextFont)
 {
     Update(m_font, m_string);
 }
@@ -29,8 +25,6 @@ TextLabel::~TextLabel()
 
 void TextLabel::draw(QPainter& painter)
 {
-    painter.drawImage(m_editClickZone, Settings::ImgConfigureButton);
-
     painter.setFont(m_font);
     painter.drawText(m_geometry, m_string);
 }
@@ -44,31 +38,6 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
     gateElement.setAttribute(Settings::GateTextLabelTextTag, m_string);
 
     parentElement.appendChild(gateElement);
-}
-
-GameObject* TextLabel::checkClicked(const QPoint& mouse)
-{
-    if(m_editClickZone.contains(mouse))
-    {
-        m_pParentField->EditTextLabel(this);
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            return this;
-        }
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
-        {
-            m_pParentField->UpdateGateSelected(this);
-        }
-        return nullptr;
-    }
-    return Gate::checkClicked(mouse);
-}
-
-void TextLabel::setPosition(const int& x, const int& y)
-{
-    Gate::setPosition(x, y);
-
-    m_editClickZone = QRect(geometry().right(), geometry().top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);
 }
 
 Gate* TextLabel::Clone()
@@ -87,9 +56,8 @@ void TextLabel::Update(const QFont& font, const QString& string)
     const QFontMetrics textFontMetrics(m_font);
 
     //Update dimensions since text has changed:
-    m_geometry.setWidth(textFontMetrics.width(m_string));
+    m_geometry.setWidth(textFontMetrics.horizontalAdvance(m_string));
     m_geometry.setHeight(textFontMetrics.height());
-    m_editClickZone = QRect(geometry().right(), geometry().top() - Settings::EditButtonSize, Settings::EditButtonSize, Settings::EditButtonSize);
 }
 
 QString TextLabel::GetString()

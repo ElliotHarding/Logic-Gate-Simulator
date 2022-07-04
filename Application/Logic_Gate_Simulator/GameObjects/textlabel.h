@@ -9,7 +9,6 @@ namespace Settings
 const QString GateTextLabelTextTag = "Text";
 }
 
-class DLG_LabelGateEdit;
 class TextLabel : public Gate
 {
 public:
@@ -18,9 +17,7 @@ public:
 
     //Game Object overrides
     virtual void draw(QPainter& painter) override;
-    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement);
-    virtual GameObject* checkClicked(const QPoint& mouse) override;
-    virtual void setPosition(const int& x, const int& y) override;
+    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
     virtual Gate* Clone() override;
 
     //Gate overrides
@@ -35,7 +32,6 @@ public:
 protected:
     QString m_string;
     QFont m_font;
-    QRect m_editClickZone;
 };
 
 class DLG_LabelGateEdit : public DLG_TextEdit

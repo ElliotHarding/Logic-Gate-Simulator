@@ -149,6 +149,21 @@ Gate* genRandomGate()
     }
 }
 
+bool allUnlinkedNodesFromSameGate(const std::vector<Node*>& circuitOutsUnlinked, const std::vector<Node*>& circuitInsUnlinked)
+{
+    for(uint i = 0; i < circuitOutsUnlinked.size(); i++)
+    {
+        for(uint j = 0; j < circuitInsUnlinked.size(); j++)
+        {
+            if(circuitOutsUnlinked[i]->GetParent() != circuitInsUnlinked[j]->GetParent())
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 bool createRandomCircuit(Circuit& circuit)
 {
     circuit.deleteMainGates();
@@ -175,12 +190,12 @@ bool createRandomCircuit(Circuit& circuit)
             if(circuit.mainGates.size() > Settings::MaxGatesInCircuit)
                 return false;
 
-            std::vector<Node*> inNodes = newGate->getInputNodes();
+            const std::vector<Node*> inNodes = newGate->getInputNodes();
             for(Node* inNode : inNodes)
             {
                 circuitInsUnlinked.push_back(inNode);
             }
-            std::vector<Node*> outNodes = newGate->getOutputNodes();
+            const std::vector<Node*> outNodes = newGate->getOutputNodes();
             for(Node* outNode : outNodes)
             {
                 circuitOutsUnlinked.push_back(outNode);
@@ -196,21 +211,7 @@ bool createRandomCircuit(Circuit& circuit)
 
                 if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
                 {
-                    bool different = false;
-                    for(uint i = 0; i < circuitOutsUnlinked.size(); i++)
-                    {
-                        for(uint j = 0; j < circuitInsUnlinked.size(); j++)
-                        {
-                            if(circuitOutsUnlinked[i]->GetParent() != circuitInsUnlinked[j]->GetParent())
-                            {
-                                different = true;
-                                break;
-                            }
-                        }
-                        if(different)
-                            break;
-                    }
-                    if(!different)
+                    if(allUnlinkedNodesFromSameGate(circuitOutsUnlinked, circuitInsUnlinked))
                         return false;
                     continue;
                 }

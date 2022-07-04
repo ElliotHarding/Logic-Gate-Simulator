@@ -12,13 +12,6 @@ class Gate;
 class GateToggle;
 class GateReciever;
 
-struct TruthTable
-{
-    std::vector<std::vector<bool>> inValues;
-    std::vector<std::vector<bool>> outValues;
-    uint size;
-};
-
 class Circuit
 {
 public:

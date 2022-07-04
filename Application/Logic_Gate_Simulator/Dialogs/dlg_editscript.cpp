@@ -2,7 +2,7 @@
 #include "ui_dlg_editscript.h"
 
 #include "dlg_home.h"
-
+#include "truthtable.h"
 #include "GameObjects/gatefpga.h"
 #include "allgates.h"
 #include "gatefield.h"

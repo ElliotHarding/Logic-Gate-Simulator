@@ -39,7 +39,9 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
     const uint iCols = iInputs + iOutputs;
 
     const uint labelWidth = Settings::TableDimensions.width() / iCols;
-    const uint labelHeight = Settings::TableDimensions.height() / iIterations + 3;
+    const uint labelHeight = Settings::TableDimensions.height() / (iIterations + 1);
+    qDebug() << iIterations;
+    qDebug() << labelHeight;
 
     for(uint iCol = 0; iCol < iCols; iCol++)
     {

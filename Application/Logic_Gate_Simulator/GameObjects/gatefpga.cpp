@@ -34,9 +34,9 @@ GateFPGA::GateFPGA(const int& x, const int& y) :
     }
 }
 
-GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& outputNodesToCopy, const int &x, const int &y) :
+GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& outputNodesToCopy, const QString& script, const int &x, const int &y) :
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, inputNodesToCopy.size() > outputNodesToCopy.size() ? inputNodesToCopy.size() * Settings::GapBetweenNodesY : outputNodesToCopy.size() * Settings::GapBetweenNodesY),
-    m_script("")
+    m_script(script)
 {
     for(Node* inputNode : inputNodesToCopy)
     {
@@ -134,8 +134,7 @@ void GateFPGA::UpdateOutput()
 
 Gate* GateFPGA::Clone()
 {
-    GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_geometry.x(), m_geometry.y());
-    clone->m_script = m_script;
+    GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_script, m_geometry.x(), m_geometry.y());
     return clone;
 }
 

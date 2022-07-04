@@ -22,6 +22,7 @@ public:
 
     //Open to display truth table
     void open(const TruthTable& truthTable);
+    void close();
 
 private:
     Ui::DLG_TruthTable *ui;

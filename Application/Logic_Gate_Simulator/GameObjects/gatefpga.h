@@ -19,14 +19,9 @@ public:
 
     ///Gate class functions
     virtual void draw(QPainter& painter) override;
-    virtual GameObject* checkClicked(const QPoint& mouse) override;
     virtual void UpdateOutput() override;
     virtual void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
     virtual Gate* Clone() override;
-
-    ///Position functions
-    virtual void offsetPosition(const int& dX, const int& dY) override;
-    virtual void setPosition(const int& x, const int& y) override;
 
     ///FPGA specific functions
     void OpenEditor();
@@ -34,14 +29,13 @@ public:
     void setOutputs(const uint& numOutputs);
     uint getNumInputs() const;
     uint getNumOutputs() const;
-    std::vector<Node*> getInputNodes();
-    std::vector<Node*> getOutputNodes();
+    std::vector<Node*> getInputNodes() override;
+    std::vector<Node*> getOutputNodes() override;
     QString getScript() const;
     void setScript(const QString& script);
 
 protected:
 
-    void updateEditButtonGeometry();
     void updateGeometryBasedOnNodes();
 
     void eraseNodeFromAllNodes(Node* pNode);

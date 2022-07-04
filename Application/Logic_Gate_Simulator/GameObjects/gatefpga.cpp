@@ -8,10 +8,6 @@ namespace Settings
 {
 const uint GateFpgaWidth = 100;
 
-///Edit button stuff
-const uint EditButtonSize = 50;
-const QImage ImgConfigureButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
-
 ///Node stuff
 const int InputNodesXpos = -5 - GateFpgaWidth/2;
 const int OutputNodesXpos = GateFpgaWidth/2 + 5;
@@ -28,8 +24,6 @@ GateFPGA::GateFPGA(const int& x, const int& y) :
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, Settings::DefaultNumberOfNodes * Settings::GapBetweenNodesY),
     m_script("var output1 = true, output2 = true, output3 = true, output4 = true, output5 = true;")
 {
-    updateEditButtonGeometry();
-
     for (size_t x = 0; x < Settings::DefaultNumberOfNodes; x++)
     {
         m_inputNodes.push_back(new Node(this, Settings::InputNodesXpos, x * Settings::GapBetweenNodesY - ((Settings::DefaultNumberOfNodes/2) * Settings::GapBetweenNodesY), InputNode));
@@ -44,8 +38,6 @@ GateFPGA::GateFPGA(std::vector<Node*>& inputNodesToCopy, std::vector<Node*>& out
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, inputNodesToCopy.size() > outputNodesToCopy.size() ? inputNodesToCopy.size() * Settings::GapBetweenNodesY : outputNodesToCopy.size() * Settings::GapBetweenNodesY),
     m_script("")
 {
-    updateEditButtonGeometry();
-
     for(Node* inputNode : inputNodesToCopy)
     {
         Node* newInputNode = inputNode->cloneWithoutLinks(this);
@@ -65,8 +57,6 @@ GateFPGA::GateFPGA(const QString& script, std::vector<NodeIds>& inputNodeInfo, s
     Gate::Gate(GATE_FPGA, x, y, Settings::GateFpgaWidth, inputNodeInfo.size() > outputNodeInfo.size() ? inputNodeInfo.size() * Settings::GapBetweenNodesY : outputNodeInfo.size() * Settings::GapBetweenNodesY),
     m_script(script)
 {
-    updateEditButtonGeometry();
-
     const int yOffset = -(inputNodeInfo.size() > outputNodeInfo.size() ? inputNodeInfo.size()/2 * Settings::GapBetweenNodesY : outputNodeInfo.size()/2 * Settings::GapBetweenNodesY);
     for(uint i = 0; i < inputNodeInfo.size(); i++)
     {
@@ -96,26 +86,6 @@ void GateFPGA::draw(QPainter& painter)
     painter.drawRect(m_geometry);
 
     drawNodes(painter);
-
-    painter.drawImage(m_editButtonRect, Settings::ImgConfigureButton);
-}
-
-GameObject* GateFPGA::checkClicked(const QPoint& mouse)
-{
-    if(m_editButtonRect.contains(mouse))
-    {
-        OpenEditor();
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            return this;
-        }
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
-        {
-            m_pParentField->UpdateGateSelected(this);
-        }
-        return nullptr;
-    }
-    return GameObject::checkClicked(mouse);
 }
 
 void GateFPGA::SaveData(QDomDocument& storage, QDomElement& parentElement)
@@ -167,18 +137,6 @@ Gate* GateFPGA::Clone()
     GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_geometry.x(), m_geometry.y());
     clone->m_script = m_script;
     return clone;
-}
-
-void GateFPGA::offsetPosition(const int &dX, const int &dY)
-{
-    Gate::offsetPosition(dX, dY);
-    updateEditButtonGeometry();
-}
-
-void GateFPGA::setPosition(const int &x, const int &y)
-{
-    Gate::setPosition(x, y);
-    updateEditButtonGeometry();
 }
 
 void GateFPGA::OpenEditor()
@@ -280,11 +238,6 @@ void GateFPGA::setScript(const QString& script)
     m_script = script;
 }
 
-void GateFPGA::updateEditButtonGeometry()
-{
-    m_editButtonRect = QRect(m_geometry.center().x() - Settings::EditButtonSize/2, m_geometry.center().y() - Settings::EditButtonSize/2, Settings::EditButtonSize, Settings::EditButtonSize);
-}
-
 void GateFPGA::updateGeometryBasedOnNodes()
 {
     m_geometry = QRect(m_geometry.x(), m_geometry.y(), Settings::GateFpgaWidth, m_inputNodes.size() > m_outputNodes.size() ? m_inputNodes.size() * Settings::GapBetweenNodesY : m_outputNodes.size() * Settings::GapBetweenNodesY);
@@ -298,8 +251,6 @@ void GateFPGA::updateGeometryBasedOnNodes()
     {
         m_outputNodes[i]->setOffsets(Settings::OutputNodesXpos, i * Settings::GapBetweenNodesY + yOffset);
     }
-
-    updateEditButtonGeometry();
 
     //Display update
     setPosition(geometry().center().x(), geometry().center().y());

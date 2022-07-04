@@ -10,7 +10,7 @@ namespace Settings
 ///Drawing
 const QColor DragModeFillColor = QColor(40,40,40,20);
 const QColor DragIndividualBoardeColor = Qt::black;
-const uint DragIndividualBoardeSize = 2;
+const uint DragIndividualBoardeSize = 5;
 
 ///UI Buttons
 const QImage ImgDeleteAllButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete-all.png").c_str());

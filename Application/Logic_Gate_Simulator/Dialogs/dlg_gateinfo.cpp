@@ -219,12 +219,26 @@ void DLG_GateInfo::on_btn_Edit_clicked()
 {
     if(m_pGateDisplayed->GetType() == GATE_FPGA)
     {
-        dynamic_cast<GateFPGA*>(m_pGateDisplayed)->OpenEditor();
+        if(dynamic_cast<GateFPGA*>(m_pGateDisplayed))
+        {
+            m_pParent->editFPGA(dynamic_cast<GateFPGA*>(m_pGateDisplayed));
+        }
+        else
+        {
+            qDebug() << "DLG_GateInfo::on_btn_Edit_clicked - Can't cast GateFPGA!";
+        }
     }
 
-    if(m_pGateDisplayed->GetType() == GATE_TEXT_LABEL)
+    else if(m_pGateDisplayed->GetType() == GATE_TEXT_LABEL)
     {
-        m_pParent->EditTextLabel(dynamic_cast<TextLabel*>(m_pGateDisplayed));
+        if(dynamic_cast<TextLabel*>(m_pGateDisplayed))
+        {
+            m_pParent->EditTextLabel(dynamic_cast<TextLabel*>(m_pGateDisplayed));
+        }
+        else
+        {
+            qDebug() << "DLG_GateInfo::on_btn_Edit_clicked - Can't cast TextLabel!";
+        }
     }
 }
 

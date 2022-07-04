@@ -2,6 +2,7 @@
 #define GATECOLLECTION_H
 
 #include "gate.h"
+#include "truthtable.h"
 
 class GateCollection : public Gate
 {
@@ -40,6 +41,8 @@ public:
 
 protected:
     void ProporgateParentAndCheckForNestedGates();
+
+    TruthTable tryGenerateTruthTable();
 
     //Vector of all the gates within collection
     std::vector<Gate*> m_gates;

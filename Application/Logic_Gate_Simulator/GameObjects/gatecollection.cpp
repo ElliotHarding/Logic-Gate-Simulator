@@ -52,6 +52,23 @@ void GateCollection::ProporgateParentAndCheckForNestedGates()
     }
 }
 
+TruthTable GateCollection::tryGenerateTruthTable()
+{
+    std::vector<GateToggle*> m_inputGates;
+    for (Gate* g : m_gates)
+    {
+        if(g->GetType() == GateType::GATE_EMMITTER && dynamic_cast<GateToggle*>(g))
+        {
+            m_inputGates.push_back(dynamic_cast<GateToggle*>(g));
+        }
+    }
+
+    if(m_inputGates.empty())
+    {
+        return;
+    }
+}
+
 GateCollection::~GateCollection()
 {
     //When deleted the gate collection filed can dump its contents onto the parent gatefield

@@ -52,22 +52,61 @@ void GateCollection::ProporgateParentAndCheckForNestedGates()
     }
 }
 
-void GateCollection::tryGenerateTruthTable()
+bool GateCollection::generateTruthTable(TruthTable& table)
 {
-    std::vector<GateToggle*> m_inputGates;
+    std::vector<GateToggle*> inputGates;
+    std::vector<Gate*> mainGates;
+    std::vector<GateReciever*> resultGates;
     for (Gate* g : m_gates)
     {
-        if(g->GetType() == GateType::GATE_EMMITTER && dynamic_cast<GateToggle*>(g))
+        if(g->GetType() == GateType::GATE_EMMITTER)
         {
-            m_inputGates.push_back(dynamic_cast<GateToggle*>(g));
+            if(dynamic_cast<GateToggle*>(g))
+            {
+                inputGates.push_back(dynamic_cast<GateToggle*>(g));
+            }
+            else
+            {
+                qDebug() << "GateCollection::generateTruthTable - Failed to cast GateToggle";
+                return false;
+            }
+        }
+
+        else if(g->GetType() == GateType::GATE_RECIEVER)
+        {
+            if(dynamic_cast<GateReciever*>(g))
+            {
+                resultGates.push_back(dynamic_cast<GateReciever*>(g));
+            }
+            else
+            {
+                qDebug() << "GateCollection::generateTruthTable - Failed to cast GateReciever";
+                return false;
+            }
+        }
+
+        else if(g->GetType() == GateType::GATE_TIMER || g->GetType() == GateType::GATE_NULL || g->GetType() == GateType::GATE_COLLECTION)
+        {
+            return false;
+        }
+
+        else
+        {
+            mainGates.push_back(g);
         }
     }
 
-    if(m_inputGates.empty())
+    if(inputGates.empty())
     {
-        //Todo ~ message
-        return;
+        return false;
     }
+
+    if(resultGates.empty())
+    {
+        return false;
+    }
+
+
 }
 
 GateCollection::~GateCollection()

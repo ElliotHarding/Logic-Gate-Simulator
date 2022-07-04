@@ -42,7 +42,7 @@ public:
 protected:
     void ProporgateParentAndCheckForNestedGates();
 
-    void tryGenerateTruthTable();
+    bool generateTruthTable(TruthTable& table);
 
     //Vector of all the gates within collection
     std::vector<Gate*> m_gates;

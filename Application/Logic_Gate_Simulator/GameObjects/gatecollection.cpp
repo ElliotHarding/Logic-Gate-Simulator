@@ -3,6 +3,7 @@
 #include "gatefield.h"
 
 #include <QDebug>
+#include <cmath>
 
 namespace Settings
 {
@@ -127,7 +128,41 @@ bool GateCollection::generateTruthTable(TruthTable& table)
         return false;
     }
 
+    const uint numInputs = inputGates.size();
+    const uint numOutputs = resultGates.size();
+    const uint numMainGates = mainGates.size();
 
+    table.size = pow(2, numInputs);
+    for (uint iTableRun = 0; iTableRun < table.size; iTableRun++)
+    {
+        //Generate input values
+        std::vector<bool> inputValues = genInputs(iTableRun, numInputs);
+        table.inValues.push_back(inputValues);
+
+        for(uint iInput = 0; iInput < numInputs; iInput++)
+        {
+            inputGates[iInput]->SetPowerState(inputValues[iInput]);
+        }
+
+        //Must be a better way of doing this...
+        for(uint i = 0; i < numMainGates; i++)
+        {
+            for(Gate* g : mainGates)
+            {
+                g->UpdateOutput();
+            }
+        }
+
+        //Generate output values
+        std::vector<bool> outputValues;
+        for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
+        {
+            outputValues.push_back(resultGates[iOutput]->GetValue());
+        }
+        table.outValues.push_back(outputValues);
+    }
+
+    return true;
 }
 
 GateCollection::~GateCollection()
@@ -440,7 +475,12 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
 
     else if (m_truthTableButton.contains(mouse))
     {
-        //Todo ~ imp
+        TruthTable table;
+        if(generateTruthTable(table))
+        {
+
+        }
+
         if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
             return this;

@@ -113,21 +113,6 @@ void DLG_EditScript::onCircuitGenSucess(Circuit& circuit)
     close();
 }
 
-std::vector<bool> genInputs(const uint& a, const uint& len)
-{
-    std::vector<bool> inputs;
-    int mask = 1;
-    for(uint i = 0; i < len; i++)
-    {
-        if((mask&a) >= 1)
-            inputs.push_back(true);
-        else
-            inputs.push_back(false);
-        mask<<=1;
-    }
-    return inputs;
-}
-
 Gate* genRandomGate()
 {
     int random = QRandomGenerator::global()->generateDouble() * 10;

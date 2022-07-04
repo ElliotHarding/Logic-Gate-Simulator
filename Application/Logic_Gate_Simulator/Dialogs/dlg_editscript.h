@@ -6,20 +6,23 @@
 namespace Ui {
 class DLG_EditScript;
 }
-class GateFPGA;
+
 class DLG_Home;
+
 class Gate;
+class GateFPGA;
 class GateToggle;
 class GateReciever;
+class GateCollection;
 
 class Circuit
 {
 public:
     Circuit(const uint& inputs, const uint& outputs);
+    ~Circuit();
 
-    //Not done in destructor cuz we might want to use em elsewhere
-    void deleteAllGates();
-    void deleteMainCircuit();
+    GateCollection* createGateCollection();
+    void deleteMainGates();
 
     std::vector<Gate*> mainGates;
     std::vector<GateToggle*> inputs;
@@ -51,7 +54,7 @@ private:
     void setStartScript(const uint& numInputs);
     void setEndScript(const uint& numOutputs);
 
-    void onCircuitGenSucess(const Circuit& circuit);
+    void onCircuitGenSucess(Circuit& circuit);
 
     GateFPGA* m_pFpga = nullptr;
 };

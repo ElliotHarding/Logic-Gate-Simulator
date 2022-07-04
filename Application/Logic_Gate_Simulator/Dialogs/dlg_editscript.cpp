@@ -98,30 +98,9 @@ void DLG_EditScript::setEndScript(const uint& numOutputs)
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }
 
-void DLG_EditScript::onCircuitGenSucess(const Circuit& circuit)
+void DLG_EditScript::onCircuitGenSucess(Circuit& circuit)
 {
-    int inputY = 100;
-    for(Gate* g : circuit.mainGates)
-    {
-        g->setPosition(300, inputY+=100);
-    }
-
-    GateCollection* pNewCircuit = new GateCollection(circuit.mainGates);
-
-    inputY = 100;
-    for(Gate* g : circuit.inputs)
-    {
-        g->setPosition(200, inputY+=100); //Todo ~ not hard coded values...
-        pNewCircuit->AddGate(g);
-    }
-
-    inputY = 100;
-    for(Gate* g : circuit.outputs)
-    {
-        g->setPosition(500, inputY+=100);
-        pNewCircuit->AddGate(g);
-    }
-
+    GateCollection* pNewCircuit = circuit.createGateCollection();
     if(m_pFpga)
     {
         m_pFpga->GetParent()->AddGate(pNewCircuit);
@@ -360,28 +339,24 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         //Todo ~ make setting avaliable to user. Or do time setting.
         if(testCounter++ > Settings::MaxFailsForCircuitGenCheck)
         {
-            circuit.deleteAllGates();
-
-            //Todo ~ check if message works
+            m_pFpga = nullptr;
             m_pDlgHome->SendUserMessage("Failed to generate circuit!");
             return;
         }
 
-        uint failCounter = 0;
+        uint createCounter = 0;
         while(!createRandomCircuit(circuit))
         {
             //Todo ~ make setting avaliable to user. Or do time setting.
-            if(failCounter++ > Settings::MaxFailsForCircuitGen)
+            if(createCounter++ > Settings::MaxFailsForCircuitGen)
             {
-                circuit.deleteAllGates();
-
-                //Todo ~ check if message works
+                m_pFpga = nullptr;
                 m_pDlgHome->SendUserMessage("Failed to generate circuit!");
                 return;
             }
 
             //Prep a new circuit
-            circuit.deleteMainCircuit();
+            circuit.deleteMainGates();
         }
 
         //If random circuit matches truth table, circuit is complete.
@@ -392,7 +367,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         }
 
         //Prep a new circuit
-        circuit.deleteMainCircuit();
+        circuit.deleteMainGates();
     }
 }
 
@@ -414,26 +389,64 @@ Circuit::Circuit(const uint &numInputs, const uint &numOutputs)
     }
 }
 
-void Circuit::deleteAllGates()
+Circuit::~Circuit()
 {
     for(Gate* g : mainGates)
     {
         delete g;
     }
-    mainGates.clear();
     for(Gate* g : inputs)
     {
         delete g;
     }
-    inputs.clear();
     for(Gate* g : outputs)
     {
         delete g;
     }
-    outputs.clear();
 }
 
-void Circuit::deleteMainCircuit()
+GateCollection* Circuit::createGateCollection()
+{
+    //Todo ~ not hard coded pos values...
+
+    std::vector<NodeIds> linkInfo;
+    std::vector<Gate*> clonedGates;
+
+    int inputY = 100;
+    for(Gate* g : mainGates)
+    {
+        g->setPosition(300, inputY+=100);
+        g->collectLinkInfo(linkInfo);
+        clonedGates.push_back(g->Clone());
+    }
+
+    inputY = 100;
+    for(Gate* g : inputs)
+    {
+        g->setPosition(200, inputY+=100);
+        g->collectLinkInfo(linkInfo);
+        clonedGates.push_back(g->Clone());
+    }
+
+    inputY = 100;
+    for(Gate* g : outputs)
+    {
+        g->setPosition(500, inputY+=100);
+        g->collectLinkInfo(linkInfo);
+        clonedGates.push_back(g->Clone());
+    }
+
+    GateReader::linkNodes(clonedGates, linkInfo);
+    for(Gate* g : clonedGates)
+    {
+        g->AssignNewNodeIds();
+    }
+
+    GateCollection* pNewCircuit = new GateCollection(clonedGates);
+    return pNewCircuit;
+}
+
+void Circuit::deleteMainGates()
 {
     for(Gate* g : mainGates)
     {

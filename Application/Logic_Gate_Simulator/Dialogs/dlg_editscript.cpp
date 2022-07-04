@@ -15,6 +15,7 @@
 namespace Settings
 {
 const uint MaxFailsForCircuitGen = 500;
+const uint MaxFailsForCircuitGenCheck = 500;
 const uint MaxGatesInCircuit = 10;
 }
 
@@ -353,13 +354,27 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     Circuit circuit(numInputs, numOutputs);
 
     //Begin generating random circuits until one matches truth table
+    uint testCounter = 0;
     while(true)
     {
+        //Todo ~ make setting avaliable to user. Or do time setting.
+        if(testCounter++ > Settings::MaxFailsForCircuitGenCheck)
+        {
+            circuit.deleteAllGates();
+
+            //Todo ~ check if message works
+            m_pDlgHome->SendUserMessage("Failed to generate circuit!");
+            return;
+        }
+
         uint failCounter = 0;
         while(!createRandomCircuit(circuit))
         {
+            //Todo ~ make setting avaliable to user. Or do time setting.
             if(failCounter++ > Settings::MaxFailsForCircuitGen)
             {
+                circuit.deleteAllGates();
+
                 //Todo ~ check if message works
                 m_pDlgHome->SendUserMessage("Failed to generate circuit!");
                 return;

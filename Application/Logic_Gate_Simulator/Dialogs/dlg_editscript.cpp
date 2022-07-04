@@ -151,6 +151,8 @@ Gate* genRandomGate()
 
 bool createRandomCircuit(Circuit& circuit)
 {
+    circuit.deleteMainGates();
+
     std::vector<Node*> circuitOutsUnlinked;
     for(Gate* g : circuit.inputs)
     {
@@ -354,9 +356,6 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
                 m_pDlgHome->SendUserMessage("Failed to generate circuit!");
                 return;
             }
-
-            //Prep a new circuit
-            circuit.deleteMainGates();
         }
 
         //If random circuit matches truth table, circuit is complete.
@@ -365,9 +364,6 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
             onCircuitGenSucess(circuit);
             return;
         }
-
-        //Prep a new circuit
-        circuit.deleteMainGates();
     }
 }
 

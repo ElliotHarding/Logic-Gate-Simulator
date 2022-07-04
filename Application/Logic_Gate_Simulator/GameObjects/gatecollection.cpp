@@ -310,6 +310,19 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
     }
 }
 
+Node* GateCollection::checkClickedNodes(const QPoint& mouse)
+{
+    for(Gate* g : m_gates)
+    {
+        Node* pNode = g->checkClickedNodes(mouse);
+        if(pNode)
+        {
+            return pNode;
+        }
+    }
+    return nullptr;
+}
+
 void GateCollection::DrawButtons(QPainter& painter)
 {
     painter.drawImage(m_deleteAllButton, Settings::ImgDeleteAllButton);

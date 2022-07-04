@@ -19,6 +19,7 @@ public:
 
     virtual GameObject* checkClicked(const QPoint& mouse) override;
 
+    virtual Node* checkClickedNodes(const QPoint& mouse) override;
     virtual bool FindNodeWithId(const id& id, Node*& pNode) override;
     virtual void AssignNewNodeIds() override;
     virtual void collectLinkInfo(std::vector<NodeIds>& collection) override;

@@ -12,11 +12,6 @@
 #include <QDebug>
 #include <cmath>
 
-namespace Settings
-{
-const uint MaxGatesInCircuit = 10;
-}
-
 DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
     QDialog(pParent),
     ui(new Ui::DLG_EditScript),
@@ -150,7 +145,7 @@ bool allUnlinkedNodesFromSameGate(const std::vector<Node*>& circuitOutsUnlinked,
     return true;
 }
 
-bool createRandomCircuit(Circuit& circuit, const uint& percentageNewGate)
+bool createRandomCircuit(Circuit& circuit, const uint& percentageNewGate, const uint& maxGates)
 {
     circuit.deleteMainGates();
 
@@ -173,7 +168,7 @@ bool createRandomCircuit(Circuit& circuit, const uint& percentageNewGate)
         {
             circuit.mainGates.push_back(newGate);
 
-            if(circuit.mainGates.size() > Settings::MaxGatesInCircuit)
+            if(circuit.mainGates.size() > maxGates)
                 return false;
 
             const std::vector<Node*> inNodes = newGate->getInputNodes();
@@ -309,6 +304,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     const QString script = ui->textEdit_script->toPlainText();
     const int maxSeconds = ui->spinBox_maxGenTime->value();
     const uint percentageRandomGate = ui->spinBox_addGateChance->value();
+    const uint maxGates = ui->spinBox_maxGates->value();
 
     if(m_pFpga)
     {
@@ -333,7 +329,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
             return;
         }
 
-        while(!createRandomCircuit(circuit, percentageRandomGate))
+        while(!createRandomCircuit(circuit, percentageRandomGate, maxGates))
         {
             if((clock() - startTimeMs)/1000 > maxSeconds)
             {

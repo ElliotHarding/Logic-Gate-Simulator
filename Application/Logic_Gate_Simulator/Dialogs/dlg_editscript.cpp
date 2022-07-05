@@ -111,25 +111,28 @@ void DLG_EditScript::onCircuitGenSucess(Circuit& circuit)
     close();
 }
 
-Gate* genRandomGate()
+Gate* genRandomGate(const uint& percentageNewGate)
 {
-    int random = QRandomGenerator::global()->generateDouble() * 10;
-    switch (random)
+    uint randomPercentage = QRandomGenerator::global()->generateDouble() * 100;
+    if(randomPercentage < percentageNewGate)
     {
-    case 0:
-        return new GateAnd();
-    case 1:
-        return new GateOr();
-    case 2:
-        return new GateNot();
-    case 3:
-        return new GateEor();
-    case 4:
-    case 5:
-    case 6:
-    default:
-        return nullptr;
+        int random = QRandomGenerator::global()->generateDouble() * 4;
+        switch (random)
+        {
+        case 0:
+            return new GateAnd();
+        case 1:
+            return new GateOr();
+        case 2:
+            return new GateNot();
+        case 3:
+            return new GateEor();
+        default:
+            return nullptr;
+        }
     }
+
+    return nullptr;
 }
 
 bool allUnlinkedNodesFromSameGate(const std::vector<Node*>& circuitOutsUnlinked, const std::vector<Node*>& circuitInsUnlinked)
@@ -147,7 +150,7 @@ bool allUnlinkedNodesFromSameGate(const std::vector<Node*>& circuitOutsUnlinked,
     return true;
 }
 
-bool createRandomCircuit(Circuit& circuit)
+bool createRandomCircuit(Circuit& circuit, const uint& percentageNewGate)
 {
     circuit.deleteMainGates();
 
@@ -165,7 +168,7 @@ bool createRandomCircuit(Circuit& circuit)
 
     while(circuitInsUnlinked.size() > 0 || circuitOutsUnlinked.size() > 0)
     {
-        Gate* newGate = genRandomGate();
+        Gate* newGate = genRandomGate(percentageNewGate);
         if(newGate != nullptr)
         {
             circuit.mainGates.push_back(newGate);
@@ -305,6 +308,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     const uint numOutputs = ui->spinBox_outputs->value();
     const QString script = ui->textEdit_script->toPlainText();
     const int maxSeconds = ui->spinBox_maxGenTime->value();
+    const uint percentageRandomGate = ui->spinBox_addGateChance->value();
 
     if(m_pFpga)
     {
@@ -329,7 +333,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
             return;
         }
 
-        while(!createRandomCircuit(circuit))
+        while(!createRandomCircuit(circuit, percentageRandomGate))
         {
             if((clock() - startTimeMs)/1000 > maxSeconds)
             {

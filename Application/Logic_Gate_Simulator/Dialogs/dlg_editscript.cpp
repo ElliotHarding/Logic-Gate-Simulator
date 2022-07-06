@@ -91,7 +91,7 @@ void DLG_EditScript::setEndScript(const uint& numOutputs)
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }
 
-void DLG_EditScript::onCircuitGenSucess(Circuit& circuit)
+void DLG_EditScript::onCircuitGenSuccess(Circuit& circuit)
 {
     GateCollection* pNewCircuit = circuit.createGateCollection();
     if(m_pFpga)
@@ -104,6 +104,11 @@ void DLG_EditScript::onCircuitGenSucess(Circuit& circuit)
         m_pDlgHome->AddGateToGateField(pNewCircuit);
     }
     close();
+}
+
+void DLG_EditScript::onCircuitGenFailure(const QString& failMessage)
+{
+    m_pDlgHome->SendUserMessage(failMessage);
 }
 
 Gate* genRandomGate(const uint& percentageNewGate)
@@ -341,7 +346,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         //If random circuit matches truth table, circuit is complete.
         if(testCircuitAgainstTruthTable(circuit, truthTable))
         {
-            onCircuitGenSucess(circuit);
+            onCircuitGenSuccess(circuit);
             return;
         }
     }
@@ -453,4 +458,27 @@ void Circuit::deleteMainGates()
     {
         g->DetachNodes();
     }
+}
+
+//////////////////////////////////////////////////////////////////////////
+/// \brief CircuitFromScriptThread::CircuitFromScriptThread
+///
+CircuitFromScriptThread::CircuitFromScriptThread() : QThread()
+{
+}
+
+void CircuitFromScriptThread::setup(const uint &numInputs, uint &numOutputs, const QString &script, const int &maxSeconds, const uint &percentageRandomGate, const uint &maxGates)
+{
+    m_numInputs = numInputs;
+    m_numOutputs = numOutputs;
+    m_script = script;
+    m_maxSeconds = maxSeconds;
+    m_percentageRandomGate = percentageRandomGate;
+    m_maxGates = maxGates;
+}
+
+void CircuitFromScriptThread::run()
+{
+    emit circuitGenSuccess();
+    emit circuitGenFailure("");
 }

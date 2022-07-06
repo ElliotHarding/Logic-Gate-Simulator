@@ -2,6 +2,7 @@
 #define DLG_EditScript_H
 
 #include <QDialog>
+#include <QThread>
 
 namespace Ui {
 class DLG_EditScript;
@@ -15,6 +16,8 @@ class GateToggle;
 class GateReciever;
 class GateCollection;
 
+//////////////////////////////////////////////////////////////////////////
+///Circuit
 class Circuit
 {
 public:
@@ -31,6 +34,8 @@ private:
     bool m_bDeleteGates = true; //Delete gates on destructor
 };
 
+//////////////////////////////////////////////////////////////////////////
+///DLG_EditScript
 class DLG_EditScript : public QDialog
 {
     Q_OBJECT
@@ -47,8 +52,11 @@ private slots:
 
     void on_btn_setScript_clicked();
     void on_btn_genCircuit_clicked();
-
     void on_btn_genTuthTable_clicked();
+
+private slots:
+    void onCircuitGenSuccess(Circuit& circuit);
+    void onCircuitGenFailure(const QString& failMessage);
 
 private:
     Ui::DLG_EditScript *ui;
@@ -58,9 +66,32 @@ private:
     void setStartScript(const uint& numInputs);
     void setEndScript(const uint& numOutputs);
 
-    void onCircuitGenSucess(Circuit& circuit);
-
     GateFPGA* m_pFpga = nullptr;
+};
+
+//////////////////////////////////////////////////////////////////////////
+///CircuitFromScriptThread
+class CircuitFromScriptThread : public QThread
+{
+    Q_OBJECT
+public:
+    CircuitFromScriptThread();
+
+    void setup(const uint& numInputs, uint& numOutputs, const QString& script, const int& maxSeconds, const uint& percentageRandomGate, const uint& maxGates);
+
+    void run();
+
+signals:
+    void circuitGenSuccess(Circuit& circuit);
+    void circuitGenFailure(const QString& failMessage);
+
+private:
+    uint m_numInputs;
+    uint m_numOutputs;
+    QString m_script;
+    int m_maxSeconds;
+    uint m_percentageRandomGate;
+    uint m_maxGates;
 };
 
 #endif // DLG_EditScript_H

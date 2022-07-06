@@ -4,13 +4,14 @@
 #include <string>
 #include <QPoint>
 #include <vector>
-#include <QDomDocument>
 
 class Gate;
 class Node;
 class GateCollection;
 class GateField;
 struct NodeIds;
+
+class QDomElement;
 
 class DLG_Home;
 

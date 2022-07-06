@@ -18,7 +18,7 @@ DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
 {
     ui->setupUi(this);
 
-    connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenSuccess(Circuit)), this, SLOT(onCircuitGenSuccess(Circuit)));
+    connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenSuccess(GateCollection*)), this, SLOT(onCircuitGenSuccess(GateCollection*)));
     connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onCircuitGenFailure(const QString&)));
 }
 
@@ -93,9 +93,8 @@ void DLG_EditScript::setEndScript(const uint& numOutputs)
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }
 
-void DLG_EditScript::onCircuitGenSuccess(Circuit circuit)
+void DLG_EditScript::onCircuitGenSuccess(GateCollection* pNewCircuit)
 {
-    GateCollection* pNewCircuit = circuit.createGateCollection();
     if(m_pFpga)
     {
         m_pFpga->GetParent()->AddGate(pNewCircuit);

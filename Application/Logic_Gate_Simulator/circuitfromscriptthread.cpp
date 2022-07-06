@@ -57,7 +57,7 @@ void CircuitFromScriptThread::run()
         //If random circuit matches truth table, circuit is complete.
         if(testCircuitAgainstTruthTable(circuit, truthTable))
         {
-            emit circuitGenSuccess(circuit);
+            emit circuitGenSuccess(circuit.createGateCollection());
             return;
         }
     }

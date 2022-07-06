@@ -2,11 +2,11 @@
 #define CIRCUITFROMSCRIPTTHREAD_H
 
 #include "truthtable.h"
-#include "circuit.h"
 
 #include <QThread>
 
 class Circuit;
+class GateCollection;
 
 //////////////////////////////////////////////////////////////////////////
 ///CircuitFromScriptThread
@@ -23,7 +23,7 @@ public:
     static TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs, const uint& numOutputs);
 
 signals:
-    void circuitGenSuccess(Circuit circuit);
+    void circuitGenSuccess(GateCollection* pNewCircuit);
     void circuitGenFailure(const QString& failMessage);
 
 private:

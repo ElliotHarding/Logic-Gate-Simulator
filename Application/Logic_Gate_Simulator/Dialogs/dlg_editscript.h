@@ -1,8 +1,6 @@
 #ifndef DLG_EditScript_H
 #define DLG_EditScript_H
 
-#include "circuit.h"
-
 #include <QDialog>
 
 namespace Ui {
@@ -39,7 +37,7 @@ private slots:
     void on_btn_genTuthTable_clicked();
 
 private slots:
-    void onCircuitGenSuccess(Circuit circuit);
+    void onCircuitGenSuccess(GateCollection* pNewCircuit);
     void onCircuitGenFailure(const QString& failMessage);
 
 private:

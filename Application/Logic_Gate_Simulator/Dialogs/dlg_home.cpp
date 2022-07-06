@@ -66,6 +66,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         connect(ui->actionZoom_2, SIGNAL(triggered()), this, SLOT(on_btn_zoomOut_clicked()));
         connect(ui->actionDelete_Link, SIGNAL(triggered()), this, SLOT(on_btn_DeleteLink_clicked()));
         connect(ui->actionSet_Page_Name, SIGNAL(triggered()), this, SLOT(on_btn_setPageName_clicked()));
+        connect(ui->actionCreate_Script, SIGNAL(triggered()), this, SLOT(on_btn_createScript_clicked()));
     }
 
     {
@@ -416,6 +417,11 @@ void DLG_Home::on_btn_redo_clicked()
 {
     if(m_iCurrentGateField != -1)
         m_allGateFields[size_t(m_iCurrentGateField)]->Redo();
+}
+
+void DLG_Home::on_btn_createScript_clicked()
+{
+    m_pDlgEditScript->open(nullptr);
 }
 
 void DLG_Home::on_btn_newPage_clicked()

@@ -44,6 +44,11 @@ void DLG_EditScript::open(GateFPGA* pFPGA)
 
         ui->textEdit_script->setText(m_pFpga->getScript());
     }
+    else
+    {
+        setStartScript(ui->spinBox_inputs->value());
+        setEndScript(ui->spinBox_outputs->value());
+    }
 
     QDialog::open();
 }

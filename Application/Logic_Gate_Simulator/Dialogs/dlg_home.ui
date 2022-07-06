@@ -38,7 +38,7 @@
    <string/>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resouces.qrc">
+   <iconset>
     <normaloff>:/Resources/Button Icons/icon-application.png</normaloff>:/Resources/Button Icons/icon-application.png</iconset>
   </property>
   <property name="styleSheet">
@@ -149,7 +149,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-pan.png</normaloff>:/Resources/Button Icons/icon-pan.png</iconset>
     </property>
     <property name="iconSize">
@@ -184,7 +184,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-bin.png</normaloff>:/Resources/Button Icons/icon-bin.png</iconset>
     </property>
     <property name="iconSize">
@@ -213,7 +213,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-link-delete.png</normaloff>:/Resources/Button Icons/icon-link-delete.png</iconset>
     </property>
     <property name="iconSize">
@@ -242,7 +242,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-tool.png</normaloff>:/Resources/Button Icons/icon-tool.png</iconset>
     </property>
     <property name="iconSize">
@@ -271,7 +271,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-zoom-in.png</normaloff>:/Resources/Button Icons/icon-zoom-in.png</iconset>
     </property>
     <property name="iconSize">
@@ -303,7 +303,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-zoom-out.png</normaloff>:/Resources/Button Icons/icon-zoom-out.png</iconset>
     </property>
     <property name="iconSize">
@@ -332,7 +332,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-new-page.png</normaloff>:/Resources/Button Icons/icon-new-page.png</iconset>
     </property>
     <property name="iconSize">
@@ -361,7 +361,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-drag.png</normaloff>:/Resources/Button Icons/icon-drag.png</iconset>
     </property>
     <property name="iconSize">
@@ -393,7 +393,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-undo.png</normaloff>:/Resources/Button Icons/icon-undo.png</iconset>
     </property>
     <property name="iconSize">
@@ -422,7 +422,7 @@ border:none;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../resouces.qrc">
+     <iconset>
       <normaloff>:/Resources/Button Icons/icon-redo.png</normaloff>:/Resources/Button Icons/icon-redo.png</iconset>
     </property>
     <property name="iconSize">
@@ -482,7 +482,7 @@ border:none;</string>
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../resouces.qrc">
+      <iconset>
        <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
      </property>
      <property name="iconSize">
@@ -590,7 +590,7 @@ border:none;</string>
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../resouces.qrc">
+      <iconset>
        <normaloff>:/Resources/Button Icons/icon-file-down.png</normaloff>:/Resources/Button Icons/icon-file-down.png</iconset>
      </property>
      <property name="iconSize">
@@ -622,7 +622,7 @@ border:none;</string>
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../resouces.qrc">
+      <iconset>
        <normaloff>:/Resources/Button Icons/icon-tasks.png</normaloff>:/Resources/Button Icons/icon-tasks.png</iconset>
      </property>
      <property name="iconSize">
@@ -838,9 +838,16 @@ QComboBox::down-arrow {
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
    </widget>
+   <widget class="QMenu" name="menuScript">
+    <property name="title">
+     <string>Script</string>
+    </property>
+    <addaction name="actionCreate_Script"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
+   <addaction name="menuScript"/>
   </widget>
   <action name="actionNew_page">
    <property name="text">
@@ -849,7 +856,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionNewPage">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-new-page.png</normaloff>:/Resources/Button Icons/icon-new-page.png</iconset>
    </property>
    <property name="text">
@@ -861,7 +868,7 @@ QComboBox::down-arrow {
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
    </property>
    <property name="text">
@@ -870,7 +877,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionLoad">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
    </property>
    <property name="text">
@@ -884,7 +891,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionDrag">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-drag.png</normaloff>:/Resources/Button Icons/icon-drag.png</iconset>
    </property>
    <property name="text">
@@ -893,7 +900,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionEdit">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-tool.png</normaloff>:/Resources/Button Icons/icon-tool.png</iconset>
    </property>
    <property name="text">
@@ -902,7 +909,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionDelete">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-bin.png</normaloff>:/Resources/Button Icons/icon-bin.png</iconset>
    </property>
    <property name="text">
@@ -911,7 +918,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionLink">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-link-basic.png</normaloff>:/Resources/Button Icons/icon-link-basic.png</iconset>
    </property>
    <property name="text">
@@ -920,7 +927,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionDelete_Link">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-link-delete.png</normaloff>:/Resources/Button Icons/icon-link-delete.png</iconset>
    </property>
    <property name="text">
@@ -929,7 +936,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionZoom">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-zoom-in.png</normaloff>:/Resources/Button Icons/icon-zoom-in.png</iconset>
    </property>
    <property name="text">
@@ -938,7 +945,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionZoom_2">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-zoom-out.png</normaloff>:/Resources/Button Icons/icon-zoom-out.png</iconset>
    </property>
    <property name="text">
@@ -947,7 +954,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionUndo">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-undo.png</normaloff>:/Resources/Button Icons/icon-undo.png</iconset>
    </property>
    <property name="text">
@@ -956,7 +963,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionRedo">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-redo.png</normaloff>:/Resources/Button Icons/icon-redo.png</iconset>
    </property>
    <property name="text">
@@ -985,7 +992,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionView_Tasks">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/icon-tasks.png</normaloff>:/Resources/Button Icons/icon-tasks.png</iconset>
    </property>
    <property name="text">
@@ -994,16 +1001,19 @@ QComboBox::down-arrow {
   </action>
   <action name="actionSet_Page_Name">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/gate-collection-save.png</normaloff>:/Resources/Button Icons/gate-collection-save.png</iconset>
    </property>
    <property name="text">
     <string>Set Page Name</string>
    </property>
   </action>
+  <action name="actionCreate_Script">
+   <property name="text">
+    <string>Create Script</string>
+   </property>
+  </action>
  </widget>
- <resources>
-  <include location="../resouces.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

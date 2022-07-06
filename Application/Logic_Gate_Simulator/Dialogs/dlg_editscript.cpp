@@ -163,3 +163,13 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
     //Testing purposes
     m_pDlgHome->showTruthTable(truthTable);
 }
+
+void DLG_EditScript::on_btn_load_clicked()
+{
+
+}
+
+void DLG_EditScript::on_btn_Save_clicked()
+{
+
+}

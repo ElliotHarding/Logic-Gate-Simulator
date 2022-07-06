@@ -2,6 +2,7 @@
 #include "ui_dlg_editscript.h"
 
 #include "dlg_home.h"
+#include "gatereader.h"
 #include "GameObjects/gatefpga.h"
 #include "gatecollection.h"
 #include "gatefield.h"
@@ -173,5 +174,13 @@ void DLG_EditScript::on_btn_load_clicked()
 
 void DLG_EditScript::on_btn_Save_clicked()
 {
+    Saver saver;
 
+    const uint numInputs = ui->spinBox_inputs->value();
+    const uint numOutputs = ui->spinBox_outputs->value();
+    const QString script = ui->textEdit_script->toPlainText();
+    if(!saver.saveScript(m_currentSavePath, script, numInputs, numOutputs, m_pDlgHome))
+    {
+        //Error messages already handled by saver...
+    }
 }

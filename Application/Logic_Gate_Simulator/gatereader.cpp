@@ -66,28 +66,42 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
     return true;
 }
 
-bool GateReader::ReadGateCollection(QDomDocument& doc, GateCollection*& gCollection)
+bool GateReader::ReadGateCollection(const QString& filePath, GateCollection*& gCollection)
 {
+    QFile gateCollectionFile(filePath);
+    if(!gateCollectionFile.open(QIODevice::ReadOnly))
+    {
+        return false;
+    }
+
+    QDomDocument doc;
+    doc.setContent(&gateCollectionFile);
+
     QDomElement gateCollection = doc.firstChildElement(Settings::GateCollectionElement);
     if(gateCollection.isNull())
     {
+        gateCollectionFile.close();
         return false;
     }
 
     QDomElement gateCollectionGate = gateCollection.firstChildElement(Settings::GateElement);
     if(gateCollectionGate.isNull())
     {
+        gateCollectionFile.close();
         return false;
     }
 
     const GateType type = (GateType)tryReadInt(gateCollectionGate.attribute(Settings::GateTypeTag), GATE_NULL);
     if(type != GateType::GATE_COLLECTION)
     {
+        gateCollectionFile.close();
         return false;
     }
 
     gCollection = new GateCollection(readGates(gateCollectionGate));
     gCollection->AssignNewNodeIds();
+
+    gateCollectionFile.close();
 
     return true;
 }
@@ -446,25 +460,14 @@ std::vector<QString> CustomGateReader::getCustomGateNames()
 
 GateCollection* CustomGateReader::spawnCustomGate(const QString &name)
 {
-    QFile customGateFile(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
-
-    if(!customGateFile.open(QIODevice::ReadOnly))
-    {
-        return nullptr;
-    }
-
-    QDomDocument doc;
-    doc.setContent(&customGateFile);
+    const QString customGateFile(Settings::CustomGatesLocation + name + Settings::CustomGateFile);
 
     GateCollection* cg;
     static GateReader gReader;
-    if(gReader.ReadGateCollection(doc, cg))
+    if(gReader.ReadGateCollection(customGateFile, cg))
     {
-        customGateFile.close();
         return cg;
     }
-
-    customGateFile.close();
 
     return nullptr;
 }

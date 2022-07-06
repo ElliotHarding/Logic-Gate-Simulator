@@ -40,6 +40,10 @@ private slots:
     void onCircuitGenSuccess(GateCollection* pNewCircuit);
     void onCircuitGenFailure(const QString& failMessage);
 
+    void on_btn_load_clicked();
+
+    void on_btn_Save_clicked();
+
 private:
     Ui::DLG_EditScript *ui;
 

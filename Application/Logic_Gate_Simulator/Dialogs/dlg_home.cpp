@@ -308,6 +308,15 @@ void DLG_Home::showTruthTable(const TruthTable& truthTable)
     m_pDlgTruthTable->open(truthTable);
 }
 
+bool DLG_Home::requestUserInputString(const QString& title, const QString& context, QString& result)
+{
+    bool ok;
+    result = m_pDlgInput->getText(this, title,
+                                        context, QLineEdit::Normal,
+                                        "", &ok);
+    return ok;
+}
+
 void DLG_Home::moveEvent(QMoveEvent* event)
 {
     QMainWindow::moveEvent(event);
@@ -427,20 +436,17 @@ void DLG_Home::on_btn_createScript_clicked()
 void DLG_Home::on_btn_newPage_clicked()
 {
     //Request page name
-    bool ok;
-    QString newPageName = m_pDlgInput->getText(this, tr("Edit Name"),
-                                         tr("Page name: "), QLineEdit::Normal,
-                                         "", &ok);
-    if(!ok)
-        return;
-
-    if(newPageName.length() > 0)
+    QString newPageName;
+    if(requestUserInputString("Edit Name", "Page name: ", newPageName))
     {
-        NewlySpawnedGateField(newPageName);
-    }
-    else
-    {
-        m_pDlgMessage->ShowMessage(newPageName + "Is not a valid file name!");
+        if(newPageName.length() > 0)
+        {
+            NewlySpawnedGateField(newPageName);
+        }
+        else
+        {
+            m_pDlgMessage->ShowMessage(newPageName + "Is not a valid file name!");
+        }
     }
 }
 

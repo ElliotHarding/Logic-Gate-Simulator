@@ -443,6 +443,11 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
     return true;
 }
 
+bool Saver::saveScript(const QString& script, const uint& inputs, const uint& outputs, DLG_Home* pHome)
+{
+
+}
+
 std::vector<QString> CustomGateReader::getCustomGateNames()
 {
     QStringList nameFilter("*" + Settings::CustomGateFile);

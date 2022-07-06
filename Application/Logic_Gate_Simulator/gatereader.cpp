@@ -445,6 +445,7 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
     return true;
 }
 
+/*
 bool Saver::saveScript(const QString& script, const uint& inputs, const uint& outputs, DLG_Home* pHome)
 {
     QString name;
@@ -478,7 +479,7 @@ bool Saver::saveScript(const QString& script, const uint& inputs, const uint& ou
         return true;
     }
     return false;
-}
+}*/
 
 std::vector<QString> CustomGateReader::getCustomGateNames()
 {

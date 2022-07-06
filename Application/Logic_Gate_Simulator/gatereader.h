@@ -10,6 +10,8 @@ class GateCollection;
 class GateField;
 struct NodeIds;
 
+class QFile;
+
 class QDomElement;
 
 class DLG_Home;
@@ -48,7 +50,9 @@ class Saver
 public:
     bool saveGateField(GateField* pGateFeild, DLG_Home* pHome);
     bool saveGateCollection(GateCollection* pGateCollection, const QString& name, DLG_Home* pHome);
-    //bool saveScript(const QString& script, const uint& inputs, const uint& outputs, DLG_Home* pHome);
+    bool saveScript(QString& currentSavePath, const QString& script, const uint& inputs, const uint& outputs, DLG_Home* pHome);
+private:
+    void saveScriptFile(QFile& file, const QString& script, const uint& inputs, const uint& outputs);
 };
 
 #endif // SAVINGTEMPLATES_H

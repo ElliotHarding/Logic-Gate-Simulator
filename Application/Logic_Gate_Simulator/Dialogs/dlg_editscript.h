@@ -54,6 +54,8 @@ private:
 
     GateFPGA* m_pFpga = nullptr;
 
+    QString m_currentSavePath = "";
+
     CircuitFromScriptThread* m_pCircuitFromScriptThread;
 };
 

@@ -17,6 +17,10 @@ const QString CustomGatesLocation = "CustomGates/";
 const QString GateFeildFile = ".GateField";
 
 const QString ScriptFile = ".Script";
+const QString ScriptElement = "Script";
+const QString ScriptInputsAttribute = "Inputs";
+const QString ScriptOutputsAttribute = "Outputs";
+const QString ScriptMainScriptElement = "MainScript";
 
 const QString GateCollectionElement = "GateCollection";
 }
@@ -445,41 +449,58 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
     return true;
 }
 
-/*
-bool Saver::saveScript(const QString& script, const uint& inputs, const uint& outputs, DLG_Home* pHome)
+bool Saver::saveScript(QString& currentSavePath, const QString& script, const uint& inputs, const uint& outputs, DLG_Home* pHome)
 {
-    QString name;
-    if(pHome->requestUserInputString("Set save name", "Save name: ", name))
+    QFile file(currentSavePath);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        if(name.isEmpty())
+        QString name;
+        if(pHome->requestUserInputString("Set save name", "Save name: ", name))
         {
-            pHome->SendUserMessage("Invalid name!");
-            return false;
+            if(name.isEmpty())
+            {
+                pHome->SendUserMessage("Invalid name!");
+                return false;
+            }
+
+            QString dir = QFileDialog::getExistingDirectory(pHome, "Open Directory",
+                                                         "/home",
+                                                         QFileDialog::ShowDirsOnly
+                                                         | QFileDialog::DontResolveSymlinks);
+            currentSavePath = dir + "/" + name + Settings::ScriptFile;
+            QFile file(currentSavePath);
+            if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            {
+                pHome->SendUserMessage("Can't open file to save!");
+                return false;
+            }
+
+            saveScriptFile(file, script, inputs, outputs);
+            return true;
         }
-
-        QString dir = QFileDialog::getExistingDirectory(pHome, "Open Directory",
-                                                     "/home",
-                                                     QFileDialog::ShowDirsOnly
-                                                     | QFileDialog::DontResolveSymlinks);
-
-        QFile file(dir + "/" + name + Settings::ScriptFile);
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        {
-            pHome->SendUserMessage("Can't open file to save!");
-            return false;
-        }
-
-        QDomDocument saveDoc(Settings::XMLElement);
-        //pGateFeild->SaveData(saveDoc);
-
-        QTextStream stream(&file);
-        stream << saveDoc.toString();
-
-        file.close();
-        return true;
+        return false;
     }
-    return false;
-}*/
+
+    saveScriptFile(file, script, inputs, outputs);
+    return true;
+}
+
+void Saver::saveScriptFile(QFile& file, const QString &script, const uint &inputs, const uint &outputs)
+{
+    QDomDocument saveDoc(Settings::XMLElement);
+
+    QDomElement scriptElement = saveDoc.createElement(Settings::ScriptElement);
+    scriptElement.setAttribute(Settings::ScriptInputsAttribute, QString::number(inputs));
+    scriptElement.setAttribute(Settings::ScriptOutputsAttribute, QString::number(outputs));
+    scriptElement.setNodeValue(script);
+
+    saveDoc.appendChild(scriptElement);
+
+    QTextStream stream(&file);
+    stream << saveDoc.toString();
+
+    file.close();
+}
 
 std::vector<QString> CustomGateReader::getCustomGateNames()
 {

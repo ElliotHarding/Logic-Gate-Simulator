@@ -43,6 +43,8 @@ void DLG_EditScript::open(GateFPGA* pFPGA)
         ui->spinBox_outputs->setValue(numOutputs);
 
         ui->textEdit_script->setText(m_pFpga->getScript());
+
+        m_currentSavePath = "";
     }
     else
     {

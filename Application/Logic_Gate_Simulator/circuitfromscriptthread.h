@@ -13,7 +13,7 @@ class CircuitFromScriptThread : public QThread
 public:
     CircuitFromScriptThread();
 
-    void setup(const uint& numInputs, uint& numOutputs, const QString& script, const int& maxSeconds, const uint& percentageRandomGate, const uint& maxGates);
+    void setup(const uint& numInputs, const uint& numOutputs, const QString& script, const int& maxSeconds, const uint& percentageRandomGate, const uint& maxGates);
 
     void run();
 

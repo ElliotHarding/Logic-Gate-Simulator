@@ -7,7 +7,7 @@ CircuitFromScriptThread::CircuitFromScriptThread() : QThread()
 {
 }
 
-void CircuitFromScriptThread::setup(const uint &numInputs, uint &numOutputs, const QString &script, const int &maxSeconds, const uint &percentageRandomGate, const uint &maxGates)
+void CircuitFromScriptThread::setup(const uint& numInputs, const uint& numOutputs, const QString& script, const int& maxSeconds, const uint& percentageRandomGate, const uint& maxGates)
 {
     m_numInputs = numInputs;
     m_numOutputs = numOutputs;

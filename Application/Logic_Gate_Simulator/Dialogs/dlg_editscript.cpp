@@ -324,6 +324,14 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         m_pFpga->setScript(script);
     }
 
+    if(m_pCircuitFromScriptThread->isRunning())
+    {
+        m_pDlgHome->SendUserMessage("Already generating!");
+        return;
+    }
+
+    m_pCircuitFromScriptThread->setup(numInputs, numOutputs, script, maxSeconds, percentageRandomGate, maxGates);
+
     //Generate truth table from script
     TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);
 

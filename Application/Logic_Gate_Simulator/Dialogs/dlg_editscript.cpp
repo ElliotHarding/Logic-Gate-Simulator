@@ -2,17 +2,12 @@
 #include "ui_dlg_editscript.h"
 
 #include "dlg_home.h"
-#include "truthtable.h"
 #include "GameObjects/gatefpga.h"
-#include "allgates.h"
+#include "gatecollection.h"
 #include "gatefield.h"
-#include "circuit.h"
 #include "circuitfromscriptthread.h"
 
-#include <QRandomGenerator>
-#include <QScriptEngine>
 #include <QDebug>
-#include <cmath>
 
 DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
     QDialog(pParent),
@@ -23,12 +18,13 @@ DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
 {
     ui->setupUi(this);
 
-    connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenSuccess(Circuit&)), this, SLOT(onCircuitGenSuccess(Circuit&)));
+    connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenSuccess(Circuit)), this, SLOT(onCircuitGenSuccess(Circuit)));
     connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onCircuitGenFailure(const QString&)));
 }
 
 DLG_EditScript::~DLG_EditScript()
 {
+    delete m_pCircuitFromScriptThread;
     delete ui;
 }
 
@@ -97,7 +93,7 @@ void DLG_EditScript::setEndScript(const uint& numOutputs)
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }
 
-void DLG_EditScript::onCircuitGenSuccess(Circuit& circuit)
+void DLG_EditScript::onCircuitGenSuccess(Circuit circuit)
 {
     GateCollection* pNewCircuit = circuit.createGateCollection();
     if(m_pFpga)
@@ -115,197 +111,6 @@ void DLG_EditScript::onCircuitGenSuccess(Circuit& circuit)
 void DLG_EditScript::onCircuitGenFailure(const QString& failMessage)
 {
     m_pDlgHome->SendUserMessage(failMessage);
-}
-
-Gate* genRandomGate(const uint& percentageNewGate)
-{
-    uint randomPercentage = QRandomGenerator::global()->generateDouble() * 100;
-    if(randomPercentage < percentageNewGate)
-    {
-        int random = QRandomGenerator::global()->generateDouble() * 4;
-        switch (random)
-        {
-        case 0:
-            return new GateAnd();
-        case 1:
-            return new GateOr();
-        case 2:
-            return new GateNot();
-        case 3:
-            return new GateEor();
-        default:
-            return nullptr;
-        }
-    }
-
-    return nullptr;
-}
-
-bool allUnlinkedNodesFromSameGate(const std::vector<Node*>& circuitOutsUnlinked, const std::vector<Node*>& circuitInsUnlinked)
-{
-    for(uint i = 0; i < circuitOutsUnlinked.size(); i++)
-    {
-        for(uint j = 0; j < circuitInsUnlinked.size(); j++)
-        {
-            if(circuitOutsUnlinked[i]->GetParent() != circuitInsUnlinked[j]->GetParent())
-            {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-bool createRandomCircuit(Circuit& circuit, const uint& percentageNewGate, const uint& maxGates)
-{
-    circuit.deleteMainGates();
-
-    std::vector<Node*> circuitOutsUnlinked;
-    for(Gate* g : circuit.inputs)
-    {
-        circuitOutsUnlinked.push_back(g->getOutputNodes()[0]);
-    }
-
-    std::vector<Node*> circuitInsUnlinked;
-    for(Gate* g : circuit.outputs)
-    {
-        circuitInsUnlinked.push_back(g->getInputNodes()[0]);
-    }
-
-    while(circuitInsUnlinked.size() > 0 || circuitOutsUnlinked.size() > 0)
-    {
-        Gate* newGate = genRandomGate(percentageNewGate);
-        if(newGate != nullptr)
-        {
-            circuit.mainGates.push_back(newGate);
-
-            if(circuit.mainGates.size() > maxGates)
-                return false;
-
-            const std::vector<Node*> inNodes = newGate->getInputNodes();
-            for(Node* inNode : inNodes)
-            {
-                circuitInsUnlinked.push_back(inNode);
-            }
-            const std::vector<Node*> outNodes = newGate->getOutputNodes();
-            for(Node* outNode : outNodes)
-            {
-                circuitOutsUnlinked.push_back(outNode);
-            }
-        }
-
-        while(true)
-        {
-            if(circuitOutsUnlinked.size() > 0 && circuitInsUnlinked.size() > 0)
-            {
-                const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size();
-                const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size();
-
-                if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
-                {
-                    if(allUnlinkedNodesFromSameGate(circuitOutsUnlinked, circuitInsUnlinked))
-                        return false;
-                    continue;
-                }
-
-                circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
-                circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
-                circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
-                circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
-
-                break;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs, const uint& numOutputs)
-{
-    TruthTable truthTable;
-
-    QScriptEngine engine;
-    QScriptContext* pContext = engine.pushContext();//I think this gets deleted by engine destructor
-
-    std::vector<QString> inputVariables;
-    for(uint i = 1; i <= numInputs; i++)
-    {
-        inputVariables.push_back("input" + QString::number(i));
-    }
-
-    std::vector<QString> outputVariables;
-    for(uint i = 1; i <= numOutputs; i++)
-    {
-        outputVariables.push_back("output" + QString::number(i));
-        pContext->activationObject().setProperty("output" + QString::number(i), false);
-    }
-
-    std::vector<bool> genInputValues;
-
-    truthTable.size = pow(2, numInputs);
-    for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
-    {
-        //Generate input values
-        genInputValues = truthTable.genInputs(iTableRun, numInputs);
-        truthTable.inValues.push_back(genInputValues);
-
-        //Set input values for script
-        for(uint iInput = 0; iInput < numInputs; iInput++)
-        {
-            pContext->activationObject().setProperty(inputVariables[iInput], (bool)genInputValues[iInput]);
-        }
-
-        //Run script
-        engine.evaluate(script);
-
-        //Collect output values from script
-        std::vector<bool> genOutputValues;
-        for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
-        {
-            genOutputValues.push_back(pContext->activationObject().property(outputVariables[iOutput]).toBool());
-        }
-        truthTable.outValues.push_back(genOutputValues);
-    }
-
-    return truthTable;
-}
-
-bool testCircuitAgainstTruthTable(Circuit& circuit, TruthTable& truthTable)
-{
-    for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
-    {
-        //Set inputs
-        for (uint iInput = 0; iInput < circuit.inputs.size(); iInput++)
-        {
-            circuit.inputs[iInput]->SetPowerState(truthTable.inValues[iTableRun][iInput]);
-        }
-
-        //Update
-        //Very inefficient... Todo ~ improve this
-        for(uint iUpdate = 0; iUpdate < circuit.mainGates.size(); iUpdate++)
-        {
-            for(Gate* pGate : circuit.mainGates)
-            {
-                pGate->UpdateOutput();
-            }
-        }
-
-        //Check outputs
-        for(uint iOutput = 0; iOutput < circuit.outputs.size(); iOutput++)
-        {
-            if(circuit.outputs[iOutput]->GetValue() != truthTable.outValues[iTableRun][iOutput])
-            {
-                return false;
-            }
-        }
-    }
-
-    return true;
 }
 
 void DLG_EditScript::on_btn_genCircuit_clicked()
@@ -330,40 +135,9 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         return;
     }
 
-    m_pCircuitFromScriptThread->setup(numInputs, numOutputs, script, maxSeconds, percentageRandomGate, maxGates);
+    m_pCircuitFromScriptThread->start(numInputs, numOutputs, script, maxSeconds, percentageRandomGate, maxGates);
 
-    //Generate truth table from script
-    TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);
-
-    Circuit circuit(numInputs, numOutputs);
-
-    const clock_t startTimeMs = clock();
-
-    //Begin generating random circuits until one matches truth table
-    while(true)
-    {
-        if((clock() - startTimeMs)/1000 > maxSeconds)
-        {
-            m_pDlgHome->SendUserMessage("Failed to generate circuit!");
-            return;
-        }
-
-        while(!createRandomCircuit(circuit, percentageRandomGate, maxGates))
-        {
-            if((clock() - startTimeMs)/1000 > maxSeconds)
-            {
-                m_pDlgHome->SendUserMessage("Failed to generate circuit!");
-                return;
-            }
-        }
-
-        //If random circuit matches truth table, circuit is complete.
-        if(testCircuitAgainstTruthTable(circuit, truthTable))
-        {
-            onCircuitGenSuccess(circuit);
-            return;
-        }
-    }
+    //Todo ~ show user that circuit gen is loading...
 }
 
 void DLG_EditScript::on_btn_genTuthTable_clicked()
@@ -380,7 +154,7 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
     }
 
     //Generate truth table from script
-    TruthTable truthTable = genTruthTableFromScript(script, numInputs, numOutputs);
+    TruthTable truthTable = CircuitFromScriptThread::genTruthTableFromScript(script, numInputs, numOutputs);
 
     //Testing purposes
     m_pDlgHome->showTruthTable(truthTable);

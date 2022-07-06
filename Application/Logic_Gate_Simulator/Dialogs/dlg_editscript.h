@@ -1,6 +1,8 @@
 #ifndef DLG_EditScript_H
 #define DLG_EditScript_H
 
+#include "circuit.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -14,7 +16,6 @@ class GateFPGA;
 class GateToggle;
 class GateReciever;
 class GateCollection;
-class Circuit;
 class CircuitFromScriptThread;
 
 //////////////////////////////////////////////////////////////////////////
@@ -38,7 +39,7 @@ private slots:
     void on_btn_genTuthTable_clicked();
 
 private slots:
-    void onCircuitGenSuccess(Circuit& circuit);
+    void onCircuitGenSuccess(Circuit circuit);
     void onCircuitGenFailure(const QString& failMessage);
 
 private:

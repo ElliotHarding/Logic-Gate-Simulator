@@ -15,24 +15,7 @@ class GateFPGA;
 class GateToggle;
 class GateReciever;
 class GateCollection;
-
-//////////////////////////////////////////////////////////////////////////
-///Circuit
-class Circuit
-{
-public:
-    Circuit(const uint& inputs, const uint& outputs);
-    ~Circuit();
-
-    GateCollection* createGateCollection();
-    void deleteMainGates();
-
-    std::vector<Gate*> mainGates;
-    std::vector<GateToggle*> inputs;
-    std::vector<GateReciever*> outputs;
-private:
-    bool m_bDeleteGates = true; //Delete gates on destructor
-};
+class Circuit;
 
 //////////////////////////////////////////////////////////////////////////
 ///DLG_EditScript

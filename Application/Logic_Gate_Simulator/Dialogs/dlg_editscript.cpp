@@ -7,6 +7,7 @@
 #include "allgates.h"
 #include "gatefield.h"
 #include "circuit.h"
+#include "circuitfromscriptthread.h"
 
 #include <QRandomGenerator>
 #include <QScriptEngine>
@@ -17,9 +18,13 @@ DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
     QDialog(pParent),
     ui(new Ui::DLG_EditScript),
     m_pDlgHome(pParent),
-    m_pFpga(nullptr)
+    m_pFpga(nullptr),
+    m_pCircuitFromScriptThread(new CircuitFromScriptThread())
 {
     ui->setupUi(this);
+
+    connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenSuccess(Circuit&)), this, SLOT(onCircuitGenSuccess(Circuit&)));
+    connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onCircuitGenFailure(const QString&)));
 }
 
 DLG_EditScript::~DLG_EditScript()

@@ -15,6 +15,7 @@ class GateToggle;
 class GateReciever;
 class GateCollection;
 class Circuit;
+class CircuitFromScriptThread;
 
 //////////////////////////////////////////////////////////////////////////
 ///DLG_EditScript
@@ -49,6 +50,8 @@ private:
     void setEndScript(const uint& numOutputs);
 
     GateFPGA* m_pFpga = nullptr;
+
+    CircuitFromScriptThread* m_pCircuitFromScriptThread;
 };
 
 #endif // DLG_EditScript_H

@@ -16,6 +16,8 @@ const QString CustomGatesLocation = "CustomGates/";
 
 const QString GateFeildFile = ".GateField";
 
+const QString ScriptFile = ".Script";
+
 const QString GateCollectionElement = "GateCollection";
 }
 
@@ -445,7 +447,37 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
 
 bool Saver::saveScript(const QString& script, const uint& inputs, const uint& outputs, DLG_Home* pHome)
 {
+    QString name;
+    if(pHome->requestUserInputString("Set save name", "Save name: ", name))
+    {
+        if(name.isEmpty())
+        {
+            pHome->SendUserMessage("Invalid name!");
+            return false;
+        }
 
+        QString dir = QFileDialog::getExistingDirectory(pHome, "Open Directory",
+                                                     "/home",
+                                                     QFileDialog::ShowDirsOnly
+                                                     | QFileDialog::DontResolveSymlinks);
+
+        QFile file(dir + "/" + name + Settings::ScriptFile);
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            pHome->SendUserMessage("Can't open file to save!");
+            return false;
+        }
+
+        QDomDocument saveDoc(Settings::XMLElement);
+        //pGateFeild->SaveData(saveDoc);
+
+        QTextStream stream(&file);
+        stream << saveDoc.toString();
+
+        file.close();
+        return true;
+    }
+    return false;
 }
 
 std::vector<QString> CustomGateReader::getCustomGateNames()

@@ -44,6 +44,7 @@ SOURCES += \
     GameObjects/gatexor.cpp \
     GameObjects/textlabel.cpp \
     circuit.cpp \
+    circuitfromscriptthread.cpp \
     main.cpp \
     gatefield.cpp \
     gatereader.cpp \
@@ -90,6 +91,7 @@ HEADERS += \
     GameObjects/gatexor.h \
     GameObjects/textlabel.h \
     circuit.h \
+    circuitfromscriptthread.h \
     clickmode.h \
     gatereader.h \
     AllGates.h \

@@ -1,8 +1,7 @@
 #ifndef SAVINGTEMPLATES_H
 #define SAVINGTEMPLATES_H
 
-#include <string>
-#include <QPoint>
+#include <QString>
 #include <vector>
 
 class Gate;

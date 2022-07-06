@@ -20,7 +20,6 @@ const QString ScriptFile = ".Script";
 const QString ScriptElement = "Script";
 const QString ScriptInputsAttribute = "Inputs";
 const QString ScriptOutputsAttribute = "Outputs";
-const QString ScriptMainScriptElement = "MainScript";
 
 const QString GateCollectionElement = "GateCollection";
 }

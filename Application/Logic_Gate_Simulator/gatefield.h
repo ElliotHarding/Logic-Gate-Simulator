@@ -17,7 +17,6 @@ const QString GateFieldElement = "GateField";
 const QString GateFieldFrequencyTag = "Frequency";
 }
 
-class DLG_SaveGateCollection;
 class DLG_Home;
 class TextLabel;
 class GateFPGA;
@@ -54,7 +53,7 @@ class GateField : public QWidget
 public:
 
     //Construction
-    GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, DLG_SaveGateCollection* pSaveGateCollectionDialog, const uint& updateFrequency = 200);
+    GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, const uint& updateFrequency = 200);
     ~GateField();
 
     //Gates
@@ -150,7 +149,6 @@ private:
     QRubberBand* m_pSelectionTool = nullptr;
     QPoint m_selectionToolOrigin;
     std::vector<Gate*> m_selectedGates;
-    DLG_SaveGateCollection* m_pDlgSaveGateCollection;
 
     ClickMode m_currentClickMode;
 };

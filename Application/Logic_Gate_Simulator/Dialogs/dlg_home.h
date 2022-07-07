@@ -58,6 +58,7 @@ public:
     void setGateFieldName(GateField* pGateField, const QString& name);
     void showTruthTable(const TruthTable& truthTable);
     bool requestUserInputString(const QString& title, const QString& context, QString& result);
+    void startSaveGateCollection(GateCollection* pGateCollection);
 
 protected:
     void moveEvent(QMoveEvent* event) override;

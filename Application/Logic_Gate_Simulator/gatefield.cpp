@@ -1,6 +1,5 @@
 #include "gatefield.h"
 #include "dlg_home.h"
-#include "dlg_savegatecollection.h"
 #include "gate.h"
 #include "GateToggle.h"
 #include "GateTimer.h"
@@ -20,12 +19,11 @@ const qreal ZoomScrollSpeed = 0.05;
 const uint MaxGateFieldHistory = 20;
 }
 
-GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, DLG_SaveGateCollection* pSaveGateCollectionDialog, const uint& updateFrequency) :
+GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& name, const uint& updateFrequency) :
     QWidget(pParent),
     m_pParent(pParent),
     m_name(name),
     m_zoomFactor(zoomFactor),
-    m_pDlgSaveGateCollection(pSaveGateCollectionDialog),
     m_gateUpdateFrequencyMs(updateFrequency)
 {
     setAcceptDrops(true);
@@ -41,7 +39,6 @@ GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& 
 GateField::~GateField()
 {
     //Belongs to parent DLG_Home
-    m_pDlgSaveGateCollection = nullptr;
     m_pParent = nullptr;
 
     //Delete all gates
@@ -213,7 +210,7 @@ void GateField::Redo()
 
 void GateField::StartSaveGateCollection(GateCollection* pGateCollection)
 {
-    m_pDlgSaveGateCollection->open(pGateCollection);
+    m_pParent->startSaveGateCollection(pGateCollection);
 }
 
 void GateField::setName(const QString& name)

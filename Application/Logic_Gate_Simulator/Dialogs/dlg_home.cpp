@@ -213,7 +213,7 @@ void DLG_Home::NewlySpawnedGateField(const QString& name)
 
 GateField *DLG_Home::createNewGateField(const QString& name)
 {
-    return new GateField(this, m_zoomFactor, name, m_pDlgSaveGateCollection);
+    return new GateField(this, m_zoomFactor, name);
 }
 
 QRect DLG_Home::accountForUIOffsetts(const QRect& rect) const
@@ -315,6 +315,11 @@ bool DLG_Home::requestUserInputString(const QString& title, const QString& conte
                                         context, QLineEdit::Normal,
                                         "", &ok);
     return ok;
+}
+
+void DLG_Home::startSaveGateCollection(GateCollection *pGateCollection)
+{
+    m_pDlgSaveGateCollection->open(pGateCollection);
 }
 
 void DLG_Home::moveEvent(QMoveEvent* event)

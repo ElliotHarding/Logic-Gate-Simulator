@@ -491,7 +491,9 @@ void Saver::saveScriptFile(QFile& file, const QString &script, const uint &input
     QDomElement scriptElement = saveDoc.createElement(Settings::ScriptElement);
     scriptElement.setAttribute(Settings::ScriptInputsAttribute, QString::number(inputs));
     scriptElement.setAttribute(Settings::ScriptOutputsAttribute, QString::number(outputs));
-    scriptElement.setNodeValue(script);
+
+    QDomText scriptNode = saveDoc.createTextNode(script);
+    scriptElement.appendChild(scriptNode);
 
     saveDoc.appendChild(scriptElement);
 

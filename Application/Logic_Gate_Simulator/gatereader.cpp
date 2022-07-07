@@ -16,11 +16,6 @@ const QString CustomGatesLocation = "CustomGates/";
 
 const QString GateFeildFile = ".GateField";
 
-const QString ScriptFile = ".Script";
-const QString ScriptElement = "Script";
-const QString ScriptInputsAttribute = "Inputs";
-const QString ScriptOutputsAttribute = "Outputs";
-
 const QString GateCollectionElement = "GateCollection";
 }
 

@@ -11,8 +11,6 @@ class DLG_Home;
 
 class Gate;
 class GateFPGA;
-class GateToggle;
-class GateReciever;
 class GateCollection;
 class CircuitFromScriptThread;
 
@@ -47,19 +45,20 @@ private slots:
     void on_btn_Save_clicked();
 
 private:
+    ///Home & UI
     Ui::DLG_EditScript *ui;
-
     DLG_Home* m_pDlgHome;
-
     void setStartScript(const uint& numInputs);
     void setEndScript(const uint& numOutputs);
 
     GateFPGA* m_pFpga = nullptr;
 
+    ///Saving/loading
     QFileDialog* m_pDlgLoadGates;
     QString m_currentSavePath = "";
     void saveScriptFile(QFile& file, const QString& script, const uint& inputs, const uint& outputs);
 
+    ///Circuit generation
     CircuitFromScriptThread* m_pCircuitFromScriptThread;
 };
 

@@ -5,6 +5,11 @@
 #include "GateReciever.h"
 #include "gatecollection.h"
 
+namespace Settings
+{
+const uint GapBetweenGates = 100;
+}
+
 //////////////////////////////////////////////////////////////////////////
 /// \brief Circuit::Circuit
 /// \param numInputs
@@ -42,31 +47,55 @@ Circuit::~Circuit()
     }
 }
 
+void displaceLinkedGates(Gate* pParent, std::vector<Gate*>& gates, int& maxX)
+{
+    NodeIds nids = pParent->getOutputNodes()[0]->linkInfo();
+    for(int id : nids.linkedIds)
+    {
+        for(Gate* pSubGate : gates)
+        {
+            Node* pNode;
+            if(pSubGate->FindNodeWithId(id, pNode))
+            {
+                const int newX = pParent->position().x() + Settings::GapBetweenGates;
+                if(pSubGate->position().x() < newX)
+                {
+                    pSubGate->setPosition(newX, pParent->position().y());
+                    maxX = maxX < newX ? newX : maxX;
+                }
+
+                displaceLinkedGates(pSubGate, gates, maxX);
+            }
+        }
+    }
+}
+
 GateCollection* Circuit::createGateCollection()
 {
-    //Todo ~ not hard coded pos values...
-
     m_bDeleteGates = false;
 
-    int inputY = 100;
     for(Gate* g : mainGates)
     {
-        g->setPosition(300, inputY+=100);
+        g->setPosition(-1, -1);
     }
 
     GateCollection* pNewCircuit = new GateCollection(mainGates);
 
-    inputY = 100;
+    int maxX = 0;
+    int posY = 0;
     for(Gate* g : inputs)
     {
-        g->setPosition(200, inputY+=100);
+        g->setPosition(0, posY+=Settings::GapBetweenGates);
         pNewCircuit->AddGate(g);
+
+        displaceLinkedGates(g, mainGates, maxX);
     }
 
-    inputY = 100;
+    posY = 0;
+    maxX+=Settings::GapBetweenGates;
     for(Gate* g : outputs)
     {
-        g->setPosition(500, inputY+=100);
+        g->setPosition(maxX, posY+=Settings::GapBetweenGates);
         pNewCircuit->AddGate(g);
     }
 

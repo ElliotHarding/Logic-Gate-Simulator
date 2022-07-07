@@ -76,7 +76,6 @@ public:
     void SetZoomLevel(const qreal& zoom);
 
     //DLG_Home stuff
-    void EditTextLabel(TextLabel *textLabelToEdit);
     void UpdateGateSelected(Gate* g);
     void SendUserMessage(const QString& message);
     void showTruthTable(const TruthTable& truthTable);

@@ -211,11 +211,6 @@ void GateField::Redo()
     update();
 }
 
-void GateField::EditTextLabel(TextLabel *textLabelToEdit)
-{
-    m_pParent->EditTextLabel(textLabelToEdit);
-}
-
 void GateField::StartSaveGateCollection(GateCollection* pGateCollection)
 {
     m_pDlgSaveGateCollection->open(pGateCollection);

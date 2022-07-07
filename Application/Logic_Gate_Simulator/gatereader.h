@@ -33,8 +33,6 @@ public:
     static void linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>& linkInfo);
 
 private:
-    struct NodeAndIds {Node* pNode; int id; std::vector<int> linkedIds;};
-
     std::vector<Gate*> readGates(QDomElement& gatesParent);
     Gate* readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo);
     std::vector<NodeIds> readNodes(QDomElement& gate, std::vector<NodeIds>& linkInfo);

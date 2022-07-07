@@ -10,8 +10,6 @@ class GateCollection;
 class GateField;
 struct NodeIds;
 
-class QFile;
-
 class QDomElement;
 
 class DLG_Home;

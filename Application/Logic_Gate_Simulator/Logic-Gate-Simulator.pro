@@ -73,7 +73,8 @@ SOURCES += \
     GameObjects/gatetriand.cpp \
     Dialogs/movingwidget.cpp \
     GameObjects/gatetrior.cpp \
-    GameObjects/gatenumberoutput.cpp
+    GameObjects/gatenumberoutput.cpp \
+    truthtable.cpp
 
 HEADERS += \
     Dialogs/dlg_editscript.h \

@@ -2,6 +2,7 @@
 #define TRUTHTABLE_H
 
 #include <vector>
+#include <QString>
 
 struct TruthTable
 {
@@ -23,6 +24,25 @@ struct TruthTable
         }
         return inputs;
     }
+};
+
+struct BooleanExpression
+{
+    std::vector<char> letters;
+    std::vector<bool> inverted;
+    char resultLetter;
+};
+
+enum ExpressionCalculatorResult
+{
+    SUCESS,
+    INVALID_TABLE
+};
+
+class BooleanExpressionCalculator
+{
+public:
+    ExpressionCalculatorResult truthTableToBooleanExpressions(TruthTable& truthTable, std::vector<BooleanExpression>& expressions);
 };
 
 #endif // TRUTHTABLE_H

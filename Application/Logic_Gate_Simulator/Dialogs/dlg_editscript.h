@@ -16,6 +16,9 @@ class GateReciever;
 class GateCollection;
 class CircuitFromScriptThread;
 
+class QFile;
+class QFileDialog;
+
 //////////////////////////////////////////////////////////////////////////
 ///DLG_EditScript
 class DLG_EditScript : public QDialog
@@ -41,7 +44,6 @@ private slots:
     void onCircuitGenFailure(const QString& failMessage);
 
     void on_btn_load_clicked();
-
     void on_btn_Save_clicked();
 
 private:
@@ -54,7 +56,9 @@ private:
 
     GateFPGA* m_pFpga = nullptr;
 
+    QFileDialog* m_pDlgLoadGates;
     QString m_currentSavePath = "";
+    void saveScriptFile(QFile& file, const QString& script, const uint& inputs, const uint& outputs);
 
     CircuitFromScriptThread* m_pCircuitFromScriptThread;
 };

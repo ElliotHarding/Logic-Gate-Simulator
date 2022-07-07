@@ -2,19 +2,30 @@
 #include "ui_dlg_editscript.h"
 
 #include "dlg_home.h"
-#include "gatereader.h"
 #include "GameObjects/gatefpga.h"
 #include "gatecollection.h"
 #include "gatefield.h"
 #include "circuitfromscriptthread.h"
 
 #include <QDebug>
+#include <QFile>
+
+namespace Settings
+{
+const QString XMLElement = "xml";
+
+const QString ScriptFile = ".Script";
+const QString ScriptElement = "Script";
+const QString ScriptInputsAttribute = "Inputs";
+const QString ScriptOutputsAttribute = "Outputs";
+}
 
 DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
     QDialog(pParent),
     ui(new Ui::DLG_EditScript),
     m_pDlgHome(pParent),
     m_pFpga(nullptr),
+    m_pDlgLoadGates(new QFileDialog(this)),
     m_pCircuitFromScriptThread(new CircuitFromScriptThread())
 {
     ui->setupUi(this);
@@ -26,6 +37,7 @@ DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
 DLG_EditScript::~DLG_EditScript()
 {
     delete m_pCircuitFromScriptThread;
+    delete m_pDlgLoadGates;
     delete ui;
 }
 
@@ -169,18 +181,116 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
 
 void DLG_EditScript::on_btn_load_clicked()
 {
+    QStringList fileNames = m_pDlgLoadGates->getOpenFileNames(this);
 
+    if(fileNames.size() != 1)
+    {
+        m_pDlgHome->SendUserMessage("Only one file can be selected.");
+        return;
+    }
+
+    const QString filePath = fileNames[0];
+    if(!filePath.contains(Settings::ScriptFile))
+    {
+        m_pDlgHome->SendUserMessage("File not in script format.");
+        return;
+    }
+
+    QFile file(filePath);
+    if(!file.open(QFile::ReadOnly | QFile::Text))
+    {
+        m_pDlgHome->SendUserMessage("Failed to open file.");
+        return;
+    }
+
+    QDomDocument doc;
+    doc.setContent(&file);
+
+    QDomElement scriptElement = doc.firstChildElement(Settings::ScriptElement);
+    if(scriptElement.isNull())
+    {
+        m_pDlgHome->SendUserMessage("Failed reading file.");
+        file.close();
+        return;
+    }
+
+    m_currentSavePath = filePath;
+
+    const uint numInputs = scriptElement.attribute(Settings::ScriptInputsAttribute, "1").toUInt();
+    ui->spinBox_inputs->setValue(numInputs);
+    setStartScript(numInputs);
+
+    const uint numOutputs = scriptElement.attribute(Settings::ScriptOutputsAttribute, "1").toUInt();
+    ui->spinBox_outputs->setValue(numOutputs);
+    setEndScript(numOutputs);
+
+    const QString script = scriptElement.text();
+    ui->textEdit_script->setText(script);
+
+    if(m_pFpga)
+    {
+        m_pFpga->setInputs(numInputs);
+        m_pFpga->setOutputs(numOutputs);
+        m_pFpga->setScript(script);
+    }
+
+    file.close();
 }
 
 void DLG_EditScript::on_btn_Save_clicked()
 {
-    Saver saver;
-
     const uint numInputs = ui->spinBox_inputs->value();
     const uint numOutputs = ui->spinBox_outputs->value();
     const QString script = ui->textEdit_script->toPlainText();
-    if(!saver.saveScript(m_currentSavePath, script, numInputs, numOutputs, m_pDlgHome))
+
+    QFile file(m_currentSavePath);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        //Error messages already handled by saver...
+        QString name;
+        if(m_pDlgHome->requestUserInputString("Set save name", "Save name: ", name))
+        {
+            if(name.isEmpty())
+            {
+                m_pDlgHome->SendUserMessage("Invalid name!");
+                return;
+            }
+
+            QString dir = QFileDialog::getExistingDirectory(m_pDlgHome, "Open Directory",
+                                                         "/home",
+                                                         QFileDialog::ShowDirsOnly
+                                                         | QFileDialog::DontResolveSymlinks);
+            m_currentSavePath = dir + "/" + name + Settings::ScriptFile;
+            QFile file(m_currentSavePath);
+            if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            {
+                m_pDlgHome->SendUserMessage("Can't open file to save!");
+                return;
+            }
+
+            saveScriptFile(file, script, numInputs, numOutputs);
+            return;
+        }
+        return;
     }
+
+    saveScriptFile(file, script, numInputs, numOutputs);
+}
+
+void DLG_EditScript::saveScriptFile(QFile& file, const QString& script, const uint& numInputs, const uint& numOutputs)
+{
+    QDomDocument saveDoc(Settings::XMLElement);
+
+    QDomElement scriptElement = saveDoc.createElement(Settings::ScriptElement);
+    scriptElement.setAttribute(Settings::ScriptInputsAttribute, QString::number(numInputs));
+    scriptElement.setAttribute(Settings::ScriptOutputsAttribute, QString::number(numOutputs));
+
+    QDomText scriptNode = saveDoc.createTextNode(script);
+    scriptElement.appendChild(scriptNode);
+
+    saveDoc.appendChild(scriptElement);
+
+    QTextStream stream(&file);
+    stream << saveDoc.toString();
+
+    file.close();
 }

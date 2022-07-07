@@ -448,61 +448,6 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
     return true;
 }
 
-bool Saver::saveScript(QString& currentSavePath, const QString& script, const uint& inputs, const uint& outputs, DLG_Home* pHome)
-{
-    QFile file(currentSavePath);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-        QString name;
-        if(pHome->requestUserInputString("Set save name", "Save name: ", name))
-        {
-            if(name.isEmpty())
-            {
-                pHome->SendUserMessage("Invalid name!");
-                return false;
-            }
-
-            QString dir = QFileDialog::getExistingDirectory(pHome, "Open Directory",
-                                                         "/home",
-                                                         QFileDialog::ShowDirsOnly
-                                                         | QFileDialog::DontResolveSymlinks);
-            currentSavePath = dir + "/" + name + Settings::ScriptFile;
-            QFile file(currentSavePath);
-            if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            {
-                pHome->SendUserMessage("Can't open file to save!");
-                return false;
-            }
-
-            saveScriptFile(file, script, inputs, outputs);
-            return true;
-        }
-        return false;
-    }
-
-    saveScriptFile(file, script, inputs, outputs);
-    return true;
-}
-
-void Saver::saveScriptFile(QFile& file, const QString &script, const uint &inputs, const uint &outputs)
-{
-    QDomDocument saveDoc(Settings::XMLElement);
-
-    QDomElement scriptElement = saveDoc.createElement(Settings::ScriptElement);
-    scriptElement.setAttribute(Settings::ScriptInputsAttribute, QString::number(inputs));
-    scriptElement.setAttribute(Settings::ScriptOutputsAttribute, QString::number(outputs));
-
-    QDomText scriptNode = saveDoc.createTextNode(script);
-    scriptElement.appendChild(scriptNode);
-
-    saveDoc.appendChild(scriptElement);
-
-    QTextStream stream(&file);
-    stream << saveDoc.toString();
-
-    file.close();
-}
-
 std::vector<QString> CustomGateReader::getCustomGateNames()
 {
     QStringList nameFilter("*" + Settings::CustomGateFile);

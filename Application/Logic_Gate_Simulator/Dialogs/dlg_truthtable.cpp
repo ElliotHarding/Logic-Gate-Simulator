@@ -6,6 +6,9 @@
 namespace Settings
 {
 const QRect TableDimensions = QRect(50, 50, 300, 300);
+
+const uint IntStartAlphabet = 65;
+const uint IntEndAlphabet = 121;
 }
 
 DLG_TruthTable::DLG_TruthTable(QWidget *parent) :
@@ -50,7 +53,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
         if(iCol < iInputs)
         {
             //A, B, C...
-            colTitle = QString(char(65+iCol));
+            colTitle = QString(char(Settings::IntStartAlphabet+iCol));
 
             for(uint iRow = 0; iRow < iIterations; iRow++)
             {
@@ -63,7 +66,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
         else
         {
             //X, Y, Z...
-            colTitle = QString(char(121+iCol-iInputs));
+            colTitle = QString(char(Settings::IntEndAlphabet+iCol-iInputs));
 
             for(uint iRow = 0; iRow < iIterations; iRow++)
             {

@@ -36,7 +36,8 @@ struct BooleanExpression
 enum ExpressionCalculatorResult
 {
     SUCESS,
-    INVALID_TABLE
+    INVALID_TABLE,
+    INVALID_INPUT_EXPRESSIONS
 };
 
 class BooleanExpressionCalculator

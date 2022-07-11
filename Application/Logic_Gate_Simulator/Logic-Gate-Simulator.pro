@@ -29,6 +29,7 @@ INCLUDEPATH += \
     GameObjects
 
 SOURCES += \
+    Dialogs/dlg_booleanexpressions.cpp \
     Dialogs/dlg_editscript.cpp \
     Dialogs/dlg_message.cpp \
     Dialogs/dlg_task.cpp \
@@ -77,6 +78,7 @@ SOURCES += \
     truthtable.cpp
 
 HEADERS += \
+    Dialogs/dlg_booleanexpressions.h \
     Dialogs/dlg_editscript.h \
     Dialogs/dlg_message.h \
     Dialogs/dlg_textedit.h \
@@ -126,6 +128,7 @@ HEADERS += \
     truthtable.h
 
 FORMS += \
+    Dialogs/dlg_booleanexpressions.ui \
     Dialogs/dlg_editscript.ui \
     Dialogs/dlg_message.ui \
     Dialogs/dlg_gateinfo.ui \

@@ -90,10 +90,10 @@ void BooleanExpressionLetter::paintEvent(QPaintEvent*)
     QPainter painter(this);
 
     painter.setFont(Settings::BooleanExpressionLetterFont);
-    painter.drawText(QRect(0, 10, geometry().width(), geometry().height()-10), m_letter);
+    painter.drawText(QRect(0, geometry().height()/4, geometry().width(), geometry().height()-geometry().height()/4), m_letter);
 
     if(m_bInverted)
     {
-        painter.drawText(QRect(0, 0, geometry().width(), 10), "_");
+        painter.drawText(QRect(0, 0, geometry().width(), geometry().height()/4), "_");
     }
 }

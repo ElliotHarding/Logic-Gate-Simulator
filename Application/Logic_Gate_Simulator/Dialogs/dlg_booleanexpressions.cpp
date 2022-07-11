@@ -31,7 +31,7 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
         }
 
         expresionsText += invertedString + "\n" + inputsString + "\n";
-        resultsText += "\n = " + expressions[iExpression].resultLetter + "\n";
+        resultsText += "\n = " + QString(expressions[iExpression].resultLetter) + "\n";
     }
 
     ui->lbl_expressions->setText(resultsText);

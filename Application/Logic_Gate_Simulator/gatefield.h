@@ -24,6 +24,7 @@ class Gate;
 class GateCollection;
 class Node;
 class TruthTable;
+class BooleanExpression;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /// GateFieldHistory
@@ -78,6 +79,7 @@ public:
     void UpdateGateSelected(Gate* g);
     void SendUserMessage(const QString& message);
     void showTruthTable(const TruthTable& truthTable);
+    void showBooleanExpressions(const std::vector<BooleanExpression>& expressions);
 
     ///Click mode
     ClickMode GetCurrentClickMode();

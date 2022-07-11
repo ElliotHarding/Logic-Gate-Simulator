@@ -2,6 +2,8 @@
 #include "allgates.h"
 #include "gatefield.h"
 
+#include "truthtable.h"
+
 #include <QDebug>
 #include <cmath>
 
@@ -18,6 +20,7 @@ const QImage ImgSaveButton = QImage(std::string(":/Resources/Button Icons/gate-c
 const QImage ImgDeleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
 const QImage ImgDragButton = QImage(std::string(":/Resources/Button Icons/gate-collection-move-gates.png").c_str());
 const QImage ImgTruthTableButton = QImage(std::string(":/Resources/Button Icons/gate-collection-truth-table.png").c_str());
+const QImage ImgBooleanExpressions = QImage(std::string(":/Resources/Button Icons/gate-collection-boolean-expressions.png").c_str());
 //const QImage ImgOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
 //const QImage ImgNandOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-nand.png").c_str());
 const uint ButtonSize = 40;
@@ -330,6 +333,7 @@ void GateCollection::DrawButtons(QPainter& painter)
     painter.drawImage(m_saveButton, Settings::ImgSaveButton);
     painter.drawImage(m_dragAllButton, Settings::ImgDragButton);
     painter.drawImage(m_truthTableButton, Settings::ImgTruthTableButton);
+    painter.drawImage(m_booleanExpressionsButton, Settings::ImgBooleanExpressions);
 }
 
 void GateCollection::SaveData(QDomDocument& storage, QDomElement& parentElement)
@@ -391,6 +395,7 @@ void GateCollection::UpdateContaningArea()
     m_saveButton = QRect(m_geometry.right() - Settings::ButtonSize*3, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
     m_dragAllButton = QRect(m_geometry.right() - Settings::ButtonSize*4, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
     m_truthTableButton = QRect(m_geometry.right() - Settings::ButtonSize*5, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
+    m_booleanExpressionsButton = QRect(m_geometry.right() - Settings::ButtonSize*6, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
 }
 
 void GateCollection::ToggleDragMode()
@@ -508,6 +513,41 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
     else if (m_dragAllButton.contains(mouse))
     {
         ToggleDragMode();
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
+        {
+            return this;
+        }
+        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
+        {
+            m_pParentField->UpdateGateSelected(this);
+        }
+        return nullptr;
+    }
+
+    else if(m_booleanExpressionsButton.contains(mouse))
+    {
+        TruthTable table;
+        if(generateTruthTable(table))
+        {
+            std::vector<BooleanExpression> expressions;
+            ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(table, expressions);
+            if(result == ExpressionCalculatorResult::SUCESS)
+            {
+                if(m_pParentField)
+                {
+                    m_pParentField->showBooleanExpressions(expressions);
+                }
+                else
+                {
+                    qDebug() << "GateCollection::checkButtonClick - Failed to display boolean expressions.";
+                }
+            }
+            else
+            {
+                m_pParentField->SendUserMessage("Internal error. Failed to generate boolean expressions.");
+            }
+        }
+
         if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
         {
             return this;

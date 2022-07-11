@@ -2,7 +2,8 @@
 #define GATECOLLECTION_H
 
 #include "gate.h"
-#include "truthtable.h"
+
+class TruthTable;
 
 class GateCollection : public Gate
 {
@@ -59,6 +60,7 @@ private:
     QRect m_deleteAllButton;
     QRect m_dragAllButton;
     QRect m_truthTableButton;
+    QRect m_booleanExpressionsButton;
     void DrawButtons(QPainter& painter);
     GameObject* checkButtonClick(const QPoint& mouse);
 

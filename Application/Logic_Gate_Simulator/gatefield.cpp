@@ -636,6 +636,12 @@ void GateField::showTruthTable(const TruthTable& truthTable)
         m_pParent->showTruthTable(truthTable);
 }
 
+void GateField::showBooleanExpressions(const std::vector<BooleanExpression>& expressions)
+{
+    if(m_pParent)
+        m_pParent->showBooleanExpressions(expressions);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 /// GateFieldHistory
 ///

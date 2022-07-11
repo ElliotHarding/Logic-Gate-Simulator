@@ -25,12 +25,7 @@ DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
 
 DLG_BooleanExpressions::~DLG_BooleanExpressions()
 {
-    for(BooleanExpressionLetter* pBooleanExpressionLetter : m_booleanLetters)
-    {
-        delete pBooleanExpressionLetter;
-    }
-    m_booleanLetters.clear();
-
+    clearBooleanLetters();;
     delete ui;
 }
 
@@ -59,15 +54,25 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
     open();
 }
 
+void DLG_BooleanExpressions::closeEvent(QCloseEvent* e)
+{
+    QDialog::closeEvent(e);
+    clearBooleanLetters();
+}
+
 void DLG_BooleanExpressions::on_btn_ok_clicked()
+{
+    clearBooleanLetters();
+    close();
+}
+
+void DLG_BooleanExpressions::clearBooleanLetters()
 {
     for(BooleanExpressionLetter* pBooleanExpressionLetter : m_booleanLetters)
     {
         delete pBooleanExpressionLetter;
     }
     m_booleanLetters.clear();
-
-    close();
 }
 
 

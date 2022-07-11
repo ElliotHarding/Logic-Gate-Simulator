@@ -23,13 +23,18 @@ public:
 
     void showExpressions(const std::vector<BooleanExpression>& expressions);
 
+protected:
+    void closeEvent(QCloseEvent *) override;
+
 private slots:
     void on_btn_ok_clicked();
 
 private:
     Ui::DLG_BooleanExpressions *ui;
 
+    ///Boolean letters
     std::vector<BooleanExpressionLetter*> m_booleanLetters;
+    void clearBooleanLetters();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////

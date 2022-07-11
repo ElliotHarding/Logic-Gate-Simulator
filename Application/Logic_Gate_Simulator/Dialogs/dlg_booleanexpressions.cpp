@@ -38,8 +38,8 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
         resultsText += "\n = " + QString(expressions[iExpression].resultLetter) + "\n";
     }
 
-    ui->lbl_expressions->setText(resultsText);
-    ui->lbl_results->setText(expresionsText);
+    ui->lbl_expressions->setText(expresionsText);
+    ui->lbl_results->setText(resultsText);
 
     open();
 }

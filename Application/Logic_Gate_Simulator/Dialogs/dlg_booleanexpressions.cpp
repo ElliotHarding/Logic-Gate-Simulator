@@ -12,8 +12,8 @@ const uint IntEndAlphabet = 122;
 
 const QFont BooleanExpressionLetterFont("Helvetica", 15);
 
-const QRect BooleanExpressionsRect(10, 0, 300, 100);
-const QRect BooleanResultsRect(320, 0, 80, 100);
+const QRect BooleanExpressionsRect(10, 10, 400, 200);
+const QRect BooleanResultsRect(420, 10, 80, BooleanExpressionsRect.height());
 }
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
@@ -89,11 +89,13 @@ void BooleanExpressionLetter::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
+    const uint invertedYarea = geometry().height()/4;
+
     painter.setFont(Settings::BooleanExpressionLetterFont);
-    painter.drawText(QRect(0, geometry().height()/4, geometry().width(), geometry().height()-geometry().height()/4), m_letter);
+    painter.drawText(QRect(0, invertedYarea, geometry().width(), geometry().height()-invertedYarea), m_letter);
 
     if(m_bInverted)
     {
-        painter.drawText(QRect(0, 0, geometry().width(), geometry().height()/4), "_");
+        painter.drawText(QRect(0, 0, geometry().width(), invertedYarea), "_");
     }
 }

@@ -25,6 +25,12 @@ DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
 
 DLG_BooleanExpressions::~DLG_BooleanExpressions()
 {
+    for(BooleanExpressionLetter* pBooleanExpressionLetter : m_booleanLetters)
+    {
+        delete pBooleanExpressionLetter;
+    }
+    m_booleanLetters.clear();
+
     delete ui;
 }
 

@@ -63,7 +63,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
         else
         {
             //X, Y, Z...
-            colTitle = QString(char(120+iCol-iInputs));
+            colTitle = QString(char(121+iCol-iInputs));
 
             for(uint iRow = 0; iRow < iIterations; iRow++)
             {

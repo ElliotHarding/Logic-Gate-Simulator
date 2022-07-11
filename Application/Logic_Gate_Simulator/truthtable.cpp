@@ -18,7 +18,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
     for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
     {
         BooleanExpression expression;
-        expression.resultLetter = char(120-iOutput);
+        expression.resultLetter = char(122-iOutput);
 
         for(uint iTableRun = 0; iTableRun < numRuns; iTableRun++)
         {

@@ -41,10 +41,10 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
     ui->lbl_expressions->setText(resultsText);
     ui->lbl_results->setText(expresionsText);
 
-    show();
+    open();
 }
 
 void DLG_BooleanExpressions::on_btn_ok_clicked()
 {
-    hide();
+    close();
 }

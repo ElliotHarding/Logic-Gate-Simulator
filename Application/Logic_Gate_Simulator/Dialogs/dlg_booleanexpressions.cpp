@@ -27,14 +27,14 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
     for(uint iExpression = 0; iExpression < expressions.size(); iExpression++)
     {
         QString invertedString = "";
-        QString inputsString = "";
-        for(uint iInverted = 0; iInverted < expressions[iExpression].inverted.size(); iInverted++)
+        QString lettersString = "";
+        for(uint iLetter = 0; iLetter < expressions[iExpression].letters.size(); iLetter++)
         {
-            invertedString += expressions[iExpression].inverted[iInverted] ? "_" : " ";
-            inputsString += expressions[iExpression].letters[iInverted];
+            invertedString += expressions[iExpression].inverted[iLetter] ? "_" : " ";
+            lettersString += expressions[iExpression].letters[iLetter];
         }
 
-        expresionsText += invertedString + "\n" + inputsString + "\n";
+        expresionsText += invertedString + "\n" + lettersString + "\n";
         resultsText += "\n = " + QString(expressions[iExpression].resultLetter) + "\n";
     }
 

@@ -123,7 +123,7 @@
   <widget class="QPushButton" name="btn_genCircuit">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>380</x>
      <y>420</y>
      <width>90</width>
      <height>23</height>
@@ -149,7 +149,7 @@
   <widget class="QSpinBox" name="spinBox_maxGenTime">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>300</x>
      <y>420</y>
      <width>70</width>
      <height>22</height>
@@ -168,7 +168,7 @@
   <widget class="QLabel" name="lbl_maxGenTime">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>300</x>
      <y>400</y>
      <width>91</width>
      <height>16</height>
@@ -181,7 +181,7 @@
   <widget class="QSpinBox" name="spinBox_addGateChance">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>220</x>
      <y>420</y>
      <width>70</width>
      <height>22</height>
@@ -200,7 +200,7 @@
   <widget class="QLabel" name="lbl_addGateChance">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>220</x>
      <y>400</y>
      <width>91</width>
      <height>16</height>
@@ -213,7 +213,7 @@
   <widget class="QLabel" name="lbl_maxGates">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>140</x>
      <y>400</y>
      <width>91</width>
      <height>16</height>
@@ -226,7 +226,7 @@
   <widget class="QSpinBox" name="spinBox_maxGates">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>140</x>
      <y>420</y>
      <width>70</width>
      <height>22</height>
@@ -258,7 +258,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../resouces.qrc">
      <normaloff>:/Resources/Button Icons/icon-file-down.png</normaloff>:/Resources/Button Icons/icon-file-down.png</iconset>
    </property>
    <property name="iconSize">
@@ -290,7 +290,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../resouces.qrc">
      <normaloff>:/Resources/Button Icons/icon-file-up.png</normaloff>:/Resources/Button Icons/icon-file-up.png</iconset>
    </property>
    <property name="iconSize">
@@ -303,7 +303,22 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_genExpressions">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>390</y>
+     <width>90</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Gen Expressions</string>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resouces.qrc"/>
+ </resources>
  <connections/>
 </ui>

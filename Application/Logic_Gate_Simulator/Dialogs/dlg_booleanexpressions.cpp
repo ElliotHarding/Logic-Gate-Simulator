@@ -1,6 +1,8 @@
 #include "dlg_booleanexpressions.h"
 #include "ui_dlg_booleanexpressions.h"
 
+#include "truthtable.h"
+
 DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DLG_BooleanExpressions)

@@ -88,6 +88,7 @@ void DLG_Home::InitalizeDialogsAndWidgets()
     m_pDlgTextLabelEdit = new DLG_LabelGateEdit();
     m_pDlgEditScript = new DLG_EditScript(this);
     m_pDlgTruthTable = new DLG_TruthTable(this);
+    m_pDlgBooleanExpressions = new DLG_BooleanExpressions(this);
 
     //Other widgets
     m_pSpawnedGateWidget = new Widget_SpawnedGate(this);
@@ -132,6 +133,7 @@ DLG_Home::~DLG_Home()
     delete m_pDlgTextLabelEdit;
     delete m_pDlgEditScript;
     delete m_pDlgTruthTable;
+    delete m_pDlgBooleanExpressions;
 
     delete m_pZoomSlider;
 
@@ -320,6 +322,11 @@ bool DLG_Home::requestUserInputString(const QString& title, const QString& conte
 void DLG_Home::startSaveGateCollection(GateCollection *pGateCollection)
 {
     m_pDlgSaveGateCollection->open(pGateCollection);
+}
+
+void DLG_Home::showBooleanExpressions(const std::vector<BooleanExpression>& expressions)
+{
+    m_pDlgBooleanExpressions->showExpressions(expressions);
 }
 
 void DLG_Home::moveEvent(QMoveEvent* event)

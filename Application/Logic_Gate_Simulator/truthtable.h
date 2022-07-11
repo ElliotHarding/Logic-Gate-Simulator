@@ -43,7 +43,7 @@ enum ExpressionCalculatorResult
 class BooleanExpressionCalculator
 {
 public:
-    ExpressionCalculatorResult truthTableToBooleanExpressions(TruthTable& truthTable, std::vector<BooleanExpression>& expressions);
+    static ExpressionCalculatorResult truthTableToBooleanExpressions(TruthTable& truthTable, std::vector<BooleanExpression>& expressions);
 };
 
 #endif // TRUTHTABLE_H

@@ -6,6 +6,7 @@
 #include "gatecollection.h"
 #include "gatefield.h"
 #include "circuitfromscriptthread.h"
+#include "truthtable.h"
 
 #include <QDebug>
 #include <QFile>
@@ -293,4 +294,33 @@ void DLG_EditScript::saveScriptFile(QFile& file, const QString& script, const ui
     stream << saveDoc.toString();
 
     file.close();
+}
+
+void DLG_EditScript::on_btn_genExpressions_clicked()
+{
+    const uint numInputs = ui->spinBox_inputs->value();
+    const uint numOutputs = ui->spinBox_outputs->value();
+    const QString script = ui->textEdit_script->toPlainText();
+
+    if(m_pFpga)
+    {
+        m_pFpga->setInputs(numInputs);
+        m_pFpga->setOutputs(numOutputs);
+        m_pFpga->setScript(script);
+    }
+
+    //Generate truth table from script
+    TruthTable truthTable = CircuitFromScriptThread::genTruthTableFromScript(script, numInputs, numOutputs);
+
+    //Generate expressions based on truth table
+    std::vector<BooleanExpression> expressions;
+    ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(truthTable, expressions);
+    if(result == ExpressionCalculatorResult::SUCESS)
+    {
+        m_pDlgHome->showBooleanExpressions(expressions);
+    }
+    else
+    {
+        //Todo ~ display fail reason
+    }
 }

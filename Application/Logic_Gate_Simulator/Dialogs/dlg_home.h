@@ -17,6 +17,7 @@
 #include "dlg_message.h"
 #include "dlg_editscript.h"
 #include "dlg_truthtable.h"
+#include "dlg_booleanexpressions.h"
 
 #include "movingwidget.h"
 #include "widget_advanced.h"
@@ -59,6 +60,7 @@ public:
     void showTruthTable(const TruthTable& truthTable);
     bool requestUserInputString(const QString& title, const QString& context, QString& result);
     void startSaveGateCollection(GateCollection* pGateCollection);
+    void showBooleanExpressions(const std::vector<BooleanExpression>& expressions);
 
 protected:
     void moveEvent(QMoveEvent* event) override;
@@ -74,6 +76,7 @@ protected:
     QInputDialog*           m_pDlgInput;
     DLG_LabelGateEdit*      m_pDlgTextLabelEdit;
     DLG_TruthTable*         m_pDlgTruthTable;
+    DLG_BooleanExpressions* m_pDlgBooleanExpressions;
 
     //Gate widgets
     Widget_AllGates*    m_pWidgetAllGates;

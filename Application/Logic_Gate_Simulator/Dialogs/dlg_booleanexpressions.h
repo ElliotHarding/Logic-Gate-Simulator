@@ -2,11 +2,12 @@
 #define DLG_BOOLEANEXPRESSIONS_H
 
 #include <QDialog>
-#include "truthtable.h"
 
 namespace Ui {
 class DLG_BooleanExpressions;
 }
+
+class BooleanExpression;
 
 class DLG_BooleanExpressions : public QDialog
 {

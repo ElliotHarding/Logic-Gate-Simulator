@@ -44,6 +44,8 @@ private slots:
     void on_btn_load_clicked();
     void on_btn_Save_clicked();
 
+    void on_btn_genExpressions_clicked();
+
 private:
     ///Home & UI
     Ui::DLG_EditScript *ui;

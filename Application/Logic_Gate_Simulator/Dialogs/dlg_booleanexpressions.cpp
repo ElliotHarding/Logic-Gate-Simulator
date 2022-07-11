@@ -16,6 +16,8 @@ DLG_BooleanExpressions::~DLG_BooleanExpressions()
 void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression>& expressions)
 {
     //Temp stuff
+    //Todo ~ make editable
+    //Todo ~ make dynamic sized
 
     QString resultsText = "";
     QString expresionsText = "";

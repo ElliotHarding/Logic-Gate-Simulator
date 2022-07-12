@@ -11,6 +11,7 @@ const uint IntStartAlphabet = 65;
 const uint IntEndAlphabet = 122;
 
 const QFont BooleanExpressionLetterFont("Helvetica", 15);
+const QString BooleanExpressionLetterInverted = "_";
 
 const QRect BooleanExpressionsRect(10, 10, 400, 200);
 const QRect BooleanResultsRect(420, 10, 80, BooleanExpressionsRect.height());
@@ -89,7 +90,7 @@ BooleanExpressionLetter::BooleanExpressionLetter(QWidget* pParent, const QString
 
 void BooleanExpressionLetter::mousePressEvent(QMouseEvent*)
 {
-    if(m_letter >= Settings::IntStartAlphabet && m_letter <= Settings::IntEndAlphabet && m_bEditable)
+    if(m_bEditable && m_letter >= Settings::IntStartAlphabet && m_letter <= Settings::IntEndAlphabet)
     {
         m_bInverted = !m_bInverted;
         update();
@@ -100,13 +101,15 @@ void BooleanExpressionLetter::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
-    const uint invertedYarea = geometry().height()/4;
-
+    const QFontMetrics textFontMetrics(Settings::BooleanExpressionLetterFont);
     painter.setFont(Settings::BooleanExpressionLetterFont);
-    painter.drawText(QRect(0, invertedYarea, geometry().width(), geometry().height()-invertedYarea), m_letter);
+
+    const qreal xCenter = geometry().width()/2;
+    const qreal yCenter = geometry().height()/2;
+    painter.drawText(QPointF(xCenter - (textFontMetrics.horizontalAdvance(m_letter)/2), yCenter - textFontMetrics.height()/2), m_letter);
 
     if(m_bInverted)
     {
-        painter.drawText(QRect(0, 0, geometry().width(), invertedYarea), "_");
+        painter.drawText(QPointF(xCenter - (textFontMetrics.horizontalAdvance(Settings::BooleanExpressionLetterInverted)/2), 0), Settings::BooleanExpressionLetterInverted);
     }
 }

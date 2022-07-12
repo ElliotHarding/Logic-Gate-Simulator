@@ -33,6 +33,11 @@ QString setBinaryLen(QString binary, const uint len)
     return binary;
 }
 
+std::vector<QString> reduceMinTerms(std::vector<QString> minTerms)
+{
+
+}
+
 ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpressions(TruthTable& truthTable, std::vector<BooleanExpression>& expressions)
 {
     if(truthTable.inValues.size() == 0 || truthTable.outValues.size() == 0)
@@ -88,6 +93,12 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
 
     const uint numInputs = truthTable.inValues[0].size();
 
+    QString dontCaresMask = "";
+    for(uint i = 0; i < numInputs; i++)
+    {
+        dontCaresMask += "-";
+    }
+
     for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
     {
         std::vector<QString> minTerms;
@@ -100,6 +111,33 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
         }
 
         std::sort(minTerms.begin(), minTerms.end());
+
+        std::vector<QString> oldMinTerms;
+        while(true)
+        {
+            oldMinTerms = minTerms;
+            minTerms = reduceMinTerms(minTerms);
+
+            if(oldMinTerms == minTerms)
+            {
+                break;
+            }
+        }
+
+        for(uint iMinTerm = 0; iMinTerm < minTerms.size(); iMinTerm++)
+        {
+            for(uint i = 0; i < minTerms[iMinTerm].length(); i++)
+            {
+                if(minTerms[iMinTerm][i] == '0')
+                {
+
+                }
+                else if(minTerms[iMinTerm][i] == '1')
+                {
+
+                }
+            }
+        }
     }
 
     return SUCESS;

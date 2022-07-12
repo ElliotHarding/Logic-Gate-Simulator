@@ -26,7 +26,7 @@ DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
 
 DLG_BooleanExpressions::~DLG_BooleanExpressions()
 {
-    clearBooleanLetters();;
+    clearBooleanLetters();
     delete ui;
 }
 

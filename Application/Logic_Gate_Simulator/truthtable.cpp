@@ -55,5 +55,9 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
 
     //Todo ~ simplify
 
+    // - Basic rule simplification
+    // - Karnaugh maps simplification
+    // - Quine-McCluskey algorithm
+
     return SUCESS;
 }

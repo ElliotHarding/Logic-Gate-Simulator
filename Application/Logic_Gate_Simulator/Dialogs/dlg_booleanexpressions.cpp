@@ -42,8 +42,6 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
         {
             BooleanExpressionLetter* pBooleanExpressionLetter = new BooleanExpressionLetter(this, QString(expressions[iExpression].letters[iLetter]), expressions[iExpression].inverted[iLetter], true);
             pBooleanExpressionLetter->setGeometry(Settings::BooleanExpressionsRect.left() + (iLetter * letterWidth), yPos, letterWidth, letterHeight);
-            pBooleanExpressionLetter->raise();
-            pBooleanExpressionLetter->show();
             m_booleanLetters.push_back(pBooleanExpressionLetter);
         }
 

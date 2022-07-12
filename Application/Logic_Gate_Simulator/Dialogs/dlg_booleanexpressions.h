@@ -28,6 +28,8 @@ protected:
 
 private slots:
     void on_btn_ok_clicked();
+    void on_btn_genCircuit_clicked();
+    void on_btn_genTruthTable_clicked();
 
 private:
     Ui::DLG_BooleanExpressions *ui;

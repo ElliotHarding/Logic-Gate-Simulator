@@ -13,8 +13,8 @@ const uint IntEndAlphabet = 122;
 const QFont BooleanExpressionLetterFont("Helvetica", 15);
 const QString BooleanExpressionLetterInverted = "_";
 
-const QRect BooleanExpressionsRect(10, 10, 400, 200);
-const QRect BooleanResultsRect(420, 10, 80, BooleanExpressionsRect.height());
+const QRect BooleanExpressionsRect(10, 80, 400, 220);
+const QRect BooleanResultsRect(420, 80, 80, BooleanExpressionsRect.height());
 }
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
@@ -65,6 +65,16 @@ void DLG_BooleanExpressions::on_btn_ok_clicked()
     close();
 }
 
+void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
+{
+
+}
+
+void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
+{
+
+}
+
 void DLG_BooleanExpressions::clearBooleanLetters()
 {
     for(BooleanExpressionLetter* pBooleanExpressionLetter : m_booleanLetters)
@@ -108,6 +118,6 @@ void BooleanExpressionLetter::paintEvent(QPaintEvent*)
 
     if(m_bInverted)
     {
-        painter.drawText(QPointF(xCenter - (textFontMetrics.horizontalAdvance(Settings::BooleanExpressionLetterInverted)/2), 0), Settings::BooleanExpressionLetterInverted);
+        painter.drawText(QPointF(xCenter - (textFontMetrics.horizontalAdvance(Settings::BooleanExpressionLetterInverted)/2), yCenter - (textFontMetrics.height() * 2)), Settings::BooleanExpressionLetterInverted);
     }
 }

@@ -33,9 +33,44 @@ QString setBinaryLen(QString binary, const uint len)
     return binary;
 }
 
+bool onlyDiffer1bit(QString& termA, QString& termB)
+{
+    int iDiffer = 0;
+
+    for(int i = 0; i < termA.length(); i++)
+    {
+        if(termA[i] != termB[i])
+        {
+            iDiffer++;
+            if(iDiffer > 1)
+            {
+                return false;
+            }
+        }
+    }
+
+    return iDiffer == 1;
+}
+
 std::vector<QString> reduceMinTerms(std::vector<QString> minTerms)
 {
+    std::vector<QString> newMinTerms;
 
+    const uint minTermsSize = minTerms.size();
+
+    std::vector<bool> checked = std::vector<bool>(minTermsSize, false);
+
+    for(uint i = 0; i < minTermsSize; i++)
+    {
+        for(uint j = 0; j < minTermsSize; j++)
+        {
+            if(onlyDiffer1bit(minTerms[i], minTerms[j]))
+            {
+                checked[i] = true;
+                checked[j] = true;
+            }
+        }
+    }
 }
 
 void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::vector<char>& vars)

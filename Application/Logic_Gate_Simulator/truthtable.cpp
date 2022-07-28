@@ -38,6 +38,39 @@ std::vector<QString> reduceMinTerms(std::vector<QString> minTerms)
 
 }
 
+void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::vector<char>& vars)
+{
+    const uint minTermSize = minTerm.length() - 1;
+
+    for(uint i = 0; i < minTermSize; i++)
+    {
+        if(minTerm[i] == '0')
+        {
+            expression.letters.push_back(vars[i]);
+            expression.inverted.push_back(true);
+        }
+        else if(minTerm[i] == '1')
+        {
+            expression.letters.push_back(vars[i]);
+            expression.inverted.push_back(false);
+        }
+
+        expression.letters.push_back('.');
+        expression.inverted.push_back(false);
+    }
+
+    if(minTerm[minTermSize] == '0')
+    {
+        expression.letters.push_back(vars[minTermSize]);
+        expression.inverted.push_back(true);
+    }
+    else if(minTerm[minTermSize] == '1')
+    {
+        expression.letters.push_back(vars[minTermSize]);
+        expression.inverted.push_back(false);
+    }
+}
+
 ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpressions(TruthTable& truthTable, std::vector<BooleanExpression>& expressions)
 {
     if(truthTable.inValues.size() == 0 || truthTable.outValues.size() == 0)
@@ -101,6 +134,8 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
 
     for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
     {
+        BooleanExpression expression;
+
         std::vector<QString> minTerms;
         for(uint iTableRun = 0; iTableRun < numRuns; iTableRun++)
         {
@@ -118,26 +153,24 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
             oldMinTerms = minTerms;
             minTerms = reduceMinTerms(minTerms);
 
+            std::sort(minTerms.begin(), minTerms.end());
+
             if(oldMinTerms == minTerms)
             {
                 break;
             }
         }
 
-        for(uint iMinTerm = 0; iMinTerm < minTerms.size(); iMinTerm++)
+        std::vector<char> vars;//Todo ~ gen vars
+        const uint minTermsSize = minTerms.size() - 1;
+        for(uint iMinTerm = 0; iMinTerm < minTermsSize; iMinTerm++)
         {
-            for(uint i = 0; i < minTerms[iMinTerm].length(); i++)
-            {
-                if(minTerms[iMinTerm][i] == '0')
-                {
-
-                }
-                else if(minTerms[iMinTerm][i] == '1')
-                {
-
-                }
-            }
+            //Todo ~ might need to check minTerms[iMinTerm] != dontCaresMask
+            addTranslatedMinTerm(minTerms[iMinTerm], expression, vars);
+            expression.letters.push_back('+');
+            expression.inverted.push_back(false);
         }
+        addTranslatedMinTerm(minTerms[minTermsSize], expression, vars);
     }
 
     return SUCESS;

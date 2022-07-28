@@ -95,6 +95,12 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
         dontCaresMask += "-";
     }
 
+    std::vector<char> vars;
+    for(uint i = 0; i < numInputs; i++)
+    {
+        vars.push_back(char(Settings::IntStartAlphabet + i));
+    }
+
     for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
     {
         BooleanExpression expression;
@@ -124,7 +130,6 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
             }
         }
 
-        std::vector<char> vars;//Todo ~ gen vars
         const uint minTermsSize = minTerms.size() - 1;
         for(uint iMinTerm = 0; iMinTerm < minTermsSize; iMinTerm++)
         {

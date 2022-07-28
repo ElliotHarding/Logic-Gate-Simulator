@@ -46,28 +46,23 @@ void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::
     {
         if(minTerm[i] == '0')
         {
-            expression.letters.push_back(vars[i]);
-            expression.inverted.push_back(true);
+            expression.addTerm(vars[i], true);
         }
         else if(minTerm[i] == '1')
         {
-            expression.letters.push_back(vars[i]);
-            expression.inverted.push_back(false);
+            expression.addTerm(vars[i]);
         }
 
-        expression.letters.push_back('.');
-        expression.inverted.push_back(false);
+        expression.addTerm('.');
     }
 
     if(minTerm[minTermSize] == '0')
     {
-        expression.letters.push_back(vars[minTermSize]);
-        expression.inverted.push_back(true);
+        expression.addTerm(vars[minTermSize], true);
     }
     else if(minTerm[minTermSize] == '1')
     {
-        expression.letters.push_back(vars[minTermSize]);
-        expression.inverted.push_back(false);
+        expression.addTerm(vars[minTermSize]);
     }
 }
 
@@ -167,8 +162,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
         {
             //Todo ~ might need to check minTerms[iMinTerm] != dontCaresMask
             addTranslatedMinTerm(minTerms[iMinTerm], expression, vars);
-            expression.letters.push_back('+');
-            expression.inverted.push_back(false);
+            expression.addTerm('+');
         }
         addTranslatedMinTerm(minTerms[minTermsSize], expression, vars);
     }

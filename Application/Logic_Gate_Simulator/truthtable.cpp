@@ -133,6 +133,8 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
             expression.addTerm('+');
         }
         addTranslatedMinTerm(minTerms[minTermsSize], expression, vars);
+
+        expressions.push_back(expression);
     }
 
     return SUCESS;

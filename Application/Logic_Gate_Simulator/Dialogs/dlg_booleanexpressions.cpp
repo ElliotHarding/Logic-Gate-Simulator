@@ -47,6 +47,7 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
         QLabel* pResultLabel = new QLabel(this);
         pResultLabel->setText("=" + QString(expressions[iExpression].resultLetter));
         pResultLabel->setGeometry(Settings::BooleanResultsRect.left(), yPos, Settings::BooleanResultsRect.width(), Settings::ExpressionHeight);
+        pResultLabel->setFont(Settings::BooleanExpressionLetterFont);
         m_uiResultLabels.push_back(pResultLabel);
 
         yPos += Settings::ExpressionHeight;

@@ -25,6 +25,7 @@ public:
     ~DLG_BooleanExpressions();
 
     void showExpressions(const std::vector<BooleanExpression>& expressions);
+    void removeUiExpression(BooleanExpressionDisplay* pExpressionDisplay);
 
 protected:
     void closeEvent(QCloseEvent *) override;
@@ -35,8 +36,6 @@ private slots:
     void on_btn_genTruthTable_clicked();
 
     void on_btn_addExpression_clicked();
-
-    void on_btn_removeExpression_clicked();
 
 private:
     Ui::DLG_BooleanExpressions *ui;
@@ -53,7 +52,8 @@ class BooleanExpressionDisplay : public QWidget
 {
     Q_OBJECT
 public:
-    BooleanExpressionDisplay(QWidget* pParent, const BooleanExpression& expression);
+    BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, const BooleanExpression& expression, const QRect& geometry);
+    ~BooleanExpressionDisplay();
 
     BooleanExpression getExpression();
 
@@ -61,8 +61,15 @@ protected:
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
+private slots:
+    void onRemoveButtonClicked();
+
 private:
+    DLG_BooleanExpressions* m_pParent;
+
     BooleanExpression m_expression;
+
+    QPushButton* m_pRemoveBtn;
 };
 
 #endif // DLG_BOOLEANEXPRESSIONS_H

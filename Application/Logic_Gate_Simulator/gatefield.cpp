@@ -546,10 +546,17 @@ void GateField::checkDelete(const QPoint& mouse)
 {
     for (size_t index = 0; index < m_allGates.size(); index++)
     {     
-        if(m_allGates[index]->checkClicked(mouse))
+        GameObject* pPotentiallyClickedObject = m_allGates[index]->checkClicked(mouse);
+        if(pPotentiallyClickedObject != nullptr && dynamic_cast<Gate*>(pPotentiallyClickedObject))
         {
-            Gate* gObject = m_allGates[index];
-            m_allGates.erase(m_allGates.begin() + index);
+            Gate* gObject = dynamic_cast<Gate*>(pPotentiallyClickedObject);
+
+            //Need to check that gObject is actually stored in m_allGates
+            if(m_allGates[index] == gObject)
+            {
+                m_allGates.erase(m_allGates.begin() + index);
+            }
+
             delete gObject;
 
             UpdateGateSelected(nullptr);

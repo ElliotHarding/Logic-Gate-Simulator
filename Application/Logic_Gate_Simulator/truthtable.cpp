@@ -195,7 +195,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
         }
 
         //Translate reduced min terms into boolean expression
-        const uint minTermsSize = minTerms.size() - 1;
+        const int minTermsSize = minTerms.size() - 1;
         for(uint iMinTerm = 0; iMinTerm < minTermsSize; iMinTerm++)
         {
             //Todo ~ might need to check minTerms[iMinTerm] != dontCaresMask

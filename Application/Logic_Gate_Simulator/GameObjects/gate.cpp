@@ -2,6 +2,8 @@
 #include "gatecollection.h"
 #include "gatefield.h"
 
+#include <QDebug>
+
 static int IdIndex = 0;
 
 namespace Settings
@@ -173,6 +175,24 @@ void Gate::SaveGeneralData(QDomElement& element)
     element.setAttribute(Settings::GateTypeTag, QString::number(m_type));
     element.setAttribute(Settings::GatePosXTag, QString::number(m_geometry.x()));
     element.setAttribute(Settings::GatePosYTag, QString::number(m_geometry.y()));
+}
+
+void Gate::baseClone(Gate* pGate)
+{
+    pGate->m_pParentField = m_pParentField;
+    pGate->m_pParentGateCollection = m_pParentGateCollection;
+
+    if(m_nodes.size() != pGate->m_nodes.size())
+    {
+        qDebug() << "Gate::baseClone - Failed to clone base due to cloned nodes not being same size as nodes";
+        return;
+    }
+
+    //Clones without the linded nodes... linking comes later.
+    for(uint iNode = 0; iNode < m_nodes.size(); iNode++)
+    {
+        pGate->m_nodes[iNode]->setValue(m_nodes[iNode]->value());
+    }
 }
 
 void Gate::DetachNodes()

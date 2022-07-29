@@ -576,7 +576,7 @@ Gate* GateCollection::Clone()
     }
 
     GateCollection* pClone = new GateCollection(clonedGates);
-
+    Gate::baseClone(pClone);
     pClone->m_geometry = m_geometry;
 
     return pClone;

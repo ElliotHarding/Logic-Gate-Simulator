@@ -45,6 +45,8 @@ Gate* TextLabel::Clone()
     TextLabel* clone = new TextLabel(m_geometry.x(), m_geometry.y());
     clone->Update(m_font, m_string);
 
+    Gate::baseClone(clone);
+
     return clone;
 }
 

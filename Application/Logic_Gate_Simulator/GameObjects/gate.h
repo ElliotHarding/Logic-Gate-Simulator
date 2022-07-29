@@ -69,6 +69,8 @@ protected:
 
     void SaveGeneralData(QDomElement& element);
 
+    void baseClone(Gate* pGate);
+
     GateType m_type;
     std::vector<Node*> m_nodes;
     GateField* m_pParentField;

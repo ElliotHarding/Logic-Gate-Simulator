@@ -13,9 +13,7 @@ void GateConstantActive::UpdateOutput()
 Gate *GateConstantActive::Clone()
 {
     GateConstantActive* clone = new GateConstantActive(m_geometry.x(), m_geometry.y(), m_pOutput->id());
-
-    //Clones without the linded nodes... linking comes later.
-    clone->m_pOutput->setValue(m_pOutput->value());
+    Gate::baseClone(clone);
 
     return clone;
 }

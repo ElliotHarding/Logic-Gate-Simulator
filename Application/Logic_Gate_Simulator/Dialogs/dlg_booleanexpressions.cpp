@@ -16,8 +16,7 @@ const uint IntEndAlphabet = 122;
 const QFont BooleanExpressionLetterFont("Helvetica", 15);
 const QString BooleanExpressionLetterInverted = "_";
 
-const QRect BooleanExpressionsRect(10, 80, 400, 220);
-const QRect BooleanResultsRect(420, 80, 80, BooleanExpressionsRect.height());
+const QRect BooleanExpressionsRect(10, 80, 500, 220);
 
 const uint ExpressionDisplayInvertedMargin = 2;
 }

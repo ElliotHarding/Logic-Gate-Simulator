@@ -112,7 +112,7 @@ std::vector<QString> reduceMinTerms(std::vector<QString> minTerms)
 
     for(uint i = 0; i < minTermsSize; i++)
     {
-        if(checked[i] && !inVector(newMinTerms, minTerms[i]))
+        if(!checked[i] && !inVector(newMinTerms, minTerms[i]))
         {
             newMinTerms.push_back(minTerms[i]);
         }

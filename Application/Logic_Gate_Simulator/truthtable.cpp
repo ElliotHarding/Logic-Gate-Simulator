@@ -110,8 +110,6 @@ void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::
             {
                 expression.addTerm(vars[i]);
             }
-
-            expression.addTerm('.');
         }
     }
 

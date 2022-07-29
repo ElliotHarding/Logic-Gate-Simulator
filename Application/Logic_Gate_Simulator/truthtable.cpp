@@ -94,8 +94,14 @@ std::vector<QString> reduceMinTerms(std::vector<QString> minTerms)
     return newMinTerms;
 }
 
-void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::vector<char>& vars)
+void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::vector<char>& vars, const QString& dontCareMask)
 {
+    if(minTerm == dontCareMask)
+    {
+        expression.addTerm('1');
+        return;
+    }
+
     const uint minTermSize = minTerm.length() - 1;
 
     for(uint i = 0; i < minTermSize; i++)
@@ -198,11 +204,10 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
         const int minTermsSize = minTerms.size() - 1;
         for(uint iMinTerm = 0; iMinTerm < minTermsSize; iMinTerm++)
         {
-            //Todo ~ might need to check minTerms[iMinTerm] != dontCaresMask
-            addTranslatedMinTerm(minTerms[iMinTerm], expression, vars);
+            addTranslatedMinTerm(minTerms[iMinTerm], expression, vars, dontCaresMask);
             expression.addTerm('+');
         }
-        addTranslatedMinTerm(minTerms[minTermsSize], expression, vars);
+        addTranslatedMinTerm(minTerms[minTermsSize], expression, vars, dontCaresMask);
 
         //Finish
         expressions.push_back(expression);

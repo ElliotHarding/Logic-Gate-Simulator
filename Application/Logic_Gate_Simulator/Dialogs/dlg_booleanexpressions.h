@@ -39,7 +39,6 @@ private:
 
     ///Boolean letters
     std::vector<BooleanExpressionDisplay*> m_uiExpressions;
-    std::vector<QLabel*> m_uiResultLabels;
     void clear();
 };
 

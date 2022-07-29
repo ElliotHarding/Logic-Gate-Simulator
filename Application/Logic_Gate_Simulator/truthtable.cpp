@@ -202,7 +202,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
 
         //Translate reduced min terms into boolean expression
         const int minTermsSize = minTerms.size() - 1;
-        for(uint iMinTerm = 0; iMinTerm < minTermsSize; iMinTerm++)
+        for(int iMinTerm = 0; iMinTerm < minTermsSize; iMinTerm++)
         {
             addTranslatedMinTerm(minTerms[iMinTerm], expression, vars, dontCaresMask);
             expression.addTerm('+');

@@ -17,8 +17,6 @@ const QString BooleanExpressionLetterInverted = "_";
 const QRect BooleanExpressionsRect(10, 80, 400, 220);
 const QRect BooleanResultsRect(420, 80, 80, BooleanExpressionsRect.height());
 
-const uint ExpressionHeight = 50;
-
 const uint ExpressionDisplayInvertedMargin = 2;
 }
 
@@ -39,21 +37,15 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
 {
     clear();
 
-    uint yPos = Settings::BooleanExpressionsRect.top();
+    const uint letterHeight = Settings::BooleanExpressionsRect.height() / expressions.size();
     const uint txtExpressionWidth = Settings::BooleanExpressionsRect.width();
     for(uint iExpression = 0; iExpression < expressions.size(); iExpression++)
     {
+        const uint yPos = Settings::BooleanExpressionsRect.top() + (Settings::BooleanExpressionsRect.height() / expressions.size()) * iExpression;
+
         BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, expressions[iExpression]);
-        pExpressionDisplay->setGeometry(Settings::BooleanExpressionsRect.left(), yPos, txtExpressionWidth, Settings::ExpressionHeight);
+        pExpressionDisplay->setGeometry(Settings::BooleanExpressionsRect.left(), yPos, txtExpressionWidth, letterHeight);
         m_uiExpressions.push_back(pExpressionDisplay);
-
-        QLabel* pResultLabel = new QLabel(this);
-        pResultLabel->setText("=" + QString(expressions[iExpression].resultLetter));
-        pResultLabel->setGeometry(Settings::BooleanResultsRect.left(), yPos, Settings::BooleanResultsRect.width(), Settings::ExpressionHeight);
-        pResultLabel->setFont(Settings::BooleanExpressionLetterFont);
-        m_uiResultLabels.push_back(pResultLabel);
-
-        yPos += Settings::ExpressionHeight;
     }
 
     open();
@@ -89,12 +81,6 @@ void DLG_BooleanExpressions::clear()
         delete pBooleanExpressionDispaly;
     }
     m_uiExpressions.clear();
-
-    for(QLabel* pResultLabel : m_uiResultLabels)
-    {
-        delete pResultLabel;
-    }
-    m_uiResultLabels.clear();
 }
 
 
@@ -117,7 +103,7 @@ BooleanExpression BooleanExpressionDisplay::getExpression()
 void BooleanExpressionDisplay::mousePressEvent(QMouseEvent* mouseEvent)
 {
     const uint letterSpaceWidth = geometry().width() / m_expression.letters.size();
-    const uint letterIndex = mouseEvent->pos().x() / letterSpaceWidth;
+    const uint letterIndex = ((letterSpaceWidth/2) + mouseEvent->pos().x()) / letterSpaceWidth;
 
     if(letterIndex < m_expression.letters.size() && m_expression.letters[letterIndex] >= char(Settings::IntStartAlphabet) && m_expression.letters[letterIndex] <= char(Settings::IntEndAlphabet))
     {
@@ -134,8 +120,9 @@ void BooleanExpressionDisplay::paintEvent(QPaintEvent*)
     const QFontMetrics textFontMetrics(Settings::BooleanExpressionLetterFont);
     painter.setFont(Settings::BooleanExpressionLetterFont);
 
-    const uint letterSpaceWidth = geometry().width() / m_expression.letters.size();
-    for(uint i = 0; i < m_expression.letters.size(); i++)
+    const uint lettersSize = m_expression.letters.size();
+    const uint letterSpaceWidth = geometry().width() / (m_expression.letters.size() + 1);
+    for(uint i = 0; i < lettersSize; i++)
     {
         if(m_expression.inverted[i])
         {
@@ -143,4 +130,7 @@ void BooleanExpressionDisplay::paintEvent(QPaintEvent*)
         }
         painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * i) - (textFontMetrics.horizontalAdvance(m_expression.letters[i])/2), (geometry().height()/2) + (textFontMetrics.height()/2)), QString(m_expression.letters[i]));
     }
+
+    const QString resultLetterDispaly = "=" + QString(m_expression.resultLetter);
+    painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * lettersSize) - (textFontMetrics.horizontalAdvance(resultLetterDispaly)/2), (geometry().height()/2) + (textFontMetrics.height()/2)), resultLetterDispaly);
 }

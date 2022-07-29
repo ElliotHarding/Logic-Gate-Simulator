@@ -41,7 +41,7 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
     for(uint iExpression = 0; iExpression < expressions.size(); iExpression++)
     {
         BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, expressions[iExpression]);
-        pExpressionDisplay->setGeometry(Settings::BooleanResultsRect.left(), yPos, txtExpressionWidth, Settings::ExpressionHeight);
+        pExpressionDisplay->setGeometry(Settings::BooleanExpressionsRect.left(), yPos, txtExpressionWidth, Settings::ExpressionHeight);
         m_uiExpressions.push_back(pExpressionDisplay);
 
         QLabel* pResultLabel = new QLabel(this);

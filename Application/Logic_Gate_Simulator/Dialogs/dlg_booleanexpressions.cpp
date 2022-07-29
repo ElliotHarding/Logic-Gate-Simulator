@@ -141,6 +141,6 @@ void BooleanExpressionDisplay::paintEvent(QPaintEvent*)
         {
             painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * i) - (textFontMetrics.horizontalAdvance(m_expression.letters[i])/2), Settings::ExpressionDisplayInvertedMargin), Settings::BooleanExpressionLetterInverted);
         }
-        painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * i) - (textFontMetrics.horizontalAdvance(m_expression.letters[i])/2), geometry().center().y() - textFontMetrics.height()), QString(m_expression.letters[i]));
+        painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * i) - (textFontMetrics.horizontalAdvance(m_expression.letters[i])/2), (geometry().height()/2) - textFontMetrics.height()), QString(m_expression.letters[i]));
     }
 }

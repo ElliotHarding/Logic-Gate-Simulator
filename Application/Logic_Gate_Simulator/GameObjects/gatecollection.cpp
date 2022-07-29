@@ -33,6 +33,11 @@ GateCollection::GateCollection(std::vector<Gate*> gates) :
     Gate::Gate(GATE_COLLECTION, 0, 0, 0, 0)
 {
     m_gates = gates;
+    for(Gate* pGate : m_gates)
+    {
+        pGate->SetParentGateCollection(this);
+    }
+
     UpdateContaningArea();
     ProporgateParentAndCheckForNestedGates();
 }

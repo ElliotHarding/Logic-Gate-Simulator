@@ -53,12 +53,16 @@ public:
 
     BooleanExpression getExpression();
 
+public slots:
+    void onTextChanged(const QString& newText);
+
 protected:
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
 private:
     std::vector<bool> m_invertedLetters;
+    QString m_oldText;
 };
 
 #endif // DLG_BOOLEANEXPRESSIONS_H

@@ -104,9 +104,12 @@ void DLG_BooleanExpressions::clear()
 ///
 BooleanExpressionDisplay::BooleanExpressionDisplay(QWidget* pParent, const BooleanExpression& expression) : QLineEdit(pParent)
 {
-    setText(BooleanExpression(expression).lettersAsString());
+    m_oldText = BooleanExpression(expression).lettersAsString();
+    setText(m_oldText);
     m_invertedLetters = expression.inverted;
     setFont(Settings::BooleanExpressionLetterFont);
+
+    connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(const QString&)));
 }
 
 BooleanExpression BooleanExpressionDisplay::getExpression()
@@ -115,15 +118,56 @@ BooleanExpression BooleanExpressionDisplay::getExpression()
     return expression;
 }
 
+void BooleanExpressionDisplay::onTextChanged(const QString& newText)
+{
+    if(m_oldText == newText)
+    {
+        return;
+    }
+
+    const int sizeDiff = newText.length() - m_oldText.length();
+
+    //If extra letters
+    if(sizeDiff > 0)
+    {
+        //Add extra m_invertedLetters
+        for(int i = 0; i < sizeDiff; i++)
+        {
+            m_invertedLetters.push_back(false);
+        }
+    }
+
+    //If removed a letter
+    else if(sizeDiff < 0)
+    {
+        for(int i = 0; i < m_oldText.length(); i++)
+        {
+            if(i >= newText.size())
+            {
+                m_invertedLetters.erase(m_invertedLetters.begin() + i);
+            }
+            else if(newText[i] != m_oldText[i])
+            {
+                m_invertedLetters.erase(m_invertedLetters.begin() + i);
+            }
+        }
+    }
+
+    m_oldText = newText;
+
+    update();
+}
+
 void BooleanExpressionDisplay::mousePressEvent(QMouseEvent* mouseEvent)
 {
     QLineEdit::mousePressEvent(mouseEvent);
 
     const QFontMetrics textFontMetrics(Settings::BooleanExpressionLetterFont);
-    const uint invertedWidth = textFontMetrics.horizontalAdvance(text()) / text().length();
+    const QString currentText = text();
+    const uint invertedWidth = textFontMetrics.horizontalAdvance(currentText) / currentText.length();
     const uint letterIndex = mouseEvent->pos().x() / invertedWidth;
 
-    if(letterIndex < m_invertedLetters.size())
+    if(letterIndex < m_invertedLetters.size() && letterIndex < (uint)currentText.length() && currentText[letterIndex] >= "A" && currentText[letterIndex] <= "Z")
     {
         m_invertedLetters[letterIndex] = !m_invertedLetters[letterIndex];
     }

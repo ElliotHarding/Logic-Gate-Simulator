@@ -15,11 +15,11 @@ QString intToBinary(int n)
 
     if (n % 2 == 0)
     {
-        return intToBinary(n / 2) + "0";
+        return "0" + intToBinary(n / 2);
     }
     else
     {
-        return intToBinary(n / 2) + "1";
+        return "1" + intToBinary(n / 2);
     }
 }
 
@@ -28,7 +28,7 @@ QString setBinaryLen(QString binary, const uint len)
     const uint iExtra = len - binary.length();
     for(uint i = 0; i < iExtra; i++)
     {
-        binary = "0" + binary;
+        binary = binary + "0";
     }
     return binary;
 }

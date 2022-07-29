@@ -28,13 +28,13 @@ DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
 
 DLG_BooleanExpressions::~DLG_BooleanExpressions()
 {
-    clearBooleanLetters();
+    clear();
     delete ui;
 }
 
 void DLG_BooleanExpressions::showExpressions(std::vector<BooleanExpression>& expressions)
 {
-    clearBooleanLetters();
+    clear();
 
     /*
     const uint letterHeight = Settings::BooleanExpressionsRect.height() / expressions.size();
@@ -59,11 +59,10 @@ void DLG_BooleanExpressions::showExpressions(std::vector<BooleanExpression>& exp
     const uint txtExpressionWidth = Settings::BooleanExpressionsRect.width();
     for(uint iExpression = 0; iExpression < expressions.size(); iExpression++)
     {
-        QLineEdit* pExpressionLineEdit = new QLineEdit(this);
-        pExpressionLineEdit->setText(expressions[iExpression].lettersAsString());
-        pExpressionLineEdit->setGeometry(Settings::BooleanResultsRect.left(), yPos, txtExpressionWidth, Settings::ExpressionHeight);
+        BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, expressions[iExpression]);
+        pExpressionDisplay->setGeometry(Settings::BooleanResultsRect.left(), yPos, txtExpressionWidth, Settings::ExpressionHeight);
 
-        m_uiExpressions.push_back(pExpressionLineEdit);
+        m_uiExpressions.push_back(pExpressionDisplay);
 
         yPos += Settings::ExpressionHeight;
     }
@@ -74,12 +73,12 @@ void DLG_BooleanExpressions::showExpressions(std::vector<BooleanExpression>& exp
 void DLG_BooleanExpressions::closeEvent(QCloseEvent* e)
 {
     QDialog::closeEvent(e);
-    clearBooleanLetters();
+    clear();
 }
 
 void DLG_BooleanExpressions::on_btn_ok_clicked()
 {
-    clearBooleanLetters();
+    clear();
     close();
 }
 
@@ -94,49 +93,50 @@ void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
 
 }
 
-void DLG_BooleanExpressions::clearBooleanLetters()
+void DLG_BooleanExpressions::clear()
 {
-    for(BooleanExpressionLetter* pBooleanExpressionLetter : m_booleanLetters)
+    for(BooleanExpressionDisplay* pBooleanExpressionDispaly : m_uiExpressions)
     {
-        delete pBooleanExpressionLetter;
+        delete pBooleanExpressionDispaly;
     }
-    m_booleanLetters.clear();
+    m_uiExpressions.clear();
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// \brief BooleanExpressionLetter::BooleanExpressionLetter
+/// \brief BooleanExpressionDisplay::BooleanExpressionDisplay
 /// \param pParent
 ///
-BooleanExpressionLetter::BooleanExpressionLetter(QWidget* pParent, const QString& letter, const bool& inverted, const bool& editable) : QWidget(pParent),
-    m_letter(letter),
-    m_bInverted(inverted),
-    m_bEditable(editable)
+BooleanExpressionDisplay::BooleanExpressionDisplay(QWidget* pParent, BooleanExpression &expression) : QLineEdit(pParent)
 {
+    setText(expression.lettersAsString());
+    m_invertedLetters = expression.inverted;
+    setFont(Settings::BooleanExpressionLetterFont);
 }
 
-void BooleanExpressionLetter::mousePressEvent(QMouseEvent*)
+BooleanExpression BooleanExpressionDisplay::getExpression()
 {
-    if(m_bEditable && m_letter >= Settings::IntStartAlphabet && m_letter <= Settings::IntEndAlphabet)
-    {
-        m_bInverted = !m_bInverted;
-        update();
-    }
+
 }
 
-void BooleanExpressionLetter::paintEvent(QPaintEvent*)
+void BooleanExpressionDisplay::mousePressEvent(QMouseEvent *mouseEvent)
+{
+
+}
+
+void BooleanExpressionDisplay::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
 
     const QFontMetrics textFontMetrics(Settings::BooleanExpressionLetterFont);
     painter.setFont(Settings::BooleanExpressionLetterFont);
 
-    const qreal xCenter = geometry().width()/2;
-    const qreal yCenter = geometry().height()/2;
-    painter.drawText(QPointF(xCenter - (textFontMetrics.horizontalAdvance(m_letter)/2), yCenter - textFontMetrics.height()/2), m_letter);
-
-    if(m_bInverted)
+    const uint invertedWidth = textFontMetrics.horizontalAdvance(text());
+    for(uint i = 0; i < text().length(); i++)
     {
-        painter.drawText(QPointF(xCenter - (textFontMetrics.horizontalAdvance(Settings::BooleanExpressionLetterInverted)/2), yCenter - (textFontMetrics.height() * 2)), Settings::BooleanExpressionLetterInverted);
+        if(m_invertedLetters[i])
+        {
+            painter.drawText(QPointF(i * invertedWidth, geometry().top()), Settings::BooleanExpressionLetterInverted);
+        }
     }
 }

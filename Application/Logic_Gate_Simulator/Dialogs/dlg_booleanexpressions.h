@@ -9,7 +9,7 @@ class DLG_BooleanExpressions;
 }
 
 class BooleanExpression;
-class BooleanExpressionLetter;
+class BooleanExpressionDisplay;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /// \brief The DLG_BooleanExpressions class
@@ -36,28 +36,27 @@ private:
     Ui::DLG_BooleanExpressions *ui;
 
     ///Boolean letters
-    //std::vector<BooleanExpressionLetter*> m_booleanLetters;
-    std::vector<QLineEdit*> m_uiExpressions;
-    void clearBooleanLetters();
+    std::vector<BooleanExpressionDisplay*> m_uiExpressions;
+    void clear();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////
-/// \brief The BooleanExpressionLetter class
+/// \brief The BooleanExpressionDisplay class
 ///
-class BooleanExpressionLetter : public QWidget
+class BooleanExpressionDisplay : public QLineEdit
 {
     Q_OBJECT
 public:
-    BooleanExpressionLetter(QWidget* pParent, const QString& letter, const bool& inverted, const bool& editable);
+    BooleanExpressionDisplay(QWidget* pParent, BooleanExpression& expression);
+
+    BooleanExpression getExpression();
 
 protected:
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
 private:
-    QString m_letter;
-    bool m_bInverted;
-    bool m_bEditable;
+    std::vector<bool> m_invertedLetters;
 };
 
 #endif // DLG_BOOLEANEXPRESSIONS_H

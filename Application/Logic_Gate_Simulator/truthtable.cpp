@@ -100,16 +100,19 @@ void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::
 
     for(uint i = 0; i < minTermSize; i++)
     {
-        if(minTerm[i] == '0')
+        if(minTerm[i] != "-")
         {
-            expression.addTerm(vars[i], true);
-        }
-        else if(minTerm[i] == '1')
-        {
-            expression.addTerm(vars[i]);
-        }
+            if(minTerm[i] == '0')
+            {
+                expression.addTerm(vars[i], true);
+            }
+            else if(minTerm[i] == '1')
+            {
+                expression.addTerm(vars[i]);
+            }
 
-        expression.addTerm('.');
+            expression.addTerm('.');
+        }
     }
 
     if(minTerm[minTermSize] == '0')

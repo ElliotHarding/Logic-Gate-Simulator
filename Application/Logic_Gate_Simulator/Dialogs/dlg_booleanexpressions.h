@@ -34,6 +34,10 @@ private slots:
     void on_btn_genCircuit_clicked();
     void on_btn_genTruthTable_clicked();
 
+    void on_btn_addExpression_clicked();
+
+    void on_btn_removeExpression_clicked();
+
 private:
     Ui::DLG_BooleanExpressions *ui;
 

@@ -46,6 +46,7 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
 
         BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, expressions[iExpression]);
         pExpressionDisplay->setGeometry(Settings::BooleanExpressionsRect.left(), yPos, txtExpressionWidth, letterHeight);
+        pExpressionDisplay->show();
         m_uiExpressions.push_back(pExpressionDisplay);
     }
 
@@ -84,6 +85,27 @@ void DLG_BooleanExpressions::clear()
     m_uiExpressions.clear();
 }
 
+void DLG_BooleanExpressions::on_btn_addExpression_clicked()
+{
+    std::vector<BooleanExpression> expressions;
+    for(uint i = 0; i < m_uiExpressions.size(); i++)
+    {
+        expressions.push_back(m_uiExpressions[i]->getExpression());
+    }
+
+    BooleanExpression newExpression;
+    newExpression.addTerm('A');
+    newExpression.resultLetter = Settings::IntEndAlphabet - m_uiExpressions.size();
+    expressions.push_back(newExpression);
+
+    showExpressions(expressions);
+}
+
+void DLG_BooleanExpressions::on_btn_removeExpression_clicked()
+{
+
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// \brief BooleanExpressionDisplay::BooleanExpressionDisplay
@@ -97,8 +119,7 @@ BooleanExpressionDisplay::BooleanExpressionDisplay(QWidget* pParent, const Boole
 
 BooleanExpression BooleanExpressionDisplay::getExpression()
 {
-    BooleanExpression expression;
-    return expression;
+    return m_expression;
 }
 
 void BooleanExpressionDisplay::mousePressEvent(QMouseEvent* mouseEvent)

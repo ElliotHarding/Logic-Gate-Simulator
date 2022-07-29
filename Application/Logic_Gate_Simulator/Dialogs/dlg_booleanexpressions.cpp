@@ -107,27 +107,33 @@ BooleanExpressionDisplay::BooleanExpressionDisplay(QWidget* pParent, const Boole
 
 BooleanExpression BooleanExpressionDisplay::getExpression()
 {
-
+    BooleanExpression expression;
+    return expression;
 }
 
-void BooleanExpressionDisplay::mousePressEvent(QMouseEvent *mouseEvent)
+void BooleanExpressionDisplay::mousePressEvent(QMouseEvent* mouseEvent)
 {
-
+    QLineEdit::mousePressEvent(mouseEvent);
 }
 
-void BooleanExpressionDisplay::paintEvent(QPaintEvent *paintEvent)
+void BooleanExpressionDisplay::paintEvent(QPaintEvent* paintEvent)
 {
+    QLineEdit::paintEvent(paintEvent);
+
     QPainter painter(this);
 
     const QFontMetrics textFontMetrics(Settings::BooleanExpressionLetterFont);
     painter.setFont(Settings::BooleanExpressionLetterFont);
 
-    const uint invertedWidth = textFontMetrics.horizontalAdvance(text());
-    for(uint i = 0; i < text().length(); i++)
+    const QString currentText = text();
+    const uint currentTextLen = currentText.length();
+
+    const uint invertedWidth = textFontMetrics.horizontalAdvance(currentText) / currentTextLen;
+    for(uint i = 0; i < currentTextLen; i++)
     {
         if(m_invertedLetters[i])
         {
-            painter.drawText(QPointF(i * invertedWidth, geometry().top()), Settings::BooleanExpressionLetterInverted);
+            painter.drawText(QPointF(i * invertedWidth, 0), Settings::BooleanExpressionLetterInverted);
         }
     }
 }

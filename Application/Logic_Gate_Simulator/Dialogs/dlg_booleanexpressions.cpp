@@ -45,7 +45,7 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
             m_booleanLetters.push_back(pBooleanExpressionLetter);
         }
 
-        BooleanExpressionLetter* pResultBooleanExpressionLetter = new BooleanExpressionLetter(this, "= " + QString(expressions[iExpression].resultLetter), false, false);
+        BooleanExpressionLetter* pResultBooleanExpressionLetter = new BooleanExpressionLetter(this, "=" + QString(expressions[iExpression].resultLetter), false, false);
         pResultBooleanExpressionLetter->setGeometry(Settings::BooleanResultsRect.left(), yPos, Settings::BooleanResultsRect.width(), letterHeight);
         m_booleanLetters.push_back(pResultBooleanExpressionLetter);
     }

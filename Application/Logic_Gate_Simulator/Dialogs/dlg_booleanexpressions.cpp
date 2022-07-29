@@ -4,6 +4,7 @@
 #include "truthtable.h"
 
 #include <QPainter>
+#include <QMouseEvent>
 
 namespace Settings
 {
@@ -17,6 +18,8 @@ const QRect BooleanExpressionsRect(10, 80, 400, 220);
 const QRect BooleanResultsRect(420, 80, 80, BooleanExpressionsRect.height());
 
 const uint ExpressionHeight = 50;
+
+const uint ExpressionDisplayLeftMargin = 2;
 }
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
@@ -115,6 +118,17 @@ BooleanExpression BooleanExpressionDisplay::getExpression()
 void BooleanExpressionDisplay::mousePressEvent(QMouseEvent* mouseEvent)
 {
     QLineEdit::mousePressEvent(mouseEvent);
+
+    const QFontMetrics textFontMetrics(Settings::BooleanExpressionLetterFont);
+    const uint invertedWidth = textFontMetrics.horizontalAdvance(text()) / text().length();
+    const uint letterIndex = mouseEvent->pos().x() / invertedWidth;
+
+    if(letterIndex < m_invertedLetters.size())
+    {
+        m_invertedLetters[letterIndex] = !m_invertedLetters[letterIndex];
+    }
+
+    update();
 }
 
 void BooleanExpressionDisplay::paintEvent(QPaintEvent* paintEvent)
@@ -134,7 +148,7 @@ void BooleanExpressionDisplay::paintEvent(QPaintEvent* paintEvent)
     {
         if(m_invertedLetters[i])
         {
-            painter.drawText(QPointF(i * invertedWidth, 0), Settings::BooleanExpressionLetterInverted);
+            painter.drawText(QPointF(Settings::ExpressionDisplayLeftMargin + i * invertedWidth, 0), Settings::BooleanExpressionLetterInverted);
         }
     }
 }

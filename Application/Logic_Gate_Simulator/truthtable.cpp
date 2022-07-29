@@ -6,33 +6,6 @@ const uint IntStartAlphabet = 65;
 const uint IntEndAlphabet = 122;
 }
 
-QString intToBinary(int n)
-{
-    if ( n == 0 )
-    {
-        return n+"";
-    }
-
-    if (n % 2 == 0)
-    {
-        return "0" + intToBinary(n / 2);
-    }
-    else
-    {
-        return "1" + intToBinary(n / 2);
-    }
-}
-
-QString setBinaryLen(QString binary, const uint len)
-{
-    const uint iExtra = len - binary.length();
-    for(uint i = 0; i < iExtra; i++)
-    {
-        binary = binary + "0";
-    }
-    return binary;
-}
-
 bool onlyDiffer1bit(QString& termA, QString& termB)
 {
     int iDiffer = 0;
@@ -195,7 +168,12 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
         {
             if(truthTable.outValues[iTableRun][iOutput])
             {
-                minTerms.push_back(setBinaryLen(intToBinary(iTableRun), numInputs));
+                QString minTerm = "";
+                for(const bool input : truthTable.inValues[iTableRun])
+                {
+                    minTerm += (input ? "1" : "0");
+                }
+                minTerms.push_back(minTerm);
             }
         }
 

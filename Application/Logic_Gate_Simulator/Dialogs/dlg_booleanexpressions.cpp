@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QMouseEvent>
 
+#include <cmath>
+
 namespace Settings
 {
 const uint IntStartAlphabet = 65;
@@ -102,10 +104,10 @@ BooleanExpression BooleanExpressionDisplay::getExpression()
 
 void BooleanExpressionDisplay::mousePressEvent(QMouseEvent* mouseEvent)
 {
-    const uint letterSpaceWidth = geometry().width() / m_expression.letters.size();
-    const uint letterIndex = ((letterSpaceWidth/2) + mouseEvent->pos().x()) / letterSpaceWidth;
+    const uint letterSpaceWidth = geometry().width() / (m_expression.letters.size() + 1);
+    const uint letterIndex = std::ceil(mouseEvent->pos().x() / letterSpaceWidth);
 
-    if(letterIndex < m_expression.letters.size() && m_expression.letters[letterIndex] >= char(Settings::IntStartAlphabet) && m_expression.letters[letterIndex] <= char(Settings::IntEndAlphabet))
+    if(letterIndex < m_expression.letters.size() && letterIndex < m_expression.letters.size() && m_expression.letters[letterIndex] >= char(Settings::IntStartAlphabet) && m_expression.letters[letterIndex] <= char(Settings::IntEndAlphabet))
     {
         m_expression.inverted[letterIndex] = !m_expression.inverted[letterIndex];
     }

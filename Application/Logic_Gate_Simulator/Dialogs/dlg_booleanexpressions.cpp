@@ -15,6 +15,8 @@ const QString BooleanExpressionLetterInverted = "_";
 
 const QRect BooleanExpressionsRect(10, 80, 400, 220);
 const QRect BooleanResultsRect(420, 80, 80, BooleanExpressionsRect.height());
+
+const uint ExpressionHeight = 50;
 }
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
@@ -30,8 +32,11 @@ DLG_BooleanExpressions::~DLG_BooleanExpressions()
     delete ui;
 }
 
-void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression>& expressions)
+void DLG_BooleanExpressions::showExpressions(std::vector<BooleanExpression>& expressions)
 {
+    clearBooleanLetters();
+
+    /*
     const uint letterHeight = Settings::BooleanExpressionsRect.height() / expressions.size();
     for(uint iExpression = 0; iExpression < expressions.size(); iExpression++)
     {
@@ -48,6 +53,19 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
         BooleanExpressionLetter* pResultBooleanExpressionLetter = new BooleanExpressionLetter(this, "=" + QString(expressions[iExpression].resultLetter), false, false);
         pResultBooleanExpressionLetter->setGeometry(Settings::BooleanResultsRect.left(), yPos, Settings::BooleanResultsRect.width(), letterHeight);
         m_booleanLetters.push_back(pResultBooleanExpressionLetter);
+    }*/
+
+    uint yPos = Settings::BooleanExpressionsRect.top();
+    const uint txtExpressionWidth = Settings::BooleanExpressionsRect.width();
+    for(uint iExpression = 0; iExpression < expressions.size(); iExpression++)
+    {
+        QLineEdit* pExpressionLineEdit = new QLineEdit(this);
+        pExpressionLineEdit->setText(expressions[iExpression].lettersAsString());
+        pExpressionLineEdit->setGeometry(Settings::BooleanResultsRect.left(), yPos, txtExpressionWidth, Settings::ExpressionHeight);
+
+        m_uiExpressions.push_back(pExpressionLineEdit);
+
+        yPos += Settings::ExpressionHeight;
     }
 
     open();

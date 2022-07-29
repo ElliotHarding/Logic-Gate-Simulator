@@ -2,6 +2,7 @@
 #define DLG_BOOLEANEXPRESSIONS_H
 
 #include <QDialog>
+#include <QLineEdit>
 
 namespace Ui {
 class DLG_BooleanExpressions;
@@ -21,7 +22,7 @@ public:
     explicit DLG_BooleanExpressions(QWidget *parent = nullptr);
     ~DLG_BooleanExpressions();
 
-    void showExpressions(const std::vector<BooleanExpression>& expressions);
+    void showExpressions(std::vector<BooleanExpression>& expressions);
 
 protected:
     void closeEvent(QCloseEvent *) override;
@@ -35,7 +36,8 @@ private:
     Ui::DLG_BooleanExpressions *ui;
 
     ///Boolean letters
-    std::vector<BooleanExpressionLetter*> m_booleanLetters;
+    //std::vector<BooleanExpressionLetter*> m_booleanLetters;
+    std::vector<QLineEdit*> m_uiExpressions;
     void clearBooleanLetters();
 };
 

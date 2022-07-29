@@ -37,6 +37,18 @@ struct BooleanExpression
         letters.push_back(letter);
         inverted.push_back(bInverted);
     }
+
+    QString lettersAsString()
+    {
+        QString result = "";
+
+        for(uint i = 0; i < letters.size(); i++)
+        {
+            result += letters[i];
+        }
+
+        return result;
+    }
 };
 
 enum ExpressionCalculatorResult

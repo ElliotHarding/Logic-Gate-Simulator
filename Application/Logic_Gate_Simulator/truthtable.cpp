@@ -187,7 +187,9 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
     for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
     {
         BooleanExpression expression;
+        expression.resultLetter = Settings::IntEndAlphabet - iOutput;
 
+        //Get min terms
         std::vector<QString> minTerms;
         for(uint iTableRun = 0; iTableRun < numRuns; iTableRun++)
         {
@@ -197,8 +199,8 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
             }
         }
 
+        //Reduce min terms
         std::sort(minTerms.begin(), minTerms.end());
-
         std::vector<QString> oldMinTerms;
         while(true)
         {
@@ -213,6 +215,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
             }
         }
 
+        //Translate reduced min terms into boolean expression
         const uint minTermsSize = minTerms.size() - 1;
         for(uint iMinTerm = 0; iMinTerm < minTermsSize; iMinTerm++)
         {
@@ -222,6 +225,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
         }
         addTranslatedMinTerm(minTerms[minTermsSize], expression, vars);
 
+        //Finish
         expressions.push_back(expression);
     }
 

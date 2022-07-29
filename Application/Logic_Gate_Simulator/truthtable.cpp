@@ -52,6 +52,38 @@ bool onlyDiffer1bit(QString& termA, QString& termB)
     return iDiffer == 1;
 }
 
+// 0010 and 0110 becomes 0-10
+QString mergeTerms(const QString& termA, const QString& termB)
+{
+    QString result = "";
+
+    for(uint i = 0; i < termA.length(); i++)
+    {
+        if(termA[i] != termB[i])
+        {
+            result+="-";
+        }
+        else
+        {
+            result+=termA[i];
+        }
+    }
+
+    return result;
+}
+
+bool inVector(const std::vector<QString>& vec, const QString& str)
+{
+    for(uint i = 0; i < vec.size(); i++)
+    {
+        if(str == vec[i])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::vector<QString> reduceMinTerms(std::vector<QString> minTerms)
 {
     std::vector<QString> newMinTerms;
@@ -68,9 +100,25 @@ std::vector<QString> reduceMinTerms(std::vector<QString> minTerms)
             {
                 checked[i] = true;
                 checked[j] = true;
+
+                const QString mergedTerms = mergeTerms(minTerms[i], minTerms[j]);
+                if(!inVector(newMinTerms, mergedTerms))
+                {
+                    newMinTerms.push_back(mergedTerms);
+                }
             }
         }
     }
+
+    for(uint i = 0; i < minTermsSize; i++)
+    {
+        if(checked[i] && !inVector(newMinTerms, minTerms[i]))
+        {
+            newMinTerms.push_back(minTerms[i]);
+        }
+    }
+
+    return newMinTerms;
 }
 
 void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::vector<char>& vars)

@@ -19,7 +19,7 @@ const QRect BooleanResultsRect(420, 80, 80, BooleanExpressionsRect.height());
 
 const uint ExpressionHeight = 50;
 
-const uint ExpressionDisplayLeftMargin = 2;
+const uint ExpressionDisplayInvertedMargin = 2;
 }
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
@@ -102,14 +102,10 @@ void DLG_BooleanExpressions::clear()
 /// \brief BooleanExpressionDisplay::BooleanExpressionDisplay
 /// \param pParent
 ///
-BooleanExpressionDisplay::BooleanExpressionDisplay(QWidget* pParent, const BooleanExpression& expression) : QLineEdit(pParent)
+BooleanExpressionDisplay::BooleanExpressionDisplay(QWidget* pParent, const BooleanExpression& expression) : QWidget(pParent)
 {
-    m_oldText = BooleanExpression(expression).lettersAsString();
-    setText(m_oldText);
-    m_invertedLetters = expression.inverted;
+    m_expression = expression;
     setFont(Settings::BooleanExpressionLetterFont);
-
-    connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(const QString&)));
 }
 
 BooleanExpression BooleanExpressionDisplay::getExpression()
@@ -118,81 +114,33 @@ BooleanExpression BooleanExpressionDisplay::getExpression()
     return expression;
 }
 
-void BooleanExpressionDisplay::onTextChanged(const QString& newText)
-{
-    if(m_oldText == newText)
-    {
-        return;
-    }
-
-    const int sizeDiff = newText.length() - m_oldText.length();
-
-    //If extra letters
-    if(sizeDiff > 0)
-    {
-        //Add extra m_invertedLetters
-        for(int i = 0; i < sizeDiff; i++)
-        {
-            m_invertedLetters.push_back(false);
-        }
-    }
-
-    //If removed a letter
-    else if(sizeDiff < 0)
-    {
-        for(int i = 0; i < m_oldText.length(); i++)
-        {
-            if(i >= newText.size())
-            {
-                m_invertedLetters.erase(m_invertedLetters.begin() + i);
-            }
-            else if(newText[i] != m_oldText[i])
-            {
-                m_invertedLetters.erase(m_invertedLetters.begin() + i);
-            }
-        }
-    }
-
-    m_oldText = newText;
-
-    update();
-}
-
 void BooleanExpressionDisplay::mousePressEvent(QMouseEvent* mouseEvent)
 {
-    QLineEdit::mousePressEvent(mouseEvent);
+    const uint letterSpaceWidth = geometry().width() / m_expression.letters.size();
+    const uint letterIndex = mouseEvent->pos().x() / letterSpaceWidth;
 
-    const QFontMetrics textFontMetrics(Settings::BooleanExpressionLetterFont);
-    const QString currentText = text();
-    const uint invertedWidth = textFontMetrics.horizontalAdvance(currentText) / currentText.length();
-    const uint letterIndex = mouseEvent->pos().x() / invertedWidth;
-
-    if(letterIndex < m_invertedLetters.size() && letterIndex < (uint)currentText.length() && currentText[letterIndex] >= "A" && currentText[letterIndex] <= "Z")
+    if(letterIndex < m_expression.letters.size() && m_expression.letters[letterIndex] >= char(Settings::IntStartAlphabet) && m_expression.letters[letterIndex] <= char(Settings::IntEndAlphabet))
     {
-        m_invertedLetters[letterIndex] = !m_invertedLetters[letterIndex];
+        m_expression.inverted[letterIndex] = !m_expression.inverted[letterIndex];
     }
 
     update();
 }
 
-void BooleanExpressionDisplay::paintEvent(QPaintEvent* paintEvent)
+void BooleanExpressionDisplay::paintEvent(QPaintEvent*)
 {
-    QLineEdit::paintEvent(paintEvent);
-
     QPainter painter(this);
 
     const QFontMetrics textFontMetrics(Settings::BooleanExpressionLetterFont);
     painter.setFont(Settings::BooleanExpressionLetterFont);
 
-    const QString currentText = text();
-    const uint currentTextLen = currentText.length();
-
-    const uint invertedWidth = textFontMetrics.horizontalAdvance(currentText) / currentTextLen;
-    for(uint i = 0; i < currentTextLen; i++)
+    const uint letterSpaceWidth = geometry().width() / m_expression.letters.size();
+    for(uint i = 0; i < m_expression.letters.size(); i++)
     {
-        if(m_invertedLetters[i])
+        if(m_expression.inverted[i])
         {
-            painter.drawText(QPointF(Settings::ExpressionDisplayLeftMargin + i * invertedWidth, 0), Settings::BooleanExpressionLetterInverted);
+            painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * i) - (textFontMetrics.horizontalAdvance(m_expression.letters[i])/2), Settings::ExpressionDisplayInvertedMargin), Settings::BooleanExpressionLetterInverted);
         }
+        painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * i) - (textFontMetrics.horizontalAdvance(m_expression.letters[i])/2), geometry().center().y() - textFontMetrics.height()), QString(m_expression.letters[i]));
     }
 }

@@ -1,6 +1,8 @@
 #ifndef DLG_BOOLEANEXPRESSIONS_H
 #define DLG_BOOLEANEXPRESSIONS_H
 
+#include "truthtable.h"
+
 #include <QDialog>
 #include <QLineEdit>
 #include <QLabel>
@@ -9,7 +11,6 @@ namespace Ui {
 class DLG_BooleanExpressions;
 }
 
-class BooleanExpression;
 class BooleanExpressionDisplay;
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +46,7 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////
 /// \brief The BooleanExpressionDisplay class
 ///
-class BooleanExpressionDisplay : public QLineEdit
+class BooleanExpressionDisplay : public QWidget
 {
     Q_OBJECT
 public:
@@ -53,16 +54,12 @@ public:
 
     BooleanExpression getExpression();
 
-public slots:
-    void onTextChanged(const QString& newText);
-
 protected:
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 
 private:
-    std::vector<bool> m_invertedLetters;
-    QString m_oldText;
+    BooleanExpression m_expression;
 };
 
 #endif // DLG_BOOLEANEXPRESSIONS_H

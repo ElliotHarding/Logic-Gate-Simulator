@@ -72,6 +72,7 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
 
 void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
 {
+    //Todo gen boolean expressions vector from UI
 
 }
 

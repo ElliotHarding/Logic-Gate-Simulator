@@ -1,10 +1,7 @@
 bagvp = aSmellyDog69_
 
 
-Delete on gatecollection deletes everything even if drag all is not on
-Delete on history item causes crash
 
-Cloned gatecollection dosent copy over drag choice
 
 
 

@@ -577,7 +577,9 @@ Gate* GateCollection::Clone()
 
     GateCollection* pClone = new GateCollection(clonedGates);
     Gate::baseClone(pClone);
+
     pClone->m_geometry = m_geometry;
+    pClone->m_dragMode = m_dragMode;
 
     return pClone;
 }

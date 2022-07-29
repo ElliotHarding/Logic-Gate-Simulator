@@ -1,6 +1,10 @@
 bagvp = aSmellyDog69_
 
 
+Delete on gatecollection deletes everything even if drag all is not on
+Delete on history item causes crash
+
+
 
 do we need offsetGates if we pan painter?
 

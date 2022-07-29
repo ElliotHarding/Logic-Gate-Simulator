@@ -447,21 +447,23 @@ void GateField::checkEndLink(const QPoint& mouse)
         Node* pPossibleClickedNode = g->checkClickedNodes(mouse);
         if(pPossibleClickedNode != nullptr)
         {
+            //Check not the same node as one linking to
+            if(pPossibleClickedNode == m_pLinkingNode)
+            {
+                break;
+            }
+
             //Check not same node types
             if(pPossibleClickedNode->type() == m_pLinkingNode->type())
             {
                 m_pParent->SendUserMessage("Cant link to nodes of same type");
-                m_pLinkingNode = nullptr;
-                update();
-                return;
+                break;
             }
 
             //Check both dont have same parent
             if(pPossibleClickedNode->GetParent() == m_pLinkingNode->GetParent())
             {
-                m_pLinkingNode = nullptr;
-                update();
-                return;
+                break;
             }
 
             //link nodes & update parent gates (inside LinkNode())

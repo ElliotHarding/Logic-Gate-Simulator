@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QLabel>
 
 namespace Ui {
 class DLG_BooleanExpressions;
@@ -22,7 +23,7 @@ public:
     explicit DLG_BooleanExpressions(QWidget *parent = nullptr);
     ~DLG_BooleanExpressions();
 
-    void showExpressions(std::vector<BooleanExpression>& expressions);
+    void showExpressions(const std::vector<BooleanExpression>& expressions);
 
 protected:
     void closeEvent(QCloseEvent *) override;
@@ -37,6 +38,7 @@ private:
 
     ///Boolean letters
     std::vector<BooleanExpressionDisplay*> m_uiExpressions;
+    std::vector<QLabel*> m_uiResultLabels;
     void clear();
 };
 
@@ -47,7 +49,7 @@ class BooleanExpressionDisplay : public QLineEdit
 {
     Q_OBJECT
 public:
-    BooleanExpressionDisplay(QWidget* pParent, BooleanExpression& expression);
+    BooleanExpressionDisplay(QWidget* pParent, const BooleanExpression& expression);
 
     BooleanExpression getExpression();
 

@@ -107,8 +107,8 @@ void DLG_BooleanExpressions::on_btn_addExpression_clicked()
 void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression)
 {
     QListWidgetItem* pItem = new QListWidgetItem();
-    BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, pItem, expression, QRect(0, 0, ui->list_expressions->width() * 0.5, Settings::ExpressionDisplayHeight));
-    pItem->setSizeHint(QSize(ui->list_expressions->width() * 0.5, Settings::ExpressionDisplayHeight));
+    BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, pItem, expression);
+    pItem->setSizeHint(QSize(ui->list_expressions->width(), Settings::ExpressionDisplayHeight));
     ui->list_expressions->addItem(pItem);
     ui->list_expressions->setItemWidget(pItem, pExpressionDisplay);
 }
@@ -118,18 +118,14 @@ void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression
 /// \brief BooleanExpressionDisplay::BooleanExpressionDisplay
 /// \param pParent
 ///
-BooleanExpressionDisplay::BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, QListWidgetItem* pListWidgetItem, const BooleanExpression& expression, const QRect& cfgGeometry) : QWidget(pParent),
+BooleanExpressionDisplay::BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, QListWidgetItem* pListWidgetItem, const BooleanExpression& expression) : QWidget(pParent),
     m_pParent(pParent),
     m_pListWidgetItem(pListWidgetItem),
     m_expression(expression)
 {
-    setFont(Settings::BooleanExpressionLetterFont);
-
-    setGeometry(cfgGeometry);
-
     m_pRemoveBtn = new QPushButton(this);
     m_pRemoveBtn->setText("X");
-    m_pRemoveBtn->setGeometry(geometry().right() + 10, geometry().height()/2 - Settings::ExpressionDisplayRemoveButtonSize/2, Settings::ExpressionDisplayRemoveButtonSize, Settings::ExpressionDisplayRemoveButtonSize);
+    m_pRemoveBtn->setGeometry(geometry().width() - 10, geometry().height()/2 - Settings::ExpressionDisplayRemoveButtonSize/2, Settings::ExpressionDisplayRemoveButtonSize, Settings::ExpressionDisplayRemoveButtonSize);
     connect(m_pRemoveBtn, SIGNAL(pressed()), this, SLOT(onRemoveButtonClicked()));
 }
 

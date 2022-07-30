@@ -53,7 +53,7 @@ class BooleanExpressionDisplay : public QWidget
 {
     Q_OBJECT
 public:
-    BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, QListWidgetItem* m_pListWidgetItem, const BooleanExpression& expression, const QRect& geometry);
+    BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, QListWidgetItem* m_pListWidgetItem, const BooleanExpression& expression);
     ~BooleanExpressionDisplay();
 
     BooleanExpression getExpression();

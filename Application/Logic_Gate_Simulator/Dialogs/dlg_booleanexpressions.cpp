@@ -5,6 +5,7 @@
 
 #include <QPainter>
 #include <QMouseEvent>
+#include <QListWidgetItem>
 
 #include <cmath>
 
@@ -16,8 +17,7 @@ const uint IntEndAlphabet = 122;
 const QFont BooleanExpressionLetterFont("Helvetica", 15);
 const QString BooleanExpressionLetterInverted = "_";
 
-const QRect BooleanExpressionsRect(10, 80, 500, 220);
-
+const uint ExpressionDisplayHeight = 50;
 const uint ExpressionDisplayInvertedMargin = 2;
 const uint ExpressionDisplayRemoveButtonSize = 10;
 }
@@ -39,36 +39,31 @@ void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression
 {
     clear();
 
-    const uint letterHeight = Settings::BooleanExpressionsRect.height() / expressions.size();
-    const uint txtExpressionWidth = Settings::BooleanExpressionsRect.width();
-    for(uint iExpression = 0; iExpression < expressions.size(); iExpression++)
+    for(const BooleanExpression& expression : expressions)
     {
-        const uint yPos = Settings::BooleanExpressionsRect.top() + (Settings::BooleanExpressionsRect.height() / expressions.size()) * iExpression;
-
-        BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, expressions[iExpression], QRect(Settings::BooleanExpressionsRect.left(), yPos, txtExpressionWidth, letterHeight));
-        pExpressionDisplay->show();
-        m_uiExpressions.push_back(pExpressionDisplay);
+        addUiExpression(expression);
     }
 
     open();
 }
 
-void DLG_BooleanExpressions::removeUiExpression(BooleanExpressionDisplay* pExpressionDisplay)
+void DLG_BooleanExpressions::removeUiExpression(QListWidgetItem* pItem)
 {
     //Don't delete the last expression
-    if(m_uiExpressions.size() == 1 && m_uiExpressions[0] == pExpressionDisplay)
+    if(ui->list_expressions->count() <= 1)
     {
         return;
     }
 
-    std::vector<BooleanExpression> expressions;
-    for(uint i = 0; i < m_uiExpressions.size(); i++)
-    {
-        if(m_uiExpressions[i] != pExpressionDisplay)
-            expressions.push_back(m_uiExpressions[i]->getExpression());
-    }
+    const uint layerIndex = ui->list_expressions->row(pItem);
 
-    showExpressions(expressions);
+    ui->list_expressions->removeItemWidget(pItem);
+    delete pItem;
+
+    if(layerIndex == 0)//Todo
+    {
+        return;//todo
+    }
 }
 
 void DLG_BooleanExpressions::closeEvent(QCloseEvent* e)
@@ -96,27 +91,26 @@ void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
 
 void DLG_BooleanExpressions::clear()
 {
-    for(BooleanExpressionDisplay* pBooleanExpressionDispaly : m_uiExpressions)
-    {
-        delete pBooleanExpressionDispaly;
-    }
-    m_uiExpressions.clear();
+    //Todo check it deletes items...
+    ui->list_expressions->clear();
 }
 
 void DLG_BooleanExpressions::on_btn_addExpression_clicked()
 {
-    std::vector<BooleanExpression> expressions;
-    for(uint i = 0; i < m_uiExpressions.size(); i++)
-    {
-        expressions.push_back(m_uiExpressions[i]->getExpression());
-    }
-
     BooleanExpression newExpression;
     newExpression.addTerm('A');
-    newExpression.resultLetter = Settings::IntEndAlphabet - m_uiExpressions.size();
-    expressions.push_back(newExpression);
+    newExpression.resultLetter = Settings::IntEndAlphabet - ui->list_expressions->count();
 
-    showExpressions(expressions);
+    addUiExpression(newExpression);
+}
+
+void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression)
+{
+    QListWidgetItem* pItem = new QListWidgetItem();
+    BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, pItem, expression, QRect(0, 0, ui->list_expressions->width() * 0.8, Settings::ExpressionDisplayHeight));
+    pItem->setSizeHint(QSize(ui->list_expressions->width(), Settings::ExpressionDisplayHeight));
+    ui->list_expressions->addItem(pItem);
+    ui->list_expressions->setItemWidget(pItem, pExpressionDisplay);
 }
 
 
@@ -124,8 +118,9 @@ void DLG_BooleanExpressions::on_btn_addExpression_clicked()
 /// \brief BooleanExpressionDisplay::BooleanExpressionDisplay
 /// \param pParent
 ///
-BooleanExpressionDisplay::BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, const BooleanExpression& expression, const QRect& cfgGeometry) : QWidget(pParent),
+BooleanExpressionDisplay::BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, QListWidgetItem* pListWidgetItem, const BooleanExpression& expression, const QRect& cfgGeometry) : QWidget(pParent),
     m_pParent(pParent),
+    m_pListWidgetItem(pListWidgetItem),
     m_expression(expression)
 {
     setFont(Settings::BooleanExpressionLetterFont);
@@ -184,5 +179,5 @@ void BooleanExpressionDisplay::paintEvent(QPaintEvent*)
 
 void BooleanExpressionDisplay::onRemoveButtonClicked()
 {
-    m_pParent->removeUiExpression(this);
+    m_pParent->removeUiExpression(m_pListWidgetItem);
 }

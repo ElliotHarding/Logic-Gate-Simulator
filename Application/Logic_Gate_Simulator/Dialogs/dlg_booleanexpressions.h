@@ -12,6 +12,7 @@ class DLG_BooleanExpressions;
 }
 
 class BooleanExpressionDisplay;
+class QListWidgetItem;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /// \brief The DLG_BooleanExpressions class
@@ -25,7 +26,7 @@ public:
     ~DLG_BooleanExpressions();
 
     void showExpressions(const std::vector<BooleanExpression>& expressions);
-    void removeUiExpression(BooleanExpressionDisplay* pExpressionDisplay);
+    void removeUiExpression(QListWidgetItem* pItem);
 
 protected:
     void closeEvent(QCloseEvent *) override;
@@ -41,7 +42,7 @@ private:
     Ui::DLG_BooleanExpressions *ui;
 
     ///Boolean letters
-    std::vector<BooleanExpressionDisplay*> m_uiExpressions;
+    void addUiExpression(const BooleanExpression& expression);
     void clear();
 };
 
@@ -52,7 +53,7 @@ class BooleanExpressionDisplay : public QWidget
 {
     Q_OBJECT
 public:
-    BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, const BooleanExpression& expression, const QRect& geometry);
+    BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, QListWidgetItem* m_pListWidgetItem, const BooleanExpression& expression, const QRect& geometry);
     ~BooleanExpressionDisplay();
 
     BooleanExpression getExpression();
@@ -66,6 +67,8 @@ private slots:
 
 private:
     DLG_BooleanExpressions* m_pParent;
+
+    QListWidgetItem* m_pListWidgetItem;
 
     BooleanExpression m_expression;
 

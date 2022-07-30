@@ -19,7 +19,7 @@ const QString BooleanExpressionLetterInverted = "_";
 
 const uint ExpressionDisplayHeight = 50;
 const uint ExpressionDisplayInvertedMargin = 2;
-const uint ExpressionDisplayRemoveButtonSize = 10;
+const uint ExpressionDisplayRemoveButtonSize = 24;
 }
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
@@ -107,8 +107,8 @@ void DLG_BooleanExpressions::on_btn_addExpression_clicked()
 void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression)
 {
     QListWidgetItem* pItem = new QListWidgetItem();
-    BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, pItem, expression, QRect(0, 0, ui->list_expressions->width() * 0.8, Settings::ExpressionDisplayHeight));
-    pItem->setSizeHint(QSize(ui->list_expressions->width(), Settings::ExpressionDisplayHeight));
+    BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, pItem, expression, QRect(0, 0, ui->list_expressions->width() * 0.5, Settings::ExpressionDisplayHeight));
+    pItem->setSizeHint(QSize(ui->list_expressions->width() * 0.5, Settings::ExpressionDisplayHeight));
     ui->list_expressions->addItem(pItem);
     ui->list_expressions->setItemWidget(pItem, pExpressionDisplay);
 }
@@ -128,7 +128,8 @@ BooleanExpressionDisplay::BooleanExpressionDisplay(DLG_BooleanExpressions* pPare
     setGeometry(cfgGeometry);
 
     m_pRemoveBtn = new QPushButton(this);
-    m_pRemoveBtn->setGeometry(geometry().width() - Settings::ExpressionDisplayRemoveButtonSize, geometry().height()/2 - Settings::ExpressionDisplayRemoveButtonSize/2, Settings::ExpressionDisplayRemoveButtonSize, Settings::ExpressionDisplayRemoveButtonSize);
+    m_pRemoveBtn->setText("X");
+    m_pRemoveBtn->setGeometry(geometry().right() + 10, geometry().height()/2 - Settings::ExpressionDisplayRemoveButtonSize/2, Settings::ExpressionDisplayRemoveButtonSize, Settings::ExpressionDisplayRemoveButtonSize);
     connect(m_pRemoveBtn, SIGNAL(pressed()), this, SLOT(onRemoveButtonClicked()));
 }
 

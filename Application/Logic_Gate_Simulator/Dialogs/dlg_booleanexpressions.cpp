@@ -108,7 +108,7 @@ void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression
 {
     QListWidgetItem* pItem = new QListWidgetItem();
     BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, pItem, expression);
-    pItem->setSizeHint(QSize(ui->list_expressions->width(), Settings::ExpressionDisplayHeight));
+    pItem->setSizeHint(QSize(ui->list_expressions->width() * 0.8, Settings::ExpressionDisplayHeight));
     ui->list_expressions->addItem(pItem);
     ui->list_expressions->setItemWidget(pItem, pExpressionDisplay);
 }
@@ -125,7 +125,6 @@ BooleanExpressionDisplay::BooleanExpressionDisplay(DLG_BooleanExpressions* pPare
 {
     m_pRemoveBtn = new QPushButton(this);
     m_pRemoveBtn->setText("X");
-    m_pRemoveBtn->setGeometry(geometry().width() - 10, geometry().height()/2 - Settings::ExpressionDisplayRemoveButtonSize/2, Settings::ExpressionDisplayRemoveButtonSize, Settings::ExpressionDisplayRemoveButtonSize);
     connect(m_pRemoveBtn, SIGNAL(pressed()), this, SLOT(onRemoveButtonClicked()));
 }
 
@@ -139,9 +138,14 @@ BooleanExpression BooleanExpressionDisplay::getExpression()
     return m_expression;
 }
 
+void BooleanExpressionDisplay::resizeEvent(QResizeEvent*)
+{
+    m_pRemoveBtn->setGeometry(geometry().width() - 10 - Settings::ExpressionDisplayRemoveButtonSize, (geometry().height()/2) - (Settings::ExpressionDisplayRemoveButtonSize/2), Settings::ExpressionDisplayRemoveButtonSize, Settings::ExpressionDisplayRemoveButtonSize);
+}
+
 void BooleanExpressionDisplay::mousePressEvent(QMouseEvent* mouseEvent)
 {
-    const uint letterSpaceWidth = geometry().width() / (m_expression.letters.size() + 1);
+    const uint letterSpaceWidth = geometry().width() / (m_expression.letters.size() + 2);
     const uint letterIndex = std::ceil(mouseEvent->pos().x() / letterSpaceWidth);
 
     if(letterIndex < m_expression.letters.size() && letterIndex < m_expression.letters.size() && m_expression.letters[letterIndex] >= char(Settings::IntStartAlphabet) && m_expression.letters[letterIndex] <= char(Settings::IntEndAlphabet))
@@ -160,7 +164,7 @@ void BooleanExpressionDisplay::paintEvent(QPaintEvent*)
     painter.setFont(Settings::BooleanExpressionLetterFont);
 
     const uint lettersSize = m_expression.letters.size();
-    const uint letterSpaceWidth = geometry().width() / (m_expression.letters.size() + 1);
+    const uint letterSpaceWidth = geometry().width() / (m_expression.letters.size() + 2);
     for(uint i = 0; i < lettersSize; i++)
     {
         if(m_expression.inverted[i])

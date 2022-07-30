@@ -59,6 +59,7 @@ public:
     BooleanExpression getExpression();
 
 protected:
+    virtual void resizeEvent(QResizeEvent *event) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void paintEvent(QPaintEvent* paintEvent) override;
 

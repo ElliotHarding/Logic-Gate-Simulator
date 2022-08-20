@@ -81,8 +81,8 @@ GateCollection* Circuit::createGateCollection()
 
     GateCollection* pNewCircuit = new GateCollection(mainGates);
 
-    int maxX = 0;
-    int posY = 0;
+    int maxX = 300;
+    int posY = 300;
     for(Gate* g : inputs)
     {
         g->setPosition(0, posY+=Settings::GapBetweenGates);

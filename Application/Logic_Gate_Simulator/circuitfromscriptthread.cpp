@@ -264,7 +264,7 @@ CircuitFromTruthTableThread::CircuitFromTruthTableThread() : QThread()
 
 bool CircuitFromTruthTableThread::start(const TruthTable &truthTable, const int& maxSeconds, const uint& percentageRandomGate, const uint& maxGates)
 {
-    if(m_truthTable.outValues.size() == 0 || m_truthTable.inValues.size() == 0)
+    if(truthTable.outValues.size() == 0 || truthTable.inValues.size() == 0)
     {
         return false;
     }

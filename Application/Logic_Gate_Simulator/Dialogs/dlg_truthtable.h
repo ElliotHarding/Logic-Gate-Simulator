@@ -11,6 +11,8 @@ class DLG_TruthTable;
 }
 
 class DLG_Home;
+class CircuitFromTruthTableThread;
+class GateCollection;
 
 class DLG_TruthTable : public QDialog
 {
@@ -29,8 +31,10 @@ protected:
 
 private slots:
     void on_btn_circuit_clicked();
-
     void on_btn_expressions_clicked();
+
+    void onCircuitGenSuccess(GateCollection* pNewCircuit);
+    void onCircuitGenFailure(const QString& failMessage);
 
 private:
     Ui::DLG_TruthTable *ui;
@@ -39,6 +43,8 @@ private:
     TruthTable m_truthTable;
 
     DLG_Home* m_pHome;
+
+    CircuitFromTruthTableThread* m_pCircuitFromTruthTableThread;
 };
 
 #endif // DLG_TRUTHTABLE_H

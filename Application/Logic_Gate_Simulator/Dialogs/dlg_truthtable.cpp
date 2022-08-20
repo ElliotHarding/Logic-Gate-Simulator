@@ -1,7 +1,8 @@
 #include "dlg_truthtable.h"
 #include "ui_dlg_truthtable.h"
-
 #include "dlg_home.h"
+#include "circuitfromscriptthread.h"
+#include "gatecollection.h"
 
 #include <QDebug>
 
@@ -16,9 +17,13 @@ const uint IntEndAlphabet = 121;
 DLG_TruthTable::DLG_TruthTable(DLG_Home* pParent) :
     QDialog(pParent),
     ui(new Ui::DLG_TruthTable),
-    m_pHome(pParent)
+    m_pHome(pParent),
+    m_pCircuitFromTruthTableThread(new CircuitFromTruthTableThread())
 {
     ui->setupUi(this);
+
+    connect(m_pCircuitFromTruthTableThread, SIGNAL(circuitGenSuccess(GateCollection*)), this, SLOT(onCircuitGenSuccess(GateCollection*)));
+    connect(m_pCircuitFromTruthTableThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onCircuitGenFailure(const QString&)));
 }
 
 DLG_TruthTable::~DLG_TruthTable()
@@ -28,6 +33,7 @@ DLG_TruthTable::~DLG_TruthTable()
         delete pLbl;
     }
 
+    delete m_pCircuitFromTruthTableThread;
     delete ui;
 }
 
@@ -116,7 +122,21 @@ void DLG_TruthTable::closeEvent(QCloseEvent* e)
 
 void DLG_TruthTable::on_btn_circuit_clicked()
 {
+    if(m_pCircuitFromTruthTableThread->isRunning())
+    {
+        m_pHome->SendUserMessage("Already generating!");
+        return;
+    }
 
+    //Todo expose to user interface
+    const uint maxSeconds = 100;
+    const uint percentageRandomGate = 30;
+    const uint maxGates = 10;
+
+    if(!m_pCircuitFromTruthTableThread->start(m_truthTable, maxSeconds, percentageRandomGate, maxGates))
+    {
+        m_pHome->SendUserMessage("Failed to convert to circuit. Check format.");
+    }
 }
 
 void DLG_TruthTable::on_btn_expressions_clicked()
@@ -131,4 +151,14 @@ void DLG_TruthTable::on_btn_expressions_clicked()
     {
         m_pHome->SendUserMessage("Failed to convert to boolean expression. Check format.");
     }
+}
+
+void DLG_TruthTable::onCircuitGenSuccess(GateCollection* pNewCircuit)
+{
+    m_pHome->AddGateToGateField(pNewCircuit);
+}
+
+void DLG_TruthTable::onCircuitGenFailure(const QString& failMessage)
+{
+    m_pHome->SendUserMessage(failMessage);
 }

@@ -7,12 +7,38 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>400</height>
+    <height>443</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Truth Table</string>
   </property>
+  <widget class="QPushButton" name="btn_expressions">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>410</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Gen Expression</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_circuit">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>410</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Gen Circuit</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

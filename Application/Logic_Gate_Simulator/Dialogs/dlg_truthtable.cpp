@@ -108,3 +108,13 @@ void DLG_TruthTable::closeEvent(QCloseEvent* e)
 
     QDialog::closeEvent(e);
 }
+
+void DLG_TruthTable::on_btn_circuit_clicked()
+{
+
+}
+
+void DLG_TruthTable::on_btn_expressions_clicked()
+{
+
+}

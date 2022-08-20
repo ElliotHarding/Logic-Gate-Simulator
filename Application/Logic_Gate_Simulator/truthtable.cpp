@@ -1,4 +1,5 @@
 #include "truthtable.h"
+#include <cmath>
 
 namespace Settings
 {
@@ -230,9 +231,10 @@ bool inVector(const std::vector<char>& vector, const char& value)
 
 ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)
 {
+    std::vector<char> inputs;
+    std::vector<char> outputs;
     for(BooleanExpression expression : expressions)
     {
-        std::vector<char> inputs;
         for(uint i = 0; i < expression.letters.size(); i++)
         {
             const char letter = expression.letters[i];
@@ -242,7 +244,23 @@ ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(
             }
         }
 
-        //Todo deal with inputs
+        outputs.push_back(expression.resultLetter);
+    }
+
+    truthTable.size = pow(2, inputs.size());
+    for(uint i = 0; i < truthTable.size; i++)
+    {
+        truthTable.genInputs(i, inputs.size());
+
+        for(uint x = 0; x < truthTable.inValues.size(); x++)
+        {
+
+        }
+
+        for(uint x = 0; x < outputs.size(); x++)
+        {
+
+        }
     }
 
     return SUCCESS;

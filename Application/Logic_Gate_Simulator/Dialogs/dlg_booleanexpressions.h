@@ -31,6 +31,8 @@ public:
     void showExpressions(const std::vector<BooleanExpression>& expressions);
     void removeUiExpression(QListWidgetItem* pItem);
 
+    int numInputs();
+
 protected:
     void closeEvent(QCloseEvent *) override;
 
@@ -62,9 +64,15 @@ class BooleanExpressionLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    BooleanExpressionLineEdit(QWidget* pParent, const BooleanExpression& expression);
+    BooleanExpressionLineEdit(QWidget* pParent, const BooleanExpression& expression, DLG_BooleanExpressions* pDlgExpressions);
 
     BooleanExpression getExpression();
+
+protected:
+    void keyPressEvent(QKeyEvent *) override;
+
+private:
+    DLG_BooleanExpressions* m_pDlgExpressions;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////

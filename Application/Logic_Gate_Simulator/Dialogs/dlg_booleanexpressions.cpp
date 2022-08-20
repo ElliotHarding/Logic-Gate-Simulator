@@ -14,7 +14,7 @@
 
 namespace Settings
 {
-const uint IntStartAlphabet = 65;
+const int IntStartAlphabet = 65;
 const uint IntEndAlphabet = 122;
 
 const QFont BooleanExpressionLetterFont("Helvetica", 15);
@@ -69,6 +69,11 @@ void DLG_BooleanExpressions::removeUiExpression(QListWidgetItem* pItem)
     delete pItem;
 
     ui->spinBox_outputs->setValue(ui->list_expressions->count());
+}
+
+int DLG_BooleanExpressions::numInputs()
+{
+    return ui->spinBox_inputs->value();
 }
 
 void DLG_BooleanExpressions::closeEvent(QCloseEvent* e)
@@ -185,7 +190,7 @@ BooleanExpressionDisplay::BooleanExpressionDisplay(DLG_BooleanExpressions* pPare
     m_pListWidgetItem(pListWidgetItem),
     m_resultLetter(expression.resultLetter),
     m_pRemoveBtn(new QPushButton(this)),
-    m_pExpressionText(new BooleanExpressionLineEdit(this, expression)),
+    m_pExpressionText(new BooleanExpressionLineEdit(this, expression, pParent)),
     m_pResultLabel(new QLabel(this))
 {
     m_pRemoveBtn->setText("X");
@@ -223,7 +228,8 @@ void BooleanExpressionDisplay::onRemoveButtonClicked()
 /// \param pParent
 /// \param expression
 ///
-BooleanExpressionLineEdit::BooleanExpressionLineEdit(QWidget* pParent, const BooleanExpression& expression) : QLineEdit(pParent)
+BooleanExpressionLineEdit::BooleanExpressionLineEdit(QWidget* pParent, const BooleanExpression& expression, DLG_BooleanExpressions* pDlgExpressions) : QLineEdit(pParent),
+    m_pDlgExpressions(pDlgExpressions)
 {
     QString displayedExpression = "";
     for(uint i = 0; i < expression.letters.size(); i++)
@@ -257,4 +263,12 @@ BooleanExpression BooleanExpressionLineEdit::getExpression()
     }
 
     return expression;
+}
+
+void BooleanExpressionLineEdit::keyPressEvent(QKeyEvent* e)
+{
+    if((e->key() >= Settings::IntStartAlphabet && e->key() <= Settings::IntStartAlphabet + m_pDlgExpressions->numInputs()) || e->key() == '+' || e->key() == '!')
+    {
+        QLineEdit::keyPressEvent(e);
+    }
 }

@@ -203,7 +203,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
 
 
         const int minTermsSize = minTerms.size() - 1;
-        if(minTermsSize <= 0)
+        if(minTermsSize < 0)
         {
             return INVALID_INPUT_EXPRESSIONS;
         }

@@ -55,6 +55,18 @@ private:
     CircuitFromTruthTableThread* m_pCircuitFromTruthTableThread;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+/// \brief The BooleanExpressionLineEdit class
+///
+class BooleanExpressionLineEdit : public QLineEdit
+{
+    Q_OBJECT
+public:
+    BooleanExpressionLineEdit(QWidget* pParent, const BooleanExpression& expression);
+
+    BooleanExpression getExpression();
+};
+
 ///////////////////////////////////////////////////////////////////////////////////////
 /// \brief The BooleanExpressionDisplay class
 ///
@@ -69,8 +81,6 @@ public:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;
-    void mousePressEvent(QMouseEvent* mouseEvent) override;
-    void paintEvent(QPaintEvent* paintEvent) override;
 
 private slots:
     void onRemoveButtonClicked();
@@ -80,9 +90,11 @@ private:
 
     QListWidgetItem* m_pListWidgetItem;
 
-    BooleanExpression m_expression;
+    char m_resultLetter;
 
     QPushButton* m_pRemoveBtn;
+    BooleanExpressionLineEdit* m_pExpressionText;
+    QLabel* m_pResultLabel;
 };
 
 #endif // DLG_BOOLEANEXPRESSIONS_H

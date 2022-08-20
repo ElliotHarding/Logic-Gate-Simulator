@@ -21,8 +21,9 @@ const QFont BooleanExpressionLetterFont("Helvetica", 15);
 const QString BooleanExpressionLetterInverted = "_";
 
 const uint ExpressionDisplayHeight = 50;
-const uint ExpressionDisplayInvertedMargin = 2;
-const uint ExpressionDisplayRemoveButtonSize = 24;
+const QRect ExpressionDisplayRemoveButtonGeometry = QRect(210, 13, 24, 24);
+const QRect ExpressionDisplayTextGeometry = QRect(10, 10, 150, 30);
+const QRect ExpressionDisplayResultLabelGeometry = QRect(170, 15, 30, 20);
 }
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(DLG_Home* pHome) :
@@ -63,8 +64,6 @@ void DLG_BooleanExpressions::removeUiExpression(QListWidgetItem* pItem)
     {
         return;
     }
-
-    //const uint layerIndex = ui->list_expressions->row(pItem);
 
     ui->list_expressions->removeItemWidget(pItem);
     delete pItem;
@@ -185,11 +184,15 @@ void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression
 BooleanExpressionDisplay::BooleanExpressionDisplay(DLG_BooleanExpressions* pParent, QListWidgetItem* pListWidgetItem, const BooleanExpression& expression) : QWidget(pParent),
     m_pParent(pParent),
     m_pListWidgetItem(pListWidgetItem),
-    m_expression(expression)
+    m_resultLetter(expression.resultLetter),
+    m_pRemoveBtn(new QPushButton(this)),
+    m_pExpressionText(new BooleanExpressionLineEdit(this, expression)),
+    m_pResultLabel(new QLabel(this))
 {
-    m_pRemoveBtn = new QPushButton(this);
     m_pRemoveBtn->setText("X");
     connect(m_pRemoveBtn, SIGNAL(pressed()), this, SLOT(onRemoveButtonClicked()));
+
+    m_pResultLabel->setText("= " + QString(expression.resultLetter));
 }
 
 BooleanExpressionDisplay::~BooleanExpressionDisplay()
@@ -199,50 +202,60 @@ BooleanExpressionDisplay::~BooleanExpressionDisplay()
 
 BooleanExpression BooleanExpressionDisplay::getExpression()
 {
-    return m_expression;
+    BooleanExpression expression = m_pExpressionText->getExpression();
+    expression.resultLetter = m_resultLetter;
+    return expression;
 }
 
 void BooleanExpressionDisplay::resizeEvent(QResizeEvent*)
 {
-    m_pRemoveBtn->setGeometry(geometry().width() - 10 - Settings::ExpressionDisplayRemoveButtonSize, (geometry().height()/2) - (Settings::ExpressionDisplayRemoveButtonSize/2), Settings::ExpressionDisplayRemoveButtonSize, Settings::ExpressionDisplayRemoveButtonSize);
-}
-
-void BooleanExpressionDisplay::mousePressEvent(QMouseEvent* mouseEvent)
-{
-    const uint letterSpaceWidth = geometry().width() / (m_expression.letters.size() + 2);
-    const uint letterIndex = std::ceil(mouseEvent->pos().x() / letterSpaceWidth);
-
-    if(letterIndex < m_expression.letters.size() && letterIndex < m_expression.letters.size() && m_expression.letters[letterIndex] >= char(Settings::IntStartAlphabet) && m_expression.letters[letterIndex] <= char(Settings::IntEndAlphabet))
-    {
-        m_expression.inverted[letterIndex] = !m_expression.inverted[letterIndex];
-    }
-
-    update();
-}
-
-void BooleanExpressionDisplay::paintEvent(QPaintEvent*)
-{
-    QPainter painter(this);
-
-    const QFontMetrics textFontMetrics(Settings::BooleanExpressionLetterFont);
-    painter.setFont(Settings::BooleanExpressionLetterFont);
-
-    const uint lettersSize = m_expression.letters.size();
-    const uint letterSpaceWidth = geometry().width() / (m_expression.letters.size() + 2);
-    for(uint i = 0; i < lettersSize; i++)
-    {
-        if(m_expression.inverted[i])
-        {
-            painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * i) - (textFontMetrics.horizontalAdvance(m_expression.letters[i])/2), Settings::ExpressionDisplayInvertedMargin), Settings::BooleanExpressionLetterInverted);
-        }
-        painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * i) - (textFontMetrics.horizontalAdvance(m_expression.letters[i])/2), (geometry().height()/2) + (textFontMetrics.height()/2)), QString(m_expression.letters[i]));
-    }
-
-    const QString resultLetterDispaly = "=" + QString(m_expression.resultLetter);
-    painter.drawText(QPointF((letterSpaceWidth/2) + (letterSpaceWidth * lettersSize) - (textFontMetrics.horizontalAdvance(resultLetterDispaly)/2), (geometry().height()/2) + (textFontMetrics.height()/2)), resultLetterDispaly);
+    m_pRemoveBtn->setGeometry(Settings::ExpressionDisplayRemoveButtonGeometry);
+    m_pExpressionText->setGeometry(Settings::ExpressionDisplayTextGeometry);
+    m_pResultLabel->setGeometry(Settings::ExpressionDisplayResultLabelGeometry);
 }
 
 void BooleanExpressionDisplay::onRemoveButtonClicked()
 {
     m_pParent->removeUiExpression(m_pListWidgetItem);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// \brief BooleanExpressionLineEdit::BooleanExpressionLineEdit
+/// \param pParent
+/// \param expression
+///
+BooleanExpressionLineEdit::BooleanExpressionLineEdit(QWidget* pParent, const BooleanExpression& expression) : QLineEdit(pParent)
+{
+    QString displayedExpression = "";
+    for(int i = 0; i < expression.letters.size(); i++)
+    {
+        if(expression.inverted[i])
+        {
+            displayedExpression += "!" + QString(expression.letters[i]);
+        }
+        displayedExpression += expression.letters[i];
+    }
+    setText(displayedExpression);
+}
+
+BooleanExpression BooleanExpressionLineEdit::getExpression()
+{
+    BooleanExpression expression;
+
+    const QString displayedExpression = text();
+    for(int i = 0; i < displayedExpression.length(); i++)
+    {
+        if(displayedExpression[i] == "!")
+        {
+            i++;
+            expression.inverted.push_back(true);
+        }
+        else
+        {
+            expression.inverted.push_back(false);
+        }
+        expression.letters.push_back(displayedExpression[i].toLatin1());
+    }
+
+    return expression;
 }

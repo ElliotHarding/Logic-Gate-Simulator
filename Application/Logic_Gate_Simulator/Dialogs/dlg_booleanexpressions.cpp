@@ -14,11 +14,7 @@
 
 namespace Settings
 {
-const int IntStartAlphabet = 65;
-const uint IntEndAlphabet = 122;
-
-const QFont BooleanExpressionLetterFont("Helvetica", 15);
-const QString BooleanExpressionLetterInverted = "_";
+const int IntEndAlphabet = 122;
 
 const uint ExpressionDisplayHeight = 50;
 const QRect ExpressionDisplayRemoveButtonGeometry = QRect(460, 13, 24, 24);
@@ -28,8 +24,8 @@ const QRect ExpressionDisplayResultLabelGeometry = QRect(440, 15, 30, 20);
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(DLG_Home* pHome) :
     QDialog(pHome),
-    m_pHome(pHome),
     ui(new Ui::DLG_BooleanExpressions),
+    m_pHome(pHome),    
     m_pCircuitFromTruthTableThread(new CircuitFromTruthTableThread())
 {
     ui->setupUi(this);
@@ -85,20 +81,6 @@ void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression
     pItem->setSizeHint(QSize(ui->list_expressions->width() * 0.8, Settings::ExpressionDisplayHeight));
     ui->list_expressions->addItem(pItem);
     ui->list_expressions->setItemWidget(pItem, pExpressionDisplay);
-}
-
-int DLG_BooleanExpressions::numInputs()
-{
-    return ui->spinBox_inputs->value();
-}
-
-void DLG_BooleanExpressions::on_spinBox_inputs_valueChanged(int value)
-{
-    for(int i = 0; i < ui->list_expressions->count(); i++)
-    {
-        BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));
-        pExpressionDisplay->updateNumInputs(value);
-    }
 }
 
 void DLG_BooleanExpressions::closeEvent(QCloseEvent* e)
@@ -231,11 +213,6 @@ void BooleanExpressionDisplay::updateResultLetter(const char& resultLetter)
     m_pResultLabel->setText("= " + QString(m_resultLetter));
 }
 
-void BooleanExpressionDisplay::updateNumInputs(const int& iInputs)
-{
-    m_pExpressionText->updateNumInputs(iInputs);
-}
-
 void BooleanExpressionDisplay::resizeEvent(QResizeEvent*)
 {
     m_pRemoveBtn->setGeometry(Settings::ExpressionDisplayRemoveButtonGeometry);
@@ -288,37 +265,4 @@ BooleanExpression BooleanExpressionLineEdit::getExpression()
     }
 
     return expression;
-}
-
-void BooleanExpressionLineEdit::updateNumInputs(const int& iInputs)
-{
-    const QString displayedExpression = text();
-    QString newDisplayedExpression = "";
-    for(int i = 0; i < displayedExpression.length(); i++)
-    {
-        if((displayedExpression[i] >= Settings::IntStartAlphabet && displayedExpression[i] <= Settings::IntStartAlphabet + iInputs) || displayedExpression[i] == '+' || displayedExpression[i] == '!')
-        {
-            newDisplayedExpression += displayedExpression[i];
-        }
-        else
-        {
-            if(i > 0 && displayedExpression[i-1] == '!')
-            {
-                newDisplayedExpression.remove(newDisplayedExpression.length()-2, 1);
-            }
-        }
-    }
-
-    while(!newDisplayedExpression.isEmpty() && (newDisplayedExpression[newDisplayedExpression.length()-1] == '!' || newDisplayedExpression[newDisplayedExpression.length()-1] == '+'))
-    {
-        newDisplayedExpression.remove(newDisplayedExpression.length()-1, 1);
-    }
-}
-
-void BooleanExpressionLineEdit::keyPressEvent(QKeyEvent* e)
-{
-    if((e->key() >= Settings::IntStartAlphabet && e->key() <= Settings::IntStartAlphabet + m_pDlgExpressions->numInputs()) || e->key() == '+' || e->key() == '!')
-    {
-        QLineEdit::keyPressEvent(e);
-    }
 }

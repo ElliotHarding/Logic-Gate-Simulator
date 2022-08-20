@@ -31,8 +31,6 @@ public:
     void showExpressions(const std::vector<BooleanExpression>& expressions);
     void removeUiExpression(QListWidgetItem* pItem);
 
-    int numInputs();
-
 protected:
     void closeEvent(QCloseEvent *) override;
 
@@ -41,8 +39,6 @@ private slots:
     void on_btn_genCircuit_clicked();
     void on_btn_genTruthTable_clicked();
     void on_btn_addExpression_clicked();
-
-    void on_spinBox_inputs_valueChanged(int value);
 
     void onCircuitGenSuccess(GateCollection* pNewCircuit);
     void onCircuitGenFailure(const QString& failMessage);
@@ -70,11 +66,6 @@ public:
 
     BooleanExpression getExpression();
 
-    void updateNumInputs(const int& iInputs);
-
-protected:
-    void keyPressEvent(QKeyEvent *) override;
-
 private:
     DLG_BooleanExpressions* m_pDlgExpressions;
 };
@@ -92,7 +83,6 @@ public:
     BooleanExpression getExpression();
 
     void updateResultLetter(const char& resultLetter);
-    void updateNumInputs(const int& iInputs);
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;

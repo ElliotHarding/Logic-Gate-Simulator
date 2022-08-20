@@ -60,6 +60,8 @@ void DLG_BooleanExpressions::removeUiExpression(QListWidgetItem* pItem)
     ui->list_expressions->removeItemWidget(pItem);
     delete pItem;
 
+    ui->spinBox_outputs->setValue(ui->list_expressions->count());
+
     if(layerIndex == 0)//Todo
     {
         return;//todo
@@ -111,6 +113,8 @@ void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression
     pItem->setSizeHint(QSize(ui->list_expressions->width() * 0.8, Settings::ExpressionDisplayHeight));
     ui->list_expressions->addItem(pItem);
     ui->list_expressions->setItemWidget(pItem, pExpressionDisplay);
+
+    ui->spinBox_outputs->setValue(ui->list_expressions->count());
 }
 
 

@@ -14,6 +14,8 @@ class DLG_BooleanExpressions;
 class BooleanExpressionDisplay;
 class QListWidgetItem;
 class DLG_Home;
+class GateCollection;
+class CircuitFromTruthTableThread;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /// \brief The DLG_BooleanExpressions class
@@ -36,8 +38,10 @@ private slots:
     void on_btn_ok_clicked();
     void on_btn_genCircuit_clicked();
     void on_btn_genTruthTable_clicked();
-
     void on_btn_addExpression_clicked();
+
+    void onCircuitGenSuccess(GateCollection* pNewCircuit);
+    void onCircuitGenFailure(const QString& failMessage);
 
 private:
     Ui::DLG_BooleanExpressions *ui;
@@ -47,6 +51,8 @@ private:
     void clear();
 
     DLG_Home* m_pHome;
+
+    CircuitFromTruthTableThread* m_pCircuitFromTruthTableThread;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////

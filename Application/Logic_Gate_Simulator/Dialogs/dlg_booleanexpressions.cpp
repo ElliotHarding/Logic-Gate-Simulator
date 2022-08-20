@@ -1,9 +1,10 @@
 #include "dlg_booleanexpressions.h"
 #include "ui_dlg_booleanexpressions.h"
-
 #include "dlg_home.h"
 
 #include "truthtable.h"
+#include "gatecollection.h"
+#include "circuitfromscriptthread.h"
 
 #include <QPainter>
 #include <QMouseEvent>
@@ -27,14 +28,19 @@ const uint ExpressionDisplayRemoveButtonSize = 24;
 DLG_BooleanExpressions::DLG_BooleanExpressions(DLG_Home* pHome) :
     QDialog(pHome),
     m_pHome(pHome),
-    ui(new Ui::DLG_BooleanExpressions)
+    ui(new Ui::DLG_BooleanExpressions),
+    m_pCircuitFromTruthTableThread(new CircuitFromTruthTableThread())
 {
     ui->setupUi(this);
+
+    connect(m_pCircuitFromTruthTableThread, SIGNAL(circuitGenSuccess(GateCollection*)), this, SLOT(onCircuitGenSuccess(GateCollection*)));
+    connect(m_pCircuitFromTruthTableThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onCircuitGenFailure(const QString&)));
 }
 
 DLG_BooleanExpressions::~DLG_BooleanExpressions()
 {
     clear();
+    delete m_pCircuitFromTruthTableThread;
     delete ui;
 }
 
@@ -80,21 +86,50 @@ void DLG_BooleanExpressions::on_btn_ok_clicked()
 
 void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
 {
+    if(m_pCircuitFromTruthTableThread->isRunning())
+    {
+        m_pHome->SendUserMessage("Already generating!");
+        return;
+    }
 
-}
-
-void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
-{
     std::vector<BooleanExpression> expressions;
-
-    for(uint i = 0; i < ui->list_expressions->count(); i++)
+    for(int i = 0; i < ui->list_expressions->count(); i++)
     {
         BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));
         expressions.push_back(pExpressionDisplay->getExpression());
     }
 
     TruthTable truthTable;
-    if(BooleanExpressionCalculator::expressionsToTruthTable(expressions ,truthTable) == ExpressionCalculatorResult::SUCCESS)
+    if(BooleanExpressionCalculator::expressionsToTruthTable(expressions, truthTable) == ExpressionCalculatorResult::SUCCESS)
+    {
+        //Todo expose to user interface
+        const uint maxSeconds = 100;
+        const uint percentageRandomGate = 30;
+        const uint maxGates = 10;
+
+        if(!m_pCircuitFromTruthTableThread->start(truthTable, maxSeconds, percentageRandomGate, maxGates))
+        {
+            m_pHome->SendUserMessage("Failed to convert to circuit. Check format.");
+        }
+    }
+    else
+    {
+        m_pHome->SendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
+    }
+}
+
+void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
+{
+    std::vector<BooleanExpression> expressions;
+
+    for(int i = 0; i < ui->list_expressions->count(); i++)
+    {
+        BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));
+        expressions.push_back(pExpressionDisplay->getExpression());
+    }
+
+    TruthTable truthTable;
+    if(BooleanExpressionCalculator::expressionsToTruthTable(expressions, truthTable) == ExpressionCalculatorResult::SUCCESS)
     {
         m_pHome->showTruthTable(truthTable);
         close();
@@ -118,6 +153,17 @@ void DLG_BooleanExpressions::on_btn_addExpression_clicked()
     newExpression.resultLetter = Settings::IntEndAlphabet - ui->list_expressions->count();
 
     addUiExpression(newExpression);
+}
+
+void DLG_BooleanExpressions::onCircuitGenSuccess(GateCollection* pNewCircuit)
+{
+    m_pHome->AddGateToGateField(pNewCircuit);
+    close();
+}
+
+void DLG_BooleanExpressions::onCircuitGenFailure(const QString& failMessage)
+{
+    m_pHome->SendUserMessage(failMessage);
 }
 
 void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression)

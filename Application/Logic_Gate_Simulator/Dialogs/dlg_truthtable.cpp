@@ -146,6 +146,7 @@ void DLG_TruthTable::on_btn_expressions_clicked()
     if(result == ExpressionCalculatorResult::SUCCESS)
     {
         m_pHome->showBooleanExpressions(expressions);
+        close();
     }
     else
     {
@@ -156,6 +157,7 @@ void DLG_TruthTable::on_btn_expressions_clicked()
 void DLG_TruthTable::onCircuitGenSuccess(GateCollection* pNewCircuit)
 {
     m_pHome->AddGateToGateField(pNewCircuit);
+    close();
 }
 
 void DLG_TruthTable::onCircuitGenFailure(const QString& failMessage)

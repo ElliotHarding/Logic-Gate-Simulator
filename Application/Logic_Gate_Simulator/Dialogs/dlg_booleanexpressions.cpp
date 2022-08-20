@@ -58,17 +58,12 @@ void DLG_BooleanExpressions::removeUiExpression(QListWidgetItem* pItem)
         return;
     }
 
-    const uint layerIndex = ui->list_expressions->row(pItem);
+    //const uint layerIndex = ui->list_expressions->row(pItem);
 
     ui->list_expressions->removeItemWidget(pItem);
     delete pItem;
 
     ui->spinBox_outputs->setValue(ui->list_expressions->count());
-
-    if(layerIndex == 0)//Todo
-    {
-        return;//todo
-    }
 }
 
 void DLG_BooleanExpressions::closeEvent(QCloseEvent* e)
@@ -102,6 +97,7 @@ void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
     if(BooleanExpressionCalculator::expressionsToTruthTable(expressions ,truthTable) == ExpressionCalculatorResult::SUCCESS)
     {
         m_pHome->showTruthTable(truthTable);
+        close();
     }
     else
     {

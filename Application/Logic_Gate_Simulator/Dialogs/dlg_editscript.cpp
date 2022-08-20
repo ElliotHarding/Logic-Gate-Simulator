@@ -178,6 +178,8 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
 
     //Testing purposes
     m_pDlgHome->showTruthTable(truthTable);
+
+    close();
 }
 
 void DLG_EditScript::on_btn_load_clicked()
@@ -318,6 +320,7 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     if(result == ExpressionCalculatorResult::SUCCESS)
     {
         m_pDlgHome->showBooleanExpressions(expressions);
+        close();
     }
     else
     {

@@ -1,6 +1,8 @@
 #include "dlg_truthtable.h"
 #include "ui_dlg_truthtable.h"
 
+#include "dlg_home.h"
+
 #include <QDebug>
 
 namespace Settings
@@ -11,9 +13,10 @@ const uint IntStartAlphabet = 65;
 const uint IntEndAlphabet = 121;
 }
 
-DLG_TruthTable::DLG_TruthTable(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DLG_TruthTable)
+DLG_TruthTable::DLG_TruthTable(DLG_Home* pParent) :
+    QDialog(pParent),
+    ui(new Ui::DLG_TruthTable),
+    m_pHome(pParent)
 {
     ui->setupUi(this);
 }
@@ -35,6 +38,8 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
         qDebug() << "DLG_TruthTable::open - incorrect truth table format!";
         return;
     }
+
+    m_truthTable = truthTable;
 
     const uint iInputs = truthTable.inValues[0].size();
     const uint iOutputs = truthTable.outValues[0].size();
@@ -116,5 +121,14 @@ void DLG_TruthTable::on_btn_circuit_clicked()
 
 void DLG_TruthTable::on_btn_expressions_clicked()
 {
-
+    std::vector<BooleanExpression> expressions;
+    ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(m_truthTable, expressions);
+    if(result == ExpressionCalculatorResult::SUCCESS)
+    {
+        m_pHome->showBooleanExpressions(expressions);
+    }
+    else
+    {
+        m_pHome->SendUserMessage("Failed to convert to boolean expression. Check format.");
+    }
 }

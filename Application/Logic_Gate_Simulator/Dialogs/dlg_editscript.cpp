@@ -321,6 +321,6 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     }
     else
     {
-        //Todo ~ display fail reason
+        m_pDlgHome->SendUserMessage("Failed to convert to boolean expression. Check format.");
     }
 }

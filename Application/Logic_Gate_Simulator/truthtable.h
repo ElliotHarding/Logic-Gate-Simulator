@@ -53,7 +53,7 @@ struct BooleanExpression
 
 enum ExpressionCalculatorResult
 {
-    SUCESS,
+    SUCCESS,
     INVALID_TABLE,
     INVALID_INPUT_EXPRESSIONS
 };
@@ -62,6 +62,7 @@ class BooleanExpressionCalculator
 {
 public:
     static ExpressionCalculatorResult truthTableToBooleanExpressions(TruthTable& truthTable, std::vector<BooleanExpression>& expressions);
+    static ExpressionCalculatorResult expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable);
 };
 
 #endif // TRUTHTABLE_H

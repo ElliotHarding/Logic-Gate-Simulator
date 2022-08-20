@@ -213,5 +213,12 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
         expressions.push_back(expression);
     }
 
-    return SUCESS;
+    return SUCCESS;
+}
+
+ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(std::vector<BooleanExpression> &expressions, TruthTable &truthTable)
+{
+
+
+    return SUCCESS;
 }

@@ -536,7 +536,7 @@ GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
         {
             std::vector<BooleanExpression> expressions;
             ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(table, expressions);
-            if(result == ExpressionCalculatorResult::SUCESS)
+            if(result == ExpressionCalculatorResult::SUCCESS)
             {
                 if(m_pParentField)
                 {

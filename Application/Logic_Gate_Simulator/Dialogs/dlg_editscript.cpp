@@ -315,7 +315,7 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     //Generate expressions based on truth table
     std::vector<BooleanExpression> expressions;
     ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(truthTable, expressions);
-    if(result == ExpressionCalculatorResult::SUCESS)
+    if(result == ExpressionCalculatorResult::SUCCESS)
     {
         m_pDlgHome->showBooleanExpressions(expressions);
     }

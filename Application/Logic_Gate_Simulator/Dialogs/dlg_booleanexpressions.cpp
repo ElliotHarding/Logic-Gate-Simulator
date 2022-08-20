@@ -87,7 +87,17 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
 
 void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
 {
-    //Todo gen boolean expressions vector from UI
+    std::vector<BooleanExpression> expressions;
+
+    for(uint i = 0; i < ui->list_expressions->count(); i++)
+    {
+        BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));
+        expressions.push_back(pExpressionDisplay->getExpression());
+    }
+
+    TruthTable truthTable;
+    BooleanExpressionCalculator::expressionsToTruthTable(expressions ,truthTable);
+
 
 }
 

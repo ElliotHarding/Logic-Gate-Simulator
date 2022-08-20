@@ -229,7 +229,7 @@ bool inVector(const std::vector<char>& vector, const char& value)
     return false;
 }
 
-bool expressionToResult(const std::vector<bool>& inValues, const uint& iOutput, const BooleanExpression& expression)
+bool expressionToResult(const std::vector<bool>& inValues, const BooleanExpression& expression)
 {
 
 }
@@ -263,7 +263,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(
         truthTable.outValues.push_back(std::vector<bool>());
         for(uint iOutput = 0; iOutput < outputs.size(); iOutput++)
         {
-            truthTable.outValues[i].push_back(expressionToResult(truthTable.inValues[i], iOutput, expressions[iOutput]));
+            truthTable.outValues[i].push_back(expressionToResult(truthTable.inValues[i], expressions[iOutput]));
         }
     }
 

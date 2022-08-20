@@ -260,5 +260,31 @@ bool CircuitFromScriptThread::testCircuitAgainstTruthTable(Circuit& circuit, Tru
 /// \return
 GateCollection* CircuitFromTruthTableCalculator::circuitFromTruthTable(const TruthTable& truthTable)
 {
+    if(truthTable.outValues.size() == 0 || truthTable.inValues.size() == 0)
+    {
+        return nullptr;
+    }
 
+    std::vector<GateReciever*> outputs;
+    for(uint i = 0; i < truthTable.outValues[0].size(); i++)
+    {
+        outputs.push_back(new GateReciever());
+    }
+
+    std::vector<GateToggle*> inputs;
+    for(uint i = 0; i < truthTable.inValues[0].size(); i++)
+    {
+        inputs.push_back(new GateToggle());
+    }
+
+    for(uint i = 0; i < truthTable.outValues.size(); i++)
+    {
+        for(uint j = 0; j < truthTable.outValues[i].size(); j++)
+        {
+            if(truthTable.outValues[i][j])
+            {
+
+            }
+        }
+    }
 }

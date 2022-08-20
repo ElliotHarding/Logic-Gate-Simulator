@@ -1,6 +1,8 @@
 #include "dlg_booleanexpressions.h"
 #include "ui_dlg_booleanexpressions.h"
 
+#include "dlg_home.h"
+
 #include "truthtable.h"
 
 #include <QPainter>
@@ -22,8 +24,9 @@ const uint ExpressionDisplayInvertedMargin = 2;
 const uint ExpressionDisplayRemoveButtonSize = 24;
 }
 
-DLG_BooleanExpressions::DLG_BooleanExpressions(QWidget *parent) :
-    QDialog(parent),
+DLG_BooleanExpressions::DLG_BooleanExpressions(DLG_Home* pHome) :
+    QDialog(pHome),
+    m_pHome(pHome),
     ui(new Ui::DLG_BooleanExpressions)
 {
     ui->setupUi(this);
@@ -96,9 +99,14 @@ void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
     }
 
     TruthTable truthTable;
-    BooleanExpressionCalculator::expressionsToTruthTable(expressions ,truthTable);
-
-
+    if(BooleanExpressionCalculator::expressionsToTruthTable(expressions ,truthTable) == ExpressionCalculatorResult::SUCCESS)
+    {
+        m_pHome->showTruthTable(truthTable);
+    }
+    else
+    {
+        m_pHome->SendUserMessage("Failed to generate truth table! Check format of boolean expressions.");
+    }
 }
 
 void DLG_BooleanExpressions::clear()

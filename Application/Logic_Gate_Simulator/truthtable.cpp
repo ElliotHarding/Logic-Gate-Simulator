@@ -251,6 +251,11 @@ bool expressionToResult(const std::vector<bool>& inValues, const BooleanExpressi
 
 ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)
 {
+    if(truthTable.inValues.size() != 0 || truthTable.outValues.size() != 0 || truthTable.size != 0)
+    {
+        return INVALID_INPUT_EXPRESSIONS;
+    }
+
     std::vector<char> inputs;
     std::vector<char> outputs;
     for(BooleanExpression expression : expressions)
@@ -270,7 +275,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(
     truthTable.size = pow(2, inputs.size());
     for(uint i = 0; i < truthTable.size; i++)
     {
-        truthTable.genInputs(i, inputs.size());
+        truthTable.inValues.push_back(truthTable.genInputs(i, inputs.size()));
     }
 
     for(uint i = 0; i < truthTable.inValues.size(); i++)

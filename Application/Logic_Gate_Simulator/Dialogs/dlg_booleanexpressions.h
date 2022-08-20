@@ -13,6 +13,7 @@ class DLG_BooleanExpressions;
 
 class BooleanExpressionDisplay;
 class QListWidgetItem;
+class DLG_Home;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /// \brief The DLG_BooleanExpressions class
@@ -22,7 +23,7 @@ class DLG_BooleanExpressions : public QDialog
     Q_OBJECT
 
 public:
-    explicit DLG_BooleanExpressions(QWidget *parent = nullptr);
+    explicit DLG_BooleanExpressions(DLG_Home* pHome);
     ~DLG_BooleanExpressions();
 
     void showExpressions(const std::vector<BooleanExpression>& expressions);
@@ -44,6 +45,8 @@ private:
     ///Boolean letters
     void addUiExpression(const BooleanExpression& expression);
     void clear();
+
+    DLG_Home* m_pHome;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////

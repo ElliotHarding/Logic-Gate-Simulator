@@ -253,3 +253,12 @@ bool CircuitFromScriptThread::testCircuitAgainstTruthTable(Circuit& circuit, Tru
 
     return true;
 }
+
+//////////////////////////////////////////////////////////////////////////
+/// \brief CircuitFromTruthTableCalculator::circuitFromTruthTable
+/// \param truthTable
+/// \return
+GateCollection* CircuitFromTruthTableCalculator::circuitFromTruthTable(const TruthTable& truthTable)
+{
+
+}

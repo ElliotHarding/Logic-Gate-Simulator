@@ -38,4 +38,11 @@ private:
     uint m_maxGates;
 };
 
+//////////////////////////////////////////////////////////////////////////
+///CircuitFromTruthTableCalculator
+class CircuitFromTruthTableCalculator
+{
+    static GateCollection* circuitFromTruthTable(const TruthTable& truthTable);
+};
+
 #endif // CIRCUITFROMSCRIPTTHREAD_H

@@ -21,9 +21,9 @@ const QFont BooleanExpressionLetterFont("Helvetica", 15);
 const QString BooleanExpressionLetterInverted = "_";
 
 const uint ExpressionDisplayHeight = 50;
-const QRect ExpressionDisplayRemoveButtonGeometry = QRect(210, 13, 24, 24);
-const QRect ExpressionDisplayTextGeometry = QRect(10, 10, 150, 30);
-const QRect ExpressionDisplayResultLabelGeometry = QRect(170, 15, 30, 20);
+const QRect ExpressionDisplayRemoveButtonGeometry = QRect(470, 13, 24, 24);
+const QRect ExpressionDisplayTextGeometry = QRect(10, 10, 420, 30);
+const QRect ExpressionDisplayResultLabelGeometry = QRect(430, 15, 30, 20);
 }
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(DLG_Home* pHome) :
@@ -141,7 +141,6 @@ void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
 
 void DLG_BooleanExpressions::clear()
 {
-    //Todo check it deletes items...
     ui->list_expressions->clear();
 }
 
@@ -227,7 +226,7 @@ void BooleanExpressionDisplay::onRemoveButtonClicked()
 BooleanExpressionLineEdit::BooleanExpressionLineEdit(QWidget* pParent, const BooleanExpression& expression) : QLineEdit(pParent)
 {
     QString displayedExpression = "";
-    for(int i = 0; i < expression.letters.size(); i++)
+    for(uint i = 0; i < expression.letters.size(); i++)
     {
         if(expression.inverted[i])
         {

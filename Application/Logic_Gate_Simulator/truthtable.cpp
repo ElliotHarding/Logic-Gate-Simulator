@@ -251,16 +251,39 @@ ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(
     for(uint i = 0; i < truthTable.size; i++)
     {
         truthTable.genInputs(i, inputs.size());
+    }
 
-        for(uint x = 0; x < truthTable.inValues.size(); x++)
+    for(uint iOutExpression = 0; iOutExpression < expressions.size(); iOutExpression++)
+    {
+        for(uint i = 0; i < truthTable.inValues.size(); i++)
         {
+            for(uint j = 0; j < truthTable.inValues[i].size(); j++)
+            {
+                if(truthTable.inValues[i][j] == )
+                {
 
+                }
+            }
         }
-
-        for(uint x = 0; x < outputs.size(); x++)
+        /*
+        for(uint i = 0; i < expressions[iOutExpression].letters.size(); i++)
         {
+            bool sameInput = true;
+            const char letter = expressions[iOutExpression].letters[i];
+            if(uint(letter) >= Settings::IntStartAlphabet && uint(letter) <= Settings::IntEndAlphabet)
+            {
+                if(truthTable.inValues[i] != expressions[iOutExpression].inverted)
+                {
+                    sameInput = false;
+                    break;
+                }
+            }
 
-        }
+            if(sameInput)
+            {
+                truthTable.outValues[iOutExpression]
+            }
+        }*/
     }
 
     return SUCCESS;

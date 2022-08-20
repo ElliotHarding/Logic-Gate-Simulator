@@ -231,7 +231,22 @@ bool inVector(const std::vector<char>& vector, const char& value)
 
 bool expressionToResult(const std::vector<bool>& inValues, const BooleanExpression& expression)
 {
+    for(uint i = 0; i < inValues.size(); i++)
+    {
+        const char letter = Settings::IntStartAlphabet + i;
+        for(uint j = 0; j < expression.letters.size(); j++)
+        {
+            if(expression.letters[j] == letter)
+            {
+                if(expression.inverted[j] == inValues[i])
+                {
+                    return false;
+                }
+            }
+        }
+    }
 
+    return true;
 }
 
 ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)

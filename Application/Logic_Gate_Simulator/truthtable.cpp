@@ -216,9 +216,34 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
     return SUCCESS;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(std::vector<BooleanExpression> &expressions, TruthTable &truthTable)
+bool inVector(const std::vector<char>& vector, const char& value)
 {
+    for(const char& letter : vector)
+    {
+        if(letter == value)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
+ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)
+{
+    for(BooleanExpression expression : expressions)
+    {
+        std::vector<char> inputs;
+        for(uint i = 0; i < expression.letters.size(); i++)
+        {
+            const char letter = expression.letters[i];
+            if(uint(letter) >= Settings::IntStartAlphabet && uint(letter) <= Settings::IntEndAlphabet && !inVector(inputs, letter))
+            {
+                inputs.push_back(letter);
+            }
+        }
+
+        //Todo deal with inputs
+    }
 
     return SUCCESS;
 }

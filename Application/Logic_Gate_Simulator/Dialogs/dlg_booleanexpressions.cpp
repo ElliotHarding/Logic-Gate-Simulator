@@ -21,9 +21,9 @@ const QFont BooleanExpressionLetterFont("Helvetica", 15);
 const QString BooleanExpressionLetterInverted = "_";
 
 const uint ExpressionDisplayHeight = 50;
-const QRect ExpressionDisplayRemoveButtonGeometry = QRect(470, 13, 24, 24);
+const QRect ExpressionDisplayRemoveButtonGeometry = QRect(460, 13, 24, 24);
 const QRect ExpressionDisplayTextGeometry = QRect(10, 10, 420, 30);
-const QRect ExpressionDisplayResultLabelGeometry = QRect(430, 15, 30, 20);
+const QRect ExpressionDisplayResultLabelGeometry = QRect(440, 15, 30, 20);
 }
 
 DLG_BooleanExpressions::DLG_BooleanExpressions(DLG_Home* pHome) :
@@ -230,9 +230,9 @@ BooleanExpressionLineEdit::BooleanExpressionLineEdit(QWidget* pParent, const Boo
     {
         if(expression.inverted[i])
         {
-            displayedExpression += "!" + QString(expression.letters[i]);
+            displayedExpression += "!";
         }
-        displayedExpression += expression.letters[i];
+        displayedExpression += QString(expression.letters[i]);
     }
     setText(displayedExpression);
 }

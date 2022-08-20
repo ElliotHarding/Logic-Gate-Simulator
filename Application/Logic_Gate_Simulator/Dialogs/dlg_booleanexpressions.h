@@ -87,6 +87,8 @@ public:
 
     BooleanExpression getExpression();
 
+    void updateResultLetter(const char& resultLetter);
+
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;
 

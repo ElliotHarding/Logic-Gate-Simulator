@@ -69,6 +69,14 @@ void DLG_BooleanExpressions::removeUiExpression(QListWidgetItem* pItem)
     delete pItem;
 
     ui->spinBox_outputs->setValue(ui->list_expressions->count());
+
+    int iResultLetter = Settings::IntEndAlphabet;
+    for(int i = 0; i < ui->list_expressions->count(); i++)
+    {
+        BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));
+        pExpressionDisplay->updateResultLetter(iResultLetter);
+        iResultLetter--;
+    }
 }
 
 int DLG_BooleanExpressions::numInputs()
@@ -209,6 +217,12 @@ BooleanExpression BooleanExpressionDisplay::getExpression()
     BooleanExpression expression = m_pExpressionText->getExpression();
     expression.resultLetter = m_resultLetter;
     return expression;
+}
+
+void BooleanExpressionDisplay::updateResultLetter(const char& resultLetter)
+{
+    m_resultLetter = resultLetter;
+    m_pResultLabel->setText("= " + QString(m_resultLetter));
 }
 
 void BooleanExpressionDisplay::resizeEvent(QResizeEvent*)

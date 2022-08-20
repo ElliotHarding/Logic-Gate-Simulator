@@ -70,6 +70,8 @@ public:
 
     BooleanExpression getExpression();
 
+    void updateNumInputs(const int& iInputs);
+
 protected:
     void keyPressEvent(QKeyEvent *) override;
 
@@ -90,6 +92,7 @@ public:
     BooleanExpression getExpression();
 
     void updateResultLetter(const char& resultLetter);
+    void updateNumInputs(const int& iInputs);
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;

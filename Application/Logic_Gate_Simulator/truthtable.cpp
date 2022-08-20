@@ -229,6 +229,11 @@ bool inVector(const std::vector<char>& vector, const char& value)
     return false;
 }
 
+bool expressionToResult(const std::vector<bool>& inValues, const uint& iOutput, const BooleanExpression& expression)
+{
+
+}
+
 ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)
 {
     std::vector<char> inputs;
@@ -253,37 +258,13 @@ ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(
         truthTable.genInputs(i, inputs.size());
     }
 
-    for(uint iOutExpression = 0; iOutExpression < expressions.size(); iOutExpression++)
+    for(uint i = 0; i < truthTable.inValues.size(); i++)
     {
-        for(uint i = 0; i < truthTable.inValues.size(); i++)
+        truthTable.outValues.push_back(std::vector<bool>());
+        for(uint iOutput = 0; iOutput < outputs.size(); iOutput++)
         {
-            for(uint j = 0; j < truthTable.inValues[i].size(); j++)
-            {
-                if(truthTable.inValues[i][j] == )
-                {
-
-                }
-            }
+            truthTable.outValues[i].push_back(expressionToResult(truthTable.inValues[i], iOutput, expressions[iOutput]));
         }
-        /*
-        for(uint i = 0; i < expressions[iOutExpression].letters.size(); i++)
-        {
-            bool sameInput = true;
-            const char letter = expressions[iOutExpression].letters[i];
-            if(uint(letter) >= Settings::IntStartAlphabet && uint(letter) <= Settings::IntEndAlphabet)
-            {
-                if(truthTable.inValues[i] != expressions[iOutExpression].inverted)
-                {
-                    sameInput = false;
-                    break;
-                }
-            }
-
-            if(sameInput)
-            {
-                truthTable.outValues[iOutExpression]
-            }
-        }*/
     }
 
     return SUCCESS;

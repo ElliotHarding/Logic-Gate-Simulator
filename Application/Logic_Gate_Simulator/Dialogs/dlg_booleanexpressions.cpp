@@ -68,8 +68,7 @@ void DLG_BooleanExpressions::removeUiExpression(QListWidgetItem* pItem)
     ui->list_expressions->removeItemWidget(pItem);
     delete pItem;
 
-    ui->spinBox_outputs->setValue(ui->list_expressions->count());
-
+    //Update result letters since BooleanExpressionDisplay has been removed!
     int iResultLetter = Settings::IntEndAlphabet;
     for(int i = 0; i < ui->list_expressions->count(); i++)
     {
@@ -79,9 +78,23 @@ void DLG_BooleanExpressions::removeUiExpression(QListWidgetItem* pItem)
     }
 }
 
+void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression)
+{
+    QListWidgetItem* pItem = new QListWidgetItem();
+    BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, pItem, expression);
+    pItem->setSizeHint(QSize(ui->list_expressions->width() * 0.8, Settings::ExpressionDisplayHeight));
+    ui->list_expressions->addItem(pItem);
+    ui->list_expressions->setItemWidget(pItem, pExpressionDisplay);
+}
+
 int DLG_BooleanExpressions::numInputs()
 {
     return ui->spinBox_inputs->value();
+}
+
+void DLG_BooleanExpressions::on_spinBox_inputs_valueChanged(int value)
+{
+
 }
 
 void DLG_BooleanExpressions::closeEvent(QCloseEvent* e)
@@ -152,11 +165,6 @@ void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
     }
 }
 
-void DLG_BooleanExpressions::clear()
-{
-    ui->list_expressions->clear();
-}
-
 void DLG_BooleanExpressions::on_btn_addExpression_clicked()
 {
     BooleanExpression newExpression;
@@ -164,6 +172,11 @@ void DLG_BooleanExpressions::on_btn_addExpression_clicked()
     newExpression.resultLetter = Settings::IntEndAlphabet - ui->list_expressions->count();
 
     addUiExpression(newExpression);
+}
+
+void DLG_BooleanExpressions::clear()
+{
+    ui->list_expressions->clear();
 }
 
 void DLG_BooleanExpressions::onCircuitGenSuccess(GateCollection* pNewCircuit)
@@ -175,17 +188,6 @@ void DLG_BooleanExpressions::onCircuitGenSuccess(GateCollection* pNewCircuit)
 void DLG_BooleanExpressions::onCircuitGenFailure(const QString& failMessage)
 {
     m_pHome->SendUserMessage(failMessage);
-}
-
-void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression)
-{
-    QListWidgetItem* pItem = new QListWidgetItem();
-    BooleanExpressionDisplay* pExpressionDisplay = new BooleanExpressionDisplay(this, pItem, expression);
-    pItem->setSizeHint(QSize(ui->list_expressions->width() * 0.8, Settings::ExpressionDisplayHeight));
-    ui->list_expressions->addItem(pItem);
-    ui->list_expressions->setItemWidget(pItem, pExpressionDisplay);
-
-    ui->spinBox_outputs->setValue(ui->list_expressions->count());
 }
 
 

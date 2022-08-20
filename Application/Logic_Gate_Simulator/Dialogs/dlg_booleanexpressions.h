@@ -42,6 +42,8 @@ private slots:
     void on_btn_genTruthTable_clicked();
     void on_btn_addExpression_clicked();
 
+    void on_spinBox_inputs_valueChanged(int value);
+
     void onCircuitGenSuccess(GateCollection* pNewCircuit);
     void onCircuitGenFailure(const QString& failMessage);
 

@@ -101,8 +101,8 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
         }
         else
         {
-            //X, Y, Z...
-            colTitle = QString(char(Settings::IntEndAlphabet+iCol-iInputs));
+            //Z, Y, X...
+            colTitle = QString(char(Settings::IntEndAlphabet-iCol+iInputs+1));
 
             std::vector<OutputLabel*> outLbls;
             for(uint iRow = 0; iRow < iIterations; iRow++)

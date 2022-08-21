@@ -27,10 +27,6 @@ public:
     void open(const TruthTable& truthTable);
     void open() override;
 
-protected:
-    void closeEvent(QCloseEvent *) override;
-    void close();
-
 private slots:
     void on_btn_circuit_clicked();
     void on_btn_expressions_clicked();

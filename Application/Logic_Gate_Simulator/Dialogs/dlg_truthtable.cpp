@@ -50,6 +50,14 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
 
 void DLG_TruthTable::open()
 {
+    if(m_truthTable.size != 0 && m_truthTable.inValues.size() != 0 && m_truthTable.outValues.size() != 0)
+    {
+        QDialog::open();
+        return;
+    }
+
+
+    //Create fresh truthtable
     TruthTable truthTable;
     truthTable.size = 3;
     for(uint i = 0; i < truthTable.size + 1; i++)
@@ -164,20 +172,6 @@ void DLG_TruthTable::updateTruthTableFromUI()
         }
         m_truthTable.outValues.push_back(rowValues);
     }
-}
-
-void DLG_TruthTable::close()
-{
-    clearUI();
-
-    QDialog::close();
-}
-
-void DLG_TruthTable::closeEvent(QCloseEvent* e)
-{
-    clearUI();
-
-    QDialog::closeEvent(e);
 }
 
 void DLG_TruthTable::on_btn_circuit_clicked()

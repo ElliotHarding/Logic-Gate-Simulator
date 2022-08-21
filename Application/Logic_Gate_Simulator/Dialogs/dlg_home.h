@@ -136,6 +136,8 @@ private slots:
 
     void on_btn_createScript_clicked();
 
+    void on_btn_createTruthTable();
+
     //Gate widget switching
     void on_comboBox_currentIndexChanged(int index);
 

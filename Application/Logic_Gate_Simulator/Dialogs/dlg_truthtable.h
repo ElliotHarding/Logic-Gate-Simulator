@@ -37,14 +37,34 @@ private slots:
     void onCircuitGenFailure(const QString& failMessage);
 
 private:
+    void clearUI();
+
+    void setTruthTable(const TruthTable& truthTable);
+
     Ui::DLG_TruthTable *ui;
-    std::vector<QLabel*> m_tableLabels;
+    std::vector<QLabel*> m_tableInputLabels;
+    std::vector<std::vector<QLabel*>> m_outputLabels;
 
     TruthTable m_truthTable;
 
     DLG_Home* m_pHome;
 
     CircuitFromTruthTableThread* m_pCircuitFromTruthTableThread;
+};
+
+//////////////////////////////////////////////////////////
+/// \brief The OutputLabel class
+///
+class OutputLabel : public QLabel
+{
+    Q_OBJECT
+public:
+    OutputLabel(DLG_TruthTable* pDlgTruthTable, const bool& value);
+
+    bool value() const;
+
+protected:
+    void mousePressEvent(QMouseEvent* event) override;
 };
 
 #endif // DLG_TRUTHTABLE_H

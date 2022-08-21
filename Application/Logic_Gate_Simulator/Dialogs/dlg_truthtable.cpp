@@ -28,10 +28,7 @@ DLG_TruthTable::DLG_TruthTable(DLG_Home* pParent) :
 
 DLG_TruthTable::~DLG_TruthTable()
 {
-    for(QLabel* pLbl : m_tableLabels)
-    {
-        delete pLbl;
-    }
+    clearUI();
 
     delete m_pCircuitFromTruthTableThread;
     delete ui;
@@ -45,6 +42,20 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
         return;
     }
 
+    setTruthTable(truthTable);
+}
+
+void DLG_TruthTable::clearUI()
+{
+    for(QLabel* pLbl : m_tableInputLabels)
+    {
+        delete pLbl;
+    }
+    m_tableInputLabels.clear();
+}
+
+void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
+{
     m_truthTable = truthTable;
 
     const uint iInputs = truthTable.inValues[0].size();
@@ -71,7 +82,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
                 QLabel* rowLabel = new QLabel(QString::number(truthTable.inValues[iRow][iCol]), this);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
                 rowLabel->setAlignment(Qt::AlignCenter);
-                m_tableLabels.push_back(rowLabel);
+                m_tableInputLabels.push_back(rowLabel);
             }
         }
         else
@@ -84,7 +95,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
                 QLabel* rowLabel = new QLabel(QString::number(truthTable.outValues[iRow][iCol-iInputs]), this);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
                 rowLabel->setAlignment(Qt::AlignCenter);
-                m_tableLabels.push_back(rowLabel);
+                m_tableInputLabels.push_back(rowLabel);
             }
         }
 
@@ -92,7 +103,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
         newLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y(), labelWidth, labelHeight);
         newLabel->setStyleSheet("border-color: black;");
         newLabel->setAlignment(Qt::AlignCenter);
-        m_tableLabels.push_back(newLabel);
+        m_tableInputLabels.push_back(newLabel);
     }
 
     QDialog::open();
@@ -100,22 +111,14 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
 
 void DLG_TruthTable::close()
 {
-    for(QLabel* pLbl : m_tableLabels)
-    {
-        delete pLbl;
-    }
-    m_tableLabels.clear();
+    clearUI();
 
     QDialog::close();
 }
 
 void DLG_TruthTable::closeEvent(QCloseEvent* e)
 {
-    for(QLabel* pLbl : m_tableLabels)
-    {
-        delete pLbl;
-    }
-    m_tableLabels.clear();
+    clearUI();
 
     QDialog::closeEvent(e);
 }
@@ -163,4 +166,24 @@ void DLG_TruthTable::onCircuitGenSuccess(GateCollection* pNewCircuit)
 void DLG_TruthTable::onCircuitGenFailure(const QString& failMessage)
 {
     m_pHome->SendUserMessage(failMessage);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+/// \brief OutputLabel::OutputLabel
+/// \param pDlgTruthTable
+/// \param value
+///
+OutputLabel::OutputLabel(DLG_TruthTable* pDlgTruthTable, const bool& value) : QLabel(pDlgTruthTable)
+{
+    setText(value ? "1" : "0");
+}
+
+bool OutputLabel::value() const
+{
+    return text() == "1";
+}
+
+void OutputLabel::mousePressEvent(QMouseEvent*)
+{
+    setText(text() == "1" ? "0" : "1");
 }

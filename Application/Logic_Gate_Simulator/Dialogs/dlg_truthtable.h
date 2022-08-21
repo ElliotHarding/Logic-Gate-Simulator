@@ -25,10 +25,11 @@ public:
 
     //Open to display truth table
     void open(const TruthTable& truthTable);
-    void close();
+    void open() override;
 
 protected:
     void closeEvent(QCloseEvent *) override;
+    void close();
 
 private slots:
     void on_btn_circuit_clicked();

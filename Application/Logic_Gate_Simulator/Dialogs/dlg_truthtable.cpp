@@ -48,6 +48,20 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
     QDialog::open();
 }
 
+void DLG_TruthTable::open()
+{
+    TruthTable truthTable;
+    truthTable.size = 3;
+    for(uint i = 0; i < truthTable.size + 1; i++)
+    {
+        truthTable.inValues.push_back(truthTable.genInputs(i, 2));
+        truthTable.outValues.push_back({(i == truthTable.size ? true : false)});
+    }
+    m_truthTable = truthTable;
+    updateTableUI();
+    QDialog::open();
+}
+
 void DLG_TruthTable::clearUI()
 {
     for(QLabel* pLbl : m_tableLabels)

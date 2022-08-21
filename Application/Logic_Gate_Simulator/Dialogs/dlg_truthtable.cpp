@@ -91,6 +91,7 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
                 QLabel* rowLabel = new QLabel(QString::number(truthTable.inValues[iRow][iCol]), this);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
                 rowLabel->setAlignment(Qt::AlignCenter);
+                rowLabel->show();
                 m_tableLabels.push_back(rowLabel);
             }
         }
@@ -105,6 +106,7 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
                 OutputLabel* rowLabel = new OutputLabel(this, truthTable.outValues[iRow][iCol-iInputs]);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
                 rowLabel->setAlignment(Qt::AlignCenter);
+                rowLabel->show();
                 outLbls.push_back(rowLabel);
             }
             m_tableOutputLabels.push_back(outLbls);
@@ -114,6 +116,7 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
         newLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y(), labelWidth, labelHeight);
         newLabel->setStyleSheet("border-color: black;");
         newLabel->setAlignment(Qt::AlignCenter);
+        newLabel->show();
         m_tableLabels.push_back(newLabel);
     }
 
@@ -186,7 +189,36 @@ void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
 
 void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
 {
+    if(m_truthTable.outValues.size() == 0)
+    {
+        m_pHome->SendUserMessage("Internal error!");//todo better message
+        return;
+    }
 
+    int difference = value - m_truthTable.outValues[0].size();
+    if(difference > 0)
+    {
+        for(uint iRow = 0; iRow < m_truthTable.outValues.size(); iRow++)
+        {
+            for(int i = m_truthTable.outValues[iRow].size(); i < value; i++)
+            {
+                m_truthTable.outValues[iRow].push_back(0);
+            }
+        }
+    }
+    else if(difference < 0)
+    {
+        for(uint iRow = 0; iRow < m_truthTable.outValues.size(); iRow++)
+        {
+            for(uint i = value; i < m_truthTable.outValues[iRow].size(); i++)
+            {
+                m_truthTable.outValues[iRow].erase(m_truthTable.outValues[iRow].begin() + i);
+            }
+        }
+    }
+
+    clearUI();
+    setTruthTable(m_truthTable);
 }
 
 /////////////////////////////////////////////////////////////////////////////

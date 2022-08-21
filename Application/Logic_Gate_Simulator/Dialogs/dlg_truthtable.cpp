@@ -179,6 +179,16 @@ void DLG_TruthTable::onCircuitGenFailure(const QString& failMessage)
     m_pHome->SendUserMessage(failMessage);
 }
 
+void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
+{
+
+}
+
+void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
+{
+
+}
+
 /////////////////////////////////////////////////////////////////////////////
 /// \brief OutputLabel::OutputLabel
 /// \param pDlgTruthTable

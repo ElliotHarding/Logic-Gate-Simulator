@@ -5,6 +5,7 @@
 #include "gatecollection.h"
 
 #include <QDebug>
+#include <cmath>
 
 namespace Settings
 {
@@ -73,6 +74,9 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
     const uint iOutputs = truthTable.outValues[0].size();
     const uint iIterations = truthTable.inValues.size();
     const uint iCols = iInputs + iOutputs;
+
+    ui->spinBox_inputs->setValue(iInputs);
+    ui->spinBox_outputs->setValue(iOutputs);
 
     const uint labelWidth = Settings::TableDimensions.width() / iCols;
     const uint labelHeight = Settings::TableDimensions.height() / (iIterations + 1);
@@ -184,7 +188,46 @@ void DLG_TruthTable::onCircuitGenFailure(const QString& failMessage)
 
 void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
 {
+    if(m_truthTable.inValues.size() == 0)
+    {
+        m_pHome->SendUserMessage("Internal error!");//todo better message
+        return;
+    }
 
+    m_truthTable.inValues.clear();
+    m_truthTable.size = pow(2, value);
+
+    //Generate input values
+    for (uint iTableRun = 0; iTableRun < m_truthTable.size; iTableRun++)
+    {
+        std::vector<bool> inputValues = m_truthTable.genInputs(iTableRun, value);
+        m_truthTable.inValues.push_back(inputValues);
+    }
+
+    //Generate output values
+    int difference = m_truthTable.size - m_truthTable.outValues[0].size() + 1;
+    if(difference > 0)
+    {
+        for(uint iRow = m_truthTable.outValues.size() - 1; iRow < m_truthTable.size; iRow++)
+        {
+            std::vector<bool> row;
+            for(uint iCol = 0; iCol < m_truthTable.outValues[iRow].size(); iCol++)
+            {
+                row.push_back(0);
+            }
+            m_truthTable.outValues.push_back(row);
+        }
+    }
+    else if(difference < 0)
+    {
+        for(uint iRow = m_truthTable.size; iRow < m_truthTable.outValues.size(); iRow++)
+        {
+            m_truthTable.outValues.erase(m_truthTable.outValues.begin() + iRow);
+        }
+    }
+
+    clearUI();
+    setTruthTable(m_truthTable);
 }
 
 void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
@@ -210,7 +253,7 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
     {
         for(uint iRow = 0; iRow < m_truthTable.outValues.size(); iRow++)
         {
-            for(uint i = value; i < m_truthTable.outValues[iRow].size(); i++)
+            for(uint i = value - 1; i < m_truthTable.outValues[iRow].size(); i++)
             {
                 m_truthTable.outValues[iRow].erase(m_truthTable.outValues[iRow].begin() + i);
             }

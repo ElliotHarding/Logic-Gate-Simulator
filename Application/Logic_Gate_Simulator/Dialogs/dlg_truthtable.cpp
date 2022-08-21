@@ -47,11 +47,22 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
 
 void DLG_TruthTable::clearUI()
 {
-    for(QLabel* pLbl : m_tableInputLabels)
+    for(QLabel* pLbl : m_tableLabels)
     {
         delete pLbl;
     }
-    m_tableInputLabels.clear();
+    m_tableLabels.clear();
+
+    for(std::vector<OutputLabel*> outLblCol : m_tableOutputLabels)
+    {
+        for(OutputLabel* pOutLbl : outLblCol)
+        {
+            delete pOutLbl;
+        }
+        outLblCol.clear();
+    }
+    m_tableOutputLabels.clear();
+
 }
 
 void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
@@ -65,8 +76,6 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
 
     const uint labelWidth = Settings::TableDimensions.width() / iCols;
     const uint labelHeight = Settings::TableDimensions.height() / (iIterations + 1);
-    qDebug() << iIterations;
-    qDebug() << labelHeight;
 
     for(uint iCol = 0; iCol < iCols; iCol++)
     {
@@ -82,7 +91,7 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
                 QLabel* rowLabel = new QLabel(QString::number(truthTable.inValues[iRow][iCol]), this);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
                 rowLabel->setAlignment(Qt::AlignCenter);
-                m_tableInputLabels.push_back(rowLabel);
+                m_tableLabels.push_back(rowLabel);
             }
         }
         else
@@ -90,20 +99,22 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
             //X, Y, Z...
             colTitle = QString(char(Settings::IntEndAlphabet+iCol-iInputs));
 
+            std::vector<OutputLabel*> outLbls;
             for(uint iRow = 0; iRow < iIterations; iRow++)
             {
-                QLabel* rowLabel = new QLabel(QString::number(truthTable.outValues[iRow][iCol-iInputs]), this);
+                OutputLabel* rowLabel = new OutputLabel(this, truthTable.outValues[iRow][iCol-iInputs]);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
                 rowLabel->setAlignment(Qt::AlignCenter);
-                m_tableInputLabels.push_back(rowLabel);
+                outLbls.push_back(rowLabel);
             }
+            m_tableOutputLabels.push_back(outLbls);
         }
 
         newLabel = new QLabel(colTitle, this);
         newLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y(), labelWidth, labelHeight);
         newLabel->setStyleSheet("border-color: black;");
         newLabel->setAlignment(Qt::AlignCenter);
-        m_tableInputLabels.push_back(newLabel);
+        m_tableLabels.push_back(newLabel);
     }
 
     QDialog::open();

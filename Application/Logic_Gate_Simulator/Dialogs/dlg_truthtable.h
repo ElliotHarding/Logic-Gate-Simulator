@@ -13,6 +13,7 @@ class DLG_TruthTable;
 class DLG_Home;
 class CircuitFromTruthTableThread;
 class GateCollection;
+class OutputLabel;
 
 class DLG_TruthTable : public QDialog
 {
@@ -42,8 +43,8 @@ private:
     void setTruthTable(const TruthTable& truthTable);
 
     Ui::DLG_TruthTable *ui;
-    std::vector<QLabel*> m_tableInputLabels;
-    std::vector<std::vector<QLabel*>> m_outputLabels;
+    std::vector<QLabel*> m_tableLabels;
+    std::vector<std::vector<OutputLabel*>> m_tableOutputLabels;
 
     TruthTable m_truthTable;
 

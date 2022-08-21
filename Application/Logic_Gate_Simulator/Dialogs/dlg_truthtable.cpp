@@ -43,7 +43,9 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
         return;
     }
 
-    setTruthTable(truthTable);
+    m_truthTable = truthTable;
+    updateTableUI();
+    QDialog::open();
 }
 
 void DLG_TruthTable::clearUI()
@@ -66,13 +68,13 @@ void DLG_TruthTable::clearUI()
 
 }
 
-void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
+void DLG_TruthTable::updateTableUI()
 {
-    m_truthTable = truthTable;
+    clearUI();
 
-    const uint iInputs = truthTable.inValues[0].size();
-    const uint iOutputs = truthTable.outValues[0].size();
-    const uint iIterations = truthTable.inValues.size();
+    const uint iInputs = m_truthTable.inValues[0].size();
+    const uint iOutputs = m_truthTable.outValues[0].size();
+    const uint iIterations = m_truthTable.inValues.size();
     const uint iCols = iInputs + iOutputs;
 
     ui->spinBox_inputs->setValue(iInputs);
@@ -92,7 +94,7 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
 
             for(uint iRow = 0; iRow < iIterations; iRow++)
             {
-                QLabel* rowLabel = new QLabel(QString::number(truthTable.inValues[iRow][iCol]), this);
+                QLabel* rowLabel = new QLabel(QString::number(m_truthTable.inValues[iRow][iCol]), this);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
                 rowLabel->setAlignment(Qt::AlignCenter);
                 rowLabel->show();
@@ -107,7 +109,7 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
             std::vector<OutputLabel*> outLbls;
             for(uint iRow = 0; iRow < iIterations; iRow++)
             {
-                OutputLabel* rowLabel = new OutputLabel(this, truthTable.outValues[iRow][iCol-iInputs]);
+                OutputLabel* rowLabel = new OutputLabel(this, m_truthTable.outValues[iRow][iCol-iInputs]);
                 rowLabel->setGeometry(Settings::TableDimensions.x() + iCol * labelWidth, Settings::TableDimensions.y() + (iRow * labelHeight) + labelHeight, labelWidth, labelHeight);
                 rowLabel->setAlignment(Qt::AlignCenter);
                 rowLabel->show();
@@ -123,8 +125,6 @@ void DLG_TruthTable::setTruthTable(const TruthTable& truthTable)
         newLabel->show();
         m_tableLabels.push_back(newLabel);
     }
-
-    QDialog::open();
 }
 
 void DLG_TruthTable::close()
@@ -226,8 +226,7 @@ void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
         }
     }
 
-    clearUI();
-    setTruthTable(m_truthTable);
+    updateTableUI();
 }
 
 void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
@@ -260,8 +259,7 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
         }
     }
 
-    clearUI();
-    setTruthTable(m_truthTable);
+    updateTableUI();
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -42,8 +42,7 @@ private slots:
 
 private:
     void clearUI();
-
-    void setTruthTable(const TruthTable& truthTable);
+    void updateTableUI();
 
     Ui::DLG_TruthTable *ui;
     std::vector<QLabel*> m_tableLabels;

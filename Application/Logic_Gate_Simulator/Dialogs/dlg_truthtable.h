@@ -43,6 +43,7 @@ private slots:
 private:
     void clearUI();
     void updateTableUI();
+    void updateTruthTableFromUI();
 
     Ui::DLG_TruthTable *ui;
     std::vector<QLabel*> m_tableLabels;

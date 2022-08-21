@@ -127,6 +127,31 @@ void DLG_TruthTable::updateTableUI()
     }
 }
 
+void DLG_TruthTable::updateTruthTableFromUI()
+{
+    //Input values don't change from UI so m_truthTable.inValues are already done
+
+    m_truthTable.outValues.clear();
+
+    if(m_tableOutputLabels.size() == 0)
+    {
+        qDebug() << "DLG_TruthTable::updateTruthTableFromUI - m_tableOutputLabels has wrong size";
+        m_pHome->SendUserMessage("Internal Error!"); //Todo make better error message
+        return;
+    }
+
+    const uint iRows = m_tableOutputLabels[0].size();
+    for(uint iRow = 0; iRow < iRows; iRow++)
+    {
+        std::vector<bool> rowValues;
+        for(uint iCol = 0; iCol < m_tableOutputLabels.size(); iCol++)
+        {
+            rowValues.push_back(m_tableOutputLabels[iCol][iRow]->value());
+        }
+        m_truthTable.outValues.push_back(rowValues);
+    }
+}
+
 void DLG_TruthTable::close()
 {
     clearUI();
@@ -149,6 +174,8 @@ void DLG_TruthTable::on_btn_circuit_clicked()
         return;
     }
 
+    updateTruthTableFromUI();
+
     //Todo expose to user interface
     const uint maxSeconds = 100;
     const uint percentageRandomGate = 30;
@@ -162,6 +189,8 @@ void DLG_TruthTable::on_btn_circuit_clicked()
 
 void DLG_TruthTable::on_btn_expressions_clicked()
 {
+    updateTruthTableFromUI();
+
     std::vector<BooleanExpression> expressions;
     ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(m_truthTable, expressions);
     if(result == ExpressionCalculatorResult::SUCCESS)

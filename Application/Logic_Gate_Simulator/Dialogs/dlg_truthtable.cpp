@@ -92,8 +92,6 @@ void DLG_TruthTable::clearUI()
 
 void DLG_TruthTable::updateTableUI()
 {
-    clearUI();
-
     const uint iInputs = m_truthTable.inValues[0].size();
     const uint iOutputs = m_truthTable.outValues[0].size();
     const uint iIterations = m_truthTable.inValues.size();
@@ -101,6 +99,8 @@ void DLG_TruthTable::updateTableUI()
 
     ui->spinBox_inputs->setValue(iInputs);
     ui->spinBox_outputs->setValue(iOutputs);
+
+    clearUI();
 
     const uint labelWidth = Settings::TableDimensions.width() / iCols;
     const uint labelHeight = Settings::TableDimensions.height() / (iIterations + 1);

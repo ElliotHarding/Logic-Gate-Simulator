@@ -184,10 +184,9 @@ void DLG_TruthTable::on_btn_circuit_clicked()
 
     updateTruthTableFromUI();
 
-    //Todo expose to user interface
-    const uint maxSeconds = 100;
-    const uint percentageRandomGate = 30;
-    const uint maxGates = 10;
+    const uint maxSeconds = ui->spinBox_maxGenTime->value();
+    const uint percentageRandomGate = ui->spinBox_addGateChance->value();
+    const uint maxGates = ui->spinBox_maxGates->value();
 
     if(!m_pCircuitFromTruthTableThread->start(m_truthTable, maxSeconds, percentageRandomGate, maxGates))
     {

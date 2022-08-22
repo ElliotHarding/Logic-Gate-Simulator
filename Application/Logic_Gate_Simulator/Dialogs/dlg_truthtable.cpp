@@ -9,7 +9,7 @@
 
 namespace Settings
 {
-const QRect TableDimensions = QRect(50, 50, 300, 300);
+const QRect TableDimensions = QRect(50, 70, 300, 300);
 
 const uint IntStartAlphabet = 65;
 const uint IntEndAlphabet = 121;

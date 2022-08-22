@@ -60,7 +60,7 @@ void displaceLinkedGates(Gate* pParent, std::vector<Gate*>& gates, int& maxX)
                 const int newX = pParent->position().x() + Settings::GapBetweenGates;
                 if(pSubGate->position().x() < newX)
                 {
-                    pSubGate->setPosition(newX, pParent->position().y());
+                    pSubGate->setPosition(newX + 20, pParent->position().y());
                     maxX = maxX < newX ? newX : maxX;
                 }
 
@@ -83,20 +83,26 @@ GateCollection* Circuit::createGateCollection()
 
     int maxX = 300;
     int posY = 300;
+    int offsetButSameX = 0;
     for(Gate* g : inputs)
     {
-        g->setPosition(0, posY+=Settings::GapBetweenGates);
+        g->setPosition(offsetButSameX, posY+=Settings::GapBetweenGates);
         pNewCircuit->AddGate(g);
+
+        offsetButSameX += 20;
 
         displaceLinkedGates(g, mainGates, maxX);
     }
 
-    posY = 0;
+    posY = 300;
     maxX+=Settings::GapBetweenGates;
+    offsetButSameX = 0;
     for(Gate* g : outputs)
     {
-        g->setPosition(maxX, posY+=Settings::GapBetweenGates);
+        g->setPosition(maxX + offsetButSameX, posY+=Settings::GapBetweenGates);
         pNewCircuit->AddGate(g);
+
+        offsetButSameX += 20;
     }
 
     return pNewCircuit;

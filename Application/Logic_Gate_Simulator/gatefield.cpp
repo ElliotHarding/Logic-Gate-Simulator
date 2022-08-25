@@ -138,21 +138,6 @@ void GateField::SaveData(QDomDocument& saveFile)
     saveFile.appendChild(gateFieldElement);
 }
 
-void GateField::DeleteGate(Gate* gateToDelete)
-{
-    for(size_t index = 0; index < m_allGates.size(); index++)
-    {
-        if (m_allGates[index] == gateToDelete)
-        {
-            //Find & remove from vector
-            m_allGates.erase(m_allGates.begin() + int8_t(index));
-            delete gateToDelete;
-
-            return;
-        }
-    }
-}
-
 void GateField::ForgetChild(Gate* pGateToForget)
 {
     for(size_t index = 0; index < m_allGates.size(); index++)
@@ -637,18 +622,6 @@ void GateField::SendUserMessage(const QString& message)
 {
     if(m_pParent)
         m_pParent->SendUserMessage(message);
-}
-
-void GateField::showTruthTable(const TruthTable& truthTable)
-{
-    if(m_pParent)
-        m_pParent->showTruthTable(truthTable);
-}
-
-void GateField::showBooleanExpressions(const std::vector<BooleanExpression>& expressions)
-{
-    if(m_pParent)
-        m_pParent->showBooleanExpressions(expressions);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

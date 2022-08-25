@@ -44,6 +44,7 @@ Gate::~Gate()
 
     if (m_pParentField)
     {
+        m_pParentField->ForgetChild(this);
         m_pParentField->ForgetUpdateRequest(this);
     }
 }

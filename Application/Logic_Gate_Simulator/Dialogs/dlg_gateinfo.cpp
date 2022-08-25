@@ -160,10 +160,7 @@ void DLG_GateInfo::on_btn_DeleteGate_clicked()
 {
     if(m_pGateDisplayed)
     {
-        GateField* gf = m_pGateDisplayed->GetParent();
-        m_pParent->DeleteGate(m_pGateDisplayed);
-
-        gf->update();
+        delete m_pGateDisplayed;
     }
 
     setGate(nullptr);

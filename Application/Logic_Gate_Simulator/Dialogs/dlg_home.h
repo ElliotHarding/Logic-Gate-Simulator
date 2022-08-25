@@ -50,7 +50,6 @@ public:
     void NewlySpawnedGate(Gate* pGate, const QPoint& spawnPosition);
     void AddGateToGateField(Gate* pGate);
     void GateSelected(Gate* pGate);
-    void DeleteGate(Gate* pGate);
     void SelectionToolClicked();
     void UpdateCustomGateListWidget();
     void SetCurrentClickMode(const ClickMode& clickMode);

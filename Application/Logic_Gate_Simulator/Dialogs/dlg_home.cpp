@@ -195,17 +195,6 @@ void DLG_Home::GateSelected(Gate* pGate)
     m_pDlgGateInfo->setGate(pGate);
 }
 
-void DLG_Home::DeleteGate(Gate* pGate)
-{
-    for(GateField* gField : m_allGateFields)
-    {
-        if(gField == pGate->GetParent())
-        {
-            gField->DeleteGate(pGate);
-        }
-    }
-}
-
 void DLG_Home::NewlySpawnedGateField(const QString& name)
 {
     GateField* newGF = createNewGateField(name);

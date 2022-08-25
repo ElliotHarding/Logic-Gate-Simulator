@@ -278,14 +278,10 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
             {
                 return pPossibleClickedObject;
             }
-        }
-    }
-    else if(m_dragMode == DragAll)
-    {
-        return Gate::checkClicked(mouse);
-    }
+        }        
+    }    
 
-    return nullptr;
+    return Gate::checkClicked(mouse);
 }
 
 Node* GateCollection::checkClickedNodes(const QPoint& mouse)

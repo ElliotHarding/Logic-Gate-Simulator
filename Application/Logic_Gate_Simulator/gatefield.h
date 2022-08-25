@@ -59,7 +59,6 @@ public:
 
     //Gates
     void AddGate(Gate* go, const bool& newlySpawned = true);
-    void DeleteGate(Gate* g);
     void ForgetChild(Gate* g);
     void ForgetUpdateRequest(Gate* g);
     void RequestUpdateGate(Gate* g);
@@ -78,8 +77,6 @@ public:
     //DLG_Home stuff
     void UpdateGateSelected(Gate* g);
     void SendUserMessage(const QString& message);
-    void showTruthTable(const TruthTable& truthTable);
-    void showBooleanExpressions(const std::vector<BooleanExpression>& expressions);
 
     ///Click mode
     ClickMode GetCurrentClickMode();

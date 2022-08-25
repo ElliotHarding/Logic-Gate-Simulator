@@ -47,5 +47,7 @@
         <file>Resources/Button Icons/icon-tasks.png</file>
         <file>Resources/Button Icons/gate-collection-truth-table.png</file>
         <file>Resources/Button Icons/gate-collection-boolean-expressions.png</file>
+        <file>Resources/Button Icons/boolean-expression.png</file>
+        <file>Resources/Button Icons/truth-table.png</file>
     </qresource>
 </RCC>

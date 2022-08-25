@@ -247,7 +247,7 @@
    </property>
    <property name="icon">
     <iconset resource="../resouces.qrc">
-     <normaloff>:/Resources/Button Icons/gate-collection-truth-table.png</normaloff>:/Resources/Button Icons/gate-collection-truth-table.png</iconset>
+     <normaloff>:/Resources/Button Icons/truth-table.png</normaloff>:/Resources/Button Icons/truth-table.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -276,7 +276,7 @@
    </property>
    <property name="icon">
     <iconset resource="../resouces.qrc">
-     <normaloff>:/Resources/Button Icons/gate-collection-boolean-expressions.png</normaloff>:/Resources/Button Icons/gate-collection-boolean-expressions.png</iconset>
+     <normaloff>:/Resources/Button Icons/boolean-expression.png</normaloff>:/Resources/Button Icons/boolean-expression.png</iconset>
    </property>
    <property name="iconSize">
     <size>

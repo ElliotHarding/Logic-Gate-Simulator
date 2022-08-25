@@ -262,36 +262,45 @@ void DLG_GateInfo::on_lineEdit_pageUpdateFrequency_editingFinished()
 
 void DLG_GateInfo::on_btn_drag_clicked()
 {
-    if(m_pGateDisplayed)
-    {
-        if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
-            dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
-    }
+    if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
+        dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
 }
 
 void DLG_GateInfo::on_btn_save_clicked()
 {
-    if(m_pGateDisplayed)
-    {
-        if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
-            dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
-    }
+    if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
+        m_pParent->startSaveGateCollection(dynamic_cast<GateCollection*>(m_pGateDisplayed));
 }
 
 void DLG_GateInfo::on_btn_truthTable_clicked()
 {
-    if(m_pGateDisplayed)
+    if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
     {
-        if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
-            dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
+        TruthTable table;
+        if(dynamic_cast<GateCollection*>(m_pGateDisplayed)->generateTruthTable(table))
+        {
+            m_pParent->showTruthTable(table);
+        }
     }
 }
 
 void DLG_GateInfo::on_btn_expression_clicked()
 {
-    if(m_pGateDisplayed)
+    if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
     {
-        if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
-            dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
+        TruthTable table;
+        if(dynamic_cast<GateCollection*>(m_pGateDisplayed)->generateTruthTable(table))
+        {
+            std::vector<BooleanExpression> expressions;
+            ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(table, expressions);
+            if(result == ExpressionCalculatorResult::SUCCESS)
+            {
+                m_pParent->showBooleanExpressions(expressions);
+            }
+            else
+            {
+                m_pParent->SendUserMessage("Internal error. Failed to generate boolean expressions.");
+            }
+        }
     }
 }

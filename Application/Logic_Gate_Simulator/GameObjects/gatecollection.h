@@ -41,10 +41,10 @@ public:
 
     void UpdateContaningArea();
 
+    bool generateTruthTable(TruthTable& table);
+
 protected:
     void ProporgateParentAndCheckForNestedGates();
-
-    bool generateTruthTable(TruthTable& table);
 
     //Vector of all the gates within collection
     std::vector<Gate*> m_gates;
@@ -53,17 +53,6 @@ private:
     ///Dragging
     enum DragMode{DragIndividual,DragAll};
     DragMode m_dragMode = DragAll;
-
-    QRect m_saveButton;
-    QRect m_deleteButton;
-    QRect m_deleteAllButton;
-    QRect m_dragAllButton;
-    QRect m_truthTableButton;
-    QRect m_booleanExpressionsButton;
-    void DrawButtons(QPainter& painter);
-    GameObject* checkButtonClick(const QPoint& mouse);
-
-    bool m_bDontDeleteGates = false;
 };
 
 #endif // GATECOLLECTION_H

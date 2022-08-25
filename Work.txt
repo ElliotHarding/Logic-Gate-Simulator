@@ -3,7 +3,8 @@ bagvp = aSmellyDog69_
 
 
 
-
+Check delete show truthtable from gatefield.
+same for showBooleanExpressions
 
 do we need offsetGates if we pan painter?
 

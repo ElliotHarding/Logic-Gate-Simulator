@@ -14,17 +14,6 @@ const QColor DragModeFillColor = QColor(40,40,40,20);
 const QColor DragIndividualBoardeColor = Qt::black;
 const uint DragIndividualBoardeSize = 5;
 
-///UI Buttons
-const QImage ImgDeleteAllButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete-all.png").c_str());
-const QImage ImgSaveButton = QImage(std::string(":/Resources/Button Icons/gate-collection-save.png").c_str());
-const QImage ImgDeleteButton = QImage(std::string(":/Resources/Button Icons/gate-collection-delete.png").c_str());
-const QImage ImgDragButton = QImage(std::string(":/Resources/Button Icons/gate-collection-move-gates.png").c_str());
-const QImage ImgTruthTableButton = QImage(std::string(":/Resources/Button Icons/gate-collection-truth-table.png").c_str());
-const QImage ImgBooleanExpressions = QImage(std::string(":/Resources/Button Icons/gate-collection-boolean-expressions.png").c_str());
-//const QImage ImgOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-optimize.png").c_str());
-//const QImage ImgNandOptimizeButton = QImage(std::string(":/Resources/Button Icons/gate-collection-nand.png").c_str());
-const uint ButtonSize = 40;
-
 //Number of pixels from border before gates are seen
 const int BorderBoxMargin = 40;
 }
@@ -40,6 +29,43 @@ GateCollection::GateCollection(std::vector<Gate*> gates) :
 
     UpdateContaningArea();
     ProporgateParentAndCheckForNestedGates();
+}
+
+GateCollection::~GateCollection()
+{
+    if(m_dragMode == DragAll)
+    {
+        for(Gate* pGate : m_gates)
+        {
+            pGate->SetParentGateCollection(nullptr);
+            delete pGate;
+        }
+    }
+
+    else if(m_dragMode == DragIndividual)
+    {
+        //Dump onto parent GateCollection
+        if (m_pParentGateCollection)
+        {
+            for (Gate* g : m_gates)
+                m_pParentGateCollection->AddGate(g);
+        }
+
+        //Dump onto parent ParentField
+        else if (m_pParentField)
+        {
+            for (Gate* g : m_gates)
+            {
+                m_pParentField->AddGate(g, false);
+                g->SetParentGateCollection(nullptr);
+            }
+        }
+    }
+
+    else
+    {
+        qDebug() << "GateCollection::~GateCollection - Unknown drag mode!";
+    }
 }
 
 void GateCollection::SetParent(GateField *gf)
@@ -173,46 +199,6 @@ bool GateCollection::generateTruthTable(TruthTable& table)
     return true;
 }
 
-GateCollection::~GateCollection()
-{
-    //When deleted the gate collection filed can dump its contents onto the parent gatefield
-    if(!m_bDontDeleteGates)
-    {
-        for(Gate* pGate : m_gates)
-        {
-            pGate->SetParentGateCollection(nullptr);
-            delete pGate;
-        }
-    }
-
-    //dump contents onto the parent gatefield or parent gate collection...
-    else
-    {
-        //Dump onto parent GateCollection
-        if (m_pParentGateCollection)
-        {
-            for (Gate* g : m_gates)
-                m_pParentGateCollection->AddGate(g);
-        }
-
-        //Dump onto parent ParentField
-        else if (m_pParentField)
-        {
-            for (Gate* g : m_gates)
-            {
-                m_pParentField->AddGate(g, false);
-                g->SetParentGateCollection(nullptr);
-            }
-        }
-
-        //Check if something went wrong
-        else
-        {
-            qDebug() << "GateCollection::~GateCollection - Nothing to dump gates onto!";
-        }
-    }
-}
-
 void GateCollection::UpdateOutput()
 {
     for(Gate* gate : m_gates)
@@ -279,8 +265,6 @@ void GateCollection::draw(QPainter& painter)
     {
         gate->draw(painter);
     }
-
-    DrawButtons(painter);
 }
 
 GameObject* GateCollection::checkClicked(const QPoint& mouse)
@@ -295,27 +279,13 @@ GameObject* GateCollection::checkClicked(const QPoint& mouse)
                 return pPossibleClickedObject;
             }
         }
-        return checkButtonClick(mouse);
     }
-
     else if(m_dragMode == DragAll)
     {
-        GameObject* pClicked = Gate::checkClicked(mouse);
-        if(!pClicked)
-        {
-            return checkButtonClick(mouse);
-        }
-        else
-        {
-            return pClicked;
-        }
+        return Gate::checkClicked(mouse);
     }
 
-    else
-    {
-        qDebug() << "GateCollection::checkClicked - Undefined drag mode!";
-        return nullptr;
-    }
+    return nullptr;
 }
 
 Node* GateCollection::checkClickedNodes(const QPoint& mouse)
@@ -329,16 +299,6 @@ Node* GateCollection::checkClickedNodes(const QPoint& mouse)
         }
     }
     return nullptr;
-}
-
-void GateCollection::DrawButtons(QPainter& painter)
-{
-    painter.drawImage(m_deleteAllButton, Settings::ImgDeleteAllButton);
-    painter.drawImage(m_deleteButton, Settings::ImgDeleteButton);
-    painter.drawImage(m_saveButton, Settings::ImgSaveButton);
-    painter.drawImage(m_dragAllButton, Settings::ImgDragButton);
-    painter.drawImage(m_truthTableButton, Settings::ImgTruthTableButton);
-    painter.drawImage(m_booleanExpressionsButton, Settings::ImgBooleanExpressions);
 }
 
 void GateCollection::SaveData(QDomDocument& storage, QDomElement& parentElement)
@@ -394,13 +354,6 @@ void GateCollection::UpdateContaningArea()
     }
 
     m_geometry = QRect(QPoint(MINX, MINY), QPoint(MAXX, MAXY));
-
-    m_deleteAllButton  = QRect(m_geometry.right() - Settings::ButtonSize, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_deleteButton = QRect(m_geometry.right() - Settings::ButtonSize*2, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_saveButton = QRect(m_geometry.right() - Settings::ButtonSize*3, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_dragAllButton = QRect(m_geometry.right() - Settings::ButtonSize*4, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_truthTableButton = QRect(m_geometry.right() - Settings::ButtonSize*5, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
-    m_booleanExpressionsButton = QRect(m_geometry.right() - Settings::ButtonSize*6, m_geometry.top() - Settings::ButtonSize, Settings::ButtonSize, Settings::ButtonSize);
 }
 
 void GateCollection::ToggleDragMode()
@@ -435,131 +388,6 @@ void GateCollection::ForgetGate(Gate *g)
     }
 
     UpdateContaningArea();
-}
-
-GameObject* GateCollection::checkButtonClick(const QPoint& mouse)
-{
-    //Save button
-    if(m_saveButton.contains(mouse))
-    {
-        m_pParentField->StartSaveGateCollection(this);
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            return this;
-        }
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
-        {
-            m_pParentField->UpdateGateSelected(this);
-        }
-        return nullptr;
-    }
-
-    //Delete button
-    else if (m_deleteButton.contains(mouse))
-    {
-        //Keep gates in memory, but remove them from this list,
-        //since we're deleting this collection, its gets dumped onto gatefield
-        m_bDontDeleteGates = true;
-
-        m_pParentField->UpdateGateSelected(nullptr);
-
-        if (m_pParentGateCollection)
-        {
-            m_pParentGateCollection->ForgetGate(this);
-        }
-        else if(m_pParentField)
-        {
-            m_pParentField->ForgetChild(this);
-        }
-
-        delete this;
-    }
-
-    //Delete all button
-    else if (m_deleteAllButton.contains(mouse))
-    {
-        m_pParentField->UpdateGateSelected(nullptr);
-
-        if (m_pParentGateCollection)
-        {
-            m_pParentGateCollection->ForgetGate(this);
-        }
-        else if(m_pParentField)
-        {
-            m_pParentField->ForgetChild(this);
-        }
-        delete this;
-    }
-
-    else if (m_truthTableButton.contains(mouse))
-    {
-        TruthTable table;
-        if(generateTruthTable(table))
-        {
-            m_pParentField->showTruthTable(table);
-        }
-
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            return this;
-        }
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
-        {
-            m_pParentField->UpdateGateSelected(this);
-        }
-        return nullptr;
-    }
-
-    else if (m_dragAllButton.contains(mouse))
-    {
-        ToggleDragMode();
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            return this;
-        }
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
-        {
-            m_pParentField->UpdateGateSelected(this);
-        }
-        return nullptr;
-    }
-
-    else if(m_booleanExpressionsButton.contains(mouse))
-    {
-        TruthTable table;
-        if(generateTruthTable(table))
-        {
-            std::vector<BooleanExpression> expressions;
-            ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(table, expressions);
-            if(result == ExpressionCalculatorResult::SUCCESS)
-            {
-                if(m_pParentField)
-                {
-                    m_pParentField->showBooleanExpressions(expressions);
-                }
-                else
-                {
-                    qDebug() << "GateCollection::checkButtonClick - Failed to display boolean expressions.";
-                }
-            }
-            else
-            {
-                m_pParentField->SendUserMessage("Internal error. Failed to generate boolean expressions.");
-            }
-        }
-
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DEFAULT)
-        {
-            return this;
-        }
-        if(m_pParentField->GetCurrentClickMode() == CLICK_DRAG)
-        {
-            m_pParentField->UpdateGateSelected(this);
-        }
-        return nullptr;
-    }
-
-    return nullptr;
 }
 
 Gate* GateCollection::Clone()

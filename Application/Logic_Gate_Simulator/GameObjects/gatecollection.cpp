@@ -327,12 +327,6 @@ void GateCollection::UpdateContaningArea()
 
     for(Gate* gate : m_gates)
     {
-        if(gate->GetType() == GATE_COLLECTION)
-        {
-            if(dynamic_cast<GateCollection*>(gate))
-                dynamic_cast<GateCollection*>(gate)->UpdateContaningArea();
-        }
-
         if(gate->geometry().top() - Settings::BorderBoxMargin < MINY)
         {
             MINY = gate->geometry().top() - Settings::BorderBoxMargin;

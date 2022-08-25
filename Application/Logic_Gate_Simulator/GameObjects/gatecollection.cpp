@@ -410,11 +410,6 @@ void GateCollection::ToggleDragMode()
     m_pParentField->update();
 }
 
-bool GateCollection::IsDragAll()
-{
-    return (bool)m_dragMode;
-}
-
 void GateCollection::AddGate(Gate *g)
 {
     g->SetParentGateCollection(this);

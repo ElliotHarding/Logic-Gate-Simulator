@@ -34,7 +34,6 @@ public:
 
     ///Drag mode
     void ToggleDragMode();
-    bool IsDragAll();
 
     ///Gate adding and removing
     void AddGate(Gate* g);

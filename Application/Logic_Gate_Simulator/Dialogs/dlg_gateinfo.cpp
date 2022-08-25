@@ -39,10 +39,13 @@ void DLG_GateInfo::setGate(Gate *g)
 
     ui->lbl_Frequency->hide();
     ui->lineEdit_Frequency->hide();
-    ui->cb_DragMode->hide();
     ui->signalCheck->hide();
     ui->lineEdit_Frequency->hide();
     ui->btn_Edit->hide();
+    ui->btn_drag->hide();
+    ui->btn_expression->hide();
+    ui->btn_save->hide();
+    ui->btn_truthTable->hide();
 
     //Display gate specific info
     QString gateName;
@@ -50,6 +53,9 @@ void DLG_GateInfo::setGate(Gate *g)
     {
         case GateType::GATE_OR:
             gateName = "Or Gate";
+            break;
+        case GateType::GATE_NOR:
+            gateName = "Nor Gate";
             break;
         case GateType::GATE_AND:
             gateName = "And Gate";
@@ -97,10 +103,10 @@ void DLG_GateInfo::setGate(Gate *g)
         case GateType::GATE_COLLECTION:
             {
             gateName = "Gate Collection";
-            ui->cb_DragMode->show();
-            ui->cb_DragMode->setCheckState( dynamic_cast<GateCollection*>(m_pGateDisplayed)
-                            ->IsDragAll() ?
-                            Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+            ui->btn_drag->show();
+            ui->btn_expression->show();
+            ui->btn_save->show();
+            ui->btn_truthTable->show();
             break;
             }
         case GateType::GATE_CONST_ACTIVE:
@@ -185,15 +191,6 @@ void DLG_GateInfo::on_lineEdit_Frequency_editingFinished()
     }
 }
 
-void DLG_GateInfo::on_cb_DragMode_clicked()
-{
-   if(m_pGateDisplayed)
-   {
-       if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
-           dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
-   }
-}
-
 void DLG_GateInfo::on_signalCheck_clicked()
 {
     if(m_pGateDisplayed)
@@ -211,8 +208,11 @@ void DLG_GateInfo::UiWhenNoGateSelected()
     ui->signalCheck->hide();
     ui->lbl_Frequency->hide();
     ui->lineEdit_Frequency->hide();
-    ui->cb_DragMode->hide();
     ui->btn_Edit->hide();
+    ui->btn_drag->hide();
+    ui->btn_expression->hide();
+    ui->btn_save->hide();
+    ui->btn_truthTable->hide();
 }
 
 void DLG_GateInfo::on_btn_Edit_clicked()
@@ -257,5 +257,41 @@ void DLG_GateInfo::on_lineEdit_pageUpdateFrequency_editingFinished()
         {
             m_pParent->SendUserMessage("Frequency out of range!");
         }
+    }
+}
+
+void DLG_GateInfo::on_btn_drag_clicked()
+{
+    if(m_pGateDisplayed)
+    {
+        if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
+            dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
+    }
+}
+
+void DLG_GateInfo::on_btn_save_clicked()
+{
+    if(m_pGateDisplayed)
+    {
+        if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
+            dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
+    }
+}
+
+void DLG_GateInfo::on_btn_truthTable_clicked()
+{
+    if(m_pGateDisplayed)
+    {
+        if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
+            dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
+    }
+}
+
+void DLG_GateInfo::on_btn_expression_clicked()
+{
+    if(m_pGateDisplayed)
+    {
+        if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
+            dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
     }
 }

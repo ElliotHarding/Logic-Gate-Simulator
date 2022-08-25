@@ -110,30 +110,30 @@
     <string>Frequency</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="cb_DragMode">
-   <property name="geometry">
-    <rect>
-     <x>5</x>
-     <y>50</y>
-     <width>141</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Drag All</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btn_Edit">
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>9</y>
+     <y>5</y>
      <width>31</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Edit</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Button Icons/gate-collection-optimize.png</normaloff>:/Resources/Button Icons/gate-collection-optimize.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="Line" name="line_divider">
@@ -172,17 +172,122 @@
     <string>Page Update Frequency</string>
    </property>
   </widget>
-  <zorder>cb_DragMode</zorder>
-  <zorder>btn_DeleteGate</zorder>
-  <zorder>lbl_Type</zorder>
-  <zorder>lbl_GateType</zorder>
-  <zorder>signalCheck</zorder>
-  <zorder>lineEdit_Frequency</zorder>
-  <zorder>lbl_Frequency</zorder>
-  <zorder>btn_Edit</zorder>
-  <zorder>line_divider</zorder>
-  <zorder>lineEdit_pageUpdateFrequency</zorder>
-  <zorder>lbl_pageUpdateFrequency</zorder>
+  <widget class="QPushButton" name="btn_save">
+   <property name="geometry">
+    <rect>
+     <x>105</x>
+     <y>40</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-file-down.png</normaloff>:/Resources/Button Icons/icon-file-down.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_drag">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>40</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-drag.png</normaloff>:/Resources/Button Icons/icon-drag.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_truthTable">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>40</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Button Icons/gate-collection-truth-table.png</normaloff>:/Resources/Button Icons/gate-collection-truth-table.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_expression">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>40</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Button Icons/gate-collection-boolean-expressions.png</normaloff>:/Resources/Button Icons/gate-collection-boolean-expressions.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="../resouces.qrc"/>

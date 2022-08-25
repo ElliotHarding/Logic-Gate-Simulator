@@ -355,6 +355,11 @@ void GateCollection::UpdateContaningArea()
     }
 
     m_geometry = QRect(QPoint(MINX, MINY), QPoint(MAXX, MAXY));
+
+    if(m_pParentGateCollection)
+    {
+        m_pParentGateCollection->UpdateContaningArea();
+    }
 }
 
 void GateCollection::ToggleDragMode()

@@ -11,6 +11,8 @@ public:
     GateCollection(std::vector<Gate*> gates);
     ~GateCollection();
 
+    void setDeleteAll();
+
     virtual void UpdateOutput() override;
     virtual void draw(QPainter& painter) override;
 

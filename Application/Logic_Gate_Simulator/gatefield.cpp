@@ -659,6 +659,10 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
     {
         for (size_t index = 0; index < m_history[0].size(); index++)
         {
+            if(m_history[0][index]->GetType() == GateType::GATE_COLLECTION)
+            {
+                dynamic_cast<GateCollection*>(m_history[0][index])->setDeleteAll();
+            }
             delete m_history[0][index];
         }
         m_history.erase(m_history.begin());

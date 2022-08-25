@@ -68,6 +68,11 @@ GateCollection::~GateCollection()
     }
 }
 
+void GateCollection::setDeleteAll()
+{
+    m_dragMode = DragMode::DragAll;
+}
+
 void GateCollection::SetParent(GateField *gf)
 {
     m_pParentField = gf;

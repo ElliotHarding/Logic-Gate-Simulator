@@ -52,7 +52,6 @@ public:
     void GateSelected(Gate* pGate);
     void SelectionToolClicked();
     void UpdateCustomGateListWidget();
-    void SetCurrentClickMode(const ClickMode& clickMode);
     void EditTextLabel(TextLabel* pTextLabelToEdit);
     void editFPGA(GateFPGA* pFPGA);
     void setGateFieldName(GateField* pGateField, const QString& name);
@@ -60,6 +59,12 @@ public:
     bool requestUserInputString(const QString& title, const QString& context, QString& result);
     void startSaveGateCollection(GateCollection* pGateCollection);
     void showBooleanExpressions(const std::vector<BooleanExpression>& expressions);
+
+    //Click mode
+    void SetCurrentClickMode(const ClickMode& clickMode);
+    void saveCurrentClickMode();
+    void restorePreviousClickMode();
+    ClickMode currentClickMode() const;
 
 protected:
     void moveEvent(QMoveEvent* event) override;
@@ -111,6 +116,7 @@ protected:
 
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
+    ClickMode m_savedClickMode = CLICK_DRAG;
 
 private slots:
 

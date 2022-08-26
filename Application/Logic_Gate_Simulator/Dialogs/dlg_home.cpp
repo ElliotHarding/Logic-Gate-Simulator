@@ -279,6 +279,21 @@ void DLG_Home::SetCurrentClickMode(const ClickMode& clickMode)
     }
 }
 
+void DLG_Home::saveCurrentClickMode()
+{
+    m_savedClickMode = m_currentClickMode;
+}
+
+void DLG_Home::restorePreviousClickMode()
+{
+    SetCurrentClickMode(m_savedClickMode);
+}
+
+ClickMode DLG_Home::currentClickMode() const
+{
+    return m_currentClickMode;
+}
+
 void DLG_Home::EditTextLabel(TextLabel* pTextLabelToEdit)
 {
     m_pDlgTextLabelEdit->EditTextLabel(pTextLabelToEdit);

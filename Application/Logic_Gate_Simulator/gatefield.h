@@ -78,10 +78,6 @@ public:
     void UpdateGateSelected(Gate* g);
     void SendUserMessage(const QString& message);
 
-    ///Click mode
-    ClickMode GetCurrentClickMode();
-    void setCurrentClickMode(const ClickMode& mode);
-
     ///Update frequency
     void setUpdateFrequency(const uint& frequencyMs);
     uint updateFrequency() const;
@@ -99,7 +95,7 @@ private:
     bool checkStartLink(const QPoint& mouse);
     void checkEndLink(const QPoint& mouse);
     void checkDelete(const QPoint& mouse);
-    void checkStartDrag(const QPoint& mouse);
+    bool checkStartDrag(const QPoint& mouse);
     bool checkGateSelect(const QPoint& mouse);
     void checkDeleteNodeLink(const QPoint& mouse);
     void editSelection(const QPoint& mouse);
@@ -148,8 +144,6 @@ private:
     QRubberBand* m_pSelectionTool = nullptr;
     QPoint m_selectionToolOrigin;
     std::vector<Gate*> m_selectedGates;
-
-    ClickMode m_currentClickMode;
 };
 
 #endif // GATEFIELD_H

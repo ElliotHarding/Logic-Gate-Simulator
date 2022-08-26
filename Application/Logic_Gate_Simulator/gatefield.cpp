@@ -23,8 +23,8 @@ GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& 
     QWidget(pParent),
     m_pParent(pParent),
     m_name(name),
-    m_zoomFactor(zoomFactor),
-    m_gateUpdateFrequencyMs(updateFrequency)
+    m_gateUpdateFrequencyMs(updateFrequency),
+    m_zoomFactor(zoomFactor)
 {
     setAcceptDrops(true);
     setMouseTracking(true);
@@ -84,16 +84,6 @@ void GateField::paintEvent(QPaintEvent*)
         painter.setPen(Settings::LinkingNodeLine);
         painter.drawLine(m_pLinkingNode->position(), m_currentMousePos);
     }
-}
-
-ClickMode GateField::GetCurrentClickMode()
-{
-    return m_currentClickMode;
-}
-
-void GateField::setCurrentClickMode(const ClickMode& mode)
-{
-    m_currentClickMode = mode;
 }
 
 void GateField::setUpdateFrequency(const uint& frequencyMs)
@@ -245,7 +235,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     if(click->buttons() & Qt::LeftButton)
     {
-        switch (m_currentClickMode)
+        switch (m_pParent->currentClickMode())
         {
         case CLICK_DELETE_GATE:
             checkDelete(clickPos);
@@ -253,10 +243,6 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
         case CLICK_DELETE_LINK_NODES:
             checkDeleteNodeLink(clickPos);
-            break;
-
-        case CLICK_SELECTION:
-            editSelection(clickPos);
             break;
 
         case CLICK_PAN:
@@ -274,7 +260,13 @@ void GateField::mousePressEvent(QMouseEvent *click)
             break;
 
         case CLICK_DRAG:
-            checkStartDrag(clickPos);
+            if(!checkStartDrag(clickPos))
+            {
+                if(!checkGateSelect(clickPos))
+                {
+                    editSelection(clickPos);
+                }
+            }
             break;
         }
     }
@@ -292,7 +284,7 @@ void GateField::mouseMoveEvent(QMouseEvent *click)
 {
     const QPoint clickPos = qtPointToWorldPoint(click->pos());
 
-    switch (m_currentClickMode)
+    switch (m_pParent->currentClickMode())
     {
         case CLICK_DRAG:
             if(m_pDraggingGate)
@@ -381,6 +373,8 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
         //Disactivate selection
         delete m_pSelectionTool;
         m_pSelectionTool = nullptr;
+
+        m_pParent->restorePreviousClickMode();
 
         //Call to redraw
         update();
@@ -519,7 +513,8 @@ void GateField::editSelection(const QPoint& mouse)
         m_selectionToolOrigin = mouse;
         m_pSelectionTool->setGeometry(QRect(m_selectionToolOrigin, QSize()));
 
-        setCurrentClickMode(CLICK_SELECTION);
+        m_pParent->saveCurrentClickMode();
+        m_pParent->SetCurrentClickMode(CLICK_SELECTION);
     }
     else
     {
@@ -553,7 +548,7 @@ void GateField::checkDelete(const QPoint& mouse)
     }
 }
 
-void GateField::checkStartDrag(const QPoint& mouse)
+bool GateField::checkStartDrag(const QPoint& mouse)
 {
     //Look for a gate to drag
 
@@ -572,9 +567,11 @@ void GateField::checkStartDrag(const QPoint& mouse)
             moveToFront(index, m_allGates);
 
             update();
-            return;
+            return true;
         }
     }
+
+    return false;
 }
 
 void GateField::doPan(const QPoint& mouse)

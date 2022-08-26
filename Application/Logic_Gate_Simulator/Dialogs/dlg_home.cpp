@@ -5,6 +5,7 @@
 
 #include <QLayout>
 #include <QLibrary>
+#include <QDebug>
 
 namespace Settings
 {
@@ -238,14 +239,11 @@ void DLG_Home::on_btn_Pan_clicked()
 }
 void DLG_Home::on_btn_click_clicked()
 {
-    SetCurrentClickMode(CLICK_DEFAULT);
+    SetCurrentClickMode(CLICK_LINK_NODES);
 }
 void DLG_Home::SetCurrentClickMode(const ClickMode& clickMode)
 {
     m_currentClickMode = clickMode;
-
-    if(m_iCurrentGateField != -1)
-        m_allGateFields[size_t(m_iCurrentGateField)]->setCurrentClickMode(clickMode);
 
     switch (clickMode)
     {
@@ -273,8 +271,9 @@ void DLG_Home::SetCurrentClickMode(const ClickMode& clickMode)
         QApplication::setOverrideCursor(Qt::CursorShape::DragLinkCursor);
         break;
 
-    case CLICK_DEFAULT:
+    default:
         QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
+        qDebug() << "DLG_Home::SetCurrentClickMode - Unknown click mode!";
         break;
     }
 }

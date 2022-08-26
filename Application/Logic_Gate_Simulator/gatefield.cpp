@@ -230,7 +230,6 @@ void GateField::mousePressEvent(QMouseEvent *click)
     if(m_pLinkingNode)
     {
         m_pLinkingNode = nullptr;
-        m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
     }
 
     if(click->buttons() & Qt::LeftButton)
@@ -249,7 +248,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
             m_previousDragMousePos = clickPos;
             break;
 
-        case CLICK_DEFAULT:
+        case CLICK_LINK_NODES:
             if(!checkStartLink(clickPos))
             {
                 if(!checkGateSelect(clickPos))
@@ -470,7 +469,6 @@ void GateField::checkEndLink(const QPoint& mouse)
         }
     }
 
-    m_pParent->SetCurrentClickMode(CLICK_DEFAULT);
     m_pLinkingNode = nullptr;
     update();
 }

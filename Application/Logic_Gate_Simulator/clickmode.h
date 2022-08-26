@@ -8,8 +8,7 @@ enum ClickMode
     CLICK_LINK_NODES,
     CLICK_DELETE_LINK_NODES,
     CLICK_SELECTION,
-    CLICK_PAN,
-    CLICK_DEFAULT
+    CLICK_PAN
 };
 
 #endif // ENUMS_H

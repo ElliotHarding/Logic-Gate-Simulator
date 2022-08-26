@@ -60,7 +60,13 @@ void DLG_GateInfo::setGate(Gate *g)
         case GateType::GATE_AND:
             gateName = "And Gate";
             break;
+        case GateType::GATE_NAND:
+            gateName = "Nand Gate";
+            break;
         case GateType::GATE_EOR:
+            gateName = "Eor Gate";
+            break;
+        case GateType::GATE_XOR:
             gateName = "Xor Gate";
             break;
         case GateType::GATE_TRI_OR:

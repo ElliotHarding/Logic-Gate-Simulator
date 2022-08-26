@@ -28,11 +28,9 @@ public:
     explicit DLG_BooleanExpressions(DLG_Home* pHome);
     ~DLG_BooleanExpressions();
 
+    void open();
     void showExpressions(const std::vector<BooleanExpression>& expressions);
     void removeUiExpression(QListWidgetItem* pItem);
-
-protected:
-    void closeEvent(QCloseEvent *) override;
 
 private slots:
     void on_btn_ok_clicked();

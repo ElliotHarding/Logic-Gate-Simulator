@@ -41,6 +41,20 @@ DLG_BooleanExpressions::~DLG_BooleanExpressions()
     delete ui;
 }
 
+void DLG_BooleanExpressions::open()
+{
+    if(ui->list_expressions->count() == 0)
+    {
+        BooleanExpression newExpression;
+        newExpression.letters = {'A', 'B'};
+        newExpression.inverted = {false, false};
+        newExpression.resultLetter = 'Z';
+        addUiExpression(newExpression);
+    }
+
+    QDialog::open();
+}
+
 void DLG_BooleanExpressions::showExpressions(const std::vector<BooleanExpression>& expressions)
 {
     clear();
@@ -83,15 +97,8 @@ void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression
     ui->list_expressions->setItemWidget(pItem, pExpressionDisplay);
 }
 
-void DLG_BooleanExpressions::closeEvent(QCloseEvent* e)
-{
-    QDialog::closeEvent(e);
-    clear();
-}
-
 void DLG_BooleanExpressions::on_btn_ok_clicked()
 {
-    clear();
     close();
 }
 

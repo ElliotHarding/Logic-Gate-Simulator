@@ -850,11 +850,18 @@ QComboBox::down-arrow {
     </property>
     <addaction name="actionCreate_Truth_Table"/>
    </widget>
+   <widget class="QMenu" name="menuExpressions">
+    <property name="title">
+     <string>Expressions</string>
+    </property>
+    <addaction name="actionCreate_Expressions"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
    <addaction name="menuScript"/>
    <addaction name="menuTruth_Table"/>
+   <addaction name="menuExpressions"/>
   </widget>
   <action name="actionNew_page">
    <property name="text">
@@ -1008,7 +1015,7 @@ QComboBox::down-arrow {
   </action>
   <action name="actionSet_Page_Name">
    <property name="icon">
-    <iconset resource="../resouces.qrc">
+    <iconset>
      <normaloff>:/Resources/Button Icons/gate-collection-save.png</normaloff>:/Resources/Button Icons/gate-collection-save.png</iconset>
    </property>
    <property name="text">
@@ -1023,6 +1030,11 @@ QComboBox::down-arrow {
   <action name="actionCreate_Truth_Table">
    <property name="text">
     <string>Create Truth Table</string>
+   </property>
+  </action>
+  <action name="actionCreate_Expressions">
+   <property name="text">
+    <string>Create Expressions</string>
    </property>
   </action>
  </widget>

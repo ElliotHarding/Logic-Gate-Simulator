@@ -69,6 +69,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         connect(ui->actionSet_Page_Name, SIGNAL(triggered()), this, SLOT(on_btn_setPageName_clicked()));
         connect(ui->actionCreate_Script, SIGNAL(triggered()), this, SLOT(on_btn_createScript_clicked()));
         connect(ui->actionCreate_Truth_Table, SIGNAL(triggered()), this, SLOT(on_btn_createTruthTable()));
+        connect(ui->actionCreate_Expressions, SIGNAL(triggered()), this, SLOT(on_btn_createExpressions()));
     }
 
     {
@@ -452,6 +453,11 @@ void DLG_Home::on_btn_createScript_clicked()
 void DLG_Home::on_btn_createTruthTable()
 {
     m_pDlgTruthTable->open();
+}
+
+void DLG_Home::on_btn_createExpressions()
+{
+    m_pDlgBooleanExpressions->open();
 }
 
 void DLG_Home::on_btn_newPage_clicked()

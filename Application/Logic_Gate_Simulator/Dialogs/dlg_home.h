@@ -140,8 +140,8 @@ private slots:
     void on_btn_redo_clicked();
 
     void on_btn_createScript_clicked();
-
     void on_btn_createTruthTable();
+    void on_btn_createExpressions();
 
     //Gate widget switching
     void on_comboBox_currentIndexChanged(int index);

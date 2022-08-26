@@ -124,7 +124,7 @@
    </property>
    <property name="icon">
     <iconset resource="../resouces.qrc">
-     <normaloff>:/Resources/Button Icons/gate-collection-optimize.png</normaloff>:/Resources/Button Icons/gate-collection-optimize.png</iconset>
+     <normaloff>:/Resources/Button Icons/icon-configure.png</normaloff>:/Resources/Button Icons/icon-configure.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -175,8 +175,8 @@
   <widget class="QPushButton" name="btn_save">
    <property name="geometry">
     <rect>
-     <x>105</x>
-     <y>40</y>
+     <x>100</x>
+     <y>60</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -205,7 +205,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>40</y>
+     <y>60</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -234,7 +234,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>40</y>
+     <y>60</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -247,7 +247,7 @@
    </property>
    <property name="icon">
     <iconset resource="../resouces.qrc">
-     <normaloff>:/Resources/Button Icons/truth-table.png</normaloff>:/Resources/Button Icons/truth-table.png</iconset>
+     <normaloff>:/Resources/Button Icons/icon-truth-table.png</normaloff>:/Resources/Button Icons/icon-truth-table.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -263,7 +263,7 @@
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>40</y>
+     <y>60</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -276,7 +276,7 @@
    </property>
    <property name="icon">
     <iconset resource="../resouces.qrc">
-     <normaloff>:/Resources/Button Icons/boolean-expression.png</normaloff>:/Resources/Button Icons/boolean-expression.png</iconset>
+     <normaloff>:/Resources/Button Icons/icon-boolean-expression.png</normaloff>:/Resources/Button Icons/icon-boolean-expression.png</iconset>
    </property>
    <property name="iconSize">
     <size>

@@ -35,19 +35,12 @@
         <file>Resources/Gates/gate-eor.png</file>
         <file>Resources/Gates/gate-tri-eor.png</file>
         <file>Resources/Button Icons/icon-application.png</file>
-        <file>Resources/Button Icons/gate-collection-delete.png</file>
-        <file>Resources/Button Icons/gate-collection-save.png</file>
-        <file>Resources/Button Icons/gate-collection-delete-all.png</file>
         <file>Resources/Gates/gate-nand.png</file>
         <file>Resources/Gates/gate-neor.png</file>
         <file>Resources/Gates/gate-nor.png</file>
-        <file>Resources/Button Icons/gate-collection-nand.png</file>
-        <file>Resources/Button Icons/gate-collection-optimize.png</file>
-        <file>Resources/Button Icons/gate-collection-move-gates.png</file>
         <file>Resources/Button Icons/icon-tasks.png</file>
-        <file>Resources/Button Icons/gate-collection-truth-table.png</file>
-        <file>Resources/Button Icons/gate-collection-boolean-expressions.png</file>
-        <file>Resources/Button Icons/boolean-expression.png</file>
-        <file>Resources/Button Icons/truth-table.png</file>
+        <file>Resources/Button Icons/icon-configure.png</file>
+        <file>Resources/Button Icons/icon-boolean-expression.png</file>
+        <file>Resources/Button Icons/icon-truth-table.png</file>
     </qresource>
 </RCC>

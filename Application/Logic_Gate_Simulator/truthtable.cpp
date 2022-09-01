@@ -523,10 +523,10 @@ ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCirc
                     //Replace A+B with 1
                     expressions[iExpression].letters[iLetter-1] = 48 + sumGateCounter;
                     expressions[iExpression].letters.erase(expressions[iExpression].letters.begin() + iLetter);
-                    expressions[iExpression].letters.erase(expressions[iExpression].letters.begin() + iLetter + 1);
+                    expressions[iExpression].letters.erase(expressions[iExpression].letters.begin() + iLetter);
                     expressions[iExpression].inverted[iLetter-1] = false;
                     expressions[iExpression].inverted.erase(expressions[iExpression].inverted.begin() + iLetter);
-                    expressions[iExpression].inverted.erase(expressions[iExpression].inverted.begin() + iLetter + 1);
+                    expressions[iExpression].inverted.erase(expressions[iExpression].inverted.begin() + iLetter);
 
                     sumGateCounter++;
                     changed = true;

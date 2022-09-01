@@ -122,7 +122,8 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     }
 
     GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
-    if(BooleanExpressionCalculator::scriptToCircuit(script, numInputs, numOutputs, pNewCircuit) == ExpressionCalculatorResult::SUCCESS)
+    CircuitOptions options(true, false, true, QuineMcCluskey);
+    if(BooleanExpressionCalculator::scriptToCircuit(script, numInputs, numOutputs, options, pNewCircuit) == ExpressionCalculatorResult::SUCCESS)
     {
         if(m_pFpga)
         {
@@ -298,7 +299,7 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     }
 
     std::vector<BooleanExpression> expressions;
-    if(BooleanExpressionCalculator::scriptToBooleanExpressions(script, numInputs, numOutputs, expressions) == ExpressionCalculatorResult::SUCCESS)
+    if(BooleanExpressionCalculator::scriptToBooleanExpressions(script, numInputs, numOutputs, QuineMcCluskey, expressions) == ExpressionCalculatorResult::SUCCESS)
     {
         m_pDlgHome->showBooleanExpressions(expressions);
         close();

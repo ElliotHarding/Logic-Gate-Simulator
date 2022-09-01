@@ -295,7 +295,7 @@ void DLG_GateInfo::on_btn_expression_clicked()
         if(dynamic_cast<GateCollection*>(m_pGateDisplayed)->generateTruthTable(table))
         {
             std::vector<BooleanExpression> expressions;
-            ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(table, expressions);
+            ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(table, QuineMcCluskey, expressions);
             if(result == ExpressionCalculatorResult::SUCCESS)
             {
                 m_pParent->showBooleanExpressions(expressions);

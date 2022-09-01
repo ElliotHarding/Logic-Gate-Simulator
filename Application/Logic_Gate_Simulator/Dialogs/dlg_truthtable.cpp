@@ -172,7 +172,8 @@ void DLG_TruthTable::on_btn_circuit_clicked()
     updateTruthTableFromUI();
 
     GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
-    if(BooleanExpressionCalculator::truthTableToCircuit(m_truthTable, pNewGateCollection) == ExpressionCalculatorResult::SUCCESS)
+    CircuitOptions options(true, false, true, ConversionAlgorithm::QuineMcCluskey);
+    if(BooleanExpressionCalculator::truthTableToCircuit(m_truthTable, options, pNewGateCollection) == ExpressionCalculatorResult::SUCCESS)
     {
         m_pHome->AddGateToGateField(pNewGateCollection);
         close();
@@ -189,7 +190,7 @@ void DLG_TruthTable::on_btn_expressions_clicked()
     updateTruthTableFromUI();
 
     std::vector<BooleanExpression> expressions;
-    ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(m_truthTable, expressions);
+    ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(m_truthTable, QuineMcCluskey, expressions);
     if(result == ExpressionCalculatorResult::SUCCESS)
     {
         m_pHome->showBooleanExpressions(expressions);

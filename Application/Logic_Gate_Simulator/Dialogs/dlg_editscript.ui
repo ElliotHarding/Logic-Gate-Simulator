@@ -123,7 +123,7 @@
   <widget class="QPushButton" name="btn_genCircuit">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>490</x>
      <y>420</y>
      <width>90</width>
      <height>23</height>
@@ -136,110 +136,14 @@
   <widget class="QPushButton" name="btn_genTuthTable">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>390</y>
+     <x>290</x>
+     <y>420</y>
      <width>90</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
     <string>Gen Truth Table</string>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="spinBox_maxGenTime">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>420</y>
-     <width>70</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>1</number>
-   </property>
-   <property name="maximum">
-    <number>360</number>
-   </property>
-   <property name="value">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_maxGenTime">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>400</y>
-     <width>91</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Max Gen Time (s)</string>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="spinBox_addGateChance">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>420</y>
-     <width>70</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>0</number>
-   </property>
-   <property name="maximum">
-    <number>100</number>
-   </property>
-   <property name="value">
-    <number>30</number>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_addGateChance">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>400</y>
-     <width>91</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Add Gate %</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_maxGates">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>400</y>
-     <width>91</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Max Gates</string>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="spinBox_maxGates">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>420</y>
-     <width>70</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>1</number>
-   </property>
-   <property name="maximum">
-    <number>20</number>
-   </property>
-   <property name="value">
-    <number>20</number>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_Save">
@@ -306,8 +210,8 @@
   <widget class="QPushButton" name="btn_genExpressions">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>390</y>
+     <x>390</x>
+     <y>420</y>
      <width>90</width>
      <height>23</height>
     </rect>

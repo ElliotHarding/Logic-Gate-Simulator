@@ -47,6 +47,7 @@ SOURCES += \
     GameObjects/textlabel.cpp \
     circuit.cpp \
     circuitfromscriptthread.cpp \
+    converter.cpp \
     main.cpp \
     gatefield.cpp \
     gatereader.cpp \
@@ -98,6 +99,7 @@ HEADERS += \
     circuit.h \
     circuitfromscriptthread.h \
     clickmode.h \
+    converter.h \
     gatereader.h \
     AllGates.h \
     gatefield.h \

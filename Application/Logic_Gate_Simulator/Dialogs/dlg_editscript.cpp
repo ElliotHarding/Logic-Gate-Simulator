@@ -6,6 +6,7 @@
 #include "gatecollection.h"
 #include "gatefield.h"
 #include "truthtable.h"
+#include "converter.h"
 
 #include <QDebug>
 #include <QFile>

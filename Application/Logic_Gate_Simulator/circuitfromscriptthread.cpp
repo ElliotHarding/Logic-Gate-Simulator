@@ -2,6 +2,7 @@
 
 #include "allgates.h"
 #include "circuit.h"
+#include "converter.h"
 
 #include <QRandomGenerator>
 #include <QDebug>

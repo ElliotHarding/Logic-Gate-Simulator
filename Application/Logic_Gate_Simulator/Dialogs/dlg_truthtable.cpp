@@ -2,6 +2,7 @@
 #include "ui_dlg_truthtable.h"
 #include "dlg_home.h"
 #include "gatecollection.h"
+#include "converter.h"
 
 #include <QDebug>
 #include <cmath>

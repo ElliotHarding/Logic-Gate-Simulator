@@ -2,9 +2,12 @@
 #include "ui_dlg_gateinfo.h"
 #include "gatefield.h"
 #include "allgates.h"
+#include "dlg_home.h"
+#include "converter.h"
+
 #include <QLayout>
 #include <QDebug>
-#include "dlg_home.h"
+
 
 DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
     QWidget(parent),

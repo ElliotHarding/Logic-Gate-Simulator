@@ -4,28 +4,13 @@
 #include <vector>
 #include <QString>
 
-class GateCollection;
-
 struct TruthTable
 {
     std::vector<std::vector<bool>> inValues;
     std::vector<std::vector<bool>> outValues;
     unsigned int size = 0;
 
-    std::vector<bool> genInputs(const unsigned int& iTableRun, const unsigned int& numInputs)
-    {
-        std::vector<bool> inputs;
-        int mask = 1;
-        for(unsigned int i = 0; i < numInputs; i++)
-        {
-            if((mask&iTableRun) >= 1)
-                inputs.push_back(true);
-            else
-                inputs.push_back(false);
-            mask<<=1;
-        }
-        return inputs;
-    }
+    std::vector<bool> genInputs(const unsigned int& iTableRun, const unsigned int& numInputs);
 };
 
 struct BooleanExpression
@@ -34,64 +19,9 @@ struct BooleanExpression
     std::vector<bool> inverted;
     char resultLetter;
 
-    void addTerm(const char& letter, const bool& bInverted = false)
-    {
-        letters.push_back(letter);
-        inverted.push_back(bInverted);
-    }
+    void addTerm(const char& letter, const bool& bInverted = false);
 
-    QString lettersAsString()
-    {
-        QString result = "";
-
-        for(uint i = 0; i < letters.size(); i++)
-        {
-            result += letters[i];
-        }
-
-        return result;
-    }
-};
-
-enum ConverterResult
-{
-    SUCCESS,
-    INVALID_TABLE,
-    INVALID_INPUT_EXPRESSIONS
-};
-
-enum ConversionAlgorithm
-{
-    QuineMcCluskey,
-    NoOptimization,
-    NoAlgorithm
-};
-
-struct CircuitOptions //Circuit generation options
-{
-    CircuitOptions(const bool& useAdvancedNotGates, const bool& nandOnly, const bool& tripleGates, const ConversionAlgorithm& conversionAlgorithm = NoAlgorithm) :
-        m_bUseAdvancedNotGates(useAdvancedNotGates),
-        m_bNandOnly(nandOnly),
-        m_bTripleGates(tripleGates),
-        m_algorithm(conversionAlgorithm)
-    {};
-
-    bool m_bUseAdvancedNotGates; //Use gates like NAND or NOR
-    bool m_bNandOnly; //Only NAND gates
-    bool m_bTripleGates; //Triple input gates
-    ConversionAlgorithm m_algorithm;
-};
-
-class Converter
-{
-public:
-    static ConverterResult truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
-    static ConverterResult expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable);
-    static ConverterResult booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
-    static ConverterResult truthTableToCircuit(TruthTable& truthTable, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
-    static ConverterResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
-    static ConverterResult scriptToTruthTable(const QString& script, const uint& numInputs, const uint& numOutputs, TruthTable& truthTable);
-    static ConverterResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
+    QString lettersAsString();
 };
 
 #endif // TRUTHTABLE_H

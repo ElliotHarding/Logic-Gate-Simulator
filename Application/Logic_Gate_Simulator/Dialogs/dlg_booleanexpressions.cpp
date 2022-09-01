@@ -4,6 +4,7 @@
 
 #include "truthtable.h"
 #include "gatecollection.h"
+#include "converter.h"
 
 #include <QPainter>
 #include <QMouseEvent>

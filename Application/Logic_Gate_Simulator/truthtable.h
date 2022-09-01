@@ -60,6 +60,20 @@ enum ExpressionCalculatorResult
     INVALID_INPUT_EXPRESSIONS
 };
 
+class CircuitOptions
+{
+public:
+    CircuitOptions(const bool& useAdvancedNotGates, const bool& nandOnly, const bool& tripleGates) :
+        m_bUseAdvancedNotGates(useAdvancedNotGates),
+        m_bNandOnly(nandOnly),
+        m_bTripleGates(tripleGates)
+    {};
+
+    bool m_bUseAdvancedNotGates;
+    bool m_bNandOnly;
+    bool m_bTripleGates;
+};
+
 class BooleanExpressionCalculator
 {
 public:

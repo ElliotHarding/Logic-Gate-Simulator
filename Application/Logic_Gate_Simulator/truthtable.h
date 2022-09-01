@@ -60,30 +60,38 @@ enum ExpressionCalculatorResult
     INVALID_INPUT_EXPRESSIONS
 };
 
-class CircuitOptions
+enum ConversionAlgorithm
 {
-public:
-    CircuitOptions(const bool& useAdvancedNotGates, const bool& nandOnly, const bool& tripleGates) :
+    QuineMcCluskey,
+    NoOptimization,
+    NoAlgorithm
+};
+
+struct CircuitOptions //Circuit generation options
+{
+    CircuitOptions(const bool& useAdvancedNotGates, const bool& nandOnly, const bool& tripleGates, const ConversionAlgorithm& conversionAlgorithm = NoAlgorithm) :
         m_bUseAdvancedNotGates(useAdvancedNotGates),
         m_bNandOnly(nandOnly),
-        m_bTripleGates(tripleGates)
+        m_bTripleGates(tripleGates),
+        m_algorithm(conversionAlgorithm)
     {};
 
-    bool m_bUseAdvancedNotGates;
-    bool m_bNandOnly;
-    bool m_bTripleGates;
+    bool m_bUseAdvancedNotGates; //Use gates like NAND or NOR
+    bool m_bNandOnly; //Only NAND gates
+    bool m_bTripleGates; //Triple input gates
+    ConversionAlgorithm m_algorithm;
 };
 
 class BooleanExpressionCalculator
 {
 public:
-    static ExpressionCalculatorResult truthTableToBooleanExpressions(TruthTable& truthTable, std::vector<BooleanExpression>& expressions);
+    static ExpressionCalculatorResult truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
     static ExpressionCalculatorResult expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable);
-    static ExpressionCalculatorResult booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, GateCollection*& pNewCircuit);
-    static ExpressionCalculatorResult truthTableToCircuit(TruthTable& truthTable, GateCollection*& pNewCircuit);
-    static ExpressionCalculatorResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, GateCollection*& pNewCircuit);
+    static ExpressionCalculatorResult booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
+    static ExpressionCalculatorResult truthTableToCircuit(TruthTable& truthTable, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
+    static ExpressionCalculatorResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
     static ExpressionCalculatorResult scriptToTruthTable(const QString& script, const uint& numInputs, const uint& numOutputs, TruthTable& truthTable);
-    static ExpressionCalculatorResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, std::vector<BooleanExpression>& expressions);
+    static ExpressionCalculatorResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
 };
 
 #endif // TRUTHTABLE_H

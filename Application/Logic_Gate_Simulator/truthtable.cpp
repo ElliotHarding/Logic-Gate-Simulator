@@ -134,7 +134,7 @@ void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::
     }
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpressions(TruthTable& truthTable, std::vector<BooleanExpression>& expressions)
+ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions)
 {
     if(truthTable.inValues.size() == 0 || truthTable.outValues.size() == 0)
     {
@@ -151,6 +151,8 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpre
     // - Basic rule simplification
     // - Karnaugh maps simplification
     // - Quine-McCluskey algorithm
+
+    //Todo use conversionOptions
 
 
     const uint numOutputs = truthTable.outValues[0].size();
@@ -318,7 +320,7 @@ bool isLetterOrInt(const char& letter)
     return false;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, GateCollection*& pNewCircuit)
+ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit)
 {
     //Todo ~ simplification - Either properly or by converting to truth table putting it through truthTableToBooleanExpressions
     //Todo ~ not gate options (like NAND and NOR)
@@ -559,20 +561,20 @@ ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCirc
     return ExpressionCalculatorResult::SUCCESS;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToCircuit(TruthTable& truthTable, GateCollection*& pNewCircuit)
+ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToCircuit(TruthTable& truthTable, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit)
 {
     std::vector<BooleanExpression> expressions;
-    ExpressionCalculatorResult res = truthTableToBooleanExpressions(truthTable, expressions);
+    ExpressionCalculatorResult res = truthTableToBooleanExpressions(truthTable, circuitOptions.m_algorithm, expressions);
 
     if(res != ExpressionCalculatorResult::SUCCESS)
     {
         return res;
     }
 
-    return booleanExpressionsToCircuit(expressions, pNewCircuit);
+    return booleanExpressionsToCircuit(expressions, circuitOptions, pNewCircuit);
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::scriptToCircuit(const QString &script, const uint &numInputs, const uint &numOutputs, GateCollection *&pNewCircuit)
+ExpressionCalculatorResult BooleanExpressionCalculator::scriptToCircuit(const QString &script, const uint &numInputs, const uint &numOutputs, CircuitOptions& circuitOptions, GateCollection *&pNewCircuit)
 {
     TruthTable tt;
     ExpressionCalculatorResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
@@ -582,7 +584,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::scriptToCircuit(const QS
         return res;
     }
 
-    return truthTableToCircuit(tt, pNewCircuit);
+    return truthTableToCircuit(tt, circuitOptions, pNewCircuit);
 }
 
 ExpressionCalculatorResult BooleanExpressionCalculator::scriptToTruthTable(const QString &script, const uint &numInputs, const uint &numOutputs, TruthTable &truthTable)
@@ -632,7 +634,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::scriptToTruthTable(const
     return ExpressionCalculatorResult::SUCCESS;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, std::vector<BooleanExpression>& expressions)
+ExpressionCalculatorResult BooleanExpressionCalculator::scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions)
 {
     TruthTable tt;
     ExpressionCalculatorResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
@@ -642,5 +644,5 @@ ExpressionCalculatorResult BooleanExpressionCalculator::scriptToBooleanExpressio
         return res;
     }
 
-    return truthTableToBooleanExpressions(tt, expressions);
+    return truthTableToBooleanExpressions(tt, conversionOptions, expressions);
 }

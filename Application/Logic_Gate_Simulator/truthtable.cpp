@@ -557,3 +557,16 @@ ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCirc
     pNewCircuit = circuit.createGateCollection();
     return ExpressionCalculatorResult::SUCCESS;
 }
+
+ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToCircuit(TruthTable& truthTable, GateCollection*& pNewCircuit)
+{
+    std::vector<BooleanExpression> expressions;
+    ExpressionCalculatorResult res = truthTableToBooleanExpressions(truthTable, expressions);
+
+    if(res != ExpressionCalculatorResult::SUCCESS)
+    {
+        return res;
+    }
+
+    return booleanExpressionsToCircuit(expressions, pNewCircuit);
+}

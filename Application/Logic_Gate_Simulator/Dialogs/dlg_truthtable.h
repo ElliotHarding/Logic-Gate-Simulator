@@ -11,7 +11,6 @@ class DLG_TruthTable;
 }
 
 class DLG_Home;
-class CircuitFromTruthTableThread;
 class GateCollection;
 class OutputLabel;
 
@@ -34,9 +33,6 @@ private slots:
     void on_spinBox_inputs_valueChanged(int value);
     void on_spinBox_outputs_valueChanged(int value);
 
-    void onCircuitGenSuccess(GateCollection* pNewCircuit);
-    void onCircuitGenFailure(const QString& failMessage);
-
 private:
     void clearUI();
     void updateTableUI();
@@ -49,8 +45,6 @@ private:
     TruthTable m_truthTable;
 
     DLG_Home* m_pHome;
-
-    CircuitFromTruthTableThread* m_pCircuitFromTruthTableThread;
 };
 
 //////////////////////////////////////////////////////////

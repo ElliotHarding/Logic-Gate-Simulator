@@ -18,20 +18,14 @@ const uint IntEndAlphabet = 121;
 DLG_TruthTable::DLG_TruthTable(DLG_Home* pParent) :
     QDialog(pParent),
     ui(new Ui::DLG_TruthTable),
-    m_pHome(pParent),
-    m_pCircuitFromTruthTableThread(new CircuitFromTruthTableThread())
+    m_pHome(pParent)
 {
     ui->setupUi(this);
-
-    connect(m_pCircuitFromTruthTableThread, SIGNAL(circuitGenSuccess(GateCollection*)), this, SLOT(onCircuitGenSuccess(GateCollection*)));
-    connect(m_pCircuitFromTruthTableThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onCircuitGenFailure(const QString&)));
 }
 
 DLG_TruthTable::~DLG_TruthTable()
 {
     clearUI();
-
-    delete m_pCircuitFromTruthTableThread;
     delete ui;
 }
 
@@ -176,20 +170,17 @@ void DLG_TruthTable::updateTruthTableFromUI()
 
 void DLG_TruthTable::on_btn_circuit_clicked()
 {
-    if(m_pCircuitFromTruthTableThread->isRunning())
-    {
-        m_pHome->SendUserMessage("Already generating!");
-        return;
-    }
-
     updateTruthTableFromUI();
 
-    const uint maxSeconds = ui->spinBox_maxGenTime->value();
-    const uint percentageRandomGate = ui->spinBox_addGateChance->value();
-    const uint maxGates = ui->spinBox_maxGates->value();
-
-    if(!m_pCircuitFromTruthTableThread->start(m_truthTable, maxSeconds, percentageRandomGate, maxGates))
+    GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
+    if(BooleanExpressionCalculator::truthTableToCircuit(m_truthTable, pNewGateCollection) == ExpressionCalculatorResult::SUCCESS)
     {
+        m_pHome->AddGateToGateField(pNewGateCollection);
+        close();
+    }
+    else
+    {
+        delete pNewGateCollection;
         m_pHome->SendUserMessage("Failed to convert to circuit. Check format.");
     }
 }
@@ -209,17 +200,6 @@ void DLG_TruthTable::on_btn_expressions_clicked()
     {
         m_pHome->SendUserMessage("Failed to convert to boolean expression. Check format.");
     }
-}
-
-void DLG_TruthTable::onCircuitGenSuccess(GateCollection* pNewCircuit)
-{
-    m_pHome->AddGateToGateField(pNewCircuit);
-    close();
-}
-
-void DLG_TruthTable::onCircuitGenFailure(const QString& failMessage)
-{
-    m_pHome->SendUserMessage(failMessage);
 }
 
 void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)

@@ -67,6 +67,9 @@ public:
     static ExpressionCalculatorResult expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable);
     static ExpressionCalculatorResult booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, GateCollection*& pNewCircuit);
     static ExpressionCalculatorResult truthTableToCircuit(TruthTable& truthTable, GateCollection*& pNewCircuit);
+    static ExpressionCalculatorResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, GateCollection*& pNewCircuit);
+    static ExpressionCalculatorResult scriptToTruthTable(const QString& script, const uint& numInputs, const uint& numOutputs, TruthTable& truthTable);
+    static ExpressionCalculatorResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, std::vector<BooleanExpression>& expressions);
 };
 
 #endif // TRUTHTABLE_H

@@ -12,7 +12,6 @@ class DLG_Home;
 class Gate;
 class GateFPGA;
 class GateCollection;
-class CircuitFromScriptThread;
 
 class QFile;
 class QFileDialog;
@@ -38,9 +37,6 @@ private slots:
     void on_btn_genTuthTable_clicked();
 
 private slots:
-    void onCircuitGenSuccess(GateCollection* pNewCircuit);
-    void onCircuitGenFailure(const QString& failMessage);
-
     void on_btn_load_clicked();
     void on_btn_Save_clicked();
 
@@ -59,9 +55,6 @@ private:
     QFileDialog* m_pDlgLoadGates;
     QString m_currentSavePath = "";
     void saveScriptFile(QFile& file, const QString& script, const uint& inputs, const uint& outputs);
-
-    ///Circuit generation
-    CircuitFromScriptThread* m_pCircuitFromScriptThread;
 };
 
 #endif // DLG_EditScript_H

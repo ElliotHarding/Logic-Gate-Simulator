@@ -3,6 +3,7 @@
 #include "allgates.h"
 
 #include <cmath>
+#include <QScriptEngine>
 
 namespace Settings
 {
@@ -569,4 +570,77 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToCircuit(Trut
     }
 
     return booleanExpressionsToCircuit(expressions, pNewCircuit);
+}
+
+ExpressionCalculatorResult BooleanExpressionCalculator::scriptToCircuit(const QString &script, const uint &numInputs, const uint &numOutputs, GateCollection *&pNewCircuit)
+{
+    TruthTable tt;
+    ExpressionCalculatorResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
+
+    if(res != ExpressionCalculatorResult::SUCCESS)
+    {
+        return res;
+    }
+
+    return truthTableToCircuit(tt, pNewCircuit);
+}
+
+ExpressionCalculatorResult BooleanExpressionCalculator::scriptToTruthTable(const QString &script, const uint &numInputs, const uint &numOutputs, TruthTable &truthTable)
+{
+    QScriptEngine engine;
+    QScriptContext* pContext = engine.pushContext();//I think this gets deleted by engine destructor
+
+    std::vector<QString> inputVariables;
+    for(uint i = 1; i <= numInputs; i++)
+    {
+        inputVariables.push_back("input" + QString::number(i));
+    }
+
+    std::vector<QString> outputVariables;
+    for(uint i = 1; i <= numOutputs; i++)
+    {
+        outputVariables.push_back("output" + QString::number(i));
+        pContext->activationObject().setProperty("output" + QString::number(i), false);
+    }
+
+    std::vector<bool> genInputValues;
+
+    truthTable.size = pow(2, numInputs);
+    for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
+    {
+        //Generate input values
+        genInputValues = truthTable.genInputs(iTableRun, numInputs);
+        truthTable.inValues.push_back(genInputValues);
+
+        //Set input values for script
+        for(uint iInput = 0; iInput < numInputs; iInput++)
+        {
+            pContext->activationObject().setProperty(inputVariables[iInput], (bool)genInputValues[iInput]);
+        }
+
+        //Run script
+        engine.evaluate(script);
+
+        //Collect output values from script
+        std::vector<bool> genOutputValues;
+        for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
+        {
+            genOutputValues.push_back(pContext->activationObject().property(outputVariables[iOutput]).toBool());
+        }
+        truthTable.outValues.push_back(genOutputValues);
+    }
+    return ExpressionCalculatorResult::SUCCESS;
+}
+
+ExpressionCalculatorResult BooleanExpressionCalculator::scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, std::vector<BooleanExpression>& expressions)
+{
+    TruthTable tt;
+    ExpressionCalculatorResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
+
+    if(res != ExpressionCalculatorResult::SUCCESS)
+    {
+        return res;
+    }
+
+    return truthTableToBooleanExpressions(tt, expressions);
 }

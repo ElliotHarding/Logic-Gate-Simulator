@@ -26,18 +26,13 @@ DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
     ui(new Ui::DLG_EditScript),
     m_pDlgHome(pParent),
     m_pFpga(nullptr),
-    m_pDlgLoadGates(new QFileDialog(this)),
-    m_pCircuitFromScriptThread(new CircuitFromScriptThread())
+    m_pDlgLoadGates(new QFileDialog(this))
 {
     ui->setupUi(this);
-
-    connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenSuccess(GateCollection*)), this, SLOT(onCircuitGenSuccess(GateCollection*)));
-    connect(m_pCircuitFromScriptThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onCircuitGenFailure(const QString&)));
 }
 
 DLG_EditScript::~DLG_EditScript()
 {
-    delete m_pCircuitFromScriptThread;
     delete m_pDlgLoadGates;
     delete ui;
 }
@@ -114,33 +109,11 @@ void DLG_EditScript::setEndScript(const uint& numOutputs)
     ui->lbl_endScript->setText("Out vars: " + outputValues);
 }
 
-void DLG_EditScript::onCircuitGenSuccess(GateCollection* pNewCircuit)
-{
-    if(m_pFpga)
-    {
-        m_pFpga->GetParent()->AddGate(pNewCircuit);
-        m_pFpga = nullptr;
-    }
-    else
-    {
-        m_pDlgHome->AddGateToGateField(pNewCircuit);
-    }
-    close();
-}
-
-void DLG_EditScript::onCircuitGenFailure(const QString& failMessage)
-{
-    m_pDlgHome->SendUserMessage(failMessage);
-}
-
 void DLG_EditScript::on_btn_genCircuit_clicked()
 {
     const uint numInputs = ui->spinBox_inputs->value();
     const uint numOutputs = ui->spinBox_outputs->value();
     const QString script = ui->textEdit_script->toPlainText();
-    const int maxSeconds = ui->spinBox_maxGenTime->value();
-    const uint percentageRandomGate = ui->spinBox_addGateChance->value();
-    const uint maxGates = ui->spinBox_maxGates->value();
 
     if(m_pFpga)
     {
@@ -149,15 +122,25 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         m_pFpga->setScript(script);
     }
 
-    if(m_pCircuitFromScriptThread->isRunning())
+    GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
+    if(BooleanExpressionCalculator::scriptToCircuit(script, numInputs, numOutputs, pNewCircuit) == ExpressionCalculatorResult::SUCCESS)
     {
-        m_pDlgHome->SendUserMessage("Already generating!");
-        return;
+        if(m_pFpga)
+        {
+            m_pFpga->GetParent()->AddGate(pNewCircuit);
+            m_pFpga = nullptr;
+        }
+        else
+        {
+            m_pDlgHome->AddGateToGateField(pNewCircuit);
+        }
+        close();
     }
-
-    m_pCircuitFromScriptThread->start(numInputs, numOutputs, script, maxSeconds, percentageRandomGate, maxGates);
-
-    //Todo ~ show user that circuit gen is loading...
+    else
+    {
+        delete pNewCircuit;
+        m_pDlgHome->SendUserMessage("Check script format!");
+    }
 }
 
 void DLG_EditScript::on_btn_genTuthTable_clicked()
@@ -174,12 +157,16 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
     }
 
     //Generate truth table from script
-    TruthTable truthTable = CircuitFromScriptThread::genTruthTableFromScript(script, numInputs, numOutputs);
-
-    //Testing purposes
-    m_pDlgHome->showTruthTable(truthTable);
-
-    close();
+    TruthTable tt;
+    if(BooleanExpressionCalculator::scriptToTruthTable(script, numInputs, numOutputs, tt) == ExpressionCalculatorResult::SUCCESS)
+    {
+        m_pDlgHome->showTruthTable(tt);
+        close();
+    }
+    else
+    {
+        m_pDlgHome->SendUserMessage("Check script format!");
+    }
 }
 
 void DLG_EditScript::on_btn_load_clicked()
@@ -311,13 +298,8 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
         m_pFpga->setScript(script);
     }
 
-    //Generate truth table from script
-    TruthTable truthTable = CircuitFromScriptThread::genTruthTableFromScript(script, numInputs, numOutputs);
-
-    //Generate expressions based on truth table
     std::vector<BooleanExpression> expressions;
-    ExpressionCalculatorResult result = BooleanExpressionCalculator::truthTableToBooleanExpressions(truthTable, expressions);
-    if(result == ExpressionCalculatorResult::SUCCESS)
+    if(BooleanExpressionCalculator::scriptToBooleanExpressions(script, numInputs, numOutputs, expressions) == ExpressionCalculatorResult::SUCCESS)
     {
         m_pDlgHome->showBooleanExpressions(expressions);
         close();

@@ -109,6 +109,7 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
     if(BooleanExpressionCalculator::booleanExpressionsToCircuit(expressions, pNewGateCollection) == ExpressionCalculatorResult::SUCCESS)
     {
         m_pHome->AddGateToGateField(pNewGateCollection);
+        close();
     }
     else
     {

@@ -17,10 +17,7 @@ public:
     CircuitFromScriptThread();
 
     void start(const uint& numInputs, const uint& numOutputs, const QString& script, const int& maxSeconds, const uint& percentageRandomGate, const uint& maxGates);
-
     void run();
-
-    static TruthTable genTruthTableFromScript(const QString& script, const uint& numInputs, const uint& numOutputs);
 
 signals:
     void circuitGenSuccess(GateCollection* pNewCircuit);

@@ -4,7 +4,6 @@
 #include "circuit.h"
 
 #include <QRandomGenerator>
-#include <QScriptEngine>
 #include <QDebug>
 #include <cmath>
 
@@ -174,7 +173,12 @@ void CircuitFromScriptThread::run()
     const clock_t startTimeMs = clock();
 
     //Generate truth table from script
-    TruthTable truthTable = genTruthTableFromScript(m_script, m_numInputs, m_numOutputs);
+    TruthTable truthTable;
+    if(BooleanExpressionCalculator::scriptToTruthTable(m_script, m_numInputs, m_numOutputs, truthTable) != ExpressionCalculatorResult::SUCCESS)
+    {
+        emit circuitGenFailure("Failed to generate circuit!");
+        return;
+    }
 
     Circuit circuit(m_numInputs, m_numOutputs);
 
@@ -203,54 +207,4 @@ void CircuitFromScriptThread::run()
             return;
         }
     }
-}
-
-TruthTable CircuitFromScriptThread::genTruthTableFromScript(const QString& script, const uint& numInputs, const uint& numOutputs)
-{
-    TruthTable truthTable;
-
-    QScriptEngine engine;
-    QScriptContext* pContext = engine.pushContext();//I think this gets deleted by engine destructor
-
-    std::vector<QString> inputVariables;
-    for(uint i = 1; i <= numInputs; i++)
-    {
-        inputVariables.push_back("input" + QString::number(i));
-    }
-
-    std::vector<QString> outputVariables;
-    for(uint i = 1; i <= numOutputs; i++)
-    {
-        outputVariables.push_back("output" + QString::number(i));
-        pContext->activationObject().setProperty("output" + QString::number(i), false);
-    }
-
-    std::vector<bool> genInputValues;
-
-    truthTable.size = pow(2, numInputs);
-    for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
-    {
-        //Generate input values
-        genInputValues = truthTable.genInputs(iTableRun, numInputs);
-        truthTable.inValues.push_back(genInputValues);
-
-        //Set input values for script
-        for(uint iInput = 0; iInput < numInputs; iInput++)
-        {
-            pContext->activationObject().setProperty(inputVariables[iInput], (bool)genInputValues[iInput]);
-        }
-
-        //Run script
-        engine.evaluate(script);
-
-        //Collect output values from script
-        std::vector<bool> genOutputValues;
-        for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
-        {
-            genOutputValues.push_back(pContext->activationObject().property(outputVariables[iOutput]).toBool());
-        }
-        truthTable.outValues.push_back(genOutputValues);
-    }
-
-    return truthTable;
 }

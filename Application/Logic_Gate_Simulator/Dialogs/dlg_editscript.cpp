@@ -5,7 +5,6 @@
 #include "GameObjects/gatefpga.h"
 #include "gatecollection.h"
 #include "gatefield.h"
-#include "circuitfromscriptthread.h"
 #include "truthtable.h"
 
 #include <QDebug>

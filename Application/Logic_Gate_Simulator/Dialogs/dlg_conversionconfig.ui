@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DLG_ConversionConfig</class>
+ <widget class="QDialog" name="DLG_ConversionConfig">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>223</width>
+    <height>160</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QCheckBox" name="cb_nandOnly">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>101</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Only NAND</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="cb_largeInputGates">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>110</y>
+     <width>211</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Use large input gates (+3 inputs)</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="cb_inverseGates">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>130</y>
+     <width>211</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Use inverse gates (Nand, Nor)</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>181</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="editable">
+    <bool>false</bool>
+   </property>
+   <property name="currentText">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_conversionAlgorithm">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Conversion Algorithm</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_circuitGen">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Circuit Generation</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

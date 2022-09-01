@@ -134,7 +134,7 @@ void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::
     }
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions)
+ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& /*conversionOptions*/, std::vector<BooleanExpression>& expressions)
 {
     if(truthTable.inValues.size() == 0 || truthTable.outValues.size() == 0)
     {
@@ -320,7 +320,7 @@ bool isLetterOrInt(const char& letter)
     return false;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit)
+ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& /*circuitOptions*/, GateCollection*& pNewCircuit)
 {
     //Todo ~ simplification - Either properly or by converting to truth table putting it through truthTableToBooleanExpressions
     //Todo ~ not gate options (like NAND and NOR)

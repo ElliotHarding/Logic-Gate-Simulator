@@ -30,6 +30,7 @@ INCLUDEPATH += \
 
 SOURCES += \
     Dialogs/dlg_booleanexpressions.cpp \
+    Dialogs/dlg_conversionconfig.cpp \
     Dialogs/dlg_editscript.cpp \
     Dialogs/dlg_message.cpp \
     Dialogs/dlg_task.cpp \
@@ -79,6 +80,7 @@ SOURCES += \
 
 HEADERS += \
     Dialogs/dlg_booleanexpressions.h \
+    Dialogs/dlg_conversionconfig.h \
     Dialogs/dlg_editscript.h \
     Dialogs/dlg_message.h \
     Dialogs/dlg_textedit.h \
@@ -129,6 +131,7 @@ HEADERS += \
 
 FORMS += \
     Dialogs/dlg_booleanexpressions.ui \
+    Dialogs/dlg_conversionconfig.ui \
     Dialogs/dlg_editscript.ui \
     Dialogs/dlg_message.ui \
     Dialogs/dlg_gateinfo.ui \

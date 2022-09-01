@@ -267,6 +267,9 @@ void GateField::mousePressEvent(QMouseEvent *click)
                 }
             }
             break;
+        case CLICK_SELECTION:
+            qDebug() << "GateField::mousePressEvent - Invalid current click mode (Selection)";
+            break;
         }
     }
     else if(click->buttons() & Qt::RightButton)

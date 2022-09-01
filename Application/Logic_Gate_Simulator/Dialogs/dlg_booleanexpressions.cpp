@@ -25,19 +25,14 @@ const QRect ExpressionDisplayResultLabelGeometry = QRect(440, 15, 30, 20);
 DLG_BooleanExpressions::DLG_BooleanExpressions(DLG_Home* pHome) :
     QDialog(pHome),
     ui(new Ui::DLG_BooleanExpressions),
-    m_pHome(pHome),    
-    m_pCircuitFromTruthTableThread(new CircuitFromTruthTableThread())
+    m_pHome(pHome)
 {
     ui->setupUi(this);
-
-    connect(m_pCircuitFromTruthTableThread, SIGNAL(circuitGenSuccess(GateCollection*)), this, SLOT(onCircuitGenSuccess(GateCollection*)));
-    connect(m_pCircuitFromTruthTableThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onCircuitGenFailure(const QString&)));
 }
 
 DLG_BooleanExpressions::~DLG_BooleanExpressions()
 {
     clear();
-    delete m_pCircuitFromTruthTableThread;
     delete ui;
 }
 
@@ -104,12 +99,6 @@ void DLG_BooleanExpressions::on_btn_ok_clicked()
 
 void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
 {
-    if(m_pCircuitFromTruthTableThread->isRunning())
-    {
-        m_pHome->SendUserMessage("Already generating!");
-        return;
-    }
-
     std::vector<BooleanExpression> expressions;
     for(int i = 0; i < ui->list_expressions->count(); i++)
     {
@@ -120,32 +109,13 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
     GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
     if(BooleanExpressionCalculator::booleanExpressionsToCircuit(expressions, pNewGateCollection) == ExpressionCalculatorResult::SUCCESS)
     {
-        onCircuitGenSuccess(pNewGateCollection);
+        m_pHome->AddGateToGateField(pNewGateCollection);
     }
     else
     {
         delete pNewGateCollection;
         m_pHome->SendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
     }
-
-    /*
-    TruthTable truthTable;
-    if(BooleanExpressionCalculator::expressionsToTruthTable(expressions, truthTable) == ExpressionCalculatorResult::SUCCESS)
-    {
-        //Todo expose to user interface
-        const uint maxSeconds = 100;
-        const uint percentageRandomGate = 30;
-        const uint maxGates = 10;
-
-        if(!m_pCircuitFromTruthTableThread->start(truthTable, maxSeconds, percentageRandomGate, maxGates))
-        {
-            m_pHome->SendUserMessage("Failed to convert to circuit. Check format.");
-        }
-    }
-    else
-    {
-        m_pHome->SendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
-    }*/
 }
 
 void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
@@ -182,17 +152,6 @@ void DLG_BooleanExpressions::on_btn_addExpression_clicked()
 void DLG_BooleanExpressions::clear()
 {
     ui->list_expressions->clear();
-}
-
-void DLG_BooleanExpressions::onCircuitGenSuccess(GateCollection* pNewCircuit)
-{
-    m_pHome->AddGateToGateField(pNewCircuit);
-    close();
-}
-
-void DLG_BooleanExpressions::onCircuitGenFailure(const QString& failMessage)
-{
-    m_pHome->SendUserMessage(failMessage);
 }
 
 

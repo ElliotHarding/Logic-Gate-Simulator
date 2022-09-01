@@ -4,6 +4,8 @@
 #include <vector>
 #include <QString>
 
+class GateCollection;
+
 struct TruthTable
 {
     std::vector<std::vector<bool>> inValues;
@@ -63,6 +65,7 @@ class BooleanExpressionCalculator
 public:
     static ExpressionCalculatorResult truthTableToBooleanExpressions(TruthTable& truthTable, std::vector<BooleanExpression>& expressions);
     static ExpressionCalculatorResult expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable);
+    static ExpressionCalculatorResult booleanExpressionsToCircuit(std::vector<BooleanExpression>& expressions, GateCollection*& pNewCircuit);
 };
 
 #endif // TRUTHTABLE_H

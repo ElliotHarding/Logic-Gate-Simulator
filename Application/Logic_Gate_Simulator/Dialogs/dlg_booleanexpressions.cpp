@@ -117,6 +117,18 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
         expressions.push_back(pExpressionDisplay->getExpression());
     }
 
+    GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
+    if(BooleanExpressionCalculator::booleanExpressionsToCircuit(expressions, pNewGateCollection) == ExpressionCalculatorResult::SUCCESS)
+    {
+        onCircuitGenSuccess(pNewGateCollection);
+    }
+    else
+    {
+        delete pNewGateCollection;
+        m_pHome->SendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
+    }
+
+    /*
     TruthTable truthTable;
     if(BooleanExpressionCalculator::expressionsToTruthTable(expressions, truthTable) == ExpressionCalculatorResult::SUCCESS)
     {
@@ -133,7 +145,7 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
     else
     {
         m_pHome->SendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
-    }
+    }*/
 }
 
 void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()

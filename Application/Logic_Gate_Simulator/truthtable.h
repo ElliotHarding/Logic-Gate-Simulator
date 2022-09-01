@@ -53,7 +53,7 @@ struct BooleanExpression
     }
 };
 
-enum ExpressionCalculatorResult
+enum ConverterResult
 {
     SUCCESS,
     INVALID_TABLE,
@@ -82,16 +82,16 @@ struct CircuitOptions //Circuit generation options
     ConversionAlgorithm m_algorithm;
 };
 
-class BooleanExpressionCalculator
+class Converter
 {
 public:
-    static ExpressionCalculatorResult truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
-    static ExpressionCalculatorResult expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable);
-    static ExpressionCalculatorResult booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
-    static ExpressionCalculatorResult truthTableToCircuit(TruthTable& truthTable, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
-    static ExpressionCalculatorResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
-    static ExpressionCalculatorResult scriptToTruthTable(const QString& script, const uint& numInputs, const uint& numOutputs, TruthTable& truthTable);
-    static ExpressionCalculatorResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
+    static ConverterResult truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
+    static ConverterResult expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable);
+    static ConverterResult booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
+    static ConverterResult truthTableToCircuit(TruthTable& truthTable, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
+    static ConverterResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
+    static ConverterResult scriptToTruthTable(const QString& script, const uint& numInputs, const uint& numOutputs, TruthTable& truthTable);
+    static ConverterResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
 };
 
 #endif // TRUTHTABLE_H

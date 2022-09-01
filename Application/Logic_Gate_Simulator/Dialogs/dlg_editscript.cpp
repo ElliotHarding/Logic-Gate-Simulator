@@ -123,7 +123,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
 
     GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
     CircuitOptions options(true, false, true, QuineMcCluskey);
-    if(BooleanExpressionCalculator::scriptToCircuit(script, numInputs, numOutputs, options, pNewCircuit) == ExpressionCalculatorResult::SUCCESS)
+    if(Converter::scriptToCircuit(script, numInputs, numOutputs, options, pNewCircuit) == ConverterResult::SUCCESS)
     {
         if(m_pFpga)
         {
@@ -158,7 +158,7 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
 
     //Generate truth table from script
     TruthTable tt;
-    if(BooleanExpressionCalculator::scriptToTruthTable(script, numInputs, numOutputs, tt) == ExpressionCalculatorResult::SUCCESS)
+    if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt) == ConverterResult::SUCCESS)
     {
         m_pDlgHome->showTruthTable(tt);
         close();
@@ -299,7 +299,7 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     }
 
     std::vector<BooleanExpression> expressions;
-    if(BooleanExpressionCalculator::scriptToBooleanExpressions(script, numInputs, numOutputs, QuineMcCluskey, expressions) == ExpressionCalculatorResult::SUCCESS)
+    if(Converter::scriptToBooleanExpressions(script, numInputs, numOutputs, QuineMcCluskey, expressions) == ConverterResult::SUCCESS)
     {
         m_pDlgHome->showBooleanExpressions(expressions);
         close();

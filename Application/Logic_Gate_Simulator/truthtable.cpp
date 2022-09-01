@@ -134,7 +134,7 @@ void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::
     }
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& /*conversionOptions*/, std::vector<BooleanExpression>& expressions)
+ConverterResult Converter::truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& /*conversionOptions*/, std::vector<BooleanExpression>& expressions)
 {
     if(truthTable.inValues.size() == 0 || truthTable.outValues.size() == 0)
     {
@@ -261,7 +261,7 @@ bool expressionToResult(const std::vector<bool>& inValues, const BooleanExpressi
     return true;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)
+ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)
 {
     if(truthTable.inValues.size() != 0 || truthTable.outValues.size() != 0 || truthTable.size != 0)
     {
@@ -320,7 +320,7 @@ bool isLetterOrInt(const char& letter)
     return false;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& /*circuitOptions*/, GateCollection*& pNewCircuit)
+ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& /*circuitOptions*/, GateCollection*& pNewCircuit)
 {
     //Todo ~ simplification - Either properly or by converting to truth table putting it through truthTableToBooleanExpressions
     //Todo ~ not gate options (like NAND and NOR)
@@ -558,15 +558,15 @@ ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCirc
     }
 
     pNewCircuit = circuit.createGateCollection();
-    return ExpressionCalculatorResult::SUCCESS;
+    return ConverterResult::SUCCESS;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToCircuit(TruthTable& truthTable, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit)
+ConverterResult Converter::truthTableToCircuit(TruthTable& truthTable, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit)
 {
     std::vector<BooleanExpression> expressions;
-    ExpressionCalculatorResult res = truthTableToBooleanExpressions(truthTable, circuitOptions.m_algorithm, expressions);
+    ConverterResult res = truthTableToBooleanExpressions(truthTable, circuitOptions.m_algorithm, expressions);
 
-    if(res != ExpressionCalculatorResult::SUCCESS)
+    if(res != ConverterResult::SUCCESS)
     {
         return res;
     }
@@ -574,12 +574,12 @@ ExpressionCalculatorResult BooleanExpressionCalculator::truthTableToCircuit(Trut
     return booleanExpressionsToCircuit(expressions, circuitOptions, pNewCircuit);
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::scriptToCircuit(const QString &script, const uint &numInputs, const uint &numOutputs, CircuitOptions& circuitOptions, GateCollection *&pNewCircuit)
+ConverterResult Converter::scriptToCircuit(const QString &script, const uint &numInputs, const uint &numOutputs, CircuitOptions& circuitOptions, GateCollection *&pNewCircuit)
 {
     TruthTable tt;
-    ExpressionCalculatorResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
+    ConverterResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
 
-    if(res != ExpressionCalculatorResult::SUCCESS)
+    if(res != ConverterResult::SUCCESS)
     {
         return res;
     }
@@ -587,7 +587,7 @@ ExpressionCalculatorResult BooleanExpressionCalculator::scriptToCircuit(const QS
     return truthTableToCircuit(tt, circuitOptions, pNewCircuit);
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::scriptToTruthTable(const QString &script, const uint &numInputs, const uint &numOutputs, TruthTable &truthTable)
+ConverterResult Converter::scriptToTruthTable(const QString &script, const uint &numInputs, const uint &numOutputs, TruthTable &truthTable)
 {
     QScriptEngine engine;
     QScriptContext* pContext = engine.pushContext();//I think this gets deleted by engine destructor
@@ -631,15 +631,15 @@ ExpressionCalculatorResult BooleanExpressionCalculator::scriptToTruthTable(const
         }
         truthTable.outValues.push_back(genOutputValues);
     }
-    return ExpressionCalculatorResult::SUCCESS;
+    return ConverterResult::SUCCESS;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions)
+ConverterResult Converter::scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions)
 {
     TruthTable tt;
-    ExpressionCalculatorResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
+    ConverterResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
 
-    if(res != ExpressionCalculatorResult::SUCCESS)
+    if(res != ConverterResult::SUCCESS)
     {
         return res;
     }

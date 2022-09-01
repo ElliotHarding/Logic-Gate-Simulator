@@ -174,7 +174,7 @@ void CircuitFromScriptThread::run()
 
     //Generate truth table from script
     TruthTable truthTable;
-    if(BooleanExpressionCalculator::scriptToTruthTable(m_script, m_numInputs, m_numOutputs, truthTable) != ExpressionCalculatorResult::SUCCESS)
+    if(Converter::scriptToTruthTable(m_script, m_numInputs, m_numOutputs, truthTable) != ConverterResult::SUCCESS)
     {
         emit circuitGenFailure("Failed to generate circuit!");
         return;

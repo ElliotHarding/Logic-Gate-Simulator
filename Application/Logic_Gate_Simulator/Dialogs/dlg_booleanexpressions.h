@@ -15,7 +15,6 @@ class BooleanExpressionDisplay;
 class QListWidgetItem;
 class DLG_Home;
 class GateCollection;
-class CircuitFromTruthTableThread;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /// \brief The DLG_BooleanExpressions class

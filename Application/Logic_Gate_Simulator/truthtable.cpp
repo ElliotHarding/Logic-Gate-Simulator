@@ -317,10 +317,10 @@ bool isLetterOrInt(const char& letter)
     return false;
 }
 
-ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCircuit(std::vector<BooleanExpression>& expressions, GateCollection*& pNewCircuit)
+ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, GateCollection*& pNewCircuit)
 {
     //Todo ~ simplification - Either properly or by converting to truth table putting it through truthTableToBooleanExpressions
-
+    //Todo ~ not gate options (like NAND and NOR)
 
     //Get list of individual input letters to count
     QList<char> letters;
@@ -340,11 +340,16 @@ ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCirc
 
     const uint numOutputs = expressions.size();
     const uint numInputs = letters.size();
+    if(numOutputs == 0 || numInputs == 0)
+    {
+        return INVALID_INPUT_EXPRESSIONS;
+    }
 
     Circuit circuit(numInputs, numOutputs);
     std::map<char, Gate*> circuitGates;
     std::map<char, Gate*> invertLetterGates;
     int sumGateCounter = 0;
+
     for(uint iExpression = 0; iExpression < expressions.size(); iExpression++)
     {
         bool changed = true;
@@ -541,6 +546,11 @@ ExpressionCalculatorResult BooleanExpressionCalculator::booleanExpressionsToCirc
                     break;
                 }
             }
+        }
+
+        if(expressions[iExpression].letters.size() != 1)
+        {
+            return INVALID_INPUT_EXPRESSIONS;
         }
     }
 

@@ -121,7 +121,6 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
 void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
 {
     std::vector<BooleanExpression> expressions;
-
     for(int i = 0; i < ui->list_expressions->count(); i++)
     {
         BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));

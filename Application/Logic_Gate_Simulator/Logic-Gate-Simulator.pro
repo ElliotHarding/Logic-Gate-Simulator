@@ -45,6 +45,7 @@ SOURCES += \
     GameObjects/gatetrieor.cpp \
     GameObjects/gatexor.cpp \
     GameObjects/textlabel.cpp \
+    booleanexpression.cpp \
     circuit.cpp \
     circuitfromscriptthread.cpp \
     converter.cpp \
@@ -96,6 +97,7 @@ HEADERS += \
     GameObjects/gatetypes.h \
     GameObjects/gatexor.h \
     GameObjects/textlabel.h \
+    booleanexpression.h \
     circuit.h \
     circuitfromscriptthread.h \
     clickmode.h \

@@ -2,6 +2,7 @@
 #define CONVERTER_H
 
 #include "truthtable.h"
+#include "booleanexpression.h"
 
 class GateCollection;
 

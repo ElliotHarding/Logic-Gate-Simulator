@@ -13,15 +13,4 @@ struct TruthTable
     std::vector<bool> genInputs(const unsigned int& iTableRun, const unsigned int& numInputs);
 };
 
-struct BooleanExpression
-{
-    std::vector<char> letters;
-    std::vector<bool> inverted;
-    char resultLetter;
-
-    void addTerm(const char& letter, const bool& bInverted = false);
-
-    QString lettersAsString();
-};
-
 #endif // TRUTHTABLE_H

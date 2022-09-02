@@ -1,8 +1,6 @@
 #ifndef DLG_BOOLEANEXPRESSIONS_H
 #define DLG_BOOLEANEXPRESSIONS_H
 
-#include "truthtable.h"
-
 #include <QDialog>
 #include <QLineEdit>
 #include <QLabel>
@@ -15,6 +13,7 @@ class BooleanExpressionDisplay;
 class QListWidgetItem;
 class DLG_Home;
 class GateCollection;
+struct BooleanExpression;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /// \brief The DLG_BooleanExpressions class

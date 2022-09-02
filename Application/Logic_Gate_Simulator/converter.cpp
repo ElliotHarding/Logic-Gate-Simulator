@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <QScriptEngine>
+#include <QDebug>
 
 CircuitOptions::CircuitOptions(const bool& useInverseGates, const bool& nandOnly, const bool& largeInputGates, const ConversionAlgorithm& conversionAlgorithm) :
     m_bUseInverseGates(useInverseGates),
@@ -364,7 +365,7 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
     for(uint iExpression = 0; iExpression < expressions.size(); iExpression++)
     {
         bool changed = true;
-        while(changed)
+        while(expressions[iExpression].letters.size() > 0)
         {
             changed = false;
 
@@ -418,6 +419,7 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         {
                             input2Gate = new GateNot();
                             circuit.inputs[expressions[iExpression].letters[iLetter+1] - Settings::IntStartAlphabet]->getOutputNodes()[0]->LinkNode(input2Gate->getInputNodes()[0]);
+                            input2Gate->getInputNodes()[0]->LinkNode(circuit.inputs[expressions[iExpression].letters[iLetter+1] - Settings::IntStartAlphabet]->getOutputNodes()[0]);
                             invertLetterGates[expressions[iExpression].letters[iLetter+1]] = input2Gate;
                             circuit.mainGates.push_back(input2Gate);
                         }
@@ -452,6 +454,8 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                     {
                         circuit.outputs[iExpression]->getInputNodes()[0]->LinkNode(andGate->getOutputNodes()[0]);
                         andGate->getOutputNodes()[0]->LinkNode(circuit.outputs[iExpression]->getInputNodes()[0]);
+                        expressions[iExpression].letters.clear();
+                        expressions[iExpression].inverted.clear();
                     }
 
                     break;
@@ -515,6 +519,7 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         {
                             input2Gate = new GateNot();
                             circuit.inputs[expressions[iExpression].letters[iLetter+1] - Settings::IntStartAlphabet]->getOutputNodes()[0]->LinkNode(input2Gate->getInputNodes()[0]);
+                            input2Gate->getInputNodes()[0]->LinkNode(circuit.inputs[expressions[iExpression].letters[iLetter+1] - Settings::IntStartAlphabet]->getOutputNodes()[0]);
                             invertLetterGates[expressions[iExpression].letters[iLetter+1]] = input2Gate;
                             circuit.mainGates.push_back(input2Gate);
                         }
@@ -551,17 +556,48 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                     {
                         circuit.outputs[iExpression]->getInputNodes()[0]->LinkNode(orGate->getOutputNodes()[0]);
                         orGate->getOutputNodes()[0]->LinkNode(circuit.outputs[iExpression]->getInputNodes()[0]);
-                        changed = false;//Mark finished
+                        expressions[iExpression].letters.clear();
+                        expressions[iExpression].inverted.clear();
                     }
 
                     break;
                 }
             }
-        }
 
-        if(expressions[iExpression].letters.size() != 1)
-        {
-            return INVALID_INPUT_EXPRESSIONS;
+            if(changed)
+            {
+                continue;
+            }
+
+            if(expressions[iExpression].letters.size() == 1 && isLetter(expressions[iExpression].letters[0]))
+            {
+                if(expressions[iExpression].inverted[0])
+                {
+                    Gate* notGate = new GateNot();
+                    circuit.inputs[expressions[iExpression].letters[0] - Settings::IntStartAlphabet]->getOutputNodes()[0]->LinkNode(notGate->getInputNodes()[0]);
+                    notGate->getInputNodes()[0]->LinkNode(circuit.inputs[expressions[iExpression].letters[0] - Settings::IntStartAlphabet]->getOutputNodes()[0]);
+                    notGate->getOutputNodes()[0]->LinkNode(circuit.outputs[iExpression]->getInputNodes()[0]);
+                    circuit.outputs[iExpression]->getInputNodes()[0]->LinkNode(notGate->getOutputNodes()[0]);
+
+                    invertLetterGates[expressions[iExpression].letters[0]] = notGate;
+                    circuit.mainGates.push_back(notGate);
+
+                    expressions[iExpression].letters.clear();
+                    expressions[iExpression].inverted.clear();
+                }
+                else
+                {
+                    circuit.outputs[iExpression]->getInputNodes()[0]->LinkNode(circuit.inputs[expressions[iExpression].letters[0] - Settings::IntStartAlphabet]->getOutputNodes()[0]);
+                    circuit.inputs[expressions[iExpression].letters[0] - Settings::IntStartAlphabet]->getOutputNodes()[0]->LinkNode(circuit.outputs[iExpression]->getInputNodes()[0]);
+                    expressions[iExpression].letters.clear();
+                    expressions[iExpression].inverted.clear();
+                }
+            }
+            else
+            {
+                qDebug() << "Converter::booleanExpressionsToCircuit - Invalid expression design";
+                return INVALID_INPUT_EXPRESSIONS;
+            }
         }
     }
 

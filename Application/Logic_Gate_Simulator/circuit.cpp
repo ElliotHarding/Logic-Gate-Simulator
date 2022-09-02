@@ -9,6 +9,7 @@
 namespace Settings
 {
 const uint GapBetweenGates = 100;
+const uint DisplaceGatesDepth = 50;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -48,8 +49,13 @@ Circuit::~Circuit()
     }
 }
 
-void displaceLinkedGates(Gate* pParent, std::vector<Gate*>& gates, int& maxX)
+void displaceLinkedGates(Gate* pParent, std::vector<Gate*>& gates, int& maxX, int& depthCounter)
 {
+    if(depthCounter-- < 0)
+    {
+        return;
+    }
+
     NodeIds nids = pParent->getOutputNodes()[0]->linkInfo();
     for(int id : nids.linkedIds)
     {
@@ -65,7 +71,7 @@ void displaceLinkedGates(Gate* pParent, std::vector<Gate*>& gates, int& maxX)
                     maxX = maxX < newX ? newX : maxX;
                 }
 
-                displaceLinkedGates(pSubGate, gates, maxX);
+                displaceLinkedGates(pSubGate, gates, maxX, depthCounter);
             }
         }
     }
@@ -97,7 +103,8 @@ GateCollection* Circuit::createGateCollection()
 
         offsetButSameX += 20;
 
-        displaceLinkedGates(g.second, mainGates, maxX);
+        int depth = Settings::DisplaceGatesDepth;
+        displaceLinkedGates(g.second, mainGates, maxX, depth);
     }
 
     posY = 300;

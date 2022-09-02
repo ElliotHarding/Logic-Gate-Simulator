@@ -589,7 +589,22 @@ void DLG_Home::on_PlayField_currentChanged(int index)
 
 void DLG_Home::onRandomCircuitGenSuccess(GateCollection* pNewCircuit)
 {
-    AddGateToGateField(pNewCircuit);
+    if(pNewCircuit == nullptr)
+    {
+        qDebug() << "DLG_Home::onRandomCircuitGenSuccess - new circuit is null!";
+        return;
+    }
+
+    //Check for current gatefield
+    if(m_iCurrentGateField == -1)
+    {
+        NewlySpawnedGateField(Settings::DefaultPageName);
+    }
+
+    QPoint centerField = m_allGateFields[size_t(m_iCurrentGateField)]->geometry().center();
+    pNewCircuit->setPosition(centerField.x(), centerField.y());
+
+    m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pNewCircuit);
 
     //One of these guys requested the circuit gen
     m_pDlgEditScript->close();

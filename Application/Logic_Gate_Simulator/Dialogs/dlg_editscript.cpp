@@ -122,24 +122,40 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         m_pFpga->setScript(script);
     }
 
-    GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
-    if(Converter::scriptToCircuit(script, numInputs, numOutputs, m_pDlgHome->getCircuitGenOptions(), pNewCircuit) == ConverterResult::SUCCESS)
+    //Todo ~ could move this logic into DLG_Home
+    if(m_pDlgHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
     {
-        if(m_pFpga)
+        TruthTable tt;
+        if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt) == ConverterResult::SUCCESS)
         {
-            m_pFpga->GetParent()->AddGate(pNewCircuit);
-            m_pFpga = nullptr;
+            m_pDlgHome->requestRandomCircuitGen(tt);
         }
         else
         {
-            m_pDlgHome->AddGateToGateField(pNewCircuit);
+            m_pDlgHome->SendUserMessage("Failed to convert to circuit. Check format of script.");
         }
-        close();
     }
     else
     {
-        delete pNewCircuit;
-        m_pDlgHome->SendUserMessage("Check script format!");
+        GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
+        if(Converter::scriptToCircuit(script, numInputs, numOutputs, m_pDlgHome->getCircuitGenOptions(), pNewCircuit) == ConverterResult::SUCCESS)
+        {
+            if(m_pFpga)
+            {
+                m_pFpga->GetParent()->AddGate(pNewCircuit);
+                m_pFpga = nullptr;
+            }
+            else
+            {
+                m_pDlgHome->AddGateToGateField(pNewCircuit);
+            }
+            close();
+        }
+        else
+        {
+            delete pNewCircuit;
+            m_pDlgHome->SendUserMessage("Check script format!");
+        }
     }
 }
 

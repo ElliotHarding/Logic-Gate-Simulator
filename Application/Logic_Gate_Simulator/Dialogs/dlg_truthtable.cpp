@@ -172,16 +172,24 @@ void DLG_TruthTable::on_btn_circuit_clicked()
 {
     updateTruthTableFromUI();
 
-    GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
-    if(Converter::truthTableToCircuit(m_truthTable, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
+    //Todo ~ could move this logic into DLG_Home
+    if(m_pHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
     {
-        m_pHome->AddGateToGateField(pNewGateCollection);
-        close();
+        m_pHome->requestRandomCircuitGen(m_truthTable);
     }
     else
     {
-        delete pNewGateCollection;
-        m_pHome->SendUserMessage("Failed to convert to circuit. Check format.");
+        GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
+        if(Converter::truthTableToCircuit(m_truthTable, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
+        {
+            m_pHome->AddGateToGateField(pNewGateCollection);
+            close();
+        }
+        else
+        {
+            delete pNewGateCollection;
+            m_pHome->SendUserMessage("Failed to convert to circuit. Check format.");
+        }
     }
 }
 

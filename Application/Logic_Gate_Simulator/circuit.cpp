@@ -4,6 +4,7 @@
 #include "GateToggle.h"
 #include "GateReciever.h"
 #include "gatecollection.h"
+#include "textlabel.h"
 
 namespace Settings
 {
@@ -89,6 +90,11 @@ GateCollection* Circuit::createGateCollection()
         g.second->setPosition(offsetButSameX, posY+=Settings::GapBetweenGates);
         pNewCircuit->AddGate(g.second);
 
+        TextLabel* pTextLabel = new TextLabel();
+        pTextLabel->setPosition(offsetButSameX, posY);
+        pTextLabel->Update(pTextLabel->GetFont(), QString(g.first));
+        pNewCircuit->AddGate(pTextLabel);
+
         offsetButSameX += 20;
 
         displaceLinkedGates(g.second, mainGates, maxX);
@@ -101,6 +107,11 @@ GateCollection* Circuit::createGateCollection()
     {
         g.second->setPosition(maxX + offsetButSameX, posY+=Settings::GapBetweenGates);
         pNewCircuit->AddGate(g.second);
+
+        TextLabel* pTextLabel = new TextLabel();
+        pTextLabel->setPosition(maxX + offsetButSameX, posY);
+        pTextLabel->Update(pTextLabel->GetFont(), QString(g.first));
+        pNewCircuit->AddGate(pTextLabel);
 
         offsetButSameX += 20;
     }

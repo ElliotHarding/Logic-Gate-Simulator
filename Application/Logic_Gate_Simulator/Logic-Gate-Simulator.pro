@@ -47,7 +47,6 @@ SOURCES += \
     GameObjects/textlabel.cpp \
     booleanexpression.cpp \
     circuit.cpp \
-    circuitfromscriptthread.cpp \
     converter.cpp \
     main.cpp \
     gatefield.cpp \
@@ -99,7 +98,6 @@ HEADERS += \
     GameObjects/textlabel.h \
     booleanexpression.h \
     circuit.h \
-    circuitfromscriptthread.h \
     clickmode.h \
     converter.h \
     gatereader.h \

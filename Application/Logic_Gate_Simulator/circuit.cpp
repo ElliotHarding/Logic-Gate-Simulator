@@ -15,16 +15,16 @@ const uint GapBetweenGates = 100;
 /// \param numInputs
 /// \param numOutputs
 ///
-Circuit::Circuit(const unsigned int& numInputs, const unsigned int& numOutputs) :
+Circuit::Circuit(const QList<char>& inputLetters, const QList<char>& outputLetters) :
     m_bDeleteGates(true)
 {
-    for(uint iInput = 0; iInput < numInputs; iInput++)
+    for(const char& inputLetter : inputLetters)
     {
-        inputs.push_back(new GateToggle());
+        inputs[inputLetter] = new GateToggle();
     }
-    for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
+    for(const char& outLetter : outputLetters)
     {
-        outputs.push_back(new GateReciever());
+        outputs[outLetter] = new GateReciever();
     }
 }
 

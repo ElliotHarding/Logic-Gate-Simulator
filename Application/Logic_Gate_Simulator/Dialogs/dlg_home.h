@@ -18,6 +18,7 @@
 #include "dlg_editscript.h"
 #include "dlg_truthtable.h"
 #include "dlg_booleanexpressions.h"
+#include "dlg_conversionconfig.h"
 
 #include "movingwidget.h"
 #include "widget_advanced.h"
@@ -81,6 +82,7 @@ protected:
     DLG_LabelGateEdit*      m_pDlgTextLabelEdit;
     DLG_TruthTable*         m_pDlgTruthTable;
     DLG_BooleanExpressions* m_pDlgBooleanExpressions;
+    DLG_ConversionConfig*   m_pDlgConversionConfig;
 
     //Gate widgets
     Widget_AllGates*    m_pWidgetAllGates;
@@ -142,6 +144,8 @@ private slots:
     void on_btn_createScript_clicked();
     void on_btn_createTruthTable();
     void on_btn_createExpressions();
+
+    void on_btn_conversionConfig();
 
     //Gate widget switching
     void on_comboBox_currentIndexChanged(int index);

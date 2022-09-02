@@ -10,8 +10,11 @@
     <height>160</height>
    </rect>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Conversion Config</string>
   </property>
   <widget class="QCheckBox" name="cb_nandOnly">
    <property name="geometry">

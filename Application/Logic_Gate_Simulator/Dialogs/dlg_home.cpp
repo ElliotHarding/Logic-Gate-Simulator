@@ -70,6 +70,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         connect(ui->actionCreate_Script, SIGNAL(triggered()), this, SLOT(on_btn_createScript_clicked()));
         connect(ui->actionCreate_Truth_Table, SIGNAL(triggered()), this, SLOT(on_btn_createTruthTable()));
         connect(ui->actionCreate_Expressions, SIGNAL(triggered()), this, SLOT(on_btn_createExpressions()));
+        connect(ui->actionConversion_And_Generation_Settings, SIGNAL(triggered()), this, SLOT(on_btn_conversionConfig()));
     }
 
     {
@@ -92,6 +93,7 @@ void DLG_Home::InitalizeDialogsAndWidgets()
     m_pDlgEditScript = new DLG_EditScript(this);
     m_pDlgTruthTable = new DLG_TruthTable(this);
     m_pDlgBooleanExpressions = new DLG_BooleanExpressions(this);
+    m_pDlgConversionConfig = new DLG_ConversionConfig(this);
 
     //Other widgets
     m_pSpawnedGateWidget = new Widget_SpawnedGate(this);
@@ -137,6 +139,7 @@ DLG_Home::~DLG_Home()
     delete m_pDlgEditScript;
     delete m_pDlgTruthTable;
     delete m_pDlgBooleanExpressions;
+    delete m_pDlgConversionConfig;
 
     delete m_pZoomSlider;
 
@@ -458,6 +461,11 @@ void DLG_Home::on_btn_createTruthTable()
 void DLG_Home::on_btn_createExpressions()
 {
     m_pDlgBooleanExpressions->open();
+}
+
+void DLG_Home::on_btn_conversionConfig()
+{
+    m_pDlgConversionConfig->open();
 }
 
 void DLG_Home::on_btn_newPage_clicked()

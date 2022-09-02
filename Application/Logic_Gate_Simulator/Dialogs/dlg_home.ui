@@ -856,12 +856,19 @@ QComboBox::down-arrow {
     </property>
     <addaction name="actionCreate_Expressions"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionConversion_And_Generation_Settings"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
    <addaction name="menuScript"/>
    <addaction name="menuTruth_Table"/>
    <addaction name="menuExpressions"/>
+   <addaction name="menuSettings"/>
   </widget>
   <action name="actionNew_page">
    <property name="text">
@@ -1035,6 +1042,11 @@ QComboBox::down-arrow {
   <action name="actionCreate_Expressions">
    <property name="text">
     <string>Create Expressions</string>
+   </property>
+  </action>
+  <action name="actionConversion_And_Generation_Settings">
+   <property name="text">
+    <string>Conversion And Generation Settings</string>
    </property>
   </action>
  </widget>

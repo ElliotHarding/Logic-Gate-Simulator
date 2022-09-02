@@ -334,15 +334,15 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
     //Todo ~ simplification - Either properly or by converting to truth table putting it through truthTableToBooleanExpressions
     //Todo ~ not gate options (like NAND and NOR)
 
-    QList<char> inputLetters;
-    QList<char> outputLetters;
+    std::vector<char> inputLetters;
+    std::vector<char> outputLetters;
     for(BooleanExpression& expression : expressions)
     {
         for(char& letter : expression.letters)
         {
             if(isLetter(letter))
             {
-                if(!inputLetters.contains(letter))
+                if(!inVector(inputLetters, letter))
                 {
                     inputLetters.push_back(letter);
                 }

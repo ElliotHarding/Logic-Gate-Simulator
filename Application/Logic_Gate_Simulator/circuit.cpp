@@ -15,7 +15,7 @@ const uint GapBetweenGates = 100;
 /// \param numInputs
 /// \param numOutputs
 ///
-Circuit::Circuit(const QList<char>& inputLetters, const QList<char>& outputLetters) :
+Circuit::Circuit(const std::vector<char>& inputLetters, const std::vector<char>& outputLetters) :
     m_bDeleteGates(true)
 {
     for(const char& inputLetter : inputLetters)
@@ -36,13 +36,13 @@ Circuit::~Circuit()
         {
             delete g;
         }
-        for(Gate* g : inputs)
+        for(auto const& g : inputs)
         {
-            delete g;
+            delete g.second;
         }
-        for(Gate* g : outputs)
+        for(auto const& g : outputs)
         {
-            delete g;
+            delete g.second;
         }
     }
 }
@@ -84,23 +84,23 @@ GateCollection* Circuit::createGateCollection()
     int maxX = 300;
     int posY = 300;
     int offsetButSameX = 0;
-    for(Gate* g : inputs)
+    for(auto const& g : inputs)
     {
-        g->setPosition(offsetButSameX, posY+=Settings::GapBetweenGates);
-        pNewCircuit->AddGate(g);
+        g.second->setPosition(offsetButSameX, posY+=Settings::GapBetweenGates);
+        pNewCircuit->AddGate(g.second);
 
         offsetButSameX += 20;
 
-        displaceLinkedGates(g, mainGates, maxX);
+        displaceLinkedGates(g.second, mainGates, maxX);
     }
 
     posY = 300;
     maxX+=Settings::GapBetweenGates;
     offsetButSameX = 0;
-    for(Gate* g : outputs)
+    for(auto const& g : outputs)
     {
-        g->setPosition(maxX + offsetButSameX, posY+=Settings::GapBetweenGates);
-        pNewCircuit->AddGate(g);
+        g.second->setPosition(maxX + offsetButSameX, posY+=Settings::GapBetweenGates);
+        pNewCircuit->AddGate(g.second);
 
         offsetButSameX += 20;
     }
@@ -117,12 +117,12 @@ void Circuit::deleteMainGates()
     mainGates.clear();
 
     //Todo ~ find out why this is needed!
-    for(Gate* g : inputs)
+    for(auto const& g : inputs)
     {
-        g->DetachNodes();
+        g.second->DetachNodes();
     }
-    for(Gate* g : outputs)
+    for(auto const& g : outputs)
     {
-        g->DetachNodes();
+        g.second->DetachNodes();
     }
 }

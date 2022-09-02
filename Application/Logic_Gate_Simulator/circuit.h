@@ -2,8 +2,7 @@
 #define CIRCUIT_H
 
 #include <vector>
-#include <QMap>
-#include <QList>
+#include <map>
 
 class Gate;
 class GateCollection;
@@ -15,15 +14,15 @@ class GateReciever;
 class Circuit
 {
 public:
-    Circuit(const QList<char>& inputLetters, const QList<char>& outputLetters);
+    Circuit(const std::vector<char>& inputLetters, const std::vector<char>& outputLetters);
     ~Circuit();
 
     GateCollection* createGateCollection();
     void deleteMainGates();
 
     std::vector<Gate*> mainGates;
-    QMap<char, GateToggle*> inputs;
-    QMap<char, GateReciever*> outputs;
+    std::map<char, GateToggle*> inputs;
+    std::map<char, GateReciever*> outputs;
 private:
     bool m_bDeleteGates = true; //Delete gates on destructor
 };

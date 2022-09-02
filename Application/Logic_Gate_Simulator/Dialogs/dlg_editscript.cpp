@@ -24,7 +24,7 @@ const QString ScriptOutputsAttribute = "Outputs";
 DLG_EditScript::DLG_EditScript(DLG_Home* pParent) :
     QDialog(pParent),
     ui(new Ui::DLG_EditScript),
-    m_pDlgHome(pParent),
+    m_pHome(pParent),
     m_pFpga(nullptr),
     m_pDlgLoadGates(new QFileDialog(this))
 {
@@ -123,22 +123,22 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     }
 
     //Todo ~ could move this logic into DLG_Home
-    if(m_pDlgHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
+    if(m_pHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
     {
         TruthTable tt;
         if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt) == ConverterResult::SUCCESS)
         {
-            m_pDlgHome->requestRandomCircuitGen(tt);
+            m_pHome->requestRandomCircuitGen(tt);
         }
         else
         {
-            m_pDlgHome->SendUserMessage("Failed to convert to circuit. Check format of script.");
+            m_pHome->SendUserMessage("Failed to convert to circuit. Check format of script.");
         }
     }
     else
     {
         GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
-        if(Converter::scriptToCircuit(script, numInputs, numOutputs, m_pDlgHome->getCircuitGenOptions(), pNewCircuit) == ConverterResult::SUCCESS)
+        if(Converter::scriptToCircuit(script, numInputs, numOutputs, m_pHome->getCircuitGenOptions(), pNewCircuit) == ConverterResult::SUCCESS)
         {
             if(m_pFpga)
             {
@@ -147,14 +147,14 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
             }
             else
             {
-                m_pDlgHome->AddGateToGateField(pNewCircuit);
+                m_pHome->AddGateToGateField(pNewCircuit);
             }
             close();
         }
         else
         {
             delete pNewCircuit;
-            m_pDlgHome->SendUserMessage("Check script format!");
+            m_pHome->SendUserMessage("Check script format!");
         }
     }
 }
@@ -176,12 +176,12 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
     TruthTable tt;
     if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt) == ConverterResult::SUCCESS)
     {
-        m_pDlgHome->showTruthTable(tt);
+        m_pHome->showTruthTable(tt);
         close();
     }
     else
     {
-        m_pDlgHome->SendUserMessage("Check script format!");
+        m_pHome->SendUserMessage("Check script format!");
     }
 }
 
@@ -191,21 +191,21 @@ void DLG_EditScript::on_btn_load_clicked()
 
     if(fileNames.size() != 1)
     {
-        m_pDlgHome->SendUserMessage("Only one file can be selected.");
+        m_pHome->SendUserMessage("Only one file can be selected.");
         return;
     }
 
     const QString filePath = fileNames[0];
     if(!filePath.contains(Settings::ScriptFile))
     {
-        m_pDlgHome->SendUserMessage("File not in script format.");
+        m_pHome->SendUserMessage("File not in script format.");
         return;
     }
 
     QFile file(filePath);
     if(!file.open(QFile::ReadOnly | QFile::Text))
     {
-        m_pDlgHome->SendUserMessage("Failed to open file.");
+        m_pHome->SendUserMessage("Failed to open file.");
         return;
     }
 
@@ -215,7 +215,7 @@ void DLG_EditScript::on_btn_load_clicked()
     QDomElement scriptElement = doc.firstChildElement(Settings::ScriptElement);
     if(scriptElement.isNull())
     {
-        m_pDlgHome->SendUserMessage("Failed reading file.");
+        m_pHome->SendUserMessage("Failed reading file.");
         file.close();
         return;
     }
@@ -253,15 +253,15 @@ void DLG_EditScript::on_btn_Save_clicked()
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QString name;
-        if(m_pDlgHome->requestUserInputString("Set save name", "Save name: ", name))
+        if(m_pHome->requestUserInputString("Set save name", "Save name: ", name))
         {
             if(name.isEmpty())
             {
-                m_pDlgHome->SendUserMessage("Invalid name!");
+                m_pHome->SendUserMessage("Invalid name!");
                 return;
             }
 
-            QString dir = QFileDialog::getExistingDirectory(m_pDlgHome, "Open Directory",
+            QString dir = QFileDialog::getExistingDirectory(m_pHome, "Open Directory",
                                                          "/home",
                                                          QFileDialog::ShowDirsOnly
                                                          | QFileDialog::DontResolveSymlinks);
@@ -269,7 +269,7 @@ void DLG_EditScript::on_btn_Save_clicked()
             QFile file(m_currentSavePath);
             if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
             {
-                m_pDlgHome->SendUserMessage("Can't open file to save!");
+                m_pHome->SendUserMessage("Can't open file to save!");
                 return;
             }
 
@@ -315,13 +315,13 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     }
 
     std::vector<BooleanExpression> expressions;
-    if(Converter::scriptToBooleanExpressions(script, numInputs, numOutputs, m_pDlgHome->getCurrentConversionAlgorithm(), expressions) == ConverterResult::SUCCESS)
+    if(Converter::scriptToBooleanExpressions(script, numInputs, numOutputs, m_pHome->getCurrentConversionAlgorithm(), expressions) == ConverterResult::SUCCESS)
     {
-        m_pDlgHome->showBooleanExpressions(expressions);
+        m_pHome->showBooleanExpressions(expressions);
         close();
     }
     else
     {
-        m_pDlgHome->SendUserMessage("Failed to convert to boolean expression. Check format.");
+        m_pHome->SendUserMessage("Failed to convert to boolean expression. Check format.");
     }
 }

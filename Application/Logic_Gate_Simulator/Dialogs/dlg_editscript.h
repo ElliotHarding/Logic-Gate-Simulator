@@ -45,7 +45,7 @@ private slots:
 private:
     ///Home & UI
     Ui::DLG_EditScript *ui;
-    DLG_Home* m_pDlgHome;
+    DLG_Home* m_pHome;
     void setStartScript(const uint& numInputs);
     void setEndScript(const uint& numOutputs);
 

@@ -127,9 +127,13 @@ bool testCircuitAgainstTruthTable(Circuit& circuit, TruthTable& truthTable)
     for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
     {
         //Set inputs
-        for (uint iInput = 0; iInput < circuit.inputs.size(); iInput++)
+        for (auto const& inputGate : circuit.inputs)
         {
-            circuit.inputs[iInput]->SetPowerState(truthTable.inValues[iTableRun][iInput]);
+            //Todo ~ sort this out
+            //   Can't confirm that all letters are there...
+            uint iInput = inputGate.first - Settings::StartAlphabet;
+
+            inputGate.second->SetPowerState(truthTable.inValues[iTableRun][iInput]);
         }
 
         //Update
@@ -143,9 +147,13 @@ bool testCircuitAgainstTruthTable(Circuit& circuit, TruthTable& truthTable)
         }
 
         //Check outputs
-        for(uint iOutput = 0; iOutput < circuit.outputs.size(); iOutput++)
+        for(auto const& outputGate : circuit.outputs)
         {
-            if(circuit.outputs[iOutput]->GetValue() != truthTable.outValues[iTableRun][iOutput])
+            //Todo ~ sort this out
+            //   Can't confirm that all letters are there...
+            uint iOutput = Settings::EndAlphabet - outputGate.first;
+
+            if(outputGate.second->GetValue() != truthTable.outValues[iTableRun][iOutput])
             {
                 return false;
             }
@@ -178,11 +186,11 @@ std::vector<char> getOutputLetters(const uint iOutputs)
 //////////////////////////////////////////////////////////////////////////
 /// \brief CircuitFromScriptThread::CircuitFromScriptThread
 ///
-CircuitFromTruthTableThread::CircuitFromTruthTableThread() : QThread()
+RandomCircuitGenThread::RandomCircuitGenThread() : QThread()
 {
 }
 
-void CircuitFromTruthTableThread::start(const TruthTable& truthTable, const CircuitOptions& circuitGenOptions)
+void RandomCircuitGenThread::start(const TruthTable& truthTable, const CircuitOptions& circuitGenOptions)
 {
     m_truthTable = truthTable;
     m_circuitOptions = circuitGenOptions;
@@ -190,7 +198,7 @@ void CircuitFromTruthTableThread::start(const TruthTable& truthTable, const Circ
     QThread::start();
 }
 
-void CircuitFromTruthTableThread::run()
+void RandomCircuitGenThread::run()
 {
     const clock_t startTimeMs = clock();
 

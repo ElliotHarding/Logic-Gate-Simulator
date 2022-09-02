@@ -116,6 +116,9 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>360</number>
+   </property>
   </widget>
   <widget class="QSpinBox" name="spinBox_addGateChance">
    <property name="geometry">
@@ -126,6 +129,12 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
   </widget>
   <widget class="QSpinBox" name="spinBox_maxGates">
    <property name="geometry">
@@ -135,6 +144,9 @@
      <width>51</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>20</number>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_maxGenTime">

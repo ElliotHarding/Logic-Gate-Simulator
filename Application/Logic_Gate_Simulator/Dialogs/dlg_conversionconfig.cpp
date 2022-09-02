@@ -7,7 +7,8 @@ namespace Settings
 {
 const QMap<QString, ConversionAlgorithm> ConversionAlgorithmNames = {
     {"No optimization", NoOptimization},
-    {"Quine-McCluskey", QuineMcCluskey}
+    {"Quine-McCluskey", QuineMcCluskey},
+    {"Random", Random}
 };
 }
 

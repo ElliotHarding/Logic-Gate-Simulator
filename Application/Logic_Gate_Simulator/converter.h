@@ -16,6 +16,7 @@ enum ConverterResult
 enum ConversionAlgorithm
 {
     QuineMcCluskey,
+    Random,
     NoOptimization,
     NoAlgorithm
     //When editing, also update dlg_conversionconfig.cpp

@@ -11,12 +11,13 @@ class GateCollection;
 class CircuitOptions;
 
 //////////////////////////////////////////////////////////////////////////
-///CircuitFromScriptThread
-class CircuitFromTruthTableThread : public QThread
+///RandomCircuitGenThread
+/// This is using the random method! For more see Converter
+class RandomCircuitGenThread : public QThread
 {
     Q_OBJECT
 public:
-    CircuitFromTruthTableThread();
+    RandomCircuitGenThread();
 
     void start(const TruthTable& truthTable, const CircuitOptions& circuitGenOptions);
     void run();

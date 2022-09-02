@@ -2,6 +2,7 @@
 #include "ui_dlg_home.h"
 #include "allgates.h"
 #include "gatefield.h"
+#include "circuitfromtruthtablethread.h"
 
 #include <QLayout>
 #include <QLibrary>
@@ -17,7 +18,8 @@ const QString DefaultPageName = "New Page";
 DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
-    m_zoomFactor(-1)
+    m_zoomFactor(-1),
+    m_pRandomCircuitGenThread(new RandomCircuitGenThread())
 {
 
     pProgressBar->setValue(20);
@@ -71,6 +73,9 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         connect(ui->actionCreate_Truth_Table, SIGNAL(triggered()), this, SLOT(on_btn_createTruthTable()));
         connect(ui->actionCreate_Expressions, SIGNAL(triggered()), this, SLOT(on_btn_createExpressions()));
         connect(ui->actionConversion_And_Generation_Settings, SIGNAL(triggered()), this, SLOT(on_btn_conversionConfig()));
+
+        connect(m_pRandomCircuitGenThread, SIGNAL(circuitGenSuccess(GateCollection*)), this, SLOT(onRandomCircuitGenSuccess(GateCollection*)));
+        connect(m_pRandomCircuitGenThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onRandomCircuitGenFailure(const QString&)));
     }
 
     {
@@ -122,6 +127,8 @@ void DLG_Home::InitalizeDialogsAndWidgets()
 
 DLG_Home::~DLG_Home()
 {
+    delete m_pRandomCircuitGenThread;
+
     delete m_pSpawnedGateWidget;
 
     delete m_pWidgetAllGates;
@@ -305,6 +312,17 @@ CircuitOptions DLG_Home::getCircuitGenOptions() const
 ConversionAlgorithm DLG_Home::getCurrentConversionAlgorithm() const
 {
     return m_pDlgConversionConfig->getAlgorithm();
+}
+
+void DLG_Home::requestRandomCircuitGen(const TruthTable& truthTable)
+{
+    if(m_pRandomCircuitGenThread->isRunning())
+    {
+        SendUserMessage("Already generating!");
+        return;
+    }
+
+    m_pRandomCircuitGenThread->start(truthTable, getCircuitGenOptions());
 }
 
 void DLG_Home::EditTextLabel(TextLabel* pTextLabelToEdit)
@@ -567,4 +585,19 @@ void DLG_Home::on_PlayField_currentChanged(int index)
     {
         m_pDlgGateInfo->setGateField(dynamic_cast<GateField*>(ui->PlayField->widget(index)));
     }
+}
+
+void DLG_Home::onRandomCircuitGenSuccess(GateCollection* pNewCircuit)
+{
+    AddGateToGateField(pNewCircuit);
+
+    //One of these guys requested the circuit gen
+    m_pDlgEditScript->close();
+    m_pDlgBooleanExpressions->close();
+    m_pDlgTruthTable->close();
+}
+
+void DLG_Home::onRandomCircuitGenFailure(const QString& failMessage)
+{
+    SendUserMessage(failMessage);
 }

@@ -37,6 +37,7 @@ class DLG_Home;
 
 class TextLabel;
 class DLG_LabelGateEdit; //Todo : move to own files
+class RandomCircuitGenThread;
 
 class DLG_Home : public QMainWindow
 {
@@ -69,6 +70,8 @@ public:
 
     CircuitOptions getCircuitGenOptions() const;
     ConversionAlgorithm getCurrentConversionAlgorithm() const;
+
+    void requestRandomCircuitGen(const TruthTable& truthTable);
 
 protected:
     void moveEvent(QMoveEvent* event) override;
@@ -123,6 +126,8 @@ protected:
     ClickMode m_currentClickMode = CLICK_DRAG;
     ClickMode m_savedClickMode = CLICK_DRAG;
 
+    RandomCircuitGenThread* m_pRandomCircuitGenThread;
+
 private slots:
 
     //Tools buttons
@@ -156,6 +161,9 @@ private slots:
     //Tabs
     void on_PlayField_tabCloseRequested(int index);
     void on_PlayField_currentChanged(int index);
+
+    void onRandomCircuitGenSuccess(GateCollection* pNewCircuit);
+    void onRandomCircuitGenFailure(const QString& failMessage);
 };
 
 #endif // DLG_HOME_H

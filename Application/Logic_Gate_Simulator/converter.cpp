@@ -328,7 +328,7 @@ bool isLetterOrInt(const char& letter)
     return false;
 }
 
-ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, CircuitOptions& /*circuitOptions*/, GateCollection*& pNewCircuit)
+ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, const CircuitOptions& /*circuitOptions*/, GateCollection*& pNewCircuit)
 {
     //Todo ~ simplification - Either properly or by converting to truth table putting it through truthTableToBooleanExpressions
     //Todo ~ not gate options (like NAND and NOR)
@@ -569,7 +569,7 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
     return ConverterResult::SUCCESS;
 }
 
-ConverterResult Converter::truthTableToCircuit(TruthTable& truthTable, CircuitOptions& circuitOptions, GateCollection*& pNewCircuit)
+ConverterResult Converter::truthTableToCircuit(TruthTable& truthTable, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit)
 {
     std::vector<BooleanExpression> expressions;
     ConverterResult res = truthTableToBooleanExpressions(truthTable, circuitOptions.m_algorithm, expressions);
@@ -582,7 +582,7 @@ ConverterResult Converter::truthTableToCircuit(TruthTable& truthTable, CircuitOp
     return booleanExpressionsToCircuit(expressions, circuitOptions, pNewCircuit);
 }
 
-ConverterResult Converter::scriptToCircuit(const QString &script, const uint &numInputs, const uint &numOutputs, CircuitOptions& circuitOptions, GateCollection *&pNewCircuit)
+ConverterResult Converter::scriptToCircuit(const QString &script, const uint &numInputs, const uint &numOutputs, const CircuitOptions& circuitOptions, GateCollection *&pNewCircuit)
 {
     TruthTable tt;
     ConverterResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);

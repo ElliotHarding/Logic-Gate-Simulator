@@ -107,8 +107,7 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
     }
 
     GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
-    CircuitOptions options(true, false, true);
-    if(Converter::booleanExpressionsToCircuit(expressions, options, pNewGateCollection) == ConverterResult::SUCCESS)
+    if(Converter::booleanExpressionsToCircuit(expressions, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
     {
         m_pHome->AddGateToGateField(pNewGateCollection);
         close();

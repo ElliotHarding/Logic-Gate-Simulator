@@ -67,6 +67,9 @@ public:
     void restorePreviousClickMode();
     ClickMode currentClickMode() const;
 
+    CircuitOptions getCircuitGenOptions() const;
+    ConversionAlgorithm getCurrentConversionAlgorithm() const;
+
 protected:
     void moveEvent(QMoveEvent* event) override;
 

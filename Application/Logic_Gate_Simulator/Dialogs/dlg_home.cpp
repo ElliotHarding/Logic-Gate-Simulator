@@ -297,6 +297,16 @@ ClickMode DLG_Home::currentClickMode() const
     return m_currentClickMode;
 }
 
+CircuitOptions DLG_Home::getCircuitGenOptions() const
+{
+    return m_pDlgConversionConfig->getCircuitGenOptions();
+}
+
+ConversionAlgorithm DLG_Home::getCurrentConversionAlgorithm() const
+{
+    return m_pDlgConversionConfig->getAlgorithm();
+}
+
 void DLG_Home::EditTextLabel(TextLabel* pTextLabelToEdit)
 {
     m_pDlgTextLabelEdit->EditTextLabel(pTextLabelToEdit);

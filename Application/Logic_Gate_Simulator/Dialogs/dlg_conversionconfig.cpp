@@ -6,8 +6,8 @@
 namespace Settings
 {
 const QMap<QString, ConversionAlgorithm> ConversionAlgorithmNames = {
-    {"Quine-McCluskey", QuineMcCluskey},
-    {"No optimization", NoOptimization}
+    {"No optimization", NoOptimization},
+    {"Quine-McCluskey", QuineMcCluskey}
 };
 }
 
@@ -21,6 +21,7 @@ DLG_ConversionConfig::DLG_ConversionConfig(QWidget *parent) :
     {
         ui->comboBox_algorithm->addItem(algorithmName);
     }
+    ui->comboBox_algorithm->setCurrentText("Quine-McCluskey");
 }
 
 DLG_ConversionConfig::~DLG_ConversionConfig()

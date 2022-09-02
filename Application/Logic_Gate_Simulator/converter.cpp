@@ -329,6 +329,13 @@ bool isLetterOrInt(const char& letter)
     return false;
 }
 
+bool linkNodes(Node*& pNodeA, Node*& pNodeB)
+{
+    bool linked = pNodeA->LinkNode(pNodeB);
+    linked &= pNodeB->LinkNode(pNodeA);
+    return linked;
+}
+
 ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, const CircuitOptions& /*circuitOptions*/, GateCollection*& pNewCircuit)
 {
     //Todo ~ simplification - Either properly or by converting to truth table putting it through truthTableToBooleanExpressions
@@ -391,8 +398,11 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         else
                         {
                             input1Gate = new GateNot();
-                            circuit.inputs[expression.letters[iLetter]]->getOutputNodes()[0]->LinkNode(input1Gate->getInputNodes()[0]);
-                            input1Gate->getInputNodes()[0]->LinkNode(circuit.inputs[expression.letters[iLetter]]->getOutputNodes()[0]);
+                            if(!linkNodes(circuit.inputs[expression.letters[iLetter]]->getOutputNodes()[0], input1Gate->getInputNodes()[0]))
+                            {
+                                qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                                return INVALID_INPUT_EXPRESSIONS;
+                            }
                             invertLetterGates[expression.letters[iLetter]] = input1Gate;
                             circuit.mainGates.push_back(input1Gate);
                         }
@@ -421,8 +431,11 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         else
                         {
                             input2Gate = new GateNot();
-                            circuit.inputs[expression.letters[iLetter+1]]->getOutputNodes()[0]->LinkNode(input2Gate->getInputNodes()[0]);
-                            input2Gate->getInputNodes()[0]->LinkNode(circuit.inputs[expression.letters[iLetter+1]]->getOutputNodes()[0]);
+                            if(!linkNodes(circuit.inputs[expression.letters[iLetter+1]]->getOutputNodes()[0], input2Gate->getInputNodes()[0]))
+                            {
+                                qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                                return INVALID_INPUT_EXPRESSIONS;
+                            }
                             invertLetterGates[expression.letters[iLetter+1]] = input2Gate;
                             circuit.mainGates.push_back(input2Gate);
                         }
@@ -437,10 +450,16 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                     }
 
                     Gate* andGate = new GateAnd();
-                    andGate->getInputNodes()[0]->LinkNode(input1Gate->getOutputNodes()[0]);
-                    input1Gate->getOutputNodes()[0]->LinkNode(andGate->getInputNodes()[0]);
-                    andGate->getInputNodes()[1]->LinkNode(input2Gate->getOutputNodes()[0]);
-                    input2Gate->getOutputNodes()[0]->LinkNode(andGate->getInputNodes()[1]);
+                    if(!linkNodes(andGate->getInputNodes()[0], input1Gate->getOutputNodes()[0]))
+                    {
+                        qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                        return INVALID_INPUT_EXPRESSIONS;
+                    }
+                    if(!linkNodes(andGate->getInputNodes()[1], input2Gate->getOutputNodes()[0]))
+                    {
+                        qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                        return INVALID_INPUT_EXPRESSIONS;
+                    }
                     circuit.mainGates.push_back(andGate);
                     circuitGates[48 + sumGateCounter] = andGate;
 
@@ -455,8 +474,11 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
 
                     if(expression.letters.size() == 1)
                     {
-                        circuit.outputs[outputLetter]->getInputNodes()[0]->LinkNode(andGate->getOutputNodes()[0]);
-                        andGate->getOutputNodes()[0]->LinkNode(circuit.outputs[outputLetter]->getInputNodes()[0]);
+                        if(!linkNodes(circuit.outputs[outputLetter]->getInputNodes()[0], andGate->getOutputNodes()[0]))
+                        {
+                            qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                            return INVALID_INPUT_EXPRESSIONS;
+                        }
                         expression.letters.clear();
                         expression.inverted.clear();
                     }
@@ -492,8 +514,11 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         else
                         {
                             input1Gate = new GateNot();
-                            circuit.inputs[expression.letters[iLetter-1]]->getOutputNodes()[0]->LinkNode(input1Gate->getInputNodes()[0]);
-                            input1Gate->getInputNodes()[0]->LinkNode(circuit.inputs[expression.letters[iLetter-1]]->getOutputNodes()[0]);
+                            if(!linkNodes(input1Gate->getInputNodes()[0], circuit.inputs[expression.letters[iLetter-1]]->getOutputNodes()[0]))
+                            {
+                                qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                                return INVALID_INPUT_EXPRESSIONS;
+                            }
                             invertLetterGates[expression.letters[iLetter-1]] = input1Gate;
                             circuit.mainGates.push_back(input1Gate);
                         }
@@ -522,8 +547,11 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         else
                         {
                             input2Gate = new GateNot();
-                            circuit.inputs[expression.letters[iLetter+1]]->getOutputNodes()[0]->LinkNode(input2Gate->getInputNodes()[0]);
-                            input2Gate->getInputNodes()[0]->LinkNode(circuit.inputs[expression.letters[iLetter+1]]->getOutputNodes()[0]);
+                            if(!linkNodes(circuit.inputs[expression.letters[iLetter+1]]->getOutputNodes()[0], input2Gate->getInputNodes()[0]))
+                            {
+                                qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                                return INVALID_INPUT_EXPRESSIONS;
+                            }
                             invertLetterGates[expression.letters[iLetter+1]] = input2Gate;
                             circuit.mainGates.push_back(input2Gate);
                         }
@@ -538,10 +566,16 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                     }
 
                     Gate* orGate = new GateOr();
-                    orGate->getInputNodes()[0]->LinkNode(input1Gate->getOutputNodes()[0]);
-                    input1Gate->getOutputNodes()[0]->LinkNode(orGate->getInputNodes()[0]);
-                    orGate->getInputNodes()[1]->LinkNode(input2Gate->getOutputNodes()[0]);
-                    input2Gate->getOutputNodes()[0]->LinkNode(orGate->getInputNodes()[1]);
+                    if(!linkNodes(orGate->getInputNodes()[0], input1Gate->getOutputNodes()[0]))
+                    {
+                        qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                        return INVALID_INPUT_EXPRESSIONS;
+                    }
+                    if(!linkNodes(orGate->getInputNodes()[1], input2Gate->getOutputNodes()[0]))
+                    {
+                        qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                        return INVALID_INPUT_EXPRESSIONS;
+                    }
                     circuit.mainGates.push_back(orGate);
                     circuitGates[48 + sumGateCounter] = orGate;
 
@@ -558,8 +592,11 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
 
                     if(expression.letters.size() == 1)
                     {
-                        circuit.outputs[outputLetter]->getInputNodes()[0]->LinkNode(orGate->getOutputNodes()[0]);
-                        orGate->getOutputNodes()[0]->LinkNode(circuit.outputs[outputLetter]->getInputNodes()[0]);
+                        if(!linkNodes(circuit.outputs[outputLetter]->getInputNodes()[0], orGate->getOutputNodes()[0]))
+                        {
+                            qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                            return INVALID_INPUT_EXPRESSIONS;
+                        }
                         expression.letters.clear();
                         expression.inverted.clear();
                     }
@@ -578,10 +615,16 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                 if(expression.inverted[0])
                 {
                     Gate* notGate = new GateNot();
-                    circuit.inputs[expression.letters[0]]->getOutputNodes()[0]->LinkNode(notGate->getInputNodes()[0]);
-                    notGate->getInputNodes()[0]->LinkNode(circuit.inputs[expression.letters[0]]->getOutputNodes()[0]);
-                    notGate->getOutputNodes()[0]->LinkNode(circuit.outputs[outputLetter]->getInputNodes()[0]);
-                    circuit.outputs[outputLetter]->getInputNodes()[0]->LinkNode(notGate->getOutputNodes()[0]);
+                    if(!linkNodes(circuit.inputs[expression.letters[0]]->getOutputNodes()[0], notGate->getInputNodes()[0]))
+                    {
+                        qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                        return INVALID_INPUT_EXPRESSIONS;
+                    }
+                    if(!linkNodes(notGate->getOutputNodes()[0], circuit.outputs[outputLetter]->getInputNodes()[0]))
+                    {
+                        qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                        return INVALID_INPUT_EXPRESSIONS;
+                    }
 
                     invertLetterGates[expression.letters[0]] = notGate;
                     circuit.mainGates.push_back(notGate);
@@ -591,8 +634,11 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                 }
                 else
                 {
-                    circuit.outputs[outputLetter]->getInputNodes()[0]->LinkNode(circuit.inputs[expression.letters[0]]->getOutputNodes()[0]);
-                    circuit.inputs[expression.letters[0]]->getOutputNodes()[0]->LinkNode(circuit.outputs[outputLetter]->getInputNodes()[0]);
+                    if(!linkNodes(circuit.outputs[outputLetter]->getInputNodes()[0], circuit.inputs[expression.letters[0]]->getOutputNodes()[0]))
+                    {
+                        qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
+                        return INVALID_INPUT_EXPRESSIONS;
+                    }
                     expression.letters.clear();
                     expression.inverted.clear();
                 }

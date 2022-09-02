@@ -17,15 +17,16 @@ enum ConversionAlgorithm
     QuineMcCluskey,
     NoOptimization,
     NoAlgorithm
+    //When editing, also update dlg_conversionconfig.cpp
 };
 
 struct CircuitOptions //Circuit generation options
 {
-    CircuitOptions(const bool& useAdvancedNotGates, const bool& nandOnly, const bool& tripleGates, const ConversionAlgorithm& conversionAlgorithm = NoAlgorithm);;
+    CircuitOptions(const bool& useInverseGates, const bool& nandOnly, const bool& largeInputGates, const ConversionAlgorithm& conversionAlgorithm = NoAlgorithm);;
 
-    bool m_bUseAdvancedNotGates; //Use gates like NAND or NOR
+    bool m_bUseInverseGates; //Use gates like NAND or NOR
     bool m_bNandOnly; //Only NAND gates
-    bool m_bTripleGates; //Triple input gates
+    bool m_bLargeInputGates; //Use gates with more than 2 inputs (tri-and)
     ConversionAlgorithm m_algorithm;
 };
 

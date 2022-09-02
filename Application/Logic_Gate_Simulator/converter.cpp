@@ -5,12 +5,13 @@
 #include <cmath>
 #include <QScriptEngine>
 
-CircuitOptions::CircuitOptions(const bool &useAdvancedNotGates, const bool &nandOnly, const bool &tripleGates, const ConversionAlgorithm &conversionAlgorithm) :
-    m_bUseAdvancedNotGates(useAdvancedNotGates),
+CircuitOptions::CircuitOptions(const bool& useInverseGates, const bool& nandOnly, const bool& largeInputGates, const ConversionAlgorithm& conversionAlgorithm) :
+    m_bUseInverseGates(useInverseGates),
     m_bNandOnly(nandOnly),
-    m_bTripleGates(tripleGates),
+    m_bLargeInputGates(largeInputGates),
     m_algorithm(conversionAlgorithm)
-{}
+{
+}
 
 namespace Settings
 {

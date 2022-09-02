@@ -2,6 +2,7 @@
 #define DLG_CONVERSIONCONFIG_H
 
 #include <QDialog>
+#include "converter.h"
 
 namespace Ui {
 class DLG_ConversionConfig;
@@ -14,6 +15,9 @@ class DLG_ConversionConfig : public QDialog
 public:
     explicit DLG_ConversionConfig(QWidget *parent = nullptr);
     ~DLG_ConversionConfig();
+
+    ConversionAlgorithm getAlgorithm() const;
+    CircuitOptions getCircuitGenOptions() const;
 
 private:
     Ui::DLG_ConversionConfig *ui;

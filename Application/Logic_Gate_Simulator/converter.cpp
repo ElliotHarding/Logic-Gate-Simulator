@@ -266,7 +266,7 @@ bool expressionToResult(const std::vector<bool>& inValues, const BooleanExpressi
         {
             if(expression.letters[j] == letter)
             {
-                if(expression.inverted[j] == inValues[i])
+                if(expression.isInverted(j) == inValues[i])
                 {
                     return false;
                 }
@@ -388,15 +388,20 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
             //Look for AND jobs
             for(uint iLetter = 0; iLetter < expression.letters.size()-1; iLetter++)
             {
-                if(isLetterOrInt(expression.letters[iLetter]) && isLetterOrInt(expression.letters[iLetter+1]))
+                const bool firstItemInverted = iLetter > 0 && expression.letters[iLetter-1] == '!';
+                const char firstItem = expression.letters[iLetter];
+                const bool nextItemInverted = expression.letters[iLetter+1] == '!';
+                const char nextItem = nextItemInverted ? expression.letters[iLetter+2] : expression.letters[iLetter+1];
+
+                if(isLetterOrInt(firstItem) && isLetterOrInt(nextItem))
                 {
                     Gate* input1Gate;
-                    if(expression.inverted[iLetter])
+                    if(firstItemInverted)
                     {
                         //Check if already have a notted gate of current letter
-                        if(invertLetterGates.find(expression.letters[iLetter]) != invertLetterGates.end())
+                        if(invertLetterGates.find(firstItem) != invertLetterGates.end())
                         {
-                            input1Gate = invertLetterGates[expression.letters[iLetter]];
+                            input1Gate = invertLetterGates[firstItem];
                         }
 
                         //Todo ~ check if sum gate is notted.
@@ -405,31 +410,31 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         else
                         {
                             input1Gate = new GateNot();
-                            if(!linkNodes(circuit.inputs[expression.letters[iLetter]]->getOutputNodes()[0], input1Gate->getInputNodes()[0]))
+                            if(!linkNodes(circuit.inputs[firstItem]->getOutputNodes()[0], input1Gate->getInputNodes()[0]))
                             {
                                 qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
                                 return INVALID_INPUT_EXPRESSIONS;
                             }
-                            invertLetterGates[expression.letters[iLetter]] = input1Gate;
+                            invertLetterGates[firstItem] = input1Gate;
                             circuit.mainGates.push_back(input1Gate);
                         }
                     }
-                    else if(isLetter(expression.letters[iLetter]))
+                    else if(isLetter(firstItem))
                     {
-                        input1Gate = circuit.inputs[expression.letters[iLetter]];
+                        input1Gate = circuit.inputs[firstItem];
                     }
                     else
                     {
-                        input1Gate = circuitGates[expression.letters[iLetter]];
+                        input1Gate = circuitGates[firstItem];
                     }
 
                     Gate* input2Gate;
-                    if(expression.inverted[iLetter+1])
+                    if(nextItemInverted)
                     {
                         //Check if already have a notted gate of current letter
-                        if(invertLetterGates.find(expression.letters[iLetter+1]) != invertLetterGates.end())
+                        if(invertLetterGates.find(nextItem) != invertLetterGates.end())
                         {
-                            input2Gate = invertLetterGates[expression.letters[iLetter+1]];
+                            input2Gate = invertLetterGates[nextItem];
                         }
 
                         //Todo ~ check if sum gate is notted.
@@ -438,22 +443,22 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         else
                         {
                             input2Gate = new GateNot();
-                            if(!linkNodes(circuit.inputs[expression.letters[iLetter+1]]->getOutputNodes()[0], input2Gate->getInputNodes()[0]))
+                            if(!linkNodes(circuit.inputs[nextItem]->getOutputNodes()[0], input2Gate->getInputNodes()[0]))
                             {
                                 qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
                                 return INVALID_INPUT_EXPRESSIONS;
                             }
-                            invertLetterGates[expression.letters[iLetter+1]] = input2Gate;
+                            invertLetterGates[nextItem] = input2Gate;
                             circuit.mainGates.push_back(input2Gate);
                         }
                     }
-                    else if(isLetter(expression.letters[iLetter+1]))
+                    else if(isLetter(nextItem))
                     {
-                        input2Gate = circuit.inputs[expression.letters[iLetter+1]];
+                        input2Gate = circuit.inputs[nextItem];
                     }
                     else
                     {
-                        input2Gate = circuitGates[expression.letters[iLetter+1]];
+                        input2Gate = circuitGates[nextItem];
                     }
 
                     Gate* andGate = new GateAnd();
@@ -473,8 +478,6 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                     //Replace A.B with 1
                     expression.letters[iLetter] = 48 + sumGateCounter;
                     expression.letters.erase(expression.letters.begin() + iLetter + 1);
-                    expression.inverted[iLetter] = false;
-                    expression.inverted.erase(expression.inverted.begin() + iLetter + 1);
 
                     sumGateCounter++;
                     changed = true;
@@ -487,7 +490,6 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                             return INVALID_INPUT_EXPRESSIONS;
                         }
                         expression.letters.clear();
-                        expression.inverted.clear();
                     }
 
                     break;
@@ -506,13 +508,18 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                 {
                     //Todo ~ notted sums
 
+                    const bool firstItemInverted = iLetter > 1 && expression.letters[iLetter-2] == '!';
+                    const char firstItem = expression.letters[iLetter-1];
+                    const bool nextItemInverted = expression.letters[iLetter+1] == '!';
+                    const char nextItem = nextItemInverted ? expression.letters[iLetter+2] : expression.letters[iLetter+1];
+
                     Gate* input1Gate;
-                    if(expression.inverted[iLetter-1])
+                    if(firstItemInverted)
                     {
                         //Check if already have a notted gate of current letter
-                        if(invertLetterGates.find(expression.letters[iLetter-1]) != invertLetterGates.end())
+                        if(invertLetterGates.find(firstItem) != invertLetterGates.end())
                         {
-                            input1Gate = invertLetterGates[expression.letters[iLetter-1]];
+                            input1Gate = invertLetterGates[firstItem];
                         }
 
                         //Todo ~ check if sum gate is notted.
@@ -521,31 +528,31 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         else
                         {
                             input1Gate = new GateNot();
-                            if(!linkNodes(input1Gate->getInputNodes()[0], circuit.inputs[expression.letters[iLetter-1]]->getOutputNodes()[0]))
+                            if(!linkNodes(input1Gate->getInputNodes()[0], circuit.inputs[firstItem]->getOutputNodes()[0]))
                             {
                                 qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
                                 return INVALID_INPUT_EXPRESSIONS;
                             }
-                            invertLetterGates[expression.letters[iLetter-1]] = input1Gate;
+                            invertLetterGates[firstItem] = input1Gate;
                             circuit.mainGates.push_back(input1Gate);
                         }
                     }
-                    else if(isLetter(expression.letters[iLetter-1]))
+                    else if(isLetter(firstItem))
                     {
-                        input1Gate = circuit.inputs[expression.letters[iLetter-1]];
+                        input1Gate = circuit.inputs[firstItem];
                     }
                     else
                     {
-                        input1Gate = circuitGates[expression.letters[iLetter-1]];
+                        input1Gate = circuitGates[firstItem];
                     }
 
                     Gate* input2Gate;
-                    if(expression.inverted[iLetter+1])
+                    if(nextItemInverted)
                     {
                         //Check if already have a notted gate of current letter
-                        if(invertLetterGates.find(expression.letters[iLetter+1]) != invertLetterGates.end())
+                        if(invertLetterGates.find(nextItem) != invertLetterGates.end())
                         {
-                            input2Gate = invertLetterGates[expression.letters[iLetter+1]];
+                            input2Gate = invertLetterGates[nextItem];
                         }
 
                         //Todo ~ check if sum gate is notted.
@@ -554,22 +561,22 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         else
                         {
                             input2Gate = new GateNot();
-                            if(!linkNodes(circuit.inputs[expression.letters[iLetter+1]]->getOutputNodes()[0], input2Gate->getInputNodes()[0]))
+                            if(!linkNodes(circuit.inputs[nextItem]->getOutputNodes()[0], input2Gate->getInputNodes()[0]))
                             {
                                 qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
                                 return INVALID_INPUT_EXPRESSIONS;
                             }
-                            invertLetterGates[expression.letters[iLetter+1]] = input2Gate;
+                            invertLetterGates[nextItem] = input2Gate;
                             circuit.mainGates.push_back(input2Gate);
                         }
                     }
-                    else if(isLetter(expression.letters[iLetter+1]))
+                    else if(isLetter(nextItem))
                     {
-                        input2Gate = circuit.inputs[expression.letters[iLetter+1]];
+                        input2Gate = circuit.inputs[nextItem];
                     }
                     else
                     {
-                        input2Gate = circuitGates[expression.letters[iLetter+1]];
+                        input2Gate = circuitGates[nextItem];
                     }
 
                     Gate* orGate = new GateOr();
@@ -587,12 +594,13 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                     circuitGates[48 + sumGateCounter] = orGate;
 
                     //Replace A+B with 1
-                    expression.letters[iLetter-1] = 48 + sumGateCounter;
+                    expression.letters[firstItemInverted ? iLetter-2 : iLetter-1] = 48 + sumGateCounter;
+                    for(int i = 0; i M)
+                    {
+                        //todoelliot
+                    }
                     expression.letters.erase(expression.letters.begin() + iLetter);
                     expression.letters.erase(expression.letters.begin() + iLetter);
-                    expression.inverted[iLetter-1] = false;
-                    expression.inverted.erase(expression.inverted.begin() + iLetter);
-                    expression.inverted.erase(expression.inverted.begin() + iLetter);
 
                     sumGateCounter++;
                     changed = true;
@@ -605,7 +613,6 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                             return INVALID_INPUT_EXPRESSIONS;
                         }
                         expression.letters.clear();
-                        expression.inverted.clear();
                     }
 
                     break;
@@ -617,12 +624,38 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                 continue;
             }
 
-            if(expression.letters.size() == 1 && isLetter(expression.letters[0]))
+            if(expression.letters.size() > 0)
             {
-                if(expression.inverted[0])
+                char letter;
+                bool isInverted;
+                if(expression.letters[0] == '!')
+                {
+                    if(expression.letters.size() > 1 && isLetter(expression.letters[1]))
+                    {
+                        letter = expression.letters[1];
+                        isInverted = true;
+                    }
+                    else
+                    {
+                        qDebug() << "Converter::booleanExpressionsToCircuit - Invalid expression design";
+                        return INVALID_INPUT_EXPRESSIONS;
+                    }
+                }
+                else if(isLetter(expression.letters[0]))
+                {
+                    letter = expression.letters[0];
+                    isInverted = false;
+                }
+                else
+                {
+                    qDebug() << "Converter::booleanExpressionsToCircuit - Invalid expression design";
+                    return INVALID_INPUT_EXPRESSIONS;
+                }
+
+                if(isInverted)
                 {
                     Gate* notGate = new GateNot();
-                    if(!linkNodes(circuit.inputs[expression.letters[0]]->getOutputNodes()[0], notGate->getInputNodes()[0]))
+                    if(!linkNodes(circuit.inputs[letter]->getOutputNodes()[0], notGate->getInputNodes()[0]))
                     {
                         qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
                         return INVALID_INPUT_EXPRESSIONS;
@@ -633,21 +666,19 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                         return INVALID_INPUT_EXPRESSIONS;
                     }
 
-                    invertLetterGates[expression.letters[0]] = notGate;
+                    invertLetterGates[letter] = notGate;
                     circuit.mainGates.push_back(notGate);
 
                     expression.letters.clear();
-                    expression.inverted.clear();
                 }
                 else
                 {
-                    if(!linkNodes(circuit.outputs[outputLetter]->getInputNodes()[0], circuit.inputs[expression.letters[0]]->getOutputNodes()[0]))
+                    if(!linkNodes(circuit.outputs[outputLetter]->getInputNodes()[0], circuit.inputs[letter]->getOutputNodes()[0]))
                     {
                         qDebug() << "Converter::booleanExpressionsToCircuit - Invalid node link";
                         return INVALID_INPUT_EXPRESSIONS;
                     }
                     expression.letters.clear();
-                    expression.inverted.clear();
                 }
             }
             else

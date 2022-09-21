@@ -1,19 +1,19 @@
 #include "booleanexpression.h"
 
-void BooleanExpression::addTerm(const char& letter, const bool& bInverted)
+void BooleanExpression::addTerm(const char &letter, const bool &bInverted)
 {
+    if(bInverted)
+    {
+        letters.push_back('!');
+    }
     letters.push_back(letter);
-    inverted.push_back(bInverted);
 }
 
-QString BooleanExpression::lettersAsString()
+bool BooleanExpression::isInverted(uint iLetter) const
 {
-    QString result = "";
-
-    for(uint i = 0; i < letters.size(); i++)
+    if(iLetter > 0 && iLetter <= letters.size() && letters[iLetter-1] == '!')
     {
-        result += letters[i];
+        return true;
     }
-
-    return result;
+    return false;
 }

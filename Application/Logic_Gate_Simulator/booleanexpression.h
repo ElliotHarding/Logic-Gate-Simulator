@@ -7,12 +7,10 @@
 struct BooleanExpression
 {
     std::vector<char> letters;
-    std::vector<bool> inverted;
     char resultLetter;
 
     void addTerm(const char& letter, const bool& bInverted = false);
-
-    QString lettersAsString();
+    bool isInverted(uint iLetter) const;
 };
 
 #endif // BOOLEANEXPRESSION_H

@@ -42,7 +42,6 @@ void DLG_BooleanExpressions::open()
     {
         BooleanExpression newExpression;
         newExpression.letters = {'A', 'B'};
-        newExpression.inverted = {false, false};
         newExpression.resultLetter = 'Z';
         addUiExpression(newExpression);
     }
@@ -230,10 +229,6 @@ BooleanExpressionLineEdit::BooleanExpressionLineEdit(QWidget* pParent, const Boo
     QString displayedExpression = "";
     for(uint i = 0; i < expression.letters.size(); i++)
     {
-        if(expression.inverted[i])
-        {
-            displayedExpression += "!";
-        }
         displayedExpression += QString(expression.letters[i]);
     }
     setText(displayedExpression);
@@ -245,16 +240,7 @@ BooleanExpression BooleanExpressionLineEdit::getExpression()
 
     const QString displayedExpression = text();
     for(int i = 0; i < displayedExpression.length(); i++)
-    {
-        if(displayedExpression[i] == "!")
-        {
-            i++;
-            expression.inverted.push_back(true);
-        }
-        else
-        {
-            expression.inverted.push_back(false);
-        }
+    {        
         expression.letters.push_back(displayedExpression[i].toLatin1());
     }
 

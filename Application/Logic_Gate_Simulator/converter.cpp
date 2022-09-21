@@ -476,8 +476,11 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                     circuitGates[48 + sumGateCounter] = andGate;
 
                     //Replace A.B with 1
-                    expression.letters[iLetter] = 48 + sumGateCounter;
-                    expression.letters.erase(expression.letters.begin() + iLetter + 1);
+                    expression.letters[iLetter - int(firstItemInverted)] = 48 + sumGateCounter;
+                    for(int i = 0; i < 1 + int(firstItemInverted) + int(nextItemInverted); i++)
+                    {
+                        expression.letters.erase(expression.letters.begin() + iLetter + 1 - int(firstItemInverted));
+                    }
 
                     sumGateCounter++;
                     changed = true;
@@ -595,12 +598,10 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
 
                     //Replace A+B with 1
                     expression.letters[firstItemInverted ? iLetter-2 : iLetter-1] = 48 + sumGateCounter;
-                    for(int i = 0; i M)
+                    for(int i = 0; i < 2 + int(firstItemInverted) + int(nextItemInverted); i++)
                     {
-                        //todoelliot
+                        expression.letters.erase(expression.letters.begin() + iLetter - int(firstItemInverted));
                     }
-                    expression.letters.erase(expression.letters.begin() + iLetter);
-                    expression.letters.erase(expression.letters.begin() + iLetter);
 
                     sumGateCounter++;
                     changed = true;

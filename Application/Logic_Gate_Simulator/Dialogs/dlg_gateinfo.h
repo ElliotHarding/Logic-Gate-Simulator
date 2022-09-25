@@ -38,6 +38,12 @@ private slots:
 
     void on_btn_expression_clicked();
 
+    void on_btn_DeleteGate2_clicked();
+
+    void on_btn_label_clicked();
+
+    void on_btn_label2_clicked();
+
 private:
     Ui::DLG_GateInfo *ui;
 

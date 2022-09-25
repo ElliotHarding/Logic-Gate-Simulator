@@ -39,6 +39,7 @@ void DLG_GateInfo::setGate(Gate *g)
     ui->btn_DeleteGate->show();
     ui->lbl_Type->show();
     ui->signalCheck->show();
+    ui->btn_label->show();
 
     ui->lbl_Frequency->hide();
     ui->lineEdit_Frequency->hide();
@@ -49,6 +50,8 @@ void DLG_GateInfo::setGate(Gate *g)
     ui->btn_expression->hide();
     ui->btn_save->hide();
     ui->btn_truthTable->hide();
+    ui->btn_DeleteGate2->hide();
+    ui->btn_label2->hide();
 
     //Display gate specific info
     QString gateName;
@@ -116,6 +119,10 @@ void DLG_GateInfo::setGate(Gate *g)
             ui->btn_expression->show();
             ui->btn_save->show();
             ui->btn_truthTable->show();
+            ui->btn_DeleteGate2->show();
+            ui->btn_DeleteGate->hide();
+            ui->btn_label2->show();
+            ui->btn_label->hide();
             break;
             }
         case GateType::GATE_CONST_ACTIVE:
@@ -134,6 +141,7 @@ void DLG_GateInfo::setGate(Gate *g)
         case GateType::GATE_TEXT_LABEL:
             gateName = "Label";
             ui->btn_Edit->show();
+            ui->btn_label->hide();
             break;
         default:
             gateName = "";
@@ -166,6 +174,16 @@ void DLG_GateInfo::setGateField(GateField *pGateField)
 }
 
 void DLG_GateInfo::on_btn_DeleteGate_clicked()
+{
+    if(m_pGateDisplayed)
+    {
+        delete m_pGateDisplayed;
+    }
+
+    setGate(nullptr);
+}
+
+void DLG_GateInfo::on_btn_DeleteGate2_clicked()
 {
     if(m_pGateDisplayed)
     {
@@ -219,6 +237,9 @@ void DLG_GateInfo::UiWhenNoGateSelected()
     ui->btn_expression->hide();
     ui->btn_save->hide();
     ui->btn_truthTable->hide();
+    ui->btn_DeleteGate2->hide();
+    ui->btn_label->hide();
+    ui->btn_label2->hide();
 }
 
 void DLG_GateInfo::on_btn_Edit_clicked()
@@ -309,4 +330,14 @@ void DLG_GateInfo::on_btn_expression_clicked()
             }
         }
     }
+}
+
+void DLG_GateInfo::on_btn_label_clicked()
+{
+
+}
+
+void DLG_GateInfo::on_btn_label2_clicked()
+{
+
 }

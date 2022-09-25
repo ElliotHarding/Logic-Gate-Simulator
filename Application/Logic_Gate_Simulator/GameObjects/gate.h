@@ -28,6 +28,7 @@ typedef int id;
 class Node;
 class GateField;
 class GateCollection;
+class TextLabel;
 
 class Gate : public GameObject
 {
@@ -43,6 +44,8 @@ public:
     virtual void draw(QPainter& painter) override;
     virtual void SaveData(QDomDocument& storage, QDomElement& parentElement);
     virtual Node* checkClickedNodes(const QPoint& mouse);
+    TextLabel* getAttachedLabel();
+    void setAttachedLabel(TextLabel* pTextLabel);
 
     ///Position stuff
     virtual void offsetPosition(const int& dX, const int& dY);
@@ -75,6 +78,7 @@ protected:
     std::vector<Node*> m_nodes;
     GateField* m_pParentField;
     GateCollection* m_pParentGateCollection = nullptr;
+    TextLabel* m_pAttachedLabel = nullptr;
 };
 
 enum NodeType

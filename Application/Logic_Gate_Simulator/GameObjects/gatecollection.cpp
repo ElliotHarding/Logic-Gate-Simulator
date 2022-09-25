@@ -229,6 +229,11 @@ void GateCollection::offsetPosition(const int& dX, const int& dY)
         gate->offsetPosition(dX, dY);
     }
     UpdateContaningArea();
+
+    if(m_pAttachedLabel)
+    {
+        m_pAttachedLabel->offsetPosition(dX, dY);
+    }
 }
 
 void GateCollection::setPosition(const int &x, const int &y)

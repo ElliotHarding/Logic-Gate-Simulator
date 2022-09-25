@@ -1,6 +1,7 @@
 #include "gate.h"
 #include "gatecollection.h"
 #include "gatefield.h"
+#include "textlabel.h"
 
 #include <QDebug>
 
@@ -40,12 +41,25 @@ Gate::~Gate()
     if(m_pParentGateCollection)
     {
         m_pParentGateCollection->ForgetGate(this);
+        if(m_pAttachedLabel)
+            m_pParentGateCollection->ForgetGate(m_pAttachedLabel);
     }
 
     if (m_pParentField)
     {
         m_pParentField->ForgetChild(this);
         m_pParentField->ForgetUpdateRequest(this);
+
+        if(m_pAttachedLabel)
+        {
+            m_pParentField->ForgetChild(m_pAttachedLabel);
+            m_pParentField->ForgetUpdateRequest(m_pAttachedLabel);
+        }
+    }
+
+    if(m_pAttachedLabel)
+    {
+        delete m_pAttachedLabel;
     }
 }
 
@@ -91,12 +105,27 @@ Node* Gate::checkClickedNodes(const QPoint& mouse)
     return nullptr;
 }
 
+TextLabel* Gate::getAttachedLabel()
+{
+    return m_pAttachedLabel;
+}
+
+void Gate::setAttachedLabel(TextLabel* pTextLabel)
+{
+    m_pAttachedLabel = pTextLabel;
+}
+
 void Gate::offsetPosition(const int& dX, const int& dY)
 {
     m_geometry.translate(dX, dY);
     for (Node* n : m_nodes)
     {
         n->setPosition(m_geometry.center().x(), m_geometry.center().y());
+    }
+
+    if(m_pAttachedLabel)
+    {
+        m_pAttachedLabel->offsetPosition(dX, dY);
     }
 }
 
@@ -110,11 +139,17 @@ void Gate::drawNodes(QPainter& painter)
 
 void Gate::setPosition(const int &x, const int &y)
 {
+    if(m_pAttachedLabel)
+    {
+        const QPoint difference = m_pAttachedLabel->position() - position();
+        m_pAttachedLabel->offsetPosition(x + difference.x(), y + difference.y());
+    }
+
     GameObject::setPosition(x, y);
     for (Node* n : m_nodes)
     {
         n->setPosition(x, y);
-    }
+    }    
 
     if(m_pParentGateCollection)
     {

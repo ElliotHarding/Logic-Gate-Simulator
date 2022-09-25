@@ -25,13 +25,15 @@ public:
 
     //Text label functions
     void Update(const QFont& font, const QString& string);
-
     QString GetString();
     QFont GetFont();
+
+    void attachGate(Gate* pGate);
 
 protected:
     QString m_string;
     QFont m_font;
+    Gate* m_pAttachedGate = nullptr;
 };
 
 class DLG_LabelGateEdit : public DLG_TextEdit

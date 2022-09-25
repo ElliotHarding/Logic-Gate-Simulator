@@ -21,6 +21,10 @@ TextLabel::TextLabel(const int &x, const int &y, const QString& text) :
 TextLabel::~TextLabel()
 {
     m_pParentField = nullptr;
+    if(m_pAttachedGate)
+    {
+        m_pAttachedGate->setAttachedLabel(nullptr);
+    }
 }
 
 void TextLabel::draw(QPainter& painter)
@@ -70,6 +74,11 @@ QString TextLabel::GetString()
 QFont TextLabel::GetFont()
 {
     return m_font;
+}
+
+void TextLabel::attachGate(Gate* pGate)
+{
+    m_pAttachedGate = pGate;
 }
 
 

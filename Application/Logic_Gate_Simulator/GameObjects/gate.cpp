@@ -113,6 +113,10 @@ TextLabel* Gate::getAttachedLabel()
 void Gate::setAttachedLabel(TextLabel* pTextLabel)
 {
     m_pAttachedLabel = pTextLabel;
+    if(m_pAttachedLabel)
+    {
+        m_pAttachedLabel->attachGate(pTextLabel);
+    }
 }
 
 void Gate::offsetPosition(const int& dX, const int& dY)

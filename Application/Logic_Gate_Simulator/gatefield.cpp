@@ -211,6 +211,11 @@ void GateField::AddGate(Gate* go, const bool& newlySpawned)
     m_allGates.push_back(go);
     UpdateGateSelected(go);
 
+    if(go->GetType() == GateType::GATE_TEXT_LABEL)
+    {
+        moveToFront(m_allGates.size()-1, m_allGates);
+    }
+
     m_pParent->SetCurrentClickMode(CLICK_DRAG);
 
     m_history.recordHistory(m_allGates);

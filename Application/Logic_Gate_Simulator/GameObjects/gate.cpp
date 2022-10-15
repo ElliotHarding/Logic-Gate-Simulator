@@ -41,6 +41,7 @@ Gate::~Gate()
     if(m_pParentGateCollection)
     {
         m_pParentGateCollection->ForgetGate(this);
+
         if(m_pAttachedLabel)
             m_pParentGateCollection->ForgetGate(m_pAttachedLabel);
     }

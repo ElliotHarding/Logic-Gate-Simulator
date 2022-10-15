@@ -20,7 +20,6 @@ TextLabel::TextLabel(const int &x, const int &y, const QString& text) :
 
 TextLabel::~TextLabel()
 {
-    m_pParentField = nullptr;
     if(m_pAttachedGate)
     {
         m_pAttachedGate->setAttachedLabel(nullptr);

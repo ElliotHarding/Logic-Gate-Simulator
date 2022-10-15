@@ -51,10 +51,10 @@ GateCollection::~GateCollection()
         else if (m_pParentField)
         {
             for (Gate* g : m_gates)
-            {
-                m_pParentField->AddGate(g, false);
+            {                
                 g->SetParentGateCollection(nullptr);
             }
+            m_pParentField->AddGates(m_gates);
         }
     }
 

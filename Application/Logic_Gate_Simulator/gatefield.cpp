@@ -224,6 +224,28 @@ void GateField::AddGate(Gate* go, const bool& newlySpawned)
     update();
 }
 
+void GateField::AddGates(std::vector<Gate*>& gates)
+{
+    for(Gate* go : gates)
+    {
+        go->SetParent(this);
+
+        //Put new gate at front so its on top of others
+        // - Lazy way todo it
+        m_allGates.push_back(go);
+        moveToFront(m_allGates.size()-1, m_allGates);
+    }
+
+    UpdateGateSelected(gates[gates.size()-1]);
+
+    m_pParent->SetCurrentClickMode(CLICK_DRAG);
+
+    m_history.recordHistory(m_allGates);
+
+    //Call to redraw
+    update();
+}
+
 void GateField::mousePressEvent(QMouseEvent *click)
 {
     const QPoint clickPos = qtPointToWorldPoint(click->pos());

@@ -59,6 +59,7 @@ public:
 
     //Gates
     void AddGate(Gate* go, const bool& newlySpawned = true);
+    void AddGates(std::vector<Gate*>& gates);
     void ForgetChild(Gate* g);
     void ForgetUpdateRequest(Gate* g);
     void RequestUpdateGate(Gate* g);

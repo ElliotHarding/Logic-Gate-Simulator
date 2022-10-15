@@ -54,14 +54,15 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
     const uint frequency = tryReadInt(gateField.attribute(Settings::GateFieldFrequencyTag), 200);
     pNewGateFeild->setUpdateFrequency(frequency);
 
-    const std::vector<Gate*> gates = readGates(gateField);
+    std::vector<Gate*> gates = readGates(gateField);
     file.close();
 
     for (Gate* pGate : gates)
     {
         pGate->AssignNewNodeIds();
-        pNewGateFeild->AddGate(pGate, false);
     }
+
+    pNewGateFeild->AddGates(gates);
 
     return true;
 }

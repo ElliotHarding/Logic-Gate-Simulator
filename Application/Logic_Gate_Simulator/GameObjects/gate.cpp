@@ -82,7 +82,7 @@ void Gate::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    SaveGeneralData(gateElement);
+    SaveGeneralData(storage, gateElement);
 
     //Add node information
     for (Node* n : m_nodes)
@@ -273,11 +273,20 @@ GateField *Gate::GetParent()
     return m_pParentField;
 }
 
-void Gate::SaveGeneralData(QDomElement& element)
+void Gate::SaveGeneralData(QDomDocument& storage, QDomElement& element)
 {
     element.setAttribute(Settings::GateTypeTag, QString::number(m_type));
     element.setAttribute(Settings::GatePosXTag, QString::number(m_geometry.x()));
     element.setAttribute(Settings::GatePosYTag, QString::number(m_geometry.y()));
+
+    QDomElement attachedLabelIds = storage.createElement(Settings::GateAttachedLabelIdsElement);
+    for (TextLabel* pTextLabel : m_attachedLabels)
+    {
+        QDomElement id = storage.createElement(Settings::GateAttachedLabelIdElement);
+        id.setAttribute(Settings::NodeIdElement, QString::number(pTextLabel->attachId()));
+        attachedLabelIds.appendChild(id);
+    }
+    element.appendChild(attachedLabelIds);
 }
 
 void Gate::baseClone(Gate* pGate)

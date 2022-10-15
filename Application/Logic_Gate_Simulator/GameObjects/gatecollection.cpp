@@ -314,7 +314,7 @@ void GateCollection::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateCollectionElement = storage.createElement(Settings::GateElement);
 
-    SaveGeneralData(gateCollectionElement);
+    SaveGeneralData(storage, gateCollectionElement);
 
     for(Gate* gate : m_gates)
     {

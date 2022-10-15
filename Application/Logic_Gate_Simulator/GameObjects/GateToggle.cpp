@@ -29,7 +29,7 @@ void GateToggle::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    Gate::SaveGeneralData(gateElement);
+    Gate::SaveGeneralData(storage, gateElement);
 
     gateElement.setAttribute(Settings::GateTogglePowerStateTag, QString::number(m_pOutput->value()));
 

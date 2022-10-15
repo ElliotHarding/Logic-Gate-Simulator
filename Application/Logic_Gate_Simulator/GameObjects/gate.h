@@ -13,6 +13,8 @@ const QString GateElement = "Gate";
 const QString GateTypeTag = "type";
 const QString GatePosXTag = "posX";
 const QString GatePosYTag = "posY";
+const QString GateAttachedLabelIdsElement = "AttachedLabelIds";
+const QString GateAttachedLabelIdElement = "AttachedLabelId";
 
 ///Node save element tags
 const QString NodeTypeInputElement = "InputNode";
@@ -72,7 +74,7 @@ public:
 protected:
     virtual void drawNodes(QPainter& painter);
 
-    void SaveGeneralData(QDomElement& element);
+    void SaveGeneralData(QDomDocument& storage, QDomElement& element);
 
     void baseClone(Gate* pGate);
 

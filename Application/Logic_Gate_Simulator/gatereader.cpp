@@ -311,6 +311,11 @@ std::vector<NodeIds> GateReader::readNodes(QDomElement& gate, std::vector<NodeId
     return retNodeInfo;
 }
 
+std::vector<int> GateReader::readAttachedLabelIds(QDomElement &gate)
+{
+
+}
+
 void GateReader::readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo, std::vector<NodeIds>& nodeInfo, const QString& nodeType)
 {
     auto node = gate.firstChildElement(nodeType);

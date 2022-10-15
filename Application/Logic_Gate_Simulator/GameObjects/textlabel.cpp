@@ -44,10 +44,10 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    Gate::SaveGeneralData(gateElement);
+    Gate::SaveGeneralData(storage, gateElement);
 
     gateElement.setAttribute(Settings::GateTextLabelTextTag, m_string);
-    gateElement.setAttribute(Settings::GateTextLabelAttachId, m_attachId);
+    gateElement.setAttribute(Settings::GateTextLabelAttachId, QString::number(m_attachId));
 
     parentElement.appendChild(gateElement);
 }

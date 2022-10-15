@@ -92,7 +92,7 @@ void GateFPGA::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    SaveGeneralData(gateElement);
+    SaveGeneralData(storage, gateElement);
 
     gateElement.setAttribute(Settings::FPGAGateScriptElement, m_script);
 

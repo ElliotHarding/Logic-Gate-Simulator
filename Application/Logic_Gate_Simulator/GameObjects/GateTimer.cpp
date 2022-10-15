@@ -31,7 +31,7 @@ void GateTimer::SaveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    Gate::SaveGeneralData(gateElement);
+    Gate::SaveGeneralData(storage, gateElement);
 
     gateElement.setAttribute(Settings::GateTimerFrequencyTag, QString::number(m_frequency));
 

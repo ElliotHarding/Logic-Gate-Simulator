@@ -352,7 +352,7 @@ void GateReader::attachLabels(std::vector<Gate*>& gates, std::vector<std::vector
             {
                 if(pTextLabel->attachId() == labelId)
                 {
-                    gates[i]->addAttachedLabel(pTextLabel);
+                    gates[i]->addAttachedLabel(pTextLabel, false);
                 }
             }
         }

@@ -118,12 +118,13 @@ bool Gate::hasAttachedLabel(Gate *pGate)
     return false;
 }
 
-void Gate::addAttachedLabel(TextLabel* pTextLabel)
+void Gate::addAttachedLabel(TextLabel* pTextLabel, const bool& setPosition)
 {
     if(pTextLabel)
     {
         pTextLabel->attachGate(this);
-        pTextLabel->setPosition(position().x(), position().y() - 20);
+        if(setPosition)
+            pTextLabel->setPosition(position().x(), position().y() - 20);
 
         if(m_pParentGateCollection)
         {

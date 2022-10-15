@@ -47,7 +47,7 @@ public:
     virtual void SaveData(QDomDocument& storage, QDomElement& parentElement);
     virtual Node* checkClickedNodes(const QPoint& mouse);
     bool hasAttachedLabel(Gate* pGate);
-    void addAttachedLabel(TextLabel* pTextLabel);
+    void addAttachedLabel(TextLabel* pTextLabel, const bool& setPosition = true);
     void removeAttachedLabel(TextLabel* pTextLabel);
     virtual void switchAttachedLabels(std::vector<Gate*>& gates);
 

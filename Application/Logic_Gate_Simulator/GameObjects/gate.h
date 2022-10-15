@@ -47,6 +47,7 @@ public:
     bool hasAttachedLabel(Gate* pGate);
     void addAttachedLabel(TextLabel* pTextLabel);
     void removeAttachedLabel(TextLabel* pTextLabel);
+    virtual void switchAttachedLabels(std::vector<Gate*>& gates);
 
     ///Position stuff
     virtual void offsetPosition(const int& dX, const int& dY);

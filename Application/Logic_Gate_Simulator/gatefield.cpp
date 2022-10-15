@@ -671,6 +671,7 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
     for(Gate* g : clonedSnapshot)
     {
         g->AssignNewNodeIds();
+        g->switchAttachedLabels(clonedSnapshot);
     }
 
     m_history.push_back(clonedSnapshot);

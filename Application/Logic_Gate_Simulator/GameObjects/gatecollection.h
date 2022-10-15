@@ -34,6 +34,9 @@ public:
 
     virtual Gate* Clone() override;
 
+    TextLabel* findTextLabelWithId(int id);
+    void switchAttachedLabels(std::vector<Gate*>& gates);
+
     ///Drag mode
     void ToggleDragMode();
 

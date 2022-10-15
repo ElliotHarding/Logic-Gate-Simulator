@@ -93,6 +93,11 @@ int TextLabel::attachId() const
     return m_attachId;
 }
 
+void TextLabel::genNewAttachId()
+{
+    m_attachId = AttachIdCounter++;
+}
+
 
 
 

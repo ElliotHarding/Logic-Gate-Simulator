@@ -151,6 +151,35 @@ void Gate::removeAttachedLabel(TextLabel *pTextLabel)
     }
 }
 
+void Gate::switchAttachedLabels(std::vector<Gate*>& gates)
+{
+    for(size_t i = 0; i < m_attachedLabels.size(); i++)
+    {
+        for(Gate* pGate : gates)
+        {
+            if(pGate->GetType() == GateType::GATE_TEXT_LABEL)
+            {
+                if(dynamic_cast<TextLabel*>(pGate)->attachId() == m_attachedLabels[i]->attachId())
+                {
+                    m_attachedLabels[i] = dynamic_cast<TextLabel*>(pGate);
+                    m_attachedLabels[i]->genNewAttachId();
+                    break;
+                }
+            }
+            else if(pGate->GetType() == GateType::GATE_COLLECTION)
+            {
+                TextLabel* pPotentialAttachedLabel = dynamic_cast<GateCollection*>(pGate)->findTextLabelWithId(m_attachedLabels[i]->attachId());
+                if(pPotentialAttachedLabel)
+                {
+                    m_attachedLabels[i] = pPotentialAttachedLabel;
+                    m_attachedLabels[i]->genNewAttachId();
+                    break;
+                }
+            }
+        }
+    }
+}
+
 void Gate::offsetPosition(const int& dX, const int& dY)
 {
     m_geometry.translate(dX, dY);

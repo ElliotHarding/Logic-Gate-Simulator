@@ -30,6 +30,7 @@ public:
 
     void attachGate(Gate* pGate);
     int attachId() const;
+    void genNewAttachId();
 
 protected:
     QString m_string;

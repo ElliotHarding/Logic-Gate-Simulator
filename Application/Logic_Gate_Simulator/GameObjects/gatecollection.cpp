@@ -421,3 +421,34 @@ Gate* GateCollection::Clone()
 
     return pClone;
 }
+
+TextLabel* GateCollection::findTextLabelWithId(int id)
+{
+    for (Gate* pGate : m_gates)
+    {
+        if(pGate->GetType() == GateType::GATE_TEXT_LABEL)
+        {
+            if(dynamic_cast<TextLabel*>(pGate)->attachId() == id)
+            {
+                return dynamic_cast<TextLabel*>(pGate);
+            }
+        }
+        else if(pGate->GetType() == GateType::GATE_COLLECTION)
+        {
+            TextLabel* pPotentialAttachedLabel = dynamic_cast<GateCollection*>(pGate)->findTextLabelWithId(id);
+            if(pPotentialAttachedLabel)
+            {
+                return pPotentialAttachedLabel;
+            }
+        }
+    }
+    return nullptr;
+}
+
+void GateCollection::switchAttachedLabels(std::vector<Gate*>& gates)
+{
+    for (Gate* pGate : m_gates)
+    {
+        pGate->switchAttachedLabels(gates);
+    }
+}

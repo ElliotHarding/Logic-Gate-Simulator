@@ -288,7 +288,13 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
 
     case GateType::GATE_TEXT_LABEL:
     {
+        QFont textFont("Helvetica", tryReadInt(gateElement.attribute(Settings::GateTextLabelFontSizeTag), 15));
+        textFont.setBold(tryReadInt(gateElement.attribute(Settings::GateTextLabelBoldTag), 0));
+        textFont.setUnderline(tryReadInt(gateElement.attribute(Settings::GateTextLabelUnderlinedTag), 0));
+
         TextLabel* pTextLabel = new TextLabel(posX, posY, gateElement.attribute(Settings::GateTextLabelTextTag), tryReadInt(gateElement.attribute(Settings::GateTextLabelAttachId), -2));
+        pTextLabel->Update(textFont, gateElement.attribute(Settings::GateTextLabelTextTag));
+
         labelGates.push_back(pTextLabel);
         return pTextLabel;
     }

@@ -48,6 +48,9 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
 
     gateElement.setAttribute(Settings::GateTextLabelTextTag, m_string);
     gateElement.setAttribute(Settings::GateTextLabelAttachId, QString::number(m_attachId));
+    gateElement.setAttribute(Settings::GateTextLabelFontSizeTag, QString::number(m_font.weight()));
+    gateElement.setAttribute(Settings::GateTextLabelBoldTag, QString::number(m_font.bold()));
+    gateElement.setAttribute(Settings::GateTextLabelUnderlinedTag, QString::number(m_font.underline()));
 
     parentElement.appendChild(gateElement);
 }

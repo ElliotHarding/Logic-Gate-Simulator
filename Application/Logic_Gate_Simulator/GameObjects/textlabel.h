@@ -7,6 +7,9 @@
 namespace Settings
 {
 const QString GateTextLabelTextTag = "Text";
+const QString GateTextLabelFontSizeTag = "FontSize";
+const QString GateTextLabelBoldTag = "Bold";
+const QString GateTextLabelUnderlinedTag = "Underlined";
 const QString GateTextLabelAttachId = "AttachId";
 }
 

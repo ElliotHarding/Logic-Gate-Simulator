@@ -3,7 +3,7 @@
 
 #include "gate.h"
 
-class TruthTable;
+struct TruthTable;
 
 class GateCollection : public Gate
 {

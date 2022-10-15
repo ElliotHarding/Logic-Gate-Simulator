@@ -23,8 +23,8 @@ class GateFPGA;
 class Gate;
 class GateCollection;
 class Node;
-class TruthTable;
-class BooleanExpression;
+struct TruthTable;
+struct BooleanExpression;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /// GateFieldHistory

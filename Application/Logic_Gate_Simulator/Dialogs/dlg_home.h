@@ -12,13 +12,13 @@
 #include "gatereader.h"
 
 #include "simpleslider.h"
-#include "dlg_gateinfo.h"
 #include "dlg_savegatecollection.h"
 #include "dlg_message.h"
 #include "dlg_editscript.h"
 #include "dlg_truthtable.h"
 #include "dlg_booleanexpressions.h"
 #include "dlg_conversionconfig.h"
+#include "dlg_gateinfo.h"
 
 #include "movingwidget.h"
 #include "widget_advanced.h"

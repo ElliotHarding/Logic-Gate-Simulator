@@ -52,8 +52,8 @@ SOURCES += \
     main.cpp \
     gatefield.cpp \
     gatereader.cpp \
-    Dialogs/dlg_gateinfo.cpp \
     Dialogs/dlg_home.cpp \
+    Dialogs/dlg_gateinfo.cpp \
     Dialogs/dlg_savegatecollection.cpp \
     Dialogs/simpleslider.cpp \
     Dialogs/widget_advanced.cpp \

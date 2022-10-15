@@ -172,7 +172,7 @@ void Gate::switchAttachedLabels(std::vector<Gate*>& gates)
                 if(pTextLabel->attachId() == id)
                 {
                     pTextLabel->genNewAttachId();
-                    m_attachedLabels.push_back(pTextLabel);
+                    addAttachedLabel(pTextLabel);
                     break;
                 }
             }
@@ -182,7 +182,7 @@ void Gate::switchAttachedLabels(std::vector<Gate*>& gates)
                 if(pPotentialAttachedLabel)
                 {
                     pPotentialAttachedLabel->genNewAttachId();
-                    m_attachedLabels.push_back(pPotentialAttachedLabel);
+                    addAttachedLabel(pPotentialAttachedLabel);
                     break;
                 }
             }

@@ -447,9 +447,10 @@ TextLabel* GateCollection::findTextLabelWithId(int id)
 
 void GateCollection::switchAttachedLabels(std::vector<Gate*> gates)
 {
-    for (Gate* pGate : m_gates)
+    //size_t originalGatesSize = m_gates.size();
+    for (size_t i = 0; i < m_gates.size(); i++)
     {
-        pGate->switchAttachedLabels(gates);
+        m_gates[i]->switchAttachedLabels(gates);
     }
 
     Gate::switchAttachedLabels(gates);

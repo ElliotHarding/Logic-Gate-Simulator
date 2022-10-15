@@ -131,7 +131,7 @@ void Gate::addAttachedLabel(TextLabel* pTextLabel, const bool& setPosition)
             m_pParentGateCollection->AddGate(pTextLabel);
         }
 
-        if(m_pParentField && m_pParentGateCollection == nullptr)
+        if(m_pParentField && m_pParentGateCollection == nullptr && pTextLabel->m_pParentField == nullptr)
         {
             m_pParentField->AddGate(pTextLabel, false);
         }

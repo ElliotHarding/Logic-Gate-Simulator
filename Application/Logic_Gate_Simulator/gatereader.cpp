@@ -111,6 +111,7 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
     std::vector<Gate*> gates;
     std::vector<NodeIds> linkInfo;
     std::vector<std::vector<int>> attachedLabelIds;
+    std::vector<TextLabel*> labelGates;
 
     auto gateElement = gatesParent.firstChildElement(Settings::GateElement);
     while(!gateElement.isNull())
@@ -126,12 +127,12 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
     }
 
     linkNodes(gates, linkInfo);
-    attachLabels(gates, attachedLabelIds);
+    attachLabels(gates, attachedLabelIds, labelGates);
 
     return gates;
 }
 
-Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkInfo, std::vector<int>& attachedLabelIds)
+Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkInfo, std::vector<int>& attachedLabelIds, std::vector<TextLabel*>& labelGates)
 {
     const GateType type = (GateType)tryReadInt(gateElement.attribute(Settings::GateTypeTag), GATE_NULL);
     const int posX = tryReadInt(gateElement.attribute(Settings::GatePosXTag), 0);
@@ -168,7 +169,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
         while(!subGateElement.isNull())
         {
             std::vector<int> subAttachedLabelIds;
-            Gate* subGate = readGate(subGateElement, linkInfo, subAttachedLabelIds);
+            Gate* subGate = readGate(subGateElement, linkInfo, subAttachedLabelIds, labelGates);
             if(subGate != nullptr)
             {
                 subGates.push_back(subGate);
@@ -281,7 +282,9 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
 
     case GateType::GATE_TEXT_LABEL:
     {
-        return new TextLabel(posX, posY, gateElement.attribute(Settings::GateTextLabelTextTag), tryReadInt(gateElement.attribute(Settings::GateTextLabelAttachId), -2));
+        TextLabel* pTextLabel = new TextLabel(posX, posY, gateElement.attribute(Settings::GateTextLabelTextTag), tryReadInt(gateElement.attribute(Settings::GateTextLabelAttachId), -2));
+        labelGates.push_back(pTextLabel);
+        return pTextLabel;
     }
 
     case GateType::GATE_FPGA:
@@ -336,54 +339,26 @@ std::vector<int> GateReader::readAttachedLabelIds(QDomElement& gate)
     return attachedLabelIdsVector;
 }
 
-TextLabel* findTextLabelWithId(std::vector<Gate*>& gates, const int& id)
-{
-    for(size_t i = 0; i < gates.size(); i++)
-    {
-        if(gates[i]->GetType() == GateType::GATE_TEXT_LABEL)
-        {
-            if(dynamic_cast<TextLabel*>(gates[i])->attachId() == id)
-            {
-                return dynamic_cast<TextLabel*>(gates[i]);
-            }
-        }
-        else if(gates[i]->GetType() == GateType::GATE_COLLECTION)
-        {
-            TextLabel* pPotentialTextLabel = dynamic_cast<GateCollection*>(gates[i])->findTextLabelWithId(id);
-            if(pPotentialTextLabel)
-            {
-                return pPotentialTextLabel;
-            }
-        }
-    }
-    return nullptr;
-}
-
-void GateReader::attachLabels(std::vector<Gate*>& gates, std::vector<std::vector<int>>& attachedLabelIds)
+void GateReader::attachLabels(std::vector<Gate*>& gates, std::vector<std::vector<int>>& attachedLabelIds, std::vector<TextLabel*>& labelGates)
 {
     for(size_t i = 0; i < gates.size(); i++)
     {
         for(int labelId : attachedLabelIds[i])
         {
-            TextLabel* pPotentialTextLabel = findTextLabelWithId(gates, labelId);
-            if(pPotentialTextLabel)
+            for(TextLabel* pTextLabel : labelGates)
             {
-                gates[i]->addAttachedLabel(pPotentialTextLabel);
+                if(pTextLabel->attachId() == labelId)
+                {
+                    gates[i]->addAttachedLabel(pTextLabel);
+                }
             }
         }
     }
 
     //Must be done after all is linked
-    for(size_t i = 0; i < gates.size(); i++)
+    for(TextLabel* pTextLabel : labelGates)
     {
-        for(int labelId : attachedLabelIds[i])
-        {
-            TextLabel* pPotentialTextLabel = findTextLabelWithId(gates, labelId);
-            if(pPotentialTextLabel)
-            {
-                pPotentialTextLabel->genNewAttachId();
-            }
-        }
+        pTextLabel->genNewAttachId();
     }
 }
 

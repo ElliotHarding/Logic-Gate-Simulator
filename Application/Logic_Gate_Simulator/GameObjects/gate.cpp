@@ -152,7 +152,7 @@ void Gate::removeAttachedLabel(TextLabel *pTextLabel)
     }
 }
 
-void Gate::switchAttachedLabels(std::vector<Gate*>& gates)
+void Gate::switchAttachedLabels(std::vector<Gate*> gates)
 {
     m_attachedLabels.clear();
 
@@ -311,10 +311,10 @@ void Gate::baseClone(Gate* pGate)
         pGate->m_nodes[iNode]->setValue(m_nodes[iNode]->value());
     }
 
-    m_cloneAttachedLabelIds.clear();
-    for(TextLabel* pTextLabel : pGate->m_attachedLabels)
+    pGate->m_cloneAttachedLabelIds.clear();
+    for(TextLabel* pTextLabel : m_attachedLabels)
     {
-        m_cloneAttachedLabelIds.push_back(pTextLabel->attachId());
+        pGate->m_cloneAttachedLabelIds.push_back(pTextLabel->attachId());
     }
 }
 

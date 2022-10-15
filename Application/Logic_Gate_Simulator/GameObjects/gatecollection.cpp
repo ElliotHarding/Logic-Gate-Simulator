@@ -445,7 +445,7 @@ TextLabel* GateCollection::findTextLabelWithId(int id)
     return nullptr;
 }
 
-void GateCollection::switchAttachedLabels(std::vector<Gate*>& gates)
+void GateCollection::switchAttachedLabels(std::vector<Gate*> gates)
 {
     for (Gate* pGate : m_gates)
     {

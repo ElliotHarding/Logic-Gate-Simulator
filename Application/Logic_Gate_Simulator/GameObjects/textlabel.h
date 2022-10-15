@@ -12,7 +12,7 @@ const QString GateTextLabelTextTag = "Text";
 class TextLabel : public Gate
 {
 public:
-    TextLabel(const int& x = 0, const int& y = 0, const QString& text = "Label");
+    TextLabel(const int& x = 0, const int& y = 0, const QString& text = "Label", const int& attachId = -1);
     ~TextLabel();
 
     //Game Object overrides
@@ -29,11 +29,13 @@ public:
     QFont GetFont();
 
     void attachGate(Gate* pGate);
+    int attachId() const;
 
 protected:
     QString m_string;
     QFont m_font;
     Gate* m_pAttachedGate = nullptr;
+    int m_attachId;
 };
 
 class DLG_LabelGateEdit : public DLG_TextEdit

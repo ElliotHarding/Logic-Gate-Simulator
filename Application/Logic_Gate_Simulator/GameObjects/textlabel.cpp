@@ -2,6 +2,8 @@
 #include "dlg_textedit.h"
 #include "gatefield.h"
 
+static int AttachIdCounter = 0;
+
 namespace Settings
 {
 const uint DefaultSizeX = 20;
@@ -10,11 +12,17 @@ const uint DefaultSizeY = 20;
 const QFont TextFont("Helvetica", 15);
 }
 
-TextLabel::TextLabel(const int &x, const int &y, const QString& text) :
+TextLabel::TextLabel(const int &x, const int &y, const QString& text, const int& attachId) :
     Gate(GATE_TEXT_LABEL, x, y, Settings::DefaultSizeX, Settings::DefaultSizeY),
     m_string(text),
-    m_font(Settings::TextFont)
+    m_font(Settings::TextFont),
+    m_attachId(attachId)
 {
+    if(attachId == -1)
+    {
+        m_attachId = AttachIdCounter++;
+    }
+
     Update(m_font, m_string);
 }
 
@@ -45,7 +53,7 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
 
 Gate* TextLabel::Clone()
 {
-    TextLabel* clone = new TextLabel(m_geometry.x(), m_geometry.y());
+    TextLabel* clone = new TextLabel(m_geometry.x(), m_geometry.y(), m_string, m_attachId);
     clone->Update(m_font, m_string);
 
     Gate::baseClone(clone);
@@ -78,6 +86,11 @@ QFont TextLabel::GetFont()
 void TextLabel::attachGate(Gate* pGate)
 {
     m_pAttachedGate = pGate;
+}
+
+int TextLabel::attachId() const
+{
+    return m_attachId;
 }
 
 

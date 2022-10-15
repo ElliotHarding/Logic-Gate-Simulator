@@ -267,6 +267,8 @@ void Gate::baseClone(Gate* pGate)
     {
         pGate->m_nodes[iNode]->setValue(m_nodes[iNode]->value());
     }
+
+    pGate->m_attachedLabels = m_attachedLabels;
 }
 
 void Gate::DetachNodes()

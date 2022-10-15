@@ -451,4 +451,6 @@ void GateCollection::switchAttachedLabels(std::vector<Gate*>& gates)
     {
         pGate->switchAttachedLabels(gates);
     }
+
+    Gate::switchAttachedLabels(gates);
 }

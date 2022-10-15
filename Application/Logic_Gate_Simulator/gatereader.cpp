@@ -167,10 +167,12 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
         auto subGateElement = gateElement.firstChildElement(Settings::GateElement);
         while(!subGateElement.isNull())
         {
-            Gate* subGate = readGate(subGateElement, linkInfo);
+            std::vector<int> subAttachedLabelIds;
+            Gate* subGate = readGate(subGateElement, linkInfo, subAttachedLabelIds);
             if(subGate != nullptr)
             {
                 subGates.push_back(subGate);
+                attachedLabelIds += subAttachedLabelIds;
             }
             subGateElement = subGateElement.nextSiblingElement(Settings::GateElement);
         }

@@ -154,8 +154,7 @@ void Gate::setPosition(const int &x, const int &y)
 
     if(m_pAttachedLabel)
     {
-        const QPoint newPosition = position();
-        const QPoint difference = newPosition - originalPosition;
+        const QPoint difference = position() - originalPosition;
         m_pAttachedLabel->offsetPosition(difference.x(), difference.y());
     }
 

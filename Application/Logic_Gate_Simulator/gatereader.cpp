@@ -110,30 +110,36 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
 {
     std::vector<Gate*> gates;
     std::vector<NodeIds> linkInfo;
+    std::vector<std::vector<int>> attachedLabelIds;
 
     auto gateElement = gatesParent.firstChildElement(Settings::GateElement);
     while(!gateElement.isNull())
     {
-        Gate* newReadGate = readGate(gateElement, linkInfo);
+        std::vector<int> gateAttachedLabelIds;
+        Gate* newReadGate = readGate(gateElement, linkInfo, gateAttachedLabelIds);
         if(newReadGate != nullptr)
         {
             gates.push_back(newReadGate);
+            attachedLabelIds.push_back(gateAttachedLabelIds);
         }
         gateElement = gateElement.nextSiblingElement(Settings::GateElement);
     }
 
     linkNodes(gates, linkInfo);
 
+    //todo link attached gates
+
     return gates;
 }
 
-Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkInfo)
+Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkInfo, std::vector<int>& attachedLabelIds)
 {
     const GateType type = (GateType)tryReadInt(gateElement.attribute(Settings::GateTypeTag), GATE_NULL);
     const int posX = tryReadInt(gateElement.attribute(Settings::GatePosXTag), 0);
     const int posY = tryReadInt(gateElement.attribute(Settings::GatePosYTag), 0);
 
     std::vector<NodeIds> nodeInfo = readNodes(gateElement, linkInfo);
+    attachedLabelIds = readAttachedLabelIds(gateElement);
 
     switch(type)
     {
@@ -311,9 +317,22 @@ std::vector<NodeIds> GateReader::readNodes(QDomElement& gate, std::vector<NodeId
     return retNodeInfo;
 }
 
-std::vector<int> GateReader::readAttachedLabelIds(QDomElement &gate)
+std::vector<int> GateReader::readAttachedLabelIds(QDomElement& gate)
 {
+    std::vector<int> attachedLabelIdsVector;
 
+    auto attachedLabelIds = gate.firstChildElement(Settings::GateAttachedLabelIdsElement);
+    if(!attachedLabelIds.isNull())
+    {
+        auto id = attachedLabelIds.firstChildElement(Settings::GateAttachedLabelIdElement);
+        while(!id.isNull())
+        {
+            attachedLabelIdsVector.push_back(tryReadInt(id.attribute(Settings::NodeIdElement), -2));
+            id = id.nextSiblingElement(Settings::GateAttachedLabelIdElement);
+        }
+    }
+
+    return attachedLabelIdsVector;
 }
 
 void GateReader::readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo, std::vector<NodeIds>& nodeInfo, const QString& nodeType)

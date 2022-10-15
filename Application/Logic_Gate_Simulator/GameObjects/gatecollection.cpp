@@ -222,11 +222,27 @@ bool GateCollection::FindNodeWithId(const id& id, Node*& pNode)
     return false;
 }
 
+bool isAttachedToContainedGate(Gate* pTextLabel, std::vector<Gate*>& containedGates)
+{
+    for(Gate* pContainedGate : containedGates)
+    {
+        if(pContainedGate->getAttachedLabel() == pTextLabel)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void GateCollection::offsetPosition(const int& dX, const int& dY)
 {
-    for (Gate* gate : m_gates)
+    for (Gate* pContainedGate1 : m_gates)
     {
-        gate->offsetPosition(dX, dY);
+        //If theres a attached label don't offset it because its attached gate will
+        if(pContainedGate1->GetType() != GateType::GATE_TEXT_LABEL || !isAttachedToContainedGate(pContainedGate1, m_gates))
+        {
+            pContainedGate1->offsetPosition(dX, dY);
+        }
     }
     UpdateContaningArea();
 

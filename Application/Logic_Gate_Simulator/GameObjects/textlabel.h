@@ -7,6 +7,7 @@
 namespace Settings
 {
 const QString GateTextLabelTextTag = "Text";
+const QString GateTextLabelAttachId = "AttachId";
 }
 
 class TextLabel : public Gate

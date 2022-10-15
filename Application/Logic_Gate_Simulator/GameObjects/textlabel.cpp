@@ -47,6 +47,7 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
     Gate::SaveGeneralData(gateElement);
 
     gateElement.setAttribute(Settings::GateTextLabelTextTag, m_string);
+    gateElement.setAttribute(Settings::GateTextLabelAttachId, m_attachId);
 
     parentElement.appendChild(gateElement);
 }

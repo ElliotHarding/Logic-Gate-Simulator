@@ -274,7 +274,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
 
     case GateType::GATE_TEXT_LABEL:
     {
-        return new TextLabel(posX, posY, gateElement.attribute(Settings::GateTextLabelTextTag));
+        return new TextLabel(posX, posY, gateElement.attribute(Settings::GateTextLabelTextTag), tryReadInt(gateElement.attribute(Settings::GateTextLabelAttachId), -2));
     }
 
     case GateType::GATE_FPGA:

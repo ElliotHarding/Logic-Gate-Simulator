@@ -9,3 +9,10 @@ same for showBooleanExpressions
 
 do we need offsetGates if we pan painter?
 
+
+
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+
+Pressing x on page causes crash
+

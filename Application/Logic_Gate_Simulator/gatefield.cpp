@@ -211,7 +211,7 @@ void GateField::AddGate(Gate* go, const bool& newlySpawned)
     //Put new gate at front so its on top of others
     // - Lazy way todo it
     m_allGates.push_back(go);
-    moveToFront(m_allGates.size()-1, go);
+    moveToFront(m_allGates.size()-1, m_allGates);
 
     UpdateGateSelected(go);
 

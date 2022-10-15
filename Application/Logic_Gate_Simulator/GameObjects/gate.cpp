@@ -116,7 +116,17 @@ void Gate::setAttachedLabel(TextLabel* pTextLabel)
     m_pAttachedLabel = pTextLabel;
     if(m_pAttachedLabel)
     {
-        m_pAttachedLabel->attachGate(pTextLabel);
+        m_pAttachedLabel->attachGate(this);
+
+        if(m_pParentGateCollection)
+        {
+            m_pParentGateCollection->AddGate(m_pAttachedLabel);
+        }
+
+        if(m_pParentField)
+        {
+            m_pParentField->AddGate(m_pAttachedLabel, false);
+        }
     }
 }
 

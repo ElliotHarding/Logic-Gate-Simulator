@@ -144,17 +144,20 @@ void Gate::drawNodes(QPainter& painter)
 
 void Gate::setPosition(const int &x, const int &y)
 {
-    if(m_pAttachedLabel)
-    {
-        const QPoint difference = m_pAttachedLabel->position() - position();
-        m_pAttachedLabel->offsetPosition(x + difference.x(), y + difference.y());
-    }
+    const QPoint originalPosition = position();
 
     GameObject::setPosition(x, y);
     for (Node* n : m_nodes)
     {
         n->setPosition(x, y);
     }    
+
+    if(m_pAttachedLabel)
+    {
+        const QPoint newPosition = position();
+        const QPoint difference = newPosition - originalPosition;
+        m_pAttachedLabel->offsetPosition(difference.x(), difference.y());
+    }
 
     if(m_pParentGateCollection)
     {

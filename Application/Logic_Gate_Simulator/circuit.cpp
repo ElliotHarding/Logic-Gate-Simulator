@@ -92,9 +92,8 @@ GateCollection* Circuit::createGateCollection()
         pNewCircuit->AddGate(g.second);
 
         TextLabel* pTextLabel = new TextLabel();
-        pTextLabel->setPosition(offsetButSameX, posY);
         pTextLabel->Update(pTextLabel->GetFont(), QString(g.first));
-        pNewCircuit->AddGate(pTextLabel);
+        g.second->addAttachedLabel(pTextLabel);
 
         offsetButSameX += 20;
 
@@ -110,9 +109,8 @@ GateCollection* Circuit::createGateCollection()
         pNewCircuit->AddGate(g.second);
 
         TextLabel* pTextLabel = new TextLabel();
-        pTextLabel->setPosition(maxX + offsetButSameX, posY);
         pTextLabel->Update(pTextLabel->GetFont(), QString(g.first));
-        pNewCircuit->AddGate(pTextLabel);
+        g.second->addAttachedLabel(pTextLabel);
 
         offsetButSameX += 20;
     }

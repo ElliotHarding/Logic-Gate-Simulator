@@ -8,7 +8,7 @@
 
 class Circuit;
 class GateCollection;
-class CircuitOptions;
+struct CircuitOptions;
 
 //////////////////////////////////////////////////////////////////////////
 ///RandomCircuitGenThread

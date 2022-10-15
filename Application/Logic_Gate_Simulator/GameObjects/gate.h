@@ -85,6 +85,7 @@ protected:
     GateField* m_pParentField;
     GateCollection* m_pParentGateCollection = nullptr;
     std::vector<TextLabel*> m_attachedLabels;
+    std::vector<int> m_cloneAttachedLabelIds;
 };
 
 enum NodeType

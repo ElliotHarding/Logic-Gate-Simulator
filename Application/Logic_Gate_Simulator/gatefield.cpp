@@ -594,9 +594,27 @@ void GateField::doPan(const QPoint& mouse)
 void GateField::moveToFront(const uint& index, std::vector<Gate *> &vec)
 {
     Gate* objectAtIndex = vec[index];
-
     vec.erase(vec.begin() + index);
-    vec.insert(vec.begin(), objectAtIndex);
+
+    //Is the gate moving to front a textlabel?
+    if(objectAtIndex->GetType() == GateType::GATE_TEXT_LABEL)
+    {
+        vec.insert(vec.begin(), objectAtIndex);
+    }
+    else
+    {
+        //Move to front after all textlabels (they always go on top)
+        for(uint i = 0; i < vec.size(); i++)
+        {
+            if(vec[i]->GetType() != GateType::GATE_TEXT_LABEL)
+            {
+                vec.insert(vec.begin() + i, objectAtIndex);
+                return;
+            }
+        }
+
+        vec.insert(vec.begin() + vec.size(), objectAtIndex);
+    }
 }
 
 void GateField::offsetGates(const double& offsetX, const double& offsetY)

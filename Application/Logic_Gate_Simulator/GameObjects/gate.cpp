@@ -42,8 +42,8 @@ Gate::~Gate()
     {
         m_pParentGateCollection->ForgetGate(this);
 
-        if(m_pAttachedLabel)
-            m_pParentGateCollection->ForgetGate(m_pAttachedLabel);
+        for(TextLabel* pAttachedLabel : m_attachedLabels)
+            m_pParentGateCollection->ForgetGate(pAttachedLabel);
     }
 
     if (m_pParentField)
@@ -51,16 +51,16 @@ Gate::~Gate()
         m_pParentField->ForgetChild(this);
         m_pParentField->ForgetUpdateRequest(this);
 
-        if(m_pAttachedLabel)
+        for(TextLabel* pAttachedLabel : m_attachedLabels)
         {
-            m_pParentField->ForgetChild(m_pAttachedLabel);
-            m_pParentField->ForgetUpdateRequest(m_pAttachedLabel);
+            m_pParentField->ForgetChild(pAttachedLabel);
+            m_pParentField->ForgetUpdateRequest(pAttachedLabel);
         }
     }
 
-    if(m_pAttachedLabel)
+    for(TextLabel* pAttachedLabel : m_attachedLabels)
     {
-        delete m_pAttachedLabel;
+        delete pAttachedLabel;
     }
 }
 
@@ -106,26 +106,47 @@ Node* Gate::checkClickedNodes(const QPoint& mouse)
     return nullptr;
 }
 
-TextLabel* Gate::getAttachedLabel()
+bool Gate::hasAttachedLabel(Gate *pGate)
 {
-    return m_pAttachedLabel;
+    for(Gate* pAttachedLabel : m_attachedLabels)
+    {
+        if(pGate == pAttachedLabel)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
-void Gate::setAttachedLabel(TextLabel* pTextLabel)
+void Gate::addAttachedLabel(TextLabel* pTextLabel)
 {
-    m_pAttachedLabel = pTextLabel;
-    if(m_pAttachedLabel)
+    if(pTextLabel)
     {
-        m_pAttachedLabel->attachGate(this);
+        pTextLabel->attachGate(this);
+        pTextLabel->setPosition(position().x(), position().y());
 
         if(m_pParentGateCollection)
         {
-            m_pParentGateCollection->AddGate(m_pAttachedLabel);
+            m_pParentGateCollection->AddGate(pTextLabel);
         }
 
         if(m_pParentField)
         {
-            m_pParentField->AddGate(m_pAttachedLabel, false);
+            m_pParentField->AddGate(pTextLabel, false);
+        }
+
+        m_attachedLabels.push_back(pTextLabel);
+    }
+}
+
+void Gate::removeAttachedLabel(TextLabel *pTextLabel)
+{
+    for(size_t i = 0; i < m_attachedLabels.size(); i++)
+    {
+        if(m_attachedLabels[i] == pTextLabel)
+        {
+            m_attachedLabels.erase(m_attachedLabels.begin() + i);
+            return;
         }
     }
 }
@@ -138,9 +159,9 @@ void Gate::offsetPosition(const int& dX, const int& dY)
         n->setPosition(m_geometry.center().x(), m_geometry.center().y());
     }
 
-    if(m_pAttachedLabel)
+    for(TextLabel* pAttachedLabel : m_attachedLabels)
     {
-        m_pAttachedLabel->offsetPosition(dX, dY);
+        pAttachedLabel->offsetPosition(dX, dY);
     }
 }
 
@@ -162,10 +183,10 @@ void Gate::setPosition(const int &x, const int &y)
         n->setPosition(x, y);
     }    
 
-    if(m_pAttachedLabel)
+    const QPoint difference = position() - originalPosition;
+    for(TextLabel* pAttachedLabel : m_attachedLabels)
     {
-        const QPoint difference = position() - originalPosition;
-        m_pAttachedLabel->offsetPosition(difference.x(), difference.y());
+        pAttachedLabel->offsetPosition(difference.x(), difference.y());
     }
 
     if(m_pParentGateCollection)

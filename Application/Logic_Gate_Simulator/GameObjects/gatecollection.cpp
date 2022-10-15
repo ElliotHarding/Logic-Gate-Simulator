@@ -213,7 +213,7 @@ bool isAttachedToContainedGate(Gate* pTextLabel, std::vector<Gate*>& containedGa
 {
     for(Gate* pContainedGate : containedGates)
     {
-        if(pContainedGate->getAttachedLabel() == pTextLabel)
+        if(pContainedGate->hasAttachedLabel(pTextLabel))
         {
             return true;
         }
@@ -233,9 +233,9 @@ void GateCollection::offsetPosition(const int& dX, const int& dY)
     }
     UpdateContaningArea();
 
-    if(m_pAttachedLabel)
+    for(Gate* pAttachedLabel : m_attachedLabels)
     {
-        m_pAttachedLabel->offsetPosition(dX, dY);
+        pAttachedLabel->offsetPosition(dX, dY);
     }
 }
 

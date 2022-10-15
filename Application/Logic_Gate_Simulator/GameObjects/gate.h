@@ -44,8 +44,9 @@ public:
     virtual void draw(QPainter& painter) override;
     virtual void SaveData(QDomDocument& storage, QDomElement& parentElement);
     virtual Node* checkClickedNodes(const QPoint& mouse);
-    TextLabel* getAttachedLabel();
-    void setAttachedLabel(TextLabel* pTextLabel);
+    bool hasAttachedLabel(Gate* pGate);
+    void addAttachedLabel(TextLabel* pTextLabel);
+    void removeAttachedLabel(TextLabel* pTextLabel);
 
     ///Position stuff
     virtual void offsetPosition(const int& dX, const int& dY);
@@ -78,7 +79,7 @@ protected:
     std::vector<Node*> m_nodes;
     GateField* m_pParentField;
     GateCollection* m_pParentGateCollection = nullptr;
-    TextLabel* m_pAttachedLabel = nullptr;
+    std::vector<TextLabel*> m_attachedLabels;
 };
 
 enum NodeType

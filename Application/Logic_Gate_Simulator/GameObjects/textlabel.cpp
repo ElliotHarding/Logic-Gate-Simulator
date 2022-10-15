@@ -22,7 +22,7 @@ TextLabel::~TextLabel()
 {
     if(m_pAttachedGate)
     {
-        m_pAttachedGate->setAttachedLabel(nullptr);
+        m_pAttachedGate->removeAttachedLabel(this);
     }
 }
 

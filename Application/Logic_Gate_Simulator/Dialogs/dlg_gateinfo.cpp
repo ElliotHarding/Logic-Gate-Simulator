@@ -334,24 +334,16 @@ void DLG_GateInfo::on_btn_expression_clicked()
 
 void DLG_GateInfo::on_btn_label_clicked()
 {
-    TextLabel* pLabel = m_pGateDisplayed->getAttachedLabel();
-    if(pLabel == nullptr)
-    {
-        pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y());
-        m_pGateDisplayed->setAttachedLabel(pLabel);
-    }
+    TextLabel* pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y());
+    m_pGateDisplayed->addAttachedLabel(pLabel);
 
     m_pParent->EditTextLabel(pLabel);
 }
 
 void DLG_GateInfo::on_btn_label2_clicked()
 {
-    TextLabel* pLabel = m_pGateDisplayed->getAttachedLabel();
-    if(pLabel == nullptr)
-    {
-        pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y());
-        m_pGateDisplayed->setAttachedLabel(pLabel);
-    }
+    TextLabel* pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y());
+    m_pGateDisplayed->addAttachedLabel(pLabel);
 
     m_pParent->EditTextLabel(pLabel);
 }

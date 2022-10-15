@@ -123,7 +123,7 @@ void Gate::addAttachedLabel(TextLabel* pTextLabel)
     if(pTextLabel)
     {
         pTextLabel->attachGate(this);
-        pTextLabel->setPosition(position().x(), position().y());
+        pTextLabel->setPosition(position().x(), position().y() - 20);
 
         if(m_pParentGateCollection)
         {

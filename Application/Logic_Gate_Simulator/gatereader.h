@@ -35,10 +35,10 @@ public:
 
 private:
     std::vector<Gate*> readGates(QDomElement& gatesParent);
-    Gate* readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo, std::vector<int>& gateLabelAttachIds, std::vector<std::pair<Gate*, int>>& labelAttachIds, std::vector<TextLabel*>& labelGates);
+    Gate* readGate(QDomElement& gate, std::vector<NodeIds>& linkInfo, std::vector<int>& gateLabelAttachIds, std::vector<std::pair<Gate*, int>>& gateAndTextLabelIdPairs, std::vector<TextLabel*>& labelGates);
     std::vector<NodeIds> readNodes(QDomElement& gate, std::vector<NodeIds>& linkInfo);
     std::vector<int> readAttachedLabelIds(QDomElement& gate);
-    void attachLabels(std::vector<std::pair<Gate*, int>>& labelAttachIds, std::vector<TextLabel*>& labelGates);
+    void attachLabels(std::vector<std::pair<Gate*, int>>& gateAndTextLabelIdPairs, std::vector<TextLabel*>& labelGates);
     void readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo, std::vector<NodeIds>& nodeInfo, const QString& nodeType);
     int tryReadInt(const QString& value, const int& defaultVal);
     static bool SearchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n);

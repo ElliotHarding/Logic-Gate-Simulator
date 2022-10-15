@@ -44,6 +44,7 @@ GateField::~GateField()
     //Delete all gates
     for (size_t index = 0; index < m_allGates.size(); index++)
     {
+        m_allGates[index]->SetParent(nullptr);
         delete m_allGates[index];
     }
 

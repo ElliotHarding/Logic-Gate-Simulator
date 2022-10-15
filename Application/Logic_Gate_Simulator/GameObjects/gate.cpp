@@ -154,26 +154,35 @@ void Gate::removeAttachedLabel(TextLabel *pTextLabel)
 
 void Gate::switchAttachedLabels(std::vector<Gate*>& gates)
 {
-    for(size_t i = 0; i < m_attachedLabels.size(); i++)
+    std::vector<int> attachedLabelsIds;
+    for(TextLabel* pTextLabel : m_attachedLabels)
+    {
+        attachedLabelsIds.push_back(pTextLabel->attachId());
+    }
+
+    m_attachedLabels.clear();
+
+    for(int id : attachedLabelsIds)
     {
         for(Gate* pGate : gates)
         {
             if(pGate->GetType() == GateType::GATE_TEXT_LABEL)
             {
-                if(dynamic_cast<TextLabel*>(pGate)->attachId() == m_attachedLabels[i]->attachId())
+                TextLabel* pTextLabel = dynamic_cast<TextLabel*>(pGate);
+                if(pTextLabel->attachId() == id)
                 {
-                    m_attachedLabels[i] = dynamic_cast<TextLabel*>(pGate);
-                    m_attachedLabels[i]->genNewAttachId();
+                    pTextLabel->genNewAttachId();
+                    m_attachedLabels.push_back(pTextLabel);
                     break;
                 }
             }
             else if(pGate->GetType() == GateType::GATE_COLLECTION)
             {
-                TextLabel* pPotentialAttachedLabel = dynamic_cast<GateCollection*>(pGate)->findTextLabelWithId(m_attachedLabels[i]->attachId());
+                TextLabel* pPotentialAttachedLabel = dynamic_cast<GateCollection*>(pGate)->findTextLabelWithId(id);
                 if(pPotentialAttachedLabel)
                 {
-                    m_attachedLabels[i] = pPotentialAttachedLabel;
-                    m_attachedLabels[i]->genNewAttachId();
+                    pPotentialAttachedLabel->genNewAttachId();
+                    m_attachedLabels.push_back(pPotentialAttachedLabel);
                     break;
                 }
             }

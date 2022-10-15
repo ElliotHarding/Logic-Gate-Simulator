@@ -208,13 +208,12 @@ void GateField::AddGate(Gate* go, const bool& newlySpawned)
         go->setPosition(worldPos.x(), worldPos.y());
     }
 
+    //Put new gate at front so its on top of others
+    // - Lazy way todo it
     m_allGates.push_back(go);
-    UpdateGateSelected(go);
+    moveToFront(m_allGates.size()-1, go);
 
-    if(go->GetType() == GateType::GATE_TEXT_LABEL)
-    {
-        moveToFront(m_allGates.size()-1, m_allGates);
-    }
+    UpdateGateSelected(go);
 
     m_pParent->SetCurrentClickMode(CLICK_DRAG);
 

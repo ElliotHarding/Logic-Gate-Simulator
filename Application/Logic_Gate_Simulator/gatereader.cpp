@@ -126,8 +126,7 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
     }
 
     linkNodes(gates, linkInfo);
-
-    //todo link attached gates
+    attachLabels(gates, attachedLabelIds);
 
     return gates;
 }
@@ -333,6 +332,57 @@ std::vector<int> GateReader::readAttachedLabelIds(QDomElement& gate)
     }
 
     return attachedLabelIdsVector;
+}
+
+TextLabel* findTextLabelWithId(std::vector<Gate*>& gates, const int& id)
+{
+    for(size_t i = 0; i < gates.size(); i++)
+    {
+        if(gates[i]->GetType() == GateType::GATE_TEXT_LABEL)
+        {
+            if(dynamic_cast<TextLabel*>(gates[i])->attachId() == id)
+            {
+                return dynamic_cast<TextLabel*>(gates[i]);
+            }
+        }
+        else if(gates[i]->GetType() == GateType::GATE_COLLECTION)
+        {
+            TextLabel* pPotentialTextLabel = dynamic_cast<GateCollection*>(gates[i])->findTextLabelWithId(id);
+            if(pPotentialTextLabel)
+            {
+                return pPotentialTextLabel;
+            }
+        }
+    }
+    return nullptr;
+}
+
+void GateReader::attachLabels(std::vector<Gate*>& gates, std::vector<std::vector<int>>& attachedLabelIds)
+{
+    for(size_t i = 0; i < gates.size(); i++)
+    {
+        for(int labelId : attachedLabelIds[i])
+        {
+            TextLabel* pPotentialTextLabel = findTextLabelWithId(gates, labelId);
+            if(pPotentialTextLabel)
+            {
+                gates[i]->addAttachedLabel(pPotentialTextLabel);
+            }
+        }
+    }
+
+    //Must be done after all is linked
+    for(size_t i = 0; i < gates.size(); i++)
+    {
+        for(int labelId : attachedLabelIds[i])
+        {
+            TextLabel* pPotentialTextLabel = findTextLabelWithId(gates, labelId);
+            if(pPotentialTextLabel)
+            {
+                pPotentialTextLabel->genNewAttachId();
+            }
+        }
+    }
 }
 
 void GateReader::readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo, std::vector<NodeIds>& nodeInfo, const QString& nodeType)

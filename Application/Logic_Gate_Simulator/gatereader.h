@@ -8,6 +8,7 @@ class Gate;
 class Node;
 class GateCollection;
 class GateField;
+class TextLabel;
 struct NodeIds;
 
 class QDomElement;

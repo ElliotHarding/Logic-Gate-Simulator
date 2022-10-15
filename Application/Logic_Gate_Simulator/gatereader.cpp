@@ -117,7 +117,7 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
     while(!gateElement.isNull())
     {
         std::vector<int> gateAttachedLabelIds;
-        Gate* newReadGate = readGate(gateElement, linkInfo, gateAttachedLabelIds);
+        Gate* newReadGate = readGate(gateElement, linkInfo, gateAttachedLabelIds, labelGates);
         if(newReadGate != nullptr)
         {
             gates.push_back(newReadGate);
@@ -173,7 +173,10 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
             if(subGate != nullptr)
             {
                 subGates.push_back(subGate);
-                attachedLabelIds += subAttachedLabelIds;
+                for(int labelId : subAttachedLabelIds)
+                {
+                    attachedLabelIds.push_back(labelId);
+                }
             }
             subGateElement = subGateElement.nextSiblingElement(Settings::GateElement);
         }

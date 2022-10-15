@@ -42,7 +42,7 @@ GateField::~GateField()
     m_pParent = nullptr;
 
     //Delete all gates
-    for (size_t index = 0; index < m_allGates.size(); index++)
+    for (size_t index = m_allGates.size() - 1; index > -1 ; index--)
     {
         m_allGates[index]->SetParent(nullptr);
         delete m_allGates[index];
@@ -739,7 +739,7 @@ GateFieldHistory::~GateFieldHistory()
 {
     for(std::vector<Gate*> historyItem : m_history)
     {
-        for (size_t index = 0; index < historyItem.size(); index++)
+        for (size_t index = historyItem.size() - 1; index > -1 ; index--)
         {
             delete historyItem[index];
         }

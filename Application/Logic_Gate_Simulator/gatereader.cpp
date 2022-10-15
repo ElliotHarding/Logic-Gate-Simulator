@@ -110,36 +110,39 @@ std::vector<Gate*> GateReader::readGates(QDomElement& gatesParent)
 {
     std::vector<Gate*> gates;
     std::vector<NodeIds> linkInfo;
-    std::vector<std::vector<int>> attachedLabelIds;
+    std::vector<std::pair<Gate*, int>> labelAttachIds;
     std::vector<TextLabel*> labelGates;
 
     auto gateElement = gatesParent.firstChildElement(Settings::GateElement);
     while(!gateElement.isNull())
     {
-        std::vector<int> gateAttachedLabelIds;
-        Gate* newReadGate = readGate(gateElement, linkInfo, gateAttachedLabelIds, labelGates);
+        std::vector<int> gateLabelAttachIds;
+        Gate* newReadGate = readGate(gateElement, linkInfo, gateLabelAttachIds, labelAttachIds, labelGates);
         if(newReadGate != nullptr)
         {
             gates.push_back(newReadGate);
-            attachedLabelIds.push_back(gateAttachedLabelIds);
+            for(int lblAttachId : gateLabelAttachIds)
+            {
+                labelAttachIds.push_back(std::pair<Gate*, int>(newReadGate, lblAttachId));
+            }
         }
         gateElement = gateElement.nextSiblingElement(Settings::GateElement);
     }
 
     linkNodes(gates, linkInfo);
-    attachLabels(gates, attachedLabelIds, labelGates);
+    attachLabels(labelAttachIds, labelGates);
 
     return gates;
 }
 
-Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkInfo, std::vector<int>& attachedLabelIds, std::vector<TextLabel*>& labelGates)
+Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkInfo, std::vector<int>& gateLabelAttachIds, std::vector<std::pair<Gate*, int>>& labelAttachIds, std::vector<TextLabel*>& labelGates)
 {
     const GateType type = (GateType)tryReadInt(gateElement.attribute(Settings::GateTypeTag), GATE_NULL);
     const int posX = tryReadInt(gateElement.attribute(Settings::GatePosXTag), 0);
     const int posY = tryReadInt(gateElement.attribute(Settings::GatePosYTag), 0);
 
     std::vector<NodeIds> nodeInfo = readNodes(gateElement, linkInfo);
-    attachedLabelIds = readAttachedLabelIds(gateElement);
+    gateLabelAttachIds = readAttachedLabelIds(gateElement);
 
     switch(type)
     {
@@ -169,13 +172,13 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
         while(!subGateElement.isNull())
         {
             std::vector<int> subAttachedLabelIds;
-            Gate* subGate = readGate(subGateElement, linkInfo, subAttachedLabelIds, labelGates);
+            Gate* subGate = readGate(subGateElement, linkInfo, subAttachedLabelIds, labelAttachIds, labelGates);
             if(subGate != nullptr)
             {
                 subGates.push_back(subGate);
                 for(int labelId : subAttachedLabelIds)
                 {
-                    attachedLabelIds.push_back(labelId);
+                    labelAttachIds.push_back(std::pair<Gate*, int>(subGate, labelId));
                 }
             }
             subGateElement = subGateElement.nextSiblingElement(Settings::GateElement);
@@ -342,18 +345,15 @@ std::vector<int> GateReader::readAttachedLabelIds(QDomElement& gate)
     return attachedLabelIdsVector;
 }
 
-void GateReader::attachLabels(std::vector<Gate*>& gates, std::vector<std::vector<int>>& attachedLabelIds, std::vector<TextLabel*>& labelGates)
+void GateReader::attachLabels(std::vector<std::pair<Gate*, int>>& labelAttachIds, std::vector<TextLabel*>& labelGates)
 {
-    for(size_t i = 0; i < gates.size(); i++)
+    for(std::pair<Gate*, int> labelAttach : labelAttachIds)
     {
-        for(int labelId : attachedLabelIds[i])
+        for(TextLabel* pTextLabel : labelGates)
         {
-            for(TextLabel* pTextLabel : labelGates)
+            if(pTextLabel->attachId() == labelAttach.second)
             {
-                if(pTextLabel->attachId() == labelId)
-                {
-                    gates[i]->addAttachedLabel(pTextLabel, false);
-                }
+                labelAttach.first->addAttachedLabel(pTextLabel, false);
             }
         }
     }

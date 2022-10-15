@@ -21,14 +21,10 @@ const int BorderBoxMargin = 40;
 GateCollection::GateCollection(std::vector<Gate*> gates) :
     Gate::Gate(GATE_COLLECTION, 0, 0, 0, 0)
 {
-    m_gates = gates;
-    for(Gate* pGate : m_gates)
+    for(Gate* pGate : gates)
     {
-        pGate->SetParentGateCollection(this);
+        AddGate(pGate);
     }
-
-    UpdateContaningArea();
-    ProporgateParentAndCheckForNestedGates();
 }
 
 GateCollection::~GateCollection()
@@ -80,15 +76,6 @@ void GateCollection::SetParent(GateField *gf)
     for (Gate* g : m_gates)
     {
         g->SetParent(m_pParentField);
-    }
-}
-
-void GateCollection::ProporgateParentAndCheckForNestedGates()
-{
-    for (Gate* g : m_gates)
-    {
-        g->SetParent(m_pParentField);
-        g->SetParentGateCollection(this);
     }
 }
 
@@ -389,7 +376,14 @@ void GateCollection::AddGate(Gate *g)
     g->SetParentGateCollection(this);
     g->SetParent(m_pParentField);
 
-    m_gates.push_back(g);
+    if(g->GetType() == GateType::GATE_TEXT_LABEL)
+    {
+        m_gates.insert(m_gates.begin(), g);
+    }
+    else
+    {
+        m_gates.push_back(g);
+    }
 
     UpdateContaningArea();
 }

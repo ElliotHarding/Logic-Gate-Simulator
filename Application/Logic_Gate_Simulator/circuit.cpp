@@ -65,8 +65,9 @@ void displaceLinkedGates(Gate* pParent, std::vector<Gate*>& gates, int& maxX)
                     maxX = maxX < newX ? newX : maxX;
                 }
 
+                Gate* newParentGate = gates[iSubGate];
                 gates.erase(gates.begin() + iSubGate);
-                displaceLinkedGates(gates[iSubGate], gates, maxX);
+                displaceLinkedGates(newParentGate, gates, maxX);
             }
         }
     }

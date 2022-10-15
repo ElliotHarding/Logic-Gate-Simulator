@@ -274,9 +274,9 @@ void GateCollection::draw(QPainter& painter)
         painter.drawRect(m_geometry);
     }
 
-    for(Gate* gate : m_gates)
+    for (int index = m_gates.size() - 1; index > -1; index--)
     {
-        gate->draw(painter);
+        m_gates[index]->draw(painter);
     }
 }
 

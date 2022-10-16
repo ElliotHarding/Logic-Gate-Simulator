@@ -267,11 +267,11 @@ bool inVector(const std::vector<char>& vector, const char& value)
 }
 
 //If input values match up with expression letters being inverted or not
-bool expressionToResult(const std::vector<bool>& inValues, const BooleanExpression& expression)
+bool expressionToResult(const std::vector<bool>& inValues, std::vector<char>& inputLetters, const BooleanExpression& expression)
 {
     for(uint i = 0; i < inValues.size(); i++)
     {
-        const char letter = Settings::IntStartAlphabet + i;
+        const char letter = inputLetters[i];
         for(uint j = 0; j < expression.letters.size(); j++)
         {
             if(expression.letters[j] == letter)
@@ -327,7 +327,7 @@ ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression
         truthTable.outValues.push_back(std::vector<bool>());
         for(uint iOutput = 0; iOutput < outputs.size(); iOutput++)
         {
-            truthTable.outValues[i].push_back(expressionToResult(truthTable.inValues[i], expressions[iOutput]));
+            truthTable.outValues[i].push_back(expressionToResult(truthTable.inValues[i], inputs, expressions[iOutput]));
         }
     }
 

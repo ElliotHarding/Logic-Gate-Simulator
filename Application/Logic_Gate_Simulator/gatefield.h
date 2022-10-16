@@ -43,6 +43,7 @@ public:
 private:
     std::vector<std::vector<Gate*>> m_history;
     uint m_historyIndex = 0;
+    void deleteIndexOfHistory(const size_t& index);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////

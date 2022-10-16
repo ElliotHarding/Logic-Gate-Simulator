@@ -715,14 +715,7 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
     //Delete excess history - todo : test if crash without reverse
     if(Settings::MaxGateFieldHistory < m_history.size())
     {
-        for (size_t index = m_history[0].size() - 1; index > -1 ; index--)
-        {
-            if(m_history[0][index]->GetType() == GateType::GATE_COLLECTION)
-            {
-                dynamic_cast<GateCollection*>(m_history[0][index])->setDeleteAll();
-            }
-            delete m_history[0][index];
-        }
+        deleteIndexOfHistory(0);
         m_history.erase(m_history.begin());
     }
 
@@ -735,15 +728,7 @@ bool GateFieldHistory::undoHistory(std::vector<Gate*>& currentSnapshot)
     {       
         if(m_historyIndex == m_history.size() - 1)
         {
-            for (size_t index = m_history[m_historyIndex].size() - 1; index > -1 ; index--)
-            {
-                if(m_history[m_historyIndex][index]->GetType() == GateType::GATE_COLLECTION)
-                {
-                    dynamic_cast<GateCollection*>(m_history[m_historyIndex][index])->setDeleteAll();
-                }
-                delete m_history[m_historyIndex][index];
-            }
-
+            deleteIndexOfHistory(m_historyIndex);
             m_history[m_historyIndex] = currentSnapshot;
         }
 
@@ -775,5 +760,17 @@ GateFieldHistory::~GateFieldHistory()
             }
             delete historyItem[index];
         }
+    }
+}
+
+void GateFieldHistory::deleteIndexOfHistory(const size_t& historyIndex)
+{
+    for (size_t index = m_history[historyIndex].size() - 1; index > -1 ; index--)
+    {
+        if(m_history[historyIndex][index]->GetType() == GateType::GATE_COLLECTION)
+        {
+            dynamic_cast<GateCollection*>(m_history[historyIndex][index])->setDeleteAll();
+        }
+        delete m_history[historyIndex][index];
     }
 }

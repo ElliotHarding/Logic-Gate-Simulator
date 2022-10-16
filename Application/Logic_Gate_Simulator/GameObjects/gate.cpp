@@ -118,7 +118,7 @@ bool Gate::hasAttachedLabel(Gate *pGate)
     return false;
 }
 
-void Gate::addAttachedLabel(TextLabel* pTextLabel, const bool& setPosition)
+void Gate::addAttachedLabel(TextLabel* pTextLabel, const bool& setPosition, const bool& addToParentGateCollection)
 {
     if(pTextLabel)
     {
@@ -126,7 +126,7 @@ void Gate::addAttachedLabel(TextLabel* pTextLabel, const bool& setPosition)
         if(setPosition)
             pTextLabel->setPosition(position().x(), position().y() - 20);
 
-        if(m_pParentGateCollection)
+        if(m_pParentGateCollection && addToParentGateCollection)
         {
             m_pParentGateCollection->AddGate(pTextLabel);
         }
@@ -166,7 +166,7 @@ void Gate::switchAttachedLabels(std::vector<Gate*> gates)
                 if(pTextLabel->attachId() == id)
                 {
                     pTextLabel->genNewAttachId();
-                    addAttachedLabel(pTextLabel);
+                    addAttachedLabel(pTextLabel, false, false);
                     break;
                 }
             }
@@ -176,7 +176,7 @@ void Gate::switchAttachedLabels(std::vector<Gate*> gates)
                 if(pPotentialAttachedLabel)
                 {
                     pPotentialAttachedLabel->genNewAttachId();
-                    addAttachedLabel(pPotentialAttachedLabel);
+                    addAttachedLabel(pPotentialAttachedLabel, false, false);
                     break;
                 }
             }

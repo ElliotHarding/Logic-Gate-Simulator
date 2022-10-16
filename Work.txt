@@ -18,3 +18,9 @@ Pressing x on page causes crash - no longer
 Deleteing a gate collection causes a crash
 Performing history causes textlabel to not be linked with gate
 
+extra label added to gatecollection
+gate does not have attachedLabel
+
+
+addAttachedLabel set position false...
+

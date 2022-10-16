@@ -24,3 +24,15 @@ gate does not have attachedLabel
 
 addAttachedLabel set position false...
 
+
+
+
+TT --> Bool 	ok
+Bool --> TT	G
+Bool --> Cir	B
+TT --> Cir  	B (Contains simplification)
+TT --> Cir thread B
+
+script --> Cir	B (uses script --> TT --> Cir)
+script --> TT	G (needs saftey checks)
+script --> Bool ok (uses script --> tt --> bool)

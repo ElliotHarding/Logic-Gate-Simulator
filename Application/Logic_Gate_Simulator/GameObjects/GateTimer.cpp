@@ -42,7 +42,7 @@ void GateTimer::SaveData(QDomDocument& storage, QDomElement& parentElement)
 
 Gate *GateTimer::Clone()
 {
-    GateTimer* clone = new GateTimer(m_geometry.x(), m_geometry.y(), m_pOutput->id());
+    GateTimer* clone = new GateTimer(position().x(), position().y(), m_pOutput->id());
     clone->m_frequency = m_frequency;
     Gate::baseClone(clone);
 

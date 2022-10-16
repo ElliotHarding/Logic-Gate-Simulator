@@ -30,7 +30,7 @@ void GateReciever::UpdateOutput()
 
 Gate* GateReciever::Clone()
 {
-    GateReciever* clone = new GateReciever(m_geometry.x(), m_geometry.y(), m_pInput->id());
+    GateReciever* clone = new GateReciever(position().x(), position().y(), m_pInput->id());
     Gate::baseClone(clone);
 
     return clone;

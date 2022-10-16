@@ -134,7 +134,7 @@ void GateFPGA::UpdateOutput()
 
 Gate* GateFPGA::Clone()
 {
-    GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_script, m_geometry.x(), m_geometry.y());
+    GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_script, position().x(), position().y());
     Gate::baseClone(clone);
     return clone;
 }
@@ -234,7 +234,7 @@ void GateFPGA::setScript(const QString& script)
 
 void GateFPGA::updateGeometryBasedOnNodes()
 {
-    m_geometry = QRect(m_geometry.x(), m_geometry.y(), Settings::GateFpgaWidth, m_inputNodes.size() > m_outputNodes.size() ? m_inputNodes.size() * Settings::GapBetweenNodesY : m_outputNodes.size() * Settings::GapBetweenNodesY);
+    m_geometry = QRect(position().x(), position().y(), Settings::GateFpgaWidth, m_inputNodes.size() > m_outputNodes.size() ? m_inputNodes.size() * Settings::GapBetweenNodesY : m_outputNodes.size() * Settings::GapBetweenNodesY);
 
     const int yOffset = -(m_inputNodes.size() > m_outputNodes.size() ? m_inputNodes.size()/2 * Settings::GapBetweenNodesY : m_outputNodes.size()/2 * Settings::GapBetweenNodesY);
     for(uint i = 0; i < m_inputNodes.size(); i++)

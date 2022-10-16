@@ -15,7 +15,7 @@ void GateNor::UpdateOutput()
 
 Gate *GateNor::Clone()
 {
-    GateNor* clone = new GateNor(m_geometry.x(), m_geometry.y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
+    GateNor* clone = new GateNor(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
     Gate::baseClone(clone);
 
     return clone;

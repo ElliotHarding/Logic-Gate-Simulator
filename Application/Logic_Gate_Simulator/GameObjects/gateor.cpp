@@ -47,7 +47,7 @@ void GateOr::UpdateOutput()
 
 Gate* GateOr::Clone()
 {
-    GateOr* clone = new GateOr(m_geometry.x(), m_geometry.y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
+    GateOr* clone = new GateOr(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
     Gate::baseClone(clone);
 
     return clone;

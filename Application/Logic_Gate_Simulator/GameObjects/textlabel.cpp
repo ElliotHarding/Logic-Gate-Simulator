@@ -53,7 +53,7 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
 
 Gate* TextLabel::Clone()
 {
-    TextLabel* clone = new TextLabel(m_geometry.x(), m_geometry.y(), m_string, m_font, m_attachId);
+    TextLabel* clone = new TextLabel(position().x(), position().y(), m_string, m_font, m_attachId);
 
     Gate::baseClone(clone);
 

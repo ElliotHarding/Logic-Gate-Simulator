@@ -47,7 +47,7 @@ void GateEor::UpdateOutput()
 
 Gate* GateEor::Clone()
 {
-    GateEor* clone = new GateEor(m_geometry.x(), m_geometry.y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
+    GateEor* clone = new GateEor(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
     Gate::baseClone(clone);
 
     return clone;

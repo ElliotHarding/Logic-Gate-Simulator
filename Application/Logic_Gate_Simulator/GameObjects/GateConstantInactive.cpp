@@ -13,7 +13,7 @@ void GateConstantInactive::UpdateOutput()
 
 Gate *GateConstantInactive::Clone()
 {
-    GateConstantInactive* clone = new GateConstantInactive(m_geometry.x(), m_geometry.y(), m_pOutput->id());
+    GateConstantInactive* clone = new GateConstantInactive(position().x(), position().y(), m_pOutput->id());
     Gate::baseClone(clone);
 
     return clone;

@@ -32,11 +32,11 @@ void GateSingleOutput::draw(QPainter& painter)
 {
     //Draw gate
     painter.setPen(QPen(Settings::GateColor, Settings::GateSize));
-    painter.drawRect(Settings::DrawLayoutIn.translated(m_geometry.x(), m_geometry.y()));
+    painter.drawRect(Settings::DrawLayoutIn.translated(position().x(), position().y()));
 
     //Draw active/inactive buttons
     painter.setPen(QPen(m_pOutput->value() ? Settings::ActiveColor : Settings::InActiveColor, Settings::ButtonsSize));
-    painter.drawRect(Settings::DrawLayout.translated(m_geometry.x(), m_geometry.y()));
+    painter.drawRect(Settings::DrawLayout.translated(position().x(), position().y()));
 
     drawNodes(painter);
 }

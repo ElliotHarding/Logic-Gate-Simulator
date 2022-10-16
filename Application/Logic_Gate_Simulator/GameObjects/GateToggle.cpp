@@ -19,7 +19,7 @@ void GateToggle::ToggleOutputState()
 
 Gate *GateToggle::Clone()
 {
-    GateToggle* clone = new GateToggle(m_geometry.x(), m_geometry.y(), m_pOutput->id());
+    GateToggle* clone = new GateToggle(position().x(), position().y(), m_pOutput->id());
     Gate::baseClone(clone);
 
     return clone;

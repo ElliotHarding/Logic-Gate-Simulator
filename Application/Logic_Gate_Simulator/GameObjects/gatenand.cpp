@@ -15,7 +15,7 @@ void GateNand::UpdateOutput()
 
 Gate *GateNand::Clone()
 {
-    GateNand* clone = new GateNand(m_geometry.x(), m_geometry.y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
+    GateNand* clone = new GateNand(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
     Gate::baseClone(clone);
 
     return clone;

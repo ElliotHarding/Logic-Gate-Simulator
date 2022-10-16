@@ -49,7 +49,7 @@ void GateAnd::UpdateOutput()
 
 Gate *GateAnd::Clone()
 {
-    GateAnd* clone = new GateAnd(m_geometry.x(), m_geometry.y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
+    GateAnd* clone = new GateAnd(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
     Gate::baseClone(clone);
 
     return clone;

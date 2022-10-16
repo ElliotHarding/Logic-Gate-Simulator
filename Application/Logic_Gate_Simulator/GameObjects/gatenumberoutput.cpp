@@ -57,7 +57,7 @@ void GateNumberOutput::draw(QPainter& painter)
 
 Gate *GateNumberOutput::Clone()
 {
-    GateNumberOutput* clone = new GateNumberOutput(m_geometry.x(), m_geometry.y());
+    GateNumberOutput* clone = new GateNumberOutput(position().x(), position().y());
 
     //Clone position Todo ~ check if needed
     QPoint pos = position();

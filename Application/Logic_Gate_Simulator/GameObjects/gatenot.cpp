@@ -28,7 +28,7 @@ void GateNot::UpdateOutput()
 
 Gate *GateNot::Clone()
 {
-    GateNot* clone = new GateNot(m_geometry.x(), m_geometry.y(), m_pInput->id(), m_pOutput->id());
+    GateNot* clone = new GateNot(position().x(), position().y(), m_pInput->id(), m_pOutput->id());
     Gate::baseClone(clone);
 
     return clone;

@@ -416,7 +416,7 @@ Gate* GateCollection::Clone()
     GateCollection* pClone = new GateCollection(clonedGates);
     Gate::baseClone(pClone);
 
-    pClone->m_geometry = m_geometry;
+    //pClone->m_geometry = m_geometry; - done in constructor
     pClone->m_dragMode = m_dragMode;
 
     return pClone;
@@ -447,7 +447,6 @@ TextLabel* GateCollection::findTextLabelWithId(int id)
 
 void GateCollection::switchAttachedLabels(std::vector<Gate*> gates)
 {
-    //size_t originalGatesSize = m_gates.size();
     for (size_t i = 0; i < m_gates.size(); i++)
     {
         m_gates[i]->switchAttachedLabels(gates);

@@ -697,11 +697,25 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
         g->switchAttachedLabels(clonedSnapshot);
     }
 
+    //Remove all history saves after current m_historyIndex
+    for(size_t i = m_historyIndex + 1; i < m_history.size(); i++)
+    {
+        for (size_t index = m_history[i].size() - 1; index > -1 ; index--)
+        {
+            if(m_history[i][index]->GetType() == GateType::GATE_COLLECTION)
+            {
+                dynamic_cast<GateCollection*>(m_history[i][index])->setDeleteAll();
+            }
+            delete m_history[i][index];
+        }
+    }
+
     m_history.push_back(clonedSnapshot);
 
+    //Delete excess history - todo : test if crash without reverse
     if(Settings::MaxGateFieldHistory < m_history.size())
     {
-        for (size_t index = 0; index < m_history[0].size(); index++)
+        for (size_t index = m_history[0].size() - 1; index > -1 ; index--)
         {
             if(m_history[0][index]->GetType() == GateType::GATE_COLLECTION)
             {
@@ -718,7 +732,21 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
 bool GateFieldHistory::undoHistory(std::vector<Gate*>& currentSnapshot)
 {
     if(m_historyIndex > 0)
-    {
+    {       
+        if(m_historyIndex == m_history.size() - 1)
+        {
+            for (size_t index = m_history[m_historyIndex].size() - 1; index > -1 ; index--)
+            {
+                if(m_history[m_historyIndex][index]->GetType() == GateType::GATE_COLLECTION)
+                {
+                    dynamic_cast<GateCollection*>(m_history[m_historyIndex][index])->setDeleteAll();
+                }
+                delete m_history[m_historyIndex][index];
+            }
+
+            m_history[m_historyIndex] = currentSnapshot;
+        }
+
         currentSnapshot = m_history[--m_historyIndex];
         return true;
     }

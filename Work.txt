@@ -14,5 +14,7 @@ do we need offsetGates if we pan painter?
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
-Pressing x on page causes crash
+Pressing x on page causes crash - no longer
+Deleteing a gate collection causes a crash
+Performing history causes textlabel to not be linked with gate
 

@@ -769,6 +769,10 @@ GateFieldHistory::~GateFieldHistory()
     {
         for (size_t index = historyItem.size() - 1; index > -1 ; index--)
         {
+            if(historyItem[index]->GetType() == GateType::GATE_COLLECTION)
+            {
+                dynamic_cast<GateCollection*>(historyItem[index])->setDeleteAll();
+            }
             delete historyItem[index];
         }
     }

@@ -714,10 +714,10 @@ ConverterResult Converter::truthTableToCircuit(TruthTable& truthTable, const Cir
     return booleanExpressionsToCircuit(expressions, circuitOptions, pNewCircuit);
 }
 
-ConverterResult Converter::scriptToCircuit(const QString &script, const uint &numInputs, const uint &numOutputs, const CircuitOptions& circuitOptions, GateCollection *&pNewCircuit)
+ConverterResult Converter::scriptToCircuit(const QString &script, const uint &numInputs, const uint &numOutputs, const CircuitOptions& circuitOptions, GateCollection *&pNewCircuit, int& failedLineNumber)
 {
     TruthTable tt;
-    ConverterResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
+    ConverterResult res = scriptToTruthTable(script, numInputs, numOutputs, tt, failedLineNumber);
 
     if(res != ConverterResult::SUCCESS)
     {
@@ -727,7 +727,7 @@ ConverterResult Converter::scriptToCircuit(const QString &script, const uint &nu
     return truthTableToCircuit(tt, circuitOptions, pNewCircuit);
 }
 
-ConverterResult Converter::scriptToTruthTable(const QString &script, const uint &numInputs, const uint &numOutputs, TruthTable &truthTable)
+ConverterResult Converter::scriptToTruthTable(const QString &script, const uint &numInputs, const uint &numOutputs, TruthTable &truthTable, int& failedLineNumber)
 {
     QScriptEngine engine;
     QScriptContext* pContext = engine.pushContext();//I think this gets deleted by engine destructor
@@ -763,6 +763,12 @@ ConverterResult Converter::scriptToTruthTable(const QString &script, const uint 
         //Run script
         engine.evaluate(script);
 
+        if(engine.hasUncaughtException())
+        {
+            failedLineNumber = engine.uncaughtExceptionLineNumber();
+            return INVALID_SCRIPT;
+        }
+
         //Collect output values from script
         std::vector<bool> genOutputValues;
         for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
@@ -774,10 +780,10 @@ ConverterResult Converter::scriptToTruthTable(const QString &script, const uint 
     return ConverterResult::SUCCESS;
 }
 
-ConverterResult Converter::scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions)
+ConverterResult Converter::scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions, int& failedLineNumber)
 {
     TruthTable tt;
-    ConverterResult res = scriptToTruthTable(script, numInputs, numOutputs, tt);
+    ConverterResult res = scriptToTruthTable(script, numInputs, numOutputs, tt, failedLineNumber);
 
     if(res != ConverterResult::SUCCESS)
     {

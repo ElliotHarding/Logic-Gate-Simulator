@@ -10,7 +10,8 @@ enum ConverterResult
 {
     SUCCESS,
     INVALID_TABLE,
-    INVALID_INPUT_EXPRESSIONS
+    INVALID_INPUT_EXPRESSIONS,
+    INVALID_SCRIPT
 };
 
 enum ConversionAlgorithm
@@ -43,9 +44,9 @@ public:
     static ConverterResult expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable);
     static ConverterResult booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
     static ConverterResult truthTableToCircuit(TruthTable& truthTable, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
-    static ConverterResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
-    static ConverterResult scriptToTruthTable(const QString& script, const uint& numInputs, const uint& numOutputs, TruthTable& truthTable);
-    static ConverterResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
+    static ConverterResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit, int& failedLineNumber);
+    static ConverterResult scriptToTruthTable(const QString& script, const uint& numInputs, const uint& numOutputs, TruthTable& truthTable, int& failedLineNumber);
+    static ConverterResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions, int& failedLineNumber);
 };
 
 #endif // CONVERTER_H

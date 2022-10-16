@@ -126,19 +126,21 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
     if(m_pHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
     {
         TruthTable tt;
-        if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt) == ConverterResult::SUCCESS)
+        int failedLineNumber;
+        if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt, failedLineNumber) == ConverterResult::SUCCESS)
         {
             m_pHome->requestRandomCircuitGen(tt);
         }
         else
         {
-            m_pHome->SendUserMessage("Failed to convert to circuit. Check format of script.");
+            m_pHome->SendUserMessage("Failed to convert to circuit. Check format of script. Line number: " + QString::number(failedLineNumber));
         }
     }
     else
     {
         GateCollection* pNewCircuit = new GateCollection(std::vector<Gate*>());
-        if(Converter::scriptToCircuit(script, numInputs, numOutputs, m_pHome->getCircuitGenOptions(), pNewCircuit) == ConverterResult::SUCCESS)
+        int failedLineNumber;
+        if(Converter::scriptToCircuit(script, numInputs, numOutputs, m_pHome->getCircuitGenOptions(), pNewCircuit, failedLineNumber) == ConverterResult::SUCCESS)
         {
             if(m_pFpga)
             {
@@ -154,7 +156,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         else
         {
             delete pNewCircuit;
-            m_pHome->SendUserMessage("Check script format!");
+            m_pHome->SendUserMessage("Check script format! Line number: " + QString::number(failedLineNumber));
         }
     }
 }
@@ -174,14 +176,15 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
 
     //Generate truth table from script
     TruthTable tt;
-    if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt) == ConverterResult::SUCCESS)
+    int failedLineNumber;
+    if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt, failedLineNumber) == ConverterResult::SUCCESS)
     {
         m_pHome->showTruthTable(tt);
         close();
     }
     else
     {
-        m_pHome->SendUserMessage("Check script format!");
+        m_pHome->SendUserMessage("Check script format! Line number: " + QString::number(failedLineNumber));
     }
 }
 
@@ -315,13 +318,14 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     }
 
     std::vector<BooleanExpression> expressions;
-    if(Converter::scriptToBooleanExpressions(script, numInputs, numOutputs, m_pHome->getCurrentConversionAlgorithm(), expressions) == ConverterResult::SUCCESS)
+    int failedLineNumber;
+    if(Converter::scriptToBooleanExpressions(script, numInputs, numOutputs, m_pHome->getCurrentConversionAlgorithm(), expressions, failedLineNumber) == ConverterResult::SUCCESS)
     {
         m_pHome->showBooleanExpressions(expressions);
         close();
     }
     else
     {
-        m_pHome->SendUserMessage("Failed to convert to boolean expression. Check format.");
+        m_pHome->SendUserMessage("Failed to convert to boolean expression. Check line number: " + QString::number(failedLineNumber));
     }
 }

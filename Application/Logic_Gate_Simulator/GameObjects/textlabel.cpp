@@ -8,14 +8,10 @@ namespace Settings
 {
 const uint DefaultSizeX = 20;
 const uint DefaultSizeY = 20;
-
-const QFont TextFont("Helvetica", 15);
 }
 
-TextLabel::TextLabel(const int &x, const int &y, const QString& text, const int& attachId) :
+TextLabel::TextLabel(const int &x, const int &y, const QString& text, const QFont& font, const int& attachId) :
     Gate(GATE_TEXT_LABEL, x, y, Settings::DefaultSizeX, Settings::DefaultSizeY),
-    m_string(text),
-    m_font(Settings::TextFont),
     m_attachId(attachId)
 {
     if(attachId == -1)
@@ -23,7 +19,7 @@ TextLabel::TextLabel(const int &x, const int &y, const QString& text, const int&
         m_attachId = AttachIdCounter++;
     }
 
-    Update(m_font, m_string);
+    Update(font, text);
 }
 
 TextLabel::~TextLabel()
@@ -48,7 +44,7 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
 
     gateElement.setAttribute(Settings::GateTextLabelTextTag, m_string);
     gateElement.setAttribute(Settings::GateTextLabelAttachId, QString::number(m_attachId));
-    gateElement.setAttribute(Settings::GateTextLabelFontSizeTag, QString::number(m_font.weight()));
+    gateElement.setAttribute(Settings::GateTextLabelFontSizeTag, QString::number(m_font.pointSize()));
     gateElement.setAttribute(Settings::GateTextLabelBoldTag, QString::number(m_font.bold()));
     gateElement.setAttribute(Settings::GateTextLabelUnderlinedTag, QString::number(m_font.underline()));
 
@@ -57,8 +53,7 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
 
 Gate* TextLabel::Clone()
 {
-    TextLabel* clone = new TextLabel(m_geometry.x(), m_geometry.y(), m_string, m_attachId);
-    clone->Update(m_font, m_string);
+    TextLabel* clone = new TextLabel(m_geometry.x(), m_geometry.y(), m_string, m_font, m_attachId);
 
     Gate::baseClone(clone);
 

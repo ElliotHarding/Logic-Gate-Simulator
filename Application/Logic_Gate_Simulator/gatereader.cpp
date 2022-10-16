@@ -293,8 +293,7 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
         textFont.setBold(tryReadInt(gateElement.attribute(Settings::GateTextLabelBoldTag), 0));
         textFont.setUnderline(tryReadInt(gateElement.attribute(Settings::GateTextLabelUnderlinedTag), 0));
 
-        TextLabel* pTextLabel = new TextLabel(posX, posY, gateElement.attribute(Settings::GateTextLabelTextTag), tryReadInt(gateElement.attribute(Settings::GateTextLabelAttachId), -2));
-        pTextLabel->Update(textFont, gateElement.attribute(Settings::GateTextLabelTextTag));
+        TextLabel* pTextLabel = new TextLabel(posX, posY, gateElement.attribute(Settings::GateTextLabelTextTag), textFont, tryReadInt(gateElement.attribute(Settings::GateTextLabelAttachId), -2));
 
         labelGates.push_back(pTextLabel);
         return pTextLabel;

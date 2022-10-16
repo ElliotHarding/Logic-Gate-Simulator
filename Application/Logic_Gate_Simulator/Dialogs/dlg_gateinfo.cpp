@@ -334,7 +334,7 @@ void DLG_GateInfo::on_btn_expression_clicked()
 
 void DLG_GateInfo::on_btn_label_clicked()
 {
-    TextLabel* pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y());
+    TextLabel* pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y(), "Label", QFont("Helvetica", 20));
     m_pGateDisplayed->addAttachedLabel(pLabel);
 
     m_pParent->EditTextLabel(pLabel);
@@ -342,7 +342,7 @@ void DLG_GateInfo::on_btn_label_clicked()
 
 void DLG_GateInfo::on_btn_label2_clicked()
 {
-    TextLabel* pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y());
+    TextLabel* pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y(), "Label", QFont("Helvetica", 20));
     m_pGateDisplayed->addAttachedLabel(pLabel);
 
     m_pParent->EditTextLabel(pLabel);

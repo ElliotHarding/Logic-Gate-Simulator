@@ -16,7 +16,7 @@ const QString GateTextLabelAttachId = "AttachId";
 class TextLabel : public Gate
 {
 public:
-    TextLabel(const int& x = 0, const int& y = 0, const QString& text = "Label", const int& attachId = -1);
+    TextLabel(const int& x = 0, const int& y = 0, const QString& text = "Label", const QFont& font = QFont("Helvetica", 15), const int& attachId = -1);
     ~TextLabel();
 
     //Game Object overrides

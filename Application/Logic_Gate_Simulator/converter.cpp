@@ -777,6 +777,7 @@ ConverterResult Converter::scriptToTruthTable(const QString &script, const uint 
         }
         truthTable.outValues.push_back(genOutputValues);
     }
+
     return ConverterResult::SUCCESS;
 }
 

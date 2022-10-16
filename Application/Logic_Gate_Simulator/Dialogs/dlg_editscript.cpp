@@ -133,7 +133,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         }
         else
         {
-            m_pHome->SendUserMessage("Failed to convert to circuit. Check format of script. Line number: " + QString::number(failedLineNumber));
+            m_pHome->SendUserMessage("Failed to convert to circuit.\n Check format of script. Line number: " + QString::number(failedLineNumber));
         }
     }
     else
@@ -156,7 +156,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         else
         {
             delete pNewCircuit;
-            m_pHome->SendUserMessage("Check script format! Line number: " + QString::number(failedLineNumber));
+            m_pHome->SendUserMessage("Check script format!\n Line number: " + QString::number(failedLineNumber));
         }
     }
 }
@@ -184,7 +184,7 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
     }
     else
     {
-        m_pHome->SendUserMessage("Check script format! Line number: " + QString::number(failedLineNumber));
+        m_pHome->SendUserMessage("Check script format!\n Line number: " + QString::number(failedLineNumber));
     }
 }
 
@@ -326,6 +326,6 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     }
     else
     {
-        m_pHome->SendUserMessage("Failed to convert to boolean expression. Check line number: " + QString::number(failedLineNumber));
+        m_pHome->SendUserMessage("Failed to convert to boolean expression.\n Check line number: " + QString::number(failedLineNumber));
     }
 }

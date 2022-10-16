@@ -167,11 +167,11 @@ void DLG_BooleanExpressions::on_btn_simplify_clicked()
     if(Converter::simplifyBooleanExpressions(expressions, m_pHome->getCurrentConversionAlgorithm()) == ConverterResult::SUCCESS)
     {
         showExpressions(expressions);
-        m_pHome->SendUserMessage("Optimization complete. Check out alternative algorithms in settings.");
+        m_pHome->SendUserMessage("Optimization complete.\n Check out alternative algorithms in settings.");
     }
     else
     {
-        m_pHome->SendUserMessage("Failed to optimize expressions. Please check they are a valid format");
+        m_pHome->SendUserMessage("Failed to optimize expressions.\n Please check they are a valid format");
     }
 }
 

@@ -155,6 +155,26 @@ void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
     }
 }
 
+void DLG_BooleanExpressions::on_btn_simplify_clicked()
+{
+    std::vector<BooleanExpression> expressions;
+    for(int i = 0; i < ui->list_expressions->count(); i++)
+    {
+        BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));
+        expressions.push_back(pExpressionDisplay->getExpression());
+    }
+
+    if(Converter::simplifyBooleanExpressions(expressions, m_pHome->getCurrentConversionAlgorithm()) == ConverterResult::SUCCESS)
+    {
+        showExpressions(expressions);
+        m_pHome->SendUserMessage("Optimization complete. Check out alternative algorithms in settings.");
+    }
+    else
+    {
+        m_pHome->SendUserMessage("Failed to optimize expressions. Please check they are a valid format");
+    }
+}
+
 void DLG_BooleanExpressions::on_btn_addExpression_clicked()
 {
     BooleanExpression newExpression;
@@ -246,3 +266,4 @@ BooleanExpression BooleanExpressionLineEdit::getExpression()
 
     return expression;
 }
+

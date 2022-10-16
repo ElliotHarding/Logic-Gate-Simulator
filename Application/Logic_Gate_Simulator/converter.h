@@ -42,6 +42,7 @@ class Converter
 public:
     static ConverterResult truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
     static ConverterResult expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable);
+    static ConverterResult simplifyBooleanExpressions(std::vector<BooleanExpression>& expressions, const ConversionAlgorithm& conversionOptions);
     static ConverterResult booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
     static ConverterResult truthTableToCircuit(TruthTable& truthTable, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit);
     static ConverterResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit, int& failedLineNumber);

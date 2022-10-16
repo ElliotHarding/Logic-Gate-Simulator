@@ -27,6 +27,15 @@ const uint IntStartAlphabet = 65;
 const uint IntEndAlphabet = 122;
 }
 
+bool isLetter(const char& letter)
+{
+    if(letter >= (int)Settings::IntStartAlphabet && letter <= (int)Settings::IntEndAlphabet)
+    {
+        return true;
+    }
+    return false;
+}
+
 bool onlyDiffer1bit(QString& termA, QString& termB)
 {
     int iDiffer = 0;
@@ -293,7 +302,7 @@ ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression
         for(uint i = 0; i < expression.letters.size(); i++)
         {
             const char letter = expression.letters[i];
-            if(uint(letter) >= Settings::IntStartAlphabet && uint(letter) <= Settings::IntEndAlphabet && !inVector(inputs, letter))
+            if(isLetter(letter) && !inVector(inputs, letter))
             {
                 inputs.push_back(letter);
             }
@@ -325,13 +334,19 @@ ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression
     return SUCCESS;
 }
 
-bool isLetter(const char& letter)
+ConverterResult Converter::simplifyBooleanExpressions(std::vector<BooleanExpression>& expressions, const ConversionAlgorithm& conversionOptions)
 {
-    if(letter >= (int)Settings::IntStartAlphabet && letter <= (int)Settings::IntEndAlphabet)
+    //This is just simplification option 1. Using Quine-McCluskey algorithm
+
+    TruthTable truthTable;
+    ConverterResult result = expressionsToTruthTable(expressions, truthTable);
+    if(result != ConverterResult::SUCCESS)
     {
-        return true;
+        return result;
     }
-    return false;
+
+    expressions.clear();
+    return truthTableToBooleanExpressions(truthTable, conversionOptions, expressions);
 }
 
 bool isLetterOrInt(const char& letter)

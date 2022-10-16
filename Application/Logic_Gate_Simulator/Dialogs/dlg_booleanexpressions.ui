@@ -75,6 +75,19 @@
     </rect>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_simplify">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>320</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Simplify</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -36,6 +36,8 @@ private slots:
     void on_btn_genTruthTable_clicked();
     void on_btn_addExpression_clicked();
 
+    void on_btn_simplify_clicked();
+
 private:
     Ui::DLG_BooleanExpressions *ui;
 

@@ -2,6 +2,10 @@
 #include <string>
 #include <QDebug> //Qt only
 
+std::ofstream Logger::m_logFile;
+LogLevel Logger::m_logLevelFilter;
+bool Logger::m_bFailed;
+
 bool Logger::init(std::string logFilePath, const LogLevel logLevelFilter)
 {
     m_logLevelFilter = logLevelFilter;

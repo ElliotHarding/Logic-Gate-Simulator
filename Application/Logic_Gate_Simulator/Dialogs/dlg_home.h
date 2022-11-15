@@ -46,30 +46,39 @@ public:
     DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget* parent = nullptr);
     ~DLG_Home();
 
+    ///Direct user communication
     void sendUserMessage(const QString& message);
-    bool setZoomFactor(const qreal& zoomFactor, const bool& updateSlider = true);
+    bool requestUserInputString(const QString& title, const QString& context, QString& result);
+
+    ///Gate operations
     void newlySpawnedGate(Gate* pGate, const QPoint& spawnPosition);
     void addGateToGateField(Gate* pGate);
     void gateSelected(Gate* pGate);
-    void selectionToolClicked();
-    void updateCustomGateListWidget();
     void editTextLabel(TextLabel* pTextLabelToEdit);
     void editFPGA(GateFPGA* pFPGA);
+
+    ///Gate field operations
     void setGateFieldName(GateField* pGateField, const QString& name);
-    void showTruthTable(const TruthTable& truthTable);
-    bool requestUserInputString(const QString& title, const QString& context, QString& result);
     void startSaveGateCollection(GateCollection* pGateCollection);
+    bool setZoomFactor(const qreal& zoomFactor, const bool& updateSlider = true);
+
+    ///Dialog interactions
+    void showTruthTable(const TruthTable& truthTable);
     void showBooleanExpressions(const std::vector<BooleanExpression>& expressions);
 
-    //Click mode
+    ///Click mode
     void setCurrentClickMode(const ClickMode& clickMode);
     void saveCurrentClickMode();
     void restorePreviousClickMode();
     ClickMode currentClickMode() const;
 
+    ///Conversion options
     CircuitOptions getCircuitGenOptions() const;
     ConversionAlgorithm getCurrentConversionAlgorithm() const;
 
+    ///Other functions
+    void selectionToolClicked();
+    void updateCustomGateListWidget();
     void requestRandomCircuitGen(const TruthTable& truthTable);
 
 protected:

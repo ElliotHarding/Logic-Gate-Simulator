@@ -25,6 +25,8 @@ private slots:
     void test_outputGates();
     void test_timerGate();
 
+    void test_nodeLink();
+
     /*
     //Link tests
     void test_nodeLink();

@@ -268,6 +268,7 @@ void Tests::test_timerGate()
 {
     GateTimer timerGate;
     QThread* pThread = new QThread();
+    pThread->start();
     timerGate.moveToThread(pThread);
     timerGate.setFrequency(200);
     QCOMPARE(timerGate.getFrequency(), 200);
@@ -279,7 +280,7 @@ void Tests::test_timerGate()
     bool state = false;
     bool changed1 = false;
     bool changed2 = false;
-    for(uint i = 0; i < 5; i++)
+    for(uint i = 0; i < 10; i++)
     {
         QThread::msleep(200);
         if(state != pOutNode->value())
@@ -300,28 +301,27 @@ void Tests::test_timerGate()
     QCOMPARE(changed2, true);
 }
 
-/*
+
 void Tests::test_nodeLink()
 {
     GateReciever reciever;
+    Node* pRecieverNode = reciever.getInputNodes()[0];
+
     GateToggle toggle;
+    Node* pSenderNode = toggle.getOutputNodes()[0];
 
-    std::vector<Node*> inputNode;
-    std::vector<Node*> outputNode;
-    dynamic_cast<Gate*>(&reciever)->getInputNodes(inputNode);
-    dynamic_cast<Gate*>(&toggle)->getOutputNodes(outputNode);
+    QCOMPARE(pRecieverNode->linkNode(pSenderNode), true);
+    QCOMPARE(pSenderNode->linkNode(pRecieverNode), true);
 
-    inputNode[0]->LinkNode(outputNode[0]);
-
-    toggle.SetPowerState(1);
+    toggle.setPowerState(1);
     toggle.updateOutput();
-    QCOMPARE(outputNode[0]->value(), true);
+    QCOMPARE(pRecieverNode->value(), true);
 
-    toggle.SetPowerState(0);
+    toggle.setPowerState(0);
     toggle.updateOutput();
-    QCOMPARE(outputNode[0]->value(), false);
+    QCOMPARE(pRecieverNode->value(), false);
 }
-
+/*
 void Tests::test_circuit()
 {
     //Circuits gates

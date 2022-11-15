@@ -3,8 +3,6 @@
 #include "dlg_home.h"
 #include "gate.h"
 
-#include <QDebug>
-
 namespace Settings
 {
 const QColor GateDraggingBackgroundColor = QColor(20, 20, 20, 1);

@@ -4,7 +4,6 @@
 #include "gatecollection.h"
 #include "converter.h"
 
-#include <QDebug>
 #include <cmath>
 
 namespace Settings
@@ -33,7 +32,7 @@ void DLG_TruthTable::open(const TruthTable& truthTable)
 {
     if(truthTable.inValues.empty() || truthTable.outValues.empty())
     {
-        qDebug() << "DLG_TruthTable::open - incorrect truth table format!";
+        Logger::log(LL_Error, "DLG_TruthTable::open - incorrect truth table format!");
         return;
     }
 
@@ -151,7 +150,7 @@ void DLG_TruthTable::updateTruthTableFromUI()
 
     if(m_tableOutputLabels.size() == 0)
     {
-        qDebug() << "DLG_TruthTable::updateTruthTableFromUI - m_tableOutputLabels has wrong size";
+        Logger::log(LL_Error, "DLG_TruthTable::updateTruthTableFromUI - m_tableOutputLabels has wrong size");
         m_pHome->SendUserMessage("Internal Error!"); //Todo make better error message
         return;
     }

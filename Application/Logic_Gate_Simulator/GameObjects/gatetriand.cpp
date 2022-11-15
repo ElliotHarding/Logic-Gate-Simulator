@@ -1,5 +1,4 @@
 #include "gatetriand.h"
-#include <QDebug>
 
 namespace Settings
 {

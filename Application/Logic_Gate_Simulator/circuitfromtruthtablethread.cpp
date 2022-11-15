@@ -4,7 +4,6 @@
 #include "allgates.h"
 
 #include <QRandomGenerator>
-#include <QDebug>
 #include <cmath>
 
 namespace Settings

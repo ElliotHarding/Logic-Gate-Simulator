@@ -2,10 +2,11 @@
 #include "dlg_home.h"
 #include "gatefield.h"
 #include "allgates.h"
+#include "logger.h"
 
-#include <QDebug>
 #include <QDir>
 #include <QDomDocument>
+#include <QTextStream>
 
 namespace Settings
 {
@@ -315,11 +316,11 @@ Gate* GateReader::readGate(QDomElement& gateElement, std::vector<NodeIds>& linkI
 
     case GATE_NULL:
     default:
-        qDebug() << "GateReader::readGate - Failed to read a gate! Gate type not found.";
+        Logger::log(LL_FileError, "GateReader::readGate - Failed to read a gate! Gate type not found.");
         return nullptr;
     }
 
-    qDebug() << "GateReader::readGate - node info read incorrectly";
+    Logger::log(LL_FileError, "GateReader::readGate - node info read incorrectly");
     return nullptr;
 }
 
@@ -430,14 +431,14 @@ void GateReader::linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>
                         }
                         else
                         {
-                            qDebug() << "GateReader::linkNodes - Failed to find node! " << otherId;
+                            Logger::log(LL_Error, "GateReader::linkNodes - Failed to find node! " + std::to_string(otherId));
                         }
                     }
                 }
             }
             else
             {
-                qDebug() << "GateReader::linkNodes - Failed to find node! " << link.id;
+                Logger::log(LL_Error, "GateReader::linkNodes - Failed to find node! " + std::to_string(link.id));
             }
         }
     }

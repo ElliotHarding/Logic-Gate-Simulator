@@ -4,7 +4,6 @@
 
 #include "truthtable.h"
 
-#include <QDebug>
 #include <cmath>
 
 namespace Settings
@@ -60,7 +59,7 @@ GateCollection::~GateCollection()
 
     else
     {
-        qDebug() << "GateCollection::~GateCollection - Unknown drag mode!";
+        Logger::log(LL_Error, "GateCollection::~GateCollection - Unknown drag mode!");
     }
 }
 
@@ -110,7 +109,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
             }
             else
             {
-                qDebug() << "GateCollection::generateTruthTable - Failed to cast GateToggle";
+                Logger::log(LL_Error, "GateCollection::generateTruthTable - Failed to cast GateToggle");
                 m_pParentField->SendUserMessage("Failed. Internal error.");
                 return false;
             }
@@ -124,7 +123,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
             }
             else
             {
-                qDebug() << "GateCollection::generateTruthTable - Failed to cast GateReciever";
+                Logger::log(LL_Error, "GateCollection::generateTruthTable - Failed to cast GateReciever");
                 m_pParentField->SendUserMessage("Failed. Internal error.");
                 return false;
             }

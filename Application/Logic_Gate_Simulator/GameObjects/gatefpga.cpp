@@ -1,7 +1,6 @@
 #include "gatefpga.h"
 #include "gatefield.h"
 
-#include <QDebug>
 #include <QScriptEngine>
 
 namespace Settings
@@ -260,5 +259,5 @@ void GateFPGA::eraseNodeFromAllNodes(Node* pNode)
             return;
         }
     }
-    qDebug() << "GateFPGA::eraseNodeFromAllNodes - Node could not be found!";
+    Logger::log(LL_Warn, "GateFPGA::eraseNodeFromAllNodes - Node could not be found!");
 }

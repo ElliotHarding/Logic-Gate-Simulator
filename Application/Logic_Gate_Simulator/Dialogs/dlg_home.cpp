@@ -6,7 +6,6 @@
 
 #include <QLayout>
 #include <QLibrary>
-#include <QDebug>
 
 namespace Settings
 {
@@ -284,7 +283,7 @@ void DLG_Home::SetCurrentClickMode(const ClickMode& clickMode)
 
     default:
         QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
-        qDebug() << "DLG_Home::SetCurrentClickMode - Unknown click mode!";
+        Logger::log(LL_Error, "DLG_Home::SetCurrentClickMode - Unknown click mode!");
         break;
     }
 }
@@ -591,7 +590,7 @@ void DLG_Home::onRandomCircuitGenSuccess(GateCollection* pNewCircuit)
 {
     if(pNewCircuit == nullptr)
     {
-        qDebug() << "DLG_Home::onRandomCircuitGenSuccess - new circuit is null!";
+        Logger::log(LL_Error, "DLG_Home::onRandomCircuitGenSuccess - new circuit is null!");
         return;
     }
 

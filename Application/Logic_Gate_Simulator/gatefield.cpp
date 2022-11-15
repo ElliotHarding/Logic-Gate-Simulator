@@ -6,7 +6,6 @@
 #include "gatecollection.h"
 
 #include <QApplication>
-#include <QDebug>
 
 namespace Settings
 {
@@ -295,7 +294,7 @@ void GateField::mousePressEvent(QMouseEvent *click)
             }
             break;
         case CLICK_SELECTION:
-            qDebug() << "GateField::mousePressEvent - Invalid current click mode (Selection)";
+            Logger::log(LL_Error, "GateField::mousePressEvent - Invalid current click mode (Selection)");
             break;
         }
     }
@@ -490,7 +489,7 @@ void GateField::checkEndLink(const QPoint& mouse)
                     m_pLinkingNode->DetachNode();
                 }
 
-                qDebug() << "GateField::checkEndLink - Linking failed!";
+                Logger::log(LL_Error, "GateField::checkEndLink - Linking failed!");
             }
             else
             {

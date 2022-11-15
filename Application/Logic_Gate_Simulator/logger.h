@@ -13,8 +13,9 @@ enum LogLevel
 {
     LL_Info = 0,
     LL_Warn = 1,
-    LL_Error = 2,
-    LL_Fatal = 3
+    LL_FileError = 2,
+    LL_Error = 3,
+    LL_Fatal = 4
 };
 
 namespace Settings

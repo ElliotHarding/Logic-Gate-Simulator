@@ -29,6 +29,8 @@
 
 #include "widget_spawnedgate.h"
 
+#include "logger.h"
+
 class QMouseEvent;
 
 namespace Ui {

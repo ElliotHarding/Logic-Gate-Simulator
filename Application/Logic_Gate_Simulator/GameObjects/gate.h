@@ -3,6 +3,7 @@
 
 #include "gatetypes.h"
 #include "gameobject.h"
+#include "logger.h"
 
 #include <QDomDocument>
 

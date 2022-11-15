@@ -3,8 +3,6 @@
 #include "gatefield.h"
 #include "textlabel.h"
 
-#include <QDebug>
-
 static int IdIndex = 0;
 
 namespace Settings
@@ -301,7 +299,7 @@ void Gate::baseClone(Gate* pGate)
 
     if(m_nodes.size() != pGate->m_nodes.size())
     {
-        qDebug() << "Gate::baseClone - Failed to clone base due to cloned nodes not being same size as nodes";
+        Logger::log(LL_Error, "Gate::baseClone - Failed to clone base due to cloned nodes not being same size as nodes");
         return;
     }
 

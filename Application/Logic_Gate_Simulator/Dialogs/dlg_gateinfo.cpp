@@ -6,8 +6,6 @@
 #include "converter.h"
 
 #include <QLayout>
-#include <QDebug>
-
 
 DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
     QWidget(parent),
@@ -211,7 +209,7 @@ void DLG_GateInfo::on_lineEdit_Frequency_editingFinished()
     }
     else
     {
-        qDebug() << "DLG_GateInfo::on_lineEdit_Frequency_editingFinished - Line editing on invalid object!";
+        Logger::log(LL_Error, "DLG_GateInfo::on_lineEdit_Frequency_editingFinished - Line editing on invalid object!");
     }
 }
 
@@ -252,7 +250,7 @@ void DLG_GateInfo::on_btn_Edit_clicked()
         }
         else
         {
-            qDebug() << "DLG_GateInfo::on_btn_Edit_clicked - Can't cast GateFPGA!";
+            Logger::log(LL_Error, "DLG_GateInfo::on_btn_Edit_clicked - Can't cast GateFPGA!");
         }
     }
 
@@ -264,7 +262,7 @@ void DLG_GateInfo::on_btn_Edit_clicked()
         }
         else
         {
-            qDebug() << "DLG_GateInfo::on_btn_Edit_clicked - Can't cast TextLabel!";
+            Logger::log(LL_Error, "DLG_GateInfo::on_btn_Edit_clicked - Can't cast TextLabel!");
         }
     }
 }

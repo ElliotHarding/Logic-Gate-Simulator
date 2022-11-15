@@ -8,8 +8,8 @@
 #include "truthtable.h"
 #include "converter.h"
 
-#include <QDebug>
 #include <QFile>
+#include <QTextStream>
 
 namespace Settings
 {

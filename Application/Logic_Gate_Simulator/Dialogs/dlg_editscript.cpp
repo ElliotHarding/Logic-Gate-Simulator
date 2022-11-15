@@ -131,7 +131,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         }
         else
         {
-            m_pHome->SendUserMessage("Failed to convert to circuit.\n Check format of script. Line number: " + QString::number(failedLineNumber));
+            m_pHome->sendUserMessage("Failed to convert to circuit.\n Check format of script. Line number: " + QString::number(failedLineNumber));
         }
     }
     else
@@ -142,19 +142,19 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         {
             if(m_pFpga)
             {
-                m_pFpga->GetParent()->AddGate(pNewCircuit);
+                m_pFpga->getParent()->addGate(pNewCircuit);
                 m_pFpga = nullptr;
             }
             else
             {
-                m_pHome->AddGateToGateField(pNewCircuit);
+                m_pHome->addGateToGateField(pNewCircuit);
             }
             close();
         }
         else
         {
             delete pNewCircuit;
-            m_pHome->SendUserMessage("Check script format!\n Line number: " + QString::number(failedLineNumber));
+            m_pHome->sendUserMessage("Check script format!\n Line number: " + QString::number(failedLineNumber));
         }
     }
 }
@@ -182,7 +182,7 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
     }
     else
     {
-        m_pHome->SendUserMessage("Check script format!\n Line number: " + QString::number(failedLineNumber));
+        m_pHome->sendUserMessage("Check script format!\n Line number: " + QString::number(failedLineNumber));
     }
 }
 
@@ -192,21 +192,21 @@ void DLG_EditScript::on_btn_load_clicked()
 
     if(fileNames.size() != 1)
     {
-        m_pHome->SendUserMessage("Only one file can be selected.");
+        m_pHome->sendUserMessage("Only one file can be selected.");
         return;
     }
 
     const QString filePath = fileNames[0];
     if(!filePath.contains(Settings::ScriptFile))
     {
-        m_pHome->SendUserMessage("File not in script format.");
+        m_pHome->sendUserMessage("File not in script format.");
         return;
     }
 
     QFile file(filePath);
     if(!file.open(QFile::ReadOnly | QFile::Text))
     {
-        m_pHome->SendUserMessage("Failed to open file.");
+        m_pHome->sendUserMessage("Failed to open file.");
         return;
     }
 
@@ -216,7 +216,7 @@ void DLG_EditScript::on_btn_load_clicked()
     QDomElement scriptElement = doc.firstChildElement(Settings::ScriptElement);
     if(scriptElement.isNull())
     {
-        m_pHome->SendUserMessage("Failed reading file.");
+        m_pHome->sendUserMessage("Failed reading file.");
         file.close();
         return;
     }
@@ -258,7 +258,7 @@ void DLG_EditScript::on_btn_Save_clicked()
         {
             if(name.isEmpty())
             {
-                m_pHome->SendUserMessage("Invalid name!");
+                m_pHome->sendUserMessage("Invalid name!");
                 return;
             }
 
@@ -270,7 +270,7 @@ void DLG_EditScript::on_btn_Save_clicked()
             QFile file(m_currentSavePath);
             if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
             {
-                m_pHome->SendUserMessage("Can't open file to save!");
+                m_pHome->sendUserMessage("Can't open file to save!");
                 return;
             }
 
@@ -324,6 +324,6 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     }
     else
     {
-        m_pHome->SendUserMessage("Failed to convert to boolean expression.\n Check line number: " + QString::number(failedLineNumber));
+        m_pHome->sendUserMessage("Failed to convert to boolean expression.\n Check line number: " + QString::number(failedLineNumber));
     }
 }

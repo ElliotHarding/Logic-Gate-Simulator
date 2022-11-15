@@ -21,16 +21,16 @@ public:
 
     //Game Object overrides
     virtual void draw(QPainter& painter) override;
-    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
-    virtual Gate* Clone() override;
+    virtual void saveData(QDomDocument& storage, QDomElement& parentElement) override;
+    virtual Gate* clone() override;
 
     //Gate overrides
-    virtual void UpdateOutput() override {}
+    virtual void updateOutput() override {}
 
     //Text label functions
-    void Update(const QFont& font, const QString& string);
-    QString GetString();
-    QFont GetFont();
+    void update(const QFont& font, const QString& string);
+    QString getString();
+    QFont getFont();
 
     void attachGate(Gate* pGate);
     int attachId() const;
@@ -49,10 +49,10 @@ public:
     DLG_LabelGateEdit();
     ~DLG_LabelGateEdit();
 
-    void EditTextLabel(TextLabel* textLabel);
+    void editTextLabel(TextLabel* textLabel);
 
 protected:
-    virtual void UpdateOverrideObject();
+    virtual void updateOverrideObject();
 
 private:
     TextLabel* m_pTextLabel;

@@ -52,7 +52,7 @@ private:
     Gate* m_pGateDisplayed = nullptr;
     GateField* m_pGateField = nullptr;
 
-    void UiWhenNoGateSelected();
+    void uiWhenNogateSelected();
 };
 
 #endif // DLG_GATEINFO_H

@@ -14,7 +14,7 @@ Widget_CustomGates::Widget_CustomGates(DLG_Home* pParent, bool show, QPoint loc)
     m_bDeleting(false)
 {
     ui->setupUi(this);
-    UpdateList();
+    updateList();
 
     m_palActive.setColor(QPalette::Background, Settings::ActiveDeleteButtonBackColor);
     m_palInActive = ui->btn_Delete->palette();
@@ -25,7 +25,7 @@ Widget_CustomGates::~Widget_CustomGates()
     delete ui;
 }
 
-void Widget_CustomGates::UpdateList()
+void Widget_CustomGates::updateList()
 {
     ui->customGateListWidget->clear();
     for (const QString& file : m_customGateReader.getCustomGateNames())
@@ -48,7 +48,7 @@ void Widget_CustomGates::on_customGateListWidget_itemClicked(QListWidgetItem* it
 
 void Widget_CustomGates::on_btn_SelectionTool_clicked()
 {
-    m_pParent->SelectionToolClicked();
+    m_pParent->selectionToolClicked();
 }
 
 void Widget_CustomGates::CreateItem(const QString& name)
@@ -56,11 +56,11 @@ void Widget_CustomGates::CreateItem(const QString& name)
     GateCollection* spawnedGateCollection = m_customGateReader.spawnCustomGate(name);
     if(spawnedGateCollection != nullptr)
     {
-        m_pParent->NewlySpawnedGate(spawnedGateCollection, geometry().center());
+        m_pParent->newlySpawnedGate(spawnedGateCollection, geometry().center());
     }
     else
     {
-        m_pParent->SendUserMessage("Opening a file failed!");
+        m_pParent->sendUserMessage("Opening a file failed!");
     }
 }
 
@@ -69,11 +69,11 @@ void Widget_CustomGates::DeleteItem(QListWidgetItem* item)
     if(m_customGateReader.deleteCustomGate(item->text()))
     {
         ui->customGateListWidget->removeItemWidget(item);
-        UpdateList();
+        updateList();
     }
     else
     {
-        m_pParent->SendUserMessage("Deleting gate collection failed!");
+        m_pParent->sendUserMessage("Deleting gate collection failed!");
     }
 }
 

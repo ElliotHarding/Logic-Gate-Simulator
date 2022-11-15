@@ -11,7 +11,7 @@ class GateSingleOutput : public Gate
 public:
     GateSingleOutput(const int& x, const int& y, const GateType& type, const id& nodeId);
 
-    virtual void UpdateOutput() override = 0;
+    virtual void updateOutput() override = 0;
     virtual void draw(QPainter& painter) override;
 
 protected:

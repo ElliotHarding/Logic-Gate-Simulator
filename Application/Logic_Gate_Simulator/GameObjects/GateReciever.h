@@ -11,8 +11,8 @@ class GateReciever : public Gate
 public:
     GateReciever(const int& x = 0, const int& y = 0, const id& out = -1);
 
-    virtual void UpdateOutput() override;
-    virtual Gate* Clone() override;
+    virtual void updateOutput() override;
+    virtual Gate* clone() override;
     virtual void draw(QPainter& painter) override;
 
     bool GetValue(){return m_pInput->value();}

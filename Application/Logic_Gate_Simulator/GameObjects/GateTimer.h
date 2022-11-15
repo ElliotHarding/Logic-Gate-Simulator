@@ -20,9 +20,9 @@ public:
     GateTimer(const int& x = 0, const int& y = 0, const id& out = -1, const uint& frequency = 500);
     ~GateTimer();
 
-    virtual void UpdateOutput() override;
-    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
-    virtual Gate* Clone() override;
+    virtual void updateOutput() override;
+    virtual void saveData(QDomDocument& storage, QDomElement& parentElement) override;
+    virtual Gate* clone() override;
 
     ///Frequency
     void setFrequency(int frequency);

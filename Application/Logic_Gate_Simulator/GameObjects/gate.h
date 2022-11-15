@@ -39,13 +39,13 @@ public:
     Gate(GateType type, const int& x, const int& y, const uint& width, const uint& height, const char* pIconLocation = nullptr);
     virtual ~Gate();
 
-    virtual Gate* Clone() = 0;
+    virtual Gate* clone() = 0;
 
     //Generic functions   
-    virtual void UpdateOutput() = 0;
+    virtual void updateOutput() = 0;
     virtual void setToUpdate();
     virtual void draw(QPainter& painter) override;
-    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement);
+    virtual void saveData(QDomDocument& storage, QDomElement& parentElement);
     virtual Node* checkClickedNodes(const QPoint& mouse);
 
     //TextLabel attach functions
@@ -61,23 +61,23 @@ public:
 
     //Node functions
     virtual void collectLinkInfo(std::vector<NodeIds>& collection);
-    virtual bool FindNodeWithId(const id& id, Node*& node);
-    virtual void AssignNewNodeIds();
-    void DetachNodes();
+    virtual bool findNodeWithId(const id& id, Node*& node);
+    virtual void assignNewNodeIds();
+    void detachNodes();
     virtual std::vector<Node*> getInputNodes();
     virtual std::vector<Node*> getOutputNodes();
 
     //Hierarchy
-    virtual void SetParent(GateField* gf);
-    virtual void SetParentGateCollection(GateCollection* pGateCollection);
-    virtual GateField* GetParent();
+    virtual void setParent(GateField* gf);
+    virtual void setParentGateCollection(GateCollection* pGateCollection);
+    virtual GateField* getParent();
 
-    GateType GetType() {return m_type;}
+    GateType getType() {return m_type;}
 
 protected:
     virtual void drawNodes(QPainter& painter);
 
-    void SaveGeneralData(QDomDocument& storage, QDomElement& element);
+    void saveGeneralData(QDomDocument& storage, QDomElement& element);
 
     void baseClone(Gate* pGate);
 
@@ -114,8 +114,8 @@ public:
     bool value();
 
     ///Linked nodes
-    bool LinkNode(Node*& n);
-    void DetachNode();
+    bool linkNode(Node*& n);
+    void detachNode();
 
     ///Id
     void genNewID();
@@ -127,12 +127,12 @@ public:
     ///Offsets
     void setOffsets(const int& offsetX, const int& offsetY);
 
-    Gate* GetParent();
+    Gate* getParent();
 
-    void SaveData(QDomDocument& storage, QDomElement& parentElement);
+    void saveData(QDomDocument& storage, QDomElement& parentElement);
 
 private:
-    void DetachNode(Node* n);
+    void detachNode(Node* n);
 
     Gate* m_pParent = nullptr;
 

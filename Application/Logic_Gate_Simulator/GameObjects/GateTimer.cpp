@@ -22,25 +22,25 @@ GateTimer::~GateTimer()
     m_timer.stop();
 }
 
-void GateTimer::UpdateOutput()
+void GateTimer::updateOutput()
 {
     //None, check CheckTimer functionality (Called by parent gatefield)
 }
 
-void GateTimer::SaveData(QDomDocument& storage, QDomElement& parentElement)
+void GateTimer::saveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    Gate::SaveGeneralData(storage, gateElement);
+    Gate::saveGeneralData(storage, gateElement);
 
     gateElement.setAttribute(Settings::GateTimerFrequencyTag, QString::number(m_frequency));
 
-    m_pOutput->SaveData(storage, gateElement);
+    m_pOutput->saveData(storage, gateElement);
 
     parentElement.appendChild(gateElement);
 }
 
-Gate *GateTimer::Clone()
+Gate *GateTimer::clone()
 {
     GateTimer* clone = new GateTimer(position().x(), position().y(), m_pOutput->id());
     clone->m_frequency = m_frequency;

@@ -52,26 +52,26 @@ public:
     ~GateField();
 
     //Gates
-    void AddGate(Gate* go, const bool& newlySpawned = true);
-    void AddGates(std::vector<Gate*>& gates);
-    void ForgetChild(Gate* g);
-    void ForgetUpdateRequest(Gate* g);
-    void RequestUpdateGate(Gate* g);
+    void addGate(Gate* go, const bool& newlySpawned = true);
+    void addGates(std::vector<Gate*>& gates);
+    void forgetChild(Gate* g);
+    void forgetUpdateRequest(Gate* g);
+    void requestUpdateGate(Gate* g);
 
     //Saving
-    void StartSaveGateCollection(GateCollection* pGateCollection);
+    void startSaveGateCollection(GateCollection* pGateCollection);
     void setName(const QString& name);
     QString name() const;
-    void SaveData(QDomDocument& saveFile);
+    void saveData(QDomDocument& saveFile);
 
     //Actions
-    void Undo();
-    void Redo();
-    void SetZoomLevel(const qreal& zoom);
+    void undo();
+    void redo();
+    void setZoomLevel(const qreal& zoom);
 
     //DLG_Home stuff
-    void UpdateGateSelected(Gate* g);
-    void SendUserMessage(const QString& message);
+    void updateGateSelected(Gate* g);
+    void sendUserMessage(const QString& message);
 
     ///Update frequency
     void setUpdateFrequency(const uint& frequencyMs);
@@ -80,7 +80,7 @@ public:
 signals:
 public slots:
 private slots:
-    void onRequestUpdateGates();
+    void onrequestUpdateGates();
 protected:
 private:
     //Mouse event delegates

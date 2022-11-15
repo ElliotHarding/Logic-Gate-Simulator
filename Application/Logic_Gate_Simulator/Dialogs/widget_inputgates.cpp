@@ -22,7 +22,7 @@ void Widget_InputGates::on_btn_sourceGate_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_sourceGate->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateToggle(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateToggle(), spawnPoint);
     }
 }
 void Widget_InputGates::on_btn_inputOn_clicked()
@@ -30,7 +30,7 @@ void Widget_InputGates::on_btn_inputOn_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_inputOn->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateConstantActive(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateConstantActive(), spawnPoint);
     }
 }
 void Widget_InputGates::on_btn_inputOff_clicked()
@@ -38,7 +38,7 @@ void Widget_InputGates::on_btn_inputOff_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_inputOff->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateConstantInactive(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateConstantInactive(), spawnPoint);
     }
 }
 void Widget_InputGates::on_btn_timerGate_clicked()
@@ -46,6 +46,6 @@ void Widget_InputGates::on_btn_timerGate_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_timerGate->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateTimer(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateTimer(), spawnPoint);
     }
 }

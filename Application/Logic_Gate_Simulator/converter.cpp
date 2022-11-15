@@ -359,8 +359,8 @@ bool isLetterOrInt(const char& letter)
 
 bool linkNodes(Node*& pNodeA, Node*& pNodeB)
 {
-    bool linked = pNodeA->LinkNode(pNodeB);
-    linked &= pNodeB->LinkNode(pNodeA);
+    bool linked = pNodeA->linkNode(pNodeB);
+    linked &= pNodeB->linkNode(pNodeA);
     return linked;
 }
 

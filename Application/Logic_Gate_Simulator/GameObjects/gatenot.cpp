@@ -21,12 +21,12 @@ GateNot::GateNot(const int &x, const int &y, const id &in, const id &out) :
     m_nodes.push_back(m_pOutput);
 }
 
-void GateNot::UpdateOutput()
+void GateNot::updateOutput()
 {
     m_pOutput->setValue(!(m_pInput->value()));
 }
 
-Gate *GateNot::Clone()
+Gate *GateNot::clone()
 {
     GateNot* clone = new GateNot(position().x(), position().y(), m_pInput->id(), m_pOutput->id());
     Gate::baseClone(clone);

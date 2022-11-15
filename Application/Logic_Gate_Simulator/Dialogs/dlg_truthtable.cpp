@@ -151,7 +151,7 @@ void DLG_TruthTable::updateTruthTableFromUI()
     if(m_tableOutputLabels.size() == 0)
     {
         Logger::log(LL_Error, "DLG_TruthTable::updateTruthTableFromUI - m_tableOutputLabels has wrong size");
-        m_pHome->SendUserMessage("Internal Error!"); //Todo make better error message
+        m_pHome->sendUserMessage("Internal Error!"); //Todo make better error message
         return;
     }
 
@@ -181,13 +181,13 @@ void DLG_TruthTable::on_btn_circuit_clicked()
         GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
         if(Converter::truthTableToCircuit(m_truthTable, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
         {
-            m_pHome->AddGateToGateField(pNewGateCollection);
+            m_pHome->addGateToGateField(pNewGateCollection);
             close();
         }
         else
         {
             delete pNewGateCollection;
-            m_pHome->SendUserMessage("Failed to convert to circuit. Check format.");
+            m_pHome->sendUserMessage("Failed to convert to circuit. Check format.");
         }
     }
 }
@@ -205,7 +205,7 @@ void DLG_TruthTable::on_btn_expressions_clicked()
     }
     else
     {
-        m_pHome->SendUserMessage("Failed to convert to boolean expression. Check format.");
+        m_pHome->sendUserMessage("Failed to convert to boolean expression. Check format.");
     }
 }
 
@@ -213,7 +213,7 @@ void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
 {
     if(m_truthTable.inValues.size() == 0)
     {
-        m_pHome->SendUserMessage("Internal error!");//todo better message
+        m_pHome->sendUserMessage("Internal error!");//todo better message
         return;
     }
 
@@ -256,7 +256,7 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
 {
     if(m_truthTable.outValues.size() == 0)
     {
-        m_pHome->SendUserMessage("Internal error!");//todo better message
+        m_pHome->sendUserMessage("Internal error!");//todo better message
         return;
     }
 

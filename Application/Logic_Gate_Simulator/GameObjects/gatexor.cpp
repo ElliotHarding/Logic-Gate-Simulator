@@ -5,7 +5,7 @@ GateXor::GateXor(const int &x, const int &y, const id &inA, const id &inB, const
 {
 }
 
-void GateXor::UpdateOutput()
+void GateXor::updateOutput()
 {
     const bool newVal = !(m_pInputA->value() ^ m_pInputB->value());
 
@@ -13,7 +13,7 @@ void GateXor::UpdateOutput()
     m_pOutput->setValue(newVal);
 }
 
-Gate *GateXor::Clone()
+Gate *GateXor::clone()
 {
     GateXor* clone = new GateXor(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
     Gate::baseClone(clone);

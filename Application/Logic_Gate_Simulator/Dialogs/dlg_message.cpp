@@ -13,7 +13,7 @@ DLG_Message::~DLG_Message()
     delete ui;
 }
 
-void DLG_Message::ShowMessage(const QString& message)
+void DLG_Message::showMessage(const QString& message)
 {
     ui->lbl_text->setText(message);
     show();

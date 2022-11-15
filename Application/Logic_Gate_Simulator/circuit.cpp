@@ -51,7 +51,7 @@ void displaceLinkedGates(Gate* pParent, std::vector<Gate*>& gates, int& maxX)
         for(uint iSubGate = 0; iSubGate < gates.size(); iSubGate++)
         {
             Node* pNode;
-            if(gates[iSubGate]->FindNodeWithId(id, pNode))
+            if(gates[iSubGate]->findNodeWithId(id, pNode))
             {
                 const int newX = pParent->position().x() + Settings::GapBetweenGates;
                 if(gates[iSubGate]->position().x() < newX)
@@ -85,10 +85,10 @@ GateCollection* Circuit::createGateCollection()
     for(auto const& g : inputs)
     {
         g.second->setPosition(offsetButSameX, posY+=Settings::GapBetweenGates);
-        pNewCircuit->AddGate(g.second);
+        pNewCircuit->addGate(g.second);
 
         TextLabel* pTextLabel = new TextLabel();
-        pTextLabel->Update(pTextLabel->GetFont(), QString(g.first));
+        pTextLabel->update(pTextLabel->getFont(), QString(g.first));
         g.second->addAttachedLabel(pTextLabel);
 
         offsetButSameX += 20;
@@ -102,10 +102,10 @@ GateCollection* Circuit::createGateCollection()
     for(auto const& g : outputs)
     {
         g.second->setPosition(maxX + offsetButSameX, posY+=Settings::GapBetweenGates);
-        pNewCircuit->AddGate(g.second);
+        pNewCircuit->addGate(g.second);
 
         TextLabel* pTextLabel = new TextLabel();
-        pTextLabel->Update(pTextLabel->GetFont(), QString(g.first));
+        pTextLabel->update(pTextLabel->getFont(), QString(g.first));
         g.second->addAttachedLabel(pTextLabel);
 
         offsetButSameX += 20;
@@ -125,10 +125,10 @@ void Circuit::deleteMainGates()
     //Todo ~ find out why this is needed!
     for(auto const& g : inputs)
     {
-        g.second->DetachNodes();
+        g.second->detachNodes();
     }
     for(auto const& g : outputs)
     {
-        g.second->DetachNodes();
+        g.second->detachNodes();
     }
 }

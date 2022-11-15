@@ -19,7 +19,7 @@ TextLabel::TextLabel(const int &x, const int &y, const QString& text, const QFon
         m_attachId = AttachIdCounter++;
     }
 
-    Update(font, text);
+    update(font, text);
 }
 
 TextLabel::~TextLabel()
@@ -36,11 +36,11 @@ void TextLabel::draw(QPainter& painter)
     painter.drawText(m_geometry, m_string);
 }
 
-void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
+void TextLabel::saveData(QDomDocument &storage, QDomElement &parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    Gate::SaveGeneralData(storage, gateElement);
+    Gate::saveGeneralData(storage, gateElement);
 
     gateElement.setAttribute(Settings::GateTextLabelTextTag, m_string);
     gateElement.setAttribute(Settings::GateTextLabelAttachId, QString::number(m_attachId));
@@ -51,7 +51,7 @@ void TextLabel::SaveData(QDomDocument &storage, QDomElement &parentElement)
     parentElement.appendChild(gateElement);
 }
 
-Gate* TextLabel::Clone()
+Gate* TextLabel::clone()
 {
     TextLabel* clone = new TextLabel(position().x(), position().y(), m_string, m_font, m_attachId);
 
@@ -60,7 +60,7 @@ Gate* TextLabel::Clone()
     return clone;
 }
 
-void TextLabel::Update(const QFont& font, const QString& string)
+void TextLabel::update(const QFont& font, const QString& string)
 {
     m_string = string;
     m_font = font;
@@ -72,12 +72,12 @@ void TextLabel::Update(const QFont& font, const QString& string)
     m_geometry.setHeight(textFontMetrics.height());
 }
 
-QString TextLabel::GetString()
+QString TextLabel::getString()
 {
     return m_string;
 }
 
-QFont TextLabel::GetFont()
+QFont TextLabel::getFont()
 {
     return m_font;
 }
@@ -116,15 +116,15 @@ DLG_LabelGateEdit::~DLG_LabelGateEdit()
     m_pTextLabel = nullptr;
 }
 
-void DLG_LabelGateEdit::EditTextLabel(TextLabel* textLabel)
+void DLG_LabelGateEdit::editTextLabel(TextLabel* textLabel)
 {
     m_pTextLabel = textLabel;
-    Setup(textLabel->GetString(), textLabel->GetFont());
+    Setup(textLabel->getString(), textLabel->getFont());
     show();
 }
 
-void DLG_LabelGateEdit::UpdateOverrideObject()
+void DLG_LabelGateEdit::updateOverrideObject()
 {
     if(m_pTextLabel)
-        m_pTextLabel->Update(m_font, m_savedString);
+        m_pTextLabel->update(m_font, m_savedString);
 }

@@ -31,13 +31,13 @@ GateTriEor::GateTriEor(const int &x, const int &y, const id &inA, const id &inB,
     m_nodes.push_back(m_pOutput);
 }
 
-void GateTriEor::UpdateOutput()
+void GateTriEor::updateOutput()
 {
     const bool sum = m_pInputA->value() ^ m_pInputB->value() ^ m_pInputC->value();
     m_pOutput->setValue(sum);
 }
 
-Gate *GateTriEor::Clone()
+Gate *GateTriEor::clone()
 {
     GateTriEor* clone = new GateTriEor(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pInputC->id(), m_pOutput->id());
     Gate::baseClone(clone);

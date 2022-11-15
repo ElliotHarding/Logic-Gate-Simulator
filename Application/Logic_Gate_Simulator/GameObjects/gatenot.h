@@ -8,8 +8,8 @@ class GateNot : public Gate
 public:
     GateNot(const int& x = 0, const int& y = 0, const id& in = -1, const id& out = -1);
 
-    virtual void UpdateOutput() override;
-    virtual Gate* Clone() override;
+    virtual void updateOutput() override;
+    virtual Gate* clone() override;
 
 protected:
     Node* m_pInput;

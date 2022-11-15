@@ -31,7 +31,7 @@ GateTriOr::GateTriOr(const int &x, const int &y, const id &inA, const id &inB, c
     m_nodes.push_back(m_pOutput);
 }
 
-void GateTriOr::UpdateOutput()
+void GateTriOr::updateOutput()
 {
     const bool sum = m_pInputA->value() || m_pInputB->value() || m_pInputC->value();
 
@@ -39,7 +39,7 @@ void GateTriOr::UpdateOutput()
     m_pOutput->setValue(sum);
 }
 
-Gate *GateTriOr::Clone()
+Gate *GateTriOr::clone()
 {
     GateTriOr* clone = new GateTriOr(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pInputC->id(), m_pOutput->id());
     Gate::baseClone(clone);

@@ -35,7 +35,7 @@ private:
     void attachLabels(std::vector<std::pair<Gate*, int>>& gateAndTextLabelIdPairs, std::vector<TextLabel*>& labelGates);
     void readNodeTypes(QDomElement& gate, std::vector<NodeIds>& linkInfo, std::vector<NodeIds>& nodeInfo, const QString& nodeType);
     int tryReadInt(const QString& value, const int& defaultVal);
-    static bool SearchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n);
+    static bool searchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n);
 };
 
 class Saver

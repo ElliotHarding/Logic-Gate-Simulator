@@ -4,20 +4,20 @@
 GateToggle::GateToggle(const int& x, const int& y, const id& out, const bool& powerState) :
     GateSingleOutput::GateSingleOutput(x, y, GATE_EMMITTER, out)
 {
-    SetPowerState(powerState);
+    setPowerState(powerState);
 }
 
-void GateToggle::UpdateOutput()
+void GateToggle::updateOutput()
 {
-    //done in ToggleOutputState & checkClicked
+    //done in toggleOutputState & checkClicked
 }
 
-void GateToggle::ToggleOutputState()
+void GateToggle::toggleOutputState()
 {
     m_pOutput->setValue(!m_pOutput->value());
 }
 
-Gate *GateToggle::Clone()
+Gate *GateToggle::clone()
 {
     GateToggle* clone = new GateToggle(position().x(), position().y(), m_pOutput->id());
     Gate::baseClone(clone);
@@ -25,15 +25,15 @@ Gate *GateToggle::Clone()
     return clone;
 }
 
-void GateToggle::SaveData(QDomDocument& storage, QDomElement& parentElement)
+void GateToggle::saveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    Gate::SaveGeneralData(storage, gateElement);
+    Gate::saveGeneralData(storage, gateElement);
 
     gateElement.setAttribute(Settings::GateTogglePowerStateTag, QString::number(m_pOutput->value()));
 
-    m_pOutput->SaveData(storage, gateElement);
+    m_pOutput->saveData(storage, gateElement);
 
     parentElement.appendChild(gateElement);
 }

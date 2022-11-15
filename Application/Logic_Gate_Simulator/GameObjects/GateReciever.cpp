@@ -24,11 +24,11 @@ GateReciever::GateReciever(const int& x, const int& y, const id& inputNode) :
     m_nodes.push_back(m_pInput);
 }
 
-void GateReciever::UpdateOutput()
+void GateReciever::updateOutput()
 {
 }
 
-Gate* GateReciever::Clone()
+Gate* GateReciever::clone()
 {
     GateReciever* clone = new GateReciever(position().x(), position().y(), m_pInput->id());
     Gate::baseClone(clone);

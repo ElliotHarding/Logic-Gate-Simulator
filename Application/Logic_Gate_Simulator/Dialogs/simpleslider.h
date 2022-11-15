@@ -10,8 +10,8 @@ public:
     SimpleSlider(QWidget* pParent, const QRect& geometry, const float& min, const float& max, const uint& scrollSpeed, const QColor& sliderCol = QColor(255,255,255), const QColor& nubbleCol = Qt::lightGray);
     ~SimpleSlider() override;
 
-    virtual float GetCurrentValue() const;
-    virtual void SetValue(const float& val);
+    virtual float getCurrentValue() const;
+    virtual void setValue(const float& val);
 
 protected:
 
@@ -22,10 +22,10 @@ protected:
     void paintEvent(QPaintEvent* paintEvent) override;
     virtual void wheelEvent(QWheelEvent *event) override;
 
-    void UpdateSlider(const float& currentMousePos);
-    virtual void SetSliderPosition(float val);
+    void updateSlider(const float& currentMousePos);
+    virtual void setSliderPosition(float val);
 
-    virtual void UpdateParent(const float& val) = 0;
+    virtual void updateParent(const float& val) = 0;
 
     //Colour stuff
     QColor m_sliderCol;
@@ -59,7 +59,7 @@ public:
     ~ZoomSlider();
 
 private:
-    virtual void UpdateParent(const float& val) override;
+    virtual void updateParent(const float& val) override;
     DLG_Home* m_pParent;
 };
 
@@ -71,7 +71,7 @@ public:
     ~FontSlider();
 
 private:
-    virtual void UpdateParent(const float& val) override;
+    virtual void updateParent(const float& val) override;
     DLG_TextEdit* m_pParent;    
 };
 
@@ -80,18 +80,18 @@ class VerticalSimpleSlider : public SimpleSlider
 public:
     VerticalSimpleSlider(QWidget* pParent, const QRect& layout, const float& min, const float& max, const uint& scrollSpeed);
 
-    virtual float GetCurrentValue() const override;
-    void SetValue(const float& val) override;
+    virtual float getCurrentValue() const override;
+    void setValue(const float& val) override;
 
 protected:
-    virtual void UpdateParent(const float& val) override = 0;
+    virtual void updateParent(const float& val) override = 0;
 
 private:
     void paintEvent(QPaintEvent* paintEvent) override;
     void mousePressEvent(QMouseEvent* mouseEvent) override;
     void mouseMoveEvent(QMouseEvent* event) override;
 
-    void SetSliderPosition(float val) override;
+    void setSliderPosition(float val) override;
 };
 
 class Widget_AllGates;
@@ -102,7 +102,7 @@ public:
     ~GateSlider();
 
 private:
-    void UpdateParent(const float& val) override;
+    void updateParent(const float& val) override;
     Widget_AllGates* m_pParent;    
 };
 

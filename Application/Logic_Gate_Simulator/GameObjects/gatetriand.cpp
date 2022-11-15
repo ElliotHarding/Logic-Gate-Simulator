@@ -31,7 +31,7 @@ GateTriAnd::GateTriAnd(const int &x, const int &y, const id &inA, const id &inB,
     m_nodes.push_back(m_pOutput);
 }
 
-void GateTriAnd::UpdateOutput()
+void GateTriAnd::updateOutput()
 {
     const bool sum = m_pInputA->value() & m_pInputB->value() & m_pInputC->value();
 
@@ -39,7 +39,7 @@ void GateTriAnd::UpdateOutput()
     m_pOutput->setValue(sum);
 }
 
-Gate *GateTriAnd::Clone()
+Gate *GateTriAnd::clone()
 {
     GateTriAnd* clone = new GateTriAnd(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pInputC->id(), m_pOutput->id());
     Gate::baseClone(clone);

@@ -87,28 +87,28 @@ void GateFPGA::draw(QPainter& painter)
     drawNodes(painter);
 }
 
-void GateFPGA::SaveData(QDomDocument& storage, QDomElement& parentElement)
+void GateFPGA::saveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    SaveGeneralData(storage, gateElement);
+    saveGeneralData(storage, gateElement);
 
     gateElement.setAttribute(Settings::FPGAGateScriptElement, m_script);
 
     for(Node* inputNode : m_inputNodes)
     {
-        inputNode->SaveData(storage, gateElement);
+        inputNode->saveData(storage, gateElement);
     }
 
     for(Node* outputNode : m_outputNodes)
     {
-        outputNode->SaveData(storage, gateElement);
+        outputNode->saveData(storage, gateElement);
     }
 
     parentElement.appendChild(gateElement);
 }
 
-void GateFPGA::UpdateOutput()
+void GateFPGA::updateOutput()
 {
     QScriptEngine engine;
     QScriptContext* pContext = engine.pushContext();
@@ -131,7 +131,7 @@ void GateFPGA::UpdateOutput()
     }
 }
 
-Gate* GateFPGA::Clone()
+Gate* GateFPGA::clone()
 {
     GateFPGA* clone = new GateFPGA(m_inputNodes, m_outputNodes, m_script, position().x(), position().y());
     Gate::baseClone(clone);

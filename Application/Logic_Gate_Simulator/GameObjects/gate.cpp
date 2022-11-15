@@ -28,7 +28,7 @@ Gate::Gate(GateType type, const int& x, const int& y, const uint& width, const u
 
 Gate::~Gate()
 {
-    DetachNodes();
+    detachNodes();
 
     for (size_t index = 0; index < m_nodes.size(); index++)
     {
@@ -38,21 +38,21 @@ Gate::~Gate()
 
     if(m_pParentGateCollection)
     {
-        m_pParentGateCollection->ForgetGate(this);
+        m_pParentGateCollection->forgetGate(this);
 
         for(TextLabel* pAttachedLabel : m_attachedLabels)
-            m_pParentGateCollection->ForgetGate(pAttachedLabel);
+            m_pParentGateCollection->forgetGate(pAttachedLabel);
     }
 
     if (m_pParentField)
     {
-        m_pParentField->ForgetChild(this);
-        m_pParentField->ForgetUpdateRequest(this);
+        m_pParentField->forgetChild(this);
+        m_pParentField->forgetUpdateRequest(this);
 
         for(TextLabel* pAttachedLabel : m_attachedLabels)
         {
-            m_pParentField->ForgetChild(pAttachedLabel);
-            m_pParentField->ForgetUpdateRequest(pAttachedLabel);
+            m_pParentField->forgetChild(pAttachedLabel);
+            m_pParentField->forgetUpdateRequest(pAttachedLabel);
         }
     }
 
@@ -66,7 +66,7 @@ void Gate::setToUpdate()
 {
     if(m_pParentField != nullptr)
     {
-        m_pParentField->RequestUpdateGate(this);
+        m_pParentField->requestUpdateGate(this);
     }
 }
 
@@ -76,16 +76,16 @@ void Gate::draw(QPainter& painter)
     drawNodes(painter);
 }
 
-void Gate::SaveData(QDomDocument& storage, QDomElement& parentElement)
+void Gate::saveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateElement = storage.createElement(Settings::GateElement);
 
-    SaveGeneralData(storage, gateElement);
+    saveGeneralData(storage, gateElement);
 
     //Add node information
     for (Node* n : m_nodes)
     {
-        n->SaveData(storage, gateElement);
+        n->saveData(storage, gateElement);
     }
 
     parentElement.appendChild(gateElement);
@@ -126,12 +126,12 @@ void Gate::addAttachedLabel(TextLabel* pTextLabel, const bool& setPosition, cons
 
         if(m_pParentGateCollection && addToParentGateCollection)
         {
-            m_pParentGateCollection->AddGate(pTextLabel);
+            m_pParentGateCollection->addGate(pTextLabel);
         }
 
         if(m_pParentField && m_pParentGateCollection == nullptr && pTextLabel->m_pParentField != m_pParentField)
         {
-            m_pParentField->AddGate(pTextLabel, false);
+            m_pParentField->addGate(pTextLabel, false);
         }
 
         m_attachedLabels.push_back(pTextLabel);
@@ -158,7 +158,7 @@ void Gate::switchAttachedLabels(std::vector<Gate*> gates)
     {
         for(Gate* pGate : gates)
         {
-            if(pGate->GetType() == GateType::GATE_TEXT_LABEL)
+            if(pGate->getType() == GateType::GATE_TEXT_LABEL)
             {
                 TextLabel* pTextLabel = dynamic_cast<TextLabel*>(pGate);
                 if(pTextLabel->attachId() == id)
@@ -168,7 +168,7 @@ void Gate::switchAttachedLabels(std::vector<Gate*> gates)
                     break;
                 }
             }
-            else if(pGate->GetType() == GateType::GATE_COLLECTION)
+            else if(pGate->getType() == GateType::GATE_COLLECTION)
             {
                 TextLabel* pPotentialAttachedLabel = dynamic_cast<GateCollection*>(pGate)->findTextLabelWithId(id);
                 if(pPotentialAttachedLabel)
@@ -223,7 +223,7 @@ void Gate::setPosition(const int &x, const int &y)
 
     if(m_pParentGateCollection)
     {
-        m_pParentGateCollection->UpdateContaningArea();
+        m_pParentGateCollection->updateContaningArea();
     }
 }
 
@@ -240,7 +240,7 @@ void Gate::collectLinkInfo(std::vector<NodeIds>& collection)
     }
 }
 
-bool Gate::FindNodeWithId(const id& id, Node*& node)
+bool Gate::findNodeWithId(const id& id, Node*& node)
 {
     for (size_t index = 0; index < m_nodes.size(); index++)
     {
@@ -253,7 +253,7 @@ bool Gate::FindNodeWithId(const id& id, Node*& node)
     return false;
 }
 
-void Gate::AssignNewNodeIds()
+void Gate::assignNewNodeIds()
 {
     for (Node* n : m_nodes)
     {
@@ -261,22 +261,22 @@ void Gate::AssignNewNodeIds()
     }
 }
 
-void Gate::SetParent(GateField* gf)
+void Gate::setParent(GateField* gf)
 {
     m_pParentField = gf;
 }
 
-void Gate::SetParentGateCollection(GateCollection *pGateCollection)
+void Gate::setParentGateCollection(GateCollection *pGateCollection)
 {
     m_pParentGateCollection = pGateCollection;
 }
 
-GateField *Gate::GetParent()
+GateField *Gate::getParent()
 {
     return m_pParentField;
 }
 
-void Gate::SaveGeneralData(QDomDocument& storage, QDomElement& element)
+void Gate::saveGeneralData(QDomDocument& storage, QDomElement& element)
 {
     element.setAttribute(Settings::GateTypeTag, QString::number(m_type));
     element.setAttribute(Settings::GatePosXTag, QString::number(m_geometry.x()));
@@ -316,11 +316,11 @@ void Gate::baseClone(Gate* pGate)
     }
 }
 
-void Gate::DetachNodes()
+void Gate::detachNodes()
 {
     for (Node* n : m_nodes)
     {
-        n->DetachNode();
+        n->detachNode();
     }
 }
 
@@ -371,7 +371,7 @@ Node::Node(Gate* pParent, const uint& offsetX, const uint& offsetY, const NodeTy
 
 Node::~Node()
 {
-    DetachNode();
+    detachNode();
 }
 
 Node* Node::cloneWithoutLinks(Gate* pCloneParent)
@@ -454,12 +454,12 @@ bool Node::value()
     return m_bValue;
 }
 
-Gate* Node::GetParent()
+Gate* Node::getParent()
 {
     return m_pParent;
 }
 
-void Node::SaveData(QDomDocument& storage, QDomElement& parentElement)
+void Node::saveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement nodeElement = storage.createElement(m_nodeType == InputNode ? Settings::NodeTypeInputElement : Settings::NodeTypeOutputElement);
     nodeElement.setAttribute(Settings::NodeIdElement, QString::number(m_id));
@@ -497,7 +497,7 @@ id Node::id() const
     return m_id;
 }
 
-bool Node::LinkNode(Node*& n)
+bool Node::linkNode(Node*& n)
 {
     if(n->type() == type())
     {
@@ -528,16 +528,16 @@ bool Node::LinkNode(Node*& n)
     return true;
 }
 
-void Node::DetachNode()
+void Node::detachNode()
 {
     for (Node* n : m_linkedNodes)
     {
-        n->DetachNode(this);
+        n->detachNode(this);
     }
     m_linkedNodes.clear();
 }
 
-void Node::DetachNode(Node *n)
+void Node::detachNode(Node *n)
 {
     for (uint i = 0; i < m_linkedNodes.size(); i++)
     {

@@ -15,7 +15,7 @@ public:
     explicit DLG_Message(QWidget *parent = nullptr);
     ~DLG_Message();
 
-    void ShowMessage(const QString& message);
+    void showMessage(const QString& message);
 
 private slots:
     void on_btn_ok_clicked();

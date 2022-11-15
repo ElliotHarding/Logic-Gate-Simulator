@@ -16,7 +16,7 @@ public:
     explicit Widget_AllGates(DLG_Home* parent = nullptr, bool show = false, QPoint loc = QPoint(0,0));
     ~Widget_AllGates() override;
 
-    void SetScrollPosition(const float& y);
+    void setScrollPosition(const float& y);
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) override;

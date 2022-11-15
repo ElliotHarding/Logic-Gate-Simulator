@@ -46,14 +46,14 @@ public:
     DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget* parent = nullptr);
     ~DLG_Home();
 
-    void SendUserMessage(const QString& message);
-    bool SetZoomFactor(const qreal& zoomFactor, const bool& updateSlider = true);
-    void NewlySpawnedGate(Gate* pGate, const QPoint& spawnPosition);
-    void AddGateToGateField(Gate* pGate);
-    void GateSelected(Gate* pGate);
-    void SelectionToolClicked();
-    void UpdateCustomGateListWidget();
-    void EditTextLabel(TextLabel* pTextLabelToEdit);
+    void sendUserMessage(const QString& message);
+    bool setZoomFactor(const qreal& zoomFactor, const bool& updateSlider = true);
+    void newlySpawnedGate(Gate* pGate, const QPoint& spawnPosition);
+    void addGateToGateField(Gate* pGate);
+    void gateSelected(Gate* pGate);
+    void selectionToolClicked();
+    void updateCustomGateListWidget();
+    void editTextLabel(TextLabel* pTextLabelToEdit);
     void editFPGA(GateFPGA* pFPGA);
     void setGateFieldName(GateField* pGateField, const QString& name);
     void showTruthTable(const TruthTable& truthTable);
@@ -62,7 +62,7 @@ public:
     void showBooleanExpressions(const std::vector<BooleanExpression>& expressions);
 
     //Click mode
-    void SetCurrentClickMode(const ClickMode& clickMode);
+    void setCurrentClickMode(const ClickMode& clickMode);
     void saveCurrentClickMode();
     void restorePreviousClickMode();
     ClickMode currentClickMode() const;
@@ -101,10 +101,10 @@ protected:
     Widget_SpawnedGate* m_pSpawnedGateWidget;
 
     //Construction
-    void InitalizeDialogsAndWidgets();
+    void initalizeDialogsAndWidgets();
 
     //Widget animations
-    void SwitchNewlySpawnedGatesWidget(MovingWidget* w1);
+    void switchNewlySpawnedGatesWidget(MovingWidget* w1);
 
     //Zooming
     qreal m_zoomFactor;
@@ -116,7 +116,7 @@ protected:
     //Gatefields
     int8_t m_iCurrentGateField;
     std::vector<GateField*> m_allGateFields;
-    void NewlySpawnedGateField(const QString& name);
+    void newlySpawnedGateField(const QString& name);
     GateField* createNewGateField(const QString& name);
 
     QRect accountForUIOffsetts(const QRect& rect) const;

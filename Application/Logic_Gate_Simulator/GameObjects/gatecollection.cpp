@@ -20,7 +20,7 @@ GateCollection::GateCollection(std::vector<Gate*> gates) :
 {
     for(Gate* pGate : gates)
     {
-        AddGate(pGate);
+        addGate(pGate);
     }
 }
 
@@ -30,7 +30,7 @@ GateCollection::~GateCollection()
     {
         for(Gate* pGate : m_gates)
         {
-            pGate->SetParentGateCollection(nullptr);
+            pGate->setParentGateCollection(nullptr);
             delete pGate;
         }
     }
@@ -41,7 +41,7 @@ GateCollection::~GateCollection()
         if (m_pParentGateCollection)
         {
             for (Gate* g : m_gates)
-                m_pParentGateCollection->AddGate(g);
+                m_pParentGateCollection->addGate(g);
         }
 
         //Dump onto parent ParentField
@@ -49,9 +49,9 @@ GateCollection::~GateCollection()
         {
             for (Gate* g : m_gates)
             {                
-                g->SetParentGateCollection(nullptr);
+                g->setParentGateCollection(nullptr);
             }
-            m_pParentField->AddGates(m_gates);
+            m_pParentField->addGates(m_gates);
         }
     }
 
@@ -66,13 +66,13 @@ void GateCollection::setDeleteAll()
     m_dragMode = DragMode::DragAll;
 }
 
-void GateCollection::SetParent(GateField *gf)
+void GateCollection::setParent(GateField *gf)
 {
     m_pParentField = gf;
 
     for (Gate* g : m_gates)
     {
-        g->SetParent(m_pParentField);
+        g->setParent(m_pParentField);
     }
 }
 
@@ -86,9 +86,9 @@ bool GateCollection::generateTruthTable(TruthTable& table)
         for(int linkId : nodeIds.linkedIds)
         {
             Node* pNode;
-            if(!FindNodeWithId(linkId, pNode))
+            if(!findNodeWithId(linkId, pNode))
             {
-                m_pParentField->SendUserMessage("Failed. Circuit includes external connections!");
+                m_pParentField->sendUserMessage("Failed. Circuit includes external connections!");
                 return false;
             }
         }
@@ -99,7 +99,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
     std::vector<GateReciever*> resultGates;
     for (Gate* g : m_gates)
     {
-        if(g->GetType() == GateType::GATE_EMMITTER)
+        if(g->getType() == GateType::GATE_EMMITTER)
         {
             if(dynamic_cast<GateToggle*>(g))
             {
@@ -108,12 +108,12 @@ bool GateCollection::generateTruthTable(TruthTable& table)
             else
             {
                 Logger::log(LL_Error, "GateCollection::generateTruthTable - Failed to cast GateToggle");
-                m_pParentField->SendUserMessage("Failed. Internal error.");
+                m_pParentField->sendUserMessage("Failed. Internal error.");
                 return false;
             }
         }
 
-        else if(g->GetType() == GateType::GATE_RECIEVER)
+        else if(g->getType() == GateType::GATE_RECIEVER)
         {
             if(dynamic_cast<GateReciever*>(g))
             {
@@ -122,14 +122,14 @@ bool GateCollection::generateTruthTable(TruthTable& table)
             else
             {
                 Logger::log(LL_Error, "GateCollection::generateTruthTable - Failed to cast GateReciever");
-                m_pParentField->SendUserMessage("Failed. Internal error.");
+                m_pParentField->sendUserMessage("Failed. Internal error.");
                 return false;
             }
         }
 
-        else if(g->GetType() == GateType::GATE_TIMER || g->GetType() == GateType::GATE_NULL || g->GetType() == GateType::GATE_COLLECTION)
+        else if(g->getType() == GateType::GATE_TIMER || g->getType() == GateType::GATE_NULL || g->getType() == GateType::GATE_COLLECTION)
         {
-            m_pParentField->SendUserMessage("Failed. Unsupported gate type for truth table. \n No nested gate collections. No timer gates.");
+            m_pParentField->sendUserMessage("Failed. Unsupported gate type for truth table. \n No nested gate collections. No timer gates.");
             return false;
         }
 
@@ -141,13 +141,13 @@ bool GateCollection::generateTruthTable(TruthTable& table)
 
     if(inputGates.empty())
     {
-        m_pParentField->SendUserMessage("Failed to generate. No input(emmiter) gates.");
+        m_pParentField->sendUserMessage("Failed to generate. No input(emmiter) gates.");
         return false;
     }
 
     if(resultGates.empty())
     {
-        m_pParentField->SendUserMessage("Failed to generate. No result(reciever) gates.");
+        m_pParentField->sendUserMessage("Failed to generate. No result(reciever) gates.");
         return false;
     }
 
@@ -164,7 +164,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
 
         for(uint iInput = 0; iInput < numInputs; iInput++)
         {
-            inputGates[iInput]->SetPowerState(inputValues[iInput]);
+            inputGates[iInput]->setPowerState(inputValues[iInput]);
         }
 
         //Must be a better way of doing this...
@@ -172,7 +172,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
         {
             for(Gate* g : mainGates)
             {
-                g->UpdateOutput();
+                g->updateOutput();
             }
         }
 
@@ -188,19 +188,19 @@ bool GateCollection::generateTruthTable(TruthTable& table)
     return true;
 }
 
-void GateCollection::UpdateOutput()
+void GateCollection::updateOutput()
 {
     for(Gate* gate : m_gates)
     {
-        gate->UpdateOutput();
+        gate->updateOutput();
     }
 }
 
-bool GateCollection::FindNodeWithId(const id& id, Node*& pNode)
+bool GateCollection::findNodeWithId(const id& id, Node*& pNode)
 {
     for (Gate* gate : m_gates)
     {
-        if(gate->FindNodeWithId(id, pNode))
+        if(gate->findNodeWithId(id, pNode))
             return true;
     }
     return false;
@@ -223,12 +223,12 @@ void GateCollection::offsetPosition(const int& dX, const int& dY)
     for (Gate* pContainedGate1 : m_gates)
     {
         //If theres a attached label don't offset it because its attached gate will
-        if(pContainedGate1->GetType() != GateType::GATE_TEXT_LABEL || !isAttachedToContainedGate(pContainedGate1, m_gates))
+        if(pContainedGate1->getType() != GateType::GATE_TEXT_LABEL || !isAttachedToContainedGate(pContainedGate1, m_gates))
         {
             pContainedGate1->offsetPosition(dX, dY);
         }
     }
-    UpdateContaningArea();
+    updateContaningArea();
 
     for(Gate* pAttachedLabel : m_attachedLabels)
     {
@@ -243,11 +243,11 @@ void GateCollection::setPosition(const int &x, const int &y)
     offsetPosition(xOffset, yOffset);
 }
 
-void GateCollection::AssignNewNodeIds()
+void GateCollection::assignNewNodeIds()
 {
     for (Gate* gate : m_gates)
     {
-        gate->AssignNewNodeIds();
+        gate->assignNewNodeIds();
     }
 }
 
@@ -307,21 +307,21 @@ Node* GateCollection::checkClickedNodes(const QPoint& mouse)
     return nullptr;
 }
 
-void GateCollection::SaveData(QDomDocument& storage, QDomElement& parentElement)
+void GateCollection::saveData(QDomDocument& storage, QDomElement& parentElement)
 {
     QDomElement gateCollectionElement = storage.createElement(Settings::GateElement);
 
-    SaveGeneralData(storage, gateCollectionElement);
+    saveGeneralData(storage, gateCollectionElement);
 
     for(Gate* gate : m_gates)
     {
-        gate->SaveData(storage, gateCollectionElement);
+        gate->saveData(storage, gateCollectionElement);
     }
 
     parentElement.appendChild(gateCollectionElement);
 }
 
-void GateCollection::UpdateContaningArea()
+void GateCollection::updateContaningArea()
 {
     //Variables specifying boundaries of GateCollection
     //To be used to draw bounding box
@@ -357,23 +357,23 @@ void GateCollection::UpdateContaningArea()
 
     if(m_pParentGateCollection)
     {
-        m_pParentGateCollection->UpdateContaningArea();
+        m_pParentGateCollection->updateContaningArea();
     }
 }
 
-void GateCollection::ToggleDragMode()
+void GateCollection::toggleDragMode()
 {
     m_dragMode = (bool)m_dragMode ? DragIndividual : DragAll;
-    m_pParentField->UpdateGateSelected(this);
+    m_pParentField->updateGateSelected(this);
     m_pParentField->update();
 }
 
-void GateCollection::AddGate(Gate *g)
+void GateCollection::addGate(Gate *g)
 {
-    g->SetParentGateCollection(this);
-    g->SetParent(m_pParentField);
+    g->setParentGateCollection(this);
+    g->setParent(m_pParentField);
 
-    if(g->GetType() == GateType::GATE_TEXT_LABEL)
+    if(g->getType() == GateType::GATE_TEXT_LABEL)
     {
         m_gates.insert(m_gates.begin(), g);
     }
@@ -382,10 +382,10 @@ void GateCollection::AddGate(Gate *g)
         m_gates.push_back(g);
     }
 
-    UpdateContaningArea();
+    updateContaningArea();
 }
 
-void GateCollection::ForgetGate(Gate *g)
+void GateCollection::forgetGate(Gate *g)
 {
     for(size_t index = 0; index < m_gates.size(); index++)
     {
@@ -399,15 +399,15 @@ void GateCollection::ForgetGate(Gate *g)
         }
     }
 
-    UpdateContaningArea();
+    updateContaningArea();
 }
 
-Gate* GateCollection::Clone()
+Gate* GateCollection::clone()
 {
     std::vector<Gate*> clonedGates;
     for (Gate* pGate : m_gates)
     {
-        clonedGates.push_back(pGate->Clone());
+        clonedGates.push_back(pGate->clone());
     }
 
     GateCollection* pClone = new GateCollection(clonedGates);
@@ -423,14 +423,14 @@ TextLabel* GateCollection::findTextLabelWithId(int id)
 {
     for (Gate* pGate : m_gates)
     {
-        if(pGate->GetType() == GateType::GATE_TEXT_LABEL)
+        if(pGate->getType() == GateType::GATE_TEXT_LABEL)
         {
             if(dynamic_cast<TextLabel*>(pGate)->attachId() == id)
             {
                 return dynamic_cast<TextLabel*>(pGate);
             }
         }
-        else if(pGate->GetType() == GateType::GATE_COLLECTION)
+        else if(pGate->getType() == GateType::GATE_COLLECTION)
         {
             TextLabel* pPotentialAttachedLabel = dynamic_cast<GateCollection*>(pGate)->findTextLabelWithId(id);
             if(pPotentialAttachedLabel)

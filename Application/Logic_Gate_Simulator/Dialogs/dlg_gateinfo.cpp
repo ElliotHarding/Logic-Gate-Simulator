@@ -12,7 +12,7 @@ DLG_GateInfo::DLG_GateInfo(DLG_Home* parent) :
     m_pParent(parent)
 {
     ui->setupUi(this);
-    UiWhenNoGateSelected();
+    uiWhenNogateSelected();
 
     setGateField(nullptr);
 }
@@ -27,7 +27,7 @@ void DLG_GateInfo::setGate(Gate *g)
     m_pGateDisplayed = g;
     if(g == nullptr)
     {
-        UiWhenNoGateSelected();
+        uiWhenNogateSelected();
         return;
     }
 
@@ -52,7 +52,7 @@ void DLG_GateInfo::setGate(Gate *g)
 
     //Display gate specific info
     QString gateName;
-    switch (m_pGateDisplayed->GetType())
+    switch (m_pGateDisplayed->getType())
     {
         case GateType::GATE_OR:
             gateName = "Or Gate";
@@ -103,7 +103,7 @@ void DLG_GateInfo::setGate(Gate *g)
             gateName = "Emmiter Gate";
             ui->signalCheck->show();
             ui->signalCheck->setCheckState( dynamic_cast<GateToggle*>(m_pGateDisplayed)
-                        ->GetPowerState() ?
+                        ->getPowerState() ?
                           Qt::CheckState::Checked : Qt::CheckState::Unchecked);
             break;
         case GateType::GATE_RECIEVER:
@@ -203,7 +203,7 @@ void DLG_GateInfo::on_lineEdit_Frequency_editingFinished()
         }
         else
         {
-            m_pParent->SendUserMessage("Frequency out of range!");
+            m_pParent->sendUserMessage("Frequency out of range!");
         }
     }
     else
@@ -217,11 +217,11 @@ void DLG_GateInfo::on_signalCheck_clicked()
     if(m_pGateDisplayed)
     {
         if(dynamic_cast<GateToggle*>(m_pGateDisplayed))
-            dynamic_cast<GateToggle*>(m_pGateDisplayed)->ToggleOutputState();
+            dynamic_cast<GateToggle*>(m_pGateDisplayed)->toggleOutputState();
     }
 }
 
-void DLG_GateInfo::UiWhenNoGateSelected()
+void DLG_GateInfo::uiWhenNogateSelected()
 {
     ui->lbl_GateType->hide();
     ui->btn_DeleteGate->hide();
@@ -241,7 +241,7 @@ void DLG_GateInfo::UiWhenNoGateSelected()
 
 void DLG_GateInfo::on_btn_Edit_clicked()
 {
-    if(m_pGateDisplayed->GetType() == GATE_FPGA)
+    if(m_pGateDisplayed->getType() == GATE_FPGA)
     {
         if(dynamic_cast<GateFPGA*>(m_pGateDisplayed))
         {
@@ -253,11 +253,11 @@ void DLG_GateInfo::on_btn_Edit_clicked()
         }
     }
 
-    else if(m_pGateDisplayed->GetType() == GATE_TEXT_LABEL)
+    else if(m_pGateDisplayed->getType() == GATE_TEXT_LABEL)
     {
         if(dynamic_cast<TextLabel*>(m_pGateDisplayed))
         {
-            m_pParent->EditTextLabel(dynamic_cast<TextLabel*>(m_pGateDisplayed));
+            m_pParent->editTextLabel(dynamic_cast<TextLabel*>(m_pGateDisplayed));
         }
         else
         {
@@ -279,7 +279,7 @@ void DLG_GateInfo::on_lineEdit_pageUpdateFrequency_editingFinished()
         }
         else
         {
-            m_pParent->SendUserMessage("Frequency out of range!");
+            m_pParent->sendUserMessage("Frequency out of range!");
         }
     }
 }
@@ -287,7 +287,7 @@ void DLG_GateInfo::on_lineEdit_pageUpdateFrequency_editingFinished()
 void DLG_GateInfo::on_btn_drag_clicked()
 {
     if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
-        dynamic_cast<GateCollection*>(m_pGateDisplayed)->ToggleDragMode();
+        dynamic_cast<GateCollection*>(m_pGateDisplayed)->toggleDragMode();
 }
 
 void DLG_GateInfo::on_btn_save_clicked()
@@ -323,7 +323,7 @@ void DLG_GateInfo::on_btn_expression_clicked()
             }
             else
             {
-                m_pParent->SendUserMessage("Internal error. Failed to generate boolean expressions.");
+                m_pParent->sendUserMessage("Internal error. Failed to generate boolean expressions.");
             }
         }
     }
@@ -334,7 +334,7 @@ void DLG_GateInfo::on_btn_label_clicked()
     TextLabel* pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y(), "Label", QFont("Helvetica", 20));
     m_pGateDisplayed->addAttachedLabel(pLabel);
 
-    m_pParent->EditTextLabel(pLabel);
+    m_pParent->editTextLabel(pLabel);
 }
 
 void DLG_GateInfo::on_btn_label2_clicked()
@@ -342,5 +342,5 @@ void DLG_GateInfo::on_btn_label2_clicked()
     TextLabel* pLabel = new TextLabel(m_pGateDisplayed->position().x(), m_pGateDisplayed->position().y(), "Label", QFont("Helvetica", 20));
     m_pGateDisplayed->addAttachedLabel(pLabel);
 
-    m_pParent->EditTextLabel(pLabel);
+    m_pParent->editTextLabel(pLabel);
 }

@@ -32,7 +32,7 @@ DLG_TextEdit::~DLG_TextEdit()
     delete ui;
 }
 
-void DLG_TextEdit::SetFontSize(const int& size)
+void DLG_TextEdit::setFontSize(const int& size)
 {
     m_font.setPointSize(size);
     ui->lbl_fontSize->setText(QString::number(size));
@@ -42,7 +42,7 @@ void DLG_TextEdit::SetFontSize(const int& size)
 void DLG_TextEdit::on_btn_Ok_clicked()
 {
     m_savedString = ui->textEdit->toPlainText();
-    UpdateOverrideObject();
+    updateOverrideObject();
     hide();
 }
 

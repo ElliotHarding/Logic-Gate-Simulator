@@ -24,7 +24,7 @@ GateField::GateField(DLG_Home* pParent, const qreal& zoomFactor, const QString& 
     setAcceptDrops(true);
     setMouseTracking(true);
 
-    connect(&m_gateUpdateTimer, SIGNAL(timeout()), this, SLOT(onRequestUpdateGates()));
+    connect(&m_gateUpdateTimer, SIGNAL(timeout()), this, SLOT(onrequestUpdateGates()));
     m_gateUpdateTimer.setTimerType(Qt::PreciseTimer);
 
     //Todo : only running when page is showing? Or make use of multiple pages running
@@ -39,7 +39,7 @@ GateField::~GateField()
     //Delete all gates
     for (size_t index = m_allGates.size() - 1; index > -1 ; index--)
     {
-        m_allGates[index]->SetParent(nullptr);
+        m_allGates[index]->setParent(nullptr);
         delete m_allGates[index];
     }
 
@@ -97,34 +97,34 @@ uint GateField::updateFrequency() const
     return m_gateUpdateFrequencyMs;
 }
 
-void GateField::onRequestUpdateGates()
+void GateField::onrequestUpdateGates()
 {
     for (int index = m_gatesToUpdate.size() - 1; index > -1; index--)
     {
-        m_gatesToUpdate[size_t(index)]->UpdateOutput();
+        m_gatesToUpdate[size_t(index)]->updateOutput();
     }
     m_gatesToUpdate.clear();
     update();
 }
 
-void GateField::SetZoomLevel(const qreal& zoom)
+void GateField::setZoomLevel(const qreal& zoom)
 {
     m_zoomFactor = zoom;
     update();
 }
 
-void GateField::SaveData(QDomDocument& saveFile)
+void GateField::saveData(QDomDocument& saveFile)
 {
     QDomElement gateFieldElement = saveFile.createElement(Settings::GateFieldElement);
     gateFieldElement.setAttribute(Settings::GateFieldFrequencyTag, QString::number(m_gateUpdateFrequencyMs));
     for (size_t index = 0; index < m_allGates.size(); index++)
     {        
-        m_allGates[index]->SaveData(saveFile, gateFieldElement);
+        m_allGates[index]->saveData(saveFile, gateFieldElement);
     }
     saveFile.appendChild(gateFieldElement);
 }
 
-void GateField::ForgetChild(Gate* pGateToForget)
+void GateField::forgetChild(Gate* pGateToForget)
 {
     for(size_t index = 0; index < m_allGates.size(); index++)
     {
@@ -133,14 +133,14 @@ void GateField::ForgetChild(Gate* pGateToForget)
             //forget
             m_allGates.erase(m_allGates.begin() + int8_t(index));
 
-            ForgetUpdateRequest(pGateToForget);
+            forgetUpdateRequest(pGateToForget);
 
             return;
         }
     }
 }
 
-void GateField::ForgetUpdateRequest(Gate* pGate)
+void GateField::forgetUpdateRequest(Gate* pGate)
 {
     //Todo ~ Find out why can't use m_gatesToUpdate.erase
 
@@ -153,7 +153,7 @@ void GateField::ForgetUpdateRequest(Gate* pGate)
     m_gatesToUpdate = newGatesToUpdate;
 }
 
-void GateField::RequestUpdateGate(Gate* pGate)
+void GateField::requestUpdateGate(Gate* pGate)
 {
     for(size_t index = 0; index < m_gatesToUpdate.size(); index++)
     {
@@ -163,7 +163,7 @@ void GateField::RequestUpdateGate(Gate* pGate)
     m_gatesToUpdate.push_back(pGate);
 }
 
-void GateField::Undo()
+void GateField::undo()
 {
     m_history.undoHistory(m_allGates);
 
@@ -171,7 +171,7 @@ void GateField::Undo()
     update();
 }
 
-void GateField::Redo()
+void GateField::redo()
 {
     m_history.redoHistory(m_allGates);
 
@@ -179,7 +179,7 @@ void GateField::Redo()
     update();
 }
 
-void GateField::StartSaveGateCollection(GateCollection* pGateCollection)
+void GateField::startSaveGateCollection(GateCollection* pGateCollection)
 {
     m_pParent->startSaveGateCollection(pGateCollection);
 }
@@ -194,9 +194,9 @@ QString GateField::name() const
     return m_name;
 }
 
-void GateField::AddGate(Gate* go, const bool& newlySpawned)
+void GateField::addGate(Gate* go, const bool& newlySpawned)
 {
-    go->SetParent(this);
+    go->setParent(this);
 
     if(newlySpawned) //If newley spawned has GateField::QWidget relative position
     {
@@ -209,9 +209,9 @@ void GateField::AddGate(Gate* go, const bool& newlySpawned)
     m_allGates.push_back(go);
     moveToFront(m_allGates.size()-1, m_allGates);
 
-    UpdateGateSelected(go);
+    updateGateSelected(go);
 
-    m_pParent->SetCurrentClickMode(CLICK_DRAG);
+    m_pParent->setCurrentClickMode(CLICK_DRAG);
 
     m_history.recordHistory(m_allGates);
 
@@ -219,11 +219,11 @@ void GateField::AddGate(Gate* go, const bool& newlySpawned)
     update();
 }
 
-void GateField::AddGates(std::vector<Gate*>& gates)
+void GateField::addGates(std::vector<Gate*>& gates)
 {
     for(Gate* go : gates)
     {
-        go->SetParent(this);
+        go->setParent(this);
 
         //Put new gate at front so its on top of others
         // - Lazy way todo it
@@ -231,9 +231,9 @@ void GateField::AddGates(std::vector<Gate*>& gates)
         moveToFront(m_allGates.size()-1, m_allGates);
     }
 
-    UpdateGateSelected(gates[gates.size()-1]);
+    updateGateSelected(gates[gates.size()-1]);
 
-    m_pParent->SetCurrentClickMode(CLICK_DRAG);
+    m_pParent->setCurrentClickMode(CLICK_DRAG);
 
     m_history.recordHistory(m_allGates);
 
@@ -384,14 +384,14 @@ void GateField::mouseReleaseEvent(QMouseEvent* click)
 
             //Remove gates from m_allgates
             for (Gate* g : m_selectedGates)
-                ForgetChild(g);
+                forgetChild(g);
 
             //Add gate collection to m_allGates
-            AddGate(collection, false);
+            addGate(collection, false);
 
             m_history.recordHistory(m_allGates);
 
-            m_pParent->SetCurrentClickMode(CLICK_DRAG);
+            m_pParent->setCurrentClickMode(CLICK_DRAG);
         }
 
         //Disactivate selection
@@ -412,7 +412,7 @@ void GateField::wheelEvent(QWheelEvent *event)
 
     //Todo : seems stupid to set zoom factor for all gatefeilds
     //Only offset gates if zoom factor actually changes
-    if (m_pParent->SetZoomFactor(m_zoomFactor + direction, true))
+    if (m_pParent->setZoomFactor(m_zoomFactor + direction, true))
     {
         const QPoint scrollPos = qtPointToWorldPoint(event->pos());
 
@@ -435,7 +435,7 @@ bool GateField::checkStartLink(const QPoint& mouse)
             m_currentMousePos = m_pLinkingNode->position();
 
             //Change cursor as started linking
-            m_pParent->SetCurrentClickMode(CLICK_LINK_NODES);
+            m_pParent->setCurrentClickMode(CLICK_LINK_NODES);
             update();
             return true;
         }
@@ -459,30 +459,30 @@ void GateField::checkEndLink(const QPoint& mouse)
             //Check not same node types
             if(pPossibleClickedNode->type() == m_pLinkingNode->type())
             {
-                m_pParent->SendUserMessage("Cant link to nodes of same type");
+                m_pParent->sendUserMessage("Cant link to nodes of same type");
                 break;
             }
 
             //Check both dont have same parent
-            if(pPossibleClickedNode->GetParent() == m_pLinkingNode->GetParent())
+            if(pPossibleClickedNode->getParent() == m_pLinkingNode->getParent())
             {
                 break;
             }
 
-            //link nodes & update parent gates (inside LinkNode())
-            bool n1Linked = pPossibleClickedNode->LinkNode(m_pLinkingNode);
-            bool n2Linked = m_pLinkingNode->LinkNode(pPossibleClickedNode);
+            //link nodes & update parent gates (inside linkNode())
+            bool n1Linked = pPossibleClickedNode->linkNode(m_pLinkingNode);
+            bool n2Linked = m_pLinkingNode->linkNode(pPossibleClickedNode);
 
             if(!n1Linked && !n2Linked)
             {
                 if(n1Linked)
                 {
-                    pPossibleClickedNode->DetachNode();
+                    pPossibleClickedNode->detachNode();
                 }
 
                 if(n2Linked)
                 {
-                    m_pLinkingNode->DetachNode();
+                    m_pLinkingNode->detachNode();
                 }
 
                 Logger::log(LL_Error, "GateField::checkEndLink - Linking failed!");
@@ -506,7 +506,7 @@ void GateField::checkDeleteNodeLink(const QPoint& mouse)
         Node* pPossibleClickedNode = gate->checkClickedNodes(mouse);
         if(pPossibleClickedNode != nullptr)
         {
-            pPossibleClickedNode->DetachNode();
+            pPossibleClickedNode->detachNode();
             update();
             return;
         }
@@ -520,7 +520,7 @@ bool GateField::checkGateSelect(const QPoint& mouse)
         GameObject* pSelectedGo = gate->checkClicked(mouse);
         if(pSelectedGo != nullptr && dynamic_cast<Gate*>(pSelectedGo))
         {
-            UpdateGateSelected(dynamic_cast<Gate*>(pSelectedGo));
+            updateGateSelected(dynamic_cast<Gate*>(pSelectedGo));
             return true;
         }
     }
@@ -537,7 +537,7 @@ void GateField::editSelection(const QPoint& mouse)
         m_pSelectionTool->setGeometry(QRect(m_selectionToolOrigin, QSize()));
 
         m_pParent->saveCurrentClickMode();
-        m_pParent->SetCurrentClickMode(CLICK_SELECTION);
+        m_pParent->setCurrentClickMode(CLICK_SELECTION);
     }
     else
     {
@@ -564,7 +564,7 @@ void GateField::checkDelete(const QPoint& mouse)
 
             delete gObject;
 
-            UpdateGateSelected(nullptr);
+            updateGateSelected(nullptr);
             update();
             return;
         }
@@ -582,7 +582,7 @@ bool GateField::checkStartDrag(const QPoint& mouse)
         if(pPossibleClickedObject != nullptr && dynamic_cast<Gate*>(pPossibleClickedObject))
         {
             m_pDraggingGate = dynamic_cast<Gate*>(pPossibleClickedObject);
-            UpdateGateSelected(m_pDraggingGate);
+            updateGateSelected(m_pDraggingGate);
 
             //Move the dragged object to the front of the array.
             //This way next loop the object will be checked first
@@ -614,7 +614,7 @@ void GateField::moveToFront(const uint& index, std::vector<Gate *> &vec)
     vec.erase(vec.begin() + index);
 
     //Is the gate moving to front a textlabel?
-    if(objectAtIndex->GetType() == GateType::GATE_TEXT_LABEL)
+    if(objectAtIndex->getType() == GateType::GATE_TEXT_LABEL)
     {
         vec.insert(vec.begin(), objectAtIndex);
     }
@@ -623,7 +623,7 @@ void GateField::moveToFront(const uint& index, std::vector<Gate *> &vec)
         //Move to front after all textlabels (they always go on top)
         for(uint i = 0; i < vec.size(); i++)
         {
-            if(vec[i]->GetType() != GateType::GATE_TEXT_LABEL)
+            if(vec[i]->getType() != GateType::GATE_TEXT_LABEL)
             {
                 vec.insert(vec.begin() + i, objectAtIndex);
                 return;
@@ -650,16 +650,16 @@ QPoint GateField::qtPointToWorldPoint(const QPoint& mousePoint) const
     return transform.inverted().map(QPoint(mousePoint.x() - geometry().center().x(), mousePoint.y() - geometry().center().y()));
 }
 
-void GateField::UpdateGateSelected(Gate *g)
+void GateField::updateGateSelected(Gate *g)
 {
     if(m_pParent)
-        m_pParent->GateSelected(g);
+        m_pParent->gateSelected(g);
 }
 
-void GateField::SendUserMessage(const QString& message)
+void GateField::sendUserMessage(const QString& message)
 {
     if(m_pParent)
-        m_pParent->SendUserMessage(message);
+        m_pParent->sendUserMessage(message);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -673,10 +673,10 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
     std::vector<Gate*> clonedSnapshot;
     for(Gate* g : snapshot)
     {
-        clonedSnapshot.push_back(g->Clone());
+        clonedSnapshot.push_back(g->clone());
     }
 
-    //Todo : could merge Clone() and collectLinkInfo() for gate. Unless decide todo them individually elsewhere...
+    //Todo : could merge clone() and collectLinkInfo() for gate. Unless decide todo them individually elsewhere...
 
     //Copy link info into clonedSnapshot gates
     std::vector<NodeIds> linkInfo;
@@ -688,7 +688,7 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
 
     for(Gate* g : clonedSnapshot)
     {
-        g->AssignNewNodeIds();
+        g->assignNewNodeIds();
         g->switchAttachedLabels(clonedSnapshot);
     }
 
@@ -697,7 +697,7 @@ void GateFieldHistory::recordHistory(const std::vector<Gate*>& snapshot)
     {
         for (size_t index = m_history[i].size() - 1; index > -1 ; index--)
         {
-            if(m_history[i][index]->GetType() == GateType::GATE_COLLECTION)
+            if(m_history[i][index]->getType() == GateType::GATE_COLLECTION)
             {
                 dynamic_cast<GateCollection*>(m_history[i][index])->setDeleteAll();
             }
@@ -749,7 +749,7 @@ GateFieldHistory::~GateFieldHistory()
     {
         for (size_t index = historyItem.size() - 1; index > -1 ; index--)
         {
-            if(historyItem[index]->GetType() == GateType::GATE_COLLECTION)
+            if(historyItem[index]->getType() == GateType::GATE_COLLECTION)
             {
                 dynamic_cast<GateCollection*>(historyItem[index])->setDeleteAll();
             }
@@ -762,7 +762,7 @@ void GateFieldHistory::deleteIndexOfHistory(const size_t& historyIndex)
 {
     for (size_t index = m_history[historyIndex].size() - 1; index > -1 ; index--)
     {
-        if(m_history[historyIndex][index]->GetType() == GateType::GATE_COLLECTION)
+        if(m_history[historyIndex][index]->getType() == GateType::GATE_COLLECTION)
         {
             dynamic_cast<GateCollection*>(m_history[historyIndex][index])->setDeleteAll();
         }

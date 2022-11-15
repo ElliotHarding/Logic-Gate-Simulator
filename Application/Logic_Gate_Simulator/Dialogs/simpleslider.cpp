@@ -39,21 +39,21 @@ SimpleSlider::~SimpleSlider()
 {
 }
 
-float SimpleSlider::GetCurrentValue() const
+float SimpleSlider::getCurrentValue() const
 {
     const float distanceFromLeft = (m_sliderPosition.x() - m_minPoint);
     const float percentage = distanceFromLeft / m_length;
     return m_min + (m_minMaxDiff * percentage);
 }
 
-void SimpleSlider::SetValue(const float& val)
+void SimpleSlider::setValue(const float& val)
 {
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromLeft = val * lenghtPerUnit;
     float pos = m_minPoint + distanceFromLeft;
 
-    SetSliderPosition(pos);
+    setSliderPosition(pos);
 }
 
 void SimpleSlider::mouseReleaseEvent(QMouseEvent*)
@@ -65,13 +65,13 @@ void SimpleSlider::mouseReleaseEvent(QMouseEvent*)
 void SimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)
 {
     m_beingClicked = true;
-    UpdateSlider(mouseEvent->pos().x());
+    updateSlider(mouseEvent->pos().x());
 }
 
 void SimpleSlider::mouseMoveEvent(QMouseEvent *event)
 {
     if(m_beingClicked)
-        UpdateSlider(event->pos().x());
+        updateSlider(event->pos().x());
 }
 
 void SimpleSlider::paintEvent(QPaintEvent*)
@@ -85,7 +85,7 @@ void SimpleSlider::paintEvent(QPaintEvent*)
     //Draw bar
     painter.drawLine(m_minDrawPoint, m_maxDrawPoint);
 
-    //Set slider colourSetZoomFactor
+    //Set slider coloursetZoomFactor
     pen.setColor(m_nubbleCol);
     painter.setPen(pen);
 
@@ -97,18 +97,18 @@ void SimpleSlider::wheelEvent(QWheelEvent *event)
 {
     const int direction = event->delta() > 0 ? m_scrollSpeed : -m_scrollSpeed;
 
-    UpdateSlider(m_sliderPosition.x() + direction);
+    updateSlider(m_sliderPosition.x() + direction);
 }
 
-void SimpleSlider::UpdateSlider(const float& currentMousePos)
+void SimpleSlider::updateSlider(const float& currentMousePos)
 {
-    SetSliderPosition(currentMousePos);
+    setSliderPosition(currentMousePos);
 
     //Send new data
-    UpdateParent(GetCurrentValue());
+    updateParent(getCurrentValue());
 }
 
-void SimpleSlider::SetSliderPosition(float val)
+void SimpleSlider::setSliderPosition(float val)
 {
     //Check if mouse inbetween leftMost & rightMost boundaries of slider
     if(m_minPoint > val)
@@ -139,9 +139,9 @@ FontSlider::~FontSlider()
 {
 }
 
-void FontSlider::UpdateParent(const float& val)
+void FontSlider::updateParent(const float& val)
 {
-    m_pParent->SetFontSize(val);
+    m_pParent->setFontSize(val);
 }
 
 
@@ -160,9 +160,9 @@ ZoomSlider::~ZoomSlider()
 {
 }
 
-void ZoomSlider::UpdateParent(const float& val)
+void ZoomSlider::updateParent(const float& val)
 {
-    m_pParent->SetZoomFactor(val, false);
+    m_pParent->setZoomFactor(val, false);
 }
 
 
@@ -181,9 +181,9 @@ GateSlider::~GateSlider()
     m_pParent = nullptr;
 }
 
-void GateSlider::UpdateParent(const float& val)
+void GateSlider::updateParent(const float& val)
 {
-    m_pParent->SetScrollPosition(val);
+    m_pParent->setScrollPosition(val);
 }
 
 
@@ -216,7 +216,7 @@ void VerticalSimpleSlider::paintEvent(QPaintEvent*)
     //Draw bar
     painter.drawLine(m_minDrawPoint, m_maxDrawPoint);
 
-    //Set slider colourSetZoomFactor
+    //Set slider coloursetZoomFactor
     pen.setColor(m_nubbleCol);
     painter.setPen(pen);
 
@@ -224,7 +224,7 @@ void VerticalSimpleSlider::paintEvent(QPaintEvent*)
     painter.drawLine(QPoint(m_minDrawPoint.x(), m_sliderPosition.y() + Settings::HalfSliderNubSize), QPoint(m_minDrawPoint.x(), m_sliderPosition.y() - Settings::HalfSliderNubSize));
 }
 
-void VerticalSimpleSlider::SetSliderPosition(float val)
+void VerticalSimpleSlider::setSliderPosition(float val)
 {
     //Check if mouse inbetween leftMost & rightMost boundaries of slider
     if(m_minPoint > val)
@@ -242,16 +242,16 @@ void VerticalSimpleSlider::SetSliderPosition(float val)
 void VerticalSimpleSlider::mousePressEvent(QMouseEvent *mouseEvent)
 {
     m_beingClicked = true;
-    UpdateSlider(mouseEvent->pos().y());
+    updateSlider(mouseEvent->pos().y());
 }
 
 void VerticalSimpleSlider::mouseMoveEvent(QMouseEvent *event)
 {
     if(m_beingClicked)
-        UpdateSlider(event->pos().y());
+        updateSlider(event->pos().y());
 }
 
-float VerticalSimpleSlider::GetCurrentValue() const
+float VerticalSimpleSlider::getCurrentValue() const
 {
     //Get how far slider is in terms of percentage from left
     float distanceFromTop = (m_sliderPosition.y() - m_minPoint);
@@ -261,13 +261,13 @@ float VerticalSimpleSlider::GetCurrentValue() const
     return m_min + (m_minMaxDiff * percentage);
 }
 
-void VerticalSimpleSlider::SetValue(const float& val)
+void VerticalSimpleSlider::setValue(const float& val)
 {
     //Calculate position from value
     const float lenghtPerUnit = m_length/m_minMaxDiff;
     const qreal distanceFromTop = val * lenghtPerUnit;
     float pos = m_minPoint + distanceFromTop;
 
-    SetSliderPosition(pos);
+    setSliderPosition(pos);
 }
 

@@ -17,10 +17,10 @@ public:
     ~DLG_TextEdit();
 
     //Called by slider
-    void SetFontSize(const int& size);
+    void setFontSize(const int& size);
 
 protected:
-    virtual void UpdateOverrideObject() = 0;
+    virtual void updateOverrideObject() = 0;
 
     QString m_savedString;
     QFont m_font;

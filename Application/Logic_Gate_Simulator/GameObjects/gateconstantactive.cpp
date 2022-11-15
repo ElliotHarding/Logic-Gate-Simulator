@@ -5,12 +5,12 @@ GateConstantActive::GateConstantActive(const int& x, const int& y, const id& out
 {
     m_pOutput->setValue(1);
 }
-void GateConstantActive::UpdateOutput()
+void GateConstantActive::updateOutput()
 {
     m_pOutput->setValue(1);
 }
 
-Gate *GateConstantActive::Clone()
+Gate *GateConstantActive::clone()
 {
     GateConstantActive* clone = new GateConstantActive(position().x(), position().y(), m_pOutput->id());
     Gate::baseClone(clone);

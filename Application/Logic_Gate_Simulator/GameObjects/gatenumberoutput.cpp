@@ -37,7 +37,7 @@ GateNumberOutput::GateNumberOutput(const int &x, const int &y, const id &inA, co
     m_nodes.push_back(m_pInputD);
 }
 
-void GateNumberOutput::UpdateOutput()
+void GateNumberOutput::updateOutput()
 {
     m_output =   m_pInputA->value() * 1
                + m_pInputB->value() * 2
@@ -55,7 +55,7 @@ void GateNumberOutput::draw(QPainter& painter)
     painter.drawText(textPosition, QString::number(m_output));
 }
 
-Gate *GateNumberOutput::Clone()
+Gate *GateNumberOutput::clone()
 {
     GateNumberOutput* clone = new GateNumberOutput(position().x(), position().y());
 

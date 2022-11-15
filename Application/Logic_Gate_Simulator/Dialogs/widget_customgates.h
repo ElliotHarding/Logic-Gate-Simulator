@@ -19,7 +19,7 @@ public:
     explicit Widget_CustomGates(DLG_Home* pParent, bool show = false, QPoint loc = QPoint(0,0));
     ~Widget_CustomGates();
 
-    void UpdateList();
+    void updateList();
 
 private slots:
     void on_btn_SelectionTool_clicked();

@@ -5,7 +5,7 @@ GateNor::GateNor(const int &x, const int &y, const id &inA, const id &inB, const
 {
 }
 
-void GateNor::UpdateOutput()
+void GateNor::updateOutput()
 {
     const bool newVal = !(m_pInputA->value() | m_pInputB->value());
 
@@ -13,7 +13,7 @@ void GateNor::UpdateOutput()
     m_pOutput->setValue(newVal);
 }
 
-Gate *GateNor::Clone()
+Gate *GateNor::clone()
 {
     GateNor* clone = new GateNor(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
     Gate::baseClone(clone);

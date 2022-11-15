@@ -59,10 +59,10 @@ bool GateReader::ReadGateField(const QString& fileName, GateField* pNewGateFeild
 
     for (Gate* pGate : gates)
     {
-        pGate->AssignNewNodeIds();
+        pGate->assignNewNodeIds();
     }
 
-    pNewGateFeild->AddGates(gates);
+    pNewGateFeild->addGates(gates);
 
     return true;
 }
@@ -100,7 +100,7 @@ bool GateReader::ReadGateCollection(const QString& filePath, GateCollection*& gC
     }
 
     gCollection = new GateCollection(readGates(gateCollectionGate));
-    gCollection->AssignNewNodeIds();
+    gCollection->assignNewNodeIds();
 
     gateCollectionFile.close();
 
@@ -416,17 +416,17 @@ void GateReader::linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>
         if(link.id != -1)
         {
             Node* node1;
-            if(SearchGatesForNode(gates, link.id, node1))
+            if(searchGatesForNode(gates, link.id, node1))
             {
                 for (const id& otherId : link.linkedIds)
                 {
                     if(otherId != -1)
                     {
                         Node* node2;
-                        if(SearchGatesForNode(gates, otherId, node2))
+                        if(searchGatesForNode(gates, otherId, node2))
                         {
-                            (node2)->LinkNode(node1);
-                            (node1)->LinkNode(node2);
+                            (node2)->linkNode(node1);
+                            (node1)->linkNode(node2);
                         }
                         else
                         {
@@ -443,11 +443,11 @@ void GateReader::linkNodes(std::vector<Gate*>& gates, const std::vector<NodeIds>
     }
 }
 
-bool GateReader::SearchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n)
+bool GateReader::searchGatesForNode(std::vector<Gate*>& gates, const id& _id, Node*& n)
 {
     for (Gate* gate : gates)
     {
-        if(gate->FindNodeWithId(_id, n))
+        if(gate->findNodeWithId(_id, n))
             return true;
     }
     return false;
@@ -467,7 +467,7 @@ bool Saver::saveGateField(GateField* pGateFeild, DLG_Home* pHome)
     }
 
     QDomDocument saveDoc(Settings::XMLElement);
-    pGateFeild->SaveData(saveDoc);
+    pGateFeild->saveData(saveDoc);
 
     QTextStream stream(&file);
     stream << saveDoc.toString();
@@ -490,7 +490,7 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
 
     QDomDocument saveDoc(Settings::XMLElement);
     QDomElement saveDocElement = saveDoc.createElement(Settings::GateCollectionElement);
-    pGateCollection->SaveData(saveDoc, saveDocElement);
+    pGateCollection->saveData(saveDoc, saveDocElement);
     saveDoc.appendChild(saveDocElement);
 
     QTextStream stream(&file);
@@ -498,7 +498,7 @@ bool Saver::saveGateCollection(GateCollection* pGateCollection, const QString& n
 
     file.close();
 
-    pHome->UpdateCustomGateListWidget();
+    pHome->updateCustomGateListWidget();
 
     return true;
 }

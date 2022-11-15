@@ -113,7 +113,7 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
         }
         else
         {
-            m_pHome->SendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
+            m_pHome->sendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
         }
     }
     else
@@ -121,13 +121,13 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
         GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
         if(Converter::booleanExpressionsToCircuit(expressions, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
         {
-            m_pHome->AddGateToGateField(pNewGateCollection);
+            m_pHome->addGateToGateField(pNewGateCollection);
             close();
         }
         else
         {
             delete pNewGateCollection;
-            m_pHome->SendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
+            m_pHome->sendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
         }
     }
 }
@@ -149,7 +149,7 @@ void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
     }
     else
     {
-        m_pHome->SendUserMessage("Failed to generate truth table! Check format of boolean expressions.");
+        m_pHome->sendUserMessage("Failed to generate truth table! Check format of boolean expressions.");
     }
 }
 
@@ -165,11 +165,11 @@ void DLG_BooleanExpressions::on_btn_simplify_clicked()
     if(Converter::simplifyBooleanExpressions(expressions, m_pHome->getCurrentConversionAlgorithm()) == ConverterResult::SUCCESS)
     {
         showExpressions(expressions);
-        m_pHome->SendUserMessage("Optimization complete.\n Check out alternative algorithms in settings.");
+        m_pHome->sendUserMessage("Optimization complete.\n Check out alternative algorithms in settings.");
     }
     else
     {
-        m_pHome->SendUserMessage("Failed to optimize expressions.\n Please check they are a valid format");
+        m_pHome->sendUserMessage("Failed to optimize expressions.\n Please check they are a valid format");
     }
 }
 

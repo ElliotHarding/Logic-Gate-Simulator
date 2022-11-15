@@ -17,15 +17,15 @@ class GateToggle : public GateSingleOutput
 public:
     GateToggle(const int& x = 0, const int& y = 0, const id& out = -1, const bool& powerState = false);
 
-    virtual void UpdateOutput() override;
-    virtual Gate* Clone() override;
+    virtual void updateOutput() override;
+    virtual Gate* clone() override;
 
-    void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
+    void saveData(QDomDocument& storage, QDomElement& parentElement) override;
 
     ///Power state
-    void SetPowerState(bool state) {m_pOutput->setValue(state);}
-    bool GetPowerState() {return m_pOutput->value();}
-    void ToggleOutputState();
+    void setPowerState(bool state) {m_pOutput->setValue(state);}
+    bool getPowerState() {return m_pOutput->value();}
+    void toggleOutputState();
 };
 
 #endif // GATEINPUTBOX_H

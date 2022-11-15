@@ -37,7 +37,7 @@ GateAnd::GateAnd(const GateType& type, const int &x, const int &y, const id &inA
     m_nodes.push_back(m_pOutput);
 }
 
-void GateAnd::UpdateOutput()
+void GateAnd::updateOutput()
 {
     //Perform AND operation on two input nodes
     const bool sum = m_pInputA->value() & m_pInputB->value();
@@ -46,7 +46,7 @@ void GateAnd::UpdateOutput()
     m_pOutput->setValue(sum);
 }
 
-Gate *GateAnd::Clone()
+Gate *GateAnd::clone()
 {
     GateAnd* clone = new GateAnd(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
     Gate::baseClone(clone);

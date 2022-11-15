@@ -48,7 +48,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
     }
 
     //Construction
-    InitalizeDialogsAndWidgets();
+    initalizeDialogsAndWidgets();
 
     //Connections
     {
@@ -77,14 +77,14 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
     }
 
     {
-        NewlySpawnedGateField(Settings::DefaultPageName);
+        newlySpawnedGateField(Settings::DefaultPageName);
     }
 
     pProgressBar->setValue(100);
     txtProgress->setText("Done!");
 }
 
-void DLG_Home::InitalizeDialogsAndWidgets()
+void DLG_Home::initalizeDialogsAndWidgets()
 {
     //Dialogs
     m_pDlgLoadGates = new QFileDialog(this);
@@ -116,7 +116,7 @@ void DLG_Home::InitalizeDialogsAndWidgets()
         delete ui->layout_ZoomSlider;
         m_pZoomSlider = new ZoomSlider(this, layout, c_minZoom, c_maxZoom, c_incZoom);
         m_pZoomSlider->raise();
-        SetZoomFactor(0.5);
+        setZoomFactor(0.5);
     }
 
     m_pDlgGateInfo->move(accountForUIOffsetts(ui->layout_Dlg_GateInfo->geometry()).topLeft());
@@ -153,26 +153,26 @@ DLG_Home::~DLG_Home()
     delete ui;
 }
 
-void DLG_Home::SendUserMessage(const QString& message)
+void DLG_Home::sendUserMessage(const QString& message)
 {
-    m_pDlgMessage->ShowMessage(message);
+    m_pDlgMessage->showMessage(message);
 }
 
 ///////////////////////
-/// \brief DLG_Home::NewlySpawnedGate
+/// \brief DLG_Home::newlySpawnedGate
 /// \param pGate gate to try drop onto GateField
 /// \param spawnPosition DLG_Home relative spawn position
 ///
-void DLG_Home::NewlySpawnedGate(Gate* pGate, const QPoint& spawnPosition)
+void DLG_Home::newlySpawnedGate(Gate* pGate, const QPoint& spawnPosition)
 {
     m_pSpawnedGateWidget->open(pGate, spawnPosition);
 }
 
 ///////////////////////////////////////////
-/// \brief DLG_Home::AddGateToGateField
+/// \brief DLG_Home::addGateToGateField
 /// \param pGate Gate to add to current gatefield (position relative to DLG_Home)
 ///
-void DLG_Home::AddGateToGateField(Gate* pGate)
+void DLG_Home::addGateToGateField(Gate* pGate)
 {
     if(pGate == nullptr)
         return;
@@ -180,7 +180,7 @@ void DLG_Home::AddGateToGateField(Gate* pGate)
     //Check for current gatefield
     if(m_iCurrentGateField == -1)
     {
-        NewlySpawnedGateField(Settings::DefaultPageName);
+        newlySpawnedGateField(Settings::DefaultPageName);
     }
 
     //Position of pGate currently is relative to DLG_Home
@@ -191,21 +191,21 @@ void DLG_Home::AddGateToGateField(Gate* pGate)
     //Check pGate is in bounds of current gatefield
     if(m_allGateFields[size_t(m_iCurrentGateField)]->geometry().contains(pGate->position()))
     {
-        m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pGate);
+        m_allGateFields[size_t(m_iCurrentGateField)]->addGate(pGate);
     }
     else
     {
-        SendUserMessage("Must place gate onto page!");
+        sendUserMessage("Must place gate onto page!");
         delete pGate;
     }
 }
 
-void DLG_Home::GateSelected(Gate* pGate)
+void DLG_Home::gateSelected(Gate* pGate)
 {
     m_pDlgGateInfo->setGate(pGate);
 }
 
-void DLG_Home::NewlySpawnedGateField(const QString& name)
+void DLG_Home::newlySpawnedGateField(const QString& name)
 {
     GateField* newGF = createNewGateField(name);
     m_allGateFields.push_back(newGF);
@@ -228,29 +228,29 @@ QRect DLG_Home::accountForUIOffsetts(const QRect& rect) const
 
 void DLG_Home::on_btn_Drag_clicked()
 {
-    SetCurrentClickMode(CLICK_DRAG);
+    setCurrentClickMode(CLICK_DRAG);
 }
 void DLG_Home::on_btn_Delete_clicked()
 {
-    SetCurrentClickMode(CLICK_DELETE_GATE);
+    setCurrentClickMode(CLICK_DELETE_GATE);
 }
 void DLG_Home::on_btn_DeleteLink_clicked()
 {
-    SetCurrentClickMode(CLICK_DELETE_LINK_NODES);
+    setCurrentClickMode(CLICK_DELETE_LINK_NODES);
 }
-void DLG_Home::SelectionToolClicked()
+void DLG_Home::selectionToolClicked()
 {
-    SetCurrentClickMode(CLICK_SELECTION);
+    setCurrentClickMode(CLICK_SELECTION);
 }
 void DLG_Home::on_btn_Pan_clicked()
 {
-    SetCurrentClickMode(CLICK_PAN);
+    setCurrentClickMode(CLICK_PAN);
 }
 void DLG_Home::on_btn_click_clicked()
 {
-    SetCurrentClickMode(CLICK_LINK_NODES);
+    setCurrentClickMode(CLICK_LINK_NODES);
 }
-void DLG_Home::SetCurrentClickMode(const ClickMode& clickMode)
+void DLG_Home::setCurrentClickMode(const ClickMode& clickMode)
 {
     m_currentClickMode = clickMode;
 
@@ -282,7 +282,7 @@ void DLG_Home::SetCurrentClickMode(const ClickMode& clickMode)
 
     default:
         QApplication::setOverrideCursor(Qt::CursorShape::ArrowCursor);
-        Logger::log(LL_Error, "DLG_Home::SetCurrentClickMode - Unknown click mode!");
+        Logger::log(LL_Error, "DLG_Home::setCurrentClickMode - Unknown click mode!");
         break;
     }
 }
@@ -294,7 +294,7 @@ void DLG_Home::saveCurrentClickMode()
 
 void DLG_Home::restorePreviousClickMode()
 {
-    SetCurrentClickMode(m_savedClickMode);
+    setCurrentClickMode(m_savedClickMode);
 }
 
 ClickMode DLG_Home::currentClickMode() const
@@ -316,16 +316,16 @@ void DLG_Home::requestRandomCircuitGen(const TruthTable& truthTable)
 {
     if(m_pRandomCircuitGenThread->isRunning())
     {
-        SendUserMessage("Already generating!");
+        sendUserMessage("Already generating!");
         return;
     }
 
     m_pRandomCircuitGenThread->start(truthTable, getCircuitGenOptions());
 }
 
-void DLG_Home::EditTextLabel(TextLabel* pTextLabelToEdit)
+void DLG_Home::editTextLabel(TextLabel* pTextLabelToEdit)
 {
-    m_pDlgTextLabelEdit->EditTextLabel(pTextLabelToEdit);
+    m_pDlgTextLabelEdit->editTextLabel(pTextLabelToEdit);
 }
 
 void DLG_Home::editFPGA(GateFPGA* pFPGA)
@@ -370,9 +370,9 @@ void DLG_Home::moveEvent(QMoveEvent* event)
     m_pSpawnedGateWidget->setGeometry(geometry());
 }
 
-void DLG_Home::UpdateCustomGateListWidget()
+void DLG_Home::updateCustomGateListWidget()
 {
-    m_pWidgetCustomGates->UpdateList();
+    m_pWidgetCustomGates->updateList();
 }
 
 // -- HANDLERS FOR GATES MENU BUTTONS --
@@ -391,25 +391,25 @@ void DLG_Home::on_comboBox_currentIndexChanged(int index)
     switch (index)
     {
         case ALL_GATES:
-            SwitchNewlySpawnedGatesWidget(m_pWidgetAllGates);
+            switchNewlySpawnedGatesWidget(m_pWidgetAllGates);
             break;
         case CUSTOM_GATES:
-            SwitchNewlySpawnedGatesWidget(m_pWidgetCustomGates);
-            m_pWidgetCustomGates->UpdateList();
+            switchNewlySpawnedGatesWidget(m_pWidgetCustomGates);
+            m_pWidgetCustomGates->updateList();
             break;
         case INPUT_GATES:
-            SwitchNewlySpawnedGatesWidget(m_pWidgetInputGates);
+            switchNewlySpawnedGatesWidget(m_pWidgetInputGates);
             break;
         case STANDARD_GATES:
-            SwitchNewlySpawnedGatesWidget(m_pWidgetStandardGates);
+            switchNewlySpawnedGatesWidget(m_pWidgetStandardGates);
             break;
         case ADVANCED_GATES:
-            SwitchNewlySpawnedGatesWidget(m_pWidgetAdvancedGates);
+            switchNewlySpawnedGatesWidget(m_pWidgetAdvancedGates);
             break;
     }
 }
 
-void DLG_Home::SwitchNewlySpawnedGatesWidget(MovingWidget* newWidgetToShow)
+void DLG_Home::switchNewlySpawnedGatesWidget(MovingWidget* newWidgetToShow)
 {
     if(m_pCurrentShownGateWidget && newWidgetToShow != m_pCurrentShownGateWidget)
     {
@@ -424,16 +424,16 @@ void DLG_Home::SwitchNewlySpawnedGatesWidget(MovingWidget* newWidgetToShow)
 
 void DLG_Home::on_btn_zoomIn_clicked()
 {  
-    SetZoomFactor(m_zoomFactor + c_incZoom);
+    setZoomFactor(m_zoomFactor + c_incZoom);
 }
 void DLG_Home::on_btn_zoomOut_clicked()
 {
-    SetZoomFactor(m_zoomFactor - c_incZoom);
+    setZoomFactor(m_zoomFactor - c_incZoom);
 }
 
 //Function works for local call & external call
 //Returns false if zoom value did not change, or a range limit is reached
-bool DLG_Home::SetZoomFactor(const qreal& zoomFactor, const bool& updateSlider)
+bool DLG_Home::setZoomFactor(const qreal& zoomFactor, const bool& updateSlider)
 {
     if (m_zoomFactor != zoomFactor)
     {
@@ -450,10 +450,10 @@ bool DLG_Home::SetZoomFactor(const qreal& zoomFactor, const bool& updateSlider)
         }
 
         if(updateSlider)
-            m_pZoomSlider->SetValue(m_zoomFactor);
+            m_pZoomSlider->setValue(m_zoomFactor);
 
         if(m_iCurrentGateField != -1)
-            m_allGateFields[size_t(m_iCurrentGateField)]->SetZoomLevel(m_zoomFactor);
+            m_allGateFields[size_t(m_iCurrentGateField)]->setZoomLevel(m_zoomFactor);
 
         m_pSpawnedGateWidget->setZoomFactor(m_zoomFactor);
 
@@ -466,12 +466,12 @@ bool DLG_Home::SetZoomFactor(const qreal& zoomFactor, const bool& updateSlider)
 void DLG_Home::on_btn_undo_clicked()
 {
     if(m_iCurrentGateField != -1)
-        m_allGateFields[size_t(m_iCurrentGateField)]->Undo();
+        m_allGateFields[size_t(m_iCurrentGateField)]->undo();
 }
 void DLG_Home::on_btn_redo_clicked()
 {
     if(m_iCurrentGateField != -1)
-        m_allGateFields[size_t(m_iCurrentGateField)]->Redo();
+        m_allGateFields[size_t(m_iCurrentGateField)]->redo();
 }
 
 void DLG_Home::on_btn_createScript_clicked()
@@ -502,11 +502,11 @@ void DLG_Home::on_btn_newPage_clicked()
     {
         if(newPageName.length() > 0)
         {
-            NewlySpawnedGateField(newPageName);
+            newlySpawnedGateField(newPageName);
         }
         else
         {
-            m_pDlgMessage->ShowMessage(newPageName + "Is not a valid file name!");
+            m_pDlgMessage->showMessage(newPageName + "Is not a valid file name!");
         }
     }
 }
@@ -519,7 +519,7 @@ void DLG_Home::on_btn_setPageName_clicked()
     }
     else
     {
-        SendUserMessage("Nothing to set a name of!");
+        sendUserMessage("Nothing to set a name of!");
     }
 }
 
@@ -531,7 +531,7 @@ void DLG_Home::on_btn_Save_clicked()
     }
     else
     {
-        SendUserMessage("Nothing to save!");
+        sendUserMessage("Nothing to save!");
     }
 }
 
@@ -553,7 +553,7 @@ void DLG_Home::on_btn_load_clicked()
         }
         else
         {
-            m_pDlgMessage->ShowMessage(errorMessage);
+            m_pDlgMessage->showMessage(errorMessage);
         }
     }
 }
@@ -596,13 +596,13 @@ void DLG_Home::onRandomCircuitGenSuccess(GateCollection* pNewCircuit)
     //Check for current gatefield
     if(m_iCurrentGateField == -1)
     {
-        NewlySpawnedGateField(Settings::DefaultPageName);
+        newlySpawnedGateField(Settings::DefaultPageName);
     }
 
     QPoint centerField = m_allGateFields[size_t(m_iCurrentGateField)]->geometry().center();
     pNewCircuit->setPosition(centerField.x(), centerField.y());
 
-    m_allGateFields[size_t(m_iCurrentGateField)]->AddGate(pNewCircuit);
+    m_allGateFields[size_t(m_iCurrentGateField)]->addGate(pNewCircuit);
 
     //One of these guys requested the circuit gen
     m_pDlgEditScript->close();
@@ -612,5 +612,5 @@ void DLG_Home::onRandomCircuitGenSuccess(GateCollection* pNewCircuit)
 
 void DLG_Home::onRandomCircuitGenFailure(const QString& failMessage)
 {
-    SendUserMessage(failMessage);
+    sendUserMessage(failMessage);
 }

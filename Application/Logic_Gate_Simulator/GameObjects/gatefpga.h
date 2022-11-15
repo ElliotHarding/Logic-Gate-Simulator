@@ -19,9 +19,9 @@ public:
 
     ///Gate class functions
     virtual void draw(QPainter& painter) override;
-    virtual void UpdateOutput() override;
-    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
-    virtual Gate* Clone() override;
+    virtual void updateOutput() override;
+    virtual void saveData(QDomDocument& storage, QDomElement& parentElement) override;
+    virtual Gate* clone() override;
 
     ///FPGA specific functions
     void setInputs(const uint& numInputs);

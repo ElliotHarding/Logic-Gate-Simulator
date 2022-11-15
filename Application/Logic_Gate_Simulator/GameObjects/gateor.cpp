@@ -37,7 +37,7 @@ GateOr::GateOr(const GateType& type, const int &x, const int &y, const id &inA, 
     m_nodes.push_back(m_pOutput);
 }
 
-void GateOr::UpdateOutput()
+void GateOr::updateOutput()
 {
     const bool newVal = m_pInputA->value() | m_pInputB->value();
 
@@ -45,7 +45,7 @@ void GateOr::UpdateOutput()
     m_pOutput->setValue(newVal);
 }
 
-Gate* GateOr::Clone()
+Gate* GateOr::clone()
 {
     GateOr* clone = new GateOr(position().x(), position().y(), m_pInputA->id(), m_pInputB->id(), m_pOutput->id());
     Gate::baseClone(clone);

@@ -18,7 +18,7 @@ bool allUnlinkedNodesFromSameGate(const std::vector<Node*>& circuitOutsUnlinked,
     {
         for(uint j = 0; j < circuitInsUnlinked.size(); j++)
         {
-            if(circuitOutsUnlinked[i]->GetParent() != circuitInsUnlinked[j]->GetParent())
+            if(circuitOutsUnlinked[i]->getParent() != circuitInsUnlinked[j]->getParent())
             {
                 return false;
             }
@@ -97,15 +97,15 @@ bool createRandomCircuit(Circuit& circuit, const uint& percentageNewGate, const 
                 const int randomUnlinkedOut = QRandomGenerator::global()->generateDouble() * circuitOutsUnlinked.size();
                 const int randomUnlinkedIn = QRandomGenerator::global()->generateDouble() * circuitInsUnlinked.size();
 
-                if(circuitOutsUnlinked[randomUnlinkedOut]->GetParent() == circuitInsUnlinked[randomUnlinkedIn]->GetParent())
+                if(circuitOutsUnlinked[randomUnlinkedOut]->getParent() == circuitInsUnlinked[randomUnlinkedIn]->getParent())
                 {
                     if(allUnlinkedNodesFromSameGate(circuitOutsUnlinked, circuitInsUnlinked))
                         return false;
                     continue;
                 }
 
-                circuitOutsUnlinked[randomUnlinkedOut]->LinkNode(circuitInsUnlinked[randomUnlinkedIn]);
-                circuitInsUnlinked[randomUnlinkedIn]->LinkNode(circuitOutsUnlinked[randomUnlinkedOut]);
+                circuitOutsUnlinked[randomUnlinkedOut]->linkNode(circuitInsUnlinked[randomUnlinkedIn]);
+                circuitInsUnlinked[randomUnlinkedIn]->linkNode(circuitOutsUnlinked[randomUnlinkedOut]);
                 circuitOutsUnlinked.erase(circuitOutsUnlinked.begin() + randomUnlinkedOut);
                 circuitInsUnlinked.erase(circuitInsUnlinked.begin() + randomUnlinkedIn);
 
@@ -132,7 +132,7 @@ bool testCircuitAgainstTruthTable(Circuit& circuit, TruthTable& truthTable)
             //   Can't confirm that all letters are there...
             uint iInput = inputGate.first - Settings::StartAlphabet;
 
-            inputGate.second->SetPowerState(truthTable.inValues[iTableRun][iInput]);
+            inputGate.second->setPowerState(truthTable.inValues[iTableRun][iInput]);
         }
 
         //Update
@@ -141,7 +141,7 @@ bool testCircuitAgainstTruthTable(Circuit& circuit, TruthTable& truthTable)
         {
             for(Gate* pGate : circuit.mainGates)
             {
-                pGate->UpdateOutput();
+                pGate->updateOutput();
             }
         }
 

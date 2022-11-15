@@ -12,7 +12,7 @@ public:
 
     void setDeleteAll();
 
-    virtual void UpdateOutput() override;
+    virtual void updateOutput() override;
     virtual void draw(QPainter& painter) override;
 
     ///Position
@@ -23,27 +23,27 @@ public:
 
     ///Node information
     virtual Node* checkClickedNodes(const QPoint& mouse) override;
-    virtual bool FindNodeWithId(const id& id, Node*& pNode) override;
-    virtual void AssignNewNodeIds() override;
+    virtual bool findNodeWithId(const id& id, Node*& pNode) override;
+    virtual void assignNewNodeIds() override;
     virtual void collectLinkInfo(std::vector<NodeIds>& collection) override;
 
-    virtual void SetParent(GateField* gf) override;
+    virtual void setParent(GateField* gf) override;
 
-    virtual void SaveData(QDomDocument& storage, QDomElement& parentElement) override;
+    virtual void saveData(QDomDocument& storage, QDomElement& parentElement) override;
 
-    virtual Gate* Clone() override;
+    virtual Gate* clone() override;
 
     TextLabel* findTextLabelWithId(int id);
     void switchAttachedLabels(std::vector<Gate*> gates) override;
 
     ///Drag mode
-    void ToggleDragMode();
+    void toggleDragMode();
 
     ///Gate adding and removing
-    void AddGate(Gate* g);
-    void ForgetGate(Gate* g);
+    void addGate(Gate* g);
+    void forgetGate(Gate* g);
 
-    void UpdateContaningArea();
+    void updateContaningArea();
 
     bool generateTruthTable(TruthTable& table);
 

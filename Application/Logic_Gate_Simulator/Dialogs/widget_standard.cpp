@@ -20,7 +20,7 @@ void Widget_Standard::on_btn_orGate_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_orGate->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateOr(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateOr(), spawnPoint);
     }
 }
 void Widget_Standard::on_btn_notGate_clicked()
@@ -28,7 +28,7 @@ void Widget_Standard::on_btn_notGate_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_notGate->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateNot(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateNot(), spawnPoint);
     }
 }
 void Widget_Standard::on_btn_andGate_clicked()
@@ -36,7 +36,7 @@ void Widget_Standard::on_btn_andGate_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_andGate->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateAnd(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateAnd(), spawnPoint);
     }
 }
 void Widget_Standard::on_btn_GateTriOr_clicked()
@@ -44,7 +44,7 @@ void Widget_Standard::on_btn_GateTriOr_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_GateTriOr->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateTriOr(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateTriOr(), spawnPoint);
     }
 }
 void Widget_Standard::on_btn_GateTriAnd_clicked()
@@ -52,7 +52,7 @@ void Widget_Standard::on_btn_GateTriAnd_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_GateTriAnd->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateTriAnd(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateTriAnd(), spawnPoint);
     }
 }
 
@@ -61,7 +61,7 @@ void Widget_Standard::on_btn_GateEor_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_GateEor->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateEor(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateEor(), spawnPoint);
     }
 }
 
@@ -70,6 +70,6 @@ void Widget_Standard::on_btn_GateTriEor_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_GateTriEor->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateTriEor(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateTriEor(), spawnPoint);
     }
 }

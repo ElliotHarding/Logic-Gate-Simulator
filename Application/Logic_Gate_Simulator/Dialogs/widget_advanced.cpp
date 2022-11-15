@@ -23,7 +23,7 @@ void Widget_Advanced::on_btn_numberOutputGate_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_numberOutputGate->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateNumberOutput(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateNumberOutput(), spawnPoint);
     }
 }
 void Widget_Advanced::on_btn_recieverGate_clicked()
@@ -31,7 +31,7 @@ void Widget_Advanced::on_btn_recieverGate_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_recieverGate->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateReciever(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateReciever(), spawnPoint);
     }
 }
 
@@ -40,7 +40,7 @@ void Widget_Advanced::on_btn_fpgaGate_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_fpgaGate->geometry().center());
-        m_pParent->NewlySpawnedGate(new GateFPGA(), spawnPoint);
+        m_pParent->newlySpawnedGate(new GateFPGA(), spawnPoint);
     }
 }
 
@@ -49,6 +49,6 @@ void Widget_Advanced::on_btn_labelGate_clicked()
     if(m_pParent)
     {
         const QPoint spawnPoint = spawnPosition(ui->btn_labelGate->geometry().center());
-        m_pParent->NewlySpawnedGate(new TextLabel(), spawnPoint);
+        m_pParent->newlySpawnedGate(new TextLabel(), spawnPoint);
     }
 }

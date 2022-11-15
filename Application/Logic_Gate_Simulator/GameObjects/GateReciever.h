@@ -15,7 +15,7 @@ public:
     virtual Gate* clone() override;
     virtual void draw(QPainter& painter) override;
 
-    bool GetValue(){return m_pInput->value();}
+    bool getValue(){return m_pInput->value();}
 
 private:
     Node* m_pInput;

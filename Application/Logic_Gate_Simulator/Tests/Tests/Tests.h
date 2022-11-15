@@ -2,8 +2,6 @@
 #define TESTS_H
 
 #include <QtTest>
-//#include <QtXml/QDomDocument>
-#include "dlg_home.h"
 #include "allgates.h"
 
 class Tests : public QObject
@@ -12,21 +10,10 @@ class Tests : public QObject
 
 public:
 
-    /*
-    class Test_GateCollection : public GateCollection
-    {
-    public:
-        Test_GateCollection(std::vector<Gate*> gates) : GateCollection(gates) {}
-        std::vector<Gate*> GetGates()
-        {
-            return m_gates;
-        }
-    };*/
-
 private slots:
     //Gate tests
     void test_andGate();
-    /*void test_orGate();
+    void test_orGate();
     void test_notGate();
     void test_eorGate();
     void test_xorGate();
@@ -36,6 +23,7 @@ private slots:
     void test_triOrGate();
     void test_triEorGate();
 
+    /*
     //Link tests
     void test_nodeLink();
     void test_circuit();

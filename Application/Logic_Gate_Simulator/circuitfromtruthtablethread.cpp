@@ -152,7 +152,7 @@ bool testCircuitAgainstTruthTable(Circuit& circuit, TruthTable& truthTable)
             //   Can't confirm that all letters are there...
             uint iOutput = Settings::EndAlphabet - outputGate.first;
 
-            if(outputGate.second->GetValue() != truthTable.outValues[iTableRun][iOutput])
+            if(outputGate.second->getValue() != truthTable.outValues[iTableRun][iOutput])
             {
                 return false;
             }

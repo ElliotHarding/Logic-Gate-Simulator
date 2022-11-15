@@ -180,7 +180,7 @@ bool GateCollection::generateTruthTable(TruthTable& table)
         std::vector<bool> outputValues;
         for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
         {
-            outputValues.push_back(resultGates[iOutput]->GetValue());
+            outputValues.push_back(resultGates[iOutput]->getValue());
         }
         table.outValues.push_back(outputValues);
     }

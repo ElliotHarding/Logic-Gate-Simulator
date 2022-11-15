@@ -301,6 +301,45 @@ void Tests::test_timerGate()
     QCOMPARE(changed2, true);
 }
 
+void Tests::test_fpga()
+{
+    GateFPGA fpga;
+    fpga.setInputs(3);
+    fpga.setOutputs(3);
+
+    QCOMPARE(fpga.getOutputNodes().size(), 3);
+    QCOMPARE(fpga.getInputNodes().size(), 3);
+
+
+    fpga.setScript("var output1 = true, output2 = false, output3 = true, output4 = true, output5 = true;");
+    fpga.updateOutput();
+    QCOMPARE(fpga.getOutputNodes()[0]->value(), true);
+    QCOMPARE(fpga.getOutputNodes()[1]->value(), false);
+    QCOMPARE(fpga.getOutputNodes()[2]->value(), true);
+
+
+    fpga.setScript("var output1 = input1 & input2; var output2 = input1 | input2; var output3 = input1 & input3;");
+    fpga.getInputNodes()[0]->setValue(true);
+    fpga.getInputNodes()[1]->setValue(false);
+    fpga.getInputNodes()[2]->setValue(true);
+    fpga.updateOutput();
+    QCOMPARE(fpga.getOutputNodes()[0]->value(), false);
+    QCOMPARE(fpga.getOutputNodes()[1]->value(), true);
+    QCOMPARE(fpga.getOutputNodes()[2]->value(), true);
+
+    fpga.setScript("");
+    fpga.getInputNodes()[0]->setValue(true);
+    fpga.getInputNodes()[1]->setValue(false);
+    fpga.getInputNodes()[2]->setValue(true);
+    fpga.updateOutput();
+    QCOMPARE(fpga.getOutputNodes()[0]->value(), false);
+    QCOMPARE(fpga.getOutputNodes()[0]->value(), false);
+    QCOMPARE(fpga.getOutputNodes()[0]->value(), false);
+
+    //Todo : extend test
+
+}
+
 
 void Tests::test_nodeLink()
 {

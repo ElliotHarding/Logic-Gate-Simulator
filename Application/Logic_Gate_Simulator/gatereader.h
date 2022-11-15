@@ -3,13 +3,7 @@
 
 #include <QString>
 #include <vector>
-
-class Gate;
-class Node;
-class GateCollection;
-class GateField;
-class TextLabel;
-struct NodeIds;
+#include "gatecollection.h"
 
 class QDomElement;
 

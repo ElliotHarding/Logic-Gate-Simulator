@@ -1,5 +1,6 @@
 bagvp = aSmellyDog69_
 
+Output/toggle gate's node is offset
 
 Check m_previousDragMousePos
 Check mousePressEvent if(m_pLinkingNode)

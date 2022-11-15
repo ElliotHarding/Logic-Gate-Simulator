@@ -1,9 +1,5 @@
 #include "gatefield.h"
 #include "dlg_home.h"
-#include "gate.h"
-#include "GateToggle.h"
-#include "GateTimer.h"
-#include "gatecollection.h"
 
 #include <QApplication>
 

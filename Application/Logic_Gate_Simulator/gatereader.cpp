@@ -1,6 +1,5 @@
 #include "gatereader.h"
 #include "dlg_home.h"
-#include "gatefield.h"
 #include "allgates.h"
 #include "logger.h"
 

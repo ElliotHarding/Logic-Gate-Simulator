@@ -9,7 +9,7 @@
 #include <QTimer>
 #include <QDomDocument>
 
-#include "clickmode.h"
+#include "gatecollection.h"
 
 namespace Settings
 {
@@ -18,13 +18,6 @@ const QString GateFieldFrequencyTag = "Frequency";
 }
 
 class DLG_Home;
-class TextLabel;
-class GateFPGA;
-class Gate;
-class GateCollection;
-class Node;
-struct TruthTable;
-struct BooleanExpression;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /// GateFieldHistory

@@ -1,8 +1,7 @@
 #include "widget_customgates.h"
 #include "ui_widget_customgates.h"
 #include "dlg_home.h"
-#include "dlg_message.h"
-#include "GameObjects/gatecollection.h"
+#include "gatecollection.h"
 
 namespace Settings
 {

@@ -2,19 +2,15 @@
 #define DLG_EditScript_H
 
 #include <QDialog>
+#include <QFile>
+#include <QFileDialog>
+#include "gatefpga.h"
 
 namespace Ui {
 class DLG_EditScript;
 }
 
 class DLG_Home;
-
-class Gate;
-class GateFPGA;
-class GateCollection;
-
-class QFile;
-class QFileDialog;
 
 //////////////////////////////////////////////////////////////////////////
 ///DLG_EditScript

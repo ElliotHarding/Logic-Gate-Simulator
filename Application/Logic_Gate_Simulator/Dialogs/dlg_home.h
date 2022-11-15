@@ -10,6 +10,8 @@
 
 #include "clickmode.h"
 #include "gatereader.h"
+#include "logger.h"
+#include "circuitfromtruthtablethread.h"
 
 #include "simpleslider.h"
 #include "dlg_savegatecollection.h"
@@ -26,20 +28,15 @@
 #include "widget_customgates.h"
 #include "widget_inputgates.h"
 #include "widget_standard.h"
-
 #include "widget_spawnedgate.h"
 
-#include "logger.h"
+#include "textlabel.h"
 
 class QMouseEvent;
 
 namespace Ui {
 class DLG_Home;
 }
-
-class TextLabel;
-class DLG_LabelGateEdit; //Todo : move to own files
-class RandomCircuitGenThread;
 
 class DLG_Home : public QMainWindow
 {

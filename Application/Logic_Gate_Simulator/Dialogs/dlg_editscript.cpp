@@ -2,13 +2,11 @@
 #include "ui_dlg_editscript.h"
 
 #include "dlg_home.h"
-#include "GameObjects/gatefpga.h"
 #include "gatecollection.h"
 #include "gatefield.h"
 #include "truthtable.h"
 #include "converter.h"
 
-#include <QFile>
 #include <QTextStream>
 
 namespace Settings

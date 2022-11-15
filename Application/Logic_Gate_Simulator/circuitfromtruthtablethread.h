@@ -6,10 +6,6 @@
 
 #include <QThread>
 
-class Circuit;
-class GateCollection;
-struct CircuitOptions;
-
 //////////////////////////////////////////////////////////////////////////
 ///RandomCircuitGenThread
 /// This is using the random method! For more see Converter

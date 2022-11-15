@@ -1,9 +1,4 @@
 #include "circuit.h"
-
-#include "gate.h"
-#include "GateToggle.h"
-#include "GateReciever.h"
-#include "gatecollection.h"
 #include "textlabel.h"
 
 namespace Settings

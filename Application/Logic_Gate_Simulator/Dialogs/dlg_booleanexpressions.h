@@ -4,16 +4,16 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QLabel>
+#include <QListWidgetItem>
+
+#include "booleanexpression.h"
 
 namespace Ui {
 class DLG_BooleanExpressions;
 }
 
 class BooleanExpressionDisplay;
-class QListWidgetItem;
 class DLG_Home;
-class GateCollection;
-struct BooleanExpression;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /// \brief The DLG_BooleanExpressions class

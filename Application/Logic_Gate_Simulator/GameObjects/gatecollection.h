@@ -2,8 +2,7 @@
 #define GATECOLLECTION_H
 
 #include "gate.h"
-
-struct TruthTable;
+#include "truthtable.h"
 
 class GateCollection : public Gate
 {
@@ -35,7 +34,7 @@ public:
     virtual Gate* Clone() override;
 
     TextLabel* findTextLabelWithId(int id);
-    void switchAttachedLabels(std::vector<Gate*> gates);
+    void switchAttachedLabels(std::vector<Gate*> gates) override;
 
     ///Drag mode
     void ToggleDragMode();

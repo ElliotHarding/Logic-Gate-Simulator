@@ -1,7 +1,6 @@
 #include "widget_spawnedgate.h"
 
 #include "dlg_home.h"
-#include "gate.h"
 
 namespace Settings
 {

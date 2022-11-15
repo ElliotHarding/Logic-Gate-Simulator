@@ -2,7 +2,6 @@
 #include "ui_dlg_home.h"
 #include "allgates.h"
 #include "gatefield.h"
-#include "circuitfromtruthtablethread.h"
 
 #include <QLayout>
 #include <QLibrary>

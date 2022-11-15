@@ -1,17 +1,16 @@
 #ifndef DLG_TRUTHTABLE_H
 #define DLG_TRUTHTABLE_H
 
-#include "truthtable.h"
-
 #include <QDialog>
 #include <QLabel>
+
+#include "truthtable.h"
 
 namespace Ui {
 class DLG_TruthTable;
 }
 
 class DLG_Home;
-class GateCollection;
 class OutputLabel;
 
 class DLG_TruthTable : public QDialog

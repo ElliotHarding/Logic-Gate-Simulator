@@ -2,8 +2,6 @@
 #include "allgates.h"
 #include "gatefield.h"
 
-#include "truthtable.h"
-
 #include <cmath>
 
 namespace Settings

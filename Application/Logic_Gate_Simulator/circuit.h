@@ -3,11 +3,9 @@
 
 #include <vector>
 #include <map>
-
-class Gate;
-class GateCollection;
-class GateToggle;
-class GateReciever;
+#include "gatecollection.h"
+#include "GateToggle.h"
+#include "GateReciever.h"
 
 //////////////////////////////////////////////////////////////////////////
 ///Circuit

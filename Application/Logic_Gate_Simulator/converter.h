@@ -1,10 +1,8 @@
 #ifndef CONVERTER_H
 #define CONVERTER_H
 
-#include "truthtable.h"
+#include "gatecollection.h"
 #include "booleanexpression.h"
-
-class GateCollection;
 
 enum ConverterResult
 {

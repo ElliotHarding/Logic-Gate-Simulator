@@ -1,6 +1,5 @@
 #include "dlg_gateinfo.h"
 #include "ui_dlg_gateinfo.h"
-#include "gatefield.h"
 #include "allgates.h"
 #include "dlg_home.h"
 #include "converter.h"

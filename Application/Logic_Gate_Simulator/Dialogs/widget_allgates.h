@@ -6,9 +6,8 @@
 namespace Ui {
 class Widget_AllGates;
 }
-
 class DLG_Home;
-class GateSlider;
+
 class Widget_AllGates : public MovingWidget
 {
     Q_OBJECT

@@ -3,13 +3,11 @@
 #include "dlg_home.h"
 
 #include "truthtable.h"
-#include "booleanexpression.h"
-#include "gatecollection.h"
 #include "converter.h"
+#include "gatecollection.h"
 
 #include <QPainter>
 #include <QMouseEvent>
-#include <QListWidgetItem>
 #include <cmath>
 
 namespace Settings

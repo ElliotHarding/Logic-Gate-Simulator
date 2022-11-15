@@ -3,13 +3,13 @@
 
 #include <QWidget>
 
+#include "gatefield.h"
+
 //Forward declerations
 namespace Ui {
 class DLG_GateInfo;
 }
 class DLG_Home;
-class Gate;
-class GateField;
 
 class DLG_GateInfo : public QWidget
 {

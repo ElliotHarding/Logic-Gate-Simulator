@@ -2,9 +2,9 @@
 #define WIDGET_SPAWNEDGATE_H
 
 #include <QDialog>
+#include "gate.h"
 
 class DLG_Home;
-class Gate;
 
 //This is actaully a dialog not a widget... could rename...
 class Widget_SpawnedGate : public QDialog

@@ -2,7 +2,6 @@
 #define WIDGET_CUSTOMGATES_H
 
 #include "movingwidget.h"
-#include "vector"
 #include "gatereader.h"
 
 #include <QListWidgetItem>

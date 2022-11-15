@@ -1,10 +1,5 @@
 bagvp = aSmellyDog69_
 
-Check m_previousDragMousePos
-
-Check delete show truthtable from gatefield.
-same for showBooleanExpressions
-
 do we need offsetGates if we pan painter?
 
 

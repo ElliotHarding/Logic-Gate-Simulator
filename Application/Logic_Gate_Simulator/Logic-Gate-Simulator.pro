@@ -50,6 +50,7 @@ SOURCES += \
     circuit.cpp \
     circuitfromtruthtablethread.cpp \
     converter.cpp \
+    logger.cpp \
     main.cpp \
     gatefield.cpp \
     gatereader.cpp \
@@ -132,6 +133,7 @@ HEADERS += \
     Dialogs/movingwidget.h \
     GameObjects/gatetrior.h \
     GameObjects/gatenumberoutput.h \
+    logger.h \
     truthtable.h
 
 FORMS += \

@@ -241,7 +241,7 @@ void Tests::test_triEorGate()
     QCOMPARE(outputNodes[0]->value(), false);
 }
 
-void Tests::test_toggleGate()
+void Tests::test_outputGates()
 {
     GateToggle toggleGate;
 
@@ -254,6 +254,50 @@ void Tests::test_toggleGate()
     toggleGate.setPowerState(false);
     QCOMPARE(pOutNode->value(), false);
     QCOMPARE(toggleGate.getPowerState(), false);
+
+    GateConstantActive activeGate;
+    QCOMPARE(activeGate.getOutputNodes()[0]->value(), true);
+
+    GateConstantInactive inactiveGate;
+    QCOMPARE(inactiveGate.getOutputNodes()[0]->value(), false);
+
+    //Timer gate has its own test
+}
+
+void Tests::test_timerGate()
+{
+    GateTimer timerGate;
+    QThread* pThread = new QThread();
+    timerGate.moveToThread(pThread);
+    timerGate.setFrequency(200);
+    QCOMPARE(timerGate.getFrequency(), 200);
+
+    Node* pOutNode = timerGate.getOutputNodes()[0];
+    pOutNode->setValue(false);
+    QCOMPARE(pOutNode->value(), false);
+
+    bool state = false;
+    bool changed1 = false;
+    bool changed2 = false;
+    for(uint i = 0; i < 5; i++)
+    {
+        QThread::msleep(200);
+        if(state != pOutNode->value())
+        {
+            state = pOutNode->value();
+            if(!changed1)
+            {
+                changed1 = true;
+            }
+            else
+            {
+                changed2 = true;
+            }
+        }
+    }
+
+    QCOMPARE(changed1, true);
+    QCOMPARE(changed2, true);
 }
 
 /*

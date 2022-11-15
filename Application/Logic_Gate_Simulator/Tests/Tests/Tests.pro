@@ -34,7 +34,6 @@ SOURCES += \
     ../../circuitfromtruthtablethread.cpp \
     ../../converter.cpp \
     ../../logger.cpp \
-    ../../main.cpp \
     ../../gatefield.cpp \
     ../../gatereader.cpp \
     ../../Dialogs/dlg_home.cpp \

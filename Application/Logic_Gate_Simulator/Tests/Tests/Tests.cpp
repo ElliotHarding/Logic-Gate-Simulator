@@ -241,6 +241,21 @@ void Tests::test_triEorGate()
     QCOMPARE(outputNodes[0]->value(), false);
 }
 
+void Tests::test_toggleGate()
+{
+    GateToggle toggleGate;
+
+    Node* pOutNode = toggleGate.getOutputNodes()[0];
+
+    toggleGate.setPowerState(true);
+    QCOMPARE(pOutNode->value(), true);
+    QCOMPARE(toggleGate.getPowerState(), true);
+
+    toggleGate.setPowerState(false);
+    QCOMPARE(pOutNode->value(), false);
+    QCOMPARE(toggleGate.getPowerState(), false);
+}
+
 /*
 void Tests::test_nodeLink()
 {

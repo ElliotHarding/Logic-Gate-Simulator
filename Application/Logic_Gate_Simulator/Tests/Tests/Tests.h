@@ -22,6 +22,7 @@ private slots:
     void test_triAndGate();
     void test_triOrGate();
     void test_triEorGate();
+    void test_toggleGate();
 
     /*
     //Link tests

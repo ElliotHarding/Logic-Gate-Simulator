@@ -1,5 +1,5 @@
 QT += testlib
-QT += widgets
+QT += widgets xml script
 #QT -= gui
 
 CONFIG += qt console warn_on depend_includepath testcase
@@ -13,15 +13,15 @@ INCLUDEPATH += "../../Dialogs"
 INCLUDEPATH += "../../GameObjects"
 
 SOURCES += \
-    ../../Dialogs/dlg_circuittaskdesigner.cpp \
-    ../../Dialogs/dlg_circuittaskdesignersetup.cpp \
+    ../../Dialogs/dlg_booleanexpressions.cpp \
+    ../../Dialogs/dlg_conversionconfig.cpp \
+    ../../Dialogs/dlg_editscript.cpp \
     ../../Dialogs/dlg_message.cpp \
     ../../Dialogs/dlg_task.cpp \
-    ../../Dialogs/dlg_taskmanager.cpp \
     ../../Dialogs/dlg_textedit.cpp \
-    ../../Dialogs/dlg_truthtabletaskdesigner.cpp \
-    ../../Dialogs/widget_text.cpp \
-    ../../Dialogs/widget_truthtable.cpp \
+    ../../Dialogs/dlg_truthtable.cpp \
+    ../../Dialogs/dlg_truthtablecreate.cpp \
+    ../../Dialogs/widget_spawnedgate.cpp \
     ../../GameObjects/gateeor.cpp \
     ../../GameObjects/gatefpga.cpp \
     ../../GameObjects/gatenand.cpp \
@@ -29,11 +29,16 @@ SOURCES += \
     ../../GameObjects/gatetrieor.cpp \
     ../../GameObjects/gatexor.cpp \
     ../../GameObjects/textlabel.cpp \
-    ../../circuitoptimizer.cpp \
+    ../../booleanexpression.cpp \
+    ../../circuit.cpp \
+    ../../circuitfromtruthtablethread.cpp \
+    ../../converter.cpp \
+    ../../logger.cpp \
+    ../../main.cpp \
     ../../gatefield.cpp \
     ../../gatereader.cpp \
-    ../../Dialogs/dlg_gateinfo.cpp \
     ../../Dialogs/dlg_home.cpp \
+    ../../Dialogs/dlg_gateinfo.cpp \
     ../../Dialogs/dlg_savegatecollection.cpp \
     ../../Dialogs/simpleslider.cpp \
     ../../Dialogs/widget_advanced.cpp \
@@ -58,18 +63,18 @@ SOURCES += \
     ../../Dialogs/movingwidget.cpp \
     ../../GameObjects/gatetrior.cpp \
     ../../GameObjects/gatenumberoutput.cpp \
-    ../../truthtables.cpp
+    ../../truthtable.cpp
+
 
 HEADERS += \
-    ../../Dialogs/dlg_circuittaskdesigner.h \
-    ../../Dialogs/dlg_circuittaskdesignersetup.h \
+    ../../Dialogs/dlg_booleanexpressions.h \
+    ../../Dialogs/dlg_conversionconfig.h \
+    ../../Dialogs/dlg_editscript.h \
     ../../Dialogs/dlg_message.h \
-    ../../Dialogs/dlg_task.h \
-    ../../Dialogs/dlg_taskmanager.h \
     ../../Dialogs/dlg_textedit.h \
-    ../../Dialogs/dlg_truthtabletaskdesigner.h \
-    ../../Dialogs/widget_text.h \
-    ../../Dialogs/widget_truthtable.h \
+    ../../Dialogs/dlg_truthtable.h \
+    ../../Dialogs/dlg_truthtablecreate.h \
+    ../../Dialogs/widget_spawnedgate.h \
     ../../GameObjects/gateeor.h \
     ../../GameObjects/gatefpga.h \
     ../../GameObjects/gatenand.h \
@@ -78,11 +83,13 @@ HEADERS += \
     ../../GameObjects/gatetypes.h \
     ../../GameObjects/gatexor.h \
     ../../GameObjects/textlabel.h \
-    ../../circuitoptimizer.h \
+    ../../booleanexpression.h \
+    ../../circuit.h \
+    ../../circuitfromtruthtablethread.h \
     ../../clickmode.h \
+    ../../converter.h \
     ../../gatereader.h \
     ../../AllGates.h \
-    ../../filelocations.h \
     ../../gatefield.h \
     ../../Dialogs/dlg_gateinfo.h \
     ../../Dialogs/dlg_home.h \
@@ -110,25 +117,27 @@ HEADERS += \
     ../../Dialogs/movingwidget.h \
     ../../GameObjects/gatetrior.h \
     ../../GameObjects/gatenumberoutput.h \
-    ../../truthtables.h
+    ../../logger.h \
+    ../../truthtable.h
+
 
 FORMS += \
-    ../../Dialogs/dlg_circuittaskdesigner.ui \
-    ../../Dialogs/dlg_circuittaskdesignersetup.ui \
+    ../../Dialogs/dlg_booleanexpressions.ui \
+    ../../Dialogs/dlg_conversionconfig.ui \
+    ../../Dialogs/dlg_editscript.ui \
     ../../Dialogs/dlg_message.ui \
     ../../Dialogs/dlg_gateinfo.ui \
     ../../Dialogs/dlg_home.ui \
     ../../Dialogs/dlg_savegatecollection.ui \
-    ../../Dialogs/dlg_taskmanager.ui \
     ../../Dialogs/dlg_textedit.ui \
+    ../../Dialogs/dlg_truthtable.ui \
+    ../../Dialogs/dlg_truthtablecreate.ui \
     ../../Dialogs/widget_advanced.ui \
     ../../Dialogs/widget_allgates.ui \
     ../../Dialogs/widget_customgates.ui \
     ../../Dialogs/widget_inputgates.ui \
     ../../Dialogs/widget_standard.ui \
-    ../../Dialogs/dlg_load.ui \
-    ../../Dialogs/widget_text.ui \
-    ../../Dialogs/widget_truthtable.ui
+    ../../Dialogs/dlg_load.ui
 
 #LIBS += "../../../build-Logic-Gate-Simulator-Desktop_Qt_5_14_2_MinGW_32_bit-Debug/debug/gate.o"
 #LIBS += "../../../build-Logic-Gate-Simulator-Desktop_Qt_5_14_2_MinGW_32_bit-Debug/debug/gameobject.o"

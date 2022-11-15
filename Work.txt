@@ -1,7 +1,6 @@
 bagvp = aSmellyDog69_
 
 Check m_previousDragMousePos
-Check mousePressEvent if(m_pLinkingNode)
 
 Check delete show truthtable from gatefield.
 same for showBooleanExpressions

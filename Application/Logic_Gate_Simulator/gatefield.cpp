@@ -247,7 +247,6 @@ void GateField::mousePressEvent(QMouseEvent *click)
 
     //Update variables
     m_bMouseDown = true;
-    m_previousDragMousePos = clickPos; //Todo : probably dont need these previous and current anymore.
 
     if(m_pLinkingNode)
     {

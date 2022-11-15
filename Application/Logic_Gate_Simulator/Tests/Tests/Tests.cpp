@@ -23,10 +23,8 @@ void Tests::test_orGate()
 {
     GateOr orGate;
 
-    std::vector<Node*> inputNodes;
-    std::vector<Node*> outputNodes;
-    dynamic_cast<Gate*>(&orGate)->getInputNodes();
-    dynamic_cast<Gate*>(&orGate)->getOutputNodes();
+    std::vector<Node*> inputNodes = dynamic_cast<Gate*>(&orGate)->getInputNodes();
+    std::vector<Node*> outputNodes = dynamic_cast<Gate*>(&orGate)->getOutputNodes();
 
     inputNodes[0]->setValue(true);
     inputNodes[1]->setValue(true);
@@ -48,10 +46,8 @@ void Tests::test_notGate()
 {
     GateNot notGate;
 
-    std::vector<Node*> inputNodes;
-    std::vector<Node*> outputNodes;
-    dynamic_cast<Gate*>(&notGate)->getInputNodes();
-    dynamic_cast<Gate*>(&notGate)->getOutputNodes();
+    std::vector<Node*> inputNodes = dynamic_cast<Gate*>(&notGate)->getInputNodes();
+    std::vector<Node*> outputNodes = dynamic_cast<Gate*>(&notGate)->getOutputNodes();
 
     inputNodes[0]->setValue(true);
     notGate.updateOutput();
@@ -66,10 +62,8 @@ void Tests::test_eorGate()
 {
     GateEor eorGate;
 
-    std::vector<Node*> inputNodes;
-    std::vector<Node*> outputNodes;
-    dynamic_cast<Gate*>(&eorGate)->getInputNodes();
-    dynamic_cast<Gate*>(&eorGate)->getOutputNodes();
+    std::vector<Node*> inputNodes = dynamic_cast<Gate*>(&eorGate)->getInputNodes();
+    std::vector<Node*> outputNodes = dynamic_cast<Gate*>(&eorGate)->getOutputNodes();
 
     inputNodes[0]->setValue(true);
     inputNodes[1]->setValue(true);
@@ -91,10 +85,8 @@ void Tests::test_xorGate()
 {
     GateXor xorGate;
 
-    std::vector<Node*> inputNodes;
-    std::vector<Node*> outputNodes;
-    dynamic_cast<Gate*>(&xorGate)->getInputNodes();
-    dynamic_cast<Gate*>(&xorGate)->getOutputNodes();
+    std::vector<Node*> inputNodes = dynamic_cast<Gate*>(&xorGate)->getInputNodes();
+    std::vector<Node*> outputNodes = dynamic_cast<Gate*>(&xorGate)->getOutputNodes();
 
     inputNodes[0]->setValue(true);
     inputNodes[1]->setValue(true);
@@ -116,10 +108,8 @@ void Tests::test_norGate()
 {
     GateNor norGate;
 
-    std::vector<Node*> inputNodes;
-    std::vector<Node*> outputNodes;
-    dynamic_cast<Gate*>(&norGate)->getInputNodes();
-    dynamic_cast<Gate*>(&norGate)->getOutputNodes();
+    std::vector<Node*> inputNodes = dynamic_cast<Gate*>(&norGate)->getInputNodes();
+    std::vector<Node*> outputNodes = dynamic_cast<Gate*>(&norGate)->getOutputNodes();
 
     inputNodes[0]->setValue(true);
     inputNodes[1]->setValue(true);
@@ -141,10 +131,8 @@ void Tests::test_nandGate()
 {
     GateNand nandGate;
 
-    std::vector<Node*> inputNodes;
-    std::vector<Node*> outputNodes;
-    dynamic_cast<Gate*>(&nandGate)->getInputNodes();
-    dynamic_cast<Gate*>(&nandGate)->getOutputNodes();
+    std::vector<Node*> inputNodes = dynamic_cast<Gate*>(&nandGate)->getInputNodes();
+    std::vector<Node*> outputNodes = dynamic_cast<Gate*>(&nandGate)->getOutputNodes();
 
     inputNodes[0]->setValue(true);
     inputNodes[1]->setValue(true);
@@ -161,10 +149,8 @@ void Tests::test_triAndGate()
 {
     GateTriAnd andGate;
 
-    std::vector<Node*> inputNodes;
-    std::vector<Node*> outputNodes;
-    dynamic_cast<Gate*>(&andGate)->getInputNodes();
-    dynamic_cast<Gate*>(&andGate)->getOutputNodes();
+    std::vector<Node*> inputNodes = dynamic_cast<Gate*>(&andGate)->getInputNodes();
+    std::vector<Node*> outputNodes = dynamic_cast<Gate*>(&andGate)->getOutputNodes();
 
     inputNodes[0]->setValue(true);
     inputNodes[1]->setValue(true);
@@ -195,10 +181,8 @@ void Tests::test_triOrGate()
 {
     GateTriOr orGate;
 
-    std::vector<Node*> inputNodes;
-    std::vector<Node*> outputNodes;
-    dynamic_cast<Gate*>(&orGate)->getInputNodes();
-    dynamic_cast<Gate*>(&orGate)->getOutputNodes();
+    std::vector<Node*> inputNodes = dynamic_cast<Gate*>(&orGate)->getInputNodes();
+    std::vector<Node*> outputNodes = dynamic_cast<Gate*>(&orGate)->getOutputNodes();
 
     inputNodes[0]->setValue(true);
     inputNodes[1]->setValue(true);
@@ -235,10 +219,8 @@ void Tests::test_triEorGate()
 {
     GateTriEor eorGate;
 
-    std::vector<Node*> inputNodes;
-    std::vector<Node*> outputNodes;
-    dynamic_cast<Gate*>(&eorGate)->getInputNodes();
-    dynamic_cast<Gate*>(&eorGate)->getOutputNodes();
+    std::vector<Node*> inputNodes = dynamic_cast<Gate*>(&eorGate)->getInputNodes();
+    std::vector<Node*> outputNodes = dynamic_cast<Gate*>(&eorGate)->getOutputNodes();
 
     inputNodes[0]->setValue(true);
     inputNodes[1]->setValue(true);

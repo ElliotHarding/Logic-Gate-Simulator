@@ -3,6 +3,12 @@
 
 #include <fstream>
 
+/*
+
+  Generic non-qt c++ debug logger
+
+*/
+
 enum LogLevel
 {
     LL_Info = 0,
@@ -20,7 +26,7 @@ const LogLevel LogLevel = LL_Info;
 class Logger
 {
 public:       
-    static bool init(std::string logFilePath = Settings::LogFilePath, const LogLevel logLevel = Settings::LogLevel);
+    static bool init(std::string logFilePath = Settings::LogFilePath, const LogLevel logLevelFilter = Settings::LogLevel);
     static void log(const LogLevel logLevel, const std::string logEntry);
 
     static void setLogLevelFilter(const LogLevel logLevel);

@@ -1,6 +1,7 @@
 #include "dlg_load.h"
 #include "ui_dlg_load.h"
 #include "dlg_home.h"
+#include "logger.h"
 
 DLG_Load::DLG_Load(QWidget *parent) :
     QMainWindow(parent),
@@ -37,6 +38,8 @@ bool DLG_Load::event(QEvent *event)
 
 void DLG_Load::onStartLoad()
 {
+    Logger::init();
+
     ui->lbl_progressStep->setText("Constructing window");
     ui->progressBar->setValue(10);
 

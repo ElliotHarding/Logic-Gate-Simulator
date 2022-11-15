@@ -2,9 +2,9 @@
 #include <string>
 #include <QDebug> //Qt only
 
-bool Logger::init(std::string logFilePath, const LogLevel logLevel)
+bool Logger::init(std::string logFilePath, const LogLevel logLevelFilter)
 {
-    m_logLevelFilter = logLevel;
+    m_logLevelFilter = logLevelFilter;
 
     m_logFile.open(logFilePath, std::ios_base::app);
 

@@ -390,6 +390,7 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
     const uint numInputs = inputLetters.size();
     if(numOutputs == 0 || numInputs == 0)
     {
+        Logger::log(LL_Error, "Converter::booleanExpressionsToCircuit - Inputs or outputs count equals 0");
         return INVALID_INPUT_EXPRESSIONS;
     }
 

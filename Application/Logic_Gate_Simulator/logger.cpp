@@ -22,6 +22,7 @@ void Logger::log(const LogLevel logLevel, const std::string logEntry)
     if(!m_bFailed && logLevel >= m_logLevelFilter)
     {
         m_logFile << std::to_string(logLevel) << " : " << logEntry << std::endl;
+        m_logFile.flush();
     }
 
     //Qt only

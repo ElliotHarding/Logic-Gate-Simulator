@@ -1,7 +1,6 @@
 #include "gatecollection.h"
 #include "allgates.h"
 #include "gatefield.h"
-#include "converter.h"
 
 #include <cmath>
 
@@ -75,18 +74,6 @@ void GateCollection::setParent(GateField *gf)
     {
         g->setParent(m_pParentField);
     }
-}
-
-bool GateCollection::generateTruthTable(TruthTable& table)
-{
-    QString errorMessage = "";
-    if(Converter::circuitToTruthTable(m_gates, errorMessage, table) == ConverterResult::SUCCESS)
-    {
-        return true;
-    }
-
-    m_pParentField->sendUserMessage(errorMessage);
-    return false;
 }
 
 void GateCollection::updateOutput()
@@ -301,6 +288,11 @@ void GateCollection::forgetGate(Gate *g)
     }
 
     updateContaningArea();
+}
+
+std::vector<Gate *> GateCollection::getGates()
+{
+    return m_gates;
 }
 
 Gate* GateCollection::clone()

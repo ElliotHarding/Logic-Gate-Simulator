@@ -301,9 +301,14 @@ void DLG_GateInfo::on_btn_truthTable_clicked()
     if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
     {
         TruthTable table;
-        if(dynamic_cast<GateCollection*>(m_pGateDisplayed)->generateTruthTable(table))
+        ConverterResult result = Converter::circuitToTruthTable(dynamic_cast<GateCollection*>(m_pGateDisplayed)->getGates(), table);
+        if(result == ConverterResult::SUCCESS)
         {
             m_pParent->showTruthTable(table);
+        }
+        else
+        {
+            m_pParent->sendUserMessage("Internal error. Failed to generate truth table. \n Check logs for details");
         }
     }
 }
@@ -312,19 +317,15 @@ void DLG_GateInfo::on_btn_expression_clicked()
 {
     if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
     {
-        TruthTable table;
-        if(dynamic_cast<GateCollection*>(m_pGateDisplayed)->generateTruthTable(table))
+        std::vector<BooleanExpression> expressions;
+        ConverterResult result = Converter::circuitToBooleanExpressions(dynamic_cast<GateCollection*>(m_pGateDisplayed)->getGates(), m_pParent->getCurrentConversionAlgorithm(), expressions);
+        if(result == ConverterResult::SUCCESS)
         {
-            std::vector<BooleanExpression> expressions;
-            ConverterResult result = Converter::truthTableToBooleanExpressions(table, m_pParent->getCurrentConversionAlgorithm(), expressions);
-            if(result == ConverterResult::SUCCESS)
-            {
-                m_pParent->showBooleanExpressions(expressions);
-            }
-            else
-            {
-                m_pParent->sendUserMessage("Internal error. Failed to generate boolean expressions.");
-            }
+            m_pParent->showBooleanExpressions(expressions);
+        }
+        else
+        {
+            m_pParent->sendUserMessage("Internal error. Failed to generate boolean expressions. \n Check logs for details");
         }
     }
 }

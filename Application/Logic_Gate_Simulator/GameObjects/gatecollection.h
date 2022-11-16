@@ -42,10 +42,9 @@ public:
     ///Gate adding and removing
     void addGate(Gate* g);
     void forgetGate(Gate* g);
+    std::vector<Gate*> getGates();
 
     void updateContaningArea();
-
-    bool generateTruthTable(TruthTable& table);
 
 protected:
     //Vector of all the gates within collection

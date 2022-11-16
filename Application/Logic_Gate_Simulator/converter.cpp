@@ -809,7 +809,7 @@ ConverterResult Converter::scriptToBooleanExpressions(const QString& script, con
     return truthTableToBooleanExpressions(tt, conversionOptions, expressions);
 }
 
-ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, QString &errorMessage, TruthTable &truthTable)
+ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, TruthTable &truthTable)
 {
 
     //Check for external connections
@@ -835,7 +835,7 @@ ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, QString
 
                 if(!found)
                 {
-                    errorMessage = "Failed. Circuit includes external connections!";
+                    Logger::log(LL_Error, "Converter::circuitToTruthTable : Failed. Circuit includes external connections!");
                     return INVALID_CIRCUIT;
                 }
             }
@@ -857,7 +857,6 @@ ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, QString
             else
             {
                 Logger::log(LL_Error, "Converter::circuitToTruthTable - Failed to cast GateToggle");
-                errorMessage = "Failed. Internal error.";
                 return INVALID_CIRCUIT;
             }
         }
@@ -871,14 +870,13 @@ ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, QString
             else
             {
                 Logger::log(LL_Error, "Converter::circuitToTruthTable - Failed to cast GateReciever");
-                errorMessage = "Failed. Internal error.";
                 return INVALID_CIRCUIT;
             }
         }
 
         else if(g->getType() == GateType::GATE_TIMER || g->getType() == GateType::GATE_NULL || g->getType() == GateType::GATE_COLLECTION)
         {
-            errorMessage = "Failed. Unsupported gate type for truth table. \n No nested gate collections. No timer gates.";
+            Logger::log(LL_Error, "Converter::circuitToTruthTable : Failed. Unsupported gate type for truth table. No nested gate collections. No timer gates.");
             return INVALID_CIRCUIT;
         }
 
@@ -890,13 +888,13 @@ ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, QString
 
     if(inputGates.empty())
     {
-        errorMessage = "Failed to generate. No input(emmiter) gates.";
+        Logger::log(LL_Error, "Converter::circuitToTruthTable : Failed to generate. No input(emmiter) gates.");
         return INVALID_CIRCUIT;
     }
 
     if(resultGates.empty())
     {
-        errorMessage = "Failed to generate. No result(reciever) gates.";
+        Logger::log(LL_Error, "Converter::circuitToTruthTable : Failed to generate. No result(reciever) gates.");
         return INVALID_CIRCUIT;
     }
 
@@ -937,10 +935,10 @@ ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, QString
     return SUCCESS;
 }
 
-ConverterResult Converter::circuitToBooleanExpressions(std::vector<Gate*> gates, QString &errorMessage, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions)
+ConverterResult Converter::circuitToBooleanExpressions(std::vector<Gate*> gates, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions)
 {
     TruthTable truthTable;
-    ConverterResult result = circuitToTruthTable(gates, errorMessage, truthTable);
+    ConverterResult result = circuitToTruthTable(gates, truthTable);
     if(result != ConverterResult::SUCCESS)
     {
         return result;

@@ -301,7 +301,7 @@ ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression
     for(uint i = 0; i < truthTable.inValues.size(); i++)
     {
         truthTable.outValues.push_back(std::vector<bool>());
-        for(uint iOutput = 0; iOutput < truthTable.outValues.size(); iOutput++)
+        for(uint iOutput = 0; iOutput < truthTable.outLetters.size(); iOutput++)
         {
             truthTable.outValues[i].push_back(expressionToResult(truthTable.inValues[i], truthTable.inLetters, expressions[iOutput]));
         }
@@ -903,6 +903,9 @@ ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, TruthTa
     const uint numInputs = inputGates.size();
     const uint numOutputs = resultGates.size();
     const uint numMainGates = mainGates.size();
+
+    truthTable.addInputLetters(numInputs);
+    truthTable.addOutputLetters(numOutputs);
 
     truthTable.size = pow(2, numInputs);
     for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)

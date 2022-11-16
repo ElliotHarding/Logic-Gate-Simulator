@@ -55,4 +55,30 @@ bool TruthTable::inOutputs(const char newLetter)
     return inVector(outLetters, newLetter);
 }
 
+void TruthTable::addInputLetters(const uint iNewLetters)
+{
+    for(int i = 0; i < iNewLetters; i++)
+    {
+        char newLetter = 'A';
+        while(inInputs(newLetter))
+        {
+            newLetter++;
+        }
+        inLetters.push_back(newLetter);
+    }
+}
+
+void TruthTable::addOutputLetters(const uint iNewLetters)
+{
+    for(int i = 0; i < iNewLetters; i++)
+    {
+        char newLetter = 'Z';
+        while(inOutputs(newLetter))
+        {
+            newLetter--;
+        }
+        outLetters.push_back(newLetter);
+    }
+}
+
 

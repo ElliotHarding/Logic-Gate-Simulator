@@ -228,15 +228,7 @@ void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
     if(value > m_truthTable.inLetters.size())
     {
         uint extraLetters = value - m_truthTable.inLetters.size();
-        for(int i = 0; i < extraLetters; i++)
-        {
-            char newLetter = 'A';
-            while(m_truthTable.inInputs(newLetter))
-            {
-                newLetter++;
-            }
-            m_truthTable.inLetters.push_back(newLetter);
-        }
+        m_truthTable.addInputLetters(extraLetters);
     }
 
     //Remove letters
@@ -293,15 +285,7 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
     if(value > m_truthTable.outLetters.size())
     {
         uint extraLetters = value - m_truthTable.outLetters.size();
-        for(int i = 0; i < extraLetters; i++)
-        {
-            char newLetter = 'Z';
-            while(m_truthTable.inOutputs(newLetter))
-            {
-                newLetter--;
-            }
-            m_truthTable.outLetters.push_back(newLetter);
-        }
+        m_truthTable.addOutputLetters(extraLetters);
     }
 
     //Remove letters

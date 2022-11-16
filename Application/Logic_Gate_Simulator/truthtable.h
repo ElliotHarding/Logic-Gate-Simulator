@@ -18,6 +18,9 @@ struct TruthTable
 
     bool inInputs(const char newLetter);
     bool inOutputs(const char newLetter);
+
+    void addInputLetters(const uint iNewLetters);
+    void addOutputLetters(const uint iNewLetters);
 };
 
 #endif // TRUTHTABLE_H

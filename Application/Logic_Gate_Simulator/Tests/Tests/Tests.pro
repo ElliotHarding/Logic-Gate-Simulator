@@ -1,5 +1,6 @@
 QT += testlib
-QT += widgets xml script
+QT += xml script gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #QT -= gui
 
 #QMAKE_CXXFLAGS_DEBUG *= -O

@@ -1,4 +1,5 @@
 #include "Tests.h"
+#include "../../converter.h"
 
 void Tests::test_andGate()
 {
@@ -359,6 +360,33 @@ void Tests::test_nodeLink()
     toggle.setPowerState(0);
     toggle.updateOutput();
     QCOMPARE(pRecieverNode->value(), false);
+}
+
+void Tests::test_booleanExpressionsToCircuit()
+{
+    std::vector<BooleanExpression> expressions;
+    CircuitOptions circuitOptions(false, false, false, 200, 20, 20, ConversionAlgorithm::QuineMcCluskey);
+    GateCollection* pNewCircuit;
+
+    BooleanExpression expression;
+    expression.resultLetter = 'z';
+    expression.letters = {'A', 'B'};
+    expressions.push_back(expression);
+
+    QCOMPARE(Converter::booleanExpressionsToCircuit(expressions, circuitOptions, pNewCircuit), ConverterResult::SUCCESS);
+
+    if(pNewCircuit != nullptr)
+    {
+        TruthTable tt;
+        QCOMPARE(pNewCircuit->generateTruthTable(tt), true);
+
+        std::vector<std::vector<bool>> outValues = {{false, false, false, true}};
+        QCOMPARE(tt.outValues, outValues);
+    }
+    else
+    {
+        QCOMPARE(true, false);
+    }
 }
 /*
 void Tests::test_circuit()

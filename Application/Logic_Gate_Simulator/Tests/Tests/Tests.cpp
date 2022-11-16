@@ -380,7 +380,7 @@ void Tests::test_booleanExpressionsToCircuit()
     GateCollection* pNewCircuit;
 
     BooleanExpression expression;
-    expression.resultLetter = 'z';
+    expression.resultLetter = 'Z';
     expression.letters = {'A', 'B'};
     expressions.push_back(expression);
 
@@ -397,6 +397,47 @@ void Tests::test_booleanExpressionsToCircuit()
 
     std::vector<std::vector<bool>> outValues = {{false}, {false}, {false}, {true}};
     QCOMPARE(tt.outValues, outValues);
+
+
+    delete pNewCircuit;
+    pNewCircuit = nullptr;
+
+
+    BooleanExpression expression2;
+    expression2.resultLetter = 'Y';
+    expression2.letters = {'C', '+', 'D'};
+    expressions.push_back(expression2);
+
+    expressions.push_back(expression);
+
+    QCOMPARE(Converter::booleanExpressionsToCircuit(expressions, circuitOptions, pNewCircuit), ConverterResult::SUCCESS);
+
+    if(pNewCircuit == nullptr)
+    {
+        QCOMPARE(true, false);
+        return;
+    }
+
+    TruthTable tt2;
+    QCOMPARE(Converter::circuitToTruthTable(pNewCircuit->getGates(), tt2), SUCCESS);
+
+    std::vector<std::vector<bool>> outValues2 = {{false, false},
+                                                 {false, false},
+                                                 {false, false},
+                                                 {false, true},
+                                                 {true, false},
+                                                 {true, false},
+                                                 {true, false},
+                                                 {true, true},
+                                                 {true, false},
+                                                 {true, false},
+                                                 {true, false},
+                                                 {true, true},
+                                                 {true, false},
+                                                 {true, false},
+                                                 {true, false},
+                                                 {true, true}};
+    QCOMPARE(tt2.outValues, outValues2);
 }
 /*
 void Tests::test_circuit()

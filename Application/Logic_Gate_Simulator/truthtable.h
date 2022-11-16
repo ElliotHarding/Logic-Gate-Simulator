@@ -15,6 +15,9 @@ struct TruthTable
     std::vector<bool> genInputs(const unsigned int& iTableRun, const unsigned int& numInputs);
     bool isEmptyTable();
     bool isValid();
+
+    bool inInputs(const char newLetter);
+    bool inOutputs(const char newLetter);
 };
 
 #endif // TRUTHTABLE_H

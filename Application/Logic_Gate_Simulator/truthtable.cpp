@@ -32,3 +32,27 @@ bool TruthTable::isValid()
     }
     return true;
 }
+
+bool inVector(const std::vector<char>& vec, const char& chr)
+{
+    for(uint i = 0; i < vec.size(); i++)
+    {
+        if(chr == vec[i])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool TruthTable::inInputs(const char newLetter)
+{
+    return inVector(inLetters, newLetter);
+}
+
+bool TruthTable::inOutputs(const char newLetter)
+{
+    return inVector(outLetters, newLetter);
+}
+
+

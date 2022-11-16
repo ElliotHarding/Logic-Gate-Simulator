@@ -243,18 +243,6 @@ ConverterResult Converter::truthTableToBooleanExpressions(TruthTable& truthTable
     return SUCCESS;
 }
 
-bool inVector(const std::vector<char>& vector, const char& value)
-{
-    for(const char& letter : vector)
-    {
-        if(letter == value)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 //If input values match up with expression letters being inverted or not
 bool expressionToResult(const std::vector<bool>& inValues, std::vector<char>& inputLetters, const BooleanExpression& expression)
 {
@@ -290,13 +278,13 @@ ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression
         for(uint i = 0; i < expression.letters.size(); i++)
         {
             const char letter = expression.letters[i];
-            if(isLetter(letter) && !inVector(truthTable.inLetters, letter))
+            if(isLetter(letter) && !truthTable.inInputs(letter))
             {
                 truthTable.inLetters.push_back(letter);
             }
         }
 
-        if(!inVector(truthTable.outLetters, expression.resultLetter))
+        if(!truthTable.inOutputs(expression.resultLetter))
         {
             truthTable.outLetters.push_back(expression.resultLetter);
         }
@@ -353,6 +341,18 @@ bool linkNodes(Node*& pNodeA, Node*& pNodeB)
     return linked;
 }
 
+bool inCharVec(const std::vector<char>& vec, const char& chr)
+{
+    for(uint i = 0; i < vec.size(); i++)
+    {
+        if(chr == vec[i])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, const CircuitOptions& /*circuitOptions*/, GateCollection*& pNewCircuit)
 {
     //Todo ~ simplification - Either properly or by converting to truth table putting it through truthTableToBooleanExpressions
@@ -366,7 +366,7 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
         {
             if(isLetter(letter))
             {
-                if(!inVector(inputLetters, letter))
+                if(!inCharVec(inputLetters, letter))
                 {
                     inputLetters.push_back(letter);
                 }

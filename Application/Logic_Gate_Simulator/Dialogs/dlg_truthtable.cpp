@@ -208,18 +208,6 @@ void DLG_TruthTable::on_btn_expressions_clicked()
     }
 }
 
-bool inVector(const std::vector<char>& vec, const char& chr)
-{
-    for(uint i = 0; i < vec.size(); i++)
-    {
-        if(chr == vec[i])
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 void removeLetters(std::vector<char>& letters, const uint toRemove)
 {
     for(int i = 0; i < toRemove; i++)
@@ -243,7 +231,7 @@ void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
         for(int i = 0; i < extraLetters; i++)
         {
             char newLetter = 'A';
-            while(inVector(m_truthTable.inLetters, newLetter))
+            while(m_truthTable.inInputs(newLetter))
             {
                 newLetter++;
             }
@@ -308,7 +296,7 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
         for(int i = 0; i < extraLetters; i++)
         {
             char newLetter = 'Z';
-            while(inVector(m_truthTable.outLetters, newLetter))
+            while(m_truthTable.inOutputs(newLetter))
             {
                 newLetter--;
             }

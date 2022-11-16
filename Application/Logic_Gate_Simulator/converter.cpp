@@ -339,7 +339,7 @@ ConverterResult Converter::simplifyBooleanExpressions(std::vector<BooleanExpress
 
 bool isLetterOrInt(const char& letter)
 {
-    if(isLetter(letter))
+    if(isLetter(letter) || (letter >= 48 && letter <= 57))
     {
         return true;
     }

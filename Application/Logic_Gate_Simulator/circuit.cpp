@@ -81,7 +81,7 @@ GateCollection* Circuit::createGateCollection()
 
     int maxX = 300;
     int posY = 300;
-    int offsetButSameX = 0;
+    int offsetButSameX = 300;
     for(auto const& g : inputs)
     {
         g.second->setPosition(offsetButSameX, posY+=Settings::GapBetweenGates);
@@ -98,7 +98,7 @@ GateCollection* Circuit::createGateCollection()
 
     posY = 300;
     maxX+=Settings::GapBetweenGates;
-    offsetButSameX = 0;
+    offsetButSameX = 100;
     for(auto const& g : outputs)
     {
         g.second->setPosition(maxX + offsetButSameX, posY+=Settings::GapBetweenGates);

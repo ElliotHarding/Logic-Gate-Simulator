@@ -189,7 +189,7 @@ void DLG_Home::addGateToGateField(Gate* pGate)
     pGate->offsetPosition(offset.x(), offset.y());
 
     //Check pGate is in bounds of current gatefield
-    if(m_allGateFields[size_t(m_iCurrentGateField)]->geometry().contains(pGate->position()))
+    if(m_allGateFields[size_t(m_iCurrentGateField)]->geometry().intersects(pGate->geometry()))
     {
         m_allGateFields[size_t(m_iCurrentGateField)]->addGate(pGate);
     }

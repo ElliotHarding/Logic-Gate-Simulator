@@ -23,3 +23,12 @@ bool TruthTable::isEmptyTable()
     }
     return true;
 }
+
+bool TruthTable::isValid()
+{
+    if(inValues.empty() || outValues.empty() || inLetters.empty() || outLetters.empty() || size == 0)
+    {
+        return false;
+    }
+    return true;
+}

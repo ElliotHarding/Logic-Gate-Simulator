@@ -181,7 +181,7 @@ void RandomCircuitGenThread::run()
 {
     const clock_t startTimeMs = clock();
 
-    if(m_truthTable.inValues.empty() || m_truthTable.outValues.empty() || m_truthTable.inLetters.empty() || m_truthTable.outLetters.empty())
+    if(!m_truthTable.isValid())
     {
         emit circuitGenFailure("Failed to generate circuit!");
         return;

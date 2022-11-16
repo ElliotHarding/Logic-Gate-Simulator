@@ -160,7 +160,7 @@ void addTranslatedMinTerm(QString& minTerm, BooleanExpression& expression, std::
 
 ConverterResult Converter::truthTableToBooleanExpressions(TruthTable& truthTable, const ConversionAlgorithm& /*conversionOptions*/, std::vector<BooleanExpression>& expressions)
 {
-    if(truthTable.inValues.size() == 0 || truthTable.outValues.size() == 0)
+    if(!truthTable.isValid())
     {
         return INVALID_TABLE;
     }

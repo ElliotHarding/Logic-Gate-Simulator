@@ -107,7 +107,7 @@ void DLG_TruthTable::updateTableUI()
         if(iCol < iInputs)
         {
             //A, B, C...
-            colTitle = QString(char(Settings::IntStartAlphabet+iCol));
+            colTitle = QString(m_truthTable.inLetters[iCol]);
 
             for(uint iRow = 0; iRow < iIterations; iRow++)
             {
@@ -121,7 +121,7 @@ void DLG_TruthTable::updateTableUI()
         else
         {
             //Z, Y, X...
-            colTitle = QString(char(Settings::IntEndAlphabet-iCol+iInputs+1));
+            colTitle = QString(m_truthTable.outLetters[iCol-iInputs]);
 
             std::vector<OutputLabel*> outLbls;
             for(uint iRow = 0; iRow < iIterations; iRow++)

@@ -389,7 +389,7 @@ void Tests::test_booleanExpressionsToCircuit()
     if(pNewCircuit != nullptr)
     {
         TruthTable tt;
-        QCOMPARE(pNewCircuit->generateTruthTable(tt), true);
+        QCOMPARE(Converter::circuitToTruthTable(pNewCircuit->getGates(), tt), true);
 
         std::vector<std::vector<bool>> outValues = {{false}, {false}, {false}, {true}};
         QCOMPARE(tt.outValues, outValues);

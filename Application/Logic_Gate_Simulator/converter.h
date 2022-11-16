@@ -49,6 +49,7 @@ public:
     static ConverterResult scriptToTruthTable(const QString& script, const uint& numInputs, const uint& numOutputs, TruthTable& truthTable, int& failedLineNumber);
     static ConverterResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions, int& failedLineNumber);
     static ConverterResult circuitToTruthTable(std::vector<Gate*> gates, QString& errorMessage, TruthTable& truthTable);
+    static ConverterResult circuitToBooleanExpressions(std::vector<Gate*> gates, QString& errorMessage, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
 };
 
 #endif // CONVERTER_H

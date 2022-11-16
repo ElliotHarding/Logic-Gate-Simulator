@@ -936,3 +936,15 @@ ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, QString
 
     return SUCCESS;
 }
+
+ConverterResult Converter::circuitToBooleanExpressions(std::vector<Gate*> gates, QString &errorMessage, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions)
+{
+    TruthTable truthTable;
+    ConverterResult result = circuitToTruthTable(gates, errorMessage, truthTable);
+    if(result != ConverterResult::SUCCESS)
+    {
+        return result;
+    }
+
+    return truthTableToBooleanExpressions(truthTable, conversionOptions, expressions);
+}

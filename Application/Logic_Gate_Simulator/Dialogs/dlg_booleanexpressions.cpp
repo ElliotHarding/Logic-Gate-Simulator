@@ -67,15 +67,6 @@ void DLG_BooleanExpressions::removeUiExpression(QListWidgetItem* pItem)
 
     ui->list_expressions->removeItemWidget(pItem);
     delete pItem;
-
-    //Update result letters since BooleanExpressionDisplay has been removed!
-    int iResultLetter = Settings::IntEndAlphabet;
-    for(int i = 0; i < ui->list_expressions->count(); i++)
-    {
-        BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));
-        pExpressionDisplay->updateResultLetter(iResultLetter);
-        iResultLetter--;
-    }
 }
 
 void DLG_BooleanExpressions::addUiExpression(const BooleanExpression &expression)

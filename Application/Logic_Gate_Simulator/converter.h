@@ -9,7 +9,8 @@ enum ConverterResult
     SUCCESS,
     INVALID_TABLE,
     INVALID_INPUT_EXPRESSIONS,
-    INVALID_SCRIPT
+    INVALID_SCRIPT,
+    INVALID_CIRCUIT
 };
 
 enum ConversionAlgorithm
@@ -47,6 +48,7 @@ public:
     static ConverterResult scriptToCircuit(const QString& script, const uint& numInputs, const uint& numOutputs, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit, int& failedLineNumber);
     static ConverterResult scriptToTruthTable(const QString& script, const uint& numInputs, const uint& numOutputs, TruthTable& truthTable, int& failedLineNumber);
     static ConverterResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions, int& failedLineNumber);
+    static ConverterResult circuitToTruthTable(std::vector<Gate*> gates, QString& errorMessage, TruthTable& truthTable);
 };
 
 #endif // CONVERTER_H

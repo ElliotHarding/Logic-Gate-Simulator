@@ -808,3 +808,131 @@ ConverterResult Converter::scriptToBooleanExpressions(const QString& script, con
 
     return truthTableToBooleanExpressions(tt, conversionOptions, expressions);
 }
+
+ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, QString &errorMessage, TruthTable &truthTable)
+{
+
+    //Check for external connections
+    for (Gate* gate : gates)
+    {
+        std::vector<NodeIds> linkInfo;
+        gate->collectLinkInfo(linkInfo);
+
+        for(NodeIds nodeIds : linkInfo)
+        {
+            for(int linkId : nodeIds.linkedIds)
+            {
+                Node* pNode;
+                bool found = false;
+                for (Gate* gate : gates)
+                {
+                    if(gate->findNodeWithId(linkId, pNode))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if(!found)
+                {
+                    errorMessage = "Failed. Circuit includes external connections!";
+                    return INVALID_CIRCUIT;
+                }
+            }
+        }
+    }
+
+    //Collect circuit
+    std::vector<GateToggle*> inputGates;
+    std::vector<Gate*> mainGates;
+    std::vector<GateReciever*> resultGates;
+    for (Gate* g : gates)
+    {
+        if(g->getType() == GateType::GATE_EMMITTER)
+        {
+            if(dynamic_cast<GateToggle*>(g))
+            {
+                inputGates.push_back(dynamic_cast<GateToggle*>(g));
+            }
+            else
+            {
+                Logger::log(LL_Error, "Converter::circuitToTruthTable - Failed to cast GateToggle");
+                errorMessage = "Failed. Internal error.";
+                return INVALID_CIRCUIT;
+            }
+        }
+
+        else if(g->getType() == GateType::GATE_RECIEVER)
+        {
+            if(dynamic_cast<GateReciever*>(g))
+            {
+                resultGates.push_back(dynamic_cast<GateReciever*>(g));
+            }
+            else
+            {
+                Logger::log(LL_Error, "Converter::circuitToTruthTable - Failed to cast GateReciever");
+                errorMessage = "Failed. Internal error.";
+                return INVALID_CIRCUIT;
+            }
+        }
+
+        else if(g->getType() == GateType::GATE_TIMER || g->getType() == GateType::GATE_NULL || g->getType() == GateType::GATE_COLLECTION)
+        {
+            errorMessage = "Failed. Unsupported gate type for truth table. \n No nested gate collections. No timer gates.";
+            return INVALID_CIRCUIT;
+        }
+
+        else
+        {
+            mainGates.push_back(g);
+        }
+    }
+
+    if(inputGates.empty())
+    {
+        errorMessage = "Failed to generate. No input(emmiter) gates.";
+        return INVALID_CIRCUIT;
+    }
+
+    if(resultGates.empty())
+    {
+        errorMessage = "Failed to generate. No result(reciever) gates.";
+        return INVALID_CIRCUIT;
+    }
+
+    const uint numInputs = inputGates.size();
+    const uint numOutputs = resultGates.size();
+    const uint numMainGates = mainGates.size();
+
+    truthTable.size = pow(2, numInputs);
+    for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
+    {
+        //Generate input values
+        std::vector<bool> inputValues = truthTable.genInputs(iTableRun, numInputs);
+        truthTable.inValues.push_back(inputValues);
+
+        for(uint iInput = 0; iInput < numInputs; iInput++)
+        {
+            inputGates[iInput]->setPowerState(inputValues[iInput]);
+        }
+
+        //Must be a better way of doing this...
+        for(uint i = 0; i < numMainGates; i++)
+        {
+            for(Gate* g : mainGates)
+            {
+                g->updateOutput();
+            }
+        }
+
+        //Generate output values
+        std::vector<bool> outputValues;
+        for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
+        {
+            outputValues.push_back(resultGates[iOutput]->getValue());
+        }
+        truthTable.outValues.push_back(outputValues);
+    }
+
+    return SUCCESS;
+}

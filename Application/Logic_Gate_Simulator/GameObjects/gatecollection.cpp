@@ -1,6 +1,7 @@
 #include "gatecollection.h"
 #include "allgates.h"
 #include "gatefield.h"
+#include "converter.h"
 
 #include <cmath>
 
@@ -78,114 +79,14 @@ void GateCollection::setParent(GateField *gf)
 
 bool GateCollection::generateTruthTable(TruthTable& table)
 {
-    std::vector<NodeIds> linkInfo;
-    collectLinkInfo(linkInfo);
-
-    for(NodeIds nodeIds : linkInfo)
+    QString errorMessage = "";
+    if(Converter::circuitToTruthTable(m_gates, errorMessage, table) == ConverterResult::SUCCESS)
     {
-        for(int linkId : nodeIds.linkedIds)
-        {
-            Node* pNode;
-            if(!findNodeWithId(linkId, pNode))
-            {
-                m_pParentField->sendUserMessage("Failed. Circuit includes external connections!");
-                return false;
-            }
-        }
+        return true;
     }
 
-    std::vector<GateToggle*> inputGates;
-    std::vector<Gate*> mainGates;
-    std::vector<GateReciever*> resultGates;
-    for (Gate* g : m_gates)
-    {
-        if(g->getType() == GateType::GATE_EMMITTER)
-        {
-            if(dynamic_cast<GateToggle*>(g))
-            {
-                inputGates.push_back(dynamic_cast<GateToggle*>(g));
-            }
-            else
-            {
-                Logger::log(LL_Error, "GateCollection::generateTruthTable - Failed to cast GateToggle");
-                m_pParentField->sendUserMessage("Failed. Internal error.");
-                return false;
-            }
-        }
-
-        else if(g->getType() == GateType::GATE_RECIEVER)
-        {
-            if(dynamic_cast<GateReciever*>(g))
-            {
-                resultGates.push_back(dynamic_cast<GateReciever*>(g));
-            }
-            else
-            {
-                Logger::log(LL_Error, "GateCollection::generateTruthTable - Failed to cast GateReciever");
-                m_pParentField->sendUserMessage("Failed. Internal error.");
-                return false;
-            }
-        }
-
-        else if(g->getType() == GateType::GATE_TIMER || g->getType() == GateType::GATE_NULL || g->getType() == GateType::GATE_COLLECTION)
-        {
-            m_pParentField->sendUserMessage("Failed. Unsupported gate type for truth table. \n No nested gate collections. No timer gates.");
-            return false;
-        }
-
-        else
-        {
-            mainGates.push_back(g);
-        }
-    }
-
-    if(inputGates.empty())
-    {
-        m_pParentField->sendUserMessage("Failed to generate. No input(emmiter) gates.");
-        return false;
-    }
-
-    if(resultGates.empty())
-    {
-        m_pParentField->sendUserMessage("Failed to generate. No result(reciever) gates.");
-        return false;
-    }
-
-    const uint numInputs = inputGates.size();
-    const uint numOutputs = resultGates.size();
-    const uint numMainGates = mainGates.size();
-
-    table.size = pow(2, numInputs);
-    for (uint iTableRun = 0; iTableRun < table.size; iTableRun++)
-    {
-        //Generate input values
-        std::vector<bool> inputValues = table.genInputs(iTableRun, numInputs);
-        table.inValues.push_back(inputValues);
-
-        for(uint iInput = 0; iInput < numInputs; iInput++)
-        {
-            inputGates[iInput]->setPowerState(inputValues[iInput]);
-        }
-
-        //Must be a better way of doing this...
-        for(uint i = 0; i < numMainGates; i++)
-        {
-            for(Gate* g : mainGates)
-            {
-                g->updateOutput();
-            }
-        }
-
-        //Generate output values
-        std::vector<bool> outputValues;
-        for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
-        {
-            outputValues.push_back(resultGates[iOutput]->getValue());
-        }
-        table.outValues.push_back(outputValues);
-    }
-
-    return true;
+    m_pParentField->sendUserMessage(errorMessage);
+    return false;
 }
 
 void GateCollection::updateOutput()

@@ -306,6 +306,11 @@ void Tests::test_timerGate()
 
 void Tests::test_fpga()
 {
+    //Init ui stuff for test
+    int a0 = 0;
+    char** cl;
+    QApplication a(a0, cl);
+
     GateFPGA fpga;
     fpga.setInputs(3);
     fpga.setOutputs(3);
@@ -313,7 +318,6 @@ void Tests::test_fpga()
     QCOMPARE(fpga.getOutputNodes().size(), 3);
     QCOMPARE(fpga.getInputNodes().size(), 3);
 
-    /*
     fpga.setScript("var output1 = true, output2 = false, output3 = true, output4 = true, output5 = true;");
     fpga.updateOutput();
     QCOMPARE(fpga.getOutputNodes()[0]->value(), true);
@@ -338,7 +342,7 @@ void Tests::test_fpga()
     QCOMPARE(fpga.getOutputNodes()[0]->value(), false);
     QCOMPARE(fpga.getOutputNodes()[0]->value(), false);
     QCOMPARE(fpga.getOutputNodes()[0]->value(), false);
-    */
+
     //Todo : extend test
 
 }
@@ -366,6 +370,11 @@ void Tests::test_nodeLink()
 
 void Tests::test_booleanExpressionsToCircuit()
 {
+    //Init ui stuff for test
+    int a0 = 0;
+    char** cl;
+    QApplication a(a0, cl);
+
     std::vector<BooleanExpression> expressions;
     CircuitOptions circuitOptions(false, false, false, 200, 20, 20, ConversionAlgorithm::QuineMcCluskey);
     GateCollection* pNewCircuit;
@@ -382,7 +391,7 @@ void Tests::test_booleanExpressionsToCircuit()
         TruthTable tt;
         QCOMPARE(pNewCircuit->generateTruthTable(tt), true);
 
-        std::vector<std::vector<bool>> outValues = {{false, false, false, true}};
+        std::vector<std::vector<bool>> outValues = {{false}, {false}, {false}, {true}};
         QCOMPARE(tt.outValues, outValues);
     }
     else

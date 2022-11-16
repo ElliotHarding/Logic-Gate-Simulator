@@ -1,26 +1,10 @@
 QT += testlib
 QT += core xml script gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-#QT -= gui
 
-#QMAKE_CXXFLAGS_DEBUG *= -O
-
-CONFIG += qt console warn_on depend_includepath testcase
+#CONFIG += qt console warn_on depend_includepath testcase
 CONFIG += resources_big
 CONFIG += c++11
-#CONFIG -= app_bundle
-#CONFIG += debug
-#QMAKE_CXXFLAGS += -O0 -g -ggdb
-
-#QMAKE_CXXFLAGS_DEBUG -= -O1
-#QMAKE_CXXFLAGS_DEBUG -= -O2
-#QMAKE_CXXFLAGS_DEBUG -= -O3
-#QMAKE_CXXFLAGS_DEBUG *= -O
-#
-#QMAKE_CXXFLAGS_RELEASE -= -O1
-#QMAKE_CXXFLAGS_RELEASE -= -O2
-#QMAKE_CXXFLAGS_RELEASE -= -O3
-#QMAKE_CXXFLAGS_RELEASE *= -O
 
 TEMPLATE = app
 

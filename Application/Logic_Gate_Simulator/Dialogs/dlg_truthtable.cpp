@@ -9,9 +9,6 @@
 namespace Settings
 {
 const QRect TableDimensions = QRect(50, 70, 300, 300);
-
-const uint IntStartAlphabet = 65;
-const uint IntEndAlphabet = 121;
 }
 
 DLG_TruthTable::DLG_TruthTable(DLG_Home* pParent) :
@@ -245,7 +242,7 @@ void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
         uint extraLetters = value - m_truthTable.inLetters.size();
         for(int i = 0; i < extraLetters; i++)
         {
-            char newLetter = char(Settings::IntStartAlphabet);
+            char newLetter = 'A';
             while(inVector(m_truthTable.inLetters, newLetter))
             {
                 newLetter++;
@@ -310,7 +307,7 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
         uint extraLetters = value - m_truthTable.outLetters.size();
         for(int i = 0; i < extraLetters; i++)
         {
-            char newLetter = char(Settings::IntEndAlphabet);
+            char newLetter = 'Z';
             while(inVector(m_truthTable.outLetters, newLetter))
             {
                 newLetter--;

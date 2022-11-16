@@ -475,10 +475,10 @@ void Tests::test_truthTableToBooleanExpression()
     }
 
     std::vector<char> resultLetters1 = {'A','B'};
-    std::vector<char> resultLetters2 = {'C', '+', 'D'};
+    std::vector<char> resultLetters2 = {'D', '+', 'C'};
 
-    QCOMPARE(expressions[0].resultLetter, 'Z');
-    QCOMPARE(expressions[1].resultLetter, 'Y');
+    QCOMPARE(expressions[0].resultLetter, 'z');
+    QCOMPARE(expressions[1].resultLetter, 'y');
     QCOMPARE(expressions[0].letters, resultLetters2);
     QCOMPARE(expressions[1].letters, resultLetters1);
 }

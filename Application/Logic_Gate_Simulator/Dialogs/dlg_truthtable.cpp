@@ -223,6 +223,14 @@ bool inVector(const std::vector<char>& vec, const char& chr)
     return false;
 }
 
+void removeLetters(std::vector<char>& letters, const uint toRemove)
+{
+    for(int i = 0; i < toRemove; i++)
+    {
+        letters.erase(letters.begin());
+    }
+}
+
 void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
 {
     if(m_truthTable.inValues.size() == 0)
@@ -249,11 +257,8 @@ void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
     //Remove letters
     else if(value < m_truthTable.inLetters.size())
     {
-        uint removeLetters = m_truthTable.inLetters.size() - value;
-        for(int i = 0; i < removeLetters - value; i++)
-        {
-            m_truthTable.inLetters.erase(m_truthTable.inLetters.begin());
-        }
+        uint iRemove = m_truthTable.inLetters.size() - value;
+        removeLetters(m_truthTable.inLetters, iRemove);
     }
 
     m_truthTable.inValues.clear();
@@ -317,11 +322,8 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
     //Remove letters
     else if(value < m_truthTable.outLetters.size())
     {
-        uint removeLetters = m_truthTable.outLetters.size() - value;
-        for(int i = 0; i < removeLetters - value; i++)
-        {
-            m_truthTable.outLetters.erase(m_truthTable.outLetters.begin());
-        }
+        uint iRemove = m_truthTable.outLetters.size() - value;
+        removeLetters(m_truthTable.outLetters, iRemove);
     }
 
     int difference = value - m_truthTable.outValues[0].size();

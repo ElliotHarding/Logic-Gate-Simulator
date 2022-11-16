@@ -29,6 +29,7 @@ private slots:
     void test_nodeLink();
 
     void test_booleanExpressionsToCircuit();
+    void test_truthTableToBooleanExpression();
 
     /*
     //Link tests

@@ -439,6 +439,49 @@ void Tests::test_booleanExpressionsToCircuit()
                                                  {true, true}};
     QCOMPARE(tt2.outValues, outValues2);
 }
+
+void Tests::test_truthTableToBooleanExpression()
+{
+    TruthTable truthTable;
+    truthTable.size = 16;
+    for(uint i = 0; i < 16; i++)
+    {
+        truthTable.inValues.push_back(truthTable.genInputs(i, 4));
+    }
+    truthTable.outValues = {{false, false},
+                            {false, false},
+                            {false, false},
+                            {false, true},
+                            {true, false},
+                            {true, false},
+                            {true, false},
+                            {true, true},
+                            {true, false},
+                            {true, false},
+                            {true, false},
+                            {true, true},
+                            {true, false},
+                            {true, false},
+                            {true, false},
+                            {true, true}};
+
+    std::vector<BooleanExpression> expressions;
+    QCOMPARE(Converter::truthTableToBooleanExpressions(truthTable, ConversionAlgorithm::QuineMcCluskey, expressions), SUCCESS);
+
+    if(expressions.size() != 2)
+    {
+        QCOMPARE(false, true);
+        return;
+    }
+
+    std::vector<char> resultLetters1 = {'A','B'};
+    std::vector<char> resultLetters2 = {'C', '+', 'D'};
+
+    QCOMPARE(expressions[0].resultLetter, 'Z');
+    QCOMPARE(expressions[1].resultLetter, 'Y');
+    QCOMPARE(expressions[0].letters, resultLetters2);
+    QCOMPARE(expressions[1].letters, resultLetters1);
+}
 /*
 void Tests::test_circuit()
 {

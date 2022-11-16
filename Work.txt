@@ -5,6 +5,10 @@ do we need offsetGates if we pan painter?
 
 
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+
+boolean expression to tt what happens to letters? are they the same?
+and what happens when that tt goes to boolean expressions? are the letters default?
+
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 
@@ -19,3 +23,6 @@ TT --> Cir thread B
 script --> Cir	B (uses script --> TT --> Cir)
 script --> TT	G
 script --> Bool ok (uses script --> tt --> bool)
+
+
+

@@ -288,7 +288,7 @@ bool expressionToResult(const std::vector<bool>& inValues, std::vector<char>& in
 
 ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)
 {
-    if(truthTable.inValues.size() != 0 || truthTable.outValues.size() != 0 || truthTable.size != 0 || truthTable.inLetters.size() != 0 || truthTable.outLetters.size() != 0)
+    if(!truthTable.isEmptyTable())
     {
         return INVALID_TABLE;
     }
@@ -742,6 +742,11 @@ ConverterResult Converter::scriptToCircuit(const QString &script, const uint &nu
 
 ConverterResult Converter::scriptToTruthTable(const QString &script, const uint &numInputs, const uint &numOutputs, TruthTable &truthTable, int& failedLineNumber)
 {
+    if(!truthTable.isEmptyTable())
+    {
+        return INVALID_TABLE;
+    }
+
     QScriptEngine engine;
     QScriptContext* pContext = engine.pushContext();//I think this gets deleted by engine destructor
 
@@ -749,6 +754,7 @@ ConverterResult Converter::scriptToTruthTable(const QString &script, const uint 
     for(uint i = 1; i <= numInputs; i++)
     {
         inputVariables.push_back("input" + QString::number(i));
+        truthTable.inLetters.push_back('A'-1+i);
     }
 
     std::vector<QString> outputVariables;
@@ -756,6 +762,7 @@ ConverterResult Converter::scriptToTruthTable(const QString &script, const uint 
     {
         outputVariables.push_back("output" + QString::number(i));
         pContext->activationObject().setProperty("output" + QString::number(i), false);
+        truthTable.outLetters.push_back('Z'+1-i);
     }
 
     std::vector<bool> genInputValues;

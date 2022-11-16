@@ -13,6 +13,7 @@ struct TruthTable
     unsigned int size = 0;
 
     std::vector<bool> genInputs(const unsigned int& iTableRun, const unsigned int& numInputs);
+    bool isEmptyTable();
 };
 
 #endif // TRUTHTABLE_H

@@ -14,3 +14,12 @@ std::vector<bool> TruthTable::genInputs(const unsigned int &iTableRun, const uns
     }
     return inputs;
 }
+
+bool TruthTable::isEmptyTable()
+{
+    if(inValues.size() != 0 || outValues.size() != 0 || size != 0 || inLetters.size() != 0 || outLetters.size() != 0)
+    {
+        return false;
+    }
+    return true;
+}

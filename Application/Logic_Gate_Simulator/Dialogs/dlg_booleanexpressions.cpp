@@ -12,8 +12,6 @@
 
 namespace Settings
 {
-const int IntEndAlphabet = 122;
-
 const uint ExpressionDisplayHeight = 50;
 const QRect ExpressionDisplayRemoveButtonGeometry = QRect(460, 13, 24, 24);
 const QRect ExpressionDisplayTextGeometry = QRect(10, 10, 420, 30);
@@ -177,7 +175,25 @@ void DLG_BooleanExpressions::on_btn_addExpression_clicked()
 {
     BooleanExpression newExpression;
     newExpression.addTerm('A');
-    newExpression.resultLetter = Settings::IntEndAlphabet - ui->list_expressions->count();
+
+    char newResultLetter = 'Z';
+    bool found = true;
+    while(found)
+    {
+        found = false;
+        for(int i = 0; i < ui->list_expressions->count(); i++)
+        {
+            BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));
+            if(pExpressionDisplay->getExpression().resultLetter == newResultLetter)
+            {
+                found = true;
+                newResultLetter--;
+                break;
+            }
+        }
+    }
+
+    newExpression.resultLetter = newResultLetter;
 
     addUiExpression(newExpression);
 }

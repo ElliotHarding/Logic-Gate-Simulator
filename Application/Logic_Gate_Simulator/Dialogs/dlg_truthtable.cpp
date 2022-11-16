@@ -52,12 +52,14 @@ void DLG_TruthTable::open()
 
     //Create fresh truthtable
     TruthTable truthTable;
-    truthTable.size = 3;
-    for(uint i = 0; i < truthTable.size + 1; i++)
+    truthTable.size = 4;
+    for(uint i = 0; i < truthTable.size; i++)
     {
         truthTable.inValues.push_back(truthTable.genInputs(i, 2));
-        truthTable.outValues.push_back({(i == truthTable.size ? true : false)});
+        truthTable.outValues.push_back({(i == (truthTable.size-1) ? true : false)});
     }
+    truthTable.inLetters = {'A', 'B'};
+    truthTable.outLetters = {'Z'};
     m_truthTable = truthTable;
     updateTableUI();
     QDialog::open();
@@ -209,12 +211,49 @@ void DLG_TruthTable::on_btn_expressions_clicked()
     }
 }
 
+bool inVector(const std::vector<char>& vec, const char& chr)
+{
+    for(uint i = 0; i < vec.size(); i++)
+    {
+        if(chr == vec[i])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
 {
     if(m_truthTable.inValues.size() == 0)
     {
         m_pHome->sendUserMessage("Internal error!");//todo better message
         return;
+    }
+
+    //Add additional letters
+    if(value > m_truthTable.inLetters.size())
+    {
+        uint extraLetters = value - m_truthTable.inLetters.size();
+        for(int i = 0; i < extraLetters; i++)
+        {
+            char newLetter = char(Settings::IntStartAlphabet);
+            while(inVector(m_truthTable.inLetters, newLetter))
+            {
+                newLetter++;
+            }
+            m_truthTable.inLetters.push_back(newLetter);
+        }
+    }
+
+    //Remove letters
+    else if(value < m_truthTable.inLetters.size())
+    {
+        uint removeLetters = m_truthTable.inLetters.size() - value;
+        for(int i = 0; i < removeLetters - value; i++)
+        {
+            m_truthTable.inLetters.erase(m_truthTable.inLetters.begin());
+        }
     }
 
     m_truthTable.inValues.clear();
@@ -258,6 +297,31 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
     {
         m_pHome->sendUserMessage("Internal error!");//todo better message
         return;
+    }
+
+    //Add additional letters
+    if(value > m_truthTable.outLetters.size())
+    {
+        uint extraLetters = value - m_truthTable.outLetters.size();
+        for(int i = 0; i < extraLetters; i++)
+        {
+            char newLetter = char(Settings::IntEndAlphabet);
+            while(inVector(m_truthTable.outLetters, newLetter))
+            {
+                newLetter--;
+            }
+            m_truthTable.outLetters.push_back(newLetter);
+        }
+    }
+
+    //Remove letters
+    else if(value < m_truthTable.outLetters.size())
+    {
+        uint removeLetters = m_truthTable.outLetters.size() - value;
+        for(int i = 0; i < removeLetters - value; i++)
+        {
+            m_truthTable.outLetters.erase(m_truthTable.outLetters.begin());
+        }
     }
 
     int difference = value - m_truthTable.outValues[0].size();

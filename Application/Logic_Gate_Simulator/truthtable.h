@@ -6,6 +6,8 @@
 
 struct TruthTable
 {
+    std::vector<char> inLetters;
+    std::vector<char> outLetters;
     std::vector<std::vector<bool>> inValues;
     std::vector<std::vector<bool>> outValues;
     unsigned int size = 0;

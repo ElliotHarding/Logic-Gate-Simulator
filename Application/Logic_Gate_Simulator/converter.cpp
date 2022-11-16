@@ -288,45 +288,43 @@ bool expressionToResult(const std::vector<bool>& inValues, std::vector<char>& in
 
 ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)
 {
-    if(truthTable.inValues.size() != 0 || truthTable.outValues.size() != 0 || truthTable.size != 0)
+    if(truthTable.inValues.size() != 0 || truthTable.outValues.size() != 0 || truthTable.size != 0 || truthTable.inLetters.size() != 0 || truthTable.outLetters.size() != 0)
     {
-        return INVALID_INPUT_EXPRESSIONS;
+        return INVALID_TABLE;
     }
 
     //Get inputs and outputs
-    std::vector<char> inputs;
-    std::vector<char> outputs;
     for(BooleanExpression expression : expressions)
     {
         for(uint i = 0; i < expression.letters.size(); i++)
         {
             const char letter = expression.letters[i];
-            if(isLetter(letter) && !inVector(inputs, letter))
+            if(isLetter(letter) && !inVector(truthTable.inLetters, letter))
             {
-                inputs.push_back(letter);
+                truthTable.inLetters.push_back(letter);
             }
         }
 
-        if(!inVector(outputs, expression.resultLetter))
+        if(!inVector(truthTable.outLetters, expression.resultLetter))
         {
-            outputs.push_back(expression.resultLetter);
+            truthTable.outLetters.push_back(expression.resultLetter);
         }
     }
 
     //Generate input values
-    truthTable.size = pow(2, inputs.size());
+    truthTable.size = pow(2, truthTable.inLetters.size());
     for(uint i = 0; i < truthTable.size; i++)
     {
-        truthTable.inValues.push_back(truthTable.genInputs(i, inputs.size()));
+        truthTable.inValues.push_back(truthTable.genInputs(i, truthTable.inLetters.size()));
     }
 
     //Generate output values
     for(uint i = 0; i < truthTable.inValues.size(); i++)
     {
         truthTable.outValues.push_back(std::vector<bool>());
-        for(uint iOutput = 0; iOutput < outputs.size(); iOutput++)
+        for(uint iOutput = 0; iOutput < truthTable.outValues.size(); iOutput++)
         {
-            truthTable.outValues[i].push_back(expressionToResult(truthTable.inValues[i], inputs, expressions[iOutput]));
+            truthTable.outValues[i].push_back(expressionToResult(truthTable.inValues[i], truthTable.inLetters, expressions[iOutput]));
         }
     }
 

@@ -386,18 +386,17 @@ void Tests::test_booleanExpressionsToCircuit()
 
     QCOMPARE(Converter::booleanExpressionsToCircuit(expressions, circuitOptions, pNewCircuit), ConverterResult::SUCCESS);
 
-    if(pNewCircuit != nullptr)
-    {
-        TruthTable tt;
-        QCOMPARE(Converter::circuitToTruthTable(pNewCircuit->getGates(), tt), SUCCESS);
-
-        std::vector<std::vector<bool>> outValues = {{false}, {false}, {false}, {true}};
-        QCOMPARE(tt.outValues, outValues);
-    }
-    else
+    if(pNewCircuit == nullptr)
     {
         QCOMPARE(true, false);
+        return;
     }
+
+    TruthTable tt;
+    QCOMPARE(Converter::circuitToTruthTable(pNewCircuit->getGates(), tt), SUCCESS);
+
+    std::vector<std::vector<bool>> outValues = {{false}, {false}, {false}, {true}};
+    QCOMPARE(tt.outValues, outValues);
 }
 /*
 void Tests::test_circuit()

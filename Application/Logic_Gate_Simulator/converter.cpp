@@ -290,6 +290,7 @@ ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression
 {
     if(!truthTable.isEmptyTable())
     {
+        Logger::log(LL_Error, "Converter::expressionsToTruthTable - Invalid input truth table");
         return INVALID_TABLE;
     }
 
@@ -744,6 +745,7 @@ ConverterResult Converter::scriptToTruthTable(const QString &script, const uint 
 {
     if(!truthTable.isEmptyTable())
     {
+        Logger::log(LL_Error, "Converter::scriptToTruthTable - Invalid input truth table");
         return INVALID_TABLE;
     }
 
@@ -816,6 +818,11 @@ ConverterResult Converter::scriptToBooleanExpressions(const QString& script, con
 
 ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, TruthTable &truthTable)
 {
+    if(!truthTable.isEmptyTable())
+    {
+        Logger::log(LL_Error, "Converter::circuitToTruthTable - Invalid input truth table");
+        return INVALID_TABLE;
+    }
 
     //Check for external connections
     for (Gate* gate : gates)

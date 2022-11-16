@@ -20,15 +20,9 @@ CircuitOptions::CircuitOptions() : CircuitOptions(false, false, false, 0, 0, 0)
 {
 }
 
-namespace Settings
-{
-const uint IntStartAlphabet = 65;
-const uint IntEndAlphabet = 122;
-}
-
 bool isLetter(const char& letter)
 {
-    if(letter >= (int)Settings::IntStartAlphabet && letter <= (int)Settings::IntEndAlphabet)
+    if(letter >= 'A' && letter <= 'Z')
     {
         return true;
     }
@@ -162,12 +156,14 @@ ConverterResult Converter::truthTableToBooleanExpressions(TruthTable& truthTable
 {
     if(!truthTable.isValid())
     {
+        Logger::log(LL_Error, "Converter::truthTableToBooleanExpressions - Invalid truth table provided");
         return INVALID_TABLE;
     }
 
     if(expressions.size() != 0)
     {
-        return INVALID_INPUT_EXPRESSIONS;
+        expressions.clear();
+        Logger::log(LL_Warn, "Converter::truthTableToBooleanExpressions - Cleared provided expressions");
     }
 
     //Todo ~ simplify
@@ -189,16 +185,10 @@ ConverterResult Converter::truthTableToBooleanExpressions(TruthTable& truthTable
         dontCaresMask += "-";
     }
 
-    std::vector<char> vars;
-    for(uint i = 0; i < numInputs; i++)
-    {
-        vars.push_back(char(Settings::IntStartAlphabet + i));
-    }
-
     for(uint iOutput = 0; iOutput < numOutputs; iOutput++)
     {
         BooleanExpression expression;
-        expression.resultLetter = Settings::IntEndAlphabet - iOutput;
+        expression.resultLetter = truthTable.outLetters[iOutput];
 
         //Get min terms
         std::vector<QString> minTerms;
@@ -241,10 +231,10 @@ ConverterResult Converter::truthTableToBooleanExpressions(TruthTable& truthTable
         //Translate reduced min terms into boolean expression
         for(int iMinTerm = 0; iMinTerm < minTermsSize; iMinTerm++)
         {
-            addTranslatedMinTerm(minTerms[iMinTerm], expression, vars, dontCaresMask);
+            addTranslatedMinTerm(minTerms[iMinTerm], expression, truthTable.inLetters, dontCaresMask);
             expression.addTerm('+');
         }
-        addTranslatedMinTerm(minTerms[minTermsSize], expression, vars, dontCaresMask);
+        addTranslatedMinTerm(minTerms[minTermsSize], expression, truthTable.inLetters, dontCaresMask);
 
         //Finish
         expressions.push_back(expression);
@@ -349,7 +339,7 @@ ConverterResult Converter::simplifyBooleanExpressions(std::vector<BooleanExpress
 
 bool isLetterOrInt(const char& letter)
 {
-    if((letter >= (int)Settings::IntStartAlphabet && letter <= (int)Settings::IntEndAlphabet) || (letter >= 48 && letter <= 57))
+    if(isLetter(letter))
     {
         return true;
     }

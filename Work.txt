@@ -11,6 +11,8 @@ and what happens when that tt goes to boolean expressions? are the letters defau
 
 move in vector to truthtable
 
+booleanExpressionsToCircuit
+
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 

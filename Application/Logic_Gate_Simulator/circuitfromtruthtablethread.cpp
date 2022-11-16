@@ -6,12 +6,6 @@
 #include <QRandomGenerator>
 #include <cmath>
 
-namespace Settings
-{
-const char StartAlphabet = 'A';
-const char EndAlphabet = 'Z';
-}
-
 bool allUnlinkedNodesFromSameGate(const std::vector<Node*>& circuitOutsUnlinked, const std::vector<Node*>& circuitInsUnlinked)
 {
     for(uint i = 0; i < circuitOutsUnlinked.size(); i++)
@@ -128,11 +122,14 @@ bool testCircuitAgainstTruthTable(Circuit& circuit, TruthTable& truthTable)
         //Set inputs
         for (auto const& inputGate : circuit.inputs)
         {
-            //Todo ~ sort this out
-            //   Can't confirm that all letters are there...
-            uint iInput = inputGate.first - Settings::StartAlphabet;
-
-            inputGate.second->setPowerState(truthTable.inValues[iTableRun][iInput]);
+            for(uint iInput = 0; iInput < truthTable.inLetters.size(); iInput++)
+            {
+                if(truthTable.inLetters[iInput] == inputGate.first)
+                {
+                    inputGate.second->setPowerState(truthTable.inValues[iTableRun][iInput]);
+                    break;
+                }
+            }
         }
 
         //Update
@@ -148,38 +145,21 @@ bool testCircuitAgainstTruthTable(Circuit& circuit, TruthTable& truthTable)
         //Check outputs
         for(auto const& outputGate : circuit.outputs)
         {
-            //Todo ~ sort this out
-            //   Can't confirm that all letters are there...
-            uint iOutput = Settings::EndAlphabet - outputGate.first;
-
-            if(outputGate.second->getValue() != truthTable.outValues[iTableRun][iOutput])
+            for(uint iOutput = 0; iOutput < truthTable.outLetters.size(); iOutput++)
             {
-                return false;
+                if(truthTable.outLetters[iOutput] == outputGate.first)
+                {
+                    if(outputGate.second->getValue() != truthTable.outValues[iTableRun][iOutput])
+                    {
+                        return false;
+                    }
+                    break;
+                }
             }
         }
     }
 
     return true;
-}
-
-std::vector<char> getInputLetters(const uint iInputs)
-{
-    std::vector<char> result;
-    for(uint i = 0; i < iInputs; i++)
-    {
-        result.push_back(Settings::StartAlphabet + i);
-    }
-    return result;
-}
-
-std::vector<char> getOutputLetters(const uint iOutputs)
-{
-    std::vector<char> result;
-    for(uint i = 0; i < iOutputs; i++)
-    {
-        result.push_back(Settings::EndAlphabet - i);
-    }
-    return result;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -201,7 +181,7 @@ void RandomCircuitGenThread::run()
 {
     const clock_t startTimeMs = clock();
 
-    if(m_truthTable.inValues.empty() || m_truthTable.outValues.empty())
+    if(m_truthTable.inValues.empty() || m_truthTable.outValues.empty() || m_truthTable.inLetters.empty() || m_truthTable.outLetters.empty())
     {
         emit circuitGenFailure("Failed to generate circuit!");
         return;
@@ -216,7 +196,7 @@ void RandomCircuitGenThread::run()
     }
 
     //Todo ~ TruthTable class should contains list of input/output letter names
-    Circuit circuit(getInputLetters(iInputs), getOutputLetters(iOutputs));
+    Circuit circuit(m_truthTable.inLetters, m_truthTable.outLetters);
 
     //Begin generating random circuits until one matches truth table
     while(true)

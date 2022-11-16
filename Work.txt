@@ -9,6 +9,8 @@ FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 boolean expression to tt what happens to letters? are they the same?
 and what happens when that tt goes to boolean expressions? are the letters default?
 
+move in vector to truthtable
+
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 

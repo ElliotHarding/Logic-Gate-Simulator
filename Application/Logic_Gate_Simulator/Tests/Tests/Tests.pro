@@ -1,5 +1,5 @@
 QT += testlib
-QT += xml script gui
+QT += core xml script gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 #QT -= gui
 
@@ -7,7 +7,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += qt console warn_on depend_includepath testcase
 CONFIG += resources_big
-CONFIG -= app_bundle
+CONFIG += c++11
+#CONFIG -= app_bundle
 #CONFIG += debug
 #QMAKE_CXXFLAGS += -O0 -g -ggdb
 

@@ -1,6 +1,8 @@
 #include "Tests.h"
 #include "../../converter.h"
 
+#include <QFont>
+
 void Tests::test_andGate()
 {
     GateAnd andGate;

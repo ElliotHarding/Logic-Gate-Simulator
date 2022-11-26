@@ -127,7 +127,8 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         int failedLineNumber;
         if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt, failedLineNumber) == ConverterResult::SUCCESS)
         {
-            m_pHome->requestRandomCircuitGen(tt);
+            //m_pHome->requestRandomCircuitGen(tt);
+            //todo ~~ fix
         }
         else
         {

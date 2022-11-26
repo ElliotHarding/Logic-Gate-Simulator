@@ -27,15 +27,16 @@ public:
     void open(const TruthTable& truthTable);
     void open() override;
 
+public slots:
+    void onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression> expressions);
+    void onTruthTableToExpressionsFailure(const QString& failMessage);
+
 private slots:
     void on_btn_circuit_clicked();
     void on_btn_expressions_clicked();
 
     void on_spinBox_inputs_valueChanged(int value);
     void on_spinBox_outputs_valueChanged(int value);
-
-    void onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression> expressions);
-    void onTruthTableToExpressionsFailure(const QString& failMessage);
 
 private:
     void clearUI();

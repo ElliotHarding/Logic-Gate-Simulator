@@ -95,8 +95,7 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
     GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
     if(Converter::booleanExpressionsToCircuit(expressions, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
     {
-        m_pHome->addGateToGateFieldCenterd(pNewGateCollection);
-        close();
+        m_pHome->showGeneratedCircuit(pNewGateCollection);
     }
     else
     {
@@ -117,7 +116,7 @@ void DLG_BooleanExpressions::on_btn_genTruthTable_clicked()
     TruthTable truthTable;
     if(Converter::expressionsToTruthTable(expressions, truthTable) == ConverterResult::SUCCESS)
     {
-        m_pHome->showTruthTable(truthTable);
+        m_pHome->showGeneratedTruthTable(truthTable);
         close();
     }
     else

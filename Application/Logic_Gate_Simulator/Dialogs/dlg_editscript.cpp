@@ -133,8 +133,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         int failedLineNumber;
         if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt, failedLineNumber) == ConverterResult::SUCCESS)
         {
-            //m_pHome->requestRandomCircuitGen(tt);
-            //todo ~~ fix
+            m_pHome->runRandomConversionThread(tt, GoalResult::GR_Circuit);
         }
         else
         {
@@ -147,9 +146,7 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         int failedLineNumber;
         if(Converter::scriptToCircuit(script, numInputs, numOutputs, m_pHome->getCircuitGenOptions(), pNewCircuit, failedLineNumber) == ConverterResult::SUCCESS)
         {
-            m_pHome->addGateToGateFieldCenterd(pNewCircuit);
-            m_pFpga = nullptr;
-            close();
+            m_pHome->showGeneratedCircuit(pNewCircuit);
         }
         else
         {
@@ -177,7 +174,7 @@ void DLG_EditScript::on_btn_genTuthTable_clicked()
     int failedLineNumber;
     if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt, failedLineNumber) == ConverterResult::SUCCESS)
     {
-        m_pHome->showTruthTable(tt);
+        m_pHome->showGeneratedTruthTable(tt);
         close();
     }
     else
@@ -319,7 +316,7 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
     int failedLineNumber;
     if(Converter::scriptToBooleanExpressions(script, numInputs, numOutputs, m_pHome->getCurrentConversionAlgorithm(), expressions, failedLineNumber) == ConverterResult::SUCCESS)
     {
-        m_pHome->showBooleanExpressions(expressions);
+        m_pHome->showGeneratedBooleanExpressions(expressions);
         close();
     }
     else

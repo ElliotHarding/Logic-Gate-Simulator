@@ -304,7 +304,7 @@ void DLG_GateInfo::on_btn_truthTable_clicked()
         ConverterResult result = Converter::circuitToTruthTable(dynamic_cast<GateCollection*>(m_pGateDisplayed)->getGates(), table);
         if(result == ConverterResult::SUCCESS)
         {
-            m_pParent->showTruthTable(table);
+            m_pParent->showGeneratedTruthTable(table);
         }
         else
         {
@@ -321,7 +321,7 @@ void DLG_GateInfo::on_btn_expression_clicked()
         ConverterResult result = Converter::circuitToBooleanExpressions(dynamic_cast<GateCollection*>(m_pGateDisplayed)->getGates(), m_pParent->getCurrentConversionAlgorithm(), expressions);
         if(result == ConverterResult::SUCCESS)
         {
-            m_pParent->showBooleanExpressions(expressions);
+            m_pParent->showGeneratedBooleanExpressions(expressions);
         }
         else
         {

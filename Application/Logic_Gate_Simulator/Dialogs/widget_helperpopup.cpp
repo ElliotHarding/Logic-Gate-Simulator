@@ -79,10 +79,9 @@ void Widget_HelperPopup::on_btn_previous_clicked()
 Widget_CircleTarget::Widget_CircleTarget(DLG_Home *pHome) : QWidget(pHome)
 {
     setFocusPolicy(Qt::NoFocus);
+    setAttribute(Qt::WA_TransparentForMouseEvents);
 
     raise();
-
-    setMouseTracking(false);
 
     m_pWidthAnimationGroup = new QSequentialAnimationGroup(this);
 

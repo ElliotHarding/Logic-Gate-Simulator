@@ -359,7 +359,7 @@ void DLG_Home::setHelperTip(const HelperTip &helperTip)
 
     case HT_SpawnAndGate:
     {
-        m_pHelperPopup->popup(m_pWidgetAllGates->getAndGateButtonPosition(), "Select the AND gate. Hold down the mouse \n and drag it onto the page.", true, 90);
+        m_pHelperPopup->popup(m_pWidgetAllGates->getAndGateButtonPosition(), "Select the AND gate. Then drag it onto the page.", true, 90);
         break;
     }
 

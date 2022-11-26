@@ -134,6 +134,20 @@ void DLG_BooleanExpressions::on_btn_simplify_clicked()
         expressions.push_back(pExpressionDisplay->getExpression());
     }
 
+    if(m_pHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
+    {
+        TruthTable tt;
+        if(Converter::expressionsToTruthTable(expressions, tt) == ConverterResult::SUCCESS)
+        {
+            m_pHome->runRandomConversionThread(tt, GoalResult::GR_BooleanExpressions);
+        }
+        else
+        {
+            m_pHome->sendUserMessage("Failed to optimize expressions.\n Please check they are a valid format");
+        }
+        return;
+    }
+
     if(Converter::simplifyBooleanExpressions(expressions, m_pHome->getCurrentConversionAlgorithm()) == ConverterResult::SUCCESS)
     {
         showExpressions(expressions);

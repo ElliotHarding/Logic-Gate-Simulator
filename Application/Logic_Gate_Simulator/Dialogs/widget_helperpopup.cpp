@@ -11,8 +11,6 @@ Widget_HelperPopup::Widget_HelperPopup(DLG_Home* pHome) :
 
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    //setAttribute(Qt::WA_NoSystemBackground);
-    //setAttribute(Qt::WA_PaintOnScreen);
 
     ui->pushButton->setAttribute(Qt::WA_TranslucentBackground, false);
 }
@@ -25,11 +23,11 @@ Widget_HelperPopup::~Widget_HelperPopup()
 void Widget_HelperPopup::popup(const QPoint& location, const QString& tipText)
 {
     const QPoint homeLocation = m_pHome->geometry().topLeft();
-    if(location.x() < m_pHome->geometry().width() - Settings::PopupWidth)
+    if(location.x() < m_pHome->geometry().width() - Settings::PopupWidth * 2)
     {
-        if(location.y() < Settings::PopupHeight)
+        if(location.y() < Settings::PopupHeight * 2)
         {
-            move(location + QPoint(Settings::PopupDistance, Settings::PopupDistance) + homeLocation);
+            move(location + homeLocation + QPoint(Settings::PopupDistance, Settings::PopupDistance));
         }
         else
         {
@@ -38,7 +36,7 @@ void Widget_HelperPopup::popup(const QPoint& location, const QString& tipText)
     }
     else
     {
-        if(location.y() < Settings::PopupHeight)
+        if(location.y() < Settings::PopupHeight * 2)
         {
             move(QPoint(location.x() - Settings::PopupWidth - Settings::PopupDistance + homeLocation.x(), location.y() + Settings::PopupDistance + homeLocation.y()));
         }

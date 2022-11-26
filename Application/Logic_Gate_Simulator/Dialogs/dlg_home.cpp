@@ -1,6 +1,5 @@
 #include "dlg_home.h"
 #include "ui_dlg_home.h"
-#include "allgates.h"
 #include "gatefield.h"
 
 #include <QLayout>
@@ -16,7 +15,8 @@ const QString DefaultPageName = "New Page";
 DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
-    m_zoomFactor(-1)
+    m_zoomFactor(-1),
+    m_pRandomConversionThread(new RandomConversionThread())
 {
 
     pProgressBar->setValue(20);
@@ -72,6 +72,10 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         connect(ui->actionCreate_Truth_Table, SIGNAL(triggered()), this, SLOT(on_btn_createTruthTable()));
         connect(ui->actionCreate_Expressions, SIGNAL(triggered()), this, SLOT(on_btn_createExpressions()));
         connect(ui->actionConversion_And_Generation_Settings, SIGNAL(triggered()), this, SLOT(on_btn_conversionConfig()));
+
+        connect(m_pRandomConversionThread, SIGNAL(circuitGenSuccess(GateCollection*)), this, SLOT(showGeneratedCircuit(GateCollection*)));
+        connect(m_pRandomConversionThread, SIGNAL(expressionsGenSuccess(const std::vector<BooleanExpression>)), this, SLOT(showGeneratedBooleanExpressions(const std::vector<BooleanExpression>)));
+        connect(m_pRandomConversionThread, SIGNAL(generationFailure(const QString&)), this, SLOT(failedRandomConversion(const QString&)));
     }
 
     {
@@ -123,6 +127,8 @@ void DLG_Home::initalizeDialogsAndWidgets()
 
 DLG_Home::~DLG_Home()
 {
+    delete m_pRandomConversionThread;
+
     delete m_pSpawnedGateWidget;
 
     delete m_pWidgetAllGates;
@@ -350,6 +356,18 @@ void DLG_Home::updateCustomGateListWidget()
     m_pWidgetCustomGates->updateList();
 }
 
+void DLG_Home::runRandomConversionThread(const TruthTable &truthTable, const GoalResult& goalResult)
+{
+    if(m_pRandomConversionThread->isRunning())
+    {
+        sendUserMessage("Already generating!");
+        return;
+    }
+
+    m_pRandomConversionThread->start(truthTable, getCircuitGenOptions(), goalResult);
+
+}
+
 void DLG_Home::showGeneratedCircuit(GateCollection *pGateCollection)
 {
     if(pGateCollection == nullptr)
@@ -378,11 +396,16 @@ void DLG_Home::showGeneratedTruthTable(const TruthTable& truthTable)
     m_pDlgEditScript->close();
 }
 
-void DLG_Home::showGeneratedBooleanExpressions(const std::vector<BooleanExpression>& expressions)
+void DLG_Home::showGeneratedBooleanExpressions(const std::vector<BooleanExpression> expressions)
 {
     m_pDlgBooleanExpressions->showExpressions(expressions);
     m_pDlgTruthTable->close();
     m_pDlgEditScript->close();
+}
+
+void DLG_Home::failedRandomConversion(const QString& failMessage)
+{
+    sendUserMessage(failMessage);
 }
 
 // -- HANDLERS FOR GATES MENU BUTTONS --

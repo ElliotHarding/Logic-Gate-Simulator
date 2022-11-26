@@ -13,13 +13,13 @@ enum GoalResult
 };
 
 //////////////////////////////////////////////////////////////////////////
-///TruthTableToBooleanExpressionsThread
+///RandomConversionThread
 /// This is using the random method! For other(better) methods see Converter
-class TruthTableToBooleanExpressionsThread : public QThread
+class RandomConversionThread : public QThread
 {
     Q_OBJECT
 public:
-    TruthTableToBooleanExpressionsThread();
+    RandomConversionThread();
 
     void start(const TruthTable& truthTable, const CircuitOptions& circuitGenOptions, GoalResult goalResult);
     void run();
@@ -27,7 +27,7 @@ public:
 signals:
     void circuitGenSuccess(GateCollection* pGateCollection);
     void expressionsGenSuccess(const std::vector<BooleanExpression> expressions);
-    void genFailure(const QString& failMessage);
+    void generationFailure(const QString& failMessage);
 
 private:
     CircuitOptions m_circuitOptions;

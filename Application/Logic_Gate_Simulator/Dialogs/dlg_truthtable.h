@@ -5,8 +5,6 @@
 #include <QLabel>
 
 #include "truthtable.h"
-#include "booleanexpression.h"
-#include "truthtabletobooleanexpressionthread.h"
 
 namespace Ui {
 class DLG_TruthTable;
@@ -27,10 +25,6 @@ public:
     void open(const TruthTable& truthTable);
     void open() override;
 
-public slots:
-    void onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression> expressions);
-    void onTruthTableToExpressionsFailure(const QString& failMessage);
-
 private slots:
     void on_btn_circuit_clicked();
     void on_btn_expressions_clicked();
@@ -50,8 +44,6 @@ private:
     TruthTable m_truthTable;
 
     DLG_Home* m_pHome;
-
-    TruthTableToBooleanExpressionsThread* m_pTruthTableToExpressionsViaRandomThread;
 };
 
 //////////////////////////////////////////////////////////

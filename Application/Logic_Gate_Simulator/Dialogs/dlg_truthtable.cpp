@@ -14,19 +14,14 @@ const QRect TableDimensions = QRect(50, 70, 300, 300);
 DLG_TruthTable::DLG_TruthTable(DLG_Home* pParent) :
     QDialog(pParent),
     ui(new Ui::DLG_TruthTable),
-    m_pHome(pParent),
-    m_pTruthTableToExpressionsViaRandomThread(new TruthTableToBooleanExpressionsThread())
+    m_pHome(pParent)
 {
     ui->setupUi(this);
-
-    connect(m_pTruthTableToExpressionsViaRandomThread, SIGNAL(expressionsGenSuccess(const std::vector<BooleanExpression>)), this, SLOT(onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression>)));
-    connect(m_pTruthTableToExpressionsViaRandomThread, SIGNAL(expressionsGenFailure(const QString&)), this, SLOT(onTruthTableToExpressionsFailure(const QString&)));
 }
 
 DLG_TruthTable::~DLG_TruthTable()
 {
     clearUI();
-    delete m_pTruthTableToExpressionsViaRandomThread;
     delete ui;
 }
 
@@ -178,21 +173,14 @@ void DLG_TruthTable::on_btn_circuit_clicked()
     //Todo ~ could move this logic into DLG_Home
     if(m_pHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
     {
-        if(m_pTruthTableToExpressionsViaRandomThread->isRunning())
-        {
-            m_pHome->sendUserMessage("Already generating!");
-            return;
-        }
-
-        m_pTruthTableToExpressionsViaRandomThread->start(m_truthTable, m_pHome->getCircuitGenOptions());
+        m_pHome->runRandomConversionThread(m_truthTable, GoalResult::GR_Circuit);
     }
     else
     {
         GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
         if(Converter::truthTableToCircuit(m_truthTable, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
         {
-            m_pHome->addGateToGateFieldCenterd(pNewGateCollection);
-            close();
+            m_pHome->showGeneratedCircuit(pNewGateCollection);
         }
         else
         {
@@ -210,8 +198,7 @@ void DLG_TruthTable::on_btn_expressions_clicked()
     ConverterResult result = Converter::truthTableToBooleanExpressions(m_truthTable, m_pHome->getCurrentConversionAlgorithm(), expressions);
     if(result == ConverterResult::SUCCESS)
     {
-        m_pHome->showBooleanExpressions(expressions);
-        close();
+        m_pHome->showGeneratedBooleanExpressions(expressions);
     }
     else
     {
@@ -329,31 +316,6 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
     }
 
     updateTableUI();
-}
-
-void DLG_TruthTable::onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression> expressions)
-{
-    GateCollection* pNewCircuit;
-    if(Converter::booleanExpressionsToCircuit(expressions, m_pHome->getCircuitGenOptions(), pNewCircuit) != ConverterResult::SUCCESS)
-    {
-        Logger::log(LogLevel::LL_Error, "DLG_Home::onTruthTableToExpressionsSuccess : Generation failed! Converter::booleanExpressionsToCircuit failed.");
-        m_pHome->sendUserMessage("Failed to generate circuit! Check logs.");
-        return;
-    }
-    if(pNewCircuit == nullptr)
-    {
-        Logger::log(LogLevel::LL_Error, "DLG_Home::onTruthTableToExpressionsSuccess : Generation failed! Converter::booleanExpressionsToCircuit failed. pNewCircuit == nullptr.");
-        m_pHome->sendUserMessage("Failed to generate circuit! Check logs.");
-        return;
-    }
-
-    m_pHome->addGateToGateFieldCenterd(pNewCircuit);
-    close();
-}
-
-void DLG_TruthTable::onTruthTableToExpressionsFailure(const QString& failMessage)
-{
-    m_pHome->sendUserMessage(failMessage);
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -76,11 +76,15 @@ public:
     void selectionToolClicked();
     void updateCustomGateListWidget();
 
+    void runRandomConversionThread(const TruthTable& truthTable, const GoalResult& goalResult);
+
 public slots:
     ///Dialog interactions
     void showGeneratedCircuit(GateCollection* pGateCollection);
     void showGeneratedTruthTable(const TruthTable& truthTable);
-    void showGeneratedBooleanExpressions(const std::vector<BooleanExpression>& expressions);
+    void showGeneratedBooleanExpressions(const std::vector<BooleanExpression> expressions);
+
+    void failedRandomConversion(const QString& failMessage);
 
 protected:
     void moveEvent(QMoveEvent* event) override;
@@ -134,6 +138,8 @@ protected:
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
     ClickMode m_savedClickMode = CLICK_DRAG;
+
+    RandomConversionThread* m_pRandomConversionThread;
 
 private slots:
 

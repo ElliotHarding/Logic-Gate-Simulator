@@ -44,11 +44,11 @@ std::vector<BooleanExpression> createRandomExpressions(const std::vector<char>& 
 //////////////////////////////////////////////////////////////////////////
 /// \brief CircuitFromScriptThread::CircuitFromScriptThread
 ///
-TruthTableToBooleanExpressionsThread::TruthTableToBooleanExpressionsThread() : QThread()
+RandomConversionThread::RandomConversionThread() : QThread()
 {
 }
 
-void TruthTableToBooleanExpressionsThread::start(const TruthTable& truthTable, const CircuitOptions& circuitGenOptions, GoalResult goalResult)
+void RandomConversionThread::start(const TruthTable& truthTable, const CircuitOptions& circuitGenOptions, GoalResult goalResult)
 {
     m_truthTable = truthTable;
     m_circuitOptions = circuitGenOptions;
@@ -57,7 +57,7 @@ void TruthTableToBooleanExpressionsThread::start(const TruthTable& truthTable, c
     QThread::start();
 }
 
-void TruthTableToBooleanExpressionsThread::run()
+void RandomConversionThread::run()
 {
     const clock_t startTimeMs = clock();
 

@@ -267,43 +267,6 @@ void Tests::test_outputGates()
     //Timer gate has its own test
 }
 
-void Tests::test_timerGate()
-{
-    GateTimer timerGate;
-    QThread* pThread = new QThread();
-    pThread->start();
-    timerGate.moveToThread(pThread);
-    timerGate.setFrequency(200);
-    QCOMPARE(timerGate.getFrequency(), 200);
-
-    Node* pOutNode = timerGate.getOutputNodes()[0];
-    pOutNode->setValue(false);
-    QCOMPARE(pOutNode->value(), false);
-
-    bool state = false;
-    bool changed1 = false;
-    bool changed2 = false;
-    for(uint i = 0; i < 10; i++)
-    {
-        QThread::msleep(200);
-        if(state != pOutNode->value())
-        {
-            state = pOutNode->value();
-            if(!changed1)
-            {
-                changed1 = true;
-            }
-            else
-            {
-                changed2 = true;
-            }
-        }
-    }
-
-    QCOMPARE(changed1, true);
-    QCOMPARE(changed2, true);
-}
-
 void Tests::test_fpga()
 {
     //Init ui stuff for test

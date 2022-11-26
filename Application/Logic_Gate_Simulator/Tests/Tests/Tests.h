@@ -23,7 +23,6 @@ private slots:
     void test_triOrGate();
     void test_triEorGate();
     void test_outputGates();
-    void test_timerGate();
     void test_fpga();
 
     void test_nodeLink();

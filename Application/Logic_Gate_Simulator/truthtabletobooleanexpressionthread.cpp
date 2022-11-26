@@ -19,7 +19,7 @@ std::vector<BooleanExpression> createRandomExpressions(const std::vector<char>& 
             const bool isOr = expression.letters.size() > 0 && expression.letters[expression.letters.size()-1] != '+' && int(std::floor(QRandomGenerator::global()->generateDouble() * 2)) == 1;
             if(isOr)
             {
-                expression.addTerm('+');
+                expression.addTerm('+'); //todo : todo ~ check for OR at end
                 continue;
             }
 

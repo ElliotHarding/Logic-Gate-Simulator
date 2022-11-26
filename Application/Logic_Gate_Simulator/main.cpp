@@ -1,5 +1,3 @@
-#include "mainwindow.h"
-#include "dlg_home.h"
 #include "dlg_load.h"
 #include <QApplication>
 

@@ -19,7 +19,7 @@ public:
     void run();
 
 signals:
-    void expressionsGenSuccess(std::vector<BooleanExpression>& expressions);
+    void expressionsGenSuccess(const std::vector<BooleanExpression> expressions);
     void expressionsGenFailure(const QString& failMessage);
 
 private:

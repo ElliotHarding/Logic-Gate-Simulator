@@ -170,7 +170,7 @@ private slots:
     void on_PlayField_tabCloseRequested(int index);
     void on_PlayField_currentChanged(int index);
 
-    void onTruthTableToExpressionsSuccess(std::vector<BooleanExpression>& expressions);
+    void onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression> expressions);
     void onTruthTableToExpressionsFailure(const QString& failMessage);
 };
 

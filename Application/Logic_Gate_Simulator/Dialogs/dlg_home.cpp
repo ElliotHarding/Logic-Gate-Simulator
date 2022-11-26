@@ -36,6 +36,8 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         lib.load();
     }
 
+    qRegisterMetaType<std::vector<BooleanExpression>>("std::vector<BooleanExpression>");
+
     pProgressBar->setValue(66);
     txtProgress->setText("Intializing child components");
 
@@ -72,7 +74,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         connect(ui->actionCreate_Expressions, SIGNAL(triggered()), this, SLOT(on_btn_createExpressions()));
         connect(ui->actionConversion_And_Generation_Settings, SIGNAL(triggered()), this, SLOT(on_btn_conversionConfig()));
 
-        connect(m_pTruthTableToExpressionsViaRandomThread, SIGNAL(expressionsGenSuccess(std::vector<BooleanExpression>&)), this, SLOT(onTruthTableToExpressionsSuccess(std::vector<BooleanExpression>&)));
+        connect(m_pTruthTableToExpressionsViaRandomThread, SIGNAL(expressionsGenSuccess(const std::vector<BooleanExpression>)), this, SLOT(onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression>)));
         connect(m_pTruthTableToExpressionsViaRandomThread, SIGNAL(expressionsGenFailure(const QString&)), this, SLOT(onTruthTableToExpressionsFailure(const QString&)));
     }
 
@@ -585,7 +587,7 @@ void DLG_Home::on_PlayField_currentChanged(int index)
     }
 }
 
-void DLG_Home::onTruthTableToExpressionsSuccess(std::vector<BooleanExpression>& expressions)
+void DLG_Home::onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression> expressions)
 {
     //Todo : fixup ~ temporary
     GateCollection* pNewCircuit;

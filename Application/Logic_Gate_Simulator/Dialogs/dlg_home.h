@@ -53,7 +53,6 @@ public:
     ///Gate operations
     void newlySpawnedGate(Gate* pGate, const QPoint& spawnPosition);
     void dropSpawnedGate(Gate* pGate);
-    void addGateToGateFieldCenterd(Gate* pGate);
     void gateSelected(Gate* pGate);
     void editTextLabel(TextLabel* pTextLabelToEdit);
     void editFPGA(GateFPGA* pFPGA);
@@ -62,10 +61,6 @@ public:
     void setGateFieldName(GateField* pGateField, const QString& name);
     void startSaveGateCollection(GateCollection* pGateCollection);
     bool setZoomFactor(const qreal& zoomFactor, const bool& updateSlider = true);
-
-    ///Dialog interactions
-    void showTruthTable(const TruthTable& truthTable);
-    void showBooleanExpressions(const std::vector<BooleanExpression>& expressions);
 
     ///Click mode
     void setCurrentClickMode(const ClickMode& clickMode);
@@ -80,6 +75,12 @@ public:
     ///Other functions
     void selectionToolClicked();
     void updateCustomGateListWidget();
+
+public slots:
+    ///Dialog interactions
+    void showGeneratedCircuit(GateCollection* pGateCollection);
+    void showGeneratedTruthTable(const TruthTable& truthTable);
+    void showGeneratedBooleanExpressions(const std::vector<BooleanExpression>& expressions);
 
 protected:
     void moveEvent(QMoveEvent* event) override;

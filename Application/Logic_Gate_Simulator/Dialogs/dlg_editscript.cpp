@@ -62,6 +62,12 @@ void DLG_EditScript::open(GateFPGA* pFPGA)
     QDialog::open();
 }
 
+bool DLG_EditScript::close()
+{
+    m_pFpga = nullptr;
+    return QDialog::close();
+}
+
 void DLG_EditScript::on_spinBox_inputs_valueChanged(int numInputs)
 {
     setStartScript(numInputs);

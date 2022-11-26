@@ -48,10 +48,11 @@ TruthTableToBooleanExpressionsThread::TruthTableToBooleanExpressionsThread() : Q
 {
 }
 
-void TruthTableToBooleanExpressionsThread::start(const TruthTable& truthTable, const CircuitOptions& circuitGenOptions)
+void TruthTableToBooleanExpressionsThread::start(const TruthTable& truthTable, const CircuitOptions& circuitGenOptions, GoalResult goalResult)
 {
     m_truthTable = truthTable;
     m_circuitOptions = circuitGenOptions;
+    m_goalResult = goalResult;
 
     QThread::start();
 }
@@ -62,7 +63,7 @@ void TruthTableToBooleanExpressionsThread::run()
 
     if(!m_truthTable.isValid())
     {
-        emit expressionsGenFailure("Failed to generate. Incorrect format!");
+        emit generationFailure("Failed to generate. Incorrect format!");
         return;
     }
 
@@ -71,7 +72,7 @@ void TruthTableToBooleanExpressionsThread::run()
     {
         if((clock() - startTimeMs)/1000 > m_circuitOptions.m_maxSeconds)
         {
-            emit expressionsGenFailure("Failed to generate. Ran out of time!");
+            emit generationFailure("Failed to generate. Ran out of time!");
             return;
         }
 
@@ -82,7 +83,29 @@ void TruthTableToBooleanExpressionsThread::run()
         {
             if(m_truthTable.outValues == randomTruthTable.outValues)
             {
-                emit expressionsGenSuccess(randomExpressions);
+                if(m_goalResult == GR_Circuit)
+                {
+                    GateCollection* pNewCircuit = nullptr;
+                    if(Converter::booleanExpressionsToCircuit(randomExpressions, m_circuitOptions, pNewCircuit) != ConverterResult::SUCCESS || pNewCircuit == nullptr)
+                    {
+                        Logger::log(LogLevel::LL_Error, "TruthTableToBooleanExpressionsThread::run : Generation failed! Converter::booleanExpressionsToCircuit failed.");
+                        emit generationFailure("Failed to generate circuit! Check logs.");
+                    }
+                    else
+                    {
+                        emit circuitGenSuccess(pNewCircuit);
+                    }
+                }
+                else if(m_goalResult == GR_BooleanExpressions)
+                {
+                    emit expressionsGenSuccess(randomExpressions);
+                }
+                else
+                {
+                    Logger::log(LogLevel::LL_Error, "TruthTableToBooleanExpressionsThread::run - Unknown goal result");
+                    emit generationFailure("Internal error. Check logs.");
+
+                }
                 return;
             }
         }

@@ -196,23 +196,6 @@ void DLG_Home::dropSpawnedGate(Gate* pGate)
     }
 }
 
-void DLG_Home::addGateToGateFieldCenterd(Gate *pGate)
-{
-    if(pGate == nullptr)
-        return;
-
-    //Check for current gatefield
-    if(m_iCurrentGateField == -1)
-    {
-        newlySpawnedGateField(Settings::DefaultPageName);
-    }
-
-    QPoint centerField = m_allGateFields[size_t(m_iCurrentGateField)]->geometry().center();
-    pGate->setPosition(centerField.x(), centerField.y());
-
-    m_allGateFields[size_t(m_iCurrentGateField)]->addGate(pGate);
-}
-
 void DLG_Home::gateSelected(Gate* pGate)
 {
     m_pDlgGateInfo->setGate(pGate);
@@ -341,11 +324,6 @@ void DLG_Home::setGateFieldName(GateField* pGateField, const QString& name)
     pGateField->setName(name);
 }
 
-void DLG_Home::showTruthTable(const TruthTable& truthTable)
-{
-    m_pDlgTruthTable->open(truthTable);
-}
-
 bool DLG_Home::requestUserInputString(const QString& title, const QString& context, QString& result)
 {
     bool ok;
@@ -360,11 +338,6 @@ void DLG_Home::startSaveGateCollection(GateCollection *pGateCollection)
     m_pDlgSaveGateCollection->open(pGateCollection);
 }
 
-void DLG_Home::showBooleanExpressions(const std::vector<BooleanExpression>& expressions)
-{
-    m_pDlgBooleanExpressions->showExpressions(expressions);
-}
-
 void DLG_Home::moveEvent(QMoveEvent* event)
 {
     QMainWindow::moveEvent(event);
@@ -375,6 +348,41 @@ void DLG_Home::moveEvent(QMoveEvent* event)
 void DLG_Home::updateCustomGateListWidget()
 {
     m_pWidgetCustomGates->updateList();
+}
+
+void DLG_Home::showGeneratedCircuit(GateCollection *pGateCollection)
+{
+    if(pGateCollection == nullptr)
+        return;
+
+    //Check for current gatefield
+    if(m_iCurrentGateField == -1)
+    {
+        newlySpawnedGateField(Settings::DefaultPageName);
+    }
+
+    QPoint centerField = m_allGateFields[size_t(m_iCurrentGateField)]->geometry().center();
+    pGateCollection->setPosition(centerField.x(), centerField.y());
+
+    m_allGateFields[size_t(m_iCurrentGateField)]->addGate(pGateCollection);
+
+    m_pDlgTruthTable->close();
+    m_pDlgBooleanExpressions->close();
+    m_pDlgEditScript->close();
+}
+
+void DLG_Home::showGeneratedTruthTable(const TruthTable& truthTable)
+{
+    m_pDlgTruthTable->open(truthTable);
+    m_pDlgBooleanExpressions->close();
+    m_pDlgEditScript->close();
+}
+
+void DLG_Home::showGeneratedBooleanExpressions(const std::vector<BooleanExpression>& expressions)
+{
+    m_pDlgBooleanExpressions->showExpressions(expressions);
+    m_pDlgTruthTable->close();
+    m_pDlgEditScript->close();
 }
 
 // -- HANDLERS FOR GATES MENU BUTTONS --

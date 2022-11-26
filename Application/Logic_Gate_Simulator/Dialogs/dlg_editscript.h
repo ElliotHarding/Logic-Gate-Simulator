@@ -23,6 +23,7 @@ public:
     ~DLG_EditScript();
 
     void open(GateFPGA* pFPGA);
+    bool close();
 
 private slots:
     void on_spinBox_inputs_valueChanged(int numInputs);

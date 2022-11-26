@@ -11,7 +11,7 @@
 #include "clickmode.h"
 #include "gatereader.h"
 #include "logger.h"
-#include "circuitfromtruthtablethread.h"
+#include "truthtabletobooleanexpressionthread.h"
 
 #include "simpleslider.h"
 #include "dlg_savegatecollection.h"
@@ -134,7 +134,7 @@ protected:
     ClickMode m_currentClickMode = CLICK_DRAG;
     ClickMode m_savedClickMode = CLICK_DRAG;
 
-    RandomCircuitGenThread* m_pRandomCircuitGenThread;
+    TruthTableToBooleanExpressionsThread* m_pTruthTableToExpressionsViaRandomThread;
 
 private slots:
 
@@ -170,8 +170,8 @@ private slots:
     void on_PlayField_tabCloseRequested(int index);
     void on_PlayField_currentChanged(int index);
 
-    void onRandomCircuitGenSuccess(GateCollection* pNewCircuit);
-    void onRandomCircuitGenFailure(const QString& failMessage);
+    void onTruthTableToExpressionsSuccess(std::vector<BooleanExpression>& expressions);
+    void onTruthTableToExpressionsFailure(const QString& failMessage);
 };
 
 #endif // DLG_HOME_H

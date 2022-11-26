@@ -17,7 +17,7 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
     m_zoomFactor(-1),
-    m_pRandomCircuitGenThread(new RandomCircuitGenThread())
+    m_pTruthTableToExpressionsViaRandomThread(new TruthTableToBooleanExpressionsThread())
 {
 
     pProgressBar->setValue(20);
@@ -72,8 +72,8 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         connect(ui->actionCreate_Expressions, SIGNAL(triggered()), this, SLOT(on_btn_createExpressions()));
         connect(ui->actionConversion_And_Generation_Settings, SIGNAL(triggered()), this, SLOT(on_btn_conversionConfig()));
 
-        connect(m_pRandomCircuitGenThread, SIGNAL(circuitGenSuccess(GateCollection*)), this, SLOT(onRandomCircuitGenSuccess(GateCollection*)));
-        connect(m_pRandomCircuitGenThread, SIGNAL(circuitGenFailure(const QString&)), this, SLOT(onRandomCircuitGenFailure(const QString&)));
+        connect(m_pTruthTableToExpressionsViaRandomThread, SIGNAL(expressionsGenSuccess(std::vector<BooleanExpression>&)), this, SLOT(onTruthTableToExpressionsSuccess(std::vector<BooleanExpression>&)));
+        connect(m_pTruthTableToExpressionsViaRandomThread, SIGNAL(expressionsGenFailure(const QString&)), this, SLOT(onTruthTableToExpressionsFailure(const QString&)));
     }
 
     {
@@ -125,7 +125,7 @@ void DLG_Home::initalizeDialogsAndWidgets()
 
 DLG_Home::~DLG_Home()
 {
-    delete m_pRandomCircuitGenThread;
+    delete m_pTruthTableToExpressionsViaRandomThread;
 
     delete m_pSpawnedGateWidget;
 
@@ -314,13 +314,13 @@ ConversionAlgorithm DLG_Home::getCurrentConversionAlgorithm() const
 
 void DLG_Home::requestRandomCircuitGen(const TruthTable& truthTable)
 {
-    if(m_pRandomCircuitGenThread->isRunning())
+    if(m_pTruthTableToExpressionsViaRandomThread->isRunning())
     {
         sendUserMessage("Already generating!");
         return;
     }
 
-    m_pRandomCircuitGenThread->start(truthTable, getCircuitGenOptions());
+    m_pTruthTableToExpressionsViaRandomThread->start(truthTable, getCircuitGenOptions());
 }
 
 void DLG_Home::editTextLabel(TextLabel* pTextLabelToEdit)
@@ -585,11 +585,18 @@ void DLG_Home::on_PlayField_currentChanged(int index)
     }
 }
 
-void DLG_Home::onRandomCircuitGenSuccess(GateCollection* pNewCircuit)
+void DLG_Home::onTruthTableToExpressionsSuccess(std::vector<BooleanExpression>& expressions)
 {
+    //Todo : fixup ~ temporary
+    GateCollection* pNewCircuit;
+    if(Converter::booleanExpressionsToCircuit(expressions, getCircuitGenOptions(), pNewCircuit) != ConverterResult::SUCCESS)
+    {
+        Logger::log(LogLevel::LL_Error, "DLG_Home::onTruthTableToExpressionsSuccess : Generation failed! 1");
+        return;
+    }
     if(pNewCircuit == nullptr)
     {
-        Logger::log(LL_Error, "DLG_Home::onRandomCircuitGenSuccess - new circuit is null!");
+        Logger::log(LogLevel::LL_Error, "DLG_Home::onTruthTableToExpressionsSuccess : Generation failed! 2");
         return;
     }
 
@@ -610,7 +617,7 @@ void DLG_Home::onRandomCircuitGenSuccess(GateCollection* pNewCircuit)
     m_pDlgTruthTable->close();
 }
 
-void DLG_Home::onRandomCircuitGenFailure(const QString& failMessage)
+void DLG_Home::onTruthTableToExpressionsFailure(const QString& failMessage)
 {
     sendUserMessage(failMessage);
 }

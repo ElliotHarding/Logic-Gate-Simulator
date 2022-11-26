@@ -48,7 +48,6 @@ SOURCES += \
     GameObjects/textlabel.cpp \
     booleanexpression.cpp \
     circuit.cpp \
-    circuitfromtruthtablethread.cpp \
     converter.cpp \
     logger.cpp \
     main.cpp \
@@ -80,7 +79,8 @@ SOURCES += \
     Dialogs/movingwidget.cpp \
     GameObjects/gatetrior.cpp \
     GameObjects/gatenumberoutput.cpp \
-    truthtable.cpp
+    truthtable.cpp \
+    truthtabletobooleanexpressionthread.cpp
 
 HEADERS += \
     Dialogs/dlg_booleanexpressions.h \
@@ -101,7 +101,6 @@ HEADERS += \
     GameObjects/textlabel.h \
     booleanexpression.h \
     circuit.h \
-    circuitfromtruthtablethread.h \
     clickmode.h \
     converter.h \
     gatereader.h \
@@ -134,7 +133,8 @@ HEADERS += \
     GameObjects/gatetrior.h \
     GameObjects/gatenumberoutput.h \
     logger.h \
-    truthtable.h
+    truthtable.h \
+    truthtabletobooleanexpressionthread.h
 
 FORMS += \
     Dialogs/dlg_booleanexpressions.ui \

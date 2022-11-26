@@ -107,7 +107,7 @@ void DLG_Home::initalizeDialogsAndWidgets()
     m_pHelperPopup = new Widget_HelperPopup(this);
     m_pHelperPopup->raise();
     m_currentHelperTip = HT_First;
-    m_pHelperPopup->popup(QApplication::desktop()->screen()->rect().center() - QPoint(50, 50), "Welcome to logic gate simulator. \n Use the arrows to continue the tutorial.");
+    m_pHelperPopup->popup(QApplication::desktop()->screen()->rect().center() - QPoint(50, 50), "Welcome to logic gate simulator. \n Use the arrows to continue the tutorial.", false, 10);
 
     //Gate widgets
     const QPoint c_GateWidgetPos = accountForUIOffsetts(ui->layout_GateWidget->geometry()).topLeft();
@@ -354,17 +354,17 @@ void DLG_Home::setHelperTip(const HelperTip &helperTip)
     switch(m_currentHelperTip)
     {
     case HT_First:
-        m_pHelperPopup->popup(QPoint(300, 300), "Welcome to logic gate simulator. Use the arrows to continue the tutorial.");
+        m_pHelperPopup->popup(QPoint(300, 300), "Welcome to logic gate simulator. Use the arrows to continue the tutorial.", false, 0);
         break;
 
     case HT_SpawnAndGate:
     {
-        m_pHelperPopup->popup(QPoint(35, 145), "Select the AND gate and drag it onto the page.");
+        m_pHelperPopup->popup(QPoint(35, 145), "Select the AND gate and drag it onto the page.", true, 30);
         break;
     }
 
     case HT_Last:
-        m_pHelperPopup->popup(QPoint(300, 300), "This is the end of the tutorial. Use the arrows to start again.");
+        m_pHelperPopup->popup(QPoint(300, 300), "This is the end of the tutorial. Use the arrows to start again.", false, 0);
         break;
 
     default:

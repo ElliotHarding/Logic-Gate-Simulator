@@ -24,6 +24,10 @@ DLG_ConversionConfig::DLG_ConversionConfig(QWidget *parent) :
         ui->comboBox_algorithm->addItem(algorithmName);
     }
     ui->comboBox_algorithm->setCurrentText(CustomSettings::readSetting("ConversionAlgorithm", "Quine-McCluskey"));
+    ui->spinBox_maxGenTime->setValue(CustomSettings::readSetting("ConvertMaxGenTime", "20").toInt());
+    ui->cb_inverseGates->setChecked(CustomSettings::readSetting("ConvertWithInverseGates", "false") == "true");
+    ui->cb_largeInputGates->setChecked(CustomSettings::readSetting("ConvertWithLargeInputGates", "false") == "true");
+    ui->cb_nandOnly->setChecked(CustomSettings::readSetting("ConvertWithNand", "false") == "true");
 }
 
 DLG_ConversionConfig::~DLG_ConversionConfig()
@@ -49,5 +53,9 @@ CircuitOptions DLG_ConversionConfig::getCircuitGenOptions() const
 void DLG_ConversionConfig::closeEvent(QCloseEvent* pEvent)
 {
     CustomSettings::writeSetting("ConversionAlgorithm", ui->comboBox_algorithm->currentText());
+    CustomSettings::writeSetting("ConvertMaxGenTime", QString::number(ui->spinBox_maxGenTime->value()));
+    CustomSettings::writeSetting("ConvertWithInverseGates", ui->cb_inverseGates->isChecked() ? "true" : "false");
+    CustomSettings::writeSetting("ConvertWithLargeInputGates", ui->cb_largeInputGates->isChecked() ? "true" : "false");
+    CustomSettings::writeSetting("ConvertWithNand", ui->cb_nandOnly->isChecked() ? "true" : "false");
 }
 

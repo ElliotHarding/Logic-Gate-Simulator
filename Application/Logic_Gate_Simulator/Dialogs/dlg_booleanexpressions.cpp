@@ -140,6 +140,7 @@ void DLG_BooleanExpressions::on_btn_simplify_clicked()
         if(Converter::expressionsToTruthTable(expressions, tt) == ConverterResult::SUCCESS)
         {
             m_pHome->runRandomConversionThread(tt, GoalResult::GR_BooleanExpressions);
+            m_pHome->sendUserMessage("Optimization running.\n Check out alternative algorithms in settings.");
         }
         else
         {

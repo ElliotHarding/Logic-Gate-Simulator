@@ -14,7 +14,7 @@ const int PopupHeight = 65;
 const int PopupDistance = 30;
 
 const QColor CircleColor = Qt::red;
-const int CircleWidth = 10;
+const int CircleWidth = 5;
 }
 
 enum HelperTip

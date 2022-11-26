@@ -47,7 +47,7 @@ void Widget_HelperPopup::popup(const QPoint& location, const QString& tipText, c
 
     if(showCircle)
     {
-        m_pCircleTarget->setLocation(homeLocation + location, circleDiameter);
+        m_pCircleTarget->setLocation(location, circleDiameter);
     }
     else
     {
@@ -87,6 +87,7 @@ void Widget_CircleTarget::setLocation(const QPoint &location, const uint& circle
     QRect geo(location.x() - circleDiameter/2, location.y() - circleDiameter/2, circleDiameter, circleDiameter);
     setGeometry(geo);
     show();
+    raise();
 }
 
 void Widget_CircleTarget::paintEvent(QPaintEvent *paintEvent)
@@ -95,6 +96,6 @@ void Widget_CircleTarget::paintEvent(QPaintEvent *paintEvent)
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
     painter.setPen(QPen(Settings::CircleColor, Settings::CircleWidth));
-    QRect drawRect = QRect(0, 0, geometry().width(), geometry().height());
+    QRect drawRect = QRect(geometry().width() / 4, geometry().height() / 2, geometry().width() / 2, geometry().height() / 2);
     painter.drawEllipse(drawRect);
 }

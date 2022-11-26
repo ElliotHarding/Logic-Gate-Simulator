@@ -194,6 +194,12 @@ void DLG_TruthTable::on_btn_expressions_clicked()
 {
     updateTruthTableFromUI();
 
+    if(m_pHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
+    {
+        m_pHome->runRandomConversionThread(m_truthTable, GoalResult::GR_BooleanExpressions);
+        return;
+    }
+
     std::vector<BooleanExpression> expressions;
     ConverterResult result = Converter::truthTableToBooleanExpressions(m_truthTable, m_pHome->getCurrentConversionAlgorithm(), expressions);
     if(result == ConverterResult::SUCCESS)

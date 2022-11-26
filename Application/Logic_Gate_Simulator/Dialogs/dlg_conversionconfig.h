@@ -19,6 +19,9 @@ public:
     ConversionAlgorithm getAlgorithm() const;
     CircuitOptions getCircuitGenOptions() const;
 
+protected:
+    void closeEvent(QCloseEvent* pEvent) override;
+
 private:
     Ui::DLG_ConversionConfig *ui;
 };

@@ -115,8 +115,9 @@ void CustomSettings::writeSetting(const QString &settingId, const QString &value
     }
 
     QDomElement settingElement = nodes.at(0).toElement();
+    QDomElement settingElementReplace = m_doc.createElement(settingId);
     QDomText nodeTextDom = m_doc.createTextNode(value);
-    settingElement.appendChild(nodeTextDom);
-    m_parentElement.appendChild(settingElement);
+    settingElementReplace.appendChild(nodeTextDom);
+    m_parentElement.replaceChild(settingElementReplace, settingElement);
     m_doc.appendChild(m_parentElement);
 }

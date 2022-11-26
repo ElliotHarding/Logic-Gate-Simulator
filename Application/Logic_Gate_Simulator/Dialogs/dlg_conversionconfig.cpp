@@ -45,3 +45,9 @@ CircuitOptions DLG_ConversionConfig::getCircuitGenOptions() const
     CircuitOptions options(ui->cb_inverseGates->isChecked(), ui->cb_nandOnly->isChecked(), ui->cb_largeInputGates->isChecked(), ui->spinBox_maxGenTime->value(), getAlgorithm());
     return options;
 }
+
+void DLG_ConversionConfig::closeEvent(QCloseEvent* pEvent)
+{
+    CustomSettings::writeSetting("ConversionAlgorithm", ui->comboBox_algorithm->currentText());
+}
+

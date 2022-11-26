@@ -358,6 +358,8 @@ void DLG_Home::closeEvent(QCloseEvent *event)
 {
     CustomSettings::close();
     QWidget::closeEvent(event);
+
+    delete this;
 }
 
 void DLG_Home::updateCustomGateListWidget()

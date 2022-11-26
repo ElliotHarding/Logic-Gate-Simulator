@@ -16,7 +16,9 @@ const int PopupDistance = 30;
 
 enum HelperTip
 {
-
+    HT_First,
+    HT_SpawnAndGate,
+    HT_Last
 };
 
 class DLG_Home;

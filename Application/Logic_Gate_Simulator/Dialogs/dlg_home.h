@@ -141,6 +141,7 @@ protected:
 
     //Helper tip popup
     HelperTip m_currentHelperTip;
+    void setHelperTip(const HelperTip& helperTip);
 
     QRect accountForUIOffsetts(const QRect& rect) const;
 

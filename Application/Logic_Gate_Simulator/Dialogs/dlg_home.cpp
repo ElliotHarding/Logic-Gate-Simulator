@@ -103,6 +103,7 @@ void DLG_Home::initalizeDialogsAndWidgets()
 
     //Other widgets
     m_pSpawnedGateWidget = new Widget_SpawnedGate(this);
+    m_pHelperPopup = new Widget_HelperPopup(this);
 
     //Gate widgets
     const QPoint c_GateWidgetPos = accountForUIOffsetts(ui->layout_GateWidget->geometry()).topLeft();
@@ -133,6 +134,7 @@ DLG_Home::~DLG_Home()
     delete m_pRandomConversionThread;
 
     delete m_pSpawnedGateWidget;
+    delete m_pHelperPopup;
 
     delete m_pWidgetAllGates;
     delete m_pWidgetCustomGates;

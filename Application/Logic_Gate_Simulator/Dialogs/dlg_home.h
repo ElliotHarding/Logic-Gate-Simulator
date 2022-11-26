@@ -118,6 +118,7 @@ protected:
 
     //Other widgets
     Widget_SpawnedGate* m_pSpawnedGateWidget;
+    Widget_HelperPopup* m_pHelperPopup;
 
     //Construction
     void initalizeDialogsAndWidgets();

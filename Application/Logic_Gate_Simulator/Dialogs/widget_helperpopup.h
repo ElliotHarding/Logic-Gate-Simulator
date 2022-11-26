@@ -16,6 +16,8 @@ const int PopupDistance = 30;
 
 const QColor CircleColor = Qt::red;
 const int CircleWidth = 5;
+const int CircleWidthMin = 1;
+const int CircleWidthMax = 9;
 const uint CircleAnimationTimeMs = 1000;
 }
 

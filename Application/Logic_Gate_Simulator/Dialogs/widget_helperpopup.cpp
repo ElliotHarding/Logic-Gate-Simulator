@@ -84,13 +84,13 @@ Widget_CircleTarget::Widget_CircleTarget(DLG_Home *pHome) : QWidget(pHome)
 
     m_pWidthValueIncAnimation = new QPropertyAnimation(this, "circleWidth");
     m_pWidthValueIncAnimation->setDuration(Settings::CircleAnimationTimeMs);
-    m_pWidthValueIncAnimation->setStartValue(Settings::CircleWidth - 3);
-    m_pWidthValueIncAnimation->setEndValue(Settings::CircleWidth + 4);
+    m_pWidthValueIncAnimation->setStartValue(Settings::CircleWidthMin + 1);
+    m_pWidthValueIncAnimation->setEndValue(Settings::CircleWidthMax);
 
     m_pWidthValueDecAnimation = new QPropertyAnimation(this, "circleWidth");
     m_pWidthValueDecAnimation->setDuration(Settings::CircleAnimationTimeMs);
-    m_pWidthValueDecAnimation->setStartValue(Settings::CircleWidth + 4);
-    m_pWidthValueDecAnimation->setEndValue(Settings::CircleWidth - 4);
+    m_pWidthValueDecAnimation->setStartValue(Settings::CircleWidthMax);
+    m_pWidthValueDecAnimation->setEndValue(Settings::CircleWidthMin);
 
     m_pWidthAnimationGroup->addAnimation(m_pWidthValueIncAnimation);
     m_pWidthAnimationGroup->addAnimation(m_pWidthValueDecAnimation);
@@ -126,7 +126,7 @@ void Widget_CircleTarget::setCircleWidth(int width)
     m_circleWidth = width;
     update();
 
-    if(width == Settings::CircleWidth - 4)
+    if(width == Settings::CircleWidthMin)
     {
         m_pWidthAnimationGroup->setLoopCount(m_pWidthAnimationGroup->loopCount() + 1);
     }

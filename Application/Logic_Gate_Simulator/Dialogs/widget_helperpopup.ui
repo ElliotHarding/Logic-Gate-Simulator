@@ -121,7 +121,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btn_background">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -130,14 +130,35 @@
      <height>65</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: Pale gray; border: 1px solid black; border-radius: 10px;</string>
-   </property>
    <property name="text">
-    <string>PushButton</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resouces.qrc">
+     <normaloff>:/Resources/Button Icons/icon-popup-background.png</normaloff>:/Resources/Button Icons/icon-popup-background.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>240</width>
+     <height>65</height>
+    </size>
+   </property>
+   <property name="default">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
+  <zorder>btn_background</zorder>
+  <zorder>btn_next</zorder>
+  <zorder>lbl_help</zorder>
+  <zorder>lbl_tipText</zorder>
+  <zorder>btn_previous</zorder>
+  <zorder>btn_close</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resouces.qrc"/>
+ </resources>
  <connections/>
 </ui>

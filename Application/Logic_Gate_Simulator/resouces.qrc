@@ -42,5 +42,6 @@
         <file>Resources/Button Icons/icon-configure.png</file>
         <file>Resources/Button Icons/icon-boolean-expression.png</file>
         <file>Resources/Button Icons/icon-truth-table.png</file>
+        <file>Resources/Button Icons/icon-popup-background.png</file>
     </qresource>
 </RCC>

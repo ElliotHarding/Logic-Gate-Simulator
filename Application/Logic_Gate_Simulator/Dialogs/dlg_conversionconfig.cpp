@@ -41,6 +41,6 @@ ConversionAlgorithm DLG_ConversionConfig::getAlgorithm() const
 
 CircuitOptions DLG_ConversionConfig::getCircuitGenOptions() const
 {
-    CircuitOptions options(ui->cb_inverseGates->isChecked(), ui->cb_nandOnly->isChecked(), ui->cb_largeInputGates->isChecked(), ui->spinBox_maxGenTime->value(), ui->spinBox_addGateChance->value(), ui->spinBox_maxGates->value(), getAlgorithm());
+    CircuitOptions options(ui->cb_inverseGates->isChecked(), ui->cb_nandOnly->isChecked(), ui->cb_largeInputGates->isChecked(), ui->spinBox_maxGenTime->value(), getAlgorithm());
     return options;
 }

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>220</width>
-    <height>280</height>
+    <height>230</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
@@ -123,41 +123,6 @@
     <number>20</number>
    </property>
   </widget>
-  <widget class="QSpinBox" name="spinBox_addGateChance">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>250</y>
-     <width>51</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>1</number>
-   </property>
-   <property name="maximum">
-    <number>100</number>
-   </property>
-   <property name="value">
-    <number>20</number>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="spinBox_maxGates">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>200</y>
-     <width>51</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="maximum">
-    <number>20</number>
-   </property>
-   <property name="value">
-    <number>20</number>
-   </property>
-  </widget>
   <widget class="QLabel" name="lbl_maxGenTime">
    <property name="geometry">
     <rect>
@@ -169,32 +134,6 @@
    </property>
    <property name="text">
     <string>Max Gen Time (s)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_addGateChance">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>230</y>
-     <width>71</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Add Gate %</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_maxGates">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>180</y>
-     <width>61</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Max Gates</string>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_randomConfig">

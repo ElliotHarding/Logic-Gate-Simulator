@@ -4,7 +4,7 @@
 #include <cmath>
 #include "converter.h"
 
-std::vector<BooleanExpression> createRandomExpressions(const uint& percentageNewGate, const uint& maxGates, const std::vector<char>& inputLetters, const std::vector<char>& outputLetters)
+std::vector<BooleanExpression> createRandomExpressions(const std::vector<char>& inputLetters, const std::vector<char>& outputLetters)
 {
     std::vector<BooleanExpression> expressions;
 
@@ -75,7 +75,7 @@ void TruthTableToBooleanExpressionsThread::run()
             return;
         }
 
-        std::vector<BooleanExpression> randomExpressions = createRandomExpressions(m_circuitOptions.m_percentageRandomGate, m_circuitOptions.m_maxGates, m_truthTable.inLetters, m_truthTable.outLetters);
+        std::vector<BooleanExpression> randomExpressions = createRandomExpressions(m_truthTable.inLetters, m_truthTable.outLetters);
 
         TruthTable randomTruthTable;
         if(Converter::expressionsToTruthTable(randomExpressions, randomTruthTable) == ConverterResult::SUCCESS)

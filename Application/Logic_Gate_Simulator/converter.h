@@ -24,7 +24,7 @@ enum ConversionAlgorithm
 
 struct CircuitOptions //Circuit generation options
 {
-    CircuitOptions(const bool& useInverseGates, const bool& nandOnly, const bool& largeInputGates, const int& maxSeconds, const uint& percentageRandomGate, const uint& maxGates, const ConversionAlgorithm& conversionAlgorithm = NoAlgorithm);
+    CircuitOptions(const bool& useInverseGates, const bool& nandOnly, const bool& largeInputGates, const int& maxSeconds, const ConversionAlgorithm& conversionAlgorithm = NoAlgorithm);
     CircuitOptions();
 
     bool m_bUseInverseGates; //Use gates like NAND or NOR
@@ -32,8 +32,6 @@ struct CircuitOptions //Circuit generation options
     bool m_bLargeInputGates; //Use gates with more than 2 inputs (tri-and)
     ConversionAlgorithm m_algorithm;
     int m_maxSeconds;
-    uint m_percentageRandomGate;
-    uint m_maxGates;
 };
 
 class Converter

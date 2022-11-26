@@ -5,18 +5,16 @@
 #include <cmath>
 #include <QScriptEngine>
 
-CircuitOptions::CircuitOptions(const bool& useInverseGates, const bool& nandOnly, const bool& largeInputGates, const int& maxSeconds, const uint& percentageRandomGate, const uint& maxGates, const ConversionAlgorithm& conversionAlgorithm) :
+CircuitOptions::CircuitOptions(const bool& useInverseGates, const bool& nandOnly, const bool& largeInputGates, const int& maxSeconds, const ConversionAlgorithm& conversionAlgorithm) :
     m_bUseInverseGates(useInverseGates),
     m_bNandOnly(nandOnly),
     m_bLargeInputGates(largeInputGates),
     m_algorithm(conversionAlgorithm),
-    m_maxSeconds(maxSeconds),
-    m_percentageRandomGate(percentageRandomGate),
-    m_maxGates(maxGates)
+    m_maxSeconds(maxSeconds)
 {
 }
 
-CircuitOptions::CircuitOptions() : CircuitOptions(false, false, false, 0, 0, 0)
+CircuitOptions::CircuitOptions() : CircuitOptions(false, false, false, 0)
 {
 }
 

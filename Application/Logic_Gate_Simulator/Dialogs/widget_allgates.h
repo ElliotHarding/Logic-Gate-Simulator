@@ -18,6 +18,8 @@ public:
 
     void setScrollPosition(const float& y);
 
+    QPoint getAndGateButtonPosition();
+
 protected:
     virtual void wheelEvent(QWheelEvent *event) override;
 

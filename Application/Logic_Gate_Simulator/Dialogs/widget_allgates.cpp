@@ -34,6 +34,11 @@ void Widget_AllGates::setScrollPosition(const float& y)
     applyScrollDiff(-diff);
 }
 
+QPoint Widget_AllGates::getAndGateButtonPosition()
+{
+    return spawnPosition(ui->btn_andGate->geometry().center());
+}
+
 void Widget_AllGates::wheelEvent(QWheelEvent *event)
 {
     //Apply scroll delta to m_scroll

@@ -96,6 +96,6 @@ void Widget_CircleTarget::paintEvent(QPaintEvent *paintEvent)
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
     painter.setPen(QPen(Settings::CircleColor, Settings::CircleWidth));
-    QRect drawRect = QRect(geometry().width() / 4, geometry().height() / 2, geometry().width() / 2, geometry().height() / 2);
+    QRect drawRect = QRect(geometry().width() / 4, geometry().height() / 4, geometry().width() / 2, geometry().height() / 2);
     painter.drawEllipse(drawRect);
 }

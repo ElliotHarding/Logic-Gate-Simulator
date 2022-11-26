@@ -49,6 +49,7 @@ SOURCES += \
     booleanexpression.cpp \
     circuit.cpp \
     converter.cpp \
+    customsettings.cpp \
     logger.cpp \
     main.cpp \
     gatefield.cpp \
@@ -103,6 +104,7 @@ HEADERS += \
     circuit.h \
     clickmode.h \
     converter.h \
+    customsettings.h \
     gatereader.h \
     AllGates.h \
     gatefield.h \

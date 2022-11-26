@@ -317,6 +317,21 @@ void DLG_GateInfo::on_btn_expression_clicked()
 {
     if(dynamic_cast<GateCollection*>(m_pGateDisplayed))
     {
+        if(m_pParent->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
+        {
+            TruthTable truthTable;
+            if(Converter::circuitToTruthTable(dynamic_cast<GateCollection*>(m_pGateDisplayed)->getGates(), truthTable) == ConverterResult::SUCCESS)
+            {
+                m_pParent->runRandomConversionThread(truthTable, GoalResult::GR_BooleanExpressions);
+            }
+            else
+            {
+                m_pParent->sendUserMessage("Internal error. Failed to generate boolean expressions. \n Check logs for details");
+            }
+
+            return;
+        }
+
         std::vector<BooleanExpression> expressions;
         ConverterResult result = Converter::circuitToBooleanExpressions(dynamic_cast<GateCollection*>(m_pGateDisplayed)->getGates(), m_pParent->getCurrentConversionAlgorithm(), expressions);
         if(result == ConverterResult::SUCCESS)

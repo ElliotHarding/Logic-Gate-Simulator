@@ -314,7 +314,7 @@ ConversionAlgorithm DLG_Home::getCurrentConversionAlgorithm() const
     return m_pDlgConversionConfig->getAlgorithm();
 }
 
-void DLG_Home::requestRandomCircuitGen(const TruthTable& truthTable)
+void DLG_Home::requestExpressionsGen(const TruthTable& truthTable)
 {
     if(m_pTruthTableToExpressionsViaRandomThread->isRunning())
     {

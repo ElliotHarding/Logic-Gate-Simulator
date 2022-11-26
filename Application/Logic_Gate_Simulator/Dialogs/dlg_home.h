@@ -79,7 +79,7 @@ public:
     ///Other functions
     void selectionToolClicked();
     void updateCustomGateListWidget();
-    void requestRandomCircuitGen(const TruthTable& truthTable);
+    void requestExpressionsGen(const TruthTable& truthTable);
 
 protected:
     void moveEvent(QMoveEvent* event) override;

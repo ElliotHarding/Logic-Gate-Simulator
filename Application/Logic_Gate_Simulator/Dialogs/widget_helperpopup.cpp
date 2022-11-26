@@ -10,6 +10,7 @@ Widget_HelperPopup::Widget_HelperPopup(DLG_Home* pHome) :
     ui->setupUi(this);
 
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground);
 }
 
 Widget_HelperPopup::~Widget_HelperPopup()
@@ -43,6 +44,7 @@ void Widget_HelperPopup::popup(const QPoint& location, const QString& tipText)
     }
 
     ui->lbl_tipText->setText(tipText);
+    show();
 }
 
 void Widget_HelperPopup::on_btn_close_clicked()

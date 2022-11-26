@@ -104,6 +104,8 @@ void DLG_Home::initalizeDialogsAndWidgets()
     //Other widgets
     m_pSpawnedGateWidget = new Widget_SpawnedGate(this);
     m_pHelperPopup = new Widget_HelperPopup(this);
+    m_pHelperPopup->raise();
+    m_pHelperPopup->popup(QPoint(250,250), "First tip attempt, lets hope it looks good");
 
     //Gate widgets
     const QPoint c_GateWidgetPos = accountForUIOffsetts(ui->layout_GateWidget->geometry()).topLeft();
@@ -317,6 +319,16 @@ CircuitOptions DLG_Home::getCircuitGenOptions() const
 ConversionAlgorithm DLG_Home::getCurrentConversionAlgorithm() const
 {
     return m_pDlgConversionConfig->getAlgorithm();
+}
+
+void DLG_Home::nextHelperTip()
+{
+
+}
+
+void DLG_Home::previousHelperTip()
+{
+
 }
 
 void DLG_Home::editTextLabel(TextLabel* pTextLabelToEdit)

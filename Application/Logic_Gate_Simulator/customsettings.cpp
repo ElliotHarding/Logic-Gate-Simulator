@@ -1,11 +1,12 @@
 #include "customsettings.h"
 #include <QFile>
+#include <QFileInfo>
 #include <QTextStream>
 #include "logger.h"
 
-QDomDocument m_doc;
-QDomElement m_parentElement;
-bool m_bLoaded;
+QDomDocument CustomSettings::m_doc;
+QDomElement CustomSettings::m_parentElement;
+bool CustomSettings::m_bLoaded;
 
 CustomSettings::CustomSettings()
 {
@@ -13,7 +14,19 @@ CustomSettings::CustomSettings()
 
 bool CustomSettings::init()
 {
+    QFileInfo fileInfo(Settings::SettingsFileName);
     QFile file(Settings::SettingsFileName);
+    if(!fileInfo.exists())
+    {
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            Logger::log(LogLevel::LL_FileError, "CustomSettings::init - Failed to create!");
+            m_bLoaded = false;
+            return false;
+        }
+        file.close();
+    }
+
     if(!file.open(QFile::ReadOnly | QFile::Text))
     {
         Logger::log(LogLevel::LL_FileError, "CustomSettings::init - Failed to load!");
@@ -23,6 +36,11 @@ bool CustomSettings::init()
 
     m_doc.setContent(&file);
     m_parentElement = m_doc.firstChildElement(Settings::SettingsXmlTag);
+
+    if(m_parentElement.isNull())
+    {
+        m_parentElement = m_doc.createElement(Settings::SettingsXmlTag);
+    }
 
     m_bLoaded = true;
     return true;
@@ -54,17 +72,32 @@ bool CustomSettings::close()
 QString CustomSettings::readSetting(const QString& settingId, const QString& defaultValue)
 {
     auto nodes = m_parentElement.elementsByTagName(settingId);
-    if(nodes.isEmpty())
+    if(!nodes.isEmpty())
     {
-        QDomElement settingElement = m_doc.createElement(settingId);
+        auto valueNode = nodes.at(0).firstChild().toText();
+        const QString nodeValueText = valueNode.nodeValue();
 
-        settingElement.setNodeValue(defaultValue);
+        if(!nodeValueText.isEmpty())
+        {
+            return nodeValueText;
+        }
 
+        QDomElement settingElement = nodes.at(0).toElement();
+        QDomText nodeTextDom = m_doc.createTextNode(defaultValue);
+        settingElement.appendChild(nodeTextDom);
         m_parentElement.appendChild(settingElement);
+        m_doc.appendChild(m_parentElement);
         return defaultValue;
     }
 
-    return nodes.at(0).nodeValue();
+    QDomElement settingElement = m_doc.createElement(settingId);
+    QDomText nodeValue = m_doc.createTextNode(defaultValue);
+    settingElement.appendChild(nodeValue);
+
+    m_parentElement.appendChild(settingElement);
+    m_doc.appendChild(m_parentElement);
+
+    return defaultValue;
 }
 
 void CustomSettings::writeSetting(const QString &settingId, const QString &value)
@@ -73,12 +106,17 @@ void CustomSettings::writeSetting(const QString &settingId, const QString &value
     if(nodes.isEmpty())
     {
         QDomElement settingElement = m_doc.createElement(settingId);
-
-        settingElement.setNodeValue(value);
+        QDomText nodeValue = m_doc.createTextNode(value);
+        settingElement.appendChild(nodeValue);
 
         m_parentElement.appendChild(settingElement);
+        m_doc.appendChild(m_parentElement);
         return;
     }
 
-    nodes.at(0).setNodeValue(value);
+    QDomElement settingElement = nodes.at(0).toElement();
+    QDomText nodeTextDom = m_doc.createTextNode(value);
+    settingElement.appendChild(nodeTextDom);
+    m_parentElement.appendChild(settingElement);
+    m_doc.appendChild(m_parentElement);
 }

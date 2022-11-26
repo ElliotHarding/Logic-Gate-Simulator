@@ -88,6 +88,7 @@ public slots:
 
 protected:
     void moveEvent(QMoveEvent* event) override;
+    virtual void closeEvent(QCloseEvent *event) override;
 
     Ui::DLG_Home *ui;
 

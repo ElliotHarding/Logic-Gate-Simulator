@@ -1,5 +1,6 @@
 #include "dlg_conversionconfig.h"
 #include "ui_dlg_conversionconfig.h"
+#include "customsettings.h"
 
 #include <QMap>
 
@@ -22,7 +23,7 @@ DLG_ConversionConfig::DLG_ConversionConfig(QWidget *parent) :
     {
         ui->comboBox_algorithm->addItem(algorithmName);
     }
-    ui->comboBox_algorithm->setCurrentText("Quine-McCluskey");
+    ui->comboBox_algorithm->setCurrentText(CustomSettings::readSetting("ConversionAlgorithm", "Quine-McCluskey"));
 }
 
 DLG_ConversionConfig::~DLG_ConversionConfig()

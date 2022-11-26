@@ -1,6 +1,7 @@
 #include "dlg_home.h"
 #include "ui_dlg_home.h"
 #include "gatefield.h"
+#include "customsettings.h"
 
 #include <QLayout>
 #include <QLibrary>
@@ -127,6 +128,8 @@ void DLG_Home::initalizeDialogsAndWidgets()
 
 DLG_Home::~DLG_Home()
 {
+    CustomSettings::close();
+
     delete m_pRandomConversionThread;
 
     delete m_pSpawnedGateWidget;
@@ -349,6 +352,12 @@ void DLG_Home::moveEvent(QMoveEvent* event)
     QMainWindow::moveEvent(event);
 
     m_pSpawnedGateWidget->setGeometry(geometry());
+}
+
+void DLG_Home::closeEvent(QCloseEvent *event)
+{
+    CustomSettings::close();
+    QWidget::closeEvent(event);
 }
 
 void DLG_Home::updateCustomGateListWidget()

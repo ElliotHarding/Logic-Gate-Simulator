@@ -179,11 +179,6 @@ void GateField::redo()
     update();
 }
 
-void GateField::startSaveGateCollection(GateCollection* pGateCollection)
-{
-    m_pParent->startSaveGateCollection(pGateCollection);
-}
-
 void GateField::setName(const QString& name)
 {
     m_name = name;

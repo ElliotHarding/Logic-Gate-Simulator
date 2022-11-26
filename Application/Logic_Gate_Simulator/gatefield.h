@@ -59,7 +59,6 @@ public:
     void requestUpdateGate(Gate* g);
 
     //Saving
-    void startSaveGateCollection(GateCollection* pGateCollection);
     void setName(const QString& name);
     QString name() const;
     void saveData(QDomDocument& saveFile);

@@ -342,11 +342,13 @@ void Tests::test_booleanExpressionsToCircuit()
     CircuitOptions circuitOptions(false, false, false, 200, 20, 20, ConversionAlgorithm::QuineMcCluskey);
     GateCollection* pNewCircuit;
 
+    //Expression to convert to circuit
     BooleanExpression expression;
     expression.resultLetter = 'Z';
     expression.letters = {'A', 'B'};
     expressions.push_back(expression);
 
+    //Do conversion
     QCOMPARE(Converter::booleanExpressionsToCircuit(expressions, circuitOptions, pNewCircuit), ConverterResult::SUCCESS);
 
     if(pNewCircuit == nullptr)
@@ -447,178 +449,36 @@ void Tests::test_truthTableToBooleanExpression()
     QCOMPARE(expressions[0].letters, resultLetters2);
     QCOMPARE(expressions[1].letters, resultLetters1);
 }
-/*
-void Tests::test_circuit()
+
+void Tests::test_circuitToOther()
 {
-    //Circuits gates
-    GateToggle toggle1;
-    GateToggle toggle2;
-    GateToggle toggle3;
-    GateNand nand;
-    GateNor nor;
-    GateTriAnd triAnd;
-
-    //Get nodes
-    std::vector<Node*> nandInputs;
-    std::vector<Node*> nandOutputs;
-    std::vector<Node*> norInputs;
-    std::vector<Node*> norOutputs;
-    std::vector<Node*> triAndInputs;
-    std::vector<Node*> triAndOutputs;
-    std::vector<Node*> toggle1Node;
-    std::vector<Node*> toggle2Node;
-    std::vector<Node*> toggle3Node;
-    dynamic_cast<Gate*>(&nand)->getInputNodes(nandInputs);
-    dynamic_cast<Gate*>(&nand)->getOutputNodes(nandOutputs);
-    dynamic_cast<Gate*>(&nor)->getInputNodes(norInputs);
-    dynamic_cast<Gate*>(&nor)->getOutputNodes(norOutputs);
-    dynamic_cast<Gate*>(&triAnd)->getInputNodes(triAndInputs);
-    dynamic_cast<Gate*>(&triAnd)->getOutputNodes(triAndOutputs);
-    dynamic_cast<Gate*>(&toggle1)->getOutputNodes(toggle1Node);
-    dynamic_cast<Gate*>(&toggle2)->getOutputNodes(toggle2Node);
-    dynamic_cast<Gate*>(&toggle3)->getOutputNodes(toggle3Node);
-
-
-    //Link circuit
-    toggle1Node[0]->LinkNode(nandInputs[0]);
-    toggle1Node[0]->LinkNode(norInputs[0]);
-    toggle2Node[0]->LinkNode(nandInputs[1]);
-    toggle2Node[0]->LinkNode(norInputs[1]);
-
-    nandOutputs[0]->LinkNode(triAndInputs[0]);
-    toggle3Node[0]->LinkNode(triAndInputs[1]);
-    norOutputs[0]->LinkNode(triAndInputs[2]);
-
-
-    //Test results - (0,0,0 --> 0)
-    toggle1.SetPowerState(0);
-    toggle2.SetPowerState(0);
-    toggle3.SetPowerState(0);
-
-    nand.updateOutput();
-    nor.updateOutput();
-    triAnd.updateOutput();
-
-    QCOMPARE(triAndOutputs[0]->value(), false);
-
-    //Test results - (1,1,1 --> 0)
-    toggle1.SetPowerState(1);
-    toggle2.SetPowerState(1);
-    toggle3.SetPowerState(1);
-
-    nand.updateOutput();
-    nor.updateOutput();
-    triAnd.updateOutput();
-
-    QCOMPARE(triAndOutputs[0]->value(), false);
-
-    //Test results - (0,0,0 --> 0)
-    toggle1.SetPowerState(0);
-    toggle2.SetPowerState(1);
-    toggle3.SetPowerState(1);
-
-    nand.updateOutput();
-    nor.updateOutput();
-    triAnd.updateOutput();
-
-    QCOMPARE(triAndOutputs[0]->value(), false);
-
-    //Test results - (0,0,1 --> 1)
-    toggle1.SetPowerState(0);
-    toggle2.SetPowerState(0);
-    toggle3.SetPowerState(1);
-
-    nand.updateOutput();
-    nor.updateOutput();
-    triAnd.updateOutput();
-
-    QCOMPARE(triAndOutputs[0]->value(), true);
+    //todo
 }
-
-#include "gatereader.h"
+#include "../../gatefield.h"
 void Tests::test_save_load()
 {
-    //Circuits gates
-    GateToggle toggle1;
-    GateToggle toggle2;
-    GateToggle toggle3;
-    GateNand nand;
-    GateNor nor;
-    GateTriAnd triAnd;
+    //Create circuit
+    GateToggle toggleGate(200, 200);
+    GateToggle toggleGate2(200, 300);
+    GateAnd andGate(300, 200);
+    GateReciever receiverGate(400, 200);
+    toggleGate.setPowerState(true);
+    toggleGate.setPowerState(true);
+    andGate.getInputNodes()[0]->linkNode(toggleGate.getOutputNodes()[0]);
+    toggleGate.getOutputNodes()[0]->linkNode(andGate.getInputNodes()[0]);
+    andGate.getInputNodes()[1]->linkNode(toggleGate2.getOutputNodes()[0]);
+    toggleGate2.getOutputNodes()[0]->linkNode(andGate.getInputNodes()[1]);
+    andGate.getOutputNodes()[0]->linkNode(receiverGate.getInputNodes()[0]);
+    receiverGate.getInputNodes()[0]->linkNode(andGate.getOutputNodes()[0]);
 
-    //Get nodes
-    std::vector<Node*> nandInputs;
-    std::vector<Node*> nandOutputs;
-    std::vector<Node*> norInputs;
-    std::vector<Node*> norOutputs;
-    std::vector<Node*> triAndInputs;
-    std::vector<Node*> triAndOutputs;
-    std::vector<Node*> toggle1Node;
-    std::vector<Node*> toggle2Node;
-    std::vector<Node*> toggle3Node;
-    dynamic_cast<Gate*>(&nand)->getInputNodes(nandInputs);
-    dynamic_cast<Gate*>(&nand)->getOutputNodes(nandOutputs);
-    dynamic_cast<Gate*>(&nor)->getInputNodes(norInputs);
-    dynamic_cast<Gate*>(&nor)->getOutputNodes(norOutputs);
-    dynamic_cast<Gate*>(&triAnd)->getInputNodes(triAndInputs);
-    dynamic_cast<Gate*>(&triAnd)->getOutputNodes(triAndOutputs);
-    dynamic_cast<Gate*>(&toggle1)->getOutputNodes(toggle1Node);
-    dynamic_cast<Gate*>(&toggle2)->getOutputNodes(toggle2Node);
-    dynamic_cast<Gate*>(&toggle3)->getOutputNodes(toggle3Node);
+    GateField gf(nullptr, 1, "Test", 300);
+    gf.addGate(&toggleGate, false);
+    gf.addGate(&toggleGate2, false);
+    gf.addGate(&andGate, false);
+    gf.addGate(&receiverGate, false);
 
-    //Link circuit
-    toggle1Node[0]->LinkNode(nandInputs[0]);
-    toggle1Node[0]->LinkNode(norInputs[0]);
-    toggle2Node[0]->LinkNode(nandInputs[1]);
-    toggle2Node[0]->LinkNode(norInputs[1]);
 
-    nandOutputs[0]->LinkNode(triAndInputs[0]);
-    toggle3Node[0]->LinkNode(triAndInputs[1]);
-    norOutputs[0]->LinkNode(triAndInputs[2]);
 
-    std::vector<Gate*> gates;
-    gates.push_back(&toggle1);
-    gates.push_back(&toggle2);
-    gates.push_back(&toggle3);
-    gates.push_back(&nand);
-    gates.push_back(&nor);
-    gates.push_back(&triAnd);
-
-    if(!QDir("Saves").exists())
-        QDir().mkdir("Saves");
-
-    //Save
-    std::ofstream newGateCollection("Saves/test.CustomGate");
-    if(newGateCollection.is_open())
-    {
-        GateCollection::SaveData(newGateCollection, gates);
-        newGateCollection.close();
-
-        //Load
-        std::ifstream customGateFile("Saves/test.CustomGate");
-        if(customGateFile.is_open())
-        {
-            GateCollection* cg;
-            static GateReader gReader;
-            QCOMPARE(gReader.ReadGateCollection(customGateFile, cg), true);
-
-            std::vector<Gate*> loadedGates = dynamic_cast<Test_GateCollection*>(cg)->GetGates();
-
-            //Test results - (0,0,1 --> 1)
-            dynamic_cast<GateToggle*>(loadedGates[0])->SetPowerState(0);
-            dynamic_cast<GateToggle*>(loadedGates[1])->SetPowerState(0);
-            dynamic_cast<GateToggle*>(loadedGates[2])->SetPowerState(1);
-
-            loadedGates[3]->UpdateOutput();
-            loadedGates[4]->UpdateOutput();
-            loadedGates[5]->UpdateOutput();
-
-            std::vector<Node*> output;
-            loadedGates[5]->getOutputNodes(output);
-
-            QCOMPARE(output[0]->value(), true);
-        }
-    }
-}*/
+}
 
 QTEST_APPLESS_MAIN(Tests)

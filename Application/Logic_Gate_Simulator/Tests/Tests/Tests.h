@@ -29,14 +29,9 @@ private slots:
 
     void test_booleanExpressionsToCircuit();
     void test_truthTableToBooleanExpression();
+    void test_circuitToOther();
 
-    /*
-    //Link tests
-    void test_nodeLink();
-    void test_circuit();
-
-    //Saving/loading
-    void test_save_load();*/
+    void test_save_load();
 };
 
 #endif // TESTS_H

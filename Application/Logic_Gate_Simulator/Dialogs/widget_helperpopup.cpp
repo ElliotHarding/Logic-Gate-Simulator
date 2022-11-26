@@ -80,7 +80,6 @@ Widget_CircleTarget::Widget_CircleTarget(DLG_Home *pHome) : QWidget(pHome)
 
 Widget_CircleTarget::~Widget_CircleTarget()
 {
-
 }
 
 void Widget_CircleTarget::setLocation(const QPoint &location, const uint& circleDiameter)
@@ -96,5 +95,6 @@ void Widget_CircleTarget::paintEvent(QPaintEvent *paintEvent)
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
     painter.setPen(QPen(Settings::CircleColor, Settings::CircleWidth));
-    painter.drawEllipse(geometry());
+    QRect drawRect = QRect(0, 0, geometry().width(), geometry().height());
+    painter.drawEllipse(drawRect);
 }

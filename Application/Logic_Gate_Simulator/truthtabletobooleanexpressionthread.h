@@ -7,7 +7,7 @@
 #include <QThread>
 
 //////////////////////////////////////////////////////////////////////////
-///RandomCircuitGenThread
+///TruthTableToBooleanExpressionsThread
 /// This is using the random method! For other(better) methods see Converter
 class TruthTableToBooleanExpressionsThread : public QThread
 {

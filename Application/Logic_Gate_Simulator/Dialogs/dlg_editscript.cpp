@@ -140,15 +140,8 @@ void DLG_EditScript::on_btn_genCircuit_clicked()
         int failedLineNumber;
         if(Converter::scriptToCircuit(script, numInputs, numOutputs, m_pHome->getCircuitGenOptions(), pNewCircuit, failedLineNumber) == ConverterResult::SUCCESS)
         {
-            if(m_pFpga)
-            {
-                m_pFpga->getParent()->addGate(pNewCircuit);
-                m_pFpga = nullptr;
-            }
-            else
-            {
-                m_pHome->addGateToGateField(pNewCircuit);
-            }
+            m_pHome->addGateToGateFieldCenterd(pNewCircuit);
+            m_pFpga = nullptr;
             close();
         }
         else

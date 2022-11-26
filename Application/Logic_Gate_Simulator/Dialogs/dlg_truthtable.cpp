@@ -191,7 +191,7 @@ void DLG_TruthTable::on_btn_circuit_clicked()
         GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
         if(Converter::truthTableToCircuit(m_truthTable, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
         {
-            m_pHome->addGateToGateField(pNewGateCollection);
+            m_pHome->addGateToGateFieldCenterd(pNewGateCollection);
             close();
         }
         else

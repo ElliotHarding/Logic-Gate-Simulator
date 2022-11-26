@@ -92,32 +92,16 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
         expressions.push_back(pExpressionDisplay->getExpression());
     }
 
-    //Todo ~ could move this logic into DLG_Home
-    if(m_pHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
+    GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
+    if(Converter::booleanExpressionsToCircuit(expressions, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
     {
-        TruthTable tt;
-        if(Converter::expressionsToTruthTable(expressions, tt) == ConverterResult::SUCCESS)
-        {
-            m_pHome->requestRandomCircuitGen(tt);
-        }
-        else
-        {
-            m_pHome->sendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
-        }
+        m_pHome->addGateToGateField(pNewGateCollection);
+        close();
     }
     else
     {
-        GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
-        if(Converter::booleanExpressionsToCircuit(expressions, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
-        {
-            m_pHome->addGateToGateField(pNewGateCollection);
-            close();
-        }
-        else
-        {
-            delete pNewGateCollection;
-            m_pHome->sendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
-        }
+        delete pNewGateCollection;
+        m_pHome->sendUserMessage("Failed to convert to circuit. Check format of boolean expressions.");
     }
 }
 

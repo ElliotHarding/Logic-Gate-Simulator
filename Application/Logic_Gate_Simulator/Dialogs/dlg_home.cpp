@@ -16,8 +16,7 @@ const QString DefaultPageName = "New Page";
 DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *parent) :
     QMainWindow(parent),    
     ui(new Ui::DLG_Home),
-    m_zoomFactor(-1),
-    m_pTruthTableToExpressionsViaRandomThread(new TruthTableToBooleanExpressionsThread())
+    m_zoomFactor(-1)
 {
 
     pProgressBar->setValue(20);
@@ -73,9 +72,6 @@ DLG_Home::DLG_Home(QProgressBar* pProgressBar, QLabel* txtProgress, QWidget *par
         connect(ui->actionCreate_Truth_Table, SIGNAL(triggered()), this, SLOT(on_btn_createTruthTable()));
         connect(ui->actionCreate_Expressions, SIGNAL(triggered()), this, SLOT(on_btn_createExpressions()));
         connect(ui->actionConversion_And_Generation_Settings, SIGNAL(triggered()), this, SLOT(on_btn_conversionConfig()));
-
-        connect(m_pTruthTableToExpressionsViaRandomThread, SIGNAL(expressionsGenSuccess(const std::vector<BooleanExpression>)), this, SLOT(onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression>)));
-        connect(m_pTruthTableToExpressionsViaRandomThread, SIGNAL(expressionsGenFailure(const QString&)), this, SLOT(onTruthTableToExpressionsFailure(const QString&)));
     }
 
     {
@@ -127,8 +123,6 @@ void DLG_Home::initalizeDialogsAndWidgets()
 
 DLG_Home::~DLG_Home()
 {
-    delete m_pTruthTableToExpressionsViaRandomThread;
-
     delete m_pSpawnedGateWidget;
 
     delete m_pWidgetAllGates;
@@ -174,7 +168,7 @@ void DLG_Home::newlySpawnedGate(Gate* pGate, const QPoint& spawnPosition)
 /// \brief DLG_Home::addGateToGateField
 /// \param pGate Gate to add to current gatefield (position relative to DLG_Home)
 ///
-void DLG_Home::addGateToGateField(Gate* pGate)
+void DLG_Home::dropSpawnedGate(Gate* pGate)
 {
     if(pGate == nullptr)
         return;
@@ -200,6 +194,23 @@ void DLG_Home::addGateToGateField(Gate* pGate)
         sendUserMessage("Must place gate onto page!");
         delete pGate;
     }
+}
+
+void DLG_Home::addGateToGateFieldCenterd(Gate *pGate)
+{
+    if(pGate == nullptr)
+        return;
+
+    //Check for current gatefield
+    if(m_iCurrentGateField == -1)
+    {
+        newlySpawnedGateField(Settings::DefaultPageName);
+    }
+
+    QPoint centerField = m_allGateFields[size_t(m_iCurrentGateField)]->geometry().center();
+    pGate->setPosition(centerField.x(), centerField.y());
+
+    m_allGateFields[size_t(m_iCurrentGateField)]->addGate(pGate);
 }
 
 void DLG_Home::gateSelected(Gate* pGate)
@@ -312,17 +323,6 @@ CircuitOptions DLG_Home::getCircuitGenOptions() const
 ConversionAlgorithm DLG_Home::getCurrentConversionAlgorithm() const
 {
     return m_pDlgConversionConfig->getAlgorithm();
-}
-
-void DLG_Home::requestExpressionsGen(const TruthTable& truthTable)
-{
-    if(m_pTruthTableToExpressionsViaRandomThread->isRunning())
-    {
-        sendUserMessage("Already generating!");
-        return;
-    }
-
-    m_pTruthTableToExpressionsViaRandomThread->start(truthTable, getCircuitGenOptions());
 }
 
 void DLG_Home::editTextLabel(TextLabel* pTextLabelToEdit)
@@ -585,41 +585,4 @@ void DLG_Home::on_PlayField_currentChanged(int index)
     {
         m_pDlgGateInfo->setGateField(dynamic_cast<GateField*>(ui->PlayField->widget(index)));
     }
-}
-
-void DLG_Home::onTruthTableToExpressionsSuccess(const std::vector<BooleanExpression> expressions)
-{
-    //Todo : fixup ~ temporary
-    GateCollection* pNewCircuit;
-    if(Converter::booleanExpressionsToCircuit(expressions, getCircuitGenOptions(), pNewCircuit) != ConverterResult::SUCCESS)
-    {
-        Logger::log(LogLevel::LL_Error, "DLG_Home::onTruthTableToExpressionsSuccess : Generation failed! 1");
-        return;
-    }
-    if(pNewCircuit == nullptr)
-    {
-        Logger::log(LogLevel::LL_Error, "DLG_Home::onTruthTableToExpressionsSuccess : Generation failed! 2");
-        return;
-    }
-
-    //Check for current gatefield
-    if(m_iCurrentGateField == -1)
-    {
-        newlySpawnedGateField(Settings::DefaultPageName);
-    }
-
-    QPoint centerField = m_allGateFields[size_t(m_iCurrentGateField)]->geometry().center();
-    pNewCircuit->setPosition(centerField.x(), centerField.y());
-
-    m_allGateFields[size_t(m_iCurrentGateField)]->addGate(pNewCircuit);
-
-    //One of these guys requested the circuit gen
-    m_pDlgEditScript->close();
-    m_pDlgBooleanExpressions->close();
-    m_pDlgTruthTable->close();
-}
-
-void DLG_Home::onTruthTableToExpressionsFailure(const QString& failMessage)
-{
-    sendUserMessage(failMessage);
 }

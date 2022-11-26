@@ -52,7 +52,8 @@ public:
 
     ///Gate operations
     void newlySpawnedGate(Gate* pGate, const QPoint& spawnPosition);
-    void addGateToGateField(Gate* pGate);
+    void dropSpawnedGate(Gate* pGate);
+    void addGateToGateFieldCenterd(Gate* pGate);
     void gateSelected(Gate* pGate);
     void editTextLabel(TextLabel* pTextLabelToEdit);
     void editFPGA(GateFPGA* pFPGA);
@@ -79,7 +80,6 @@ public:
     ///Other functions
     void selectionToolClicked();
     void updateCustomGateListWidget();
-    void requestExpressionsGen(const TruthTable& truthTable);
 
 protected:
     void moveEvent(QMoveEvent* event) override;
@@ -133,8 +133,6 @@ protected:
     //Clicking
     ClickMode m_currentClickMode = CLICK_DRAG;
     ClickMode m_savedClickMode = CLICK_DRAG;
-
-    TruthTableToBooleanExpressionsThread* m_pTruthTableToExpressionsViaRandomThread;
 
 private slots:
 

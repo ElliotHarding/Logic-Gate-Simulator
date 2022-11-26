@@ -51,7 +51,7 @@ TruthTableToBooleanExpressionsThread::TruthTableToBooleanExpressionsThread() : Q
 void TruthTableToBooleanExpressionsThread::start(const TruthTable& truthTable, const CircuitOptions& circuitGenOptions)
 {
     m_truthTable = truthTable;
-    m_circuitOptions = circuitGenOptions;
+    m_circuitOptions = circuitGenOptions;   
 
     QThread::start();
 }

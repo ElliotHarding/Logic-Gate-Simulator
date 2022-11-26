@@ -244,22 +244,55 @@ ConverterResult Converter::truthTableToBooleanExpressions(TruthTable& truthTable
 //If input values match up with expression letters being inverted or not
 bool expressionToResult(const std::vector<bool>& inValues, std::vector<char>& inputLetters, const BooleanExpression& expression)
 {
-    for(uint i = 0; i < inValues.size(); i++)
+    //New algorithm
+    QString expressionToInts;
+    for(uint i = 0; i < expression.letters.size(); i++)
     {
-        const char letter = inputLetters[i];
-        for(uint j = 0; j < expression.letters.size(); j++)
+        const char currentExpressionLetter = expression.letters[i];
+
+        if(currentExpressionLetter == '+')
         {
-            if(expression.letters[j] == letter)
+            expressionToInts.push_back('|');
+            continue;
+        }
+
+        if(currentExpressionLetter == '!' || currentExpressionLetter == '(' || currentExpressionLetter == ')' || currentExpressionLetter == '&')
+        {
+            expressionToInts.push_back(currentExpressionLetter);
+            continue;
+        }
+
+        for(uint j = 0; j < inputLetters.size(); j++)
+        {
+            if(inputLetters[j] == currentExpressionLetter)
             {
-                if(expression.isInverted(j) == inValues[i])
-                {
-                    return false;
-                }
+                expressionToInts.push_back(QString::number(inValues[j]));
+                break;
             }
         }
     }
 
-    return true;
+    QString expressionAsBooleanOperation;
+    for(uint i = 0; i < expressionToInts.size(); i++)
+    {
+        expressionAsBooleanOperation.push_back(expressionToInts[i]);
+        if(i < expressionToInts.size() - 1 && (expressionToInts[i] == "0" || expressionToInts[i] == "1") && (expressionToInts[i+1] == "0" || expressionToInts[i+1] == "1"))
+        {
+            expressionAsBooleanOperation += "&";
+        }
+    }
+
+    QScriptEngine engine;
+    QScriptContext* pContext = engine.pushContext();//I think this gets deleted by engine destructor
+
+    const QString script = "outputVar = " + expressionAsBooleanOperation + ";";
+
+    pContext->activationObject().setProperty("outputVar", false);
+
+    //Run script
+    engine.evaluate(script);
+
+    return pContext->activationObject().property("outputVar").toBool();
 }
 
 ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression>& expressions, TruthTable& truthTable)

@@ -29,6 +29,7 @@
 #include "widget_inputgates.h"
 #include "widget_standard.h"
 #include "widget_spawnedgate.h"
+#include "widget_helperpopup.h"
 
 #include "textlabel.h"
 
@@ -72,10 +73,13 @@ public:
     CircuitOptions getCircuitGenOptions() const;
     ConversionAlgorithm getCurrentConversionAlgorithm() const;
 
+    ///Helper popup functions
+    void nextHelperTip();
+    void previousHelperTip();
+
     ///Other functions
     void selectionToolClicked();
     void updateCustomGateListWidget();
-
     void runRandomConversionThread(const TruthTable& truthTable, const GoalResult& goalResult);
 
 public slots:
@@ -133,6 +137,9 @@ protected:
     std::vector<GateField*> m_allGateFields;
     void newlySpawnedGateField(const QString& name);
     GateField* createNewGateField(const QString& name);
+
+    //Helper tip popup
+    HelperTip m_currentHelperTip;
 
     QRect accountForUIOffsetts(const QRect& rect) const;
 

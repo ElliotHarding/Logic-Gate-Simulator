@@ -56,13 +56,14 @@
     <font>
      <pointsize>12</pointsize>
      <bold>true</bold>
+     <underline>true</underline>
     </font>
    </property>
    <property name="text">
     <string>Tips</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="lbl_tipText">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -133,6 +134,9 @@
     <font>
      <pointsize>35</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">textColor:red;</string>
    </property>
    <property name="text">
     <string>↙</string>

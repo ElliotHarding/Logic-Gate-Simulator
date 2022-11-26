@@ -24,22 +24,22 @@ void Widget_HelperPopup::popup(const QPoint& location, const QString& tipText)
     {
         if(location.y() < Settings::PopupHeight)
         {
-            move(location);
+            move(location + QPoint(Settings::PopupDistance, Settings::PopupDistance));
         }
         else
         {
-            move(QPoint(location.x(), location.y() - Settings::PopupHeight));
+            move(QPoint(location.x() + Settings::PopupDistance, location.y() - Settings::PopupHeight - Settings::PopupDistance));
         }
     }
     else
     {
         if(location.y() < Settings::PopupHeight)
         {
-            move(QPoint(location.x() - Settings::PopupWidth, location.y()));
+            move(QPoint(location.x() - Settings::PopupWidth - Settings::PopupDistance, location.y() + Settings::PopupDistance));
         }
         else
         {
-            move(QPoint(location.x() - Settings::PopupWidth, location.y() - Settings::PopupHeight));
+            move(QPoint(location.x() - Settings::PopupWidth - Settings::PopupDistance, location.y() - Settings::PopupHeight - Settings::PopupDistance));
         }
     }
 

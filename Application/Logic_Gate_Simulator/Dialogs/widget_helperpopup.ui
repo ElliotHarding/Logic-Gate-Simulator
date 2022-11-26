@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">.QFrame{background-color: red; border: 1px solid black; border-radius: 10px;}</string>
+   <string notr="true">.QFrame{background-color: Pale gray; border: 1px solid black; border-radius: 10px;}</string>
   </property>
   <widget class="QPushButton" name="btn_next">
    <property name="geometry">
@@ -121,6 +121,31 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QFrame" name="background">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>240</width>
+     <height>65</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+  </widget>
+  <zorder>background</zorder>
+  <zorder>btn_next</zorder>
+  <zorder>lbl_help</zorder>
+  <zorder>lbl_tipText</zorder>
+  <zorder>btn_previous</zorder>
+  <zorder>btn_close</zorder>
  </widget>
  <resources/>
  <connections/>

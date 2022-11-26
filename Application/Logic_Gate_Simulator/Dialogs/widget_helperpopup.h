@@ -11,6 +11,7 @@ namespace Settings
 {
 const int PopupWidth = 240;
 const int PopupHeight = 65;
+const int PopupDistance = 30;
 }
 
 enum HelperTip

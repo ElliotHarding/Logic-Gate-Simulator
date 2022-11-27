@@ -317,6 +317,19 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
     updateTableUI();
 }
 
+void DLG_TruthTable::on_btn_kmap_clicked()
+{
+    KarnaughMap kmap;
+    if(kmap.initFromTruthTable(m_truthTable, 0))
+    {
+        m_pHome->showGeneratedKarnaughmap(kmap);
+    }
+    else
+    {
+        m_pHome->sendUserMessage("Failed to generate Kmap! Check truth table is valid.");
+    }
+}
+
 /////////////////////////////////////////////////////////////////////////////
 /// \brief OutputLabel::OutputLabel
 /// \param pDlgTruthTable
@@ -336,3 +349,4 @@ void OutputLabel::mousePressEvent(QMouseEvent*)
 {
     setText(text() == "1" ? "0" : "1");
 }
+

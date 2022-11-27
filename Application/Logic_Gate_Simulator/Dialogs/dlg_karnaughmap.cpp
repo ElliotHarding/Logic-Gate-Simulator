@@ -20,6 +20,8 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
     m_kMap = kMap;
     clearUI();
 
+    ui->lbl_inputs->setText(QString::number(m_kMap.inputLetters.size()));
+
     if(m_kMap.values.empty() || m_kMap.values[0].empty())
     {
         Logger::log(LogLevel::LL_Error, "DLG_KarnaughMap::show - Failed to show Karnaugh map.");
@@ -34,7 +36,7 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
         QString colTitle;
         for(int i = 0; i < m_kMap.xInputs[iCol].size(); i++)
         {
-            colTitle += (m_kMap.xInputs[iCol][i].second ? "" : "!") + QString(m_kMap.xInputs[iCol][i].first);
+            colTitle += (m_kMap.xInputs[iCol][i].second ? "" : "!") + QString(m_kMap.xInputs[iCol][i].first) + " ";
         }
 
         QLabel* newLabel = new QLabel(colTitle, this);
@@ -61,7 +63,7 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
         QString rowTitle;
         for(int i = 0; i < m_kMap.yInputs[iRow].size(); i++)
         {
-            rowTitle += (m_kMap.yInputs[iRow][i].second ? "" : "!") + QString(m_kMap.yInputs[iRow][i].first);
+            rowTitle += (m_kMap.yInputs[iRow][i].second ? "" : "!") + QString(m_kMap.yInputs[iRow][i].first) + " ";
         }
 
         QLabel* newLabel = new QLabel(rowTitle, this);
@@ -93,3 +95,27 @@ void DLG_KarnaughMap::clearUI()
     }
     m_tableOutputLabels.clear();
 }
+
+void DLG_KarnaughMap::on_btn_expressions_clicked()
+{
+
+}
+
+
+void DLG_KarnaughMap::on_btn_circuit_clicked()
+{
+
+}
+
+
+void DLG_KarnaughMap::on_btn_truthTable_clicked()
+{
+
+}
+
+
+void DLG_KarnaughMap::on_spinBox_inputs_valueChanged(int arg1)
+{
+
+}
+

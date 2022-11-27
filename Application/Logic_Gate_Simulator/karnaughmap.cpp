@@ -72,7 +72,7 @@ bool KarnaughMap::initFromTruthTable(const TruthTable& tt, const int& iOutput)
     for(int y = 0; y < yColLen; y++)
     {
         std::vector<std::pair<char, bool>> rowInputs;
-        std::vector<bool> inValues = TruthTable::genInputValues(y, xInputsCount);
+        std::vector<bool> inValues = TruthTable::genInputValues(y, yInputsCount);
         for(int iInput = 0; iInput < inValues.size(); iInput++)
         {
             std::pair<char, bool> rowInput(inputLetters[iInput+xInputsCount], inValues[iInput]);

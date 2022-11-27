@@ -312,6 +312,21 @@ void DLG_EditScript::on_btn_genExpressions_clicked()
         m_pFpga->setScript(script);
     }
 
+    if(m_pHome->getCurrentConversionAlgorithm() == ConversionAlgorithm::Random)
+    {
+        TruthTable tt;
+        int failedLineNumber;
+        if(Converter::scriptToTruthTable(script, numInputs, numOutputs, tt, failedLineNumber) == ConverterResult::SUCCESS)
+        {
+            m_pHome->runRandomConversionThread(tt, GoalResult::GR_BooleanExpressions);
+        }
+        else
+        {
+            m_pHome->sendUserMessage("Failed to convert to expressions.\n Check format of script. Line number: " + QString::number(failedLineNumber));
+        }
+        return;
+    }
+
     std::vector<BooleanExpression> expressions;
     int failedLineNumber;
     if(Converter::scriptToBooleanExpressions(script, numInputs, numOutputs, m_pHome->getCurrentConversionAlgorithm(), expressions, failedLineNumber) == ConverterResult::SUCCESS)

@@ -758,6 +758,13 @@ Node* getNode(BooleanExpression& expression, uint& i, Circuit& circuit, std::map
         {
             return invertLetterGates[expression.letters[i]]->getOutputNodes()[0];
         }
+        else if(isLowercaseLetter(expression.letters[i]))
+        {
+            GateNot* pNot = new GateNot();
+            linkNodes(circuitGates[expression.letters[i]]->getOutputNodes()[0], pNot->getInputNodes()[0]);
+            circuit.mainGates.push_back(pNot);
+            return pNot->getOutputNodes()[0];
+        }
         else
         {
             GateNot* pNot = new GateNot();
@@ -797,6 +804,11 @@ void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEn
         }
 
         iNext++;
+        if(iNext > iEnd)
+        {
+            return;
+        }
+
         Node* pSecondNode = nullptr;
         if(expression.letters[iNext] == '+' || expression.letters[iNext] == '|')
         {

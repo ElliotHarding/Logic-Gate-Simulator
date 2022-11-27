@@ -81,5 +81,33 @@ bool KarnaughMap::initFromTruthTable(const TruthTable& tt, const int& iOutput)
         yInputs.push_back(rowInputs);
     }
 
+    for(int x = 0; x < xInputs.size(); x++)
+    {
+        std::vector<bool> colValues;
+        for(int y = 0; y < yInputs.size(); y++)
+        {
+            std::vector<bool> inputs;
+            for(int xInput = 0; xInput < xInputs[x].size(); xInput++)
+            {
+                inputs.push_back(xInputs[x][xInput].second);
+            }
+
+            for(int yInput = 0; yInput < yInputs[y].size(); yInput++)
+            {
+                inputs.push_back(yInputs[y][yInput].second);
+            }
+
+            for(int iTableRun = 0; iTableRun < tt.size; iTableRun++)
+            {
+                if(tt.inValues[iTableRun] == inputs)
+                {
+                    colValues.push_back(tt.outValues[iTableRun][iOutput]);
+                    break;
+                }
+            }
+        }
+        values.push_back(colValues);
+    }
+
     return true;
 }

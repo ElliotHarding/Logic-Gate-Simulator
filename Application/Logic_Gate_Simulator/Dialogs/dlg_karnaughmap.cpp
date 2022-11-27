@@ -20,6 +20,12 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
     m_kMap = kMap;
     clearUI();
 
+    if(m_kMap.values.empty() || m_kMap.values[0].empty())
+    {
+        Logger::log(LogLevel::LL_Error, "DLG_KarnaughMap::show - Failed to show Karnaugh map.");
+        return;
+    }
+
     const uint labelWidth = Settings::TableDisplayDimensions.width() / (m_kMap.xInputs.size() + 1);
     const uint labelHeight = Settings::TableDisplayDimensions.height() / (m_kMap.yInputs.size() + 1);
 
@@ -55,7 +61,7 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
         QString rowTitle;
         for(int i = 0; i < m_kMap.yInputs[iRow].size(); i++)
         {
-            rowTitle += (m_kMap.yInputs[iRow][i].second ? "" : "!") + QString(m_kMap.yInputs[iRow][i].first) + "\n";
+            rowTitle += (m_kMap.yInputs[iRow][i].second ? "" : "!") + QString(m_kMap.yInputs[iRow][i].first);
         }
 
         QLabel* newLabel = new QLabel(rowTitle, this);

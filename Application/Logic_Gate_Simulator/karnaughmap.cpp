@@ -97,13 +97,20 @@ bool KarnaughMap::initFromTruthTable(const TruthTable& tt, const int& iOutput)
                 inputs.push_back(yInputs[y][yInput].second);
             }
 
+            bool found = false;
             for(int iTableRun = 0; iTableRun < tt.size; iTableRun++)
             {
                 if(tt.inValues[iTableRun] == inputs)
                 {
                     colValues.push_back(tt.outValues[iTableRun][iOutput]);
+                    found = true;
                     break;
                 }
+            }
+
+            if(!found)
+            {
+                colValues.push_back(false);
             }
         }
         values.push_back(colValues);

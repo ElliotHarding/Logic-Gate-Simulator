@@ -524,7 +524,6 @@ void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEn
         Node* pFirstNode = getNode(expression, iNext, circuit, circuitGates, invertLetterGates);
         if(pFirstNode == nullptr)
         {
-            //Issue
             return;
         }
 
@@ -541,7 +540,6 @@ void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEn
             pSecondNode = getNode(expression, iNext, circuit, circuitGates, invertLetterGates);
             if(pSecondNode == nullptr)
             {
-                //Issue
                 return;
             }
 
@@ -558,7 +556,6 @@ void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEn
             pSecondNode = getNode(expression, iNext, circuit, circuitGates, invertLetterGates);
             if(pSecondNode == nullptr)
             {
-                //Issue
                 return;
             }
 
@@ -579,7 +576,6 @@ void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEn
             pSecondNode = getNode(expression, iNext, circuit, circuitGates, invertLetterGates);
             if(pSecondNode == nullptr)
             {
-                //Issue
                 return;
             }
 

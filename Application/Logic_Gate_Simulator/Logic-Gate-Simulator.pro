@@ -37,7 +37,6 @@ SOURCES += \
     Dialogs/dlg_task.cpp \
     Dialogs/dlg_textedit.cpp \
     Dialogs/dlg_truthtable.cpp \
-    Dialogs/dlg_truthtablecreate.cpp \
     Dialogs/widget_helperpopup.cpp \
     Dialogs/widget_spawnedgate.cpp \
     GameObjects/gateeor.cpp \
@@ -91,7 +90,6 @@ HEADERS += \
     Dialogs/dlg_message.h \
     Dialogs/dlg_textedit.h \
     Dialogs/dlg_truthtable.h \
-    Dialogs/dlg_truthtablecreate.h \
     Dialogs/widget_helperpopup.h \
     Dialogs/widget_spawnedgate.h \
     GameObjects/gateeor.h \
@@ -150,7 +148,6 @@ FORMS += \
     Dialogs/dlg_savegatecollection.ui \
     Dialogs/dlg_textedit.ui \
     Dialogs/dlg_truthtable.ui \
-    Dialogs/dlg_truthtablecreate.ui \
     Dialogs/widget_advanced.ui \
     Dialogs/widget_allgates.ui \
     Dialogs/widget_customgates.ui \

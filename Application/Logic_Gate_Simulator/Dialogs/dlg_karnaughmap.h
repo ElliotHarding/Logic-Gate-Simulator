@@ -27,6 +27,15 @@ public:
 
     void show(const KarnaughMap& kMap);
 
+private slots:
+    void on_btn_expressions_clicked();
+
+    void on_btn_circuit_clicked();
+
+    void on_btn_truthTable_clicked();
+
+    void on_spinBox_inputs_valueChanged(int arg1);
+
 private:
     Ui::DLG_KarnaughMap *ui;
 

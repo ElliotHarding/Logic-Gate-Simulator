@@ -265,9 +265,15 @@ bool expressionToResult(const std::vector<bool>& inValues, std::vector<char>& in
             continue;
         }
 
-        if(currentExpressionLetter == '!' || currentExpressionLetter == '(' || currentExpressionLetter == ')' || currentExpressionLetter == '&')
+        if(currentExpressionLetter == '!' || currentExpressionLetter == '(' || currentExpressionLetter == ')' || currentExpressionLetter == '&' || currentExpressionLetter == '^')
         {
             expressionToInts.push_back(currentExpressionLetter);
+            continue;
+        }
+
+        if(currentExpressionLetter == '.')
+        {
+            expressionToInts.push_back('&');
             continue;
         }
 
@@ -285,7 +291,7 @@ bool expressionToResult(const std::vector<bool>& inValues, std::vector<char>& in
     for(uint i = 0; i < expressionToInts.size(); i++)
     {
         expressionAsBooleanOperation.push_back(expressionToInts[i]);
-        if(i < expressionToInts.size() - 1 && (expressionToInts[i] == "0" || expressionToInts[i] == "1") && (expressionToInts[i+1] == "0" || expressionToInts[i+1] == "1"))
+        if(i < expressionToInts.size() - 1 && (expressionToInts[i] == "0" || expressionToInts[i] == "1") && ((expressionToInts[i+1] == "0" || expressionToInts[i+1] == "1") || expressionToInts[i+1] == "("))
         {
             expressionAsBooleanOperation += "&";
         }

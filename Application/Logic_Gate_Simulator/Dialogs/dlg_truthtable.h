@@ -32,6 +32,8 @@ private slots:
     void on_spinBox_inputs_valueChanged(int value);
     void on_spinBox_outputs_valueChanged(int value);
 
+    void on_btn_kmap_clicked();
+
 private:
     void clearUI();
     void updateTableUI();

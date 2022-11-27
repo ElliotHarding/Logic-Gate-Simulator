@@ -49,10 +49,9 @@ void DLG_TruthTable::open()
 
     //Create fresh truthtable
     TruthTable truthTable;
-    truthTable.size = 4;
+    truthTable.genInputs(2);
     for(uint i = 0; i < truthTable.size; i++)
     {
-        truthTable.inValues.push_back(truthTable.genInputs(i, 2));
         truthTable.outValues.push_back({(i == (truthTable.size-1) ? true : false)});
     }
     truthTable.inLetters = {'A', 'B'};
@@ -242,15 +241,8 @@ void DLG_TruthTable::on_spinBox_inputs_valueChanged(int value)
         removeLetters(m_truthTable.inLetters, iRemove);
     }
 
-    m_truthTable.inValues.clear();
-    m_truthTable.size = pow(2, value);
-
     //Generate input values
-    for (uint iTableRun = 0; iTableRun < m_truthTable.size; iTableRun++)
-    {
-        std::vector<bool> inputValues = m_truthTable.genInputs(iTableRun, value);
-        m_truthTable.inValues.push_back(inputValues);
-    }
+    m_truthTable.genInputs(value);
 
     //Generate output values
     int difference = m_truthTable.size - m_truthTable.outValues[0].size() + 1;

@@ -9,10 +9,9 @@ bool KarnaughMap::init(std::vector<char> inputLetters)
     const int count = pow(2, numInputLetters);
 
     //Generate input values
-    TruthTable temp;
     for (int iRun = 0; iRun < count; iRun++)
     {
-        std::vector<bool> inputValues = temp.genInputs(iRun, numInputLetters);
+        std::vector<bool> inputValues = TruthTable::genInputValues(iRun, numInputLetters);
         for(int iInputValue = 0; iInputValue < numInputLetters; iInputValue++)
         {
             std::pair<char, bool> input(inputLetters[iInputValue], inputValues[iInputValue]);
@@ -26,4 +25,6 @@ bool KarnaughMap::init(std::vector<char> inputLetters)
             }
         }
     }
+
+    return true;
 }

@@ -331,11 +331,7 @@ ConverterResult Converter::expressionsToTruthTable(std::vector<BooleanExpression
     }
 
     //Generate input values
-    truthTable.size = pow(2, truthTable.inLetters.size());
-    for(uint i = 0; i < truthTable.size; i++)
-    {
-        truthTable.inValues.push_back(truthTable.genInputs(i, truthTable.inLetters.size()));
-    }
+    truthTable.genInputs(truthTable.inLetters.size());
 
     //Generate output values
     for(uint i = 0; i < truthTable.inValues.size(); i++)
@@ -792,19 +788,13 @@ ConverterResult Converter::scriptToTruthTable(const QString &script, const uint 
         truthTable.outLetters.push_back('Z'+1-i);
     }
 
-    std::vector<bool> genInputValues;
-
-    truthTable.size = pow(2, numInputs);
+    truthTable.genInputs(numInputs);
     for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
     {
-        //Generate input values
-        genInputValues = truthTable.genInputs(iTableRun, numInputs);
-        truthTable.inValues.push_back(genInputValues);
-
         //Set input values for script
         for(uint iInput = 0; iInput < numInputs; iInput++)
         {
-            pContext->activationObject().setProperty(inputVariables[iInput], (bool)genInputValues[iInput]);
+            pContext->activationObject().setProperty(inputVariables[iInput], (bool)truthTable.inValues[iTableRun][iInput]);
         }
 
         //Run script
@@ -942,16 +932,12 @@ ConverterResult Converter::circuitToTruthTable(std::vector<Gate*> gates, TruthTa
     truthTable.addInputLetters(numInputs);
     truthTable.addOutputLetters(numOutputs);
 
-    truthTable.size = pow(2, numInputs);
+    truthTable.genInputs(numInputs);
     for (uint iTableRun = 0; iTableRun < truthTable.size; iTableRun++)
     {
-        //Generate input values
-        std::vector<bool> inputValues = truthTable.genInputs(iTableRun, numInputs);
-        truthTable.inValues.push_back(inputValues);
-
         for(uint iInput = 0; iInput < numInputs; iInput++)
         {
-            inputGates[iInput]->setPowerState(inputValues[iInput]);
+            inputGates[iInput]->setPowerState(truthTable.inValues[iTableRun][iInput]);
         }
 
         //Must be a better way of doing this...

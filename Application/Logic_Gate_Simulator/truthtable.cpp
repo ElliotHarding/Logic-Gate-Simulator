@@ -1,6 +1,18 @@
 #include "truthtable.h"
 
-std::vector<bool> TruthTable::genInputs(const unsigned int &iTableRun, const unsigned int &numInputs)
+void TruthTable::genInputs(const unsigned int& numInputs)
+{
+    inValues.clear();
+    size = pow(2, numInputs);
+
+    for (uint iTableRun = 0; iTableRun < size; iTableRun++)
+    {
+        std::vector<bool> inputValues = genInputValues(iTableRun, numInputs);
+        inValues.push_back(inputValues);
+    }
+}
+
+std::vector<bool> TruthTable::genInputValues(const unsigned int &iTableRun, const unsigned int &numInputs)
 {
     std::vector<bool> inputs;
     int mask = 1;

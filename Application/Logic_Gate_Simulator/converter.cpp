@@ -393,6 +393,74 @@ bool inCharVec(const std::vector<char>& vec, const char& chr)
     return false;
 }
 
+void findAndMakeLinks(Gate* pGate, Gate* pNewGate, NodeIds& linkInfoInput1, NodeIds& linkInfoInput2, NodeIds& linkInfoOutput)
+{
+    for(int id : linkInfoInput1.linkedIds)
+    {
+        Node* pNode;
+        if(pGate->findNodeWithId(id, pNode))
+        {
+            linkNodes(pNewGate->getInputNodes()[0], pNode);
+        }
+    }
+
+    for(int id : linkInfoInput2.linkedIds)
+    {
+        Node* pNode;
+        if(pGate->findNodeWithId(id, pNode))
+        {
+            linkNodes(pNewGate->getInputNodes()[1], pNode);
+        }
+    }
+
+    for(int id : linkInfoOutput.linkedIds)
+    {
+        Node* pNode;
+        if(pGate->findNodeWithId(id, pNode))
+        {
+            linkNodes(pNewGate->getOutputNodes()[0], pNode);
+        }
+    }
+}
+
+void linkReplacementFromCircuit(Gate* pOldGate, Gate* pNewGate, Circuit& circuit)
+{
+    NodeIds linkInfoInput1 = pOldGate->getInputNodes()[0]->linkInfo();
+    NodeIds linkInfoInput2 = pOldGate->getInputNodes()[1]->linkInfo();
+    NodeIds linkInfoOutput = pOldGate->getOutputNodes()[0]->linkInfo();
+
+    for(Gate* pGate : circuit.mainGates)
+    {
+        findAndMakeLinks(pGate, pNewGate, linkInfoInput1, linkInfoInput2, linkInfoOutput);
+    }
+
+    for(std::pair<char, Gate*> inputGateAndLetter : circuit.inputs)
+    {
+        Gate* pGate = inputGateAndLetter.second;
+        findAndMakeLinks(pGate, pNewGate, linkInfoInput1, linkInfoInput2, linkInfoOutput);
+    }
+}
+
+void replaceDoubleInputGate(Gate* pNewGate, Circuit& circuit, std::map<char, Gate*>& circuitGates, const char& circuitGate)
+{
+    Gate* pOldGate = circuitGates[circuitGate];
+    linkReplacementFromCircuit(pOldGate, pNewGate, circuit);
+
+    for(uint i = 0; i < circuit.mainGates.size(); i++)
+    {
+        if(circuit.mainGates[i] == pOldGate)
+        {
+            circuit.mainGates.erase(circuit.mainGates.begin() + i);
+            break;
+        }
+    }
+    delete pOldGate;
+
+    circuit.mainGates.push_back(pNewGate);
+    circuitGates[circuitGate] = pNewGate;
+
+}
+//TODO ~ GOT TO WORK IN XOR OPERATOR
 Node* getNode(BooleanExpression& expression, uint& i, Circuit& circuit, std::map<char, Gate*>& circuitGates, std::map<char, Gate*>& invertLetterGates)
 {
     if(expression.letters[i] == '!')
@@ -404,6 +472,21 @@ Node* getNode(BooleanExpression& expression, uint& i, Circuit& circuit, std::map
         }
         else if(isLowercaseLetter(expression.letters[i]))
         {
+            if(circuitGates[expression.letters[i]]->getType() == GateType::GATE_AND)
+            {
+                GateNand* pNand = new GateNand();
+                replaceDoubleInputGate(pNand, circuit, circuitGates, expression.letters[i]);
+                return circuitGates[expression.letters[i]]->getOutputNodes()[0];
+            }
+            else if(circuitGates[expression.letters[i]]->getType() == GateType::GATE_OR)
+            {
+                GateNor* pNor = new GateNor();
+                replaceDoubleInputGate(pNor, circuit, circuitGates, expression.letters[i]);
+                return circuitGates[expression.letters[i]]->getOutputNodes()[0];
+            }
+
+            //TODO ~ ADD XNOR
+
             GateNot* pNot = new GateNot();
             linkNodes(circuitGates[expression.letters[i]]->getOutputNodes()[0], pNot->getInputNodes()[0]);
             circuit.mainGates.push_back(pNot);

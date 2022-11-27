@@ -50,6 +50,7 @@ SOURCES += \
     circuit.cpp \
     converter.cpp \
     customsettings.cpp \
+    karnaughmap.cpp \
     logger.cpp \
     main.cpp \
     gatefield.cpp \
@@ -134,6 +135,7 @@ HEADERS += \
     Dialogs/movingwidget.h \
     GameObjects/gatetrior.h \
     GameObjects/gatenumberoutput.h \
+    karnaughmap.h \
     logger.h \
     truthtable.h \
     truthtabletobooleanexpressionthread.h

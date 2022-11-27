@@ -3,6 +3,8 @@ bagvp = aSmellyDog69_
 do we need offsetGates if we pan painter?
 
 
+Reuse circuitGates in booleanToCircuit
+
 
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
@@ -20,7 +22,7 @@ simplifybool
 
 TT --> Bool 	ok
 Bool --> TT	G
-Bool --> Cir	B
+Bool --> Cir	B(but better)
 TT --> Cir  	B (Contains simplification)
 TT --> Cir thread B
 

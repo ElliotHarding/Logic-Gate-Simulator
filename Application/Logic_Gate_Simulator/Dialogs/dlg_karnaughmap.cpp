@@ -28,7 +28,7 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
         QString colTitle;
         for(int i = 0; i < m_kMap.xInputs[iCol].size(); i++)
         {
-            colTitle += m_kMap.xInputs[iCol][i].second ? "" : "!" + QString(m_kMap.xInputs[iCol][i].first);
+            colTitle += (m_kMap.xInputs[iCol][i].second ? "" : "!") + QString(m_kMap.xInputs[iCol][i].first);
         }
 
         QLabel* newLabel = new QLabel(colTitle, this);
@@ -55,7 +55,7 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
         QString rowTitle;
         for(int i = 0; i < m_kMap.yInputs[iRow].size(); i++)
         {
-            rowTitle += m_kMap.yInputs[iRow][i].second ? "" : "!" + QString(m_kMap.yInputs[iRow][i].first) + "\n";
+            rowTitle += (m_kMap.yInputs[iRow][i].second ? "" : "!") + QString(m_kMap.yInputs[iRow][i].first) + "\n";
         }
 
         QLabel* newLabel = new QLabel(rowTitle, this);

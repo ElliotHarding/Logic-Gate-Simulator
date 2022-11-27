@@ -1108,11 +1108,43 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
     std::vector<std::vector<bool>> mask(width, std::vector<bool>(height, true));
     checkAndProcessMask(kmap, mask, expression, alreadyDone, width, height);
 
-    //Next smallest
-    int gridWidth = width - 2;
-    int gridHeight = height - 2;
-    if(gridWidth > 1 && gridHeight > 1)
+    for(int x = 0; x < width; x++)
     {
+        for(int y = 0; y < height; y++)
+        {
+            if(kmap.values[x][y] && !alreadyDone[x][y])
+            {
+                //Check left
+                if(x == 0)
+                {
+                    if(kmap.values[width][y])//Found a pair
+                    {
 
+                    }
+                }
+                else
+                {
+                    if(kmap.values[x-1][y])//Found a pair
+                    {
+                        if(x - 1 == 0)
+                        {
+                            if(kmap.values[width][y])//Found three
+                            {
+
+                            }
+                        }
+                        else
+                        {
+                            if(kmap.values[x-2][y])//Found three
+                            {
+
+                            }
+                        }
+
+
+                    }
+                }
+            }
+        }
     }
 }

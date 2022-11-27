@@ -17,4 +17,51 @@ struct KarnaughMap
     bool initFromTruthTable(const TruthTable& tt, const int& iOutput);
 };
 
+struct SpillProofValues
+{
+    int width;
+    int height;
+
+    std::vector<std::vector<bool>> values;
+
+    bool getValue(const int& x, const int& y)
+    {
+        int newX, newY;
+        wrapRound(x, newX, y, newY);
+
+        return values[newX][newY];
+    }
+
+    void setValue(const int& x, const int& y, const bool& value)
+    {
+        int newX, newY;
+        wrapRound(x, newX, y, newY);
+
+        values[newX][newY] = value;
+    }
+
+    void wrapRound(const int& x, int& newX, const int& y, int& newY)
+    {
+        newX = x;
+        if(x < 0)
+        {
+            newX = width - x;
+        }
+        else if(x >= width)
+        {
+            newX = x - width;
+        }
+
+        newY = y;
+        if(y < 0)
+        {
+            newY = height - y;
+        }
+        else if(y >= height)
+        {
+            newY = y - height;
+        }
+    }
+};
+
 #endif // KARNAUGHMAP_H

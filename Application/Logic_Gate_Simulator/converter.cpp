@@ -994,14 +994,14 @@ bool checkMask(const KarnaughMap& kmap, const std::vector<std::vector<bool>>& ma
     return true;
 }
 
-void getGoodTerms(const KarnaughMap& kmap, const std::vector<std::vector<bool>>& mask, BooleanExpression& expression, const int& width, const int& height)
+void getGoodTerms(const KarnaughMap& kmap, SpillProofValues& mask, BooleanExpression& expression, const int& width, const int& height)
 {
     std::vector<std::pair<char, bool>> terms;
     for(int x = 0; x < width; x++)
     {
         for(int y = 0; y < height; y++)
         {
-            if(mask[x][y])
+            if(mask.getValue(x, y))
             {
                 for(int i = 0; i < kmap.xInputs[x].size(); i++)
                 {
@@ -1055,10 +1055,16 @@ void getGoodTerms(const KarnaughMap& kmap, const std::vector<std::vector<bool>>&
         }
     }
 
+    bool addedOr = false;
     for(int i = 0; i < goodTerms.size(); i++)
     {
         if(goodTerms[i])
         {
+            if(!addedOr && !expression.letters.empty())
+            {
+                addedOr = true;
+                expression.addTerm('+');
+            }
             expression.addTerm(terms[i].first, !terms[i].second);
         }
     }
@@ -1102,46 +1108,240 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
 
     //Check off whats already been done.
     std::vector<std::vector<bool>> alreadyDone(width, std::vector<bool>(height, false));
-
+    SpillProofValues alreadyDoneValues;
+    alreadyDoneValues.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+    alreadyDoneValues.width = width;
+    alreadyDoneValues.height = height;
 
     //Determine biggest grid i can do
     std::vector<std::vector<bool>> mask(width, std::vector<bool>(height, true));
     checkAndProcessMask(kmap, mask, expression, alreadyDone, width, height);
 
+    SpillProofValues safeValues;
+    safeValues.values = kmap.values;
+    safeValues.width = width;
+    safeValues.height = height;
+
     for(int x = 0; x < width; x++)
     {
         for(int y = 0; y < height; y++)
         {
-            if(kmap.values[x][y] && !alreadyDone[x][y])
+            if(safeValues.getValue(x, y) && !alreadyDoneValues.getValue(x, y))
             {
-                //Check left
-                if(x == 0)
-                {
-                    if(kmap.values[width][y])//Found a pair
-                    {
+                //Check for pairs
+                bool leftPair = safeValues.getValue(x-1, y);
+                bool rightPair = safeValues.getValue(x+1, y);
+                bool upPair = safeValues.getValue(x, y+1);
+                bool downPair = safeValues.getValue(x, y-1);
 
+                if(!(leftPair || rightPair || upPair || downPair))
+                {
+                    for(int i = 0; i < kmap.xInputs[x].size(); i++)
+                    {
+                        expression.addTerm(kmap.xInputs[x][i].first, !kmap.xInputs[x][i].second);
+                    }
+                    for(int i = 0; i < kmap.yInputs[y].size(); i++)
+                    {
+                        expression.addTerm(kmap.yInputs[y][i].first, !kmap.yInputs[y][i].second);
+                    }
+
+                    alreadyDoneValues.setValue(x, y, true);
+                    continue;
+                }
+
+                bool longQuad = false;
+
+                //Check left
+                int left = 1;
+                for(; left < width; left++)
+                {
+                    if(!safeValues.getValue(x-left, y))
+                    {
+                        left-1;
+                        break;
                     }
                 }
-                else
+
+                //Check right
+                int right = 1;
+                for(; right < width; right++)
                 {
-                    if(kmap.values[x-1][y])//Found a pair
+                    if(!safeValues.getValue(x+right, y))
                     {
-                        if(x - 1 == 0)
+                        right-1;
+                        break;
+                    }
+                }
+
+                //Check down
+                int down = 1;
+                for(; down < height; down++)
+                {
+                    if(!safeValues.getValue(x, y-down))
+                    {
+                        down-1;
+                        break;
+                    }
+                }
+
+                //Check up
+                int up = 1;
+                for(; up < height; up++)
+                {
+                    if(!safeValues.getValue(x, y+up))
+                    {
+                        up-1;
+                        break;
+                    }
+                }
+
+                int along = left + right;
+                if(along >= 4)
+                {
+                    longQuad = true;
+                }
+
+                int scaling = up + down;
+                if(scaling >= 4)
+                {
+                    longQuad = true;
+                }
+
+                if(!longQuad)
+                {
+                    //Check for 2x2
+                    if(leftPair && upPair)
+                    {
+                        if(safeValues.getValue(x-1, y+1))
                         {
-                            if(kmap.values[width][y])//Found three
-                            {
-
-                            }
+                            SpillProofValues mask;
+                            mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                            mask.width = width;
+                            mask.height = height;
+                            mask.setValue(x-1, y+1, true);
+                            alreadyDoneValues.setValue(x-1, y+1, true);
+                            mask.setValue(x, y, true);
+                            alreadyDoneValues.setValue(x, y, true);
+                            mask.setValue(x-1, y, true);
+                            alreadyDoneValues.setValue(x-1, y, true);
+                            mask.setValue(x, y+1, true);
+                            alreadyDoneValues.setValue(x, y+1, true);
+                            getGoodTerms(kmap, mask, expression, width, height);
+                            continue;
                         }
-                        else
+                    }
+                    if(leftPair && downPair)
+                    {
+                        if(safeValues.getValue(x-1, y-1))
                         {
-                            if(kmap.values[x-2][y])//Found three
-                            {
-
-                            }
+                            SpillProofValues mask;
+                            mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                            mask.width = width;
+                            mask.height = height;
+                            mask.setValue(x-1, y-1, true);
+                            alreadyDoneValues.setValue(x-1, y-1, true);
+                            mask.setValue(x, y, true);
+                            alreadyDoneValues.setValue(x, y, true);
+                            mask.setValue(x-1, y, true);
+                            alreadyDoneValues.setValue(x-1, y, true);
+                            mask.setValue(x, y-1, true);
+                            alreadyDoneValues.setValue(x, y-1, true);
+                            getGoodTerms(kmap, mask, expression, width, height);
+                            continue;
                         }
+                    }
+                    if(rightPair && upPair)
+                    {
+                        if(safeValues.getValue(x+1, y+1))
+                        {
+                            SpillProofValues mask;
+                            mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                            mask.width = width;
+                            mask.height = height;
+                            mask.setValue(x+1, y+1, true);
+                            alreadyDoneValues.setValue(x+1, y+1, true);
+                            mask.setValue(x, y, true);
+                            alreadyDoneValues.setValue(x, y, true);
+                            mask.setValue(x+1, y, true);
+                            alreadyDoneValues.setValue(x+1, y, true);
+                            mask.setValue(x, y+1, true);
+                            alreadyDoneValues.setValue(x, y+1, true);
+                            getGoodTerms(kmap, mask, expression, width, height);
+                            continue;
+                        }
+                    }
+                    if(rightPair && downPair)
+                    {
+                        if(safeValues.getValue(x+1, y-1))
+                        {
+                            SpillProofValues mask;
+                            mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                            mask.width = width;
+                            mask.height = height;
+                            mask.setValue(x+1, y-1, true);
+                            alreadyDoneValues.setValue(x+1, y-1, true);
+                            mask.setValue(x, y, true);
+                            alreadyDoneValues.setValue(x, y, true);
+                            mask.setValue(x+1, y, true);
+                            alreadyDoneValues.setValue(x+1, y, true);
+                            mask.setValue(x, y-1, true);
+                            alreadyDoneValues.setValue(x, y-1, true);
+                            getGoodTerms(kmap, mask, expression, width, height);
+                            continue;
+                        }
+                    }
 
-
+                    if(leftPair)
+                    {
+                        SpillProofValues mask;
+                        mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                        mask.width = width;
+                        mask.height = height;
+                        mask.setValue(x, y, true);
+                        alreadyDoneValues.setValue(x, y, true);
+                        mask.setValue(x-1, y, true);
+                        alreadyDoneValues.setValue(x-1, y, true);
+                        getGoodTerms(kmap, mask, expression, width, height);
+                        continue;
+                    }
+                    else if(rightPair)
+                    {
+                        SpillProofValues mask;
+                        mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                        mask.width = width;
+                        mask.height = height;
+                        mask.setValue(x, y, true);
+                        alreadyDoneValues.setValue(x, y, true);
+                        mask.setValue(x+1, y, true);
+                        alreadyDoneValues.setValue(x+1, y, true);
+                        getGoodTerms(kmap, mask, expression, width, height);
+                        continue;
+                    }
+                    else if(upPair)
+                    {
+                        SpillProofValues mask;
+                        mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                        mask.width = width;
+                        mask.height = height;
+                        mask.setValue(x, y, true);
+                        alreadyDoneValues.setValue(x, y, true);
+                        mask.setValue(x, y+1, true);
+                        alreadyDoneValues.setValue(x, y+1, true);
+                        getGoodTerms(kmap, mask, expression, width, height);
+                        continue;
+                    }
+                    else if(downPair)
+                    {
+                        SpillProofValues mask;
+                        mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                        mask.width = width;
+                        mask.height = height;
+                        mask.setValue(x, y, true);
+                        alreadyDoneValues.setValue(x, y, true);
+                        mask.setValue(x, y-1, true);
+                        alreadyDoneValues.setValue(x, y-1, true);
+                        getGoodTerms(kmap, mask, expression, width, height);
+                        continue;
                     }
                 }
             }

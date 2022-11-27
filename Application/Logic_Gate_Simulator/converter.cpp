@@ -979,13 +979,13 @@ ConverterResult Converter::circuitToBooleanExpressions(std::vector<Gate*> gates,
     return truthTableToBooleanExpressions(truthTable, conversionOptions, expressions);
 }
 
-bool checkMask(const KarnaughMap& kmap, const std::vector<std::vector<bool>>& mask, const std::vector<std::vector<bool>>& alreadyDone, const int& width, const int& height)
+bool checkMask(const KarnaughMap& kmap, SpillProofValues& mask, const int& width, const int& height)
 {
     for(int x = 0; x < width; x++)
     {
         for(int y = 0; y < height; y++)
         {
-            if(mask[x][y] && (!kmap.values[x][y] || alreadyDone[x][y]))
+            if(mask.getValue(x, y) && !kmap.values[x][y])
             {
                 return false;
             }
@@ -1201,8 +1201,8 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
                     longQuad = true;
                 }
 
-                int scaling = up + down;
-                if(scaling >= 4)
+                int across = up + down;
+                if(across >= 4)
                 {
                     longQuad = true;
                 }
@@ -1340,6 +1340,89 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
                         alreadyDoneValues.setValue(x, y, true);
                         mask.setValue(x, y-1, true);
                         alreadyDoneValues.setValue(x, y-1, true);
+                        getGoodTerms(kmap, mask, expression, width, height);
+                        continue;
+                    }
+                }
+
+                else //longQuad
+                {
+                    bool foundOctagon = false;
+                    //Check for octagon
+                    for(int xx = -3; xx < 1; xx++)
+                    {
+                        for(int yy = -3; yy < 1; yy++)
+                        {
+                            SpillProofValues mask;
+                            mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                            mask.width = width;
+                            mask.height = height;
+
+                            for(int iX = xx; iX < 4+xx; iX++)
+                            {
+                                for(int iY = yy; iY < 4+yy; iY++)
+                                {
+                                    mask.setValue(x + iX, y + iY, true);
+                                }
+                            }
+
+                            if(checkMask(kmap, mask, width, height))
+                            {
+                                foundOctagon = true;
+                                getGoodTerms(kmap, mask, expression, width, height);
+
+                                for(int iX = xx; iX < 4+xx; iX++)
+                                {
+                                    for(int iY = yy; iY < 4+yy; iY++)
+                                    {
+                                        alreadyDoneValues.setValue(x + iX, y + iY, true);
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+                        if(foundOctagon)
+                        {
+                            break;
+                        }
+                    }
+
+                    if(foundOctagon)
+                    {
+                        continue;
+                    }
+
+                    if(across >= 4)
+                    {
+                        SpillProofValues mask;
+                        mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                        mask.width = width;
+                        mask.height = height;
+
+                        for(int iX = x - left; iX < x - left + 4; iX++)
+                        {
+                            mask.setValue(iX, y, true);
+                            alreadyDoneValues.setValue(iX, y, true);
+                        }
+
+                        getGoodTerms(kmap, mask, expression, width, height);
+                        continue;
+                    }
+
+                    else if(along >= 4)
+                    {
+                        SpillProofValues mask;
+                        mask.values = std::vector<std::vector<bool>>(width, std::vector<bool>(height, false));
+                        mask.width = width;
+                        mask.height = height;
+
+                        for(int iY = y - down; iY < y - down + 4; iY++)
+                        {
+                            mask.setValue(x, iY, true);
+                            alreadyDoneValues.setValue(x, iY, true);
+                        }
+
                         getGoodTerms(kmap, mask, expression, width, height);
                         continue;
                     }

@@ -921,10 +921,62 @@ ConverterResult Converter::booleanExpressionsToCircuit2(std::vector<BooleanExpre
         //Convert rest
         turnSectionIntoCircuit(expression, 0, expression.letters.size()-1, circuit, circuitGates, invertLetterGates, gatesCounter);
 
-        linkNodes(circuitGates[gatesCounter]->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+        if(expression.letters.size() == 1)
+        {
+            if(isLetter(expression.letters[0]))
+            {
+                linkNodes(circuit.inputs[expression.letters[0]]->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+            }
+            else if(isLowercaseLetter(expression.letters[0]))
+            {
+                linkNodes(circuitGates[expression.letters[0]]->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+            }
+            else
+            {
+                //Issue
+                return INVALID_INPUT_EXPRESSIONS;
+            }
+        }
+        else if(expression.letters.size() == 2)
+        {
+            if(expression.letters[0] == '!')
+            {
+                if(isLowercaseLetter(expression.letters[1]))
+                {
+                    GateNot* pNot = new GateNot();
+                    linkNodes(circuitGates[expression.letters[1]]->getOutputNodes()[0], pNot->getInputNodes()[0]);
+                    circuit.mainGates.push_back(pNot);
+                    linkNodes(pNot->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+                }
+                else if(isLetter(expression.letters[1]))
+                {
+                    if(invertLetterGates.find(expression.letters[1]) != invertLetterGates.end())
+                    {
+                        linkNodes(invertLetterGates[expression.letters[1]]->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+                    }
+                    else
+                    {
+                        GateNot* pNot = new GateNot();
+                        linkNodes(circuit.inputs[expression.letters[1]]->getOutputNodes()[0], pNot->getInputNodes()[0]);
+                        invertLetterGates[expression.letters[1]] = pNot;
+                        circuit.mainGates.push_back(pNot);
+                        linkNodes(pNot->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+                    }
+                }
+                else
+                {
+                    return INVALID_INPUT_EXPRESSIONS;
+                }
+            }
+        }
+        else
+        {
+            return INVALID_INPUT_EXPRESSIONS;
+        }
     }
 
     pNewCircuit = circuit.createGateCollection();
+    return SUCCESS;
 }
 
 ConverterResult Converter::truthTableToCircuit(TruthTable& truthTable, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit)

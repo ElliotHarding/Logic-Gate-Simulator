@@ -433,8 +433,6 @@ Node* getNode(BooleanExpression& expression, uint& i, Circuit& circuit, std::map
     }
 }
 
-//!(AB)
-//Check if section has already been turned into gate
 void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEnd, Circuit& circuit, std::map<char, Gate*>& circuitGates, std::map<char, Gate*>& invertLetterGates, char& gatesCounter)
 {
     for(uint i = iStart; i < iEnd; i++)

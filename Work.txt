@@ -3,7 +3,8 @@ bagvp = aSmellyDog69_
 do we need offsetGates if we pan painter?
 
 
-Reuse circuitGates in booleanToCircuit
+- Reuse circuitGates in booleanToCircuit
+- Have a look at genInputs, see if it can be internal inside truthtable class
 
 
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFF

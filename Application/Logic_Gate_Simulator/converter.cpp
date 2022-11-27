@@ -677,10 +677,25 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
             {
                 if(isLowercaseLetter(expression.letters[1]))
                 {
-                    GateNot* pNot = new GateNot();
-                    linkNodes(circuitGates[expression.letters[1]]->getOutputNodes()[0], pNot->getInputNodes()[0]);
-                    circuit.mainGates.push_back(pNot);
-                    linkNodes(pNot->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+                    if(circuitGates[expression.letters[1]]->getType() == GateType::GATE_AND)
+                    {
+                        GateNand* pNand = new GateNand();
+                        replaceDoubleInputGate(pNand, circuit, circuitGates, expression.letters[1]);
+                        linkNodes(circuitGates[expression.letters[1]]->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+                    }
+                    else if(circuitGates[expression.letters[1]]->getType() == GateType::GATE_OR)
+                    {
+                        GateNor* pNor = new GateNor();
+                        replaceDoubleInputGate(pNor, circuit, circuitGates, expression.letters[1]);
+                        linkNodes(circuitGates[expression.letters[1]]->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+                    }
+                    else
+                    {
+                        GateNot* pNot = new GateNot();
+                        linkNodes(circuitGates[expression.letters[1]]->getOutputNodes()[0], pNot->getInputNodes()[0]);
+                        circuit.mainGates.push_back(pNot);
+                        linkNodes(pNot->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+                    }
                 }
                 else if(isLetter(expression.letters[1]))
                 {

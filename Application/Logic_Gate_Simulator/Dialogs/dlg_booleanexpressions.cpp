@@ -160,6 +160,28 @@ void DLG_BooleanExpressions::on_btn_simplify_clicked()
     }
 }
 
+void DLG_BooleanExpressions::on_btn_kmap_clicked()
+{
+    std::vector<BooleanExpression> expressions;
+    for(int i = 0; i < ui->list_expressions->count(); i++)
+    {
+        BooleanExpressionDisplay* pExpressionDisplay = dynamic_cast<BooleanExpressionDisplay*>(ui->list_expressions->itemWidget(ui->list_expressions->item(i)));
+        expressions.push_back(pExpressionDisplay->getExpression());
+    }
+
+    TruthTable truthTable;
+    if(Converter::expressionsToTruthTable(expressions, truthTable) == ConverterResult::SUCCESS)
+    {
+        KarnaughMap kmap;
+        kmap.initFromTruthTable(truthTable, 0);
+        m_pHome->showGeneratedKarnaughmap(kmap);
+    }
+    else
+    {
+        m_pHome->sendUserMessage("Failed to generate truth table! Check format of boolean expressions.");
+    }
+}
+
 void DLG_BooleanExpressions::on_btn_addExpression_clicked()
 {
     BooleanExpression newExpression;

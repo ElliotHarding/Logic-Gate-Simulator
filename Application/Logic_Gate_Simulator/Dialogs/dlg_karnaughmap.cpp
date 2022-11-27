@@ -41,7 +41,7 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
 
         QLabel* newLabel = new QLabel(colTitle, this);
         newLabel->setGeometry(Settings::TableDisplayDimensions.x() + (1 + iCol) * labelWidth, Settings::TableDisplayDimensions.y(), labelWidth, labelHeight);
-        newLabel->setStyleSheet("border-color: black;");
+        newLabel->setStyleSheet("border-color: black; font-weight: bold;");
         newLabel->setAlignment(Qt::AlignCenter);
         newLabel->show();
         m_tableLabels.push_back(newLabel);
@@ -68,7 +68,7 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
 
         QLabel* newLabel = new QLabel(rowTitle, this);
         newLabel->setGeometry(Settings::TableDisplayDimensions.x(), Settings::TableDisplayDimensions.y() + labelHeight + (iRow * labelHeight), labelWidth, labelHeight);
-        newLabel->setStyleSheet("border-color: black;");
+        newLabel->setStyleSheet("border-color: black; font-weight: bold;");
         newLabel->setAlignment(Qt::AlignCenter);
         newLabel->show();
         m_tableLabels.push_back(newLabel);

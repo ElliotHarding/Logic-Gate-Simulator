@@ -552,6 +552,23 @@ void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEn
             circuit.mainGates.push_back(pOr);
             circuitGates[++gatesCounter] = pOr;
         }
+        else if(expression.letters[iNext] == '^')
+        {
+            iNext++;
+            pSecondNode = getNode(expression, iNext, circuit, circuitGates, invertLetterGates);
+            if(pSecondNode == nullptr)
+            {
+                //Issue
+                return;
+            }
+
+            GateXor* pXor = new GateXor();
+            linkNodes(pXor->getInputNodes()[0], pFirstNode);
+            linkNodes(pXor->getInputNodes()[1], pSecondNode);
+
+            circuit.mainGates.push_back(pXor);
+            circuitGates[++gatesCounter] = pXor;
+        }
         else
         {
             if(expression.letters[iNext] == '&' || expression.letters[iNext] == '.')

@@ -3,6 +3,7 @@
 #include "dlg_home.h"
 #include "gatecollection.h"
 #include "converter.h"
+#include "karnaughmap.h"
 
 #include <cmath>
 
@@ -321,7 +322,7 @@ void DLG_TruthTable::on_spinBox_outputs_valueChanged(int value)
 /// \param pDlgTruthTable
 /// \param value
 ///
-OutputLabel::OutputLabel(DLG_TruthTable* pDlgTruthTable, const bool& value) : QLabel(pDlgTruthTable)
+OutputLabel::OutputLabel(QDialog* pDlg, const bool& value) : QLabel(pDlg)
 {
     setText(value ? "1" : "0");
 }

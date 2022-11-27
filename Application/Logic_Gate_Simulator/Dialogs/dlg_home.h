@@ -8,6 +8,7 @@
 #include <QProgressBar>
 #include <QLabel>
 
+#include "karnaughmap.h"
 #include "clickmode.h"
 #include "gatereader.h"
 #include "logger.h"
@@ -21,6 +22,7 @@
 #include "dlg_booleanexpressions.h"
 #include "dlg_conversionconfig.h"
 #include "dlg_gateinfo.h"
+#include "dlg_karnaughmap.h"
 
 #include "movingwidget.h"
 #include "widget_advanced.h"
@@ -87,6 +89,7 @@ public slots:
     void showGeneratedCircuit(GateCollection* pGateCollection);
     void showGeneratedTruthTable(const TruthTable& truthTable);
     void showGeneratedBooleanExpressions(const std::vector<BooleanExpression> expressions);
+    void showGeneratedKarnaughmap(const KarnaughMap& kMap);
 
     void failedRandomConversion(const QString& failMessage);
 
@@ -107,6 +110,7 @@ protected:
     DLG_TruthTable*         m_pDlgTruthTable;
     DLG_BooleanExpressions* m_pDlgBooleanExpressions;
     DLG_ConversionConfig*   m_pDlgConversionConfig;
+    DLG_KarnaughMap*        m_pDlgKarnaughMap;
 
     //Gate widgets
     Widget_AllGates*    m_pWidgetAllGates;

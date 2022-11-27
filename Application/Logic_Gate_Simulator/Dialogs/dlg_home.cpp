@@ -101,6 +101,7 @@ void DLG_Home::initalizeDialogsAndWidgets()
     m_pDlgTruthTable = new DLG_TruthTable(this);
     m_pDlgBooleanExpressions = new DLG_BooleanExpressions(this);
     m_pDlgConversionConfig = new DLG_ConversionConfig(this);
+    m_pDlgKarnaughMap = new DLG_KarnaughMap(this);
 
     //Other widgets
     m_pSpawnedGateWidget = new Widget_SpawnedGate(this);
@@ -156,6 +157,7 @@ DLG_Home::~DLG_Home()
     delete m_pDlgTruthTable;
     delete m_pDlgBooleanExpressions;
     delete m_pDlgConversionConfig;
+    delete m_pDlgKarnaughMap;
 
     delete m_pZoomSlider;
 
@@ -493,6 +495,7 @@ void DLG_Home::showGeneratedCircuit(GateCollection *pGateCollection)
     m_pDlgTruthTable->close();
     m_pDlgBooleanExpressions->close();
     m_pDlgEditScript->close();
+    m_pDlgKarnaughMap->close();
 }
 
 void DLG_Home::showGeneratedTruthTable(const TruthTable& truthTable)
@@ -500,6 +503,7 @@ void DLG_Home::showGeneratedTruthTable(const TruthTable& truthTable)
     m_pDlgTruthTable->open(truthTable);
     m_pDlgBooleanExpressions->close();
     m_pDlgEditScript->close();
+    m_pDlgKarnaughMap->close();
 }
 
 void DLG_Home::showGeneratedBooleanExpressions(const std::vector<BooleanExpression> expressions)
@@ -507,6 +511,15 @@ void DLG_Home::showGeneratedBooleanExpressions(const std::vector<BooleanExpressi
     m_pDlgBooleanExpressions->showExpressions(expressions);
     m_pDlgTruthTable->close();
     m_pDlgEditScript->close();
+    m_pDlgKarnaughMap->close();
+}
+
+void DLG_Home::showGeneratedKarnaughmap(const KarnaughMap &kMap)
+{
+    m_pDlgKarnaughMap->show(kMap);
+    m_pDlgTruthTable->close();
+    m_pDlgEditScript->close();
+    m_pDlgBooleanExpressions->close();
 }
 
 void DLG_Home::failedRandomConversion(const QString& failMessage)

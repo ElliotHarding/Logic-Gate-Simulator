@@ -33,6 +33,7 @@ SOURCES += \
     Dialogs/dlg_booleanexpressions.cpp \
     Dialogs/dlg_conversionconfig.cpp \
     Dialogs/dlg_editscript.cpp \
+    Dialogs/dlg_karnaughmap.cpp \
     Dialogs/dlg_message.cpp \
     Dialogs/dlg_task.cpp \
     Dialogs/dlg_textedit.cpp \
@@ -88,6 +89,7 @@ HEADERS += \
     Dialogs/dlg_booleanexpressions.h \
     Dialogs/dlg_conversionconfig.h \
     Dialogs/dlg_editscript.h \
+    Dialogs/dlg_karnaughmap.h \
     Dialogs/dlg_message.h \
     Dialogs/dlg_textedit.h \
     Dialogs/dlg_truthtable.h \
@@ -144,6 +146,7 @@ FORMS += \
     Dialogs/dlg_booleanexpressions.ui \
     Dialogs/dlg_conversionconfig.ui \
     Dialogs/dlg_editscript.ui \
+    Dialogs/dlg_karnaughmap.ui \
     Dialogs/dlg_message.ui \
     Dialogs/dlg_gateinfo.ui \
     Dialogs/dlg_home.ui \

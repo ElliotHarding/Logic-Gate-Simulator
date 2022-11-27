@@ -53,7 +53,7 @@ class OutputLabel : public QLabel
 {
     Q_OBJECT
 public:
-    OutputLabel(DLG_TruthTable* pDlgTruthTable, const bool& value);
+    OutputLabel(QDialog* pDlg, const bool& value);
 
     bool value() const;
 

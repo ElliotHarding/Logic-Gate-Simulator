@@ -359,7 +359,33 @@ void DLG_Home::setHelperTip(const HelperTip &helperTip)
 
     case HT_SpawnAndGate:
     {
+        switchNewlySpawnedGatesWidget(m_pWidgetAllGates);
+
+        if(m_iCurrentGateField == -1)
+        {
+            newlySpawnedGateField(Settings::DefaultPageName);
+        }
+
         m_pHelperPopup->popup(m_pWidgetAllGates->getAndGateButtonPosition(), "Select the AND gate. Then drag it \n onto the page.", true, 90);
+        break;
+    }
+
+    case HT_SpawnReceiverGate:
+    {
+        switchNewlySpawnedGatesWidget(m_pWidgetAllGates);
+
+        if(m_iCurrentGateField == -1)
+        {
+            newlySpawnedGateField(Settings::DefaultPageName);
+        }
+
+        m_pHelperPopup->popup(m_pWidgetAllGates->getReceiverGateButtonPosition(), "Select the RECEIVER gate. Then drag it \n onto the page.", true, 90);
+        break;
+    }
+
+    case HT_ShowInputGates:
+    {
+        m_pHelperPopup->popup(ui->comboBox->geometry().center(), "Select the Input Gates tab.", true, 90);
         break;
     }
 

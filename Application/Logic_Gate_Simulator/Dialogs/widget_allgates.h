@@ -19,6 +19,7 @@ public:
     void setScrollPosition(const float& y);
 
     QPoint getAndGateButtonPosition();
+    QPoint getReceiverGateButtonPosition();
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) override;

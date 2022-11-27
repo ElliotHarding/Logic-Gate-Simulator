@@ -39,6 +39,11 @@ QPoint Widget_AllGates::getAndGateButtonPosition()
     return spawnPosition(ui->btn_andGate->geometry().center());
 }
 
+QPoint Widget_AllGates::getReceiverGateButtonPosition()
+{
+    return spawnPosition(ui->btn_recieverGate->geometry().center());
+}
+
 void Widget_AllGates::wheelEvent(QWheelEvent *event)
 {
     //Apply scroll delta to m_scroll

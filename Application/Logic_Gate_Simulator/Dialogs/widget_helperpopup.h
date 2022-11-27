@@ -25,6 +25,9 @@ enum HelperTip
 {
     HT_First,
     HT_SpawnAndGate,
+    HT_SpawnReceiverGate,
+    HT_ShowInputGates,
+    HT_SpawnToggleGate,
     HT_Last
 };
 

@@ -278,7 +278,11 @@ void BooleanExpressionLineEdit::keyPressEvent(QKeyEvent* pKeyEvent)
             pKeyEvent->key() == '!' ||
             pKeyEvent->key() == '&' ||
             pKeyEvent->key() == '^' ||
-            pKeyEvent->key() == '.')
+            pKeyEvent->key() == '.' ||
+            pKeyEvent->key() == Qt::Key::Key_Delete ||
+            pKeyEvent->key() == Qt::Key::Key_Backspace ||
+            pKeyEvent->key() == Qt::Key::Key_Left ||
+            pKeyEvent->key() == Qt::Key::Key_Right)
     {
         QLineEdit::keyPressEvent(pKeyEvent);
     }

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>K-map</string>
   </property>
   <widget class="QLabel" name="lbl_inputs">
    <property name="geometry">

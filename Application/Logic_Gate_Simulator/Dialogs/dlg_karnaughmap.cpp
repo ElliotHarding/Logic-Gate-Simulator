@@ -20,7 +20,7 @@ void DLG_KarnaughMap::show(const KarnaughMap &kMap)
     m_kMap = kMap;
     clearUI();
 
-    ui->lbl_inputs->setText(QString::number(m_kMap.inputLetters.size()));
+    ui->spinBox_inputs->setValue(m_kMap.inputLetters.size());
 
     if(m_kMap.values.empty() || m_kMap.values[0].empty())
     {

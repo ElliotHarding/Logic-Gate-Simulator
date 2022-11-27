@@ -37,7 +37,6 @@ bool KarnaughMap::init(const std::vector<char>& inLetters, const char& cOutputLe
         yInputs.push_back(rowInputs);
     }
 
-
     return true;
 }
 
@@ -53,7 +52,34 @@ bool KarnaughMap::initFromTruthTable(const TruthTable& tt, const int& iOutput)
 
     const int numInputLetters = inputLetters.size();
     const int xInputsCount = std::floor(numInputLetters / 2);
+    const int yInputsCount = inputLetters.size() - xInputsCount;
 
+    const int xRowLen = pow(2, xInputsCount);
+    const int yColLen = pow(2, yInputsCount);
+
+    for(int x = 0; x < xRowLen; x++)
+    {
+        std::vector<std::pair<char, bool>> colInputs;
+        std::vector<bool> inValues = TruthTable::genInputValues(x, xInputsCount);
+        for(int iInput = 0; iInput < inValues.size(); iInput++)
+        {
+            std::pair<char, bool> colInput(inputLetters[iInput], inValues[iInput]);
+            colInputs.push_back(colInput);
+        }
+        xInputs.push_back(colInputs);
+    }
+
+    for(int y = 0; y < yColLen; y++)
+    {
+        std::vector<std::pair<char, bool>> rowInputs;
+        std::vector<bool> inValues = TruthTable::genInputValues(y, xInputsCount);
+        for(int iInput = 0; iInput < inValues.size(); iInput++)
+        {
+            std::pair<char, bool> rowInput(inputLetters[iInput+xInputsCount], inValues[iInput]);
+            rowInputs.push_back(rowInput);
+        }
+        yInputs.push_back(rowInputs);
+    }
 
     return true;
 }

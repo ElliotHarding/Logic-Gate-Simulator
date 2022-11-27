@@ -2,6 +2,7 @@
 #define KARNAUGHMAP_H
 
 #include <vector>
+#include "truthtable.h"
 
 struct KarnaughMap
 {
@@ -12,7 +13,8 @@ struct KarnaughMap
     std::vector<std::pair<char, bool>> yInputs;//left axis
     std::vector<std::vector<bool>> values;
 
-    bool init(std::vector<char> inputLetters);
+    bool init(const std::vector<char>& inputLetters, const char& outputLetter);
+    bool initFromTruthTable(const TruthTable& tt, const int& iOutput);
 };
 
 #endif // KARNAUGHMAP_H

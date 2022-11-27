@@ -7,8 +7,7 @@ void TruthTable::genInputs(const unsigned int& numInputs)
 
     for (uint iTableRun = 0; iTableRun < size; iTableRun++)
     {
-        std::vector<bool> inputValues = genInputValues(iTableRun, numInputs);
-        inValues.push_back(inputValues);
+        inValues.push_back(genInputValues(iTableRun, numInputs));
     }
 }
 

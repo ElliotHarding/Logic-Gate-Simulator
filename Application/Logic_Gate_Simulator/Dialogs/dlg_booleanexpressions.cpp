@@ -93,7 +93,7 @@ void DLG_BooleanExpressions::on_btn_genCircuit_clicked()
     }
 
     GateCollection* pNewGateCollection = new GateCollection(std::vector<Gate*>());
-    if(Converter::booleanExpressionsToCircuit(expressions, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
+    if(Converter::booleanExpressionsToCircuit2(expressions, m_pHome->getCircuitGenOptions(), pNewGateCollection) == ConverterResult::SUCCESS)
     {
         m_pHome->showGeneratedCircuit(pNewGateCollection);
     }

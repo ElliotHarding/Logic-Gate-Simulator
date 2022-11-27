@@ -754,15 +754,15 @@ Node* getNode(BooleanExpression& expression, uint& i, Circuit& circuit, std::map
     if(expression.letters[i] == '!')
     {
         i++;
-        if(invertLetterGates.find(expression.letters[i+1]) != invertLetterGates.end())
+        if(invertLetterGates.find(expression.letters[i]) != invertLetterGates.end())
         {
-            return invertLetterGates[expression.letters[i+1]]->getOutputNodes()[0];
+            return invertLetterGates[expression.letters[i]]->getOutputNodes()[0];
         }
         else
         {
             GateNot* pNot = new GateNot();
-            linkNodes(circuit.inputs[expression.letters[i+1]]->getOutputNodes()[0], pNot->getInputNodes()[0]);
-            invertLetterGates[expression.letters[i+1]] = pNot;
+            linkNodes(circuit.inputs[expression.letters[i]]->getOutputNodes()[0], pNot->getInputNodes()[0]);
+            invertLetterGates[expression.letters[i]] = pNot;
             circuit.mainGates.push_back(pNot);
             return pNot->getOutputNodes()[0];
         }
@@ -786,12 +786,6 @@ Node* getNode(BooleanExpression& expression, uint& i, Circuit& circuit, std::map
 //Check if section has already been turned into gate
 void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEnd, Circuit& circuit, std::map<char, Gate*>& circuitGates, std::map<char, Gate*>& invertLetterGates, char& gatesCounter)
 {
-    if(iStart+1>=iEnd)
-    {
-        //Issue
-        return;
-    }
-
     for(uint i = iStart; i < iEnd; i++)
     {
         uint iNext = i;
@@ -819,7 +813,7 @@ void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEn
             linkNodes(pOr->getInputNodes()[1], pSecondNode);
 
             circuit.mainGates.push_back(pOr);
-            circuitGates[gatesCounter++] = pOr;
+            circuitGates[++gatesCounter] = pOr;
         }
         else
         {
@@ -840,7 +834,7 @@ void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEn
             linkNodes(pAnd->getInputNodes()[1], pSecondNode);
 
             circuit.mainGates.push_back(pAnd);
-            circuitGates[gatesCounter++] = pAnd;
+            circuitGates[++gatesCounter] = pAnd;
         }
 
         expression.letters[i] = gatesCounter;

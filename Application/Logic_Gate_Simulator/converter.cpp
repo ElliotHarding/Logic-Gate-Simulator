@@ -27,6 +27,15 @@ bool isLetter(const char& letter)
     return false;
 }
 
+bool isLowercaseLetter(const char& letter)
+{
+    if(letter >= 'a' && letter <= 'z')
+    {
+        return true;
+    }
+    return false;
+}
+
 bool onlyDiffer1bit(QString& termA, QString& termB)
 {
     int iDiffer = 0;
@@ -403,10 +412,14 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
                 }
             }
         }
-        outputLetters.push_back(expression.resultLetter);
+
+        if(!inCharVec(outputLetters, expression.resultLetter))
+        {
+            outputLetters.push_back(expression.resultLetter);
+        }
     }
 
-    const uint numOutputs = expressions.size();
+    const uint numOutputs = outputLetters.size();
     const uint numInputs = inputLetters.size();
     if(numOutputs == 0 || numInputs == 0)
     {
@@ -734,6 +747,184 @@ ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpres
 
     pNewCircuit = circuit.createGateCollection();
     return ConverterResult::SUCCESS;
+}
+
+Node* getNode(BooleanExpression& expression, uint& i, Circuit& circuit, std::map<char, Gate*>& circuitGates, std::map<char, Gate*>& invertLetterGates)
+{
+    if(expression.letters[i] == '!')
+    {
+        i++;
+        if(invertLetterGates.find(expression.letters[i+1]) != invertLetterGates.end())
+        {
+            return invertLetterGates[expression.letters[i+1]]->getOutputNodes()[0];
+        }
+        else
+        {
+            GateNot* pNot = new GateNot();
+            linkNodes(circuit.inputs[expression.letters[i+1]]->getOutputNodes()[0], pNot->getInputNodes()[0]);
+            invertLetterGates[expression.letters[i+1]] = pNot;
+            circuit.mainGates.push_back(pNot);
+            return pNot->getOutputNodes()[0];
+        }
+    }
+    else if(isLetter(expression.letters[i]))
+    {
+        return circuit.inputs[expression.letters[i]]->getOutputNodes()[0];
+    }
+    else if(isLowercaseLetter(expression.letters[i]))
+    {
+        return circuitGates[expression.letters[i]]->getOutputNodes()[0];
+    }
+    else
+    {
+        //Issue
+        return nullptr;
+    }
+}
+
+//!(AB)
+//Check if section has already been turned into gate
+void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEnd, Circuit& circuit, std::map<char, Gate*>& circuitGates, std::map<char, Gate*>& invertLetterGates, char& gatesCounter)
+{
+    if(iStart+1>=iEnd)
+    {
+        //Issue
+        return;
+    }
+
+    for(uint i = iStart; i < iEnd; i++)
+    {
+        uint iNext = i;
+        Node* pFirstNode = getNode(expression, iNext, circuit, circuitGates, invertLetterGates);
+        if(pFirstNode == nullptr)
+        {
+            //Issue
+            return;
+        }
+
+        iNext++;
+        Node* pSecondNode = nullptr;
+        if(expression.letters[iNext] == '+' || expression.letters[iNext] == '|')
+        {
+            iNext++;
+            pSecondNode = getNode(expression, iNext, circuit, circuitGates, invertLetterGates);
+            if(pSecondNode == nullptr)
+            {
+                //Issue
+                return;
+            }
+
+            GateOr* pOr = new GateOr();
+            linkNodes(pOr->getInputNodes()[0], pFirstNode);
+            linkNodes(pOr->getInputNodes()[1], pSecondNode);
+
+            circuit.mainGates.push_back(pOr);
+            circuitGates[gatesCounter++] = pOr;
+        }
+        else
+        {
+            if(expression.letters[iNext] == '&' || expression.letters[iNext] == '.')
+            {
+                iNext++;
+            }
+
+            pSecondNode = getNode(expression, iNext, circuit, circuitGates, invertLetterGates);
+            if(pSecondNode == nullptr)
+            {
+                //Issue
+                return;
+            }
+
+            GateAnd* pAnd = new GateAnd();
+            linkNodes(pAnd->getInputNodes()[0], pFirstNode);
+            linkNodes(pAnd->getInputNodes()[1], pSecondNode);
+
+            circuit.mainGates.push_back(pAnd);
+            circuitGates[gatesCounter++] = pAnd;
+        }
+
+        expression.letters[i] = gatesCounter;
+        for(uint iRemove = i+1; iRemove <= iNext; iRemove++)
+        {
+            expression.letters.erase(expression.letters.begin() + i + 1);
+            iEnd--;
+        }
+    }
+}
+
+void dealWithBrackets(BooleanExpression& expression, uint iBracket, Circuit& circuit, std::map<char, Gate*>& circuitGates, std::map<char, Gate*>& invertLetterGates, char& gatesCounter)
+{
+    for(uint i = iBracket; i < expression.letters.size(); i++)
+    {
+        if(expression.letters[i] == ')')
+        {
+            expression.letters.erase(expression.letters.begin() + iBracket); //Remove (
+            expression.letters.erase(expression.letters.begin() + i - 1); //Remove )
+            turnSectionIntoCircuit(expression, iBracket, i-2, circuit, circuitGates, invertLetterGates, gatesCounter);
+            return;
+        }
+        else if(expression.letters[i] == '(')
+        {
+            dealWithBrackets(expression, i, circuit, circuitGates, invertLetterGates, gatesCounter);
+        }
+    }
+}
+
+ConverterResult Converter::booleanExpressionsToCircuit2(std::vector<BooleanExpression> expressions, const CircuitOptions &circuitOptions, GateCollection *&pNewCircuit)
+{
+    std::vector<char> inputLetters;
+    std::vector<char> outputLetters;
+    for(BooleanExpression& expression : expressions)
+    {
+        for(char& letter : expression.letters)
+        {
+            if(isLetter(letter))
+            {
+                if(!inCharVec(inputLetters, letter))
+                {
+                    inputLetters.push_back(letter);
+                }
+            }
+        }
+
+        if(!inCharVec(outputLetters, expression.resultLetter))
+        {
+            outputLetters.push_back(expression.resultLetter);
+        }
+    }
+
+    const uint numOutputs = outputLetters.size();
+    const uint numInputs = inputLetters.size();
+    if(numOutputs == 0 || numInputs == 0)
+    {
+        Logger::log(LL_Error, "Converter::booleanExpressionsToCircuit - Inputs or outputs count equals 0");
+        return INVALID_INPUT_EXPRESSIONS;
+    }
+
+    Circuit circuit(inputLetters, outputLetters);
+    std::map<char, Gate*> circuitGates;
+    std::map<char, Gate*> invertLetterGates;
+    char gatesCounter = 'a';
+
+    for(BooleanExpression& expression : expressions)
+    {
+
+        //Get rid of brackets
+        for(uint i = 0; i < expression.letters.size(); i++)
+        {
+            if(expression.letters[i] == '(')
+            {
+                dealWithBrackets(expression, i, circuit, circuitGates, invertLetterGates, gatesCounter);
+            }
+        }
+
+        //Convert rest
+        turnSectionIntoCircuit(expression, 0, expression.letters.size()-1, circuit, circuitGates, invertLetterGates, gatesCounter);
+
+        linkNodes(circuitGates[gatesCounter]->getOutputNodes()[0], circuit.outputs[expression.resultLetter]->getInputNodes()[0]);
+    }
+
+    pNewCircuit = circuit.createGateCollection();
 }
 
 ConverterResult Converter::truthTableToCircuit(TruthTable& truthTable, const CircuitOptions& circuitOptions, GateCollection*& pNewCircuit)

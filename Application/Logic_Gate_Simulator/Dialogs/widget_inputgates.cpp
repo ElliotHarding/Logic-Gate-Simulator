@@ -17,6 +17,12 @@ Widget_InputGates::~Widget_InputGates()
 {
     delete ui;
 }
+
+QPoint Widget_InputGates::getToggleGateBtnLocation() const
+{
+    return spawnPosition(ui->btn_sourceGate->geometry().center());
+}
+
 void Widget_InputGates::on_btn_sourceGate_clicked()
 {
     if(m_pParent)

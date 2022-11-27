@@ -385,7 +385,20 @@ void DLG_Home::setHelperTip(const HelperTip &helperTip)
 
     case HT_ShowInputGates:
     {
-        m_pHelperPopup->popup(ui->comboBox->geometry().center(), "Select the Input Gates tab.", true, 90);
+        m_pHelperPopup->popup(ui->comboBox->geometry().center() + Settings::UiOffset, "Select the Input Gates tab.", true, 90);
+        break;
+    }
+
+    case HT_SpawnToggleGate:
+    {
+        switchNewlySpawnedGatesWidget(m_pWidgetInputGates);
+
+        if(m_iCurrentGateField == -1)
+        {
+            newlySpawnedGateField(Settings::DefaultPageName);
+        }
+
+        m_pHelperPopup->popup(m_pWidgetInputGates->getToggleGateBtnLocation(), "Select two Toggle gates. Then drag them \n onto the page.", true, 90);
         break;
     }
 

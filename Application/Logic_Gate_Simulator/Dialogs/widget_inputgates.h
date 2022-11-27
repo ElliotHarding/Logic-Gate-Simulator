@@ -15,6 +15,8 @@ public:
     explicit Widget_InputGates(DLG_Home *DLG_Home = nullptr, bool show = false, QPoint loc = QPoint(0,0));
     ~Widget_InputGates();
 
+    QPoint getToggleGateBtnLocation() const;
+
 private slots:
     void on_btn_sourceGate_clicked();
     void on_btn_inputOn_clicked();

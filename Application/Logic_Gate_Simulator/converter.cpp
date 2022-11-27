@@ -621,7 +621,6 @@ void dealWithBrackets(BooleanExpression& expression, uint iBracket, Circuit& cir
 ConverterResult Converter::booleanExpressionsToCircuit(std::vector<BooleanExpression> expressions, const CircuitOptions &circuitOptions, GateCollection *&pNewCircuit)
 {
     //Todo ~ simplification - Either properly or by converting to truth table putting it through truthTableToBooleanExpressions
-    //Todo ~ not gate options (like NAND and NOR)
 
     std::vector<char> inputLetters;
     std::vector<char> outputLetters;

@@ -59,6 +59,9 @@ public:
 
     BooleanExpression getExpression();
 
+protected:
+    void keyPressEvent(QKeyEvent *) override;
+
 private:
     DLG_BooleanExpressions* m_pDlgExpressions;
 };

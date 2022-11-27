@@ -264,9 +264,22 @@ BooleanExpression BooleanExpressionLineEdit::getExpression()
     const QString displayedExpression = text();
     for(int i = 0; i < displayedExpression.length(); i++)
     {        
-        expression.letters.push_back(displayedExpression[i].toLatin1());
+        expression.letters.push_back(displayedExpression[i].toUpper().toLatin1());
     }
 
     return expression;
+}
+
+void BooleanExpressionLineEdit::keyPressEvent(QKeyEvent* pKeyEvent)
+{
+    if((pKeyEvent->key() >= 'A' && pKeyEvent->key() <= 'Z') || pKeyEvent->key() == '+' || pKeyEvent->key() == '|' ||
+            pKeyEvent->key() == '(' ||
+            pKeyEvent->key() == ')' ||
+            pKeyEvent->key() == '!' ||
+            pKeyEvent->key() == '&' ||
+            pKeyEvent->key() == '^')
+    {
+        QLineEdit::keyPressEvent(pKeyEvent);
+    }
 }
 

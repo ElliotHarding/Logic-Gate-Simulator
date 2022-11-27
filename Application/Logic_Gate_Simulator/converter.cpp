@@ -978,3 +978,141 @@ ConverterResult Converter::circuitToBooleanExpressions(std::vector<Gate*> gates,
 
     return truthTableToBooleanExpressions(truthTable, conversionOptions, expressions);
 }
+
+bool checkMask(const KarnaughMap& kmap, const std::vector<std::vector<bool>>& mask, const std::vector<std::vector<bool>>& alreadyDone, const int& width, const int& height)
+{
+    for(int x = 0; x < width; x++)
+    {
+        for(int y = 0; y < height; y++)
+        {
+            if(mask[x][y] && (!kmap.values[x][y] || alreadyDone[x][y]))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void getGoodTerms(const KarnaughMap& kmap, const std::vector<std::vector<bool>>& mask, BooleanExpression& expression, const int& width, const int& height)
+{
+    std::vector<std::pair<char, bool>> terms;
+    for(int x = 0; x < width; x++)
+    {
+        for(int y = 0; y < height; y++)
+        {
+            if(mask[x][y])
+            {
+                for(int i = 0; i < kmap.xInputs[x].size(); i++)
+                {
+                    bool duplicate = false;
+                    for(int j = 0; j < terms.size(); j++)
+                    {
+                        if(terms[j] == kmap.xInputs[x][i])
+                        {
+                            duplicate = true;
+                            break;
+                        }
+                    }
+                    if(!duplicate)
+                    {
+                        terms.push_back(std::pair<char, bool>(kmap.xInputs[x][i]));
+                    }
+                }
+                for(int i = 0; i < kmap.yInputs[y].size(); i++)
+                {
+                    bool duplicate = false;
+                    for(int j = 0; j < terms.size(); j++)
+                    {
+                        if(terms[j] == kmap.yInputs[x][i])
+                        {
+                            duplicate = true;
+                            break;
+                        }
+                    }
+                    if(!duplicate)
+                    {
+                        terms.push_back(std::pair<char, bool>(kmap.yInputs[y][i]));
+                    }
+                }
+            }
+        }
+    }
+
+    std::vector<bool> goodTerms(terms.size(), true);
+    for(int i = 0; i < terms.size(); i++)
+    {
+        for(int j = 0; j < terms.size(); j++)
+        {
+            if(i != j && terms[i].first == terms[j].first)
+            {
+                if(terms[i].second != terms[j].second)
+                {
+                    goodTerms[i] = false;
+                    goodTerms[j] = false;
+                }
+            }
+        }
+    }
+
+    for(int i = 0; i < goodTerms.size(); i++)
+    {
+        if(goodTerms[i])
+        {
+            expression.addTerm(terms[i].first, !terms[i].second);
+        }
+    }
+}
+
+void checkAndProcessMask(const KarnaughMap& kmap, const std::vector<std::vector<bool>>& mask, BooleanExpression& expression, std::vector<std::vector<bool>>& alreadyDone, const int& width, const int& height)
+{
+    if(checkMask(kmap, mask, alreadyDone, width, height))
+    {
+        getGoodTerms(kmap, mask, expression, width, height);
+
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                if(mask[x][y])
+                {
+                    alreadyDone[x][y] = true;
+                }
+            }
+        }
+    }
+}
+
+ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std::vector<BooleanExpression> &expressions)
+{
+    const int width = kmap.values.size();
+    if(width == 0)
+    {
+        return INVALID_TABLE;
+    }
+
+    const int height = kmap.values[0].size();
+    if(height == 0)
+    {
+        return INVALID_TABLE;
+    }
+
+    BooleanExpression expression;
+    expression.resultLetter = kmap.outputLetter;
+
+    //Check off whats already been done.
+    std::vector<std::vector<bool>> alreadyDone(width, std::vector<bool>(height, false));
+
+
+    //Determine biggest grid i can do
+    std::vector<std::vector<bool>> mask(width, std::vector<bool>(height, true));
+    checkAndProcessMask(kmap, mask, expression, alreadyDone, width, height);
+
+    //Next smallest
+    int gridWidth = width - 2;
+    int gridHeight = height - 2;
+    if(gridWidth > 1 && gridHeight > 1)
+    {
+
+    }
+}

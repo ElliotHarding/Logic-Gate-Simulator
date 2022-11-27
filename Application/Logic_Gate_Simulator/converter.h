@@ -3,6 +3,7 @@
 
 #include "gatecollection.h"
 #include "booleanexpression.h"
+#include "karnaughmap.h"
 
 enum ConverterResult
 {
@@ -47,6 +48,7 @@ public:
     static ConverterResult scriptToBooleanExpressions(const QString& script, const uint& numInputs, const uint& numOutputs, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions, int& failedLineNumber);
     static ConverterResult circuitToTruthTable(std::vector<Gate*> gates, TruthTable& truthTable);
     static ConverterResult circuitToBooleanExpressions(std::vector<Gate*> gates, const ConversionAlgorithm& conversionOptions, std::vector<BooleanExpression>& expressions);
+    static ConverterResult kmapToBooleanExpressions(const KarnaughMap& kmap, std::vector<BooleanExpression>& expressions);
 };
 
 #endif // CONVERTER_H

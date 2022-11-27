@@ -848,7 +848,7 @@ void turnSectionIntoCircuit(BooleanExpression& expression, uint iStart, uint iEn
 
 void dealWithBrackets(BooleanExpression& expression, uint iBracket, Circuit& circuit, std::map<char, Gate*>& circuitGates, std::map<char, Gate*>& invertLetterGates, char& gatesCounter)
 {
-    for(uint i = iBracket; i < expression.letters.size(); i++)
+    for(uint i = iBracket+1; i < expression.letters.size(); i++)
     {
         if(expression.letters[i] == ')')
         {

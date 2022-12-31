@@ -979,6 +979,14 @@ ConverterResult Converter::circuitToBooleanExpressions(std::vector<Gate*> gates,
     return truthTableToBooleanExpressions(truthTable, conversionOptions, expressions);
 }
 
+void orderGroupPoints(std::vector<std::vector<QPoint>>& groups)
+{
+    for(std::vector<QPoint> group : groups)
+    {
+
+    }
+}
+
 ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std::vector<BooleanExpression> &expressions)
 {
     const int width = kmap.values.size();
@@ -1092,6 +1100,8 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
             }
         }
     }
+
+
 }
 
 /*

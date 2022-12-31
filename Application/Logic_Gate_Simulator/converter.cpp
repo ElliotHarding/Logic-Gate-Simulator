@@ -1020,6 +1020,93 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
                     valueGroup.clear();
                     valueGroup.push_back(QPoint(x, y));
 
+                    int prevLen = 1;
+                    int nextLen = 2;
+                    bool isLR = direction == 1 || direction == 3;
+                    bool doneSearch = false;
+                    for(; nextLen <= isLR ? width : height; nextLen *= 2)
+                    {
+                        for(int len = prevLen; len < nextLen; len++)
+                        {
+                            if(!kmapValues.getValue(x + len * directions[direction].x(), y + len * directions[direction].y()))
+                            {
+                                doneSearch = true;
+                                break;
+                            }
+                        }
+                        if(doneSearch)
+                            break;
+
+                        prevLen = nextLen;
+                    }
+
+                    const int dirLen = prevLen;
+                    if(dirLen > 1)
+                    {
+                        for(int len = 1; len < dirLen; len++)
+                        {
+                            kmapValues.wrapRound(x + len * directions[direction].x(), wrapX, y + len * directions[direction].y(), wrapY);
+                            valueGroup.push_back(QPoint(wrapX, wrapY));
+                        }
+
+                        prevLen = 1;
+                        nextLen = 2;
+                        doneSearch = false;
+
+                        for(int len = 0; len < dirLen; len++)
+                        {
+                            for(; nextLen <= isLR ? height : width; nextLen *= 2)
+                            {
+                                for(int otherLen = prevLen; otherLen < nextLen; otherLen++)
+                                {
+                                    if(!kmapValues.getValue(x + len * directions[direction].x() + otherLen * directions[(direction+1)%4].x(), y + len * directions[direction].y() + otherLen * directions[(direction+1)%4].y()))
+                                    {
+                                        doneSearch = true;
+                                        break;
+                                    }
+                                }
+                                if(doneSearch)
+                                    break;
+
+                                prevLen = nextLen;
+                            }
+                        }
+
+                        if(prevLen > 1)
+                        {
+                            for(int len = 0; len < dirLen; len++)
+                            {
+                                for(int otherLen = 1; otherLen < prevLen; otherLen++)
+                                {
+                                    kmapValues.wrapRound(x + len * directions[direction].x() + otherLen * directions[(direction+1)%4].x(), wrapX, y + len * directions[direction].y() + otherLen * directions[(direction+1)%4].y(), wrapY);
+                                    valueGroup.push_back(QPoint(wrapX, wrapY));
+                                }
+                            }
+                        }
+
+                    }
+
+                    groupedValues.push_back(valueGroup);
+                    valueGroup.clear();
+                }
+            }
+        }
+    }
+}
+
+/*
+    for(int x = 0; x < width; x++)
+    {
+        for(int y = 0; y < height; y++)
+        {
+            for(int direction = 0; direction < 4; direction++)
+            {
+                //One alone
+                if(kmapValues.getValue(x, y))
+                {
+                    valueGroup.clear();
+                    valueGroup.push_back(QPoint(x, y));
+
                     //Two together
                     if(kmapValues.getValue(x + directions[direction].x(), y + directions[direction].y()))
                     {
@@ -1114,4 +1201,5 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
             }
         }
     }
-}
+
+  */

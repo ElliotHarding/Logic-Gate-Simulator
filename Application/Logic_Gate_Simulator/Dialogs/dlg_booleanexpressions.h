@@ -38,6 +38,8 @@ private slots:
 
     void on_btn_simplify_clicked();
 
+    void on_btn_kmap_clicked();
+
 private:
     Ui::DLG_BooleanExpressions *ui;
 

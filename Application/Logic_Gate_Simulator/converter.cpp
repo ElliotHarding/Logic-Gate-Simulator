@@ -1005,18 +1005,47 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
 
     std::vector<QPoint> directions = {QPoint(0, 1), QPoint(1, 0), QPoint(0, -1), QPoint(-1, 0)};
 
+    int wrapX, wrapY;
+    std::vector<QPoint> valueGroup;
+
     for(int x = 0; x < width; x++)
     {
         for(int y = 0; y < height; y++)
         {
             for(int direction = 0; direction < 4; direction++)
             {
+                //One alone
                 if(kmapValues.getValue(x, y))
                 {
+                    valueGroup.clear();
+                    valueGroup.push_back(QPoint(x, y));
+
                     //Two together
                     if(kmapValues.getValue(x + directions[direction].x(), y + directions[direction].y()))
                     {
+                        kmapValues.wrapRound(x + directions[direction].x(), wrapX, y + directions[direction].y(), wrapY);
+                        valueGroup.push_back(QPoint(wrapX, wrapY));
 
+                        //Four in a row/col
+                        if(kmapValues.getValue(x + 2 * directions[direction].x(), y + 2 * directions[direction].y()) &&
+                           kmapValues.getValue(x + 3 * directions[direction].x(), y + 3 * directions[direction].y())     )
+                        {
+                            kmapValues.wrapRound(x + 2 * directions[direction].x(), wrapX, y + 2 * directions[direction].y(), wrapY);
+                            valueGroup.push_back(QPoint(wrapX, wrapY));
+
+                            kmapValues.wrapRound(x + 3 * directions[direction].x(), wrapX, y + 3 * directions[direction].y(), wrapY);
+                            valueGroup.push_back(QPoint(wrapX, wrapY));
+
+                            //4X4
+                            const int iNextDirection = (direction+1)%4;
+                            if(kmapValues.getValue(x + directions[iNextDirection].x(), y + directions[iNextDirection].y()) &&
+                               kmapValues.getValue(x * directions[direction].x() + directions[iNextDirection].x(), y * directions[direction].x() + directions[iNextDirection].y()) &&
+                               kmapValues.getValue(x + 2 * directions[direction].x() + directions[iNextDirection].x(), y + 2 * directions[direction].y() + directions[iNextDirection].y()) &&
+                               kmapValues.getValue(x + 3 * directions[direction].x() + directions[iNextDirection].x(), y + 3 * directions[direction].y() + directions[iNextDirection].y()))
+                            {
+
+                            }
+                        }
                     }
                 }
             }

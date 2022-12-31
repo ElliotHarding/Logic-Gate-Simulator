@@ -1026,6 +1026,8 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
                         kmapValues.wrapRound(x + directions[direction].x(), wrapX, y + directions[direction].y(), wrapY);
                         valueGroup.push_back(QPoint(wrapX, wrapY));
 
+                        const int iNextDirection = (direction+1)%4;
+
                         //Four in a row/col
                         if(kmapValues.getValue(x + 2 * directions[direction].x(), y + 2 * directions[direction].y()) &&
                            kmapValues.getValue(x + 3 * directions[direction].x(), y + 3 * directions[direction].y())     )
@@ -1037,7 +1039,6 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
                             valueGroup.push_back(QPoint(wrapX, wrapY));
 
                             //4X4
-                            const int iNextDirection = (direction+1)%4;
                             if(kmapValues.getValue(x + directions[iNextDirection].x(), y + directions[iNextDirection].y()) &&
                                kmapValues.getValue(x + directions[direction].x() + directions[iNextDirection].x(), y + directions[direction].y() + directions[iNextDirection].y()) &&
                                kmapValues.getValue(x + 2 * directions[direction].x() + directions[iNextDirection].x(), y + 2 * directions[direction].y() + directions[iNextDirection].y()) &&
@@ -1056,7 +1057,24 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
                                 valueGroup.push_back(QPoint(wrapX, wrapY));
                             }
                         }
+
+                        //2x2
+                        else if(kmapValues.getValue(x + directions[iNextDirection].x(), y + directions[iNextDirection].y()) &&
+                                kmapValues.getValue(x + directions[direction].x() + directions[iNextDirection].x(), y + directions[direction].y() + directions[iNextDirection].y()))
+                        {
+                            kmapValues.wrapRound(x + directions[iNextDirection].x(), wrapX, y + directions[iNextDirection].y(), wrapY);
+                            valueGroup.push_back(QPoint(wrapX, wrapY));
+
+                            kmapValues.wrapRound(x + directions[direction].x() + directions[iNextDirection].x(), wrapX, y + directions[direction].y() + directions[iNextDirection].y(), wrapY);
+                            valueGroup.push_back(QPoint(wrapX, wrapY));
+                        }
                     }
+                }
+
+                if(!valueGroup.empty())
+                {
+                    groupedValues.push_back(valueGroup);
+                    valueGroup.clear();
                 }
             }
         }

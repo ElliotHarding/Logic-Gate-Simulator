@@ -1039,11 +1039,21 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
                             //4X4
                             const int iNextDirection = (direction+1)%4;
                             if(kmapValues.getValue(x + directions[iNextDirection].x(), y + directions[iNextDirection].y()) &&
-                               kmapValues.getValue(x * directions[direction].x() + directions[iNextDirection].x(), y * directions[direction].x() + directions[iNextDirection].y()) &&
+                               kmapValues.getValue(x + directions[direction].x() + directions[iNextDirection].x(), y + directions[direction].y() + directions[iNextDirection].y()) &&
                                kmapValues.getValue(x + 2 * directions[direction].x() + directions[iNextDirection].x(), y + 2 * directions[direction].y() + directions[iNextDirection].y()) &&
                                kmapValues.getValue(x + 3 * directions[direction].x() + directions[iNextDirection].x(), y + 3 * directions[direction].y() + directions[iNextDirection].y()))
                             {
+                                kmapValues.wrapRound(x + directions[iNextDirection].x(), wrapX, y + directions[iNextDirection].y(), wrapY);
+                                valueGroup.push_back(QPoint(wrapX, wrapY));
 
+                                kmapValues.wrapRound(x + directions[direction].x() + directions[iNextDirection].x(), wrapX, y + directions[direction].y() + directions[iNextDirection].y(), wrapY);
+                                valueGroup.push_back(QPoint(wrapX, wrapY));
+
+                                kmapValues.wrapRound(x + 2 * directions[direction].x() + directions[iNextDirection].x(), wrapX, y + 2 * directions[direction].y() + directions[iNextDirection].y(), wrapY);
+                                valueGroup.push_back(QPoint(wrapX, wrapY));
+
+                                kmapValues.wrapRound(x + 3 * directions[direction].x() + directions[iNextDirection].x(), wrapX, y + 3 * directions[direction].y() + directions[iNextDirection].y(), wrapY);
+                                valueGroup.push_back(QPoint(wrapX, wrapY));
                             }
                         }
                     }

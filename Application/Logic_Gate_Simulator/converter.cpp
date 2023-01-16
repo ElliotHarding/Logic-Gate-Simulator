@@ -979,12 +979,71 @@ ConverterResult Converter::circuitToBooleanExpressions(std::vector<Gate*> gates,
     return truthTableToBooleanExpressions(truthTable, conversionOptions, expressions);
 }
 
-void orderGroupPoints(std::vector<std::vector<QPoint>>& groups)
+//Check if group2 completley contains group1
+bool positionGroupInsideOther(std::vector<QPoint>& group1, std::vector<QPoint>& group2)
 {
-    for(std::vector<QPoint> group : groups)
-    {
+	for(int iGroup1 = 0; iGroup1 < group1.size(); iGroup1++)
+	{
+		bool duplicateFound = false;
+		for(int iGroup2 = 0; iGroup2 < group2.size(); iGroup2++)
+		{
+			if(group1[iGroup1] == group2[iGroup2])
+			{
+				duplicateFound = true;
+			}
+		}
+		if(!duplicateFound)
+		{
+			return false;
+		}
+	}
+	return true;
+}
 
-    }
+void leaveUniqueGroups(std::vector<std::vector<QPoint>>& groupedPositions, const int& width)
+{
+	//For each group calculate a sum of the positions in the group
+	std::vector<int> groupSums;
+	for(int iGroup = 0; iGroup < groupedPositions.size(); iGroup++)
+	{
+		int sum = 0;
+		for(int iValue = 0; iValue < groupedPositions[iGroup].size(); iValue++)
+		{
+			sum += groupedPositions[iGroup][iValue].x() * width + groupedPositions[iGroup][iValue].y();
+		}
+		groupSums.push_back(sum);
+	}
+	
+	//Two groups with same sums have all same positions
+	
+	//Remove duplicate groups (all exact same positions)
+	for(int iGroupSum = 0; iGroupSum < groupSums.size(); iGroupSum++)
+	{
+		for(int jGroupSum = iGroupSum + 1; jGroupSum < groupSums.size(); jGroupSum++)
+		{
+			if(groupSums[iGroupSum] == groupSums[jGroupSum])
+			{
+				groupedPositions.erase(groupedPositions.begin() + jGroupSum);
+				groupSums.erase(groupSums.begin() + jGroupSum);
+			}
+		}
+	}
+	
+	//Remove groups completley inside other groups
+	for(int iGroup = 0; iGroup < groupedPositions.size(); iGroup++)
+	{
+		for(int jGroup = 0; jGroup < groupedPositions.size(); jGroup++)
+		{
+			if(iGroup != jGroup)
+			{
+				if(positionGroupInsideOther(groupedPositions[jGroup], groupedPositions[iGroup]))
+				{
+					groupedPositions.erase(groupedPositions.begin() + jGroup);
+					jGroup--;
+				}
+			}
+		}
+	}
 }
 
 ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std::vector<BooleanExpression> &expressions)

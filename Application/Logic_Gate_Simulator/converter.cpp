@@ -1046,6 +1046,22 @@ void leaveUniqueGroups(std::vector<std::vector<QPoint>>& groupedPositions, const
 	}
 }
 
+void positionGroupsToExpression(std::vector<std::vector<QPoint>>& groupedPositions, const KarnaughMap& kmap, BooleanExpression& expression)
+{
+	for(int iGroup = 0; iGroup < groupedPositions.size(); iGroup++)
+	{
+		if(groupedPositions[iGroup].size() == 1)
+		{
+			QString letters = "";
+			for(int i = 0; i < kmap.xInputs[groupedPositions[iGroup][0].x()].size(); i++)
+			{
+				
+			}
+			
+		}
+	}
+}
+
 ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std::vector<BooleanExpression> &expressions)
 {
     const int width = kmap.values.size();
@@ -1063,6 +1079,8 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
 	
 	/*
 		TODO SOP (sum of products only 1's) or POS (product of sums only 0's)
+		
+		Add groupedPositions to kmap for display of groupings
 	*/
 
     BooleanExpression expression;
@@ -1167,6 +1185,7 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
 
 	leaveUniqueGroups(groupedPositions, width);
 
+	positionGroupsToExpression(groupedPositions, kmap, expression);
 }
 
 /*

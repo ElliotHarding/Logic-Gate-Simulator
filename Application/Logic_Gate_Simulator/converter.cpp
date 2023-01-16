@@ -1059,6 +1059,11 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
     {
         return INVALID_TABLE;
     }
+	
+	
+	/*
+		TODO SOP (sum of products only 1's) or POS (product of sums only 0's)
+	*/
 
     BooleanExpression expression;
     expression.resultLetter = kmap.outputLetter;

@@ -1055,6 +1055,13 @@ void positionGroupsToExpression(std::vector<std::vector<QPoint>>& groupedPositio
 			QString letters = "";
 			for(int i = 0; i < kmap.xInputs[groupedPositions[iGroup][0].x()].size(); i++)
 			{
+				if(kmap.xInputs[groupedPositions[iGroup][0].x()][i].second)
+				{
+					letters += kmap.xInputs[groupedPositions[iGroup][0].x()][i].first;
+				}
+			}
+			for(int i = 0; i < kmap.yInputs[groupedPositions[iGroup][0].y()].size(); i++)
+			{
 				
 			}
 			

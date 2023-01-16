@@ -1068,7 +1068,7 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
     kmapValues.width = width;
     kmapValues.height = height;
 
-    std::vector<std::vector<QPoint>> groupedValues;
+    std::vector<std::vector<QPoint>> groupedPositions;
 
     std::vector<QPoint> directions = {QPoint(0, 1), QPoint(1, 0), QPoint(0, -1), QPoint(-1, 0)};
 
@@ -1153,13 +1153,14 @@ ConverterResult Converter::kmapToBooleanExpressions(const KarnaughMap& kmap, std
 
                     }
 
-                    groupedValues.push_back(valueGroup);
+                    groupedPositions.push_back(valueGroup);
                     valueGroup.clear();
                 }
             }
         }
     }
 
+	leaveUniqueGroups(groupedPositions, width);
 
 }
 
